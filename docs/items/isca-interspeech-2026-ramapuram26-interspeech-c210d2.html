@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scaling Properties of Continuous Diffusion Spoken Language Models · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W40</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Scaling Properties of Continuous Diffusion Spoken Language Models</h1>
+    <div class="meta">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span><span class="pill pill-accent">Speech Understanding</span>        <span class="authors">Jason Ramapuram, Eeshan Gunesh Dhekane, Amitis Shidani, Dan Busbridge, Bogdan Mazoure, Zijin Gu, Russ Webb, Tatiana Likhomanenko, Navdeep Jaitly</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://www.isca-archive.org/interspeech_2026/ramapuram26_interspeech.html" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Speech-only spoken language models (SLMs) lag behind text and text-speech models in performance, with recent discrete autoregressive (AR) SLMs indicating significant computational and data demands to match text models. Since discretizing continuous speech for AR creates bottlenecks, we explore whether continuous diffusion (CD) SLM is more viable. To quantify the SLMs linguistic quality, we introduce the phoneme Jensen-Shannon divergence (pJSD) metric. Our analysis reveals CD SLMs, mirroring AR behavior, exhibit scaling laws for validation loss and pJSD, and show optimal token-to-parameter ratios decreasing as compute scales. However, for the latter, loss becomes insensitive to choice of data and model sizes, showing potential for fast inference. Scaling CD SLMs to 16B parameters with tens of millions of hours of conversational data enables generation of emotive, prosodic, multi-speaker, multilingual speech, though achieving long-form coherence remains a significant challenge.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Sep 30, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Nghiên cứu đầu tiên thiết lập quy luật mở rộng (scaling laws) cho mô hình ngôn ngữ tiếng nói khuếch tán liên tục (Continuous Diffusion Spoken Language Models - CD SLM) trực tiếp từ đặc trưng log-mel filterbanks không cần giám sát văn bản. Nhóm tác giả giới thiệu thước đo phoneme Jensen-Shannon divergence (pJSD) để định lượng năng lực ngôn ngữ và chứng minh rằng dù CD SLM mở rộng tới 16 tỷ tham số tạo ra giọng nói biểu cảm, đa người nói và đa ngữ rất tốt, việc đạt được sự mạch lạc ngôn ngữ dài hạn (long-form coherence) vẫn là rào cản lớn.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình ngôn ngữ thuần tiếng nói (speech-only SLM) hiện tụt hậu xa so với mô hình ngôn ngữ văn bản (chỉ tương đương năng lực ngôn ngữ của trẻ 3-4 tuổi). Hướng tiếp cận chủ đạo là rời rạc hóa biểu diễn SSL thành speech tokens rồi huấn luyện autoregressive (AR) đòi hỏi chi phí tính toán tăng vọt theo cấp số nhân và tạo ra nút thắt thông tin. Tín hiệu tiếng nói vốn mang tính liên tục, do đó việc tìm hiểu xem khuếch tán liên tục (continuous diffusion) có tuân theo scaling laws khả thi hay không là câu hỏi cốt lõi.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Mô hình nhận đầu vào là 80 chiều log-mel filterbanks ở tần số lấy mẫu 24kHz (khung 50ms, bước nhảy 12.5ms, tương đương 80 Hz, dài gấp 20 lần chuỗi token văn bản tương đương). Kiến trúc sử dụng Multimodal Diffusion Transformer (MM-DiT) xử lý song song hai luồng: context (10 giây audio) và continuation (30 giây audio thêm nhiễu Gaussian), chia sẻ không gian self-attention 2 chiều nhưng độc lập hoàn toàn ở AdaLN-zero, MLP và projection. Mục tiêu huấn luyện là v-prediction với hàm mất mát min-SNR weighted loss. Nhóm tác giả đề xuất bỏ qua bước dropout context khi huấn luyện CFG để tiết kiệm FLOPs, thay vào đó dùng chuỗi số 0 (audio silence) làm unconditional context ở bước suy luận. Để đánh giá năng lực ngôn ngữ ('languageness') mà không cần tính sequence log-likelihood dạng AR, nghiên cứu đưa ra chỉ số phoneme Jensen-Shannon divergence (pJSD) dựa trên phân phối n-gram âm vị (nhận dạng qua Allosaurus và bộ tổng hợp HiFiGAN). Đối với scaling laws, công thức mặt tham số mở rộng giữ số mũ ngoài $\gamma$ để đảm bảo độ ổn định và áp dụng phương pháp fused two-stage kết hợp hàm sigmoid để ánh xạ từ loss sang metric hạ nguồn. Ở quy mô 16B tham số, mô hình tích hợp thêm Perceiver downsampling ngữ cảnh đặc trưng trích xuất từ Whisper-large-v3 encoder (đóng băng) cho 300s context để sinh 60s continuation.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Dữ liệu huấn luyện là SpeechCrawl được lọc các đoạn audio trên 5 phút có ít nhất 99% tiếng Anh bằng WhisperX (tổng cộng 7 triệu giờ cho các thí nghiệm scaling; hàng chục triệu giờ tiếng nói hội thoại đa ngữ cho bản 16B). Đánh giá trên 10 mức ngân sách tính toán C từ 10^18 đến 10^21 FLOPs, kích thước mô hình từ ~0.6M (1 layer) đến ~11.5B (27 layers) với tỷ lệ demb/L = 128. Hyperparameters được quét trên mô hình cơ sở ~36M và chuyển giao bằng muP cùng completeP. Đánh giá chất lượng cảm nhận qua DNSMOS (P.808, P.835), NISQA MOS và Meta Audiobox Aesthetics (CE, CU, PQ, PC).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Khớp scaling law cho validation loss đạt Train MRE 0.49% và Test MRE 0.80% với các hệ số: E = 0.0055, A = 0.0638, B = 29.7667, alpha = 0.3995, beta = 0.5644, gamma = 0.7051.</li>
+<li>Tỷ lệ token trên tham số tối ưu r*(C) = D*/N* giảm dần khi ngân sách tính toán tăng. Ở C = 10^21 FLOPs, r* đạt 245 (tương đương r*_text xấp xỉ 12.25, thấp hơn đáng kể so với mức ~20 của AR LLM văn bản). Khi C &gt; 5.64 x 10^19 FLOPs, r* giảm xuống dưới 400.</li>
+<li>Độ cong kappa của đường isoFLOP tại điểm tối ưu giảm mạnh nhiều bậc độ lớn khi compute tăng: phạm vi kích thước mô hình (delta N) và dữ liệu (delta D) giữ cho loss nằm trong khoảng dung sai epsilon = 0.001 mở rộng tới khoảng 2 bậc độ lớn, mở ra vùng đánh đổi linh hoạt cho suy luận nhanh.</li>
+<li>Thước đo pJSD thể hiện hành vi isoFLOP chuẩn; mô hình n-gram bậc cao khớp chặt chẽ hơn với loss (5-gram pJSD đạt test MRE ~1.04% so với ~8.21% của 1-gram).</li>
+<li>Chỉ số cảm nhận âm học (DNSMOS, NISQA, Audiobox PQ/PC) bão hòa rất nhanh về ngưỡng đường cơ sở dữ liệu thực (real-data baseline) mà không tuân theo scaling law; trong khi đó hai thành phần nội dung Audiobox (Content Enjoyment và Content Usefulness) tuân theo scaling law nhưng tiệm cận dưới ngưỡng sai số +/- sigma của dữ liệu thực.</li>
+<li>Mô hình 16B vượt qua rào cản irreducible loss E = 0.0055 của kiến trúc gốc, đạt validation loss 0.0047, pJSD 0.1770 (với CFG = 4) so với 0.2096 của mô hình tối ưu ở mức 10^21 FLOPs.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Mặc dù mở rộng lên 16B tham số và huấn luyện trên hàng chục triệu giờ, mô hình vẫn thất bại trong việc đạt được tính mạch lạc ngôn ngữ dài hạn (long-form linguistic coherence). Tín hiệu log-mel 80 Hz làm tăng độ dài chuỗi gấp 20 lần so với token văn bản. Các thước đo thẩm mỹ nội dung ngoại suy cho thấy không thể chạm tới chất lượng dữ liệu thực chỉ bằng cách tăng compute thuần túy.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Mô hình khuếch tán liên tục trực tiếp trên log-mel filterbanks là giải pháp khả thi thay thế mã hóa rời rạc cho SLM, giúp loại bỏ lỗi nén codec và tận dụng compute hiệu quả hơn ở quy mô lớn nhờ isoFLOP phẳng. Tuy nhiên, việc thiếu hụt giám sát văn bản hoặc thiếu biểu diễn ngữ nghĩa dày đặc khiến mô hình tiếng nói thuần túy khó tự hình thành cấu trúc ngôn ngữ phức tạp; các kỹ sư cần cân nhắc biểu diễn dữ liệu mới, inductive bias mạnh hơn hoặc chuyển dịch sang mô hình lai speech-text.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · abstract + signals</span>
+    </div>
+      <div class="score-block">
+        <div class="score">70.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#5 in 2026-W40</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 192.45,182.66 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="192.45" cy="182.66" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Nghiên cứu mang tính tiên phong khi chuyển hướng từ discrete autoregressive sang continuous diffusion spoken language models ở quy mô lớn và đề xuất metric pJSD mới.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Độ sâu kỹ thuật cao với việc khảo sát tỉ mỉ scaling laws, tối ưu tỷ lệ token-to-parameter và huấn luyện continuous diffusion ở quy mô 16B parameters trên hàng chục triệu giờ dữ liệu.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 3/5 — Cung cấp bằng chứng thực nghiệm ở quy mô lớn trên loss và metric pJSD, nhưng văn bản tóm tắt chưa đưa ra các con số benchmark định lượng cụ thể hay tài nguyên mở.</title>Evidence <tspan class="radar-value">3</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Mở ra tiềm năng lớn cho hướng tiếp cận continuous diffusion thay thế discrete tokens trong SLM, dù chưa có mã nguồn mở và còn rào cản về long-form coherence.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Bài báo xuất phát từ nhóm tác giả uy tín trong mảng speech/ML và được công bố tại hội nghị danh giá Interspeech (ISCA Archive).</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Nghiên cứu mang tính tiên phong khi chuyển hướng từ discrete autoregressive sang continuous diffusion spoken language models ở quy mô lớn và đề xuất metric pJSD mới.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Bài báo xuất phát từ nhóm tác giả uy tín trong mảng speech/ML và được công bố tại hội nghị danh giá Interspeech (ISCA Archive).</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Độ sâu kỹ thuật cao với việc khảo sát tỉ mỉ scaling laws, tối ưu tỷ lệ token-to-parameter và huấn luyện continuous diffusion ở quy mô 16B parameters trên hàng chục triệu giờ dữ liệu.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Mở ra tiềm năng lớn cho hướng tiếp cận continuous diffusion thay thế discrete tokens trong SLM, dù chưa có mã nguồn mở và còn rào cản về long-form coherence.</dd></div>
+          <div><dt>Evidence <span class="muted">3/5</span></dt><dd>Cung cấp bằng chứng thực nghiệm ở quy mô lớn trên loss và metric pJSD, nhưng văn bản tóm tắt chưa đưa ra các con số benchmark định lượng cụ thể hay tài nguyên mở.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Scaling laws hoàn chỉnh đầu tiên cho CD SLM · Thước đo pJSD định lượng languageness không phụ thuộc likelihood · Phát hiện isoFLOP phẳng tạo lợi thế suy luận · Huấn luyện quy mô lớn tới 16B tham số</p>
+          <p><span class="label">Weaknesses</span> · Chưa đạt được tính mạch lạc ngôn ngữ dài hạn · Chất lượng thẩm mỹ nội dung bão hòa dưới ngưỡng thực · Độ dài chuỗi lớn gấp 20 lần văn bản · Tốc độ lấy mẫu diffusion chậm hơn một bước AR</p>
+          <p><span class="label">Context</span> · Nghiên cứu từ nhóm tác giả thuộc Apple, công bố tại hội nghị Interspeech 2026.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

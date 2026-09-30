@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>moondream/parakeet-redux · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W40</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">moondream/parakeet-redux</h1>
+    <div class="meta">
+<span>Sep 18, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Model</span>
+<span class="pill">HF Models</span><span class="pill pill-accent">ASR</span>        <span class="authors">moondream</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://huggingface.co/moondream/parakeet-redux" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">model card excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>Moondream Parakeet Redux. A 1.58-bit version of parakeet-tdt-0.6b-v3. Same architecture, same tokenizer, but every encoder weight is -1, 0 or +1. It fits in 178 MB, runs at 113× real time on eight x86 CPU cores, 2.5× the fastest other Parakeet runtime we measured, and stays within 0.3 WER of the original on English while beating it on the 25-language FLEURS set and on long-form audio. | | parakeet-tdt-0.6b-v3 | parakeet-redux | | Open ASR Leaderboard, 7 English sets (WER %) | 6.26 | 6.55 | | FLEURS, 25 languages (WER %) | 11.62 | 10.56 | | Business speech, AA-WER style (WER %) | 6.15 | 6.96 | | Background noise, 9 MUSAN conditions (WER %) | 6.72 | 9.04 | | TED-LIUM long-form (WER %) | 2.71 | 2.51 | | Weights | 1.2 GB | 178 MB | Its sibling Parakeet Ultra is the full-precision version of the same architecture, trained further, for GPUs: better than the original on every benchmark. Read the release post for the story behind both models. Usage. Run it with Photon, which reads the packed weights directly: AVX-512 VNNI on x86, NEON on ARM, Metal on Apple GPUs. Every speed number on this page is Photon. Performance. Real-time factor: seconds of audio transcribed per second of wall clock, one utterance at a time, higher is faster. The other rows are the fastest other ways we found to run Parakeet on the same machine and the same audio. How this was measured. One utterance at a time. Incumbents: parakeet.cpp (ggml), sherpa-onnx and onnx-asr (ONNX Runtime) and, on the Mac, parakeet-mlx, each at its own defaults. x86: LibriSpeech test-clean (2,620 utterances), every runtime on the same 8 cores. Apple silicon: a 50-utterance slice of LibriSpeech dev-clean, with cool-downs between runs. WER is scored the same way as the benchmarks below. x86 CPU. AMD EPYC 9575F (Zen 5, up to 5.0 GHz, AVX-512), 8 physical cores of one chiplet, DDR5-6000, Ubuntu 22.04. | runtime | weights | real time | WER | | Photon, this model | ternary, 178 MB | 113× | 1.94 | | parakeet.cpp (ggml) | q8_0, 0.94</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Sep 30, 2026 · model card</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Moondream Parakeet Redux là phiên bản lượng tử hóa 1.58-bit (ternary) của parakeet-tdt-0.6b-v3 từ NVIDIA, thu nhỏ kích thước từ 1.2 GB xuống còn 178 MB. Mô hình đạt tốc độ suy luận 113× real time trên 8 lõi CPU x86 qua runtime Photon, giữ mức chênh lệch trong vòng 0.3 WER trên tiếng Anh và vượt qua mô hình gốc trên benchmark FLEURS 25 ngôn ngữ cùng dữ liệu âm thanh dài.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình ASR chất lượng cao như Parakeet có dung lượng lớn (1.2 GB) và đòi hỏi tài nguyên tính toán cao, gây khó khăn cho việc triển khai tốc độ cao trên phần cứng dân dụng như CPU hoặc Apple Silicon. Thách thức đặt ra là làm sao nén mô hình xuống mức cực hạn (1.58-bit) mà không làm suy giảm độ chính xác nhận dạng giọng nói.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Parakeet Redux giữ nguyên kiến trúc, tokenizer và các quy ước xuất kết quả (dấu câu, viết hoa, số) từ mô hình gốc <code>parakeet-tdt-0.6b-v3</code> của NVIDIA. Điểm thay đổi cốt lõi là toàn bộ trọng số của encoder được lượng tử hóa thành hệ ternary (-1, 0, hoặc +1), đưa dung lượng mô hình xuống còn 178 MB. Mô hình tích hợp thêm một voice-activity detection (VAD) head nhỏ trực tiếp trên subsampler của encoder; runtime Photon tận dụng head này để nhận diện khoảng lặng và tự động chia bản ghi âm thành các đoạn tối đa 30 giây mà không cần mô hình VAD phụ trợ. Photon xử lý trực tiếp các trọng số đã đóng gói (packed weights) qua tập lệnh AVX-512 VNNI trên x86, NEON trên ARM và Metal trên GPU Apple. (Chi tiết quy trình huấn luyện trọng số ternary không được nêu trong tài liệu).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá hiệu năng tốc độ (real-time factor: số giây audio xử lý / giây thời gian thực, chạy đơn utterance): (1) CPU x86: AMD EPYC 9575F (Zen 5, AVX-512, 8 physical cores, DDR5-6000, Ubuntu 22.04) trên 2.620 câu LibriSpeech test-clean; (2) Apple Silicon: MacBook Air M2 (4P+4E CPU, 10-core GPU, 16 GB unified RAM, macOS 15) trên 50 câu LibriSpeech dev-clean. Baselines gồm parakeet.cpp (q8_0, f16), sherpa-onnx (int8), onnx-asr (int8) và parakeet-mlx (fp32). Đánh giá chất lượng (WER %): Open ASR Leaderboard (7 bộ tiếng Anh: LibriSpeech, AMI, Earnings-22, GigaSpeech, SPGISpeech, VoxPopuli), FLEURS (25 ngôn ngữ), Business speech (phong cách AA-WER), Background noise (pha trộn tạp âm MUSAN ở các mức 10 dB, 5 dB, 0 dB) và TED-LIUM 3 (11 bài nói dài 10-20 phút). Yêu cầu thư viện: <code>pip install moondream&gt;=2.4.0</code> hỗ trợ API <code>md.photon()</code>, hỗ trợ xuất timestamp mức segment hoặc word.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Dung lượng mô hình: Giảm từ 1.2 GB (gốc) xuống 178 MB (parakeet-redux).</li>
+<li>Tốc độ trên x86 CPU (8 lõi AMD EPYC 9575F): Photon đạt 113× real time (WER 1.94), nhanh gấp 2.5× so với baseline nhanh nhất tiếp theo là parakeet.cpp q8_0 (45×, WER 1.51), vượt xa sherpa-onnx int8 (42×, WER 1.97) và onnx-asr int8 (28×, WER 1.93).</li>
+<li>Tốc độ trên Apple M2: Photon đạt 38× real time trên CPU và 43× trên GPU; vượt qua parakeet.cpp q8_0 (12× CPU / 38× Metal GPU), parakeet-mlx fp32 (37× GPU) và sherpa-onnx int8 (28× CPU).</li>
+<li>Open ASR Leaderboard (7 tập tiếng Anh): WER trung bình đạt 6.55% so với 6.26% của mô hình gốc bf16 (LibriSpeech test-clean: 1.96% vs 1.52%; Earnings-22: 9.95% vs 10.75%; AMI: 10.80% vs 10.86%).</li>
+<li>FLEURS (25 ngôn ngữ): Parakeet Redux vượt mô hình gốc với WER trung bình 10.56% vs 11.62% (giảm mạnh ở Latvian: 12.80% vs 21.38%; Estonian: 9.15% vs 13.23%; Maltese: 13.65% vs 19.13%; Slovene: 16.21% vs 21.76%).</li>
+<li>Audio dài (TED-LIUM 3, 11 bài nói 10-20 phút): Parakeet Redux với bộ cắt Photon VAD đạt WER 2.51%, vượt mức 2.71% của mô hình gốc chạy pipeline NeMo.</li>
+<li>Business speech (chuẩn AA-WER): WER trung bình 6.96% vs 6.15% của bản gốc (AMI cleaned: 9.14% vs 9.52%; Earnings-22 30s chunks: 7.89% vs 5.90%).</li>
+<li>Nhiễu nền (9 điều kiện MUSAN): Kém hơn bản gốc với WER trung bình 9.04% vs 6.72% (FLEURS German 0 dB: 19.18% vs 14.45%; LibriSpeech test-other 0 dB: 10.95% vs 9.06%).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Khả năng kháng nhiễu giảm rõ rệt so với bản gốc do margin âm học của ternary encoder mỏng hơn, dẫn đến tăng lỗi thay thế từ đồng âm/tương tự khi SNR thấp (dù không tăng tỷ lệ bỏ sót hay sinh từ rác). Trên một số ngôn ngữ trong FLEURS, WER bị suy giảm so với bản gốc (French: 7.71% vs 4.81%; Polish: 8.59% vs 6.70%; Russian: 7.91% vs 5.91%; Dutch: 7.45% vs 6.18%). Cần engine Photon chuyên biệt để đọc trực tiếp packed weights và đạt hiệu năng tối đa.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Lượng tử hóa ternary 1.58-bit là hướng đi khả thi cao cho ASR encoder trên môi trường biên/CPU, giải quyết tắc nghẽn bộ nhớ và tăng tốc độ xử lý lên trên 100× real time với độ suy giảm nhận dạng rất thấp trên tiếng Anh. Tích hợp sẵn VAD head trên subsampler loại bỏ hoàn toàn nhu cầu về mô hình VAD riêng biệt khi xử lý long-form audio. Cần lưu ý bổ sung xử lý lọc ồn nếu ứng dụng trong môi trường âm thanh có tỷ lệ SNR thấp.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · abstract + signals</span>
+    </div>
+      <div class="score-block">
+        <div class="score">71.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#2 in 2026-W40</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Việc áp dụng quantization 1.58-bit (ternary weights) cho encoder của mô hình ASR Parakeet-TDT là hướng đi rất mới mẻ và hiếm thấy trong lĩnh vực xử lý tiếng nói.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Mức độ kỹ thuật rất ấn tượng với việc lượng hóa ternary encoder giữ được WER cạnh tranh cùng runtime Photon tối ưu trực tiếp cho AVX-512, NEON và Metal.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Cung cấp bảng so sánh chi tiết về WER trên nhiều tập dữ liệu đa ngôn ngữ và benchmark throughput (real-time factor) cụ thể trên phần cứng x86.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Mô hình nhận được sự quan tâm tốt từ cộng đồng (173 likes, trending #41) và mở ra tiềm năng lớn cho triển khai ASR tốc độ cao trên thiết bị biên hoặc CPU giá rẻ.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Moondream là nhóm phát triển mã nguồn mở có uy tín với các mô hình compact, tuy nhiên đây là bản phát hành trực tiếp trên Hugging Face chứ chưa có bài báo khoa học bình duyệt (peer-reviewed).</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Việc áp dụng quantization 1.58-bit (ternary weights) cho encoder của mô hình ASR Parakeet-TDT là hướng đi rất mới mẻ và hiếm thấy trong lĩnh vực xử lý tiếng nói.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Moondream là nhóm phát triển mã nguồn mở có uy tín với các mô hình compact, tuy nhiên đây là bản phát hành trực tiếp trên Hugging Face chứ chưa có bài báo khoa học bình duyệt (peer-reviewed).</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Mức độ kỹ thuật rất ấn tượng với việc lượng hóa ternary encoder giữ được WER cạnh tranh cùng runtime Photon tối ưu trực tiếp cho AVX-512, NEON và Metal.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Mô hình nhận được sự quan tâm tốt từ cộng đồng (173 likes, trending #41) và mở ra tiềm năng lớn cho triển khai ASR tốc độ cao trên thiết bị biên hoặc CPU giá rẻ.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Cung cấp bảng so sánh chi tiết về WER trên nhiều tập dữ liệu đa ngôn ngữ và benchmark throughput (real-time factor) cụ thể trên phần cứng x86.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Dung lượng siêu nhẹ 178 MB · Tốc độ cực nhanh 113× trên x86 · Vượt bản gốc trên FLEURS 25 ngôn ngữ · Tích hợp sẵn VAD head cắt audio dài · Chạy mượt mà trên Apple Silicon CPU/GPU</p>
+          <p><span class="label">Weaknesses</span> · Chống chịu tạp âm SNR thấp kém · Giảm độ chính xác ở vài ngôn ngữ · Yêu cầu runtime Photon chuyên dụng</p>
+          <p><span class="label">Context</span> · Phát hành bởi Moondream trên Hugging Face dưới giấy phép CC-BY-4.0 (dựa trên mô hình parakeet-tdt-0.6b-v3 của NVIDIA).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

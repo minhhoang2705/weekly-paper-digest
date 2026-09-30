@@ -1,0 +1,1643 @@
+{
+ "week": "2026-W40",
+ "generated_at": "2026-09-30T08:57:20.507928+00:00",
+ "since": "2026-09-23T08:57:20.507928+00:00",
+ "weights": {
+  "novelty": 25,
+  "technical": 20,
+  "evidence": 20,
+  "impact": 20,
+  "credibility": 15
+ },
+ "models": {
+  "triage": "gemini-3.5-flash-lite",
+  "score": "gemini-3.8-flash",
+  "summarize": "gemini-3.8-flash"
+ },
+ "stats": {
+  "crawled · arxiv": 303,
+  "crawled · hf_papers": 273,
+  "crawled · hf_models": 11,
+  "crawled · github": 21,
+  "crawled · rss": 62,
+  "crawled · isca": 938,
+  "sau dedup": 1591,
+  "qua keyword filter (chưa từng đăng)": 1209,
+  "LLM triage: liên quan": 831,
+  "được chấm điểm": 30
+ },
+ "warnings": [],
+ "items": [
+  {
+   "id": "arxiv:2609.29448",
+   "kind": "paper",
+   "title": "YODAS v3: Over 1 Million Hours of High-Bandwidth, Stereophonic, Multilingual Speech",
+   "url": "https://arxiv.org/abs/2609.29448",
+   "sources": [
+    "arXiv",
+    "ISCA Archive"
+   ],
+   "published": "2026-09-24T12:06:46+00:00",
+   "authors": [
+    "William Chen",
+    "Shinnosuke Takamichi",
+    "Sayaka Shiota",
+    "Satoru Fukayama",
+    "Samuele Cornell",
+    "Shinji Watanabe"
+   ],
+   "abstract": "We present YODAS v3, a weakly-labeled speech corpus containing over 1.1 million hours of 48kHz multi-channel audio in 147 languages, released under a CC BY 3.0 license. YODAS v3 is not only the largest open speech dataset to date, but also the first truly large-scale speech corpus with high-fidelity stereo audio. We first provide the collection methodology for the corpus, where we introduce new techniques for gathering language-balanced speech data. The effectiveness of our approach is shown by the language distribution of the crawled data: 22 languages in YODAS v3 have over 10K hours and 73 languages have over 5K hours of data. We then conduct extensive analyses on the composition of the data, such as the distribution of languages, audio quality, and transcription quality. Finally, we train baseline speech recognition and neural codec models to show the effectiveness of the dataset. Download at https://huggingface.co/datasets/espnet/yodas3.",
+   "pdf_url": "https://arxiv.org/pdf/2609.29448",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "ASR",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 5,
+    "technical": 4,
+    "impact": 5,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Đây là dataset giọng nói mở quy mô lớn nhất tính đến thời điểm hiện tại và là tập dữ liệu mở đầu tiên đạt quy mô hơn 1 triệu giờ với định dạng high-fidelity 48kHz stereo đa kênh trên 147 ngôn ngữ.",
+    "credibility": "Nghiên cứu đến từ nhóm tác giả uy tín hàng đầu trong lĩnh vực xử lý tiếng nói (ESPnet team, Shinji Watanabe) và được chấp nhận tại Interspeech.",
+    "technical": "Quy trình thu thập dữ liệu có kỹ thuật cân bằng ngôn ngữ tốt cùng các phân tích chuyên sâu về chất lượng âm thanh, transcription quality và huấn luyện kiểm chứng trên baseline ASR và neural codec.",
+    "impact": "Dataset mở hơn 1.1 triệu giờ dưới giấy phép CC BY 3.0 phát hành trên Hugging Face sẽ tạo ra tác động cực kỳ lớn cho cộng đồng nghiên cứu ASR, neural codec và generative audio.",
+    "evidence": "Dữ liệu được phát hành công khai và có huấn luyện thử nghiệm ASR cùng neural codec, tuy nhiên đoạn trích chưa công bố các số liệu benchmark định lượng cụ thể."
+   },
+   "total": 78.8,
+   "summary": {
+    "tldr": "YODAS v3 là kho ngữ liệu tiếng nói đa ngôn ngữ có giám sát yếu (weakly-labeled) với quy mô hơn 1,1 triệu giờ âm thanh stereo 48kHz trải rộng trên 147 ngôn ngữ dưới giấy phép CC BY 3.0. Bộ dữ liệu khắc phục điểm nghẽn về độ phân giải âm thanh và độ lệch ngôn ngữ của các kho ngữ liệu mở trước đây bằng cách cung cấp âm thanh stereo băng thông cao và phân bố cân bằng giữa các ngôn ngữ.",
+    "problem": "Khoảng cách lớn giữa các tập dữ liệu mở và tập dữ liệu nội bộ độc quyền (thường đạt hơn 10 triệu giờ). Hầu hết các tập dữ liệu mở trước đây (như YODAS v2, VoxPopuli, MLS, LibriLight) đều chỉ cung cấp âm thanh đơn kênh (monaural) ở tần số lấy mẫu 16kHz hoặc 24kHz và bị thiên lệch nặng nề về tiếng Anh (chiếm hơn một nửa). Điều này cản trở nghiên cứu trong các lĩnh vực mới nổi đòi hỏi âm thanh không gian độ phân giải cao như noisy multi-speaker ASR, high-fidelity neural audio codec, full-band expressive TTS, spatial audio processing và stereo speech enhancement.",
+    "method": "Quy trình thu thập và phân tích dữ liệu bao gồm:\n- **Sinh từ khóa cân bằng ngôn ngữ:** Tải Wikipedia dump riêng của từng ngôn ngữ, lọc bỏ các chuỗi chỉ có dấu câu/số, bắt đầu bằng dấu câu/số, từ có độ dài ngoài khoảng 3–30 ký tự, và các tiền tố filename/DOI/template. Huấn luyện unigram subword tokenizer cho từng ngôn ngữ (tự động giảm một nửa kích thước từ vựng nếu không build được), tính unigram likelihood và chọn các từ khóa có xác suất cao nhất.\n- **Tìm kiếm video:** Sử dụng API YouTube tìm kiếm video có giấy phép Creative Commons; ưu tiên video mới tải lên để tránh thiên lệch vào video nhiều view và lọc bỏ các video ID đã tồn tại trong YODAS v2.\n- **Tải và lưu trữ:** Lưu trữ ở định dạng gốc 48kHz multi-channel OPUS. Tải phụ đề thủ công của người dùng (chiếm 3,7%) hoặc phụ đề tự động của YouTube kèm nhãn mốc thời gian mức phát ngôn (utterance-level), tải thêm phụ đề tiếng Anh cho video phi tiếng Anh, kèm mô tả video.\n- **Kiểm định chất lượng âm thanh:** Phân tích STFT (8192-sample Hann window, độ chồng lấp 50%) để ước tính băng thông thực tế (effective bandwidth), bỏ qua các frame tĩnh (RMS $\\le 10^{-6}$). Kiểm tra tính đa kênh thực tế bằng cách trừ hai kênh và tính normalized RMS residual với ngưỡng $10^{-3}$.",
+    "setup": "- **Phân tích tập dữ liệu:** 147 ngôn ngữ (22 ngôn ngữ >10K giờ, 73 ngôn ngữ >5K giờ, tiếng Anh <2%); 71% dữ liệu (>780K giờ) là đa kênh thực tế (chủ yếu là stereo); 92,5% dữ liệu có băng thông thực tế vượt 32kHz (67,3% đạt 44,1kHz).\n- **Nhận dạng tiếng nói (ASR):** Huấn luyện mô hình ASR đơn ngữ trên 7 ngôn ngữ (tiếng Anh 4.500 giờ; Deu, Fra, Jap, Por, Rus, Vie ~100 giờ mỗi thứ tiếng). Xử lý theo pipeline OWSM v4 (CTC-segmentation, language filtering, lọc ngưỡng CTC quantile $\\theta_{\\text{CTC}} \\in \\{0.00, 0.10, 0.20, 0.30\\}$). Khởi tạo từ OWSM v4 base 102M, huấn luyện 40K steps bằng ESPnet, đánh giá trên CommonVoice (WER cho 6 ngôn ngữ chữ cái Latin/Cyrillic, CER cho tiếng Nhật).\n- **Neural Audio Codec:** Huấn luyện kiến trúc DAC trên tập con 1.200 giờ ở 16kHz, 24kHz, 48kHz dùng ESPnet-Codec. Baseline so sánh: DAC huấn luyện trên LibriTTS (585 giờ đọc tiếng Anh, 16k/24k) và AMUSE (33K giờ đa lĩnh vực tiếng nói/âm nhạc/tiếng động, 16k/44k). Đánh giá bằng VERSA toolkit: đo STOI và WavLM speaker similarity (SPK) trên test set nội vùng (1.000 video YODAS v3) và ngoại vùng (LibriTTS).",
+    "results": [
+     "Đánh giá ASR trên CommonVoice (WER/CER với ngưỡng lọc CTC từ không lọc 0.00 đến 0.30): Tiếng Đức (Deu) đạt 14.4% (0.00) vs 16.3% (0.30); tiếng Pháp (Fra) đạt 17.2% (0.00) vs 21.8% (0.30); tiếng Nhật (Jap CER) đạt 27.7% (0.00) vs 34.5% (0.30); tiếng Bồ Đào Nha (Por) đạt 11.1% (0.00) vs 13.4% (0.30); tiếng Nga (Rus) đạt 15.3% (0.00) vs 16.7% (0.30); tiếng Việt (Vie) đạt 20.6% (0.00) vs 23.1% (0.30); tiếng Anh (Eng) đạt 15.9% (0.00), tốt nhất ở 15.3% (0.10 và 0.20). Các ngôn ngữ phi tiếng Anh đều đạt kết quả tốt nhất khi không áp dụng bộ lọc CTC (0.00).",
+     "Đánh giá Codec trên out-of-domain LibriTTS (STOI / SPK): DAC 48kHz trên YODAS v3 đạt 0.97 / 0.84, ngang ngửa DAC 24kHz trên LibriTTS (0.97 / 0.83) và vượt trội DAC 44kHz trên AMUSE (0.95 / 0.82) cùng AMUSE 16kHz (0.93 / 0.74).",
+     "Đánh giá Codec trên in-domain YODAS v3 test set (STOI / SPK): DAC 48kHz trên YODAS v3 đạt 0.94 / 0.90, vượt trội hoàn toàn so với AMUSE 44kHz (0.90 / 0.77), AMUSE 16kHz (0.81 / 0.83), LibriTTS 24kHz (0.80 / 0.78) và LibriTTS 16kHz (0.74 / 0.69)."
+    ],
+    "limitations": "Chỉ 3,7% dữ liệu có phụ đề thủ công, phần lớn (96,3%) là phụ đề tự động từ YouTube nên phụ thuộc vào chất lượng của hệ thống ASR gốc; việc xác định ngôn ngữ dựa vào YouTube locale làm đại diện (proxy) thay vì chạy mô hình nhận dạng ngôn ngữ tự động (LID) do chi phí tính toán lớn; có tỷ lệ đáng kể các video rất ngắn (>24% dưới 1 phút do YouTube Shorts) và các video dạng live-stream dài phức tạp; chưa kiểm nghiệm trực tiếp trên các bài toán âm thanh không gian (spatial audio/TTS).",
+    "takeaways": "YODAS v3 cung cấp nguồn dữ liệu mở lớn nhất hiện nay với chất lượng cao (stereo 48kHz thực tế), mở đường cho các mô hình nền tảng tiếng nói thế hệ mới, neural audio codecs và xử lý âm thanh không gian. Nhãn phụ đề tự động hiện nay đủ sạch để dùng trực tiếp cho ASR mà không cần lọc khắt khe như YODAS v2; đồng thời phân bố ngôn ngữ cân bằng tốt cho các ngôn ngữ tài nguyên trung bình/thấp.",
+    "strengths": [
+     "Quy mô mở kỷ lục hơn 1,1 triệu giờ",
+     "Âm thanh stereo 48kHz băng thông cao thực sự",
+     "Phân bố cân bằng trên 147 ngôn ngữ",
+     "Dữ liệu sạch dùng được ngay out-of-the-box",
+     "Giấy phép mở thuận lợi CC BY 3.0"
+    ],
+    "weaknesses": [
+     "Phụ đề thủ công chỉ chiếm 3,7%",
+     "Dùng YouTube locale làm nhãn ngôn ngữ proxy",
+     "Hơn 24% video là dạng Shorts ngắn"
+    ],
+    "context": "Nhóm tác giả gồm William Chen, Shinnosuke Takamichi, Sayaka Shiota, Satoru Fukayama, Samuele Cornell và Shinji Watanabe (Carnegie Mellon University, Keio University, Tokyo Metropolitan University, AIST), công bố trên arXiv vào tháng 9 năm 2026."
+   },
+   "fulltext_source": "PDF",
+   "rank": 1
+  },
+  {
+   "id": "hf-model:moondream/parakeet-redux",
+   "kind": "model",
+   "title": "moondream/parakeet-redux",
+   "url": "https://huggingface.co/moondream/parakeet-redux",
+   "sources": [
+    "HF Models"
+   ],
+   "published": "2026-09-18T11:02:15+00:00",
+   "authors": [
+    "moondream"
+   ],
+   "abstract": "Moondream Parakeet Redux. A 1.58-bit version of parakeet-tdt-0.6b-v3. Same architecture, same tokenizer, but every encoder weight is -1, 0 or +1. It fits in 178 MB, runs at 113× real time on eight x86 CPU cores, 2.5× the fastest other Parakeet runtime we measured, and stays within 0.3 WER of the original on English while beating it on the 25-language FLEURS set and on long-form audio. | | parakeet-tdt-0.6b-v3 | parakeet-redux | | Open ASR Leaderboard, 7 English sets (WER %) | 6.26 | 6.55 | | FLEURS, 25 languages (WER %) | 11.62 | 10.56 | | Business speech, AA-WER style (WER %) | 6.15 | 6.96 | | Background noise, 9 MUSAN conditions (WER %) | 6.72 | 9.04 | | TED-LIUM long-form (WER %) | 2.71 | 2.51 | | Weights | 1.2 GB | 178 MB | Its sibling Parakeet Ultra is the full-precision version of the same architecture, trained further, for GPUs: better than the original on every benchmark. Read the release post for the story behind both models. Usage. Run it with Photon, which reads the packed weights directly: AVX-512 VNNI on x86, NEON on ARM, Metal on Apple GPUs. Every speed number on this page is Photon. Performance. Real-time factor: seconds of audio transcribed per second of wall clock, one utterance at a time, higher is faster. The other rows are the fastest other ways we found to run Parakeet on the same machine and the same audio. How this was measured. One utterance at a time. Incumbents: parakeet.cpp (ggml), sherpa-onnx and onnx-asr (ONNX Runtime) and, on the Mac, parakeet-mlx, each at its own defaults. x86: LibriSpeech test-clean (2,620 utterances), every runtime on the same 8 cores. Apple silicon: a 50-utterance slice of LibriSpeech dev-clean, with cool-downs between runs. WER is scored the same way as the benchmarks below. x86 CPU. AMD EPYC 9575F (Zen 5, up to 5.0 GHz, AVX-512), 8 physical cores of one chiplet, DDR5-6000, Ubuntu 22.04. | runtime | weights | real time | WER | | Photon, this model | ternary, 178 MB | 113× | 1.94 | | parakeet.cpp (ggml) | q8_0, 0.94",
+   "pdf_url": null,
+   "code_url": null,
+   "signals": {
+    "hf_likes": 173,
+    "hf_downloads": 7641,
+    "hf_trending": 41,
+    "pipeline_tag": "automatic-speech-recognition"
+   },
+   "topic": "ASR",
+   "promise": 4,
+   "scores": {
+    "novelty": 4,
+    "credibility": 3,
+    "technical": 4,
+    "impact": 4,
+    "evidence": 4
+   },
+   "reasons": {
+    "novelty": "Việc áp dụng quantization 1.58-bit (ternary weights) cho encoder của mô hình ASR Parakeet-TDT là hướng đi rất mới mẻ và hiếm thấy trong lĩnh vực xử lý tiếng nói.",
+    "credibility": "Moondream là nhóm phát triển mã nguồn mở có uy tín với các mô hình compact, tuy nhiên đây là bản phát hành trực tiếp trên Hugging Face chứ chưa có bài báo khoa học bình duyệt (peer-reviewed).",
+    "technical": "Mức độ kỹ thuật rất ấn tượng với việc lượng hóa ternary encoder giữ được WER cạnh tranh cùng runtime Photon tối ưu trực tiếp cho AVX-512, NEON và Metal.",
+    "impact": "Mô hình nhận được sự quan tâm tốt từ cộng đồng (173 likes, trending #41) và mở ra tiềm năng lớn cho triển khai ASR tốc độ cao trên thiết bị biên hoặc CPU giá rẻ.",
+    "evidence": "Cung cấp bảng so sánh chi tiết về WER trên nhiều tập dữ liệu đa ngôn ngữ và benchmark throughput (real-time factor) cụ thể trên phần cứng x86."
+   },
+   "total": 71.2,
+   "summary": {
+    "tldr": "Moondream Parakeet Redux là phiên bản lượng tử hóa 1.58-bit (ternary) của parakeet-tdt-0.6b-v3 từ NVIDIA, thu nhỏ kích thước từ 1.2 GB xuống còn 178 MB. Mô hình đạt tốc độ suy luận 113× real time trên 8 lõi CPU x86 qua runtime Photon, giữ mức chênh lệch trong vòng 0.3 WER trên tiếng Anh và vượt qua mô hình gốc trên benchmark FLEURS 25 ngôn ngữ cùng dữ liệu âm thanh dài.",
+    "problem": "Các mô hình ASR chất lượng cao như Parakeet có dung lượng lớn (1.2 GB) và đòi hỏi tài nguyên tính toán cao, gây khó khăn cho việc triển khai tốc độ cao trên phần cứng dân dụng như CPU hoặc Apple Silicon. Thách thức đặt ra là làm sao nén mô hình xuống mức cực hạn (1.58-bit) mà không làm suy giảm độ chính xác nhận dạng giọng nói.",
+    "method": "Parakeet Redux giữ nguyên kiến trúc, tokenizer và các quy ước xuất kết quả (dấu câu, viết hoa, số) từ mô hình gốc `parakeet-tdt-0.6b-v3` của NVIDIA. Điểm thay đổi cốt lõi là toàn bộ trọng số của encoder được lượng tử hóa thành hệ ternary (-1, 0, hoặc +1), đưa dung lượng mô hình xuống còn 178 MB. Mô hình tích hợp thêm một voice-activity detection (VAD) head nhỏ trực tiếp trên subsampler của encoder; runtime Photon tận dụng head này để nhận diện khoảng lặng và tự động chia bản ghi âm thành các đoạn tối đa 30 giây mà không cần mô hình VAD phụ trợ. Photon xử lý trực tiếp các trọng số đã đóng gói (packed weights) qua tập lệnh AVX-512 VNNI trên x86, NEON trên ARM và Metal trên GPU Apple. (Chi tiết quy trình huấn luyện trọng số ternary không được nêu trong tài liệu).",
+    "setup": "Đánh giá hiệu năng tốc độ (real-time factor: số giây audio xử lý / giây thời gian thực, chạy đơn utterance): (1) CPU x86: AMD EPYC 9575F (Zen 5, AVX-512, 8 physical cores, DDR5-6000, Ubuntu 22.04) trên 2.620 câu LibriSpeech test-clean; (2) Apple Silicon: MacBook Air M2 (4P+4E CPU, 10-core GPU, 16 GB unified RAM, macOS 15) trên 50 câu LibriSpeech dev-clean. Baselines gồm parakeet.cpp (q8_0, f16), sherpa-onnx (int8), onnx-asr (int8) và parakeet-mlx (fp32). Đánh giá chất lượng (WER %): Open ASR Leaderboard (7 bộ tiếng Anh: LibriSpeech, AMI, Earnings-22, GigaSpeech, SPGISpeech, VoxPopuli), FLEURS (25 ngôn ngữ), Business speech (phong cách AA-WER), Background noise (pha trộn tạp âm MUSAN ở các mức 10 dB, 5 dB, 0 dB) và TED-LIUM 3 (11 bài nói dài 10-20 phút). Yêu cầu thư viện: `pip install moondream>=2.4.0` hỗ trợ API `md.photon()`, hỗ trợ xuất timestamp mức segment hoặc word.",
+    "results": [
+     "Dung lượng mô hình: Giảm từ 1.2 GB (gốc) xuống 178 MB (parakeet-redux).",
+     "Tốc độ trên x86 CPU (8 lõi AMD EPYC 9575F): Photon đạt 113× real time (WER 1.94), nhanh gấp 2.5× so với baseline nhanh nhất tiếp theo là parakeet.cpp q8_0 (45×, WER 1.51), vượt xa sherpa-onnx int8 (42×, WER 1.97) và onnx-asr int8 (28×, WER 1.93).",
+     "Tốc độ trên Apple M2: Photon đạt 38× real time trên CPU và 43× trên GPU; vượt qua parakeet.cpp q8_0 (12× CPU / 38× Metal GPU), parakeet-mlx fp32 (37× GPU) và sherpa-onnx int8 (28× CPU).",
+     "Open ASR Leaderboard (7 tập tiếng Anh): WER trung bình đạt 6.55% so với 6.26% của mô hình gốc bf16 (LibriSpeech test-clean: 1.96% vs 1.52%; Earnings-22: 9.95% vs 10.75%; AMI: 10.80% vs 10.86%).",
+     "FLEURS (25 ngôn ngữ): Parakeet Redux vượt mô hình gốc với WER trung bình 10.56% vs 11.62% (giảm mạnh ở Latvian: 12.80% vs 21.38%; Estonian: 9.15% vs 13.23%; Maltese: 13.65% vs 19.13%; Slovene: 16.21% vs 21.76%).",
+     "Audio dài (TED-LIUM 3, 11 bài nói 10-20 phút): Parakeet Redux với bộ cắt Photon VAD đạt WER 2.51%, vượt mức 2.71% của mô hình gốc chạy pipeline NeMo.",
+     "Business speech (chuẩn AA-WER): WER trung bình 6.96% vs 6.15% của bản gốc (AMI cleaned: 9.14% vs 9.52%; Earnings-22 30s chunks: 7.89% vs 5.90%).",
+     "Nhiễu nền (9 điều kiện MUSAN): Kém hơn bản gốc với WER trung bình 9.04% vs 6.72% (FLEURS German 0 dB: 19.18% vs 14.45%; LibriSpeech test-other 0 dB: 10.95% vs 9.06%)."
+    ],
+    "limitations": "Khả năng kháng nhiễu giảm rõ rệt so với bản gốc do margin âm học của ternary encoder mỏng hơn, dẫn đến tăng lỗi thay thế từ đồng âm/tương tự khi SNR thấp (dù không tăng tỷ lệ bỏ sót hay sinh từ rác). Trên một số ngôn ngữ trong FLEURS, WER bị suy giảm so với bản gốc (French: 7.71% vs 4.81%; Polish: 8.59% vs 6.70%; Russian: 7.91% vs 5.91%; Dutch: 7.45% vs 6.18%). Cần engine Photon chuyên biệt để đọc trực tiếp packed weights và đạt hiệu năng tối đa.",
+    "takeaways": "Lượng tử hóa ternary 1.58-bit là hướng đi khả thi cao cho ASR encoder trên môi trường biên/CPU, giải quyết tắc nghẽn bộ nhớ và tăng tốc độ xử lý lên trên 100× real time với độ suy giảm nhận dạng rất thấp trên tiếng Anh. Tích hợp sẵn VAD head trên subsampler loại bỏ hoàn toàn nhu cầu về mô hình VAD riêng biệt khi xử lý long-form audio. Cần lưu ý bổ sung xử lý lọc ồn nếu ứng dụng trong môi trường âm thanh có tỷ lệ SNR thấp.",
+    "strengths": [
+     "Dung lượng siêu nhẹ 178 MB",
+     "Tốc độ cực nhanh 113× trên x86",
+     "Vượt bản gốc trên FLEURS 25 ngôn ngữ",
+     "Tích hợp sẵn VAD head cắt audio dài",
+     "Chạy mượt mà trên Apple Silicon CPU/GPU"
+    ],
+    "weaknesses": [
+     "Chống chịu tạp âm SNR thấp kém",
+     "Giảm độ chính xác ở vài ngôn ngữ",
+     "Yêu cầu runtime Photon chuyên dụng"
+    ],
+    "context": "Phát hành bởi Moondream trên Hugging Face dưới giấy phép CC-BY-4.0 (dựa trên mô hình parakeet-tdt-0.6b-v3 của NVIDIA)."
+   },
+   "fulltext_source": "model card",
+   "rank": 2
+  },
+  {
+   "id": "arxiv:2609.29837",
+   "kind": "paper",
+   "title": "PUBG Ally: A Conversational Embodied Agent as an AI Teammate",
+   "url": "https://arxiv.org/abs/2609.29837",
+   "sources": [
+    "arXiv",
+    "HF Daily Papers"
+   ],
+   "published": "2026-09-24T14:06:28+00:00",
+   "authors": [
+    "PUBG Ally Team",
+    "Irene Chen",
+    "Youngin Cho",
+    "Seungjun Chung",
+    "Jimin Hong",
+    "Hyeonbin Hwang",
+    "Hyeojung Im",
+    "Insub Im",
+    "Jaeseung Jeon",
+    "Seohyeon Jung",
+    "Beomsoo Kim",
+    "Byeongju Kim",
+    "Dohyun Kim",
+    "Dongwon Kim",
+    "Eunchong Kim",
+    "Hongmin Kim",
+    "Hyeonghwan Kim",
+    "Hyunseung Kim",
+    "Sungwoo Kim",
+    "Kangwook Lee",
+    "Minkyoung Park",
+    "Sue Hyun Park",
+    "Hyoseok Seol",
+    "Yujeong Son",
+    "Kiyoon Yoo"
+   ],
+   "abstract": "We introduce PUBG Ally, an embodied agent for PUBG: BATTLEGROUNDS that can reason, act autonomously, and play alongside players as a voice-enabled teammate. Building such a teammate requires combining two difficult capabilities: it must perceive and respond to a constantly changing game world under strict latency constraints while interacting naturally with players, keeping its speech synchronized with its actions. Ally therefore combines agentic tool use with real-time game control. A language-model agent uses a controlled interface to inspect game information, interpret player speech, maintain context, decide what to say, and issue high-level action choices that steer a faster control layer for movement, combat, and recovery. Because the player's and Ally's speech and actions continually shape each other and the course of the match, training requires data from actual gameplay. We therefore collect data across nearly 39k sessions in which real players play alongside Ally, recording gameplay, player speech, agent decisions, tool use, actions, and player feedback, and use these records for iterative training. To evaluate teammate quality, we use player feedback and preference comparisons to identify gaps between offline evaluations and player preferences, and iteratively refine the evaluation criteria. Deploying Ally in live service further requires low-latency on-device execution and safeguards for player-facing communication, which we address through model compression, context compaction, targeted safety training, runtime guardrails, and memory redaction. During the live service, we surveyed players in 141 countries. Among respondents whose play with Ally was confirmed in game records, positive responses exceeded negative responses by 25.1 percentage points when asked whether they would recommend Ally, with players describing Ally not only as a tool but also as a teammate or companion.",
+   "pdf_url": "https://arxiv.org/pdf/2609.29837",
+   "code_url": null,
+   "signals": {
+    "hf_upvotes": 25
+   },
+   "topic": "Voice Agent",
+   "promise": 4,
+   "scores": {
+    "novelty": 4,
+    "credibility": 4,
+    "technical": 4,
+    "impact": 4,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Nghiên cứu tiên phong trong việc tích hợp voice agent đàm thoại hai chiều thời gian thực vào một embodied agent đa tầng trong tựa game phức tạp PUBG: BATTLEGROUNDS.",
+    "credibility": "Bài báo đến từ nhóm phát triển chính thức của PUBG Ally tại Krafton, sở hữu nền tảng dữ liệu thực tế và xuất hiện trên arXiv cùng HF Daily Papers.",
+    "technical": "Hệ thống kết hợp chặt chẽ giữa agentic tool use với control layer độ trễ thấp, áp dụng model compression, context compaction và runtime guardrails để triển khai trực tiếp trên môi trường live service.",
+    "impact": "Đưa ra hình mẫu thực tế và khả thi cao cho AI teammates điều khiển bằng giọng nói trong ngành công nghiệp game AAA, thu hút sự chú ý tốt từ cộng đồng.",
+    "evidence": "Cung cấp số liệu khảo sát người dùng thực tế từ 141 quốc gia trên 39k phiên chơi, nhưng thiếu các benchmark định lượng so sánh với baseline cụ thể và không công bố mã nguồn hay trọng số mô hình."
+   },
+   "total": 70.0,
+   "summary": {
+    "tldr": "PUBG Ally là một agent hiện thân có khả năng hội thoại giọng nói (conversational embodied agent) hoạt động như một đồng đội AI thời gian thực trong PUBG: BATTLEGROUNDS. Hệ thống kết hợp phân tầng System 1 (behavior tree ở tần số game-tick) và System 2 (SLM on-device lý luận qua tool interface), cho phép phối hợp chiến thuật và đàm thoại end-to-end với độ trễ phản hồi chỉ ~1.6s trên GPU người dùng phổ thông.",
+    "problem": "Xây dựng AI teammate trong game battle royale đòi hỏi giải quyết đồng thời hai thách thức: nhận thức - phản ứng trong thế giới biến đổi liên tục dưới ràng buộc độ trễ cực nghiêm ngặt, và tương tác hội thoại tự nhiên với người chơi. Hai yêu cầu này liên đới chặt chẽ vì lời nói và hành động phải luôn đồng bộ (speech-action synchronization). Việc đặt trực tiếp mô hình ngôn ngữ lớn (LLM) vào vòng lặp điều khiển thời gian thực là bất khả thi về độ trễ và VRAM, trong khi việc huấn luyện đòi hỏi dữ liệu tương tác thực tế từ các trận đấu nhiều biến số thay vì dữ liệu tĩnh hay simulator cố định. Ngoài ra, an toàn ngữ cảnh (contextual safety) đặt ra bài toán khó: phải cho phép ngôn từ chiến đấu bình thường nhưng chặn các phát ngôn độc hại ngoài đời thực mà không gây over-refusal.",
+    "method": "Ally sử dụng kiến trúc phân tầng kết hợp tool-use và kiểm soát thời gian thực: (1) System 2 (Agent harness hướng sự kiện): Một SLM (~2B tham số) tương tác với game qua giao diện bounded tool gồm 16 công cụ (Match observation, Knowledge & memory, Action execution, Player communication, Agent loop control, Safety control). System 2 chạy theo sự kiện, nén ngữ cảnh định kỳ qua lệnh `compact(plan=...)` với ngân sách ~5.000 tokens và tiền tố ổn định đạt tỷ lệ tái sử dụng KV-cache cao. (2) System 1 (Stateful real-time execution layer): Behavior Tree (BT) dạng typed JSON grammar chạy độc lập ở tần số game-tick để thực hiện di chuyển, giao tranh, hồi sinh. LM tương tác qua 2 kênh: chèn hành động tạm thời (temporary action injection qua placeholder slots) và gán biến chế độ dài hạn (persistent mode variables). (3) Dữ liệu và Huấn luyện: Thu thập 38,956 phiên chơi của 1,046 người chơi thực tại phòng máy PC bang ở Hàn Quốc. Dùng Gemma 4 31B (được tối ưu prompt bằng GEPA) làm teacher tạo rollout ban đầu, sau đó áp dụng cơ chế dạng DAgger: student thu thập rollout, teacher 31B tạo quỹ đạo sửa lỗi (teacher-corrected rollouts) và bổ sung synthetic data. Quy trình huấn luyện gồm 3 giai đoạn: SFT teacher trung gian 8B bằng hard targets, off-policy distillation sang student 2B với soft targets, và agentic on-policy distillation nơi student 2B tự tương tác qua công cụ rồi nhận soft targets từ teacher 8B. (4) Pipeline giọng nói on-device: STT chạy CPU (Parakeet 110M cho tiếng Anh, SenseVoice Small cho tiếng Trung, Zipformer 74M tự huấn luyện 20.000 giờ cho tiếng Hàn), tinh chỉnh bằng dữ liệu tổng hợp pha trộn loss L1 distillation. TTS dùng DiTTo-TTS tối ưu hóa (bộ mã hóa văn bản BERT nhẹ, ước lượng thời lượng rule-based từ F5-TTS, latent consistency distillation và Vocos vocoder, chiếm ~700 MB VRAM). (5) An toàn: Phân loại 6 nhóm nguy hại và 1 ngoại lệ an toàn đặc thù (In-game violence), kết hợp bộ lọc từ khóa đầu ra trước TTS và công cụ `flag_unsafe` che giấu input nhạy cảm khỏi bộ nhớ ngữ cảnh.",
+    "setup": "Được thử nghiệm và triển khai trên chế độ Duo bản đồ Sanhok (trận đấu 64 người) trong PUBG, hỗ trợ tiếng Anh, Hàn, Trung. Hệ thống chạy on-device hoàn toàn song song với game client trên GPU người dùng phổ thông (mục tiêu VRAM >= 8 GB, thử nghiệm trên RTX 4060). SLM được lượng tử hóa 4-bit (chạy qua NVIDIA NVIGI runtime) gồm Mistral-NeMo-Minitron 2B (En), Kanana 1.5 2.1B (Ko), Qwen3 1.7B (Zh). Đánh giá offline capability dùng LLM judges (Gemini 3 Flash, GPT-5.1) trên 5 khía cạnh (Fact, Event, Intent, Cmd, Traject) cùng Deployability gate kiểm tra cú pháp; đánh giá an toàn trên benchmark công cộng và bộ hội thoại mô phỏng thực tế; đánh giá online gồm small-scale test và large-scale A/B blind test (797 lượt A/B từ 433 người chơi) tại PC bang, tiếp nối bằng khảo sát live-service beta toàn cầu.",
+    "results": [
+     "Tối ưu hóa prompt GEPA cho teacher Gemma 4 31B nâng điểm Event từ 0.917 lên 0.952 (ngang Claude Opus 4.8 đạt 0.951) và Traject từ 0.884 lên 0.910 (so với 0.924 của Opus 4.8).",
+     "Distillation sang student 2B đạt kết quả bám sát teacher: Fact đạt 0.932 (teacher 0.944), Event đạt 0.954 (teacher 0.952), Intent đạt 0.953 (teacher 0.960), Cmd đạt 0.876 (teacher 0.889) và Traject đạt 0.902 (teacher 0.910), tất cả khoảng tin cậy đều chồng lấn với teacher.",
+     "Trên GPU RTX 4060, SLM on-device có độ trễ median 0.80s (p90 0.91s), nhanh gấp 3.2 lần cloud LLM (2.54s, p90 3.46s). Tổng thời gian hoàn thành một lượt thoại end-to-end on-device là 1.62s (STT 0.12s, LM 0.80s, TTS 0.70s) so với 3.36s của cloud. Tái sử dụng KV-cache đạt 89.2% ± 3.1% mỗi session.",
+     "Dung lượng bộ nhớ VRAM của SLM 4-bit chỉ chiếm từ 1.6 đến 2.1 GB (Ko 2.0 GB, Zh 1.6 GB, En 2.1 GB), vận hành mượt mà cùng TTS (~700 MB) và game client trong hạn mức 8 GB.",
+     "Đánh giá an toàn cho thấy mô hình Final đạt tỷ lệ phản hồi vô hại 98.3% - 99.4% trên benchmark mở rộng và 84.1% - 99.0% (đạt 91.0% - 99.4% sau runtime guardrail) trên bộ hội thoại thực tế, trong khi tỷ lệ over-refusal đối với input vô hại trong game chỉ từ 2.2% đến 6.1%.",
+     "Trong live beta trên 141 quốc gia, tỷ lệ đánh giá sẵn sàng giới thiệu Ally (net recommendation) đạt mức dương vượt 25.1 điểm phần trăm. 18.5% người chơi nhìn nhận Ally là đồng đội (teammate) và 31.5% nhìn nhận như bạn đồng hành (companion), tổng cộng 50.0% gán vai trò xã hội thay vì chỉ xem là công cụ (tool)."
+    ],
+    "limitations": "Agent hiện phụ thuộc vào cơ chế push-to-talk và hội thoại theo lượt (turn-based), chưa thể tiếp nhận hoặc xử lý phát ngôn mới của người chơi trong lúc đang gọi tool (chưa hỗ trợ full-duplex speech). Kỹ năng chiến đấu tự động (combat skill) vẫn bị người chơi đánh giá thấp nhất trong live beta (net recommendation -10.9 pp). Hệ thống harness và mô hình SLM chưa được tối ưu hóa đồng thời (joint optimization). Khả năng khôi phục an toàn trong các hội thoại mà ranh giới đã bị xâm phạm trước đó (boundary breached) vẫn là điểm lỗi tồn dư khó nhất (tỷ lệ harmless chỉ đạt 67.2% ở tiếng Hàn trước guardrail).",
+    "takeaways": "Mô hình phân tầng System 1 (BT điều khiển game-tick) và System 2 (SLM lý luận theo sự kiện qua tool interface) là thiết kế kiến trúc chuẩn mực để đưa mô hình ngôn ngữ vào môi trường game thời gian thực mà không làm nghẽn vòng lặp điều khiển. Chạy toàn bộ pipeline giọng nói và ngôn ngữ on-device (2B SLM, STT trên CPU, TTS gọn nhẹ) giúp ghìm độ trễ tương tác xuống ~1.6s, là yếu tố mang tính quyết định đến trải nghiệm người dùng hơn là năng lực của một model đám mây lớn nhưng chậm. Việc huấn luyện bằng chính dữ liệu tương tác thực tế kết hợp sửa lỗi kiểu DAgger và liên tục hiệu chỉnh bộ đo dựa trên A/B test của người dùng là bài học đắt giá cho kỹ thuật phát triển tác tử hiện thân.",
+    "strengths": [
+     "Kiến trúc System 1-2 tối ưu cho game thời gian thực",
+     "Triển khai on-device toàn bộ pipeline độ trễ thấp (~1.6s)",
+     "Thu thập dữ liệu thực tế quy mô lớn (~39k sessions)",
+     "An toàn theo ngữ cảnh giảm thiểu over-refusal trong game",
+     "Triển khai live-service thực tế toàn cầu tại 141 quốc gia"
+    ],
+    "weaknesses": [
+     "Chỉ hỗ trợ push-to-talk, chưa hỗ trợ full-duplex",
+     "Kỹ năng chiến đấu tự động còn bị đánh giá thấp",
+     "Khả năng phục hồi an toàn khi bị breached còn yếu",
+     "Chưa tối ưu hóa đồng thời harness và SLM"
+    ],
+    "context": "Nghiên cứu được thực hiện bởi đội ngũ phát triển tại KRAFTON / PUBG Studios (với sự hỗ trợ từ SKT K1 và NVIDIA), công bố trên arXiv vào tháng 9/2026."
+   },
+   "fulltext_source": "arXiv HTML",
+   "rank": 3
+  },
+  {
+   "id": "isca:interspeech_2026/anand26_interspeech",
+   "kind": "paper",
+   "title": "ParA-LLM: A Unified Approach to Paralinguistic and Acoustic Speech Understanding",
+   "url": "https://www.isca-archive.org/interspeech_2026/anand26_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Nishit Anand",
+    "Jiaqi Su",
+    "Ke Chen",
+    "Yunyun Wang",
+    "Dinesh Manocha",
+    "Ramani Duraiswami",
+    "Rithesh Kumar",
+    "Zeyu Jin"
+   ],
+   "abstract": "Recent advances in Audio LLMs have achieved human-level speech recognition, yet existing systems struggle to capture paralinguistic aspects such as speaker traits, expressive variations, and environmental acoustic conditions. To address this, we design a framework of 22 paralinguistic features and create a dataset of over 1.2M Audio-QA pairs. We develop ParA-LLM, trained with a two-stage curriculum: first on single-attribute questions to build foundational knowledge, then on multi-attribute questions for joint reasoning over speaker and acoustic characteristics. We also release ParA-Bench, a benchmark of 6,000 multiple-choice questions across speaker-speech, acoustic, and mixed categories, where frontier models like GPT-4o-Audio achieve only 36% accuracy. ParA-LLM surpasses state-of-the-art Audio LLMs by 7.5% on ParA-Bench, with additional gains of 1.13% on MMAU-Pro Speech and 7.49% on MMAR Speech.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/anand26_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "Speech Understanding",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 4,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 4
+   },
+   "reasons": {
+    "novelty": "Bài báo đề xuất hệ thống 22 đặc trưng paralinguistic toàn diện cùng chiến lược two-stage curriculum learning giúp Audio LLMs giải quyết tốt bài toán suy luận đa thuộc tính âm học.",
+    "credibility": "Nghiên cứu đến từ nhóm tác giả uy tín và được công bố tại hội nghị hàng đầu về xử lý tiếng nói Interspeech (ISCA Archive).",
+    "technical": "Quy trình xây dựng 1.2M Audio-QA pairs và thiết kế huấn luyện curriculum từ đơn thuộc tính sang đa thuộc tính có độ sâu kỹ thuật và tính hệ thống tốt.",
+    "impact": "Benchmark ParA-Bench và hướng tiếp cận paralinguistic có tiềm năng định hướng việc đánh giá Speech LLMs, tuy nhiên hiện chưa có thông tin về việc mở mã nguồn hay tín hiệu áp dụng thực tế.",
+    "evidence": "Báo cáo đầy đủ số liệu định lượng với mức vượt SOTA 7.5% trên ParA-Bench (so sánh với GPT-4o-Audio) và cải thiện rõ rệt trên các benchmark chuẩn như MMAU-Pro và MMAR Speech."
+   },
+   "total": 70.0,
+   "summary": {
+    "tldr": "ParA-LLM là mô hình Audio LLM được thiết kế nhằm giải quyết khoảng trống trong việc thấu hiểu các yếu tố cận ngôn ngữ (paralinguistics) và âm học môi trường (acoustics) của lời nói. Tác giả chuẩn hóa một phân loại gồm 22 đặc trưng, xây dựng tập dữ liệu hơn 1.2M cặp Audio-QA và huấn luyện mô hình qua phương pháp curriculum learning hai giai đoạn (từ câu hỏi đơn thuộc tính đến đa thuộc tính). ParA-LLM đạt độ chính xác tổng thể 43.53% trên benchmark mới ParA-Bench (6,000 câu hỏi), vượt qua GPT-4o-Audio (36.03%) và Voxtral-24B (38.80%).",
+    "problem": "Mặc dù các Audio LLM hiện nay đạt độ chính xác gần mức con người ở tác vụ nhận dạng nội dung lời nói (ASR) và lập luận ngữ nghĩa, chúng lại gặp khó khăn lớn trong việc hiểu 'cách nói' (paralinguistic characteristics) và điều kiện âm học môi trường (acoustics) - những yếu tố cốt lõi trong giao tiếp tự nhiên. Trên ParA-Bench, mô hình hàng đầu GPT-4o-Audio chỉ đạt 36% độ chính xác so với 78% của con người. Các mô hình hiện có hoặc chỉ phân loại từng thuộc tính đơn lẻ một cách cô lập, hoặc không thể suy luận kết hợp đa thuộc tính qua dạng hỏi-đáp tự do (free-form QA).",
+    "method": "Hệ thống bao gồm các thành phần chính:\n- **Phân loại 22 đặc trưng cận ngôn ngữ và âm học**:\n  + *10 đặc trưng âm học*: 15 Reverb Types, 21 Noise Types, Reverb DRR Level (close, moderately close, distant), Reverb RT60 Level (tight, medium-sized, spacious), Overall Reverb Level (lưới 3×3 từ DRR và RT60), Reverb ERR Level (C50), Reverb DER Level, Background Noise Level (SNR mức low, medium, high), Post Processing (clipping, dynamic range compression, overdrive, phaser), và Overall Quality (STOI: poor <0.8, fair 0.8–0.92, high >0.92).\n  + *7 đặc trưng speaker-intrinsic*: gender (male/female), accent, nasality (nhị phân), timbre, loudness, smoothness, articulation.\n  + *5 đặc trưng speech-dynamic cấp phát ngôn*: emotion (cơ bản và phức tạp), speaking rate (phoneme/s chia 7 mức), pitch (hiệu chỉnh theo giới tính, chia 7 mức), expressivity (độ lệch chuẩn pitch chia 5 mức), và flow (nhịp điệu và độ trôi chảy).\n- **Quy trình mô phỏng dữ liệu (Data Simulation Engine)**: Lấy clean speech từ EARS, Emilia, Expresso, VoxCeleb, sau đó chập với room impulse responses (RIRs) đo đạc thực tế từ MIT IR Survey và EchoThief, trộn tạp âm nền từ TAU Urban Audio-Visual Scenes 2021 và Isolated Urban Sound Background (kèm tạp âm màu trắng/hồng/nâu), cùng các hiệu ứng hậu kỳ để tạo ra hơn 700K mẫu audio độc nhất có metadata gán nhãn.\n- **Huấn luyện Curriculum 2 giai đoạn cho ParA-LLM**:\n  + Khởi tạo từ mô hình nền `Qwen2-Audio-7B-Instruct`. Huấn luyện LoRA (rank 128, alpha 256, dropout 0.1) trên toàn bộ audio encoder, multimodal projector và LLM backbone.\n  + *Stage 1 (Kiến thức cơ bản đơn thuộc tính)*: Huấn luyện trên 688K cặp QA nguyên tử (atomic QA) dạng template từ 306K mẫu audio, mỗi câu hỏi nhắm vào đúng 1 thuộc tính.\n  + *Stage 2 (Lập luận đa thuộc tính liên kết)*: Tải LoRA adapter từ Stage 1, huấn luyện tiếp trên 513K cặp QA đa thuộc tính sinh bởi Qwen2.5-7B kết hợp In-Context Learning (ICL) từ 217K mẫu audio để học cách phân tích đồng thời nhiều tương tác thuộc tính.\n- **ParA-Bench Benchmark**: Tập đánh giá 6,000 câu hỏi trắc nghiệm đa thuộc tính (chia đều: 2,000 speaker-speech, 2,000 acoustic, 2,000 mixed) tạo từ tập 6K audio kiểm thử riêng biệt. Để tránh self-referential bias, QA và các đáp án gây nhiễu (distractors) được tạo bởi `Mistral-Small-3.2` (khác họ mô hình Qwen dùng lúc huấn luyện).",
+    "setup": "- **Huấn luyện mô hình**: Khởi tạo từ `Qwen2-Audio-7B-Instruct`. Stage 1 chạy 1 epoch với learning rate 5e-5. Stage 2 chạy 1 epoch với learning rate 4e-5. Dùng AdamW, cosine learning rate scheduler, huấn luyện trên 8 GPU A100 (batch size 16/device, tổng effective batch size 128).\n- **Baselines so sánh trên ParA-Bench**: Audio LLMs tiên tiến (`GPT-4o-Audio`, `Voxtral-24B`, `Audio Flamingo 3`, `Qwen2-Audio-Instruct`), reasoning-based Audio models (`R1-AQA`, `Mellow`), và Omni multimodal models (`Qwen2.5-Omni 3B`, `Qwen2.5-Omni 7B`).\n- **Đánh giá tự động**: Sử dụng LLM-as-judge (`Gemma3-27B`) để khớp câu trả lời vào các lựa chọn trắc nghiệm (đạt 91% độ đồng thuận với chuyên gia con người trong kiểm định mẫu 100 câu, vượt trội so với regex matcher 43% và NV-Embed-v2 68%).\n- **Benchmarks mở rộng**: Đánh giá khả năng tổng quát trên MMAU-Pro (Speech) và MMAR (Speech, Sound-Speech, Overall).",
+    "results": [
+     "Trên ParA-Bench (Overall Accuracy): ParA-LLM đạt 43.53%, vượt mô hình thứ nhì Voxtral (38.80%), GPT-4o-Audio (36.03%), Audio Flamingo 3 (35.50%), Qwen2 Audio (28.05%), R1-AQA (22.27%), Qwen2.5 Omni 7B (14.47%), Qwen2.5 Omni 3B (13.55%) và Mellow (3.67%).",
+     "Trên hạng mục Speaker-Speech của ParA-Bench: ParA-LLM đạt độ chính xác cao nhất với 55.85%, vượt Voxtral (51.95%), Qwen2 Audio (34.80%) và GPT-4o-Audio (32.00%).",
+     "Trên hạng mục Mixed của ParA-Bench: ParA-LLM đạt 39.95%, dẫn đầu so với Voxtral (35.25%) và GPT-4o-Audio (34.25%).",
+     "Trên hạng mục Acoustic của ParA-Bench: ParA-LLM đạt 34.80%, xếp sau GPT-4o-Audio (41.85%) và Audio Flamingo 3 (38.75%).",
+     "Cải thiện trên benchmark MMAU-Pro (Speech): Qwen2-Audio-Instruct gốc đạt 40.96% -> sau Stage 1 đạt 41.98% -> sau Stage 2 (ParA-LLM) đạt 42.09% (+1.13% tuyệt đối).",
+     "Cải thiện trên benchmark MMAR (Speech): Qwen2-Audio-Instruct gốc đạt 35.37% -> sau Stage 1 đạt 37.76% -> sau Stage 2 (ParA-LLM) đạt 42.86% (+7.49% tuyệt đối).",
+     "Cải thiện trên benchmark MMAR (Sound-Speech): Qwen2-Audio-Instruct gốc đạt 40.83% -> sau Stage 1 đạt 45.87% -> sau Stage 2 (ParA-LLM) đạt 46.33%.",
+     "Cải thiện trên benchmark MMAR (Overall): Qwen2-Audio-Instruct gốc đạt 36.00% -> sau Stage 1 đạt 39.40% -> sau Stage 2 (ParA-LLM) đạt 39.70% (+3.70% tuyệt đối)."
+    ],
+    "limitations": "- Ở khía cạnh âm học đơn thuần (Acoustic category), ParA-LLM (34.80%) vẫn bị tụt lại phía sau GPT-4o-Audio (41.85%) và Audio Flamingo 3 (38.75%).\n- Độ chính xác tổng thể (43.53%) vẫn còn khoảng cách rất xa so với năng lực nhận thức của con người (78% trong nghiên cứu mẫu 100 câu).\n- Phần lớn đặc tính âm học được xây dựng thông qua mô phỏng (acoustic simulation engine bằng cách chập RIRs và trộn tạp âm) thay vì thu thập hoàn toàn từ các môi trường tự nhiên ngoài thực tế.\n- Tài liệu không nêu chi tiết các khía cạnh latency, throughput khi inference hoặc chi phí triển khai thực tế.",
+    "takeaways": "- Các cơ chế suy luận tổng quát (như GRPO, Chain-of-Thought trong R1-AQA, Mellow) hoặc việc tích hợp đa phương thức (Omni models) không tự động chuyển hóa thành năng lực phân tích âm học và cận ngôn ngữ tốt; các tác vụ này bắt buộc cần có dữ liệu và curriculum learning chuyên biệt.\n- Phương pháp đào tạo phân tầng từ đơn thuộc tính (atomic) sang đa thuộc tính (multi-attribute) giúp củng cố kiến thức nền tảng trước khi giải quyết lập luận kết hợp phức tạp, đồng thời đem lại lợi ích chuyển giao tích cực cho các benchmark âm thanh rộng hơn (MMAU-Pro, MMAR).\n- Năng lực hiểu âm học của mô hình có thể ứng dụng ngược lại vào hạ tầng sinh âm thanh: ví dụ dùng ParA-LLM sinh prompt văn bản mô tả RIRs để huấn luyện mô hình Text-to-IR (Text-to-Impulse-Response) như Gencho.",
+    "strengths": [
+     "Hệ thống phân loại 22 đặc trưng âm học rõ ràng",
+     "Tập dữ liệu quy mô lớn (>1.2M Audio-QA)",
+     "Curriculum 2 giai đoạn cải thiện nhất quán các benchmark",
+     "ParA-Bench xây dựng chặt chẽ, giảm thiểu data contamination",
+     "Mở rộng ứng dụng downstream thành công sang Text2IR"
+    ],
+    "weaknesses": [
+     "Điểm số Acoustic kém hơn GPT-4o-Audio",
+     "Khoảng cách lớn so với độ chính xác con người",
+     "Phụ thuộc lớn vào âm thanh mô phỏng chập RIR",
+     "Mô hình Omni và Reasoning suy giảm hiệu năng nặng"
+    ],
+    "context": "Nishit Anand và các cộng tác viên thuộc Adobe Research, University of Maryland (College Park) và OpenAI; công bố tại Interspeech 2026."
+   },
+   "fulltext_source": "PDF",
+   "rank": 4
+  },
+  {
+   "id": "isca:interspeech_2026/ramapuram26_interspeech",
+   "kind": "paper",
+   "title": "Scaling Properties of Continuous Diffusion Spoken Language Models",
+   "url": "https://www.isca-archive.org/interspeech_2026/ramapuram26_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Jason Ramapuram",
+    "Eeshan Gunesh Dhekane",
+    "Amitis Shidani",
+    "Dan Busbridge",
+    "Bogdan Mazoure",
+    "Zijin Gu",
+    "Russ Webb",
+    "Tatiana Likhomanenko",
+    "Navdeep Jaitly"
+   ],
+   "abstract": "Speech-only spoken language models (SLMs) lag behind text and text-speech models in performance, with recent discrete autoregressive (AR) SLMs indicating significant computational and data demands to match text models. Since discretizing continuous speech for AR creates bottlenecks, we explore whether continuous diffusion (CD) SLM is more viable. To quantify the SLMs linguistic quality, we introduce the phoneme Jensen-Shannon divergence (pJSD) metric. Our analysis reveals CD SLMs, mirroring AR behavior, exhibit scaling laws for validation loss and pJSD, and show optimal token-to-parameter ratios decreasing as compute scales. However, for the latter, loss becomes insensitive to choice of data and model sizes, showing potential for fast inference. Scaling CD SLMs to 16B parameters with tens of millions of hours of conversational data enables generation of emotive, prosodic, multi-speaker, multilingual speech, though achieving long-form coherence remains a significant challenge.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/ramapuram26_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "Speech Understanding",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 4,
+    "technical": 4,
+    "impact": 4,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Nghiên cứu mang tính tiên phong khi chuyển hướng từ discrete autoregressive sang continuous diffusion spoken language models ở quy mô lớn và đề xuất metric pJSD mới.",
+    "credibility": "Bài báo xuất phát từ nhóm tác giả uy tín trong mảng speech/ML và được công bố tại hội nghị danh giá Interspeech (ISCA Archive).",
+    "technical": "Độ sâu kỹ thuật cao với việc khảo sát tỉ mỉ scaling laws, tối ưu tỷ lệ token-to-parameter và huấn luyện continuous diffusion ở quy mô 16B parameters trên hàng chục triệu giờ dữ liệu.",
+    "impact": "Mở ra tiềm năng lớn cho hướng tiếp cận continuous diffusion thay thế discrete tokens trong SLM, dù chưa có mã nguồn mở và còn rào cản về long-form coherence.",
+    "evidence": "Cung cấp bằng chứng thực nghiệm ở quy mô lớn trên loss và metric pJSD, nhưng văn bản tóm tắt chưa đưa ra các con số benchmark định lượng cụ thể hay tài nguyên mở."
+   },
+   "total": 70.0,
+   "summary": {
+    "tldr": "Nghiên cứu đầu tiên thiết lập quy luật mở rộng (scaling laws) cho mô hình ngôn ngữ tiếng nói khuếch tán liên tục (Continuous Diffusion Spoken Language Models - CD SLM) trực tiếp từ đặc trưng log-mel filterbanks không cần giám sát văn bản. Nhóm tác giả giới thiệu thước đo phoneme Jensen-Shannon divergence (pJSD) để định lượng năng lực ngôn ngữ và chứng minh rằng dù CD SLM mở rộng tới 16 tỷ tham số tạo ra giọng nói biểu cảm, đa người nói và đa ngữ rất tốt, việc đạt được sự mạch lạc ngôn ngữ dài hạn (long-form coherence) vẫn là rào cản lớn.",
+    "problem": "Các mô hình ngôn ngữ thuần tiếng nói (speech-only SLM) hiện tụt hậu xa so với mô hình ngôn ngữ văn bản (chỉ tương đương năng lực ngôn ngữ của trẻ 3-4 tuổi). Hướng tiếp cận chủ đạo là rời rạc hóa biểu diễn SSL thành speech tokens rồi huấn luyện autoregressive (AR) đòi hỏi chi phí tính toán tăng vọt theo cấp số nhân và tạo ra nút thắt thông tin. Tín hiệu tiếng nói vốn mang tính liên tục, do đó việc tìm hiểu xem khuếch tán liên tục (continuous diffusion) có tuân theo scaling laws khả thi hay không là câu hỏi cốt lõi.",
+    "method": "Mô hình nhận đầu vào là 80 chiều log-mel filterbanks ở tần số lấy mẫu 24kHz (khung 50ms, bước nhảy 12.5ms, tương đương 80 Hz, dài gấp 20 lần chuỗi token văn bản tương đương). Kiến trúc sử dụng Multimodal Diffusion Transformer (MM-DiT) xử lý song song hai luồng: context (10 giây audio) và continuation (30 giây audio thêm nhiễu Gaussian), chia sẻ không gian self-attention 2 chiều nhưng độc lập hoàn toàn ở AdaLN-zero, MLP và projection. Mục tiêu huấn luyện là v-prediction với hàm mất mát min-SNR weighted loss. Nhóm tác giả đề xuất bỏ qua bước dropout context khi huấn luyện CFG để tiết kiệm FLOPs, thay vào đó dùng chuỗi số 0 (audio silence) làm unconditional context ở bước suy luận. Để đánh giá năng lực ngôn ngữ ('languageness') mà không cần tính sequence log-likelihood dạng AR, nghiên cứu đưa ra chỉ số phoneme Jensen-Shannon divergence (pJSD) dựa trên phân phối n-gram âm vị (nhận dạng qua Allosaurus và bộ tổng hợp HiFiGAN). Đối với scaling laws, công thức mặt tham số mở rộng giữ số mũ ngoài $\\gamma$ để đảm bảo độ ổn định và áp dụng phương pháp fused two-stage kết hợp hàm sigmoid để ánh xạ từ loss sang metric hạ nguồn. Ở quy mô 16B tham số, mô hình tích hợp thêm Perceiver downsampling ngữ cảnh đặc trưng trích xuất từ Whisper-large-v3 encoder (đóng băng) cho 300s context để sinh 60s continuation.",
+    "setup": "Dữ liệu huấn luyện là SpeechCrawl được lọc các đoạn audio trên 5 phút có ít nhất 99% tiếng Anh bằng WhisperX (tổng cộng 7 triệu giờ cho các thí nghiệm scaling; hàng chục triệu giờ tiếng nói hội thoại đa ngữ cho bản 16B). Đánh giá trên 10 mức ngân sách tính toán C từ 10^18 đến 10^21 FLOPs, kích thước mô hình từ ~0.6M (1 layer) đến ~11.5B (27 layers) với tỷ lệ demb/L = 128. Hyperparameters được quét trên mô hình cơ sở ~36M và chuyển giao bằng muP cùng completeP. Đánh giá chất lượng cảm nhận qua DNSMOS (P.808, P.835), NISQA MOS và Meta Audiobox Aesthetics (CE, CU, PQ, PC).",
+    "results": [
+     "Khớp scaling law cho validation loss đạt Train MRE 0.49% và Test MRE 0.80% với các hệ số: E = 0.0055, A = 0.0638, B = 29.7667, alpha = 0.3995, beta = 0.5644, gamma = 0.7051.",
+     "Tỷ lệ token trên tham số tối ưu r*(C) = D*/N* giảm dần khi ngân sách tính toán tăng. Ở C = 10^21 FLOPs, r* đạt 245 (tương đương r*_text xấp xỉ 12.25, thấp hơn đáng kể so với mức ~20 của AR LLM văn bản). Khi C > 5.64 x 10^19 FLOPs, r* giảm xuống dưới 400.",
+     "Độ cong kappa của đường isoFLOP tại điểm tối ưu giảm mạnh nhiều bậc độ lớn khi compute tăng: phạm vi kích thước mô hình (delta N) và dữ liệu (delta D) giữ cho loss nằm trong khoảng dung sai epsilon = 0.001 mở rộng tới khoảng 2 bậc độ lớn, mở ra vùng đánh đổi linh hoạt cho suy luận nhanh.",
+     "Thước đo pJSD thể hiện hành vi isoFLOP chuẩn; mô hình n-gram bậc cao khớp chặt chẽ hơn với loss (5-gram pJSD đạt test MRE ~1.04% so với ~8.21% của 1-gram).",
+     "Chỉ số cảm nhận âm học (DNSMOS, NISQA, Audiobox PQ/PC) bão hòa rất nhanh về ngưỡng đường cơ sở dữ liệu thực (real-data baseline) mà không tuân theo scaling law; trong khi đó hai thành phần nội dung Audiobox (Content Enjoyment và Content Usefulness) tuân theo scaling law nhưng tiệm cận dưới ngưỡng sai số +/- sigma của dữ liệu thực.",
+     "Mô hình 16B vượt qua rào cản irreducible loss E = 0.0055 của kiến trúc gốc, đạt validation loss 0.0047, pJSD 0.1770 (với CFG = 4) so với 0.2096 của mô hình tối ưu ở mức 10^21 FLOPs."
+    ],
+    "limitations": "Mặc dù mở rộng lên 16B tham số và huấn luyện trên hàng chục triệu giờ, mô hình vẫn thất bại trong việc đạt được tính mạch lạc ngôn ngữ dài hạn (long-form linguistic coherence). Tín hiệu log-mel 80 Hz làm tăng độ dài chuỗi gấp 20 lần so với token văn bản. Các thước đo thẩm mỹ nội dung ngoại suy cho thấy không thể chạm tới chất lượng dữ liệu thực chỉ bằng cách tăng compute thuần túy.",
+    "takeaways": "Mô hình khuếch tán liên tục trực tiếp trên log-mel filterbanks là giải pháp khả thi thay thế mã hóa rời rạc cho SLM, giúp loại bỏ lỗi nén codec và tận dụng compute hiệu quả hơn ở quy mô lớn nhờ isoFLOP phẳng. Tuy nhiên, việc thiếu hụt giám sát văn bản hoặc thiếu biểu diễn ngữ nghĩa dày đặc khiến mô hình tiếng nói thuần túy khó tự hình thành cấu trúc ngôn ngữ phức tạp; các kỹ sư cần cân nhắc biểu diễn dữ liệu mới, inductive bias mạnh hơn hoặc chuyển dịch sang mô hình lai speech-text.",
+    "strengths": [
+     "Scaling laws hoàn chỉnh đầu tiên cho CD SLM",
+     "Thước đo pJSD định lượng languageness không phụ thuộc likelihood",
+     "Phát hiện isoFLOP phẳng tạo lợi thế suy luận",
+     "Huấn luyện quy mô lớn tới 16B tham số"
+    ],
+    "weaknesses": [
+     "Chưa đạt được tính mạch lạc ngôn ngữ dài hạn",
+     "Chất lượng thẩm mỹ nội dung bão hòa dưới ngưỡng thực",
+     "Độ dài chuỗi lớn gấp 20 lần văn bản",
+     "Tốc độ lấy mẫu diffusion chậm hơn một bước AR"
+    ],
+    "context": "Nghiên cứu từ nhóm tác giả thuộc Apple, công bố tại hội nghị Interspeech 2026."
+   },
+   "fulltext_source": "PDF",
+   "rank": 5
+  },
+  {
+   "id": "isca:interspeech_2026/rajaa26_interspeech",
+   "kind": "paper",
+   "title": "DualTurn: Learning Turn-Taking from Dual-Channel Generative Speech Pretraining",
+   "url": "https://www.isca-archive.org/interspeech_2026/rajaa26_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Shangeth Rajaa"
+   ],
+   "abstract": "Speech-to-speech models handle turn-taking naturally but offer limited tool-calling and reasoning, while production ASR-LLM-TTS pipelines have these capabilities yet rely on silence timeouts that make turn-taking unnatural. We present DualTurn, which narrows this gap through generative pretraining on dual-channel conversational audio. The model autoregressively generates both speakers' future audio, learning conversational dynamics without any labels, and is then fine-tuned to predict interpretable turn-taking signals that map directly to agent actions. DualTurn monitors both channels continuously, anticipating turn boundaries and producing five agent actions. On standard benchmarks, DualTurn (0.5B) outperforms both VAP on agent action prediction (wF1 0.633 vs. 0.389) and a 3.1B audio-text model on word-level prediction (AUC 0.930 vs. 0.880), anticipating turns earlier with fewer interruptions while running in real time on a CPU.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/rajaa26_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "Voice Agent",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 4,
+    "technical": 4,
+    "impact": 4,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Ý tưởng dùng generative pretraining trên audio hội thoại dual-channel để học conversational dynamics không nhãn rồi fine-tune dự đoán turn-taking actions là hướng tiếp cận mới mẻ và sáng tạo.",
+    "credibility": "Bài báo được công bố tại Interspeech thông qua ISCA Archive, là hội nghị hàng đầu và có quy trình peer-review uy tín trong lĩnh vực xử lý tiếng nói.",
+    "technical": "Thiết kế kỹ thuật chặt chẽ với mô hình autoregressive 0.5B xử lý đồng thời hai kênh âm thanh, ánh xạ ra 5 agent actions và tối ưu hóa để chạy real-time trên CPU.",
+    "impact": "Giải quyết điểm nghẽn lớn về độ trễ và sự mất tự nhiên của turn-taking trong các pipeline Voice Agent (ASR-LLM-TTS) thương mại hiện nay.",
+    "evidence": "Cung cấp kết quả định lượng thuyết phục vượt trội baselines (wF1 và AUC so với VAP và mô hình 3.1B), tuy nhiên chưa cung cấp liên kết mã nguồn mở hoặc trọng số mô hình."
+   },
+   "total": 70.0,
+   "summary": {
+    "tldr": "DualTurn là mô hình turn-taking 0.5B tham số áp dụng pretraining tự hồi quy sinh tiếng nói 2 kênh (dual-channel generative speech pretraining) để giám sát đồng thời cả hai người nói, sau đó finetune để dự đoán 6 tín hiệu turn-taking và ánh xạ thành 5 hành động của agent. Mô hình giải quyết hạn chế của silence timeout trong pipeline ASR-LLM-TTS, dự đoán biên lượt nói sớm hơn và hỗ trợ phát hiện backchannel trong khi vẫn chạy real-time trên CPU.",
+    "problem": "Các pipeline đàm thoại dạng module (ASR-LLM-TTS) sở hữu khả năng suy luận và tool-calling nhưng lại phụ thuộc vào silence timeouts hoặc VAD phản ứng thụ động, gây trễ và ngắt lời. Trong khi đó, các mô hình Speech-to-Speech (S2S) nội suy được turn-taking tự nhiên nhưng yếu về reasoning và không thể tách rời để tích hợp vào pipeline modular. Các mô hình hiện có như VAP chỉ dựa trên encoder nhỏ (CPC 5.8M) gộp mọi hiện tượng thành xác suất voice activity nhị phân và không dự đoán được backchannel; các mô hình audio-text khác (lên đến 3.1B) thì quá nặng để triển khai low-latency.",
+    "method": "DualTurn gồm 2 giai đoạn chính và hoạt động streaming liên tục với stride 240 ms (3 frames, KV-caching):\n- **Kiến trúc:** Âm thanh 2 kênh 24 kHz được mã hóa bởi frozen neural codec Mimi (12.5 frames/s). Thay vì dùng discrete codebook indices, mô hình lấy continuous encoder embeddings (512 chiều mỗi kênh) đưa qua MLP riêng của từng kênh, ghép nối lại và chiếu lên hidden dimension (896) của backbone Qwen2.5-0.5B. Đỉnh backbone gắn 12 head phân loại (6 head/kênh, tổng cộng 18 scalar outputs): 4 head 2-layer MLP (896→256, GELU, dropout 0.1) cho tín hiệu thưa (EOT, HOLD, BOT, BC) và 2 head linear projection cho tín hiệu dày (VAD, FVAD với 4 horizon: [0–240ms], [240–480ms], [480–960ms], [960ms–2s]).\n- **Stage-1 (Generative Speech Pretraining):** Backbone và một depth predictor rời (~10.6M tham số) được pretrain tự hồi quy để dự đoán đồng thời token RVQ tiếp theo của cả hai kênh người nói. Sau khi xong, depth predictor bị loại bỏ hoàn toàn.\n- **Stage-2 (Turn-Taking Signal Prediction):** Giữ backbone và finetune LoRA cùng 12 classification heads (bỏ generative loss). Nhãn 6 tín hiệu hoàn toàn tự giám sát qua voice activity alignment (dùng lookahead 4s thay vì 1s như VAP để bao phủ các lượt chuyển đổi có pause > 1s). Áp dụng Focal loss cho tín hiệu thưa và BCE cho VAD/FVAD, kết hợp làm mượt nhãn bằng phân phối asymmetric Gaussian (sigma=3 frames trước, sigma=1 frame sau) để dự đoán sớm tới 240 ms.\n- **Suy luận hành động (Agent Action Inference):** 12 tín hiệu được ánh xạ thành 5 hành động của agent (Start-talking - ST, Continue-listening - CL, Start-listening - SL, Continue-talking - CT, Backchannel - BC) thông qua heuristic hoặc mô hình multinomial Logistic Regression (LR) probe.",
+    "setup": "Pretraining trên ~453 giờ audio đàm thoại 2 kênh gồm otoSpeech (289 giờ, 1.125 cuộc hội thoại full-duplex online ở 24kHz) và Switchboard (220 giờ ở 8kHz). Đánh giá chính trên tập test 138-session của Switchboard và tập test rời 113-session của otoSpeech. Phần cứng huấn luyện gồm 1 GPU A100 40GB; Stage-1 huấn luyện LoRA (lr=3e-4) sau đó full finetuning LLM (lr=1e-5), Stage-2 finetune LoRA và head (lr=1e-4). Baselines gồm VAP (5.8M tham số, CPC) và mô hình audio+text tốt nhất của Wang et al. (3.1B tham số, RedPajama + HuBERT). Metrics: wF1 (weighted F1 5 lớp), BC F1, Ant@-240 (AUC shift/hold tại thời điểm 240 ms trước offset), các metric khung hình VAP protocol (S/H, S/L, S-P, BC-P) và AUC/EER word-level.",
+    "results": [
+     "Dự đoán hành động agent trên Switchboard: DualTurn (LoRA) đạt wF1 0.633, BC F1 0.349, Ant@-240 0.874; vượt trội so với VAP (LR-6) đạt wF1 0.389, BC F1 0.000, Ant@-240 0.780.",
+     "Dự đoán hành động agent trên otoSpeech: DualTurn (LoRA) đạt wF1 0.707, BC F1 0.512, Ant@-240 0.848; so với VAP (LR-6) chỉ đạt wF1 0.461, BC F1 0.000, Ant@-240 0.719.",
+     "Word-level turn prediction trên Switchboard: Chỉ riêng tín hiệu EOT (0 tham số bổ sung) đạt Avg AUC 0.914 (EER 15.2%), DualTurn Heuristic đạt 0.930 (EER 13.2%), và DualTurn LR-probe đạt Avg AUC 0.963 (EER 9.7%); tất cả đều vượt qua hệ thống audio+text 3.1B của Wang et al. (Avg AUC 0.880, EER 19.3%).",
+     "Giao thức đánh giá frame-level gốc của VAP (cửa sổ 1s) trên Switchboard: DualTurn LoRA đạt S/H 0.985, S/L 0.979, S-P 0.764, BC-P 0.864; so với VAP đạt S/H 0.843, S/L 0.916, S-P 0.720, BC-P 0.838.",
+     "Tốc độ phản hồi và ngắt lời: DualTurn phản ứng tại median -360 ms so với điểm kết thúc lượt nói (sớm hơn 220 ms so với median -140 ms của VAP); nhầm lẫn ST-for-CL giảm từ 27.4% xuống 22.4%, ngắt lời (interruptions) giảm 5 điểm phần trăm; ST F1 đạt 0.829 (so với VAP 0.808).",
+     "Độ trễ suy luận: Bản unquantized có độ trễ ~78 ms trên CPU đơn và 27 ms trên GPU A100."
+    ],
+    "limitations": "Tập dữ liệu tiền huấn luyện còn giới hạn ở quy mô 453 giờ, hoàn toàn là tiếng Anh và đàm thoại hai bên (two-party); chưa kiểm thử trên đa ngôn ngữ, hội thoại nhiều bên (multi-party), đa ngữ điệu và đa domain. Ngoài ra, độ chính xác (precision) dự đoán BC vẫn thấp (0.282) do tần suất BC trong dữ liệu đánh giá dưới 8%, dẫn đến nhiều false positives, vì vậy tín hiệu BC chưa thể làm trigger độc lập khi triển khai.",
+    "takeaways": "Pretraining sinh tiếng nói tự hồi quy 2 kênh đóng vai trò như 'người thầy' giúp mô hình học các tầng biểu diễn chú ý đa quy mô (multi-scale attention) và nắm bắt ngữ nghĩa/ngữ điệu phục vụ turn-taking, trong khi LLM chỉ là 'bình chứa' dung lượng. Việc dùng continuous embeddings từ codec vượt trội hơn discrete tokens do bảo toàn sắc thái prosody. Kỹ sư có thể tích hợp trực tiếp DualTurn vào trước pipeline ASR-LLM-TTS để stream liên tục trên CPU mà không cần chờ VAD dò khoảng lặng.",
+    "strengths": [
+     "Chạy real-time trên CPU đơn (~78 ms)",
+     "Dự đoán lượt nói sớm hơn VAP 220 ms",
+     "Vượt mô hình 3.1B dù chỉ 0.5B tham số",
+     "Tự giám sát hoàn toàn không cần gán nhãn",
+     "Mở khóa khả năng dự đoán backchannel (BC F1 0.349)"
+    ],
+    "weaknesses": [
+     "Precision dự đoán backchannel còn thấp (0.282)",
+     "Chỉ huấn luyện trên tiếng Anh 2 người nói",
+     "Quy mô dữ liệu pretraining tương đối nhỏ (453 giờ)"
+    ],
+    "context": "Shangeth Rajaa từ Anyreach AI; công bố tại Interspeech 2026."
+   },
+   "fulltext_source": "PDF",
+   "rank": 6
+  },
+  {
+   "id": "arxiv:2609.32607",
+   "kind": "paper",
+   "title": "VoxMem: Benchmarking Multimodal Memory in Large Audio Language Models",
+   "url": "https://arxiv.org/abs/2609.32607",
+   "sources": [
+    "arXiv",
+    "HF Daily Papers"
+   ],
+   "published": "2026-09-26T13:27:12+00:00",
+   "authors": [
+    "Yang Xiao",
+    "Vidhyasaharan Sethu",
+    "Eun-Jung Holden",
+    "Ting Dang"
+   ],
+   "abstract": "Spoken conversational systems must recover information from prior interactions (i.e., memory), yet relevant information in speech extends beyond what was said to who said it, how it was spoken, and what was audible, information that exists only in the audio signal and cannot be recovered from a transcript. Beyond what to remember, memory also demands diverse operations: retrieving a single fact, integrating evidence across turns, tracking an evolving state. Real interactions further unfold across sessions, meaning information accumulates across distinct episodes rather than a single continuous recording. Existing benchmarks fall short on all three dimensions: they focus primarily on lexical content, adopt limited and ad hoc memory operations, and treat memory as a single-session problem. We argue that principled memory evaluation requires jointly characterizing the acoustic evidence to be retained and the operations applied to it, and introduce a taxonomy along these two axes. Building on this taxonomy, we present VoxMem: 3,196 evaluation instances over 34,743 spoken sessions (177 hours) crossing four acoustic evidence types (speech semantics, speaker identity, paralinguistic cues, environmental sound) with four memory operations (information extraction, multi-session reasoning, temporal tracking, and answer refusal), grounded in multi-session histories and stratified across context budgets from 8K to 64K tokens. Evaluating 15 LALMs, no model exceeds 40% at 32K. Models retain what was said far better than who said it, how, or what was audible, a gap that widens for complex operations, grows with history length, and manifests as qualitatively distinct failure modes across evidence types. VoxMem aims to provide a foundation to measure and drive progress on the full scope of spoken conversational memory.",
+   "pdf_url": "https://arxiv.org/pdf/2609.32607",
+   "code_url": "https://github.com/swagshaw/voxmem",
+   "signals": {
+    "hf_upvotes": 52,
+    "github_stars": 0
+   },
+   "topic": "Voice Agent",
+   "promise": 4,
+   "scores": {
+    "novelty": 4,
+    "credibility": 3,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 4
+   },
+   "reasons": {
+    "novelty": "Nghiên cứu tiên phong xây dựng benchmark đánh giá multimodal memory cho LALMs vượt ra ngoài text transcript, bao quát cả speaker identity, paralinguistic cues và environmental sounds qua tương tác multi-session.",
+    "credibility": "Bài báo xuất phát từ nhóm tác giả học thuật có chuyên môn tốt về speech processing nhưng hiện vẫn đang ở dạng preprint trên arXiv.",
+    "technical": "Xây dựng taxonomy chặt chẽ kết hợp 4 loại acoustic evidence với 4 memory operations, xử lý tập dữ liệu 177 giờ và phân tầng context budget từ 8K đến 64K tokens một cách bài bản.",
+    "impact": "Đánh đúng điểm nghẽn quan trọng của voice agents trong việc duy trì ngữ cảnh dài hạn và nhận được 52 upvotes trên Hugging Face, dù tương tác GitHub ban đầu còn khiêm tốn.",
+    "evidence": "Thực nghiệm chi tiết trên 15 LALMs chỉ ra khoảng trống hiệu năng rõ rệt (dưới 40% ở 32K context), phân tích sâu các failure modes và đã công khai mã nguồn."
+   },
+   "total": 66.2,
+   "summary": {
+    "tldr": "VoxMem là benchmark đầu tiên đánh giá bộ nhớ hội thoại đa phiên (multi-session conversational memory) cho Large Audio Language Models (LALMs) trên 34.743 phiên nói chuyện (177 giờ, 3.196 mẫu đánh giá). Benchmark kết hợp 4 loại bằng chứng âm thanh (speech semantics, speaker identity, paralinguistic cues, environmental sound) với 4 thao tác bộ nhớ (information extraction, multi-session reasoning, temporal evolution tracking, answer refusal) trên các cửa sổ ngữ cảnh mở rộng từ 8K đến 64K token.",
+    "problem": "Các hệ thống hội thoại tiếng nói cần ghi nhớ và truy xuất thông tin từ các tương tác trước đó, nhưng thông tin giá trị trong lời nói không chỉ nằm ở nội dung chữ mà còn ở danh tính người nói (who), cách nói (how) và âm thanh môi trường xung quanh (what was audible). Các benchmark hiện tại chỉ tập trung vào ngữ nghĩa văn bản của một bản ghi đơn lẻ, sử dụng các phép toán bộ nhớ rời rạc và bỏ qua tương tác đa phiên (multi-session). Điều này khiến việc đánh giá năng lực ghi nhớ âm thanh thực tế của LALMs bị sai lệch khi mở rộng ngữ cảnh dài.",
+    "method": "VoxMem thiết lập một phân loại 2 trục (taxonomy): trục Acoustic Evidence gồm 4 loại (Speech Semantics, Speaker Identity, Paralinguistic Cues, Environmental Sound) và trục Memory Operations gồm 4 thao tác (IE, MSR, TET, AR). Mỗi instance hội thoại đa phiên bao gồm 3 loại session: Evidence sessions (chứa thông tin cần trả lời), Haystack sessions (nội dung đánh lạc hướng cùng chủ đề/cùng khóa truy xuất), và Filler sessions (trích từ InstructS2S để kéo dài ngữ cảnh). Dữ liệu tiếng nói được tổng hợp bằng Higgs-TTS-3 (4B) với 30 giọng VCTK cố định cho từng persona, các nhãn cận ngôn ngữ (paralinguistic) có phiên bản đối chứng neutral, và âm thanh môi trường từ ESC-50 trộn ở mức 10 dB SNR. Ngữ cảnh được xây dựng lồng nhau (nested scaling) từ 8K, 16K, 32K đến 64K token (đo bằng Whisper encoder ở mức 50 token/giây) với câu hỏi và bằng chứng được giữ cố định. Quy trình lọc chất lượng nghiêm ngặt gồm 2 cấp độ: Session-level validation (QC-1) và Question-family validation (QC-2) qua Gemini-3.7-Flash để loại bỏ rò rỉ ngữ nghĩa qua bản gỡ băng (transcript leakage).",
+    "setup": "Đánh giá 15 LALMs bao gồm 5 mô hình proprietary (Gemini-3.1-Pro, Gemini-3.8-Flash, Gemini-2.5-Pro, Qwen3.8-Omni-Flash, Qwen3.5-Omni-Plus) và 10 mô hình open-weight (Audio-Flamingo-Next, MiMo-Audio-7B, Baichuan-Audio-7B, Ultravox-v0.6-Llama-3.1-8B, FireRedAudio-9B, Phi-4-Multimodal, Gemma-4-E4B-it, MiniCPM-o-4.5, Baichuan-Omni-1.5-7B, Qwen3-Omni-30B-A3B). Tất cả mô hình đều nhận audio trực tiếp qua giao diện native. Đánh giá câu trả lời mở bằng LLM-as-a-judge (Gemini-3.7-Flash) với rubric chi tiết, kiểm chứng chéo với GPT-5.6-Luna (đạt 97,95% agreement). 10/15 mô hình hoàn thành đánh giá ở mức 64K.",
+    "results": [
+     "Ở ngưỡng 32K token, không có mô hình nào vượt quá 40% độ chính xác tổng thể (mô hình cao nhất đạt 38,5%; nhóm proprietary đạt trung bình 33,0% và open-weight đạt 21,9%).",
+     "Khả năng ghi nhớ thông tin phi từ vựng (non-lexical) kém hơn nhiều so với ngữ nghĩa: ở 32K, các mô hình proprietary đạt 55,6% trên Speech Semantics nhưng giảm sâu xuống 32,7% trên Speaker Identity, 20,0% trên Paralinguistic Cues và 21,9% trên Environmental Sound; nhóm open-weight đạt tương ứng 31,6%, 26,7%, 14,5% và 15,5%.",
+     "TET (Temporal Evolution Tracking) sụp đổ nghiêm trọng trên tín hiệu âm thanh: độ chính xác ở 32K đạt 44,5% trên Speech Semantics, 20,0% trên Speaker Identity, nhưng chỉ còn 3,4% trên Paralinguistic Cues và 1,2% trên Environmental Sound.",
+     "Tỉ lệ từ chối trả lời (Answer Refusal - AR) cao hơn trên các câu hỏi Paralinguistic (34,3%) và Environmental (34,2%) so với Speech Semantics (19,9%) và Speaker Identity (16,2%), chủ yếu do mô hình không xử lý được tín hiệu âm thanh ngay cả khi có bằng chứng chứ không phải do nhận biết bằng chứng bị thiếu.",
+     "Khi mở rộng ngữ cảnh từ 8K lên 64K, độ chính xác giảm nhất quán trên tất cả mô hình và bằng chứng (tỉ lệ giữ lại retention: Speech Semantics 0,703, Paralinguistic Cues 0,698, Speaker Identity 0,665, Environmental Sound 0,632; độ chính xác tổng thể rơi từ 30,6% xuống 21,0% với mức giảm 9,6 điểm phần trăm).",
+     "Phân tích lỗi (Error Analysis) ở 64K trên 2.213 câu trả lời sai có cam kết đáp án: lỗi IE tập trung vào thất bại liên kết Binding/Association (46%), lỗi TET chiếm đa số là thất bại định vị Localization (55%); xét theo bằng chứng, lỗi Speaker chủ yếu là Binding (48%), lỗi Paralinguistic chủ yếu là Localization (63%), và lỗi Environmental phân bổ giữa Localization (41%) và Unsupported Answer (39%)."
+    ],
+    "limitations": "Benchmark sử dụng giọng đọc tổng hợp (Higgs-TTS-3) kết hợp mẫu âm thanh nhân tạo từ ESC-50 thay vì các cuộc hội thoại tự nhiên ngoài đời thực; lượt trả lời của trợ lý ảo được đưa vào dưới dạng text thay vì full-duplex speech-to-speech; loại trừ tác vụ Information Extraction đối với Speech Semantics đơn thuần.",
+    "takeaways": "Mở rộng cửa sổ ngữ cảnh đơn thuần không giải quyết được bài toán hội thoại tiếng nói dài hạn. LALMs hiện tại nhớ tốt nội dung được nói nhưng gặp trở ngại nghiêm trọng trong việc ghi nhớ ai nói, giọng điệu ra sao và môi trường âm thanh xung quanh. Kỹ sư xây dựng hệ thống voice assistant cần thiết kế các cơ chế lưu trữ trạng thái rõ ràng (stateful modeling), bộ nhớ ngoài (external episodic memory) và cơ chế liên kết danh tính người nói qua các phiên thay vì dồn toàn bộ chuỗi audio dài vào context window.",
+    "strengths": [
+     "Taxonomy 2 trục hoàn chỉnh và chặt chẽ",
+     "Thiết kế đa phiên có kiểm soát scaling ngữ cảnh",
+     "Chống rò rỉ thông tin qua transcript xuất sắc",
+     "Quy trình phân loại và kiểm định lỗi chi tiết"
+    ],
+    "weaknesses": [
+     "Dữ liệu tiếng nói và môi trường là nhân tạo",
+     "Lượt trả lời của assistant vẫn là dạng text",
+     "Chưa đánh giá tương tác full-duplex thời gian thực"
+    ],
+    "context": "Không được nêu trong tài liệu (arXiv preprint arXiv:2609.32607)."
+   },
+   "fulltext_source": "arXiv HTML",
+   "rank": 7
+  },
+  {
+   "id": "arxiv:2609.33645",
+   "kind": "paper",
+   "title": "Pruned CTC for Memory-Efficient Large-Vocabulary ASR Training",
+   "url": "https://arxiv.org/abs/2609.33645",
+   "sources": [
+    "arXiv",
+    "HF Daily Papers"
+   ],
+   "published": "2026-09-27T15:10:59+00:00",
+   "authors": [
+    "Yifan Yang",
+    "Xiaoyu Yang",
+    "Zengrui Jin",
+    "Xian Shi",
+    "Yuxuan Wang",
+    "Yu Xi",
+    "Ziyang Ma",
+    "Qi Chen",
+    "Ruiyang Xu",
+    "Hui Wang",
+    "Dongchao Yang",
+    "Jin Xu",
+    "Xie Chen"
+   ],
+   "abstract": "Connectionist temporal classification (CTC) naturally supports offline and streaming speech recognition with utterance-level supervision, but conventional implementations materialize frame-by-vocabulary activations in memory, making CTC training with native LLM vocabularies prohibitively memory-intensive. A key observation is that every valid CTC alignment uses only target tokens and blank, and their union across a batch typically forms a small subset of the full vocabulary. We introduce Pruned CTC, which restricts alignment computation to this subset while retaining full-vocabulary normalization. We prove that this vocabulary reduction is exactly equivalent to full-vocabulary CTC in loss and gradients. Head-and-loss activation memory no longer scales linearly with vocabulary size. We further apply finite-beam alignment pruning. Building on Pruned CTC, we develop LLM-CTC, which adapts pretrained LLMs for non-autoregressive ASR while retaining causal attention and native vocabularies, and extend it to bounded-history streaming, avoiding chunk-level speech--text alignments. Experiments show that, with Zipformer-M encoder and 180K vocabulary, Pruned CTC reduces full-step memory by 5.1$\\times$ with only 17% step-time overhead. Across three corpora, it matches standard CTC accuracy. On GigaSpeech, across six Qwen3 model sizes from 0.6B to 32B, LLM-CTC remains within 7% relative WER of LLM-CE with 7 to 10$\\times$ faster recognition; when fine-tuning Qwen3-ASR for bounded-history streaming, LLM-CTC remains within 3% relative WER of matched offline models on the test set. Together, these results establish Pruned CTC as a scalable sequence objective for native-vocabulary LLM ASR across offline and streaming settings.",
+   "pdf_url": "https://arxiv.org/pdf/2609.33645",
+   "code_url": "https://github.com/yfyeung/PrunedCTC",
+   "signals": {
+    "hf_upvotes": 3,
+    "github_stars": 21
+   },
+   "topic": "ASR",
+   "promise": 4,
+   "scores": {
+    "novelty": 4,
+    "credibility": 3,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 4
+   },
+   "reasons": {
+    "novelty": "Ý tưởng giới hạn không gian alignment về tập hợp target tokens của batch trong khi vẫn đảm bảo tương đương toán học chính xác về loss và gradient là một giải pháp rất sáng tạo để mở rộng CTC cho native LLM vocabularies.",
+    "credibility": "Bài báo là preprint trên arXiv từ nhóm tác giả có uy tín trong cộng đồng speech (như Xie Chen, Jin Xu), tuy nhiên hiện chưa qua bình duyệt tại hội nghị hay tạp chí chính thức.",
+    "technical": "Nghiên cứu có chiều sâu kỹ thuật cao khi chứng minh tính tương đương toán học của gradient, kết hợp finite-beam pruning và hiện thực hóa thành công LLM-CTC cho cả kiến trúc offline lẫn bounded-history streaming.",
+    "impact": "Phương pháp giải quyết nút thắt bộ nhớ quan trọng cho non-autoregressive LLM ASR và có tiềm năng ứng dụng thực tế cao, dù các chỉ số tương tác cộng đồng ban đầu còn khiêm tốn (21 GitHub stars, 3 HF upvotes).",
+    "evidence": "Thực nghiệm được thực hiện kỹ lưỡng với kết quả định lượng rõ ràng (giảm 5.1x memory, kiểm thử trên 3 corpus và 6 kích thước Qwen3 lên tới 32B) cùng mã nguồn công khai."
+   },
+   "total": 66.2,
+   "summary": {
+    "tldr": "Pruned CTC là phương pháp huấn luyện CTC tiết kiệm bộ nhớ cho từ vựng lớn (native LLM vocabularies) bằng cách gom nhóm từ vựng và tính alignment trên tập con xuất hiện trong batch kết hợp normalization toàn từ vựng. Nhóm tác giả áp dụng phương pháp này để phát triển LLM-CTC (offline và streaming), giúp LLM giải mã non-autoregressive trực tiếp trên causal backbone với tốc độ nhanh hơn 7-10 lần so với autoregressive CE mà chất lượng nhận dạng gần như tương đương.",
+    "problem": "Huấn luyện CTC với từ vựng gốc lớn của LLM (thường trên 150k token) yêu cầu lưu ma trận kích hoạt khổng lồ frame-by-vocabulary (M x V), gây cạn kiệt VRAM GPU. Ngoài ra, các mô hình LLM ASR hiện nay chủ yếu dùng Cross-Entropy autoregressive (LLM-CE) khiến tốc độ giải mã tuần tự rất chậm, trong khi việc mở rộng sang streaming ASR thường phụ thuộc vào căn chỉnh mốc thời gian chunk-level giữa âm thanh và văn bản rất phức tạp.",
+    "method": "Pruned CTC tách biệt quá trình tính alignment với normalizer trên toàn bộ từ vựng: (1) Rút gọn từ vựng: Với mỗi batch, tập hợp các nhãn mục tiêu và nhãn blank tạo thành tập U (kích thước K). Toàn bộ các class còn lại O = V \\ U được gom thành một token duy nhất ('other') thông qua log-sum-exp, đảm bảo normalizer không đổi. Tác giả chứng minh toán học (Proposition 1) rằng phương pháp này tương đương tuyệt đối về loss và gradient bậc một so với standard CTC. (2) Recomputed dense gradient kết hợp tính toán theo chunk (chunk width C=4096) và FP64 normalization giúp bộ nhớ activation phần head/loss giảm từ Theta(MV) xuống Theta(MK + M) mà không làm tràn bộ nhớ. (3) Finite-beam alignment pruning thông qua k2 với beam beta=100 giúp cắt giảm không gian đồ thị alignment với khối lượng xác suất bị loại bỏ cực nhỏ (< 10^-11). (4) Mô hình LLM-CTC: Sử dụng kiến trúc causal LLM với cơ chế Query-readout (nối thêm Tn vector query học được vào sau Tn speech embedding để query thấy toàn bộ ngữ cảnh âm thanh dưới causal mask), đóng băng LLM head và học thêm blank offset scalar eta. (5) Streaming LLM-CTC: Mở rộng Query-readout cho từng chunk 2 giây với ngữ cảnh quá khứ h giây, tái sử dụng KV cache và huấn luyện trực tiếp với nhãn mức utterance mà không cần gán nhãn chunk-level.",
+    "setup": "Đánh giá tài nguyên trên NVIDIA H100 80GB và A100 80GB GPU. Mô hình encoder-based dùng Zipformer-M trên GigaSpeech (10.000 giờ), LibriSpeech (960 giờ) và AISHELL-1 (170 giờ) với kích thước từ vựng từ 500 đến 180.000 classes. Mô hình LLM-based SPEAR-Qwen3 (encoder SPEAR-XLarge v2 đóng băng kết hợp Qwen3 các kích cỡ 0.6B, 1.7B, 4B, 8B, 14B, 32B, fine-tune bằng LoRA r=64) trên GigaSpeech với kích thước từ vựng V=151.936. Streaming đánh giá trên Qwen3-ASR (0.6B và 1.7B) với chunk 2 giây và h thuộc {2, 4, 8} giây. Metrics: WER (%), CER (%), RTF, peak memory (GiB), step time.",
+    "results": [
+     "Tiết kiệm bộ nhớ Encoder-ASR (Zipformer-M, V=180k, M=16k): Pruned CTC giảm bộ nhớ head/loss 33.3x (từ 43.0 GiB xuống 1.29 GiB); giảm bộ nhớ toàn bộ training step 5.1x (từ 51.7 GiB xuống 10.1 GiB) với runtime overhead chỉ 17%. Standard CTC bị OOM ở M=32k và M=64k với V=180k trong khi Pruned CTC hoàn thành với 18.2 GiB và 34.5 GiB.",
+     "Tiết kiệm bộ nhớ LLM-CTC (SPEAR-Qwen3 trên A100): Trên bản 8B, giảm bộ nhớ head/loss 25.7x (từ 29.21 GiB xuống 1.14 GiB) và full-step giảm 38.2% (từ 56.06 GiB xuống 34.67 GiB, time +7.5%). Trên bản 14B, full-step giảm 27.3% (từ 72.71 GiB xuống 52.84 GiB, time +5.6%).",
+     "Độ chính xác tương đương Standard CTC trên 3 bộ dữ liệu: LibriSpeech test-clean 2.52% vs 2.52%, test-other 6.02% vs 6.02%; GigaSpeech dev 11.25% vs 11.23%, test 11.24% vs 11.27%; AISHELL-1 dev CER 4.49% vs 4.47%, test CER 4.79% vs 4.80%.",
+     "Hiệu năng Offline LLM-CTC vs LLM-CE trên GigaSpeech: LLM-CTC duy trì khoảng cách WER tương đối trong vòng 7% so với LLM-CE trên cả 6 kích cỡ (32B: 9.94% vs 9.41% test WER; 0.6B: 10.57% vs 9.88%), trong khi giảm RTF từ 7.2x đến 10.3x (32B: RTF 0.0150 vs 0.1546; 0.6B: RTF 0.0099 vs 0.0724).",
+     "Hiệu năng Streaming LLM-CTC (Qwen3-ASR): Test WER của streaming kém dưới 3% tương đối so với offline trên cả 0.6B (offline 10.73% vs streaming h=8s 10.99%) và 1.7B (offline 10.16% vs streaming h=8s 10.32%)."
+    ],
+    "limitations": "Huấn luyện đòi hỏi FP64 cho bước tính normalizer để tránh lỗi hủy số (cancellation error) khi pv(m) xấp xỉ occupancy; thời gian chạy mỗi step tăng nhẹ từ 5.6% đến 17% do recomputation; bộ nhớ tổng của các model khổng lồ vẫn bị giới hạn bởi các layer backbone và trạng thái optimizer chứ không chỉ riêng CTC head.",
+    "takeaways": "Kỹ sư có thể huấn luyện CTC trực tiếp trên LLM vocabulary nguyên bản (>150k tokens) mà không lo OOM VRAM. Cơ chế Query-readout cho phép tận dụng causal LLM sẵn có để sinh mã non-autoregressive siêu nhanh (giảm 7-10 lần độ trễ giải mã) và mở rộng sang streaming mượt mà mà không cần căn chỉnh mốc thời gian âm thanh - văn bản phức tạp.",
+    "strengths": [
+     "Toán học chuẩn xác, gradient tương đương tuyệt đối",
+     "Tiết kiệm VRAM head/loss hơn 25 lần",
+     "Giải mã non-autoregressive nhanh hơn 7-10x",
+     "Hỗ trợ streaming không cần chunk-level alignment"
+    ],
+    "weaknesses": [
+     "Overhead thời gian huấn luyện từ 5-17%",
+     "Phụ thuộc thư viện k2 cho lattice pruning",
+     "Yêu cầu FP64 khi tích lũy normalizer"
+    ],
+    "context": "Nghiên cứu do Shanghai Jiao Tong University và Alibaba Token Hub (Alibaba Group) thực hiện cùng Tsinghua University, Cambridge, Nankai, CUHK; công bố dạng preprint trên arXiv (arXiv:2609.33645)."
+   },
+   "fulltext_source": "PDF",
+   "rank": 8
+  },
+  {
+   "id": "arxiv:2609.32522",
+   "kind": "paper",
+   "title": "Beyond Dyadic Memory: Interaction-Aware Multimodal Memory with Adaptive Agentic Retrieval for Multi-Party Spoken Conversations",
+   "url": "https://arxiv.org/abs/2609.32522",
+   "sources": [
+    "arXiv",
+    "HF Daily Papers"
+   ],
+   "published": "2026-09-26T12:04:49+00:00",
+   "authors": [
+    "Wenxu Jia",
+    "Xize Cheng",
+    "Zihan Zhang",
+    "Dongjie Fu",
+    "Linjun Li",
+    "Wenshi Chen",
+    "Yangyang Wu",
+    "Tao Jin"
+   ],
+   "abstract": "Long-term memory enables agents to accumulate information and reason across sessions, yet existing research primarily focuses on dyadic text or image-text conversations, leaving long-term memory for multi-party spoken conversations underexplored. This setting requires preserving conversational content, identifying participants across sessions, and retaining who speaks to whom. To this end, we propose VoxPolyMem, an interaction-aware multimodal memory framework combining incremental speaker identification with a memory hierarchy comprising interaction memory, fact memory, and participant profiles. We formulate retrieval as sequential decision-making, where an agent rewrites queries and selects retrieval tools and memory layers based on accumulated evidence to address information gaps. We further introduce Evidence-Gain GRPO (EG-GRPO), which uses round-wise credit assignment to encourage complementary evidence acquisition. We also construct VoxPolyBench to evaluate memory evolution, personalized answering, memory retrieval and reasoning, and interaction reasoning and attribution in multi-party spoken conversations. VoxPolyMem achieves an overall score of 85.0 on VoxPolyBench, surpassing the strongest evaluated baseline by 23.6 points. On Mem-Gallery and H2HMem-Multi, it scores 89.6 and 74.4, respectively, exceeding the strongest evaluated public memory baselines by over 8 points each. These results highlight its potential for persistent, personalized assistance in multi-party multimodal interactions. Code and datasets are available at https://voxpolymem.github.io/VoxPolyBench/demo/",
+   "pdf_url": "https://arxiv.org/pdf/2609.32522",
+   "code_url": null,
+   "signals": {
+    "hf_upvotes": 14
+   },
+   "topic": "Voice Agent",
+   "promise": 4,
+   "scores": {
+    "novelty": 4,
+    "credibility": 3,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 4
+   },
+   "reasons": {
+    "novelty": "Nghiên cứu mang tính tiên phong khi giải quyết bài toán long-term memory cho hội thoại nói đa bên (multi-party spoken conversations) thay vì hội thoại song phương truyền thống thông qua kiến trúc phân tầng và thuật toán EG-GRPO.",
+    "credibility": "Bài báo xuất hiện trên arXiv và Hugging Face Daily Papers với nhóm tác giả chuyên sâu nhưng hiện chưa công bố thông tin đã qua bình duyệt (peer-reviewed).",
+    "technical": "Thiết kế kỹ thuật có chiều sâu với incremental speaker identification, bộ nhớ phân tầng ba lớp và mô hình hóa quá trình retrieval thành sequential decision-making tối ưu hóa bằng Evidence-Gain GRPO.",
+    "impact": "Đóng góp thiết thực cho mảng voice agent đa người dùng trong tương lai, tuy nhiên mức độ tương tác ban đầu còn ở mức vừa phải với 14 upvotes trên Hugging Face.",
+    "evidence": "Thực nghiệm thuyết phục với các số liệu định lượng cụ thể vượt trội baseline trên benchmark mới VoxPolyBench lẫn hai benchmark công khai, đồng thời có cung cấp liên kết mã nguồn và dữ liệu."
+   },
+   "total": 66.2,
+   "summary": {
+    "tldr": "VoxPolyMem là framework bộ nhớ đa phương thức nhận biết tương tác (interaction-aware) cho hội thoại tiếng nói nhiều người (multi-party spoken conversations), kết hợp nhận dạng người nói trực tuyến, phân cấp bộ nhớ ba tầng và cơ chế truy xuất tác tử thích ứng. Mô hình sử dụng thuật toán Evidence-Gain GRPO (EG-GRPO) để tối ưu hóa việc thu thập bằng chứng mới qua từng lượt, đạt điểm tổng thể 85.0 trên benchmark mới VoxPolyBench (vượt baseline tốt nhất 23.6 điểm) và vượt các baseline công khai hơn 8 điểm trên Mem-Gallery và H2HMem-Multi.",
+    "problem": "Phần lớn các nghiên cứu về bộ nhớ dài hạn cho AI agent chỉ tập trung vào hội thoại song phương (dyadic) bằng văn bản hoặc hình ảnh-văn bản, bỏ ngỏ bối cảnh hội thoại tiếng nói đa bên dài hạn. Thách thức cốt lõi gồm: lưu trữ audio dưới dạng ASR transcript làm mất đặc trưng âm thanh danh tính người nói qua các session; các đồ thị ngữ nghĩa hiện tại không mô hình hóa rõ quan hệ tương tác (ai nói điều gì với ai); và các chiến lược truy xuất cố định hoặc sử dụng reward cuối kỳ (terminal reward) không phân lập được đóng góp của từng vòng truy xuất trong việc thu thập bằng chứng bổ sung.",
+    "method": "VoxPolyMem gồm 3 thành phần chính: (1) Online Speaker Identification: Dùng encoder ECAPA-TDNN trích xuất voiceprint embedding e_i (chuẩn hóa L2). So khớp gia tăng theo cosine similarity với tập embedding V; gán cho speaker cũ nếu s_i >= tau_match (0.35) hoặc tạo speaker_id ẩn danh mới. Cập nhật embedding bằng EMA (alpha = 0.05) khi s_i >= tau_update (0.40). Cuối session chạy identity reconciliation để gộp các ID phân mảnh dựa trên độ tương đồng giữa các nhóm. (2) Hierarchical Interaction-Aware Multimodal Memory: Gồm 3 tầng: Interaction memory (đồ thị có hướng M_int ghi lại quan hệ speaks và addresses giữa participant và message, dùng Qwen3-VL-Embedding mã hóa nội dung và Whisper-turbo làm ASR); Fact memory (LLM trích xuất các phát biểu độc lập chứa content, speaker, addressee, time và refer_id liên kết về turn gốc); Participant profiles (lưu name, alias, danh sách voiceprints và thuộc tính cá nhân). (3) Trainable Agentic Memory Retrieval: Policy chọn tầng bộ nhớ, công cụ truy xuất (BM25, vector search, text-to-image, image-to-image), viết lại query và lọc speaker/addressee qua tối đa 3 vòng với ngân sách context k = 15 records sau RRF. (4) Evidence-Gain GRPO (EG-GRPO): Huấn luyện policy retrieval (Qwen-VL 8B) với K = 8 mẫu mỗi state. Hàm reward r_i kết hợp độ phủ (coverage |D_i|/|G_q|) và thứ hạng (rank-weighted discount N_i) chỉ tính riêng cho các supporting turn ID mới thu thập (D_i), loại trừ các bằng chứng đã có trong lịch sử B để khuyến khích truy xuất bổ sung.",
+    "setup": "Đánh giá trên 3 benchmark: VoxPolyBench (18 kịch bản, 176 sessions, 9,599 dialogue turns, 18.9 giờ giọng nói tổng hợp, WER 2.14% đánh giá qua Whisper large-v3-turbo, 1,527 QA chia thành 200 train và 1,327 test), Mem-Gallery (1,411 test QA) và H2HMem-Multi (175 test QA). Mô hình trả lời dùng chung là GPT-4.1-mini với ngân sách k = 15 records. Retrieval policy (Qwen-VL 8B) được train 1 epoch với EG-GRPO trên ~900 QA (300 Mem-Gallery, 400 LoCoMo, 200 VoxPolyBench). Baseline gồm 10 mô hình text và multimodal (mem0, A-Mem, LightMem, AUGUSTUS, UniversalRAG, M2A, MemVerse, NGMemory, HippoMM, M3-Agent). Metric: Score (chấm bởi GPT-4.1-mini và GPT-4.1 theo thang 5 mức [0, 0.25, 0.5, 0.75, 1], nhân 100) và Recall (% supporting turn được giữ lại trong context). Đánh giá speaker tracker bổ sung trên IEMOCAP (sessions 4-5) và AMI.",
+    "results": [
+     "Trên VoxPolyBench, VoxPolyMem đạt điểm tổng thể 85.0 (Recall 87.4%), vượt baseline bên ngoài mạnh nhất là M2A (61.3) tới 23.6 điểm và vượt bản không RL (w/o RL đạt 84.0).",
+     "Trên các tập con của VoxPolyBench, VoxPolyMem dẫn đầu toàn bộ: Retrieval & Reasoning đạt 86.4, Evolution & Conflict đạt 92.1, Persona đạt 76.1 và Interaction Attribution đạt 87.5.",
+     "Trên benchmark công khai Mem-Gallery, VoxPolyMem đạt điểm 89.6 (Recall 93.6%), vượt baseline mạnh nhất UniversalRAG (77.8) tới 11.8 điểm; trên H2HMem-Multi đạt 74.4 điểm so với AUGUSTUS (66.0).",
+     "Điểm trung bình có trọng số trên cả ba benchmark đạt 86.6 điểm, so với 68.1 của baseline bên ngoài tốt nhất (UniversalRAG).",
+     "Ablation trên VoxPolyBench: Bỏ hierarchical memory giảm từ 84.0 xuống 79.8; bỏ quan hệ tương tác (interaction relations) giảm xuống 78.6; chỉ dùng single-round retrieval giảm sâu xuống 76.1.",
+     "So sánh thuật toán tối ưu: EG-GRPO đạt 85.0 điểm và 87.4% recall với chỉ 1.2 vòng truy xuất trung bình trên VoxPolyBench, vượt trội hơn MoT-GRPO (84.1 điểm, 86.6% recall, 1.4 vòng), Search-R1 (81.3 điểm, 82.3% recall, 1.6 vòng) và Terminal-coverage GRPO (83.1 điểm, 86.7% recall, 1.4 vòng).",
+     "Độ chính xác speaker tracking của VoxPolyMem đạt 97.7% (macro ARI 98.4) trên VoxPolyBench, 95.0% (ARI 80.8) trên IEMOCAP và 87.9% (ARI 82.4) trên AMI."
+    ],
+    "limitations": "Dữ liệu âm thanh của VoxPolyBench hoàn toàn là giọng nói tổng hợp (synthesized speech) từ hội thoại do GPT-4.1 sinh ra theo kịch bản, chưa phản ánh đầy đủ tạp âm, phương ngữ và biến thiên âm học thực tế. Đánh giá speaker tracking sử dụng ranh giới câu mẫu (oracle utterance boundaries) thay vì thực hiện diarization hoàn chỉnh từ đầu đến cuối trên audio có tiếng nói đè lấn (overlapping speech).",
+    "takeaways": "Trong hội thoại tiếng nói đa bên, việc lưu đồ thị tương tác có hướng ('ai nói với ai') kết hợp nhận dạng voiceprint trực tuyến là yếu tố sống còn để trả lời câu hỏi cá nhân hóa và quy gán phát ngôn. Thuật toán phân bổ credit theo vòng truy xuất (EG-GRPO) giúp agent lấy đủ bằng chứng với ít round hơn (1.2 vòng so với 1.6-1.8 vòng của các phương pháp khác), giảm độ trễ và chi phí suy luận.",
+    "strengths": [
+     "Mô hình hóa rõ quan hệ 'ai nói với ai'",
+     "Nhận dạng người nói trực tuyến không cần biết trước số lượng",
+     "Cơ chế EG-GRPO tối ưu hóa số vòng truy xuất",
+     "Benchmark VoxPolyBench công phu với 18.9 giờ audio",
+     "Vượt trội vượt bậc trên cả 3 benchmark đánh giá"
+    ],
+    "weaknesses": [
+     "Dữ liệu kiểm thử dùng giọng tổng hợp, chưa đa dạng âm học",
+     "Phụ thuộc ranh giới utterance có sẵn khi test speaker",
+     "Rủi ro quyền riêng tư khi lưu trữ voiceprint người dùng"
+    ],
+    "context": "Wenxu Jia, Xize Cheng, Zihan Zhang et al. từ Đại học Chiết Giang (Zhejiang University) và Meituan; công bố trên arXiv (arXiv:2609.32522v1 [cs.AI], tháng 9 năm 2026)."
+   },
+   "fulltext_source": "PDF",
+   "rank": 9
+  },
+  {
+   "id": "arxiv:2609.34973",
+   "kind": "paper",
+   "title": "APEX-Voice: Can Voice Agents Complete Professional Workflows Through Full-Duplex Interaction",
+   "url": "https://arxiv.org/abs/2609.34973",
+   "sources": [
+    "arXiv"
+   ],
+   "published": "2026-09-28T11:53:07+00:00",
+   "authors": [
+    "Puneet Mathur",
+    "Dinesh Manocha"
+   ],
+   "abstract": "Full-duplex voice agents can now listen, speak, use tools, and act during spoken interactions, but fluent dialogue does not guarantee correct completion of delegated professional workflows. We introduce APEX-Voice, a benchmark of 120 interactive professional workflows spanning ten work archetypes such as form completion, corporate negotiation, coordination, consulting, and interviewing. Each workflow executes in a stateful Voice Workbench environment with task-specific knowledge, typed tools, gold-annotated final work artifact, authorization constraints, and a user simulation policy backed by validated, pre-compiled speech realizations. We evaluate both artifact field accuracy and end-to-end workflow success, which requires the correct terminal state, valid process, completed actions, and a valid final artifact. Across five frontier real-time voice agents-GPT-Live-1, Gemini-3.8-Live, Grok-Voice-Think-2.0, Step-Audio3, and GPT-realtime-2.1, none exceeds 25% Pass@1, and the best Reliable@3 is only 10.8%. Moreover, stateful coordination is the dominant failure point across systems, while success decreases further on workflows requiring greater knowledge retrieval and mid-speech corrections. Overall, APEX-Voice is the first benchmark for evaluating whether voice agents can translate conversational competence into dependable professional work.",
+   "pdf_url": "https://arxiv.org/pdf/2609.34973",
+   "code_url": null,
+   "signals": {},
+   "topic": "Voice Agent",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 3,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 4
+   },
+   "reasons": {
+    "novelty": "Đây là benchmark đầu tiên tập trung đánh giá năng lực thực thi professional workflows tương tác full-duplex kết hợp tool use và mô phỏng người dùng cho voice agents.",
+    "credibility": "Các tác giả có uy tín học thuật tốt nhưng nghiên cứu hiện mới dừng lại ở dạng preprint trên arXiv và chưa qua bình duyệt peer-review.",
+    "technical": "Hệ thống Voice Workbench được thiết kế công phu với môi trường stateful, typed tools, ràng buộc phân quyền và hệ thống metrics đánh giá end-to-end chặt chẽ.",
+    "impact": "Đề tài có tiềm năng định hình tiêu chuẩn đánh giá cho voice agents nhưng cần thời gian kiểm chứng do chưa công bố mã nguồn hay ghi nhận tín hiệu adoption từ cộng đồng.",
+    "evidence": "Cung cấp bằng chứng thực nghiệm rõ ràng trên 5 frontier real-time voice agents với các số liệu cụ thể về Pass@1, Reliable@3 cùng phân tích failure mode chi tiết."
+   },
+   "total": 66.2,
+   "summary": {
+    "tldr": "APEX-VOICE là benchmark đầu tiên đánh giá năng lực của các mô hình full-duplex voice agent trong việc hoàn thành quy trình công việc chuyên nghiệp (professional workflows) từ lời nói thành văn bản/kết quả có thể kiểm chứng. Benchmark bao gồm 120 workflow tương tác thực thi trong môi trường stateful Voice Workbench với các ràng buộc về công cụ, tri thức và quyền hạn. Kết quả cho thấy các mô hình giọng nói tiên tiến nhất hiện nay (như GPT-realtime-2.1, Grok-Voice-Think-2.0) chỉ đạt tối đa 23.6% PASS@1 và 10.8% RELIABLE@3, phơi bày khoảng cách lớn giữa khả năng đàm thoại trôi chảy và khả năng thực thi công việc thực tế.",
+    "problem": "Các full-duplex voice agent hiện đại có thể nghe, nói, ngắt lời và gọi tool đồng thời, tuy nhiên sự trôi chảy trong hội thoại không đồng nghĩa với khả năng hoàn thành chính xác các workflow công việc phức tạp. Trong giao tiếp hai chiều thời gian thực (full-duplex), người dùng thường ngắt lời để chỉnh sửa dữ liệu (mid-speech corrections), thay đổi ý định hoặc thu hồi quyền ủy quyền (revocation). Các benchmark hiện tại chỉ đánh giá khả năng kiểm soát lượt thoại (turn-taking) hoặc chỉ đánh giá tác vụ dạng văn bản/máy tính, thiếu vắng việc kiểm tra năng lực chuyển giao nhiệm vụ qua giọng nói thành các sản phẩm công việc (work artifacts) chuẩn xác và có thể kiểm chứng.",
+    "method": "Nghiên cứu xây dựng một hệ thống đánh giá hoàn chỉnh bao gồm:\n- **Khung phân loại 11 chiều (Taxonomy)**: Bao gồm Work archetype (10 loại hình như form-fill, troubleshoot, negotiate, coordinate...), Industry setting, Work artifact (11 loại như structured form, case record, ticket...), Economic role, Duplex phenomenon (barge-in, overlap, mid-speech correction...), Delegation pattern, Autonomy level, Knowledge burden, Tool burden, User behavior, và Risk tier.\n- **Voice Workbench**: Môi trường thực thi mô phỏng stateful quản lý workflow state, cung cấp API gọi tool có kiểu dữ liệu (typed tools), truy xuất tri thức và giám sát phê duyệt (CommitGuard - kiểm tra nghiêm ngặt quyền ủy quyền trước khi commit).\n- **User Simulator với Frozen Speech Bank**: Chính sách mô phỏng người dùng tạo ra các kế hoạch hành động ngữ nghĩa (semantic user plan), sau đó ánh xạ tất định sang các đoạn âm thanh tự nhiên đã tổng hợp trước (sinh lời thoại bằng GPT-5.6-Sol và TTS bằng Kokoro). Thiết kế này vừa bảo đảm tính thích ứng theo phản ứng của agent vừa đảm bảo khả năng tái lập 100% (reproducibility) mà không cần gọi LLM/TTS tự do lúc inference.\n- **Hệ thống chấm điểm 2 tầng**: Đánh giá dựa trên 4 cổng logic bắt buộc của Workflow Success ($WS = TS \\cdot PV \\cdot AC \\cdot AV$) và đo lường độ chính xác từng trường thông tin qua Artifact Field Accuracy (AFA). Dữ liệu văn bản tự do được chuẩn hóa hoặc chấm qua LLM-judge (GPT-4o temperature 0).",
+    "setup": "Đánh giá thực nghiệm được thực hiện trên 120 synthetic workflows qua 3 lượt chạy độc lập (3 independent runs):\n- **Mô hình giọng nói (5 hệ thống frontier real-time voice)**: GPT-realtime-2.1, Grok-Voice-Think-2.0, Gemini-3.8-Live, Step-Audio3 và GPT-Live-1 (hệ thống kết hợp lớp thoại điều phối text backend GPT-5.6-Sol), kèm baseline Cascaded (Whisper-LV3 + GPT-5.6 + Chatterbox-TurboTTS).\n- **Nhóm đối chứng dạng văn bản (Text controls)**: Claude-Opus-5.5, GPT-6-sol, GPT-5.5, Gemini-3.8-Flash, Kimi-K3.\n- **Chỉ số đánh giá**: PASS@1 (tỷ lệ thành công đơn lẻ), PASS@3 (thành công ít nhất 1 trong 3 lần), RELIABLE@3 (thành công tuyệt đối cả 3 lần), Artifact Field Accuracy (AFA, tỷ lệ trường chính xác) và Tool-use Efficiency (tỷ lệ số lượt gọi tool thực tế so với oracle).\n- **Kiểm định thực tế**: Thử nghiệm human validation kiểm tra độ tự nhiên của frozen audio (Study A) và kiểm tra chuyển dịch với người thật trực tiếp trên tập 24 task (Study B).",
+    "results": [
+     "Hiệu năng tổng thể của voice agents rất thấp: Không có hệ thống nào vượt qua 25% PASS@1. GPT-realtime-2.1 dẫn đầu với 23.6% PASS@1 và 10.8% RELIABLE@3; Grok-Voice-Think-2.0 đạt PASS@3 cao nhất với 41.7% nhưng RELIABLE@3 chỉ đạt 5.0%; Gemini-3.8-Live đạt 13.6% PASS@1 / 1.7% RELIABLE@3; Step-Audio3 đạt 2.5% PASS@1 / 0.8% RELIABLE@3; GPT-live-1 đạt 8.9% PASS@1 / 2.5% RELIABLE@3; baseline Cascaded chỉ đạt 1.2% PASS@1 và 0.0% RELIABLE@3.",
+     "Khoảng cách giữa độ chính xác cục bộ và tính hợp lệ tổng thể: Mặc dù GPT-realtime-2.1 đạt Artifact Field Accuracy (AFA) tới 91.4% và Grok-Voice-Think-2.0 đạt 88.5%, tỷ lệ vượt qua cổng Artifact Validity (AV) của toàn bộ artifact chỉ đạt lần lượt là 35.3% và 27.8%.",
+     "Khả năng điều phối sàn đàm thoại (Floor Control) tốt nhưng xử lý thông tin sửa đổi rất kém: Các mô hình như GPT-realtime-2.1, Grok-Voice-Think-2.0, Gemini-3.8-Live và Step-Audio3 có tỷ lệ nhường lời (barge-in yield) đạt 99.8% - 100.0% và thời gian ngắt lời trung vị chỉ từ 20ms - 156ms. Tuy nhiên, điểm AFA trên các trường bị sửa đổi giữa chừng (mid-speech corrections) giảm mạnh từ 20.0 đến 36.8 điểm phần trăm so với các trường không bị sửa; 71% - 89% các lỗi hỏng Artifact Validity liên quan trực tiếp đến việc bỏ sót sửa đổi thông tin.",
+     "Hiệu quả sử dụng tool: GPT-realtime-2.1 đạt mức hiệu quả gọi công cụ gần như tối ưu (0.98 so với oracle), trong khi Grok-Voice-Think-2.0 lạm dụng công cụ quá mức (1.51) dẫn đến lãng phí tài nguyên và tạo chu kỳ chết.",
+     "So sánh với mô hình văn bản (Text vs Voice): Các mô hình văn bản đối chứng đạt kết quả vượt trội từ 54.3% đến 62.0% PASS@1 (GPT-5.5 đạt 62.0%, Claude-Opus-5.5 đạt 58.7%) và AFA từ 95% - 98%, cho thấy tương tác giọng nói full-duplex làm tăng độ khó của bài toán thực thi agent lên nhiều lần.",
+     "Kiểm định chuyển dịch người thật (Live-human audit): Khi thay thế frozen user bằng người thật trên 24 task, PASS@1 của toàn bộ 5 hệ thống đều sụt giảm từ 3.3 đến 7.7 điểm phần trăm (giảm trung bình 4.9 điểm), khẳng định môi trường thực tế còn thách thức hơn môi trường mô phỏng."
+    ],
+    "limitations": "Benchmark chỉ đánh giá các đơn vị công việc có phạm vi khép kín (bounded work units), không đại diện cho toàn bộ việc thay thế một vị trí công việc. Toàn bộ kịch bản và dữ liệu âm thanh mới chỉ hỗ trợ tiếng Anh (English-only). Việc sử dụng người dùng mô phỏng với frozen audio dù đảm bảo tính tái lập nhưng chưa bao quát hết sự biến thiên âm học và ngữ điệu phức tạp của con người. Một số hệ thống đánh giá phụ thuộc vào API endpoint đóng của nhà cung cấp và có thể thay đổi theo thời gian.",
+    "takeaways": "Sự lưu loát về ngôn ngữ và khả năng điều khiển lượt thoại (ngắt lời nhanh, nhường lời chuẩn) không đồng nghĩa với năng lực hoàn thành công việc chuyên nghiệp. Điểm nghẽn cốt lõi của voice agent hiện nay là duy trì trạng thái ngữ cảnh động (evolving state tracking): agent phải cập nhật biểu diễn trạng thái bên trong để thông tin sửa đổi ghi đè lên dữ liệu cũ và truyền chính xác xuống các công cụ và artifact persistent. Kỹ sư xây dựng voice agent cần tập trung vào khả năng đồng bộ hóa trạng thái ngầm và kiểm tra ràng buộc thực thi thay vì chỉ tối ưu độ trễ âm thanh.",
+    "strengths": [
+     "Benchmark full-duplex cho workflow chuyên nghiệp đầu tiên",
+     "Môi trường Voice Workbench tái lập và chuẩn hóa",
+     "Frozen speech bank kết hợp kiểm tra chống rò rỉ",
+     "Chấm điểm cổng logic chặt chẽ kèm LLM-judge",
+     "Có kiểm định đối chứng text và live-human audit"
+    ],
+    "weaknesses": [
+     "Chỉ hỗ trợ tiếng Anh chưa đa ngôn ngữ",
+     "Dữ liệu tác vụ hoàn toàn là synthetic",
+     "Phụ thuộc các closed-source real-time API thương mại",
+     "Chưa mô phỏng hết biến thiên âm học đời thực"
+    ],
+    "context": "Nghiên cứu được thực hiện bởi Puneet Mathur và Dinesh Manocha thuộc University of Maryland College Park, USA; công bố tại hội nghị ICLR 2027 (bản thảo arXiv tháng 9/2026)."
+   },
+   "fulltext_source": "PDF",
+   "rank": 10
+  },
+  {
+   "id": "isca:interspeech_2026/cai26c_interspeech",
+   "kind": "paper",
+   "title": "Beyond Mimicry: Constrained Exploration with GRPO for Joint Multi-Talker ASR and Diarization under Unknown Speaker Counts",
+   "url": "https://www.isca-archive.org/interspeech_2026/cai26c_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Yunrui Cai",
+    "Dingdong Wang",
+    "Lingwei Meng",
+    "Xixin Wu",
+    "Zhiyong Wu",
+    "Helen Meng"
+   ],
+   "abstract": "Joint multi-talker ASR with speaker attribution and timestamps is particularly challenging when the speaker count is unknown and the output must follow a strict structure. We observe that Supervised Fine-Tuning (SFT)-only alignment of Speech-LLMs is brittle under dense overlaps, often leading to burst hallucinations and malformed speaker/timestamp tags. We propose a unified two-stage generative framework: (i) CoT-augmented SFT that infers the global speaker count before transcription, and (ii) GRPO-based constrained exploration guided by a Multi-dimensional Constraint-Aware Reward (MCAR) that directly optimizes permutation-invariant accuracy while enforcing counting, temporal, and structural constraints. On Libri3Mix and a Dynamic-Mix (2+3) set (speaker count unknown at test time), our model achieves 14.52%/9.24% cpWER and 1.95%/1.12% WDER, respectively, with GRPO yielding a 35%/54% relative cpWER reduction over SFT+CoT.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/cai26c_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "ASR",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 4,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Ý tưởng áp dụng CoT-augmented SFT và GRPO với hàm Multi-dimensional Constraint-Aware Reward (MCAR) cho bài toán joint multi-talker ASR và diarization trên Speech-LLMs là một hướng tiếp cận rất mới mẻ và sáng tạo.",
+    "credibility": "Bài báo đến từ nhóm nghiên cứu uy tín của Helen Meng và được chấp nhận tại hội nghị Interspeech thuộc ISCA Archive.",
+    "technical": "Thiết kế kỹ thuật sâu sắc khi kết hợp CoT suy luận số lượng người nói trước rồi dùng GRPO trực tiếp tối ưu permutation-invariant cpWER cùng các ràng buộc cấu trúc và thời gian.",
+    "impact": "Phương pháp hứa hẹn mở ra xu hướng áp dụng RL vào cấu trúc hóa đầu ra cho Speech-LLMs trong hội thoại nhiều người, nhưng mức độ ảnh hưởng thực tế còn phụ thuộc vào việc phát hành mã nguồn.",
+    "evidence": "Thực nghiệm đưa ra các số liệu định lượng rõ ràng về cpWER và WDER trên Libri3Mix và Dynamic-Mix với mức cải thiện lớn, dù chưa công bố mã nguồn/trọng số và chỉ mới thử nghiệm trên dữ liệu mix tổng hợp."
+   },
+   "total": 65.0,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "arxiv:2609.31948",
+   "kind": "paper",
+   "title": "Duplex-MPE: Benchmarking Multi-Party Interaction in Full-Duplex Dialogue",
+   "url": "https://arxiv.org/abs/2609.31948",
+   "sources": [
+    "arXiv",
+    "HF Daily Papers"
+   ],
+   "published": "2026-09-25T19:53:52+00:00",
+   "authors": [
+    "Chengqian Ma",
+    "Wenhao Feng",
+    "Weixuan Jin",
+    "Gaole Dai",
+    "Tianyu Xie",
+    "Yuexiao Ma",
+    "Zhaolu Kang",
+    "Xiangyu Zhao",
+    "Xiawu Zheng",
+    "Fei Chao"
+   ],
+   "abstract": "Real-time full-duplex speech models can listen while speaking, enabling natural interaction without rigid turn boundaries. Existing benchmarks evaluate turn-taking, interruption handling and multi-round dialogue, but largely centre on a designated user rather than an assistant participating in a shared conversation among several people. We introduce Duplex-MPE to evaluate when such an assistant should answer, remain silent or stop speaking. The benchmark contains 2,000 scenarios with three or four human speakers and one assistant, each paired across explicit and implicit addressing of the same request. Models receive continuous conversation audio without transcripts or supplied turn boundaries. Four scores measure fresh response initiation, answer accuracy, silence preservation and stopping when a human resolves a request. We evaluate five open-weight speech systems: MiniCPM-o 4.5, Moshi, FLM-Audio, Voila and Freeze-Omni. MiniCPM-o 4.5 leads on three scored capabilities, while frequent speech from other systems can coexist with inaccurate answers or failures to remain silent. A transcript-based Gemini 3.1 Pro reference responds 64.3 percentage points more often to explicit than implicit requests; paired tests detect no significant response-rate difference for the speech systems.",
+   "pdf_url": "https://arxiv.org/pdf/2609.31948",
+   "code_url": null,
+   "signals": {
+    "hf_upvotes": 83
+   },
+   "topic": "Voice Agent",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 3,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Nghiên cứu tiên phong xây dựng benchmark cho tương tác multi-party trong full-duplex dialogue, vượt ra khỏi các kịch bản đối thoại 1-1 truyền thống để đánh giá khả năng lắng nghe chủ động, giữ im lặng hoặc dừng nói của voice agent.",
+    "credibility": "Bài báo xuất hiện trên arXiv và HF Daily Papers từ nhóm tác giả học thuật, tuy nhiên chưa có thông tin công bố tại hội nghị peer-reviewed uy tín nào.",
+    "technical": "Thiết kế benchmark gồm 2.000 kịch bản phức tạp với continuous audio không kèm transcript hay turn boundaries, cùng hệ thống 4 chỉ số đánh giá chi tiết cả về khởi tạo phản hồi, tính chính xác và duy trì im lặng.",
+    "impact": "Đề tài giải quyết đúng nút thắt quan trọng trong phát triển voice agent thế hệ mới, nhận được sự chú ý khả quan (83 upvotes trên Hugging Face), dù mức độ phổ biến thực tế cần thêm thời gian kiểm chứng.",
+    "evidence": "Cung cấp kết quả thực nghiệm chi tiết so sánh 5 hệ thống open-weight phổ biến và baseline text-based Gemini, nhưng thiếu thông tin về việc public mã nguồn hoặc bộ dữ liệu benchmark."
+   },
+   "total": 61.3,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "arxiv:2609.36903",
+   "kind": "paper",
+   "title": "MultiTalk: Scaling Full-Duplex Speech Models to Long, Multi-Party, Bilingual Conversation",
+   "url": "https://arxiv.org/abs/2609.36903",
+   "sources": [
+    "arXiv"
+   ],
+   "published": "2026-09-29T07:25:29+00:00",
+   "authors": [
+    "Ke Wang",
+    "Houxing Ren",
+    "Zimu Lu",
+    "Yunqiao Yang",
+    "Zhuofan Zong",
+    "Mingjie Zhan",
+    "Hongsheng Li"
+   ],
+   "abstract": "End-to-end full-duplex speech models have brought open-source machine conversation closer to human-like interaction, yet existing systems remain limited in two intertwined dimensions: long-context robustness and multi-party interaction. Real-world scenarios such as meetings, group lessons, and social-robot reception require a single model to track, contextualize, and respond to multiple speakers over extended durations. Progress is constrained by both data and evaluation: open multi-party speech corpora remain small and are not designed for codec-frame-level full-duplex modeling, while existing long-audio benchmarks focus on passive listening and speech-to-speech benchmarks are mostly short and dyadic. We extend the Moshi paradigm jointly along the long-horizon and multi-party axes in English and Chinese. First, we release 57.6k hours of synthetic training data ($\\href{https://huggingface.co/datasets/MultiTalk/MultiTalkPT}{MultiTalkPT}$ and $\\href{https://huggingface.co/datasets/MultiTalk/MultiTalkFT}{MultiTalkFT}$) for long-form, multi-party, English-Chinese full-duplex dialogue, with controllable length, participant count, turn-taking, overlap, backchannels, interruptions, addressee shifts, and long-range coreference. Second, we introduce $\\href{https://huggingface.co/datasets/MultiTalk/MultiTalkBench}{MultiTalkBench}$, built from real human recordings, for evaluating long-form, multi-party, bilingual full-duplex dialogue. Conversations average 32.6 minutes and include probes for long-range entity tracking, topic coherence, and addressee selection. Third, we train a bilingual Moshi-style model that sustains coherent multi-party English-Chinese conversations over extended durations and substantially outperforms open-source baselines including Moshi, MiniCPM-o-4.5, and Qwen3-Omni-30B-A3B-Instruct on MultiTalkBench.",
+   "pdf_url": "https://arxiv.org/pdf/2609.36903",
+   "code_url": null,
+   "signals": {},
+   "topic": "Voice Agent",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 3,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Bài báo mở rộng xuất sắc paradigm full-duplex kiểu Moshi sang bối cảnh đa người tham gia (multi-party), hội thoại ngữ cảnh dài và song ngữ Anh-Trung, giải quyết trực diện điểm nghẽn lớn của các voice agent hiện nay.",
+    "credibility": "Nghiên cứu đến từ nhóm tác giả uy tín (bao gồm Hongsheng Li) nhưng hiện mới là bản preprint trên arXiv và chưa qua bình duyệt chính thức.",
+    "technical": "Quy trình kỹ thuật rất quy chuẩn với pipeline tổng hợp 57.6k giờ dữ liệu full-duplex có kiểm soát chi tiết hiện tượng giao tiếp phức tạp, kết hợp xây dựng benchmark chuyên sâu và huấn luyện mô hình ngữ cảnh dài.",
+    "impact": "Việc mở nguồn bộ dữ liệu quy mô lớn và benchmark trên Hugging Face có tiềm năng thúc đẩy mạnh mẽ mảng full-duplex meeting/multi-party, dù chưa ghi nhận các tín hiệu cộng đồng cụ thể.",
+    "evidence": "Có đối đầu với các baseline mạnh như Moshi, MiniCPM-o-4.5 và Qwen3-Omni cùng bộ benchmark dài 32.6 phút được phát hành, tuy nhiên đoạn văn bản chưa cung cấp các con số định lượng cụ thể."
+   },
+   "total": 61.3,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "arxiv:2609.37818",
+   "kind": "paper",
+   "title": "Thinking in Depth, Speaking Directly: Recurrent Latent Reasoning for Paralinguistically Grounded Spoken Dialogue",
+   "url": "https://arxiv.org/abs/2609.37818",
+   "sources": [
+    "arXiv"
+   ],
+   "published": "2026-09-29T15:28:13+00:00",
+   "authors": [
+    "Shengbo Cai",
+    "Yuxiang Wang",
+    "Jingran Xie",
+    "Zhisheng Zhang",
+    "Shun Lei",
+    "Di Cao",
+    "Teddy Sun",
+    "Zhiyong Wu"
+   ],
+   "abstract": "Empathetic spoken dialogue requires models to use both what is said and how it is said to decide how to respond. Explicit CoT can improve paralinguistic perception and make acoustic cues more explicit in replies, yet does not ensure their effective use in response planning. We call this mismatch the perception-reasoning gap. In addition, CoT may not fully capture acoustic cues in words, and generating it adds inference latency. To address these limitations, we introduce LoopSLM, which builds on looped Transformers for latent reasoning, reusing a decoder block to refine hidden states with acoustic grounding at every pass. Its two-stage training further narrows the perception-reasoning gap by separating learning to reason from learning to respond, enabling direct inference without CoT. On EchoMind, LoopSLM improves paralinguistic understanding, reasoning, and reply quality over Qwen2.5-Omni-7B. Against the CoT-SFT baseline, LoopSLM gains over 20 points in reasoning accuracy while generating 64.5% fewer tokens at half the latency. It also outperforms Qwen3-Omni-Thinking on most empathetic reply metrics with 34x lower latency. Despite training only on dialogue data, LoopSLM improves accuracy on general audio benchmarks.",
+   "pdf_url": "https://arxiv.org/pdf/2609.37818",
+   "code_url": null,
+   "signals": {},
+   "topic": "Voice Agent",
+   "promise": 4,
+   "scores": {
+    "novelty": 4,
+    "credibility": 3,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Ý tưởng áp dụng looped Transformer cho latent reasoning nhằm giải quyết perception-reasoning gap và loại bỏ explicit CoT trong spoken dialogue mang tính mới mẻ và sáng tạo cao.",
+    "credibility": "Bản preprint trên arXiv từ nhóm tác giả có uy tín trong lĩnh vực speech (như Zhiyong Wu) nhưng chưa trải qua bình duyệt chính thức tại hội nghị hay tạp chí.",
+    "technical": "Thiết kế kỹ thuật chặt chẽ với cơ chế tái sử dụng decoder block để tinh chỉnh latent states cùng quy trình two-stage training tách biệt reasoning và response generation.",
+    "impact": "Nghiên cứu mở ra hướng đi tiềm năng cho các voice agent thời gian thực nhờ giảm mạnh latency so với explicit CoT, dù hiện chưa có tín hiệu đón nhận từ cộng đồng.",
+    "evidence": "Bài báo cung cấp các số liệu định lượng rõ ràng trên EchoMind và so sánh với baselines mạnh, tuy nhiên mã nguồn và trọng số mô hình chưa được công bố công khai."
+   },
+   "total": 61.3,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "isca:interspeech_2026/xu26k_interspeech",
+   "kind": "paper",
+   "title": "From Reactive to Proactive: Assessing the Proactivity of Voice Agents via ProVoice-Bench",
+   "url": "https://www.isca-archive.org/interspeech_2026/xu26k_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Ke Xu",
+    "Yuhao Wang",
+    "Yu Wang"
+   ],
+   "abstract": "Recent advancements in LLM agents are gradually shifting from reactive, text-based paradigms toward proactive, multimodal interaction. However, existing benchmarks primarily focus on reactive responses, overlooking the complexities of proactive intervention and monitoring. To bridge this gap, we introduce ProVoice-Bench, the first evaluation framework specifically designed for proactive voice agents, featuring four novel tasks. By leveraging a multi-stage data synthesis pipeline, we curate 1,182 high-quality samples for rigorous testing. Our evaluation of state-of-the-art Multimodal LLMs reveals a significant performance gap, particularly regarding over-triggering and reasoning capabilities. These findings highlight the limitations of current models and offer a roadmap for developing more natural, context-aware proactive agents.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/xu26k_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "Voice Agent",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 4,
+    "technical": 3,
+    "impact": 3,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Nghiên cứu tiên phong xây dựng ProVoice-Bench nhằm đánh giá tính chủ động (proactive) của voice agents thay vì chỉ tập trung vào tương tác phản hồi (reactive) truyền thống.",
+    "credibility": "Bài báo xuất bản tại Interspeech (ISCA Archive), là hội nghị hàng đầu có bình duyệt uy tín trong lĩnh vực công nghệ tiếng nói.",
+    "technical": "Đề xuất quy trình multi-stage data synthesis pipeline và phân chia thành 4 tác vụ mới, nhưng mô tả tóm tắt chưa đi sâu vào chi tiết kiến trúc hoặc cơ chế can thiệp cụ thể.",
+    "impact": "Đặt ra hướng đi thực tế quan trọng cho thế hệ proactive voice agents tiếp theo, dù hiện tại chưa có số liệu tiếp nhận hay mã nguồn mở đi kèm.",
+    "evidence": "Benchmark được xây dựng với 1.182 mẫu thử nghiệm trên các SOTA Multimodal LLMs, tuy nhiên phần tóm tắt chưa công bố chi tiết số liệu benchmark định lượng cụ thể."
+   },
+   "total": 60.0,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "isca:interspeech_2026/guan26b_interspeech",
+   "kind": "paper",
+   "title": "UniVoice: Unifying Autoregressive ASR and Flow-Matching based TTS with Large Language Models",
+   "url": "https://www.isca-archive.org/interspeech_2026/guan26b_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Wenhao Guan",
+    "Zhikang Niu",
+    "Ziyue Jiang",
+    "Kaidi Wang",
+    "Peijie Chen",
+    "Qingyang Hong",
+    "Xie Chen",
+    "Lin Li"
+   ],
+   "abstract": "Large Language Models (LLMs) have become dominant in both Automatic Speech Recognition (ASR) and Text-to-Speech (TTS), but existing frameworks treat these tasks as isolated, overlooking inherent synergies. While discrete tokenization enables joint modeling, information loss compromises accuracy and synthesis quality. To address the limitations, we propose UniVoice, a unified LLM integrating ASR and TTS via continuous representations. Beyond discrete tokens, UniVoice preserves acoustic details for robust autoregressive recognition and high-fidelity flow-matching generation. To bridge architectural divergence between understanding and generation, we introduce a dual-attention masking mechanism to dynamically switch between causal masks for ASR and bidirectional masks for TTS. Additionally, text-prefix guided speech infilling ensures superior zero-shot voice cloning. Experimental results show UniVoice achieves competitive or superior performance to state-of-the-art single-task models, marking a significant step toward end-to-end speech interaction systems. The code and model weights are available at https://github. com/gwh22/UniVoice.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/guan26b_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "Speech Understanding",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 4,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 2
+   },
+   "reasons": {
+    "novelty": "Ý tưởng hợp nhất autoregressive ASR và flow-matching TTS trong một LLM duy nhất thông qua continuous representations và dual-attention masking khá mới mẻ và giải quyết tốt hạn chế mất mát thông tin của discrete tokens.",
+    "credibility": "Bài báo xuất hiện trên ISCA Archive (Interspeech) với danh sách tác giả rõ ràng và có công bố liên kết mã nguồn trên GitHub.",
+    "technical": "Thiết kế kỹ thuật vững chắc với cơ chế dual-attention masking để chuyển đổi linh hoạt giữa causal và bidirectional masks, kết hợp text-prefix guided speech infilling cho zero-shot voice cloning.",
+    "impact": "Nghiên cứu mở ra hướng đi tiềm năng cho các hệ thống speech-to-speech interaction thống nhất, tuy nhiên chưa có tín hiệu cộng đồng đo lường được về mức độ phổ biến hay adoption.",
+    "evidence": "Đoạn trích chỉ tuyên bố đạt hiệu năng cạnh tranh hoặc vượt trội so với state-of-the-art đơn nhiệm mà không cung cấp số liệu thực nghiệm hay benchmark cụ thể nào."
+   },
+   "total": 60.0,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "isca:interspeech_2026/mitra26_interspeech",
+   "kind": "paper",
+   "title": "Adaptive Turn-Taking for Real-time Multi-Party Voice Agents",
+   "url": "https://www.isca-archive.org/interspeech_2026/mitra26_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Soumyajit Mitra",
+    "Prabhat Pandey",
+    "Abhinav Jain",
+    "Shanmukha Sahith",
+    "K V Vijay Girish"
+   ],
+   "abstract": "Turn-taking in multi-party spoken conversations remains a fundamental challenge for voice-based agents, particularly under dynamic floor competition and varying user expectations. We propose ModeratorLM, a role-playing voice agent that conditions turn-taking behavior on an explicitly assigned role in multi-party settings. The system is built on a speech large language model operating in chunk-wise streaming manner. We further introduce a reasoning-augmented variant that incorporates chain-of-thought reasoning over conversational context and the assigned role. We construct RolePlayConv, a large-scale synthetic dataset of spoken multi-party conversations with diverse assistant roles. Experiments on real-world meeting data and RolePlayConv show improved turn-taking precision by over 40% and recall by more than 70%, while substantially reducing false-positive interruptions compared to non-role-conditioned baselines.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/mitra26_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "Voice Agent",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 4,
+    "technical": 3,
+    "impact": 3,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Ý tưởng điều hòa hành vi turn-taking đa bên dựa trên vai trò (role-playing) kết hợp streaming Speech LLM và chain-of-thought reasoning là một hướng tiếp cận mới mẻ và sáng tạo.",
+    "credibility": "Nghiên cứu được ghi nhận xuất bản tại Interspeech qua ISCA Archive, một trong những hội nghị bình duyệt hàng đầu và uy tín nhất của cộng đồng speech.",
+    "technical": "Thiết kế kỹ thuật hợp lý kết hợp streaming theo chunk-wise, reasoning context và tạo dữ liệu tổng hợp RolePlayConv, dù phần tóm tắt chưa đi sâu vào chi tiết kiến trúc mô hình.",
+    "impact": "Đề tài giải quyết vấn đề cốt lõi của multi-party voice agents và có tiềm năng ứng dụng thực tế cao, nhưng hiện chưa có tín hiệu tiếp nhận rộng rãi hay mã nguồn công khai.",
+    "evidence": "Cung cấp số liệu cải thiện đáng kể về precision (>40%) và recall (>70%) trên dữ liệu họp thực tế, nhưng chưa nêu tên cụ thể các baseline đối chuẩn và chưa công bố mã nguồn/trọng số."
+   },
+   "total": 60.0,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "hf-model:oruk/orukeet",
+   "kind": "model",
+   "title": "oruk/orukeet",
+   "url": "https://huggingface.co/oruk/orukeet",
+   "sources": [
+    "HF Models"
+   ],
+   "published": "2026-09-09T05:42:20+00:00",
+   "authors": [
+    "oruk"
+   ],
+   "abstract": "Orukeet. Nathan Roll 1,2 · Irene Yi 1,2 · Büşra Marşan 1,2 Vianney Grenez 1 · Gabriel Stein 4 · Momcilo Mrkaic 5 Pavle Padjin 5 · Vladimir Zeljkovic 5 · Calbert Graham 1,3 1 Oruk AI 2 Stanford University 3 University of Cambridge 4 OpenWhispr 5 Hoid Orukeet is a 25-language speech recognizer built from NVIDIA Parakeet TDT 0.6B v3. It replaces half of the encoder's temporal depthwise filters with 12,288 fitted, frozen Gabor kernels and trains the remaining parameters on multilingual and multi-accent data. Orukeet outperforms Parakeet on 61 of 74 tested splits, including LibriSpeech test-clean (1.46% vs. 1.53% WER), test-other (2.86% vs. 3.14%), and FLEURS English (3.82% vs. 4.28%). Across all 25 FLEURS languages, pooled WER is 9.85% vs. 11.01%, a 10.6% relative reduction. Final adaptation and checkpoint selection use LibriSpeech test-other. Use Orukeet for recordings, media, batch transcription, server workers and interactive applications. NeMo, ONNX INT8, native Q8 and native F16 all derive from the same r3 release checkpoint (031c8ddab484). Code · OpenWhispr PR · Technical report · Artifact hashes Run Orukeet with Transformers. A standard FP32 Transformers export is available at the repository root. It uses ParakeetForTDT without custom remote code and works with Buzz's existing Hugging Face model option. See setup, conversion provenance and runtime qualification. The NeMo evaluation below remains the source-model benchmark; the Transformers export has separate compatibility measurements. Run Orukeet with NeMo. Use a CUDA-enabled PyTorch environment with nemo_toolkit[asr]==3.0.0 and huggingface-hub. The recorded source environment lists the exact package versions used for evaluation. orukeet fetch source retrieves the same hash-checked checkpoint. Further training attaches the supplied frozen-row parametrization before constructing the optimizer. Architecture. The model retains Parakeet's 627,008,134 parameters, 24-layer FastConformer encoder, token-and-duration tr",
+   "pdf_url": null,
+   "code_url": null,
+   "signals": {
+    "hf_likes": 90,
+    "hf_downloads": 28095,
+    "hf_trending": 14,
+    "pipeline_tag": "automatic-speech-recognition"
+   },
+   "topic": "ASR",
+   "promise": 4,
+   "scores": {
+    "novelty": 3,
+    "credibility": 3,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 4
+   },
+   "reasons": {
+    "novelty": "Ý tưởng thay thế một nửa temporal depthwise filters bằng frozen Gabor kernels trong FastConformer encoder là một cải tiến kiến trúc thú vị dù việc dùng Gabor filters trong xử lý tiếng nói đã có từ trước.",
+    "credibility": "Tác giả đến từ Oruk AI cùng các nhà nghiên cứu từ Stanford University và University of Cambridge, cung cấp technical report và checkpoint xác thực rõ ràng dù chưa công bố qua hội nghị peer-reviewed.",
+    "technical": "Phương pháp can thiệp sâu vào trọng số encoder của Parakeet TDT 0.6B, kết hợp training đa ngôn ngữ và hỗ trợ đầy đủ các format xuất như Transformers, NeMo và ONNX INT8/Q8/F16.",
+    "impact": "Mô hình nhận được sự quan tâm tốt từ cộng đồng với hơn 28.000 lượt tải và 90 likes trên Hugging Face, phục vụ tốt cho các ứng dụng ASR 25 ngôn ngữ.",
+    "evidence": "Báo cáo cung cấp số liệu thực nghiệm chi tiết so sánh trực tiếp với Parakeet trên 74 splits, bao gồm LibriSpeech và 25 ngôn ngữ của FLEURS cùng artifact hashes minh bạch."
+   },
+   "total": 60.0,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "hf-model:netease-youdao/Confucius4-R2T2",
+   "kind": "model",
+   "title": "netease-youdao/Confucius4-R2T2",
+   "url": "https://huggingface.co/netease-youdao/Confucius4-R2T2",
+   "sources": [
+    "HF Models"
+   ],
+   "published": "2026-09-10T12:16:21+00:00",
+   "authors": [
+    "netease-youdao"
+   ],
+   "abstract": "Confucius4-R2T2: A Low Latency and High Accuracy Real-Time Speech Recognition Model Real Real-Time Transcription Confucius4-R2T2 is a low-latency and high-accuracy true streaming Automatic Speech Recognition (ASR) model that features fine-grained and configurable decoding chunks from 80 ms to 2 s. The model operates in append-only output mode: committing transcript text permanently without revising previous words, which is critical for applications where text must be processed or acted upon instantly. This results in a smoother user experience, avoiding disruptive text revisions and visual flickering in real-time applications, such as Real-Time Live Captioning & Subtitling, Downstream NLP Pipelines & LLM Agents, Simultaneous Speech Translation, etc. R2T2, short for Real Real-Time Transcription, is built upon the Qwen3-ASR model. And it is trained with a unique set of data construction techniques including stable-prefix data, forced time-alignment data, and token-level audio segmentation. Combined with a Longest Stable Prefix (LSP) learning paradigm (tech report will be released soon), R2T2 can dynamically determine when a stable prefix can be safely emitted and when additional audio context is needed. By exposing only stable prefixes, the model provides high-quality context that conditions subsequent predictions while guaranteeing that previously emitted text remains unchanged. Despite its streaming design, R2T2 maintains strong accuracy in offline recognition. - Low-latency and high accuracy streaming recognition — The model achieves accuracy close to that of offline recognition, with only 200 to 600 milliseconds average latency. - Stable streaming output — Emitted text is committed as it arrives and remains unchanged. - Configurable low-latency chunking - Supports decoding chunks from 80 ms to 2 s for different latency/accuracy trade-offs. - No loss in offline accuracy — Adding streaming support does not degrade offline recognition accuracy. - vLLM backend — Provi",
+   "pdf_url": null,
+   "code_url": null,
+   "signals": {
+    "hf_likes": 472,
+    "hf_downloads": 10482,
+    "hf_trending": 149,
+    "pipeline_tag": "automatic-speech-recognition"
+   },
+   "topic": "ASR",
+   "promise": 4,
+   "scores": {
+    "novelty": 3,
+    "credibility": 4,
+    "technical": 4,
+    "impact": 4,
+    "evidence": 2
+   },
+   "reasons": {
+    "novelty": "Mô hình áp dụng cơ chế học Longest Stable Prefix (LSP) và dữ liệu stable-prefix để giải quyết bài toán append-only streaming ASR không bị giật/sửa chữ, dù ý tưởng streaming tiền tố ổn định đã từng xuất hiện trong các nghiên cứu trước.",
+    "credibility": "Đến từ NetEase Youdao, một đơn vị công nghệ uy tín có nhiều sản phẩm dịch thuật và xử lý ngôn ngữ/tiếng nói thực tế, phát hành chính thức qua Hugging Face.",
+    "technical": "Thiết kế kỹ thuật chi tiết với chunking linh hoạt từ 80ms đến 2s, kết hợp forced time-alignment, token-level audio segmentation và hỗ trợ vLLM backend phục vụ inference độ trễ thấp.",
+    "impact": "Thu hút sự quan tâm lớn của cộng đồng với hơn 470 likes và hơn 10.000 lượt tải trên Hugging Face, rất hữu ích cho các ứng dụng live captioning và LLM Agent theo thời gian thực.",
+    "evidence": "Mô hình và trọng số đã được phát hành kèm công bố độ trễ 200-600ms, nhưng văn bản thiếu số liệu benchmark định lượng cụ thể (như WER) so với baseline và tech report vẫn chưa ra mắt."
+   },
+   "total": 58.8,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "arxiv:2609.29217",
+   "kind": "paper",
+   "title": "AdaptDuplex: from static to adaptive full-duplex spoken dialogue",
+   "url": "https://arxiv.org/abs/2609.29217",
+   "sources": [
+    "arXiv"
+   ],
+   "published": "2026-09-24T08:25:16+00:00",
+   "authors": [
+    "Zhiyang Zhou",
+    "Yingxin Shang",
+    "Zhou Wang",
+    "Hongwei Cai",
+    "Weixu Wang",
+    "Shuran Zhou",
+    "Shuofeng Zhao",
+    "Wenke Fan",
+    "Qingxiang Guo",
+    "Dawei Yang",
+    "Lin Yang",
+    "Yang Song"
+   ],
+   "abstract": "Full-duplex spoken dialogue requires simultaneous listening and speaking at sub-second latency, under conversational timing and cognitive demands that change moment to moment. Yet current models mostly impose static operating points, lacking a systematic mechanism for adaptive decisions. We present AdaptDuplex, which extends Qwen3-Omni with such a mechanism, co-designed across three layers. A compact token-level protocol represents every window as a canonical sequence, trains dual-stream alignment through a bounded text lead over speech, and exposes every behavioral decision as an explicit token for training-free runtime control via logits bias. Adaptive mechanisms dynamically predict among discrete window durations and augment direct response as needed with non-blocking cognitive consolidation and multi-flight external reasoning. A progressive pipeline introduces these behaviors through a three-stage Thinker curriculum, then Talker-only and joint SFT, with GRPO as a preliminary increment. On Full-Duplex-Bench v1 and v1.5, AdaptDuplex outperforms DuplexOmni on 18 of 21 comparable turn-taking, overlap-behavior, and timing metrics and MiniCPM-o 4.5 on 19 of 22, with gains in both interaction decisions and response timing. On human-recorded HumDial-FDBench, it attains the top Final score (69.6) of the compared duplex models.",
+   "pdf_url": "https://arxiv.org/pdf/2609.29217",
+   "code_url": null,
+   "signals": {},
+   "topic": "Voice Agent",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 2,
+    "technical": 4,
+    "impact": 3,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Nghiên cứu mang tính đột phá khi chuyển đổi hội thoại full-duplex từ điểm vận hành tĩnh sang cơ chế thích ứng linh hoạt với dynamic window durations, non-blocking cognitive consolidation và can thiệp runtime qua logits bias.",
+    "credibility": "Bài báo hiện là bản preprint trên arXiv, chưa qua bình duyệt tại hội nghị chuyên ngành uy tín và chưa có bảo chứng từ lab nghiên cứu nổi bật.",
+    "technical": "Thiết kế kỹ thuật rất chặt chẽ và có chiều sâu thông qua kiến trúc 3 tầng, token-level protocol căn chỉnh dual-stream cùng pipeline huấn luyện tiến bộ kết hợp Thinker curriculum, SFT và GRPO.",
+    "impact": "Định hướng giải quyết nút thắt lớn cho voice agents thời gian thực, song tác động thực tế bị hạn chế do chưa có tín hiệu cộng đồng và chưa công bố mã nguồn hay trọng số mô hình.",
+    "evidence": "Các kết quả định lượng trên Full-Duplex-Bench và HumDial-FDBench thể hiện sự vượt trội so với DuplexOmni và MiniCPM-o 4.5, nhưng thiếu mã nguồn công khai để cộng đồng kiểm chứng độc lập."
+   },
+   "total": 57.5,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "arxiv:2609.31892",
+   "kind": "paper",
+   "title": "NVAlign: Direct-Gradient Optimization for Non-Verbal Control in Continuous Autoregressive Flow Matching Text-to-Speech",
+   "url": "https://arxiv.org/abs/2609.31892",
+   "sources": [
+    "arXiv",
+    "HF Daily Papers"
+   ],
+   "published": "2026-09-25T18:28:40+00:00",
+   "authors": [
+    "Qiaolin Wang",
+    "Pedro Sandoval-Segura",
+    "Anunaya Joshi",
+    "Edvardas Jurkonis",
+    "Jake Downie"
+   ],
+   "abstract": "While modern text-to-speech (TTS) systems generate highly natural speech and support inline non-verbal vocalization (NVV) tags, accurate control over these events remains challenging. A key gap is the lack of established post-training methods for non-verbal control in continuous autoregressive flow-matching TTS. To this end, we present NVAlign, a direct-gradient post-training framework for NVV tag-following in this architecture. We first perform supervised fine-tuning (SFT) of TTS models and an NVV-aware automatic speech recognition (NV-ASR) model on NVV-annotated speech, then freeze the NV-ASR model to serve as the reward model for post-training. A two-step gradient surrogate enables efficient reward backpropagation through the flow-matching sampler to jointly update the autoregressive backbone and acoustic flow head. Fidelity penalties and reference-velocity regularization help preserve speaker similarity and speech quality. Results from NVV-SuperBench and human listening evaluations show that NVAlign improves tag-following accuracy over SFT and Flow-GRPO baselines. These findings demonstrate that direct reward-gradient optimization can improve non-verbal control in continuous autoregressive flow-matching TTS. Audio samples are available at https://nvalign.github.io/.",
+   "pdf_url": "https://arxiv.org/pdf/2609.31892",
+   "code_url": null,
+   "signals": {
+    "hf_upvotes": 3
+   },
+   "topic": "TTS",
+   "promise": 4,
+   "scores": {
+    "novelty": 4,
+    "credibility": 3,
+    "technical": 4,
+    "impact": 2,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Nghiên cứu đề xuất phương pháp direct-gradient post-training đầu tiên cho continuous autoregressive flow-matching TTS với kỹ thuật two-step gradient surrogate để tối ưu hóa khả năng kiểm soát non-verbal vocalization.",
+    "credibility": "Bài báo được đăng tải trên arXiv và Hugging Face Daily Papers bởi nhóm tác giả nghiên cứu, nhưng hiện chưa qua bình duyệt tại hội nghị hay tạp chí chính thức.",
+    "technical": "Phương pháp được thiết kế chặt chẽ khi kết hợp NV-ASR reward model, two-step gradient surrogate cùng fidelity penalties và reference-velocity regularization để ổn định quá trình tối ưu qua flow-matching sampler.",
+    "impact": "Độ lan tỏa hiện tại còn hạn chế với 3 upvotes trên Hugging Face Daily Papers và chưa có repository mã nguồn công khai đi kèm.",
+    "evidence": "Nghiên cứu có đánh giá thực nghiệm qua NVV-SuperBench, so sánh với Flow-GRPO và human evaluation, tuy nhiên đoạn trích chưa cung cấp các số liệu định lượng chi tiết."
+   },
+   "total": 56.2,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "isca:interspeech_2026/cao26_interspeech",
+   "kind": "paper",
+   "title": "X-OPD: Cross-Modal On-Policy Distillation for Capability Alignment in Speech LLMs",
+   "url": "https://www.isca-archive.org/interspeech_2026/cao26_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Di Cao",
+    "Dongjie Fu",
+    "Hai Yu",
+    "Siqi Zheng",
+    "Xu Tan",
+    "Tao Jin"
+   ],
+   "abstract": "While the shift from cascaded dialogue systems to end-to-end (E2E) speech Large Language Models (LLMs) improves latency and paralinguistic modeling, E2E models often exhibit a significant performance degradation compared to their text-based counterparts. The standard Supervised Fine-Tuning (SFT) and Reinforcement Learning (RL) training methods fail to close this gap. To address this, we propose X-OPD, a novel Cross-Modal On-Policy Distillation framework designed to systematically align the capabilities of Speech LLMs to their text-based counterparts. X-OPD enables the Speech LLM to explore its own distribution via on-policy rollouts, where a text-based teacher model evaluates these trajectories and provides token-level feedback, effectively distilling teacher's capabilities into student's multi-modal representations. Extensive experiments across multiple benchmarks demonstrate that X-OPD significantly narrows the gap in complex tasks while preserving the model's inherent capabilities.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/cao26_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "Voice Agent",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 4,
+    "technical": 3,
+    "impact": 3,
+    "evidence": 2
+   },
+   "reasons": {
+    "novelty": "Ý tưởng áp dụng on-policy distillation cross-modal từ text LLM sang speech LLM với token-level feedback là một hướng tiếp cận mới mẻ và kịp thời để giải quyết capability gap.",
+    "credibility": "Bài báo xuất bản tại Interspeech thuộc ISCA Archive với đội ngũ tác giả có uy tín trong lĩnh vực speech như Xu Tan.",
+    "technical": "Thiết kế kỹ thuật hợp lý khi kết hợp on-policy rollouts của student với sự giám sát phân phối từ text teacher, dù phần tóm tắt chưa đi sâu vào chi tiết loss function và kiến trúc cụ thể.",
+    "impact": "Nghiên cứu giải quyết đúng điểm nghẽn quan trọng của E2E speech LLMs, có tiềm năng ứng dụng cao cho voice agents dù chưa có số liệu adoption thực tế.",
+    "evidence": "Phần văn bản chỉ nêu định tính về việc thu hẹp khoảng cách trên nhiều benchmark mà không cung cấp số liệu thực nghiệm cụ thể và chưa có mã nguồn đi kèm."
+   },
+   "total": 55.0,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "isca:interspeech_2026/jiang26g_interspeech",
+   "kind": "paper",
+   "title": "Integrating Facial Generation into Full-Duplex Spoken Dialogue Systems",
+   "url": "https://www.isca-archive.org/interspeech_2026/jiang26g_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Jingjing Jiang",
+    "Atsumoto Ohashi",
+    "Ryuichiro Higashinaka"
+   ],
+   "abstract": "Full-duplex spoken dialogue models, such as Moshi, enable natural, low-latency voice conversations. However, they remain limited to the audio modality, lacking the facial expressions that are integral to human communication. We present Moshi-Face, the first full-duplex dialogue model that jointly processes the user's audio and facial input while simultaneously generating speech and facial motion. We first construct a vector-quantized variational autoencoder (VQ-VAE) as a face codec that encodes 3D head meshes extracted from facial videos into compact discrete tokens, referred to as face tokens, and conversely reconstructs 3D meshes from these tokens. We then extend Moshi with a Face Transformer module that generates face tokens non-autoregressively, enabling Moshi-Face to produce synchronized audio and face tokens in real time. Experiments show that Moshi-Face achieves audiovisual alignment at low latency while preserving the dialogue quality of the original audio-only model.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/jiang26g_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "Voice Agent",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 4,
+    "technical": 3,
+    "impact": 3,
+    "evidence": 2
+   },
+   "reasons": {
+    "novelty": "Ý tưởng mở rộng mô hình full-duplex spoken dialogue như Moshi để xử lý và sinh đồng thời cả audio lẫn 3D facial motion là một hướng tiếp cận rất mới và tiên phong.",
+    "credibility": "Bài báo xuất bản tại Interspeech thuộc ISCA Archive với các tác giả có uy tín trong lĩnh vực spoken dialogue systems.",
+    "technical": "Thiết kế kỹ thuật hợp lý khi kết hợp VQ-VAE để rời rạc hóa 3D head mesh và Face Transformer non-autoregressive để đồng bộ real-time, dù đoạn tóm tắt chưa đi sâu vào chi tiết hàm mất mát hay recipe huấn luyện.",
+    "impact": "Mở ra tiềm năng lớn cho các avatar và embodied voice agent tương tác thời gian thực, tuy nhiên chưa có thông tin về mã nguồn mở hay số liệu tương tác cộng đồng.",
+    "evidence": "Đoạn văn chỉ nêu kết quả định tính về độ trễ thấp và chất lượng hội thoại mà không cung cấp số liệu thực nghiệm, benchmark so sánh hay human evaluation cụ thể."
+   },
+   "total": 55.0,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "isca:interspeech_2026/cui26_interspeech",
+   "kind": "paper",
+   "title": "TurnGuide: Enhancing Meaningful Full Duplex Spoken Interactions via Dynamic Turn-Level Text-Speech Interleaving",
+   "url": "https://www.isca-archive.org/interspeech_2026/cui26_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Wenqian Cui",
+    "Lei Zhu",
+    "Xiao-Hui Li",
+    "Zhihan Guo",
+    "Haoli Bai",
+    "Lu Hou",
+    "Irwin King"
+   ],
+   "abstract": "Full-Duplex Speech Language Models (FD-SLMs) enable real-time spoken interaction by modeling turn-taking behaviors such as interruptions and overlapping speech. End-to-end (e2e) FD-SLMs learn from double-channel conversational audio to capture natural dialogue dynamics, but their conversational quality often degrades compared to text-only models due to long speech sequences and limited high-quality spoken data. Although interleaved text-speech generation may alleviate this issue, inserting discrete text tokens into continuous dual-channel audio can disrupt temporal alignment and interaction fluency. We propose TurnGuide, a turn-level text-speech interleaved framework that dynamically segments assistant speech and jointly generates text and speech. This enables semantic intelligence from LLMs while preserving natural acoustic flow. Experiments show that TurnGuide significantly improves semantic coherence and achieves state-of-the-art performance on diverse turn-taking events.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/cui26_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "Voice Agent",
+   "promise": 5,
+   "scores": {
+    "novelty": 4,
+    "credibility": 4,
+    "technical": 3,
+    "impact": 3,
+    "evidence": 2
+   },
+   "reasons": {
+    "novelty": "Phương pháp TurnGuide đề xuất cơ chế dynamic turn-level text-speech interleaving mới lạ, giải quyết trực tiếp mâu thuẫn giữa tính liên kết ngữ nghĩa của LLM và tính liên tục thời gian trong full-duplex speech language models.",
+    "credibility": "Nghiên cứu đến từ nhóm tác giả uy tín (bao gồm Irwin King) và được công bố tại Interspeech thuộc ISCA Archive, một hội thảo hàng đầu về xử lý tiếng nói.",
+    "technical": "Thiết kế kiến trúc phân đoạn động và sinh kết hợp text-speech trên kênh kép hợp lý, nhưng phần tóm tắt chưa cung cấp chi tiết sâu về recipe huấn luyện và độ trễ streaming.",
+    "impact": "Ý tưởng có tiềm năng ứng dụng cao cho các voice agent full-duplex thế hệ mới, tuy nhiên mức độ ảnh hưởng thực tế cần chờ việc phát hành mã nguồn và adoption từ cộng đồng.",
+    "evidence": "Đoạn trích chỉ nêu kết luận chung về việc cải thiện semantic coherence và đạt SOTA trên turn-taking events mà không có số liệu định lượng cụ thể, baseline đối chứng hay mã nguồn đi kèm."
+   },
+   "total": 55.0,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "hf-model:Edge0/Audio8-ASR-Infinite",
+   "kind": "model",
+   "title": "Edge0/Audio8-ASR-Infinite",
+   "url": "https://huggingface.co/Edge0/Audio8-ASR-Infinite",
+   "sources": [
+    "HF Models"
+   ],
+   "published": "2026-09-21T15:03:21+00:00",
+   "authors": [
+    "Edge0"
+   ],
+   "abstract": "Audio8 ASR Infinite. Audio8 ASR Infinite is a native streaming speech recognition model built to be as responsive as possible. It offers a selectable audio clock (80/120/160 ms) and a transcription delay (240–560 ms). With our adapted vLLM build it transcribes unlimited-length audio 24/7 without drifting. Highlights. - Super responsive — the native streaming architecture decodes 12.5 times per second. - Unlimited-length transcription — a rolling KV Cache keeps both memory and latency constant, even in 24/7 operation. - Selectable streaming clock — one text token per clock step (12.5 / 8.3 / 6.25 decisions per second), balancing perception granularity and resource cost. - Configurable transcription delay — set how much delay to trade for accuracy. - Semantic VAD — distinguishes thinking pauses, stuttering and real end of turn, where traditional acoustic VAD usually fails. - Bilingual — Chinese and English. See Audio8-ASR-Infinite in action. The checkpoint has a native context of 30 seconds. But with Rolling KV Cache, it can transcribe 24/7 nonstop. Optimized operation points. The following combinations of frame length and delay are post-trained. Other combinations can be used but performance may not be optimum. | audio clock | frame_len | streaming_n_left_pad_tokens | selectable target_delay_ms | | 80 ms | 4 | 18 | 240 / 320 / 480 / 560 | | 120 ms | 6 | 12 | 240 / 480 | | 160 ms | 8 | 9 | 320 / 480 | target_delay_ms must be an integer multiple of the selected clock, so longer delays stay available at every clock even when they are not listed above. Architecture. Inherits the Voxtral realtime audio architecture and DSM-style streaming. | Component | Initial weights | Trained | | Causal Audio Tower | Voxtral Realtime 4B | ✅ | | Audio Projector | random initialisation | ✅ | | Frame Length Embedding | random initialisation | ✅ | | Decoder | Qwen2.5-3B-Instruct | ✅ | | LM Head | Qwen2.5-3B-Instruct | ✅ | Checkpoint specification: | audio tower | 32 layers, hidden 1280, 12",
+   "pdf_url": null,
+   "code_url": null,
+   "signals": {
+    "hf_likes": 1559,
+    "hf_downloads": 23674,
+    "hf_trending": 1368,
+    "pipeline_tag": "automatic-speech-recognition"
+   },
+   "topic": "ASR",
+   "promise": 4,
+   "scores": {
+    "novelty": 3,
+    "credibility": 3,
+    "technical": 4,
+    "impact": 4,
+    "evidence": 2
+   },
+   "reasons": {
+    "novelty": "Mô hình kết hợp tốt kiến trúc Voxtral realtime và cơ chế rolling KV Cache trên vLLM để hỗ trợ native streaming ASR vô hạn độ dài, dù các kỹ thuật streaming và rolling cache này không phải là hoàn toàn mới.",
+    "credibility": "Mô hình được phát hành bởi tác giả/nhóm Edge0 trên Hugging Face kèm thông số kiến trúc chi tiết, nhưng thiếu bài báo khoa học hoặc lý lịch tổ chức rõ ràng.",
+    "technical": "Thiết kế kỹ thuật hệ thống rất ấn tượng với việc tích hợp vLLM custom, hỗ trợ audio clock linh hoạt (80-160 ms), độ trễ tùy biến và cơ chế rolling KV Cache để streaming 24/7.",
+    "impact": "Các chỉ số tiếp nhận cộng đồng rất mạnh với hơn 1.500 likes và gần 24.000 lượt tải trên Hugging Face, cho thấy tiềm năng ứng dụng thực tế rất cao.",
+    "evidence": "Văn bản cung cấp thông số cấu hình và model checkpoint thực tế nhưng hoàn toàn thiếu các số liệu benchmark định lượng về WER hoặc so sánh với các baseline ASR khác."
+   },
+   "total": 55.0,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "gh:oruk-ai/orukeet",
+   "kind": "repo",
+   "title": "Oruk-AI/orukeet",
+   "url": "https://github.com/Oruk-AI/orukeet",
+   "sources": [
+    "GitHub"
+   ],
+   "published": "2026-09-09T05:46:51+00:00",
+   "authors": [
+    "Oruk-AI"
+   ],
+   "abstract": "Orukeet: multilingual ASR with fitted, frozen Gabor kernels and native inference\n\nREADME: Orukeet. Nathan Roll 1,2 · Irene Yi 1,2 · Büşra Marşan 1,2 Vianney Grenez 1 · Gabriel Stein 4 · Momcilo Mrkaic 5 Pavle Padjin 5 · Vladimir Zeljkovic 5 · Calbert Graham 1,3 1 Oruk AI 2 Stanford University 3 University of Cambridge 4 OpenWhispr 5 Hoid Orukeet is a 25-language speech recognizer built from NVIDIA Parakeet TDT 0.6B v3. It replaces half of the encoder's temporal depthwise filters with 12,288 fitted, frozen Gabor kernels and trains the remaining parameters on multilingual and multi-accent data. Orukeet outperforms Parakeet on 61 of 74 tested splits, including LibriSpeech test-clean (1.46% vs. 1.53% WER), test-other (2.86% vs. 3.14%), and FLEURS English (3.82% vs. 4.28%). Across all 25 FLEURS languages, pooled WER is 9.85% vs. 11.01%, a 10.6% relative reduction. Final adaptation and checkpoint selection use LibriSpeech test-other. Use Orukeet for recordings, media, batch transcription, server workers and interactive applications. NeMo, ONNX INT8, native Q8 and native F16 all derive from the same r3 release checkpoint (031c8ddab484). Model card · Weights · Technical report Use Orukeet in a desktop app. OpenWhispr 1.10.0 ships Orukeet as its recommended local model. In the local model picker, choose Oruk → Orukeet and download the model. This integration uses the ONNX export through OpenWhispr’s existing sherpa-onnx runtime. Follow the file-upload walkthrough for the exact settings and a public sample with its observed transcript. Audio Upload needs its own model selection even when Orukeet is active for dictation. TapTalk 0.4.0 is an open-source macOS dictation app with an Orukeet Core ML engine. Download Orukeet from its Models page; to switch between installed engines, use Settings → Local model. Orukeet transcribes completed recordings in this release; TapTalk's optional live typing uses Parakeet. See the TapTalk repository for setup and support. hyprwhspr is an open-source Linux dictation app with optional Orukeet support through its ONNX backend. Suppor",
+   "pdf_url": null,
+   "code_url": "https://github.com/Oruk-AI/orukeet",
+   "signals": {
+    "github_stars": 139,
+    "github_forks": 77,
+    "topics": "automatic-speech-recognition, gabor, gguf, multilingual, parakeet, speech-to-text"
+   },
+   "topic": "ASR",
+   "promise": 4,
+   "scores": {
+    "novelty": 3,
+    "credibility": 3,
+    "technical": 3,
+    "impact": 3,
+    "evidence": 4
+   },
+   "reasons": {
+    "novelty": "Ý tưởng thay thế một nửa temporal depthwise filters bằng các frozen Gabor kernels trên nền Parakeet TDT là cách tiếp cận khá thú vị và mới lạ cho multilingual ASR.",
+    "credibility": "Dự án đến từ Oruk AI với các tác giả liên kết từ Stanford University và University of Cambridge, dù chưa công bố qua hội thảo peer-reviewed chính thức.",
+    "technical": "Kỹ thuật fit và cố định 12,288 Gabor kernels kết hợp multilingual fine-tuning và tối ưu hóa đa nền tảng (NeMo, ONNX INT8, Core ML) thể hiện chiều sâu engineering tốt.",
+    "impact": "Dự án nhận được 139 GitHub stars và đã được tích hợp làm mô hình mặc định trong các ứng dụng desktop mã nguồn mở như OpenWhispr và TapTalk.",
+    "evidence": "Kết quả thực nghiệm rõ ràng trên LibriSpeech và 25 ngôn ngữ FLEURS với các mức giảm WER định lượng cụ thể, kèm weights và code suy luận đầy đủ."
+   },
+   "total": 55.0,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "isca:interspeech_2026/wagner26b_interspeech",
+   "kind": "paper",
+   "title": "Content is What Remains: Invariant Speech Tokenization from Parallel Utterances",
+   "url": "https://www.isca-archive.org/interspeech_2026/wagner26b_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Laurin Wagner"
+   ],
+   "abstract": "Discrete speech tokenizers aim to disentangle semantic from acoustic information, yet targets from self-supervised learning (SSL) models like HuBERT retain non-linguistic variation: speaker identity, prosody, and channel conditions leak into tokens, inflating entropy. Our insight: when enough speakers utter the same words under varying conditions, linguistic content is the only shared factor. We propose PINT (Parallel INvariant Tokenization), fine-tuning an SSL encoder with alignment losses across parallel utterances and augmentations to distill this shared residual. PINT collapses identical words onto consistent token sequences, drastically reducing conditional entropy. Unlike ASR text, PINT tokens preserve frame-level temporal grounding and serve as drop-in semantic targets for audio codecs. Experiments show a 98.7% relative reduction in speaker probe accuracy (93.1%→1.2%), 42% lower ABX error rate, and 27–30% lower LM perplexity versus baselines, confirming that the right invariance is key to efficient learning.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/wagner26b_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "TTS",
+   "promise": 5,
+   "scores": {
+    "novelty": 3,
+    "credibility": 4,
+    "technical": 3,
+    "impact": 3,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Ý tưởng tận dụng parallel utterances và alignment loss để loại bỏ thông tin phi ngôn ngữ trong discrete speech tokens là một cách tiếp cận sáng tạo nhưng phát triển từ các kỹ thuật biểu diễn quen thuộc.",
+    "credibility": "Bài báo được công bố tại Interspeech qua ISCA Archive, là hội nghị peer-reviewed hàng đầu và rất uy tín trong lĩnh vực speech processing.",
+    "technical": "Phương pháp fine-tuning SSL encoder với alignment loss và data augmentation giúp bảo toàn frame-level temporal grounding chặt chẽ, dù phần trích dẫn chưa nêu rõ chi tiết hàm mục tiêu.",
+    "impact": "Phương pháp mở ra tiềm năng lớn làm semantic targets cho các hệ thống audio codec và speech LM, tuy nhiên chưa có mã nguồn công khai hay tín hiệu đón nhận từ cộng đồng.",
+    "evidence": "Các kết quả thực nghiệm có số liệu định lượng rõ ràng qua speaker probing, ABX error rate và LM perplexity, nhưng còn thiếu human evaluation và mã nguồn mở để kiểm chứng."
+   },
+   "total": 53.8,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "isca:interspeech_2026/bhagtani26_interspeech",
+   "kind": "paper",
+   "title": "Speak or Stay Silent: Context-Aware Turn-Taking in Multi-Party Dialogue",
+   "url": "https://www.isca-archive.org/interspeech_2026/bhagtani26_interspeech.html",
+   "sources": [
+    "ISCA Archive"
+   ],
+   "published": "2026-09-30T08:57:20.507928+00:00",
+   "authors": [
+    "Kratika Bhagtani",
+    "Mrinal Anand",
+    "Yu Chen Xu",
+    "Amit Kumar Singh Yadav"
+   ],
+   "abstract": "Existing voice AI assistants treat every detected pause as an invitation to speak. This works in dyadic dialogue, but in multi-party settings, where an AI assistant participates alongside multiple speakers, pauses are abundant and ambiguous. An assistant that speaks on every pause becomes disruptive rather than useful. In this work, we formulate context-aware turn-taking: at every detected pause, given the full conversation context, our method decides whether the assistant should speak or stay silent. We introduce a benchmark of over 120K labeled conversations spanning three multi-party corpora. Evaluating eight recent large language models, we find that they consistently fail at context-aware turn-taking under zero-shot prompting. We then propose a supervised fine-tuning approach with reasoning traces, improving balanced accuracy by up to 23 percentage points. Our findings suggest that context-aware turn-taking is not an emergent capability; it must be explicitly trained.",
+   "pdf_url": "https://www.isca-archive.org/interspeech_2026/bhagtani26_interspeech.pdf",
+   "code_url": null,
+   "signals": {
+    "venue": "Proc. Interspeech 2026"
+   },
+   "topic": "Voice Agent",
+   "promise": 5,
+   "scores": {
+    "novelty": 3,
+    "credibility": 4,
+    "technical": 3,
+    "impact": 3,
+    "evidence": 3
+   },
+   "reasons": {
+    "novelty": "Bài báo hình thành bài toán context-aware turn-taking cụ thể cho trợ lý ảo trong hội thoại multi-party và đề xuất benchmark mới, dù việc dùng LLM cho dialogue management không hoàn toàn mới.",
+    "credibility": "Nghiên cứu được xuất bản tại Interspeech (ISCA Archive), hội nghị peer-reviewed hàng đầu và có độ uy tín cao trong lĩnh vực xử lý tiếng nói.",
+    "technical": "Quy trình xây dựng benchmark 120K mẫu và áp dụng supervised fine-tuning với reasoning traces khá bài bản, nhưng dựa chủ yếu vào text context mà chưa tích hợp sâu acoustic và prosodic features.",
+    "impact": "Định hướng giải quyết vấn đề thực tế quan trọng của voice AI trong môi trường nhiều người nói, song chưa có tín hiệu release code hoặc model weights công khai để tạo đột phá adoption.",
+    "evidence": "Cung cấp kết quả thực nghiệm rõ ràng với 8 LLMs trên 3 corpora và mức tăng 23% balanced accuracy, nhưng thiếu thông tin chi tiết về ablation study hoặc human evaluation trong văn bản."
+   },
+   "total": 53.8,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "hf-model:moondream/parakeet-ultra",
+   "kind": "model",
+   "title": "moondream/parakeet-ultra",
+   "url": "https://huggingface.co/moondream/parakeet-ultra",
+   "sources": [
+    "HF Models"
+   ],
+   "published": "2026-09-22T00:23:15+00:00",
+   "authors": [
+    "moondream"
+   ],
+   "abstract": "Moondream Parakeet Ultra. A post-trained version of parakeet-tdt-0.6b-v3. Same architecture, same tokenizer, same 0.6B parameters in full precision. It is better than the original on every benchmark group below, by a wide margin on the 25-language FLEURS set, in background noise and on long-form audio, and it runs faster than the original does in NeMo. | | parakeet-tdt-0.6b-v3 | parakeet-ultra | | Open ASR Leaderboard, 7 English sets (WER %) | 6.26 | 5.80 | | FLEURS, 25 languages (WER %) | 11.62 | 9.55 | | Business speech, AA-WER style (WER %) | 6.15 | 5.79 | | Background noise, 9 MUSAN conditions (WER %) | 6.72 | 5.82 | | TED-LIUM long-form (WER %) | 2.71 | 1.94 | Its sibling Parakeet Redux is the ternary version of the same architecture, 178 MB, built for CPUs and Apple silicon. Read the release post for the story behind both models. Usage. Run it with Photon. Every accuracy number on this page is Photon on an NVIDIA GPU. Performance. Real-time factor: seconds of audio transcribed per second of wall clock, higher is faster. One NVIDIA B200, 128 requests in flight, the same files on both sides; NeMo 3.0 runs the original checkpoint with its own transcribe call at batch 128, Photon runs parakeet-ultra. | | NeMo, parakeet-tdt-0.6b-v3 | Photon, parakeet-ultra | | LibriSpeech test-clean, 2,620 utterances, 5.4 hours | 6,005× | 9,743× | | AMI test, 12,643 utterances, 8.7 hours | 4,394× | 6,688× | Benchmarks. Word error rate in percent, lower is better. Both models are scored on the same files with the Open ASR Leaderboard's own pipeline as of September 2026 (its normalizers and compound-merging alignment, with the FLEURS references prepared as the leaderboard's text column is). parakeet-ultra runs in Photon on an NVIDIA GPU, the original in NeMo in bf16. Open ASR Leaderboard. The seven English test sets of the Hugging Face Open ASR Leaderboard: audiobooks (LibriSpeech), meetings (AMI), earnings calls (Earnings-22), podcasts and YouTube (GigaSpeech), financial calls (SPGI",
+   "pdf_url": null,
+   "code_url": null,
+   "signals": {
+    "hf_likes": 53,
+    "hf_downloads": 3495,
+    "hf_trending": 29,
+    "pipeline_tag": "automatic-speech-recognition"
+   },
+   "topic": "ASR",
+   "promise": 4,
+   "scores": {
+    "novelty": 2,
+    "credibility": 3,
+    "technical": 3,
+    "impact": 3,
+    "evidence": 4
+   },
+   "reasons": {
+    "novelty": "Mô hình chỉ là phiên bản post-trained trên kiến trúc và tokenizer có sẵn của parakeet-tdt-0.6b-v3 mà không có cải tiến kiến trúc mới.",
+    "credibility": "Được phát hành chính thức bởi moondream trên Hugging Face, tuy nhiên chưa có tài liệu kỹ thuật hoặc bài báo peer-reviewed chính thức.",
+    "technical": "Post-training cải thiện tốt độ chính xác trên nhiều domain và tích hợp tối ưu runtime Photon, nhưng tài liệu chưa công bố chi tiết training recipe và dữ liệu.",
+    "impact": "Đạt mức độ quan tâm tốt trong cộng đồng mã nguồn mở với 53 likes, gần 3.500 lượt tải và trending hạng 29 trên Hugging Face.",
+    "evidence": "Cung cấp số liệu benchmark WER chi tiết so sánh trực tiếp với parakeet gốc trên Open ASR Leaderboard, FLEURS, MUSAN cùng phép đo throughput rõ ràng trên GPU B200."
+   },
+   "total": 48.8,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  },
+  {
+   "id": "hf-model:Aratako/Irodori-TTS-v4-Large",
+   "kind": "model",
+   "title": "Aratako/Irodori-TTS-v4-Large",
+   "url": "https://huggingface.co/Aratako/Irodori-TTS-v4-Large",
+   "sources": [
+    "HF Models"
+   ],
+   "published": "2026-09-27T12:21:00+00:00",
+   "authors": [
+    "Aratako"
+   ],
+   "abstract": "Irodori-TTS-v4-Large. Irodori-TTS-v4-Large is a Japanese Text-to-Speech model based on a Rectified Flow Diffusion Transformer (RF-DiT) architecture. It combines Text (Input) + Reference Speech + Caption Text in a unified model, enabling zero-shot voice cloning, text-based voice design, and style-controlled voice cloning. The model also supports emoji-based style and sound effect control. By inserting specific emojis into the input text, you can control speaking styles, emotions, and non-verbal vocal expressions in the generated audio. 🌟 Key Features. * Multi-modal Voice Design: Use reference audio for speaker identity and descriptive captions for voice characteristics, emotion, speaking style, and delivery. * Long-reference Voice Cloning: Condition generation on one or more reference clips, with up to 120 seconds of combined reference audio. * Flow Matching TTS: Rectified Flow Diffusion Transformer over continuous DACVAE latents for high-quality Japanese speech synthesis. * Emoji-based Style Control: Embed emojis directly in the input text for granular control over the delivery and sound effects (e.g., laughter, coughing, sighs). See EMOJI_ANNOTATIONS.md for details. * Integrated Watermarking: Integrates SilentCipher to apply robust, invisible audio watermarks directly to generated outputs, promoting responsible AI usage. ✨ What's New in v4-Large. * Larger Model: Scales the v4 architecture from approximately 766M to 3.29B parameters, including a 24-layer, 2,048-dimensional Diffusion Transformer and a larger reference latent encoder. * T5Gemma 2 Text/Caption Encoder: Replaces ModernBERT-ja with the fine-tuned text encoder from google/t5gemma-2-1b-1b, shared between input text and Voice Design captions. * Separately Trained Duration Predictor: Uses a duration predictor trained after the main model, with the other model parameters frozen, following the approach used in v4.1-Small. * Improved Voice Design Scores: Achieves higher caption-adherence scores than v4-Small in",
+   "pdf_url": null,
+   "code_url": null,
+   "signals": {
+    "hf_likes": 47,
+    "hf_downloads": 0,
+    "hf_trending": 47,
+    "pipeline_tag": "text-to-speech"
+   },
+   "topic": "TTS",
+   "promise": 4,
+   "scores": {
+    "novelty": 3,
+    "credibility": 2,
+    "technical": 4,
+    "impact": 2,
+    "evidence": 2
+   },
+   "reasons": {
+    "novelty": "Mô hình kết hợp sáng tạo giữa RF-DiT, điều khiển phong cách bằng emoji và voice design qua caption cho tiếng Nhật, dù các thành phần cốt lõi kế thừa từ các kỹ thuật flow matching hiện có.",
+    "credibility": "Dự án phát hành bởi một nhà phát triển độc lập trên Hugging Face, thiếu sự bảo trợ từ tổ chức lớn và chưa có bài báo khoa học bình duyệt (peer-reviewed).",
+    "technical": "Thiết kế kỹ thuật vững chắc với mô hình RF-DiT 3.29B tham số trên continuous DACVAE latents, kết hợp T5Gemma 2 encoder, duration predictor huấn luyện riêng và watermarking SilentCipher.",
+    "impact": "Mức độ quan tâm của cộng đồng ở mức vừa phải với 47 lượt thích trên Hugging Face và phạm vi ứng dụng chủ yếu tập trung vào hệ sinh thái TTS tiếng Nhật.",
+    "evidence": "Trang mô hình có cung cấp trọng số nhưng thiếu các bảng đánh giá thực nghiệm định lượng, số liệu benchmark cụ thể so với baseline hoặc kết quả human evaluation chi tiết."
+   },
+   "total": 41.2,
+   "summary": null,
+   "fulltext_source": null,
+   "rank": null
+  }
+ ]
+}

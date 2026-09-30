@@ -56,7 +56,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot dot-idle"></span>last digest: none yet</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W40</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -69,8 +69,514 @@
   </div>
 </header>
 
-<div class="card"><div class="card-body empty-state"><svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><p>No items yet. The first digest will appear after the next collector run.</p></div></div>
-
+<form class="filters" data-feed-filters role="search" onsubmit="return false">
+  <label class="search">
+    <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /></svg>
+    <span class="visually-hidden">Search</span>
+    <input type="search" name="q" placeholder="Search title, author, source">
+  </label>
+  <label><span class="visually-hidden">Topic</span>
+    <select name="topic">
+      <option value="">All topics</option>
+<option value="ASR">ASR</option><option value="TTS">TTS</option><option value="Speech Understanding">Speech Understanding</option><option value="Voice Agent">Voice Agent</option>    </select>
+  </label>
+  <label><span class="visually-hidden">Type</span>
+    <select name="kind">
+      <option value="">All types</option>
+<option value="model">Model</option><option value="paper">Paper</option><option value="repo">Repo</option>    </select>
+  </label>
+  <label><span class="visually-hidden">Sort</span>
+    <select name="sort">
+      <option value="week">Newest week</option>
+      <option value="score">Highest score</option>
+      <option value="date">Publication date</option>
+    </select>
+  </label>
+  <label class="check"><input type="checkbox" name="top"> Analyzed (top 10) only</label>
+</form>
+<p class="muted result-count" data-feed-count aria-live="polite">30 items</p>
+<ul class="list card" data-feed-list>
+<li class="row" data-topic="ASR" data-kind="paper" data-top="yes"
+    data-score="78.8" data-date="2026-09-24T12:06:46+00:00"
+    data-text="yodas v3: over 1 million hours of high-bandwidth, stereophonic, multilingual speech william chen shinnosuke takamichi sayaka shiota satoru fukayama samuele cornell shinji watanabe arxiv isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-29448-58af00.html">YODAS v3: Over 1 Million Hours of High-Bandwidth, Stereophonic, Multilingual Speech</a>
+    <div class="meta meta-small">
+<span>Sep 24, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">ISCA Archive</span>      <span class="pill pill-accent">ASR</span>
+<span class="pill pill-top">Top 1 · 2026-W40</span>    </div>
+<p class="row-tldr">YODAS v3 là kho ngữ liệu tiếng nói đa ngôn ngữ có giám sát yếu (weakly-labeled) với quy mô hơn 1,1 triệu giờ âm thanh stereo 48kHz trải rộng trên 147 ngôn ngữ dưới giấy phép CC BY 3.0. Bộ dữ liệu khắc phục điểm nghẽn về độ phân giải âm thanh và độ lệch ngôn ngữ của các kho ngữ liệu mở trước đây bằng cách cung cấp âm thanh stereo băng thông cao và phân bố cân bằng giữa các ngôn ngữ.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 78.8 of 100">
+    <span class="row-score-value">78.8</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 5/5" style="--v: 5"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 5/5" style="--v: 5"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="ASR" data-kind="model" data-top="yes"
+    data-score="71.2" data-date="2026-09-18T11:02:15+00:00"
+    data-text="moondream/parakeet-redux moondream hf models">
+  <div class="row-main">
+    <a class="row-title" href="items/hf-model-moondream-parakeet-redux-392473.html">moondream/parakeet-redux</a>
+    <div class="meta meta-small">
+<span>Sep 18, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Model</span>
+<span class="pill">HF Models</span>      <span class="pill pill-accent">ASR</span>
+<span class="pill pill-top">Top 2 · 2026-W40</span>    </div>
+<p class="row-tldr">Moondream Parakeet Redux là phiên bản lượng tử hóa 1.58-bit (ternary) của parakeet-tdt-0.6b-v3 từ NVIDIA, thu nhỏ kích thước từ 1.2 GB xuống còn 178 MB. Mô hình đạt tốc độ suy luận 113× real time trên 8 lõi CPU x86 qua runtime Photon, giữ mức chênh lệch trong vòng 0.3 WER trên tiếng Anh và vượt qua mô hình gốc trên benchmark FLEURS 25 ngôn ngữ cùng dữ liệu âm thanh dài.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 71.2 of 100">
+    <span class="row-score-value">71.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="70.0" data-date="2026-09-24T14:06:28+00:00"
+    data-text="pubg ally: a conversational embodied agent as an ai teammate pubg ally team irene chen youngin cho seungjun chung jimin hong hyeonbin hwang hyeojung im insub im jaeseung jeon seohyeon jung beomsoo kim byeongju kim dohyun kim dongwon kim eunchong kim hongmin kim hyeonghwan kim hyunseung kim sungwoo kim kangwook lee minkyoung park sue hyun park hyoseok seol yujeong son kiyoon yoo arxiv hf daily papers">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-29837-acdb39.html">PUBG Ally: A Conversational Embodied Agent as an AI Teammate</a>
+    <div class="meta meta-small">
+<span>Sep 24, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top 3 · 2026-W40</span>    </div>
+<p class="row-tldr">PUBG Ally là một agent hiện thân có khả năng hội thoại giọng nói (conversational embodied agent) hoạt động như một đồng đội AI thời gian thực trong PUBG: BATTLEGROUNDS. Hệ thống kết hợp phân tầng System 1 (behavior tree ở tần số game-tick) và System 2 (SLM on-device lý luận qua tool interface), cho phép phối hợp chiến thuật và đàm thoại end-to-end với độ trễ phản hồi chỉ ~1.6s trên GPU người dùng phổ thông.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 70.0 of 100">
+    <span class="row-score-value">70.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech Understanding" data-kind="paper" data-top="yes"
+    data-score="70.0" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="para-llm: a unified approach to paralinguistic and acoustic speech understanding nishit anand jiaqi su ke chen yunyun wang dinesh manocha ramani duraiswami rithesh kumar zeyu jin isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-anand26-interspeech-15b3b1.html">ParA-LLM: A Unified Approach to Paralinguistic and Acoustic Speech Understanding</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Speech Understanding</span>
+<span class="pill pill-top">Top 4 · 2026-W40</span>    </div>
+<p class="row-tldr">ParA-LLM là mô hình Audio LLM được thiết kế nhằm giải quyết khoảng trống trong việc thấu hiểu các yếu tố cận ngôn ngữ (paralinguistics) và âm học môi trường (acoustics) của lời nói. Tác giả chuẩn hóa một phân loại gồm 22 đặc trưng, xây dựng tập dữ liệu hơn 1.2M cặp Audio-QA và huấn luyện mô hình qua phương pháp curriculum learning hai giai đoạn (từ câu hỏi đơn thuộc tính đến đa thuộc tính). ParA-LLM đạt độ chính xác tổng thể 43.53% trên benchmark mới ParA-Bench (6,000 câu hỏi), vượt qua GPT-4o-Audio (36.03%) và Voxtral-24B (38.80%).</p>  </div>
+  <div class="row-score" aria-label="Ranking score 70.0 of 100">
+    <span class="row-score-value">70.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech Understanding" data-kind="paper" data-top="yes"
+    data-score="70.0" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="scaling properties of continuous diffusion spoken language models jason ramapuram eeshan gunesh dhekane amitis shidani dan busbridge bogdan mazoure zijin gu russ webb tatiana likhomanenko navdeep jaitly isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-ramapuram26-interspeech-c210d2.html">Scaling Properties of Continuous Diffusion Spoken Language Models</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Speech Understanding</span>
+<span class="pill pill-top">Top 5 · 2026-W40</span>    </div>
+<p class="row-tldr">Nghiên cứu đầu tiên thiết lập quy luật mở rộng (scaling laws) cho mô hình ngôn ngữ tiếng nói khuếch tán liên tục (Continuous Diffusion Spoken Language Models - CD SLM) trực tiếp từ đặc trưng log-mel filterbanks không cần giám sát văn bản. Nhóm tác giả giới thiệu thước đo phoneme Jensen-Shannon divergence (pJSD) để định lượng năng lực ngôn ngữ và chứng minh rằng dù CD SLM mở rộng tới 16 tỷ tham số tạo ra giọng nói biểu cảm, đa người nói và đa ngữ rất tốt, việc đạt được sự mạch lạc ngôn ngữ dài hạn (long-form coherence) vẫn là rào cản lớn.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 70.0 of 100">
+    <span class="row-score-value">70.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="70.0" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="dualturn: learning turn-taking from dual-channel generative speech pretraining shangeth rajaa isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-rajaa26-interspeech-8e360c.html">DualTurn: Learning Turn-Taking from Dual-Channel Generative Speech Pretraining</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top 6 · 2026-W40</span>    </div>
+<p class="row-tldr">DualTurn là mô hình turn-taking 0.5B tham số áp dụng pretraining tự hồi quy sinh tiếng nói 2 kênh (dual-channel generative speech pretraining) để giám sát đồng thời cả hai người nói, sau đó finetune để dự đoán 6 tín hiệu turn-taking và ánh xạ thành 5 hành động của agent. Mô hình giải quyết hạn chế của silence timeout trong pipeline ASR-LLM-TTS, dự đoán biên lượt nói sớm hơn và hỗ trợ phát hiện backchannel trong khi vẫn chạy real-time trên CPU.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 70.0 of 100">
+    <span class="row-score-value">70.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="66.2" data-date="2026-09-26T13:27:12+00:00"
+    data-text="voxmem: benchmarking multimodal memory in large audio language models yang xiao vidhyasaharan sethu eun-jung holden ting dang arxiv hf daily papers">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-32607-29eed7.html">VoxMem: Benchmarking Multimodal Memory in Large Audio Language Models</a>
+    <div class="meta meta-small">
+<span>Sep 26, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top 7 · 2026-W40</span>    </div>
+<p class="row-tldr">VoxMem là benchmark đầu tiên đánh giá bộ nhớ hội thoại đa phiên (multi-session conversational memory) cho Large Audio Language Models (LALMs) trên 34.743 phiên nói chuyện (177 giờ, 3.196 mẫu đánh giá). Benchmark kết hợp 4 loại bằng chứng âm thanh (speech semantics, speaker identity, paralinguistic cues, environmental sound) với 4 thao tác bộ nhớ (information extraction, multi-session reasoning, temporal evolution tracking, answer refusal) trên các cửa sổ ngữ cảnh mở rộng từ 8K đến 64K token.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 66.2 of 100">
+    <span class="row-score-value">66.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="ASR" data-kind="paper" data-top="yes"
+    data-score="66.2" data-date="2026-09-27T15:10:59+00:00"
+    data-text="pruned ctc for memory-efficient large-vocabulary asr training yifan yang xiaoyu yang zengrui jin xian shi yuxuan wang yu xi ziyang ma qi chen ruiyang xu hui wang dongchao yang jin xu xie chen arxiv hf daily papers">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-33645-7c83d1.html">Pruned CTC for Memory-Efficient Large-Vocabulary ASR Training</a>
+    <div class="meta meta-small">
+<span>Sep 27, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span>      <span class="pill pill-accent">ASR</span>
+<span class="pill pill-top">Top 8 · 2026-W40</span>    </div>
+<p class="row-tldr">Pruned CTC là phương pháp huấn luyện CTC tiết kiệm bộ nhớ cho từ vựng lớn (native LLM vocabularies) bằng cách gom nhóm từ vựng và tính alignment trên tập con xuất hiện trong batch kết hợp normalization toàn từ vựng. Nhóm tác giả áp dụng phương pháp này để phát triển LLM-CTC (offline và streaming), giúp LLM giải mã non-autoregressive trực tiếp trên causal backbone với tốc độ nhanh hơn 7-10 lần so với autoregressive CE mà chất lượng nhận dạng gần như tương đương.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 66.2 of 100">
+    <span class="row-score-value">66.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="66.2" data-date="2026-09-26T12:04:49+00:00"
+    data-text="beyond dyadic memory: interaction-aware multimodal memory with adaptive agentic retrieval for multi-party spoken conversations wenxu jia xize cheng zihan zhang dongjie fu linjun li wenshi chen yangyang wu tao jin arxiv hf daily papers">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-32522-785e3b.html">Beyond Dyadic Memory: Interaction-Aware Multimodal Memory with Adaptive Agentic Retrieval for Multi-Party Spoken Conversations</a>
+    <div class="meta meta-small">
+<span>Sep 26, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top 9 · 2026-W40</span>    </div>
+<p class="row-tldr">VoxPolyMem là framework bộ nhớ đa phương thức nhận biết tương tác (interaction-aware) cho hội thoại tiếng nói nhiều người (multi-party spoken conversations), kết hợp nhận dạng người nói trực tuyến, phân cấp bộ nhớ ba tầng và cơ chế truy xuất tác tử thích ứng. Mô hình sử dụng thuật toán Evidence-Gain GRPO (EG-GRPO) để tối ưu hóa việc thu thập bằng chứng mới qua từng lượt, đạt điểm tổng thể 85.0 trên benchmark mới VoxPolyBench (vượt baseline tốt nhất 23.6 điểm) và vượt các baseline công khai hơn 8 điểm trên Mem-Gallery và H2HMem-Multi.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 66.2 of 100">
+    <span class="row-score-value">66.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="66.2" data-date="2026-09-28T11:53:07+00:00"
+    data-text="apex-voice: can voice agents complete professional workflows through full-duplex interaction puneet mathur dinesh manocha arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-34973-7c981e.html">APEX-Voice: Can Voice Agents Complete Professional Workflows Through Full-Duplex Interaction</a>
+    <div class="meta meta-small">
+<span>Sep 28, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top 10 · 2026-W40</span>    </div>
+<p class="row-tldr">APEX-VOICE là benchmark đầu tiên đánh giá năng lực của các mô hình full-duplex voice agent trong việc hoàn thành quy trình công việc chuyên nghiệp (professional workflows) từ lời nói thành văn bản/kết quả có thể kiểm chứng. Benchmark bao gồm 120 workflow tương tác thực thi trong môi trường stateful Voice Workbench với các ràng buộc về công cụ, tri thức và quyền hạn. Kết quả cho thấy các mô hình giọng nói tiên tiến nhất hiện nay (như GPT-realtime-2.1, Grok-Voice-Think-2.0) chỉ đạt tối đa 23.6% PASS@1 và 10.8% RELIABLE@3, phơi bày khoảng cách lớn giữa khả năng đàm thoại trôi chảy và khả năng thực thi công việc thực tế.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 66.2 of 100">
+    <span class="row-score-value">66.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="ASR" data-kind="paper" data-top="no"
+    data-score="65.0" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="beyond mimicry: constrained exploration with grpo for joint multi-talker asr and diarization under unknown speaker counts yunrui cai dingdong wang lingwei meng xixin wu zhiyong wu helen meng isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-cai26c-interspeech-205733.html">Beyond Mimicry: Constrained Exploration with GRPO for Joint Multi-Talker ASR and Diarization under Unknown Speaker Counts</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">ASR</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 65.0 of 100">
+    <span class="row-score-value">65.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="61.3" data-date="2026-09-25T19:53:52+00:00"
+    data-text="duplex-mpe: benchmarking multi-party interaction in full-duplex dialogue chengqian ma wenhao feng weixuan jin gaole dai tianyu xie yuexiao ma zhaolu kang xiangyu zhao xiawu zheng fei chao arxiv hf daily papers">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-31948-c1e65f.html">Duplex-MPE: Benchmarking Multi-Party Interaction in Full-Duplex Dialogue</a>
+    <div class="meta meta-small">
+<span>Sep 25, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 61.3 of 100">
+    <span class="row-score-value">61.3</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="61.3" data-date="2026-09-29T07:25:29+00:00"
+    data-text="multitalk: scaling full-duplex speech models to long, multi-party, bilingual conversation ke wang houxing ren zimu lu yunqiao yang zhuofan zong mingjie zhan hongsheng li arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-36903-2c0f95.html">MultiTalk: Scaling Full-Duplex Speech Models to Long, Multi-Party, Bilingual Conversation</a>
+    <div class="meta meta-small">
+<span>Sep 29, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 61.3 of 100">
+    <span class="row-score-value">61.3</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="61.3" data-date="2026-09-29T15:28:13+00:00"
+    data-text="thinking in depth, speaking directly: recurrent latent reasoning for paralinguistically grounded spoken dialogue shengbo cai yuxiang wang jingran xie zhisheng zhang shun lei di cao teddy sun zhiyong wu arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-37818-beb99b.html">Thinking in Depth, Speaking Directly: Recurrent Latent Reasoning for Paralinguistically Grounded Spoken Dialogue</a>
+    <div class="meta meta-small">
+<span>Sep 29, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 61.3 of 100">
+    <span class="row-score-value">61.3</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="60.0" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="from reactive to proactive: assessing the proactivity of voice agents via provoice-bench ke xu yuhao wang yu wang isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-xu26k-interspeech-011eb4.html">From Reactive to Proactive: Assessing the Proactivity of Voice Agents via ProVoice-Bench</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 60.0 of 100">
+    <span class="row-score-value">60.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech Understanding" data-kind="paper" data-top="no"
+    data-score="60.0" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="univoice: unifying autoregressive asr and flow-matching based tts with large language models wenhao guan zhikang niu ziyue jiang kaidi wang peijie chen qingyang hong xie chen lin li isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-guan26b-interspeech-7c9151.html">UniVoice: Unifying Autoregressive ASR and Flow-Matching based TTS with Large Language Models</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Speech Understanding</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 60.0 of 100">
+    <span class="row-score-value">60.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="60.0" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="adaptive turn-taking for real-time multi-party voice agents soumyajit mitra prabhat pandey abhinav jain shanmukha sahith k v vijay girish isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-mitra26-interspeech-8efd2c.html">Adaptive Turn-Taking for Real-time Multi-Party Voice Agents</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 60.0 of 100">
+    <span class="row-score-value">60.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="ASR" data-kind="model" data-top="no"
+    data-score="60.0" data-date="2026-09-09T05:42:20+00:00"
+    data-text="oruk/orukeet oruk hf models">
+  <div class="row-main">
+    <a class="row-title" href="items/hf-model-oruk-orukeet-7dd83e.html">oruk/orukeet</a>
+    <div class="meta meta-small">
+<span>Sep 9, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Model</span>
+<span class="pill">HF Models</span>      <span class="pill pill-accent">ASR</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 60.0 of 100">
+    <span class="row-score-value">60.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="ASR" data-kind="model" data-top="no"
+    data-score="58.8" data-date="2026-09-10T12:16:21+00:00"
+    data-text="netease-youdao/confucius4-r2t2 netease-youdao hf models">
+  <div class="row-main">
+    <a class="row-title" href="items/hf-model-netease-youdao-confucius4-r2t2-dbf959.html">netease-youdao/Confucius4-R2T2</a>
+    <div class="meta meta-small">
+<span>Sep 10, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Model</span>
+<span class="pill">HF Models</span>      <span class="pill pill-accent">ASR</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 58.8 of 100">
+    <span class="row-score-value">58.8</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="57.5" data-date="2026-09-24T08:25:16+00:00"
+    data-text="adaptduplex: from static to adaptive full-duplex spoken dialogue zhiyang zhou yingxin shang zhou wang hongwei cai weixu wang shuran zhou shuofeng zhao wenke fan qingxiang guo dawei yang lin yang yang song arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-29217-6dce97.html">AdaptDuplex: from static to adaptive full-duplex spoken dialogue</a>
+    <div class="meta meta-small">
+<span>Sep 24, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 57.5 of 100">
+    <span class="row-score-value">57.5</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 2/5" style="--v: 2"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="paper" data-top="no"
+    data-score="56.2" data-date="2026-09-25T18:28:40+00:00"
+    data-text="nvalign: direct-gradient optimization for non-verbal control in continuous autoregressive flow matching text-to-speech qiaolin wang pedro sandoval-segura anunaya joshi edvardas jurkonis jake downie arxiv hf daily papers">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-31892-db0c5e.html">NVAlign: Direct-Gradient Optimization for Non-Verbal Control in Continuous Autoregressive Flow Matching Text-to-Speech</a>
+    <div class="meta meta-small">
+<span>Sep 25, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 56.2 of 100">
+    <span class="row-score-value">56.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 2/5" style="--v: 2"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="55.0" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="x-opd: cross-modal on-policy distillation for capability alignment in speech llms di cao dongjie fu hai yu siqi zheng xu tan tao jin isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-cao26-interspeech-02f71e.html">X-OPD: Cross-Modal On-Policy Distillation for Capability Alignment in Speech LLMs</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 55.0 of 100">
+    <span class="row-score-value">55.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="55.0" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="integrating facial generation into full-duplex spoken dialogue systems jingjing jiang atsumoto ohashi ryuichiro higashinaka isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-jiang26g-interspeech-f50a86.html">Integrating Facial Generation into Full-Duplex Spoken Dialogue Systems</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 55.0 of 100">
+    <span class="row-score-value">55.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="55.0" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="turnguide: enhancing meaningful full duplex spoken interactions via dynamic turn-level text-speech interleaving wenqian cui lei zhu xiao-hui li zhihan guo haoli bai lu hou irwin king isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-cui26-interspeech-39486c.html">TurnGuide: Enhancing Meaningful Full Duplex Spoken Interactions via Dynamic Turn-Level Text-Speech Interleaving</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 55.0 of 100">
+    <span class="row-score-value">55.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="ASR" data-kind="model" data-top="no"
+    data-score="55.0" data-date="2026-09-21T15:03:21+00:00"
+    data-text="edge0/audio8-asr-infinite edge0 hf models">
+  <div class="row-main">
+    <a class="row-title" href="items/hf-model-edge0-audio8-asr-infinite-96e107.html">Edge0/Audio8-ASR-Infinite</a>
+    <div class="meta meta-small">
+<span>Sep 21, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Model</span>
+<span class="pill">HF Models</span>      <span class="pill pill-accent">ASR</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 55.0 of 100">
+    <span class="row-score-value">55.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="ASR" data-kind="repo" data-top="no"
+    data-score="55.0" data-date="2026-09-09T05:46:51+00:00"
+    data-text="oruk-ai/orukeet oruk-ai github">
+  <div class="row-main">
+    <a class="row-title" href="items/gh-oruk-ai-orukeet-9838e3.html">Oruk-AI/orukeet</a>
+    <div class="meta meta-small">
+<span>Sep 9, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Repo</span>
+<span class="pill">GitHub</span>      <span class="pill pill-accent">ASR</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 55.0 of 100">
+    <span class="row-score-value">55.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="paper" data-top="no"
+    data-score="53.8" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="content is what remains: invariant speech tokenization from parallel utterances laurin wagner isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-wagner26b-interspeech-d15f31.html">Content is What Remains: Invariant Speech Tokenization from Parallel Utterances</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 53.8 of 100">
+    <span class="row-score-value">53.8</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="53.8" data-date="2026-09-30T08:57:20.507928+00:00"
+    data-text="speak or stay silent: context-aware turn-taking in multi-party dialogue kratika bhagtani mrinal anand yu chen xu amit kumar singh yadav isca archive">
+  <div class="row-main">
+    <a class="row-title" href="items/isca-interspeech-2026-bhagtani26-interspeech-722462.html">Speak or Stay Silent: Context-Aware Turn-Taking in Multi-Party Dialogue</a>
+    <div class="meta meta-small">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 53.8 of 100">
+    <span class="row-score-value">53.8</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="ASR" data-kind="model" data-top="no"
+    data-score="48.8" data-date="2026-09-22T00:23:15+00:00"
+    data-text="moondream/parakeet-ultra moondream hf models">
+  <div class="row-main">
+    <a class="row-title" href="items/hf-model-moondream-parakeet-ultra-6bad5b.html">moondream/parakeet-ultra</a>
+    <div class="meta meta-small">
+<span>Sep 22, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Model</span>
+<span class="pill">HF Models</span>      <span class="pill pill-accent">ASR</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 48.8 of 100">
+    <span class="row-score-value">48.8</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 2/5" style="--v: 2"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="model" data-top="no"
+    data-score="41.2" data-date="2026-09-27T12:21:00+00:00"
+    data-text="aratako/irodori-tts-v4-large aratako hf models">
+  <div class="row-main">
+    <a class="row-title" href="items/hf-model-aratako-irodori-tts-v4-large-b46d93.html">Aratako/Irodori-TTS-v4-Large</a>
+    <div class="meta meta-small">
+<span>Sep 27, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Model</span>
+<span class="pill">HF Models</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+  </div>
+  <div class="row-score" aria-label="Ranking score 41.2 of 100">
+    <span class="row-score-value">41.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 2/5" style="--v: 2"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 2/5" style="--v: 2"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
+  </div>
+</li>
+</ul>
   </main>
 </body>
 </html>
