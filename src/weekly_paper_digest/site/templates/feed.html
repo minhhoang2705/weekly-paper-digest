@@ -5,7 +5,7 @@
 <header class="page-header">
   <div class="page-heading">
     <h1 class="title">Research Feed</h1>
-    <p class="meta">Every item scored by the collector, newest week first. Full-text analysis exists for each week's top {{ cfg.top_k }}.</p>
+    <p class="meta">Every shortlisted item, analyzed and scored on its full text. Newest week first.</p>
   </div>
 </header>
 
@@ -35,7 +35,7 @@
       <option value="date">Publication date</option>
     </select>
   </label>
-  <label class="check"><input type="checkbox" name="top"> Analyzed (top {{ cfg.top_k }}) only</label>
+  <label class="check"><input type="checkbox" name="top"> Top {{ cfg.top_k }} only</label>
 </form>
 <p class="muted result-count" data-feed-count aria-live="polite">{{ items | length }} items</p>
 <ul class="list card" data-feed-list>

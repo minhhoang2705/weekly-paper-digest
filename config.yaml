@@ -1,14 +1,13 @@
 # Weekly speech paper digest — all tunables live here.
 
-lookback_days: 7          # crawl window for time-based sources
+lookback_days: 14          # crawl window for time-based sources
 top_k: 10                 # items in the digest
-shortlist_size: 30        # candidates that get full 5-criteria scoring
+shortlist_size: 30        # candidates whose FULL TEXT is read, analyzed and scored (cost scales with this)
 language: "tiếng Việt (giữ nguyên thuật ngữ kỹ thuật tiếng Anh)"
 
 models:
   triage: gemini-3.5-flash-lite   # cheap relevance filter on title/abstract
-  score: gemini-3.8-flash         # 5-criteria scoring
-  summarize: gemini-3.8-flash     # full-text detailed summary
+  analyze: gemini-3.8-flash       # full-text read: detailed summary + 5-criteria scores
 
 # Relative weights; total score = weighted mean scaled to 0-100.
 weights:

@@ -1,4 +1,4 @@
-"""LLM stages: triage (cheap relevance), scoring (5 criteria), summarization (full text)."""
+"""LLM stages: triage (cheap relevance on abstracts), analysis (full-text scoring + detailed summary)."""
 from __future__ import annotations
 
 import json
@@ -97,11 +97,11 @@ def triage(llm: LLM, cfg: Config, items: list[Item]) -> tuple[list[Item], list[s
     return kept, warnings
 
 
-# ---------------------------------------------------------------- scoring
+# ---------------------------------------------------------------- full-text analysis
 
 class Criterion(BaseModel):
     score: int = Field(description="Integer 1-5")
-    reason: str = Field(description="One sentence justification")
+    reason: str = Field(description="One sentence justification citing what the document shows")
 
 
 class ScoreCard(BaseModel):
@@ -111,43 +111,6 @@ class ScoreCard(BaseModel):
     impact: Criterion
     evidence: Criterion
 
-
-RUBRIC = """Score each criterion as an integer 1-5 (1 = very weak, 3 = typical good work, 5 = exceptional):
-- novelty: how new the idea/capability is versus prior work (5 = new paradigm or first-of-its-kind; 1 = rehash).
-- credibility: trustworthiness of the source: author/lab track record, peer-reviewed venue, official release, reputable publisher.
-- technical: depth and rigor of the method or engineering (architecture, training recipe, systems design).
-- impact: expected effect on speech research or products; use adoption signals (HF upvotes, GitHub stars, likes) when given.
-- evidence: strength of empirical support: benchmarks against strong baselines, ablations, human evals, released code/weights. Claims without numbers score low.
-Score only what the provided text supports; when information is missing, score conservatively and say so."""
-
-
-def score(llm: LLM, cfg: Config, items: list[Item]) -> list[Item]:
-    system = f"You are a senior speech-technology reviewer.\n{RUBRIC}\nWrite every reason in {cfg.language}."
-
-    def run(item: Item) -> Item | None:
-        prompt = (
-            f"Kind: {item.kind}\nTopic: {item.topic}\nTitle: {item.title}\n"
-            f"Authors/owner: {', '.join(item.authors[:15]) or 'unknown'}\n"
-            f"Sources: {', '.join(item.sources)}\nSignals: {_signals(item)}\n"
-            f"Code: {item.code_url or 'none listed'}\n\nText:\n{item.abstract}"
-        )
-        try:
-            card = llm.structured(cfg.models["score"], system, [prompt], ScoreCard)
-        except Exception as exc:  # noqa: BLE001 - one failed item must not sink the run
-            log.warning("scoring failed for %s: %s", item.id, exc)
-            return None
-        for c in CRITERIA:
-            crit: Criterion = getattr(card, c)
-            item.scores[c] = max(1, min(5, crit.score))
-            item.reasons[c] = crit.reason
-        item.total = weighted_total(item.scores, cfg.weights)
-        return item
-
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        return [i for i in pool.map(run, items) if i is not None]
-
-
-# ---------------------------------------------------------------- summarization
 
 class Summary(BaseModel):
     tldr: str = Field(description="2-3 sentences: what it is and why it matters")
@@ -162,43 +125,76 @@ class Summary(BaseModel):
     context: str = Field(description="One line: who made it (authors/lab and affiliations as stated) and venue/release context")
 
 
-def _summary_system(cfg: Config) -> str:
+class Analysis(BaseModel):
+    # Field order matters: the model writes the analysis first, then scores what it just analyzed.
+    summary: Summary
+    scores: ScoreCard
+
+
+RUBRIC = """Score each criterion as an integer 1-5 (1 = very weak, 3 = typical good work, 5 = exceptional):
+- novelty: how new the idea/capability is versus prior work (5 = new paradigm or first-of-its-kind; 1 = rehash).
+- credibility: trustworthiness of the source: author/lab track record, peer-reviewed venue, official release, reputable publisher.
+- technical: depth and rigor of the method or engineering (architecture, training recipe, systems design).
+- impact: expected effect on speech research or products; use adoption signals (HF upvotes, GitHub stars, likes) when given.
+- evidence: strength of empirical support in the document: benchmarks against strong baselines, ablations, human evals,
+  released code/weights. Claims without numbers score low.
+Judge from the full document, not the abstract's claims; when information is missing, score conservatively and say so."""
+
+
+def _analysis_system(cfg: Config) -> str:
     return (
-        "You write detailed technical briefs of speech-technology papers, posts, repos and models "
-        f"for expert engineers. Write in {cfg.language}.\n"
-        "Rules:\n"
+        "You are a senior speech-technology reviewer writing detailed technical briefs of papers, posts, repos and "
+        f"models for expert engineers, then ranking them. Write all text in {cfg.language}.\n"
+        "Rules for the summary:\n"
         "- Use ONLY the provided document. Never invent numbers, datasets, baselines or claims.\n"
         "- Copy numbers exactly as written (WER, MOS, latency, params, hours of data...).\n"
         "- Go beyond the abstract: explain the method concretely enough that a reader could sketch it.\n"
         "- If the document does not state something, write 'Không được nêu trong tài liệu'.\n"
-        "- Markdown inside fields is allowed (bold, inline code, short lists)."
+        "- Markdown inside fields is allowed (bold, inline code, short lists).\n"
+        f"Scoring:\n{RUBRIC}"
     )
 
 
-def summarize(llm: LLM, cfg: Config, client: httpx.Client, items: list[Item]) -> None:
-    system = _summary_system(cfg)
+def analyze(llm: LLM, cfg: Config, client: httpx.Client, items: list[Item]) -> list[Item]:
+    """Read each shortlisted item's full text once; produce both its detailed summary and its 5 scores.
 
-    def run(item: Item) -> None:
-        header = f"Kind: {item.kind}\nTitle: {item.title}\nURL: {item.url}\n"
+    Ranking therefore reflects the full document. Items whose analysis fails are dropped (and reported).
+    """
+    system = _analysis_system(cfg)
+
+    def run(item: Item) -> Item | None:
+        header = (
+            f"Kind: {item.kind}\nTopic: {item.topic}\nTitle: {item.title}\nURL: {item.url}\n"
+            f"Authors/owner: {', '.join(item.authors[:15]) or 'unknown'}\n"
+            f"Sources: {', '.join(item.sources)}\nSignals: {_signals(item)}\n"
+            f"Code: {item.code_url or 'none listed'}\n"
+        )
         try:
             ft = fetch_fulltext(client, item)
         except httpx.HTTPError as exc:
             log.warning("full text fetch failed for %s: %s", item.id, exc)
             ft = None
         if ft is None:
-            item.fulltext_source = "chỉ có abstract/mô tả (không lấy được full-text)"
+            item.fulltext_source = "abstract/mô tả (không lấy được full-text)"
             contents = [header + "Only the abstract/description is available:\n" + item.abstract]
         elif ft.pdf is not None:
-            item.fulltext_source = ft.label
             contents = [pdf_part(ft.pdf), header + "The attached PDF is the full document."]
         else:
-            item.fulltext_source = ft.label
             contents = [header + "Full document:\n" + (ft.text or "")]
+        if ft is not None:
+            item.fulltext_source, item.fulltext = ft.label, True
         try:
-            item.summary = llm.structured(cfg.models["summarize"], system, contents, Summary).model_dump()
-        except Exception as exc:  # noqa: BLE001 - rendered as a visible gap, not hidden
-            log.warning("summary failed for %s: %s", item.id, exc)
-            item.summary = None
+            result = llm.structured(cfg.models["analyze"], system, contents, Analysis)
+        except Exception as exc:  # noqa: BLE001 - one failed item must not sink the run
+            log.warning("analysis failed for %s: %s", item.id, exc)
+            return None
+        item.summary = result.summary.model_dump()
+        for c in CRITERIA:
+            crit: Criterion = getattr(result.scores, c)
+            item.scores[c] = max(1, min(5, crit.score))
+            item.reasons[c] = crit.reason
+        item.total = weighted_total(item.scores, cfg.weights)
+        return item
 
-    with ThreadPoolExecutor(max_workers=3) as pool:
-        list(pool.map(run, items))
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        return [i for i in pool.map(run, items) if i is not None]

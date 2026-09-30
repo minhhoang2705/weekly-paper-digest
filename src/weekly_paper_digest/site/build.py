@@ -76,6 +76,15 @@ def _sections(summary: dict) -> list[dict]:
     return out
 
 
+def ranking_basis(row: dict) -> str:
+    """What the scores were computed from. Runs before full-text ranking have no `fulltext` key."""
+    if row.get("fulltext"):
+        return "full-text analysis"
+    if "fulltext" in row:
+        return "abstract only (full text unavailable)"
+    return "abstract + signals (earlier pipeline)"
+
+
 def collect_items(runs: list[dict]) -> list[dict]:
     """Latest occurrence of every item across runs (runs come newest first)."""
     seen: dict[str, dict] = {}
@@ -88,6 +97,7 @@ def collect_items(runs: list[dict]) -> list[dict]:
             item["analyzed_at"] = run["generated_at"]
             item["slug"] = slug(row["id"])
             item["sections"] = _sections(row["summary"]) if row.get("summary") else []
+            item["basis"] = ranking_basis(row)
             seen[row["id"]] = item
     return list(seen.values())
 

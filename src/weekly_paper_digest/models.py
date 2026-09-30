@@ -36,6 +36,7 @@ class Item:
     total: float = 0.0
     summary: dict | None = None
     fulltext_source: str | None = None
+    fulltext: bool = False       # analysis (and thus ranking) read the full document
 
     @property
     def arxiv_id(self) -> str | None:

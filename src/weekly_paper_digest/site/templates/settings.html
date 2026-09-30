@@ -14,7 +14,7 @@
     <dl class="kv card-body">
       <div><dt>Schedule</dt><dd>{{ site.schedule_label }}</dd></div>
       <div><dt>Crawl window</dt><dd>{{ cfg.lookback_days }} days</dd></div>
-      <div><dt>Shortlist scored</dt><dd>{{ cfg.shortlist_size }}</dd></div>
+      <div><dt>Full-text analyzed</dt><dd>top {{ cfg.shortlist_size }} after triage</dd></div>
       <div><dt>Digest size</dt><dd>top {{ cfg.top_k }}</dd></div>
       <div><dt>Summary language</dt><dd>{{ cfg.language }}</dd></div>
     </dl>

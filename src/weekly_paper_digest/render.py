@@ -56,7 +56,7 @@ def _item_section(rank: int, item: Item) -> list[str]:
         out += [f"### {title}", s[key], ""]
     out += ["### Kết quả chính"] + [f"- {r}" for r in s["results"]] + [""]
     out += ["### Hạn chế", s["limitations"], "", "### Ý nghĩa thực tế", s["takeaways"], ""]
-    out += [f"<sub>Tóm tắt dựa trên: {item.fulltext_source}</sub>", "", "---", ""]
+    out += [f"<sub>Phân tích và chấm điểm dựa trên: {item.fulltext_source}</sub>", "", "---", ""]
     return out
 
 

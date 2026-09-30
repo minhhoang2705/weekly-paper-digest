@@ -12,7 +12,7 @@ from .models import Item
 from .ranking import dedupe, shortlist, top_k
 from .render import render
 from .sources import PartialFailure, SourceContext, registry
-from .stages import score, summarize, triage
+from .stages import analyze, triage
 from .state import State
 from .store import save_run
 
@@ -81,15 +81,14 @@ def run(cfg: Config, root: Path, *, lookback_days: int | None = None, dry_run: b
         warnings += triage_warnings
         stats["LLM triage: liên quan"] = len(relevant)
         short = shortlist(relevant, cfg.shortlist_size)
-        scored = score(llm, cfg, short)
-        stats["được chấm điểm"] = len(scored)
+        scored = analyze(llm, cfg, client, short)
+        stats["phân tích + chấm điểm full-text"] = sum(i.fulltext for i in scored)
         if len(scored) < len(short):
-            warnings.append(f"{len(short) - len(scored)} mục chấm điểm thất bại (lỗi LLM).")
+            warnings.append(f"{len(short) - len(scored)} mục phân tích thất bại (lỗi LLM).")
+        no_fulltext = [i.title for i in scored if not i.fulltext]
+        if no_fulltext:
+            warnings.append(f"Chấm điểm trên abstract vì không lấy được full-text: {'; '.join(no_fulltext)}")
         top = top_k(scored, cfg.top_k)
-        summarize(llm, cfg, client, top)
-        missing = [i.title for i in top if i.summary is None]
-        if missing:
-            warnings.append(f"Không tóm tắt được: {'; '.join(missing)}")
 
     digest = root / "digests" / f"{week}.md"
     digest.parent.mkdir(parents=True, exist_ok=True)

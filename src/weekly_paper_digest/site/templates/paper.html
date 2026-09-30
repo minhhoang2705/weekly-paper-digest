@@ -57,8 +57,7 @@
       {% else %}
         <div class="card-body empty-state">
           {{ icon("flask-conical", 22) }}
-          <p>Not analyzed yet. Full-text analysis runs only for the week's top {{ cfg.top_k }} items;
-          this one was scored on its {{ excerpt_label[item.kind] }} but ranked outside the top {{ cfg.top_k }}.</p>
+          <p>No analysis stored for this item.</p>
         </div>
       {% endif %}
     </section>
@@ -66,7 +65,7 @@
 
   <aside class="card ranking" aria-labelledby="ranking-h">
     <div class="card-header">
-      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · abstract + signals</span>
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · {{ item.basis }}</span>
     </div>
     {% if item.scores %}
       <div class="score-block">

@@ -42,7 +42,7 @@
 
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: {{ site.schedule_label }}</div>
-      <div class="status-row"><span class="dot"></span>LLM: {{ cfg.models.summarize }}</div>
+      <div class="status-row"><span class="dot"></span>LLM: {{ cfg.models.analyze }}</div>
       <div class="status-row"><span class="dot{% if not latest_week %} dot-idle{% endif %}"></span>last digest: {{ latest_week or "none yet" }}</div>
     </footer>
   </aside>
