@@ -34,6 +34,7 @@ class LLM:
                 system_instruction=system,
                 response_mime_type="application/json",
                 response_schema=schema,
+                automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
             ),
         )
         if isinstance(resp.parsed, schema):
