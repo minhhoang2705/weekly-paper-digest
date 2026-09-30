@@ -1,7 +1,7 @@
 import re
 
 from weekly_paper_digest.fulltext import excerpt
-from weekly_paper_digest.site.build import safe_url, slug
+from weekly_paper_digest.site.build import ranking_basis, safe_url, slug
 from weekly_paper_digest.site.radar import AXES, CX, CY, R, radar_svg, vertex
 
 
@@ -16,6 +16,12 @@ def test_only_http_links_reach_href():
     assert safe_url("https://arxiv.org/abs/1") == "https://arxiv.org/abs/1"
     assert safe_url("javascript:alert(1)") == "#"
     assert safe_url(None) == "#"
+
+
+def test_ranking_basis_never_claims_full_text_it_did_not_read():
+    assert ranking_basis({"fulltext": True}) == "full-text analysis"
+    assert ranking_basis({"fulltext": False}).startswith("abstract only")
+    assert "earlier pipeline" in ranking_basis({})   # data written before full-text ranking
 
 
 def test_radar_axis_order_matches_spec():
