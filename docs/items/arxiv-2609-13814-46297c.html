@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Realtime-Venus: A full-duplex interaction system with asynchronous delegation · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W40</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Realtime-Venus: A full-duplex interaction system with asynchronous delegation</h1>
+    <div class="meta">
+<span>Sep 12, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">HF Daily Papers</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Ruixiang Zhao, Hualei Wang, Renhe Sun, Enzhi Zhou, Jincenzi Wu, Xujie Song, Kexin Shi, Zihang Liu, Pengcheng Zhu, Jiayi Zhou, Baoyue Zhang, Changhao Zhang, Zitong Wang, Jinhong Wang, Tong Niu +12 more</span>
+    </div>
+  </div>
+  <div class="header-actions">
+      <a class="button" href="https://github.com/inclusionAI/Realtime-Venus" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Code</a>
+    <a class="button" href="https://huggingface.co/papers/2609.13814" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Natural interaction in digital and physical environments requires continuous perception and timely responses. Spoken dialogue relies on acoustic and linguistic cues, while video interaction also requires grounding the conversation in evolving visual context. We present Realtime-Venus, a proactive full-duplex interaction system with two separately trained 9B models: Realtime-Venus-Omni for audio-visual interaction and Realtime-Venus-Audio for spoken interaction. Each model serves as a complete conversational frontend, integrating continuous perception, conversational control, and native speech generation through a shared causal timeline for user inputs, model outputs, and delegation events. A dual-loop runtime coordinates live interaction with background reasoning and tool execution. Foreground interaction continues while Realtime-Venus-Harness executes tasks asynchronously and returns results for integration into the ongoing dialogue. Both models follow a common post-training recipe combining offline understanding, proactive full-duplex trajectories, and delegation workflows. Among the evaluated online models, Realtime-Venus-Omni achieves the highest scores on six of eight video benchmarks, including StreamingBench (70.2%), OVO-Bench (64.7%), and Daily-Omni (81.3%). Across eight audio understanding and spoken question answering benchmarks, Realtime-Venus-Audio leads the compared models on MMAU (78.0%), MMAU-Pro (63.2%), Llama Questions (83.8%), and Speech CMMLU (67.8%), while matching the best VoiceBench AlpacaEval score of 4.81. On Full-Duplex-Bench v1.5, Realtime-Venus-Audio responds to 75% of user interruptions and achieves continuation rates of 97%, 88%, and 86% under backchannels, other-directed speech, and background speech, respectively, exceeding Gemini 3.1 Live and GPT-4o on all three continuation metrics.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Sep 30, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Realtime-Venus là hệ thống tương tác full-duplex chủ động gồm hai mô hình 9B (Realtime-Venus-Omni cho audio-visual và Realtime-Venus-Audio cho đàm thoại thoại) kết hợp với framework điều phối bất đồng bộ Realtime-Venus-Harness. Hệ thống giải quyết bài toán đồng bộ hóa giữa luồng tương tác thời gian thực với các tác vụ suy luận/gọi công cụ nền kéo dài mà không làm gián đoạn hội thoại.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Tương tác tự nhiên (natural interaction) đòi hỏi hệ thống phải vừa tiếp nhận luân phiên tín hiệu đa phương thức liên tục, vừa phản hồi đúng lúc và xử lý ngắt lời (interruption) hoặc backchannel. Khi cần gọi công cụ hoặc suy luận phức tạp, các tác vụ tính toán ngoài chạy ở thang thời gian chậm hơn nhiều so với hội thoại trực tiếp; do đó, việc thu thập ngữ cảnh cố định tại thời điểm yêu cầu và tái tích hợp kết quả vào hội thoại đang diễn ra mà không làm mất tính mạch lạc là thách thức lớn.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Realtime-Venus xây dựng trên nền MiniCPM-o 4.5 (9B) gồm hai biến thể: Omni (dùng SigLIP2 và Whisper-Medium) và Audio (bỏ nhánh thị giác). Cả hai dùng LLM backbone Qwen3-8B và bộ giải mã âm thanh streaming flow-matching dựa trên token rời rạc S3 (CosyVoice 2). Kiến trúc tương tác chia thành runtime dual-loop: (1) <strong>Interaction loop</strong> xử lý các chunk 1 giây theo luồng nhân quả chung (user, assistant, background), tự động dự đoán các token điều khiển (<code>&lt;|listen|&gt;</code>, <code>&lt;|speak|&gt;</code>, <code>&lt;|turn_eos|&gt;</code>), thẻ phân quyền (<code>&lt;delegate&gt;</code>, <code>&lt;backend&gt;</code>) và điều tiết phát sinh văn bản theo tiến độ playback ($n_k = \arg\min_n |\tau_{k-1} + D(Y_{k,1:n}) - t_k|$); (2) <strong>Capability loop (Realtime-Venus-Harness)</strong> thực hiện tác vụ nền qua chu trình Capture (đóng băng snapshot ngữ cảnh $X_i$), Dispatch (Router phân phối đến năng lực Multimodal, General hoặc Skill chuyên biệt) và Return (adapter trau chuốt kết quả thành phản hồi thoại, đưa qua kênh ngầm <code>&lt;backend&gt;</code>). Ngoài ra, Realtime-Venus-Omni gắn thêm bộ nhớ video dài không cần huấn luyện (Training-Free Long-Video Memory) lọc frame bằng chi phí chuyển động (block-level motion matching) và truy xuất kết hợp MaxSim với độ mới lạ hình ảnh (MMR). Quá trình post-training sử dụng hơn 2,8 triệu mẫu (56% hiểu offline, 37% duplex chủ động, 6% delegation) với hàm mất mát sparse cross-entropy chỉ tính trên span phản hồi.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá video streaming và offline trên 8 benchmark: StreamingBench, OVO-Bench, ProactiveVideoQA, OmniPro, WorldSense, Daily-Omni, OmniVideoBench, LVOmniBench; bộ nhớ video dài trên LongVideoBench và CGBench. Đánh giá âm thanh trên MMAU, MMAU-Pro, MMAR, MMSU và hỏi đáp giọng nói (VoiceBench AlpacaEval, Llama Questions, Speech TriviaQA, Speech CMMLU). Đánh giá full-duplex trên Full-Duplex-Bench v1.5 (ngắt lời, backchannel, nói với người khác, tiếng ồn nền), tool-use trên FDB-v3 và bộ benchmark nội bộ Delegate Benchmark. Input audio chuẩn hóa mono 16 kHz, streaming xử lý chunk 1 giây, output audio tổng hợp ở 24 kHz; video lấy mẫu 1 fps tối đa 128 frame kích thước ~448x448.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Realtime-Venus-Omni dẫn đầu các mô hình online trên 6/8 benchmark video: đạt 70.2% trên StreamingBench (vượt MiniCPM-o 4.5 đạt 67.9%), 64.7% trên OVO-Bench (so với 60.7%), 29.0% OmniPro probe accuracy (so với 25.6%) và 81.3% trên Daily-Omni (so với 79.4%).</li>
+<li>Bộ nhớ video dài giúp Realtime-Venus-Omni tăng 5.88 điểm phần trăm trên tập 60-90 phút của LVOmniBench (từ 41.18% lên 47.06%) và tăng 4.76 điểm trên tập 40-60 phút của LongVideoBench (từ 57.14% lên 61.90%).</li>
+<li>Realtime-Venus-Audio đạt độ chính xác cao nhất nhóm mô hình so sánh trên MMAU (78.0%) và MMAU-Pro (63.2% so với Qwen3-Omni 61.2% và MiniCPM-o 4.5 60.0%), đồng thời dẫn đầu Llama Questions (83.8%) và Speech CMMLU (67.8%), đạt 4.81 điểm VoiceBench AlpacaEval.</li>
+<li>Trên Full-Duplex-Bench v1.5, Realtime-Venus-Audio đạt tỷ lệ tiếp tục nói (continuation rate C_RESUME) vượt trội Gemini 3.1 Live và GPT-4o: đạt 0.97 với user backchannel, 0.88 khi người dùng nói với người khác, và 0.86 khi có tiếng ồn nền (C_RESPOND tương ứng chỉ 0.00, 0.11, 0.11), dù tỷ lệ phản hồi ngắt lời (0.75) thấp hơn Joy-Duplex (0.88).</li>
+<li>Trên Full-Duplex-Bench v3 tool-use, Realtime-Venus-Omni đạt 86.0% Tool selection F1, 53.1% Argument accuracy và 43.0% Pass@1, xếp thứ nhì sau GPT-Realtime (87.6% F1, 68.0% Argument accuracy, 60.0% Pass@1).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Khả năng phân biệt ngắt lời người dùng (user interruption response rate 0.75) vẫn thấp hơn Joy-Duplex (0.88) và GPT-4o (0.78). Tỷ lệ trúng đối số công cụ (Argument accuracy 52.2%-53.1%) và Pass@1 (42.0%-43.0%) còn kém xa GPT-Realtime. Ngoài ra, mô hình Audio gặp hiện tượng over-delegation (non-delegation specificity chỉ 39.44%), trong khi mô hình Omni lại bỏ sót việc ủy quyền tác vụ ngoài (recall 68.33%).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Cung cấp một giải pháp mẫu hoàn chỉnh cho kỹ sư voice agent: tích hợp khả năng full-duplex đồng thời với cơ chế gọi công cụ/suy luận nền bất đồng bộ thông qua dual-loop runtime, phân định rõ ràng giữa việc ra quyết định hội thoại trực tiếp và trau chuốt kết quả trả về từ backend.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">75.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đề xuất tiên phong kết hợp tương tác video/audio full-duplex chủ động với cơ chế ủy quyền tác vụ bất đồng bộ (asynchronous delegation) và bộ nhớ ngữ cảnh dài trên cùng một causal timeline.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật hoàn chỉnh và chặt chẽ từ serialization chunk 1s, causal task capture có timestamp fence, đến cơ chế visual memory gating dựa trên motion cost.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Đánh giá thực nghiệm rộng lượng trên hơn 10 benchmark chuẩn về video streaming, audio reasoning, overlap handling và tool-use so với nhiều baseline mạnh (MiniCPM-o, GPT-4o, Gemini 3.1 Live).</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Thu hút sự quan tâm tốt với 217 upvotes trên Hugging Face và giải quyết đúng điểm nghẽn tích hợp tool-use trong các hệ thống đàm thoại full-duplex thời gian thực.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Công trình đến từ Ant Group và Đại học Thanh Hoa, mô tả phương pháp chi tiết, công khai repository mã nguồn và trang dự án.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đề xuất tiên phong kết hợp tương tác video/audio full-duplex chủ động với cơ chế ủy quyền tác vụ bất đồng bộ (asynchronous delegation) và bộ nhớ ngữ cảnh dài trên cùng một causal timeline.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Công trình đến từ Ant Group và Đại học Thanh Hoa, mô tả phương pháp chi tiết, công khai repository mã nguồn và trang dự án.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật hoàn chỉnh và chặt chẽ từ serialization chunk 1s, causal task capture có timestamp fence, đến cơ chế visual memory gating dựa trên motion cost.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Thu hút sự quan tâm tốt với 217 upvotes trên Hugging Face và giải quyết đúng điểm nghẽn tích hợp tool-use trong các hệ thống đàm thoại full-duplex thời gian thực.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Đánh giá thực nghiệm rộng lượng trên hơn 10 benchmark chuẩn về video streaming, audio reasoning, overlap handling và tool-use so với nhiều baseline mạnh (MiniCPM-o, GPT-4o, Gemini 3.1 Live).</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kiến trúc dual-loop tách bạch tương tác và ủy quyền · Xử lý backchannel và tiếng ồn nền vượt trội · Bộ nhớ video dài training-free hiệu quả cao · Mở mã nguồn và dự án đầy đủ</p>
+          <p><span class="label">Weaknesses</span> · Độ chính xác tham số công cụ còn thấp · Đánh đổi giữa giữ lời và phản hồi ngắt · Thiên lệch ủy quyền không đồng đều giữa hai biến thể</p>
+          <p><span class="label">Context</span> · Venus Team (Ant Group) phối hợp cùng Đại học Thanh Hoa (Tsinghua University); bài báo kỹ thuật công bố trên arXiv (tháng 9/2026) kèm mã nguồn GitHub mở.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

@@ -69,7 +69,7 @@
     <h1 class="title">X-OPD: Cross-Modal On-Policy Distillation for Capability Alignment in Speech LLMs</h1>
     <div class="meta">
 <span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
-<span class="pill">ISCA Archive</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Di Cao, Dongjie Fu, Hai Yu, Siqi Zheng, Xu Tan, Tao Jin</span>
+<span class="pill">ISCA Archive</span><span class="pill pill-accent">Speech Understanding</span>        <span class="authors">Di Cao, Dongjie Fu, Hai Yu, Siqi Zheng, Xu Tan, Tao Jin</span>
     </div>
   </div>
   <div class="header-actions">
@@ -90,30 +90,79 @@
     <section class="card" aria-labelledby="analysis-h">
       <div class="card-header">
         <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Sep 30, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
       </div>
-        <div class="card-body empty-state">
-          <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>
-          <p>No analysis stored for this item.</p>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>X-OPD là khung chưng cất on-policy đa phương thức (Cross-Modal On-Policy Distillation) giúp thu hẹp khoảng cách năng lực suy luận giữa Speech LLM và Text LLM tương ứng. Phương pháp sử dụng văn bản đối sánh để làm cầu nối đánh giá các rollout tự sinh của mô hình học sinh qua cả hai phương thức âm thanh và văn bản, giúp giảm mạnh độ suy giảm hiệu năng mà không cần nhãn ground-truth hay dữ liệu huấn luyện khổng lồ.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình Speech LLM End-to-End (E2E) thường chịu sự suy giảm hiệu năng nghiêm trọng (performance degradation/modality gap) trong các tác vụ suy luận phức tạp, trả lời câu hỏi tri thức và tuân thủ chỉ dẫn so với Text LLM cùng nền tảng. Hiện tượng này xuất phát từ sự khan hiếm dữ liệu speech-reasoning chất lượng cao và sự lệch pha biểu diễn giữa tín hiệu âm thanh liên tục và không gian rời rạc của văn bản. Các phương pháp truyền thống như SFT, Offline KD hay GKD gặp lỗi chệch phân phối (exposure bias) và gây suy giảm nghiêm trọng khả năng tổng quát (catastrophic forgetting).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>X-OPD thiết lập một tập dữ liệu song song $D = {(S_i, T_i)}$ có tính bất biến ngữ nghĩa (Semantic Invariance) giữa âm thanh $S_i$ và câu lệnh văn bản $T_i$. Mô hình học sinh ($\pi_\theta$) tự sinh độc lập $m$ quỹ đạo giải pháp (multi-sampling rollout với $n=4$) cho mỗi prompt qua cả hai phương thức speech và text. Một mô hình giáo viên thuần văn bản ($\pi_\phi$) cung cấp phản hồi token-level thông qua cơ chế dual-advantage:\n- In-modal advantage: $A_{im}(y_t) = \log \pi_\phi(y_t|T, y_{&lt;t}) - \log \pi_\theta(y_t|T, y_{&lt;t})$ nhằm duy trì năng lực nền tảng trên văn bản.\n- Cross-modal advantage: $A_{cm}(y_t) = \log \pi_\phi(y_t|T, y_{&lt;t}) - \log \pi_\theta(y_t|S, y_{&lt;t})$ nhằm kéo gần biểu diễn âm thanh của học sinh về logic của giáo viên văn bản.\nHọc sinh được tối ưu hóa toàn bộ tham số backbone ngôn ngữ (đóng băng audio tower và modal adapter) bằng policy gradient kết hợp cả hai hàm mất mát: $L(\theta) = \lambda L_{im}(\theta) + (1-\lambda) L_{cm}(\theta)$ với trọng số cân bằng mặc định $\lambda = 0.5$.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Dữ liệu huấn luyện gồm 27.847 cặp chỉ dẫn (10.934 cặp từ Tulu 3 - 136.7 giờ và 16.913 cặp từ NaturalReasoning - 95.5 giờ) được viết lại bằng Gemini-3-Flash-Preview, tổng hợp âm thanh bằng CosyVoice3 (24kHz) và lọc ASR bằng SenseVoice (bỏ các mẫu WER &gt; 5%). Mô hình nền tảng là Qwen3-Omni-A3B-Instruct; giáo viên là Qwen3-A3B-Instruct. Huấn luyện bằng verl framework với Adam optimizer, learning rate 2e-6, batch size 256, 1 epoch. Các baseline gồm SFT, Offline KD và GKD xây dựng trên ms-swift. Đánh giá trên BIG Bench Audio, Audio Multi-Challenge, VoiceBench và benchmark chống quên MMAR, sử dụng Qwen3-235B-A22B-Instruct-2507 làm LLM-as-Judge qua 3 lần chạy độc lập và 3 lần chấm điểm (trung bình 9 lần).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên BIG Bench Audio (Speech input), X-OPD đạt 93.41% so với 85.67% của mô hình gốc Qwen3-Omni-A3B-Instruct, vượt trội hơn hẳn SFT (87.52%), Offline KD (87.08%) và GKD (84.26%).</li>
+<li>Trên Audio Multi-Challenge (Speech input), X-OPD đạt APR 28.14% so với mô hình gốc 23.57%, trong khi SFT, Offline KD và GKD bị tụt lùi lần lượt còn 15.04%, 17.73% và 18.13%.</li>
+<li>Trên Voice Bench (Speech input), X-OPD đạt 89.29% tương đương mô hình gốc (89.22%), trong khi các baseline SFT (82.66%), Offline KD (83.31%) và GKD (83.03%) đều bị suy giảm hiệu năng.</li>
+<li>Về mức độ suy giảm tổng thể so với Base Text Model (Avg. Drop), X-OPD thu hẹp độ lệch phương thức âm thanh (ΔS) từ 11.29% xuống 3.43% và phương thức văn bản (ΔT) từ 5.51% xuống 0.97%.</li>
+<li>Về chống catastrophic forgetting trên MMAR (gốc 71.3%), X-OPD (λ=0.5) giữ vững ở mức 69.3% (drop 2.0%) và λ=1 đạt 70.7% (drop 0.6%), vượt xa SFT (60.3%), Offline KD (59.9%) và GKD (60.0%).</li>
+<li>Ablation kích thước giáo viên cho thấy ghép cặp đồng quy mô (giáo viên Qwen3-A3B-Instruct) đạt kết quả tốt hơn giáo viên quy mô lớn hơn (Qwen3-A22B-Instruct đạt ΔS 5.55% so với 3.43%).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Dữ liệu huấn luyện âm thanh hoàn toàn là giọng đọc tổng hợp nhân tạo (TTS qua CosyVoice3) thay vì âm thanh hội thoại tự nhiên từ đời thực. Quá trình huấn luyện đóng băng hoàn toàn audio tower và modal adapter, chỉ cập nhật LLM backbone. Chưa đánh giá tác động đối với các năng lực âm học phi ngôn ngữ như cảm xúc hay ngữ điệu.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Huấn luyện on-policy kết hợp dual advantage văn bản - âm thanh giải quyết triệt để exposure bias và hiện tượng 'alignment tax' trong Speech LLMs. Khi chưng cất tri thức, giáo viên có quy mô tương đương với học sinh mang lại quỹ đạo học tập hiệu quả hơn giáo viên kích thước quá lớn. Chỉ cần một lượng nhỏ dữ liệu tổng hợp (~27k mẫu, ~232 giờ) đã đủ để căn chỉnh mạnh mẽ năng lực suy luận âm thanh.</p>
+</div>
+            </div>
         </div>
     </section>
   </div>
 
   <aside class="card ranking" aria-labelledby="ranking-h">
     <div class="card-header">
-      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · abstract + signals (earlier pipeline)</span>
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
     </div>
       <div class="score-block">
-        <div class="score">55.0<span class="score-max">/100</span></div>
+        <div class="score">70.0<span class="score-max">/100</span></div>
         <div class="label">Ranking score</div>
       </div>
-      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 212.5,120.94 181.63,167.77 127.55,182.66 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="212.5" cy="120.94" r="3.5"/><circle class="radar-dot" cx="181.63" cy="167.77" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Ý tưởng áp dụng on-policy distillation cross-modal từ text LLM sang speech LLM với token-level feedback là một hướng tiếp cận mới mẻ và kịp thời để giải quyết capability gap.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 3/5 — Thiết kế kỹ thuật hợp lý khi kết hợp on-policy rollouts của student với sự giám sát phân phối từ text teacher, dù phần tóm tắt chưa đi sâu vào chi tiết loss function và kiến trúc cụ thể.</title>Technical <tspan class="radar-value">3</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 2/5 — Phần văn bản chỉ nêu định tính về việc thu hẹp khoảng cách trên nhiều benchmark mà không cung cấp số liệu thực nghiệm cụ thể và chưa có mã nguồn đi kèm.</title>Evidence <tspan class="radar-value">2</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Nghiên cứu giải quyết đúng điểm nghẽn quan trọng của E2E speech LLMs, có tiềm năng ứng dụng cao cho voice agents dù chưa có số liệu adoption thực tế.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Bài báo xuất bản tại Interspeech thuộc ISCA Archive với đội ngũ tác giả có uy tín trong lĩnh vực speech như Xu Tan.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Bài báo đề xuất cơ chế on-policy distillation liên phương thức độc đáo kết hợp dual advantage (in-modal và cross-modal) giải quyết triệt để exposure bias trong Speech LLMs.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Khung toán học và thiết kế thuật ngữ policy gradient chi tiết, triển khai trên nền tảng verl với chiến lược multi-sampling rollout chuẩn xác.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Thực nghiệm kỹ lưỡng trên 4 bộ benchmark lớn (BIG Bench Audio, Audio Multi-Challenge, VoiceBench, MMAR) kèm đối sánh chi tiết với SFT, Offline KD và GKD.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Cung cấp giải pháp hiệu quả cho bài toán intelligence gap trong trợ lý giọng nói E2E, dù mức độ lan tỏa thực tế cần thêm tín hiệu từ việc mở mã nguồn.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Nghiên cứu đến từ nhóm tác giả uy tín tại Tencent Hunyuan và Đại học Chiết Giang, được công bố tại Interspeech 2026.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
       <dl class="reasons">
-          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Ý tưởng áp dụng on-policy distillation cross-modal từ text LLM sang speech LLM với token-level feedback là một hướng tiếp cận mới mẻ và kịp thời để giải quyết capability gap.</dd></div>
-          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Bài báo xuất bản tại Interspeech thuộc ISCA Archive với đội ngũ tác giả có uy tín trong lĩnh vực speech như Xu Tan.</dd></div>
-          <div><dt>Technical <span class="muted">3/5</span></dt><dd>Thiết kế kỹ thuật hợp lý khi kết hợp on-policy rollouts của student với sự giám sát phân phối từ text teacher, dù phần tóm tắt chưa đi sâu vào chi tiết loss function và kiến trúc cụ thể.</dd></div>
-          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Nghiên cứu giải quyết đúng điểm nghẽn quan trọng của E2E speech LLMs, có tiềm năng ứng dụng cao cho voice agents dù chưa có số liệu adoption thực tế.</dd></div>
-          <div><dt>Evidence <span class="muted">2/5</span></dt><dd>Phần văn bản chỉ nêu định tính về việc thu hẹp khoảng cách trên nhiều benchmark mà không cung cấp số liệu thực nghiệm cụ thể và chưa có mã nguồn đi kèm.</dd></div>
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Bài báo đề xuất cơ chế on-policy distillation liên phương thức độc đáo kết hợp dual advantage (in-modal và cross-modal) giải quyết triệt để exposure bias trong Speech LLMs.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Nghiên cứu đến từ nhóm tác giả uy tín tại Tencent Hunyuan và Đại học Chiết Giang, được công bố tại Interspeech 2026.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Khung toán học và thiết kế thuật ngữ policy gradient chi tiết, triển khai trên nền tảng verl với chiến lược multi-sampling rollout chuẩn xác.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Cung cấp giải pháp hiệu quả cho bài toán intelligence gap trong trợ lý giọng nói E2E, dù mức độ lan tỏa thực tế cần thêm tín hiệu từ việc mở mã nguồn.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Thực nghiệm kỹ lưỡng trên 4 bộ benchmark lớn (BIG Bench Audio, Audio Multi-Challenge, VoiceBench, MMAR) kèm đối sánh chi tiết với SFT, Offline KD và GKD.</dd></div>
       </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Thu hẹp sâu sắc modality gap · Bảo tồn năng lực gốc vượt trội · Hiệu quả dữ liệu cực cao (27k mẫu) · Cơ chế dual-advantage chặt chẽ, tối ưu</p>
+          <p><span class="label">Weaknesses</span> · Phụ thuộc giọng tổng hợp từ TTS · Đóng băng adapter và audio tower · Chưa mở mã nguồn và trọng số</p>
+          <p><span class="label">Context</span> · Di Cao, Dongjie Fu, Hai Yu, Siqi Zheng, Xu Tan (Tencent Hunyuan) và Tao Jin (Zhejiang University); xuất bản tại Interspeech 2026.</p>
+        </div>
   </aside>
 </div>
   </main>

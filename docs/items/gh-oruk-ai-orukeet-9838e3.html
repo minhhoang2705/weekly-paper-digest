@@ -92,30 +92,80 @@ README: Orukeet. Nathan Roll 1,2 · Irene Yi 1,2 · Büşra Marşan 1,2 Vianney 
     <section class="card" aria-labelledby="analysis-h">
       <div class="card-header">
         <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Sep 30, 2026 · README</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
       </div>
-        <div class="card-body empty-state">
-          <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>
-          <p>No analysis stored for this item.</p>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Orukeet là mô hình ASR đa ngôn ngữ (25 ngôn ngữ) dựa trên kiến trúc NVIDIA Parakeet TDT 0.6B v3, thay thế một nửa bộ lọc temporal depthwise bằng 12.288 Gabor kernel đóng băng. Mô hình vượt trội hơn Parakeet gốc trên 61/74 tập kiểm thử, đạt mức giảm 10.6% relative WER trên 25 ngôn ngữ FLEURS và hỗ trợ inference tối ưu trên Metal, ONNX INT8 và GGUF.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Tối ưu hóa và cải thiện độ chính xác cũng như hiệu năng suy luận của mô hình ASR quy mô lớn (Parakeet TDT 0.6B) trên môi trường đa ngôn ngữ, đa accent và phần cứng biên (như Apple silicon Metal và CPU) mà không làm tăng dung lượng hay độ phức tạp của mô hình.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Khởi đầu từ Parakeet TDT 0.6B v3 (627M tham số, 24-layer FastConformer encoder, 1024 filter 9-tap temporal depthwise mỗi block). Toàn bộ 24.576 filter được fit hàm Gabor: $g(t)=A\exp[-(t-\mu)^2/(2\sigma^2)]\cos(2\pi f(t-\mu)+\phi)$ với $t\in[-4, 4]$. Chọn toàn cục 12.288 kernel có normalized squared error thấp nhất (175–748 kernel/layer, median RMS error 6.32%) và đóng băng (110.592 tap cố định), giữ lại 626.897.542 tham số trainable. Quá trình huấn luyện phục hồi sử dụng transducer loss, encoder matching và token/duration distillation, tiếp nối bởi 4.035 update LR thấp. Bản phát hành r3 chạy 168 AdamW updates (LR cosine decay 5e-6 đến 5e-7, 3% warmup) qua 3 pass trên 2.939 bản ghi LibriSpeech test-other (bảo toàn casing, dấu câu và sửa từ tham chiếu).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá qua NeMo greedy-batch TDT (FP32 weights, BF16 CUDA autocast), chuẩn hóa văn bản đồng bộ. Hỗ trợ 25 ngôn ngữ FLEURS, 47 tập accent/domain và LibriSpeech. Yêu cầu Python 3.12+, cung cấp package whl v0.1.1, hỗ trợ runtime Metal (Apple silicon), CUDA, ONNX INT8 (qua sherpa-onnx) và định dạng GGUF (Q8, F16). Tích hợp sẵn trong các ứng dụng OpenWhispr, TapTalk (Core ML) và hyprwhspr.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>LibriSpeech test-clean: đạt 1.46% WER so với 1.53% WER của Parakeet (2.620 bản ghi).</li>
+<li>LibriSpeech test-other: đạt 2.86% WER so với 3.14% WER của Parakeet (2.939 bản ghi).</li>
+<li>FLEURS English: đạt 3.82% WER so với 4.28% WER của Parakeet (647 bản ghi).</li>
+<li>FLEURS pooled (25 ngôn ngữ): đạt 9.85% WER so với 11.01% WER của Parakeet (giảm 10.6% relative WER trên 20.146 bản ghi).</li>
+<li>Accents/domains pooled (47 splits): đạt 15.25% WER so với 16.72% WER của Parakeet (12.006 bản ghi).</li>
+<li>Accents/domains English (20 splits): đạt 8.84% WER so với 9.51% WER của Parakeet (5.120 bản ghi).</li>
+<li>Độ trễ warm native Metal Q8 trên Apple M4 Pro: median giảm 42.4% (88.9 ms so với 154.2 ms ban đầu, 1.74x speedup); p95 giảm 44.4% (156.1 ms so với 280.8 ms).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Pha adapt cuối cùng r3 và khâu chọn checkpoint sử dụng trực tiếp tập LibriSpeech test-other (nguy cơ data contamination/overfitting trên tập test-other). Vẫn có 13/74 split kiểm thử không cải thiện so với Parakeet gốc. Benchmark độ trễ Metal v0.1.1 đầy đủ chưa được đo lại sau khi đóng gói SDK.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Việc thay thế một phần bộ lọc tích chập bằng hàm tham số hóa Gabor cố định là một phương pháp inductive bias hiệu quả giúp nén và tăng độ tổng quát hóa cho Conformer ASR. Orukeet là lựa chọn drop-in thay thế xuất sắc cho Parakeet TDT, đặc biệt tối ưu cho local inference trên thiết bị Apple Silicon và ONNX runtime.</p>
+</div>
+            </div>
         </div>
     </section>
   </div>
 
   <aside class="card ranking" aria-labelledby="ranking-h">
     <div class="card-header">
-      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · abstract + signals (earlier pipeline)</span>
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
     </div>
       <div class="score-block">
-        <div class="score">55.0<span class="score-max">/100</span></div>
+        <div class="score">70.0<span class="score-max">/100</span></div>
         <div class="label">Ranking score</div>
       </div>
-      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,82.8 212.5,120.94 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="82.8" r="3.5"/><circle class="radar-dot" cx="212.5" cy="120.94" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 3/5 — Ý tưởng thay thế một nửa temporal depthwise filters bằng các frozen Gabor kernels trên nền Parakeet TDT là cách tiếp cận khá thú vị và mới lạ cho multilingual ASR.</title>Novelty <tspan class="radar-value">3</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 3/5 — Kỹ thuật fit và cố định 12,288 Gabor kernels kết hợp multilingual fine-tuning và tối ưu hóa đa nền tảng (NeMo, ONNX INT8, Core ML) thể hiện chiều sâu engineering tốt.</title>Technical <tspan class="radar-value">3</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Kết quả thực nghiệm rõ ràng trên LibriSpeech và 25 ngôn ngữ FLEURS với các mức giảm WER định lượng cụ thể, kèm weights và code suy luận đầy đủ.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Dự án nhận được 139 GitHub stars và đã được tích hợp làm mô hình mặc định trong các ứng dụng desktop mã nguồn mở như OpenWhispr và TapTalk.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Dự án đến từ Oruk AI với các tác giả liên kết từ Stanford University và University of Cambridge, dù chưa công bố qua hội thảo peer-reviewed chính thức.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Ý tưởng thay thế 50% kernel temporal depthwise của Conformer bằng các hàm Gabor giải tích cố định để tăng tính khái quát hóa cho ASR là một hướng tiếp cận mới lạ và thú vị.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Kỹ thuật fit hàm Gabor, pipeline distillation/fine-tuning chặt chẽ và tối ưu hóa runtime chuyên biệt (Metal kernel, attention/cache) cho thiết bị biên đạt hiệu quả cao.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Cung cấp bảng so sánh định lượng chi tiết trên 74 splits, LibriSpeech, FLEURS và accent benchmark, kèm số liệu latency đo đạc cụ thể trên phần cứng M4 Pro.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Kho lưu trữ đạt 139 stars và đã được tích hợp ngay vào các ứng dụng desktop client mã nguồn mở như OpenWhispr, TapTalk, hyprwhspr.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Dự án đến từ Oruk AI hợp tác cùng các nhà nghiên cứu từ Stanford, Cambridge, công khai đầy đủ mã nguồn, checksum hash, checkpoint weights và báo cáo kỹ thuật.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
       <dl class="reasons">
-          <div><dt>Novelty <span class="muted">3/5</span></dt><dd>Ý tưởng thay thế một nửa temporal depthwise filters bằng các frozen Gabor kernels trên nền Parakeet TDT là cách tiếp cận khá thú vị và mới lạ cho multilingual ASR.</dd></div>
-          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Dự án đến từ Oruk AI với các tác giả liên kết từ Stanford University và University of Cambridge, dù chưa công bố qua hội thảo peer-reviewed chính thức.</dd></div>
-          <div><dt>Technical <span class="muted">3/5</span></dt><dd>Kỹ thuật fit và cố định 12,288 Gabor kernels kết hợp multilingual fine-tuning và tối ưu hóa đa nền tảng (NeMo, ONNX INT8, Core ML) thể hiện chiều sâu engineering tốt.</dd></div>
-          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Dự án nhận được 139 GitHub stars và đã được tích hợp làm mô hình mặc định trong các ứng dụng desktop mã nguồn mở như OpenWhispr và TapTalk.</dd></div>
-          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Kết quả thực nghiệm rõ ràng trên LibriSpeech và 25 ngôn ngữ FLEURS với các mức giảm WER định lượng cụ thể, kèm weights và code suy luận đầy đủ.</dd></div>
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Ý tưởng thay thế 50% kernel temporal depthwise của Conformer bằng các hàm Gabor giải tích cố định để tăng tính khái quát hóa cho ASR là một hướng tiếp cận mới lạ và thú vị.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Dự án đến từ Oruk AI hợp tác cùng các nhà nghiên cứu từ Stanford, Cambridge, công khai đầy đủ mã nguồn, checksum hash, checkpoint weights và báo cáo kỹ thuật.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Kỹ thuật fit hàm Gabor, pipeline distillation/fine-tuning chặt chẽ và tối ưu hóa runtime chuyên biệt (Metal kernel, attention/cache) cho thiết bị biên đạt hiệu quả cao.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Kho lưu trữ đạt 139 stars và đã được tích hợp ngay vào các ứng dụng desktop client mã nguồn mở như OpenWhispr, TapTalk, hyprwhspr.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Cung cấp bảng so sánh định lượng chi tiết trên 74 splits, LibriSpeech, FLEURS và accent benchmark, kèm số liệu latency đo đạc cụ thể trên phần cứng M4 Pro.</dd></div>
       </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Ý tưởng Gabor kernel độc đáo và hiệu quả · Giảm WER trên 61/74 tập kiểm thử · Hỗ trợ đa nền tảng Metal, GGUF, ONNX · Tối ưu độ trễ Metal ấn tượng (1.74x) · Mở mã nguồn, weights và tài liệu đầy đủ</p>
+          <p><span class="label">Weaknesses</span> · Fine-tune và chọn checkpoint trên LibriSpeech test-other · 13/74 split không có sự cải thiện · Dữ liệu training lineage chưa mô tả đầy đủ</p>
+          <p><span class="label">Context</span> · Nhóm nghiên cứu từ Oruk AI phối hợp cùng Stanford University, University of Cambridge, OpenWhispr và Hoid phát triển, công bố mã nguồn mở kèm preprint arXiv:2609.10054.</p>
+        </div>
   </aside>
 </div>
   </main>

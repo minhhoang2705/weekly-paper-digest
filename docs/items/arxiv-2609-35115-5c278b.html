@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DuplexCadence: Exact State and Execution from a Speech Model&#39;s Declared Timelines · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W40</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">DuplexCadence: Exact State and Execution from a Speech Model&#39;s Declared Timelines</h1>
+    <div class="meta">
+<span>Sep 28, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Haixiao Gao, Yimin Zheng, Linyou Xiao, Zeke Xie</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2609.35115" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Full-duplex speech models support streaming interaction that listens and speaks at the same time. Serving them is governed by a strict, repeating deadline: conversation advances on a one-second cadence, and every second of input must be turned into a second of speech before the next second arrives. Because stages within a session run in strict sequence, per-invocation overhead cannot be batched away. Profiling reveals that the autoregressive stages of a duplex second already fit within the period, whereas the token-to-audio synthesis tail is what causes overruns. This tail stage suffers from orchestration slack where the GPU is left waiting as thousands of tiny, regular operations are issued one by one, while also wasting substantial memory by over-provisioning state at static implementation constants. Existing remedies, such as graph recording and demand-sized allocation, fail because streaming state dynamics violate their prerequisites. The root cause is that the runtime lacks the model&#39;s native clocks: the per-region counters that govern advancement rates and retention policies. We propose DuplexCadence, which explicitly declares native clocks to the runtime and derives two mutually enabling rules: demand-sized state allocation at a stable address, and exact-shape graph replay without padding. The former eliminates idle memory and stabilizes tensor pointers, while the latter removes orchestration slack without padding overhead. Evaluated on four released models across three decoder architectures with bit-for-bit identical output, DuplexCadence reaches $2.85\times$ the stock runtime&#39;s speed at $38.8\%$ lower peak memory. On the live duplex path, mean SPEAK time falls from $14\%$ over the one-second cadence to $2\%$ under it, enabling models to reliably keep up with interactive speech while markedly expanding multi-</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Sep 30, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>DuplexCadence là hệ thống runtime tối ưu hóa suy luận thời gian thực cho các mô hình giọng nói full-duplex bằng cách khai báo tường minh các native clock và chính sách lưu giữ trạng thái (retention policy). Hệ thống kết hợp phân bổ bộ nhớ theo nhu cầu tại địa chỉ cố định (demand-sized, address-stable state allocation) và ghi/phát lại đồ thị CUDA chính xác kích thước (exact-shape graph replay) không cần padding, giúp tăng tốc 2.85× và giảm 38.8% peak memory với đầu ra bit-for-bit identical.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Mô hình full-duplex cần duy trì chu kỳ đàm thoại nghiêm ngặt 1 giây (1-second cadence), nhưng các bước xử lý phụ thuộc tuần tự nên không thể batching nội bộ phiên (intra-session batching). Khảo sát profile cho thấy giai đoạn autoregressive language model hoàn thành trong ngân sách, nhưng đuôi tổng hợp token-to-audio (synthesis tail: flow decoder/CFM và vocoder) mất khoảng 1.17s (vượt hạn chót 16.9%). Nguyên nhân chính gồm: (1) Orchestration slack chiếm 57–65% thời gian chạy eager do CPU phát hàng nghìn kernel nhỏ liên tục khiến GPU bị đói việc; (2) Lãng phí bộ nhớ do cấp phát tĩnh vượt mức (over-reservation ratio từ 3.5× đến 18×) và dynamic concatenation liên tục cấp phát tensor mới làm trôi địa chỉ con trỏ, vô hiệu hóa việc ghi CUDA Graphs.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>DuplexCadence đề xuất hợp đồng native-clock (declarative native-clock contract), mô hình hóa trạng thái thành bộ (clock, growth map, lifetime, mutability, retention policy, placement), dẫn xuất hai cơ chế tương hỗ:</p>
+<ol>
+<li><strong>State Rule (Demand Sizing &amp; Stable Carry)</strong>: Cấp phát bộ nhớ chính xác theo giới hạn liveness lý thuyết ($A^\dagger = A$), co workspace từ $16 \times 1000$ xuống $10 \times 458$ frame; thiết lập vùng đệm carry cố định địa chỉ bộ nhớ (<code>ptr(C)</code> không đổi suốt vòng đời stream) và cập nhật retention qua cơ chế in-place writeback.</li>
+<li><strong>Compute Rule (Exact-Shape Replay)</strong>: Liệt kê trước toàn bộ kích thước tensor khả dĩ thành danh mục đóng $\mathcal{K}(o)$ (với bộ giải mã flow chỉ gồm $K=3$ shape class) và ghi nhận CUDA Graphs cho từng shape chính xác không dùng padding (tránh sai số dấu phẩy động). Bộ điều khiển áp dụng fail-closed admission: kiểm tra signature, xác thực con trỏ zero-copy aliasing, và phân loại hiệu ứng ngẫu nhiên (chấp nhận bộ sinh số ngẫu nhiên Philox trên device của vocoder HiFT nhờ lưu/khôi phục snapshot RNG).
+Hai quy tắc bổ trợ lẫn nhau: thu nhỏ bộ nhớ cho phép CUDA Graph đóng băng trạng thái nhỏ gọn, trong khi CUDA Graph loại bỏ triệt để overhead khởi tạo kernel.</li>
+</ol>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá thực nghiệm trên NVIDIA A100 (40 GB SXM4) và NVIDIA L20 (48 GB). Phần mềm xây dựng trên PyTorch 2.8.0 / CUDA 12.8 nguyên bản (core engine gồm 263 LOC, adapter mô hình 126–314 LOC). Đánh giá trên 4 workload: (1) Bộ giải mã streaming Token2Wav dùng chung bởi MiniCPM-o 4.5 và Lychee-FD (UpsampleConformer → CFM/DiT → HiFT, chunk 25 token); (2) Mô hình toàn diện end-to-end MiniCPM-o 4.5 omni-modal; (3) Các kiến trúc khác gồm Moshi và Freeze-Omni (TiCodec generator); (4) Thử nghiệm phục vụ multi-session dùng chung trọng số (time-multiplexed) với ràng buộc 2 s-SLO. Kiểm tra nghiêm ngặt tính tương đương bit-for-bit (SHA-256 hash trên float32 PCM stream và token-IDs).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Tại tầng tổng hợp speech (Token2Wav trên A100), cấu hình SRc (ghép cả 2 rule ở cấp độ chunk) đạt tốc độ 2.85× (p50 giảm từ 241.7 ms xuống 84.9 ms) và giảm 38.8% peak memory (từ 4,852 MiB xuống 2,972 MiB), đạt bit-exact 20/20 block.</li>
+<li>Ở luồng phục vụ full-duplex thời gian thực (end-to-end MiniCPM-o 4.5), thời gian SPEAK trung bình giảm từ 1,141 ms (+14.1% so với chu kỳ 1s) xuống 976 ms (-2.4% dưới chu kỳ 1s), đưa độ trễ p50 từ 1,169 ms xuống 994 ms.</li>
+<li>Trong môi trường multi-session (N=4 sessions với tải speak-heavy), baseline cạn kiệt bộ nhớ (OOM trên A100 40GB), trong khi DuplexCadence hoàn thành ổn định trong phạm vi khoảng 26 GiB.</li>
+<li>Khả năng tổng quát hóa kiến trúc: Trên Moshi, ExactShapeReplay thuần túy đạt tăng tốc 3.46× (44.3 ms/frame vs eager); trên Freeze-Omni TiCodec generator đạt tăng tốc 1.72× (5.0 ms so với 8.6 ms eager), đều đạt 100% bit-identical.</li>
+<li>So sánh với compiler: torch.compile (reduce-overhead) bị lỗi abort trong Inductor ở vòng lặp diffusion và làm sai lệch số liệu (drift) ở encoder; vendor graph dùng re-bucketing bị chậm hơn 43.3% và tốn thêm 73% peak memory so với DuplexCadence SRc.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Phạm vi lossless bị giới hạn bởi độ rộng danh mục (catalog width $K_r$): các giai đoạn autoregressive bước đơn (như LLM backbone với $K_r = 2001$) nằm ngoài phạm vi capture khả thi nếu không padding; các bước prompt-priming không dùng cache và trôi con trỏ ở biên lượt thoại phải rơi về eager fallback; harness multi-session mới chỉ khảo sát time-multiplexing đơn tiến trình trong cửa sổ 2s.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Để đưa mô hình full-duplex speech vào phục vụ thực tế dưới deadline 1 giây, nút thắt không phải là sức mạnh tính toán GPU mà là orchestration slack và địa chỉ bộ nhớ trôi dạt ở synthesis tail. Bằng cách cố định địa chỉ vùng nhớ đệm (carry buffer) và lập danh mục hình dạng chính xác từ cấu hình tĩnh của mô hình, kỹ sư có thể tận dụng toàn bộ sức mạnh của CUDA Graphs mà không cần chấp nhận padding hay mất tính chính xác bit-for-bit.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">81.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#9 in 2026-W40</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 247.5,109.57 214.08,212.43 116.74,197.54 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="247.5" cy="109.57" r="3.5"/><circle class="radar-dot" cx="214.08" cy="212.43" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đề xuất góc nhìn mới mẻ coi các mốc thời gian (clocks) và retention bounds vốn có trong cấu hình mô hình thành hợp đồng thực thi hệ thống để thực hiện zero-padding exact-shape graph replay kết hợp demand-sized allocation.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 5/5 — Thiết kế hệ thống rất sâu sắc, mô hình hóa toán học chặt chẽ về catalog width, phân tích roofline/slack chi tiết, xử lý triệt để tính ổn định con trỏ và RNG state trong CUDA Graphs.</title>Technical <tspan class="radar-value">5</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 5/5 — Thực nghiệm chi tiết trên nhiều kiến trúc mô hình, hai dòng GPU (A100, L20), kiểm chứng tính tương hỗ qua phân tích nhân tố (factorial), so sánh với torch.compile và xác thực mã băm SHA-256 từng byte đầu ra.</title>Evidence <tspan class="radar-value">5</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Giải quyết đúng nút thắt nghẽn trễ nghiêm trọng nhất trong triển khai thực tế của các mô hình full-duplex speech (MiniCPM-o, Moshi, Lychee-FD), mở rộng đáng kể dung lượng phục vụ đồng thời.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Bản preprint arXiv từ Jinan University và HKUST Guangzhou; bài viết có cấu trúc toán học chặt chẽ, định nghĩa hình thức rõ ràng nhưng chưa trải qua bình duyệt hội nghị chính thức.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đề xuất góc nhìn mới mẻ coi các mốc thời gian (clocks) và retention bounds vốn có trong cấu hình mô hình thành hợp đồng thực thi hệ thống để thực hiện zero-padding exact-shape graph replay kết hợp demand-sized allocation.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Bản preprint arXiv từ Jinan University và HKUST Guangzhou; bài viết có cấu trúc toán học chặt chẽ, định nghĩa hình thức rõ ràng nhưng chưa trải qua bình duyệt hội nghị chính thức.</dd></div>
+          <div><dt>Technical <span class="muted">5/5</span></dt><dd>Thiết kế hệ thống rất sâu sắc, mô hình hóa toán học chặt chẽ về catalog width, phân tích roofline/slack chi tiết, xử lý triệt để tính ổn định con trỏ và RNG state trong CUDA Graphs.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Giải quyết đúng nút thắt nghẽn trễ nghiêm trọng nhất trong triển khai thực tế của các mô hình full-duplex speech (MiniCPM-o, Moshi, Lychee-FD), mở rộng đáng kể dung lượng phục vụ đồng thời.</dd></div>
+          <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Thực nghiệm chi tiết trên nhiều kiến trúc mô hình, hai dòng GPU (A100, L20), kiểm chứng tính tương hỗ qua phân tích nhân tố (factorial), so sánh với torch.compile và xác thực mã băm SHA-256 từng byte đầu ra.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Tăng tốc 2.85× và giảm 38.8% peak memory · Đảm bảo tuyệt đối bit-for-bit identical (SHA-256) · Giải quyết triệt để orchestration slack của GPU · Cơ chế tương hỗ giữa bộ nhớ và CUDA Graphs · Triển khai gọn nhẹ, không sửa core PyTorch/CUDA</p>
+          <p><span class="label">Weaknesses</span> · Không áp dụng được cho LLM backbone autoregressive · Phụ thuộc cấu hình retention có độ rộng hẹp · Vẫn phải fallback về eager ở prompt-priming</p>
+          <p><span class="label">Context</span> · Nghiên cứu từ Đại học Tế Nam (Jinan University) và HKUST (Guangzhou), công bố trên arXiv (arXiv:2609.35115v1, tháng 9/2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

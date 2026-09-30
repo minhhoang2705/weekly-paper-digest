@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StepAudio 3 Realtime Technical Report · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W40</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">StepAudio 3 Realtime Technical Report</h1>
+    <div class="meta">
+<span>Sep 12, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">HF Daily Papers</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Bin Lin, Bo Zhao, Boyang Zhang, Boyong Wu, Chao Yan, Chen Geng, Chen Wu, Cheng Yi, Chengli Feng, Chenglin Zhu, Chengting Feng, Chengyuan Yao, Daijiao Liu, DanNi Wan, Daxin Jiang +75 more</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://huggingface.co/papers/2609.14005" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Realtime spoken interaction demands deep reasoning, prompt responses, and fluid turn-taking. We present StepAudio 3 Realtime, an audio-language foundation model organized around a continuous listen-converse-think-act loop. Deep Perception captures rich acoustic cues to interpret user intent, while Seamless Duplex models synchronized audio streams to handle pauses, backchannels, and interruptions naturally. Crucially, we resolve the tension between deep deliberation and latency via Think-While-Speaking, executing private reasoning in parallel with spoken delivery. In reasoning mode, StepAudio 3 reaches a 73.0 macro average on StepAudioChat. With Think-While-Speaking, it achieves dialogue and reasoning performance comparable to dedicated reasoning models while speaking in real time. Furthermore, an integrated Voice Agent handles asynchronous tool execution without disrupting the dialogue flow. StepAudio 3 Realtime achieves top-tier performance across key dimensions: an exceptional 90.6 on the MMSU benchmark, 98.9 Overall on the Artificial Analysis Full-Duplex Bench, and a 56.0% macro task-success rate on τ-Voice.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Sep 30, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>StepAudio 3 Realtime là mô hình nền tảng audio-language full-duplex được xây dựng dựa trên vòng lặp listen-converse-think-act. Điểm cốt lõi của hệ thống là cơ chế Think-While-Speaking kết hợp phân luồng suy luận ngầm song song với phát âm thanh thời gian thực, cho phép suy luận sâu mà không làm tăng độ trễ đàm thoại. Mô hình đạt các kết quả ấn tượng như 90.6 trên benchmark MMSU, 98.9 Overall trên Artificial Analysis Full-Duplex Bench và 56.0% task-success rate trên τ-Voice.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Tương tác giọng nói tự nhiên đòi hỏi hệ thống phải vừa theo sát lời người dùng vừa quản lý phản hồi của chính mình: phân biệt khoảng dừng ngắn với lượt kết thúc câu, xử lý chen ngang (interruption) và tiếng đệm (backchannel). Các yêu cầu phức tạp còn đòi hỏi mô hình phải suy luận sâu nhưng vẫn duy trì độ trễ phản hồi cực thấp, đồng thời có thể thực thi công cụ bên ngoài vốn có thời gian chạy lâu hơn thời lượng lượt nói.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Mô hình áp dụng kiến trúc Mixture-of-Experts (MoE) với audio frontend là Audio Transformer (AuT) từ Qwen3-Omni kết nối qua adapter tới LLM decoder nhận song song luồng âm thanh hai chiều (người dùng và mô hình) cùng luồng text; generator tạo âm thanh streaming. Quản lý lượt nói Seamless Duplex chia âm thanh thành các block 320 ms đan xen với các interaction-state token (như listening:no_voice, listening:user_voice, speaking transition). Cơ chế Think-While-Speaking gồm Formulation Brain chạy suy luận ngầm và Articulation Brain phát sinh phản hồi ngắt đoạn song song dựa trên tiến độ playback âm thanh. Hệ thống tích hợp Adaptive Thinking để quyết định lượt nói nào cần suy luận, kết hợp MTP (Multi-Token Prediction) với 3 head và Medusa typical acceptance (repetition penalty 1.05) để tăng tốc suy luận ngầm. Huấn luyện qua 3 giai đoạn pretraining (1.2T token, context 32K), midtraining mở rộng context 128K với hơn 10.000 giờ tương tác full-duplex mô phỏng, và model merging 4 checkpoint giáo viên chuyên biệt theo tỷ lệ 3:1:1:1.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá ASR trên LibriSpeech (test-clean, test-other), AISHELL-1, WenetSpeech (test-net, test-meeting) và ContextASR-Bench. Đánh giá hiểu âm thanh trên 8 benchmark: Big Bench Audio, MMSU, MMAU, MMAR, WildSpeech-Bench, AudioMultiChallenge, Step-Caption, MTalk-Bench. Đánh giá hội thoại và suy luận trên benchmark nội bộ đóng StepAudioChat (8 chiều). Đánh giá tương tác full-duplex trên tập con của Artificial Analysis Full Duplex Bench v1 và v1.5. Đánh giá Voice Agent thực thi công cụ trên τ-Voice (Airline, Retail, Telecom). So sánh với các mô hình mạnh gồm Doubao 2.0 Lite/ASR, Gemini 3 Flash, Gemini 3.1 Pro, DeepSeek-V4-Flash, Kimi K3, Qwen Audio 3.0 Realtime Plus, Grok Voice Think Fast 2.0 High và GPT-Realtime-2/2.1.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên Artificial Analysis Full-Duplex Bench: Đạt Overall 98.9 (Turn Taking 100.0, User Interruption Handling 99.0, Pause Handling 98.9, Backchannel Handling 98.0), vượt Qwen Audio 3.0 Realtime Plus (98.4), GPT-realtime-2 High (95.3) và Grok Voice Think Fast 2.0 High (95.1).</li>
+<li>Trên hiểu âm thanh: Đạt điểm MMSU 90.6 (vượt Gemini 3.1 Pro 83.6 và Doubao 2.0 Lite 80.0) và MMAR 86.5 (vượt Gemini 3.1 Pro 81.7); Macro Average đạt 81.3 so với 81.8 của Gemini 3.1 Pro.</li>
+<li>Trên τ-Voice: Đạt macro task-success rate 56.0% (Telecom 70.2%, Airline 60.0%, Retail 37.7%), vượt Qwen Audio 3.0 Realtime Plus (54.6%) và GPT-Realtime-2.1 High (45.7%), bám sát Grok Voice Think Fast 2.0 High (56.5%).</li>
+<li>Trên StepAudioChat: Ở chế độ suy luận đạt macro average 73.0 (vượt Doubao 2.0 Lite 70.5, DeepSeek-V4-Flash 71.4, xếp sau Kimi K3 77.1); ở chế độ tương tác thời gian thực đạt 70.4.</li>
+<li>ASR (StepAudio 3 ASR Max): Đạt LibriSpeech test-clean 1.18% WER, test-other 2.28% WER, AISHELL-1 0.49% CER; trên ContextASR-Bench đạt lỗi trung bình 5.67% (EN) và 1.23% (ZH), vượt HY3.0 ASR Preview (6.60% EN, 1.69% ZH).</li>
+<li>Gia tốc suy luận ngầm MTP: MTP3 (Medusa) đạt 1.801 accepted token/step và tốc độ wall-clock gấp 2.05x; MTP5 (Medusa) đạt 2.153 accepted token/step và 1.72x speedup so với baseline.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Hiệu năng trên benchmark AudioMultiChallenge vẫn kém xa Gemini 3.1 Pro (49.3 so với 67.0). Khả năng Instruction Following ở chế độ tương tác thời gian thực bị sụt giảm đáng kể xuống 54.1 (so với 66.3 ở chế độ reasoning). Tác vụ agentic trong lĩnh vực Retail còn yếu (chỉ đạt 37.7% so với 49.7% của Grok). Chính sách Adaptive Thinking chưa phân bổ tối ưu khi tỷ lệ think ở tác vụ Reasoning chỉ là 59.5% dù đây là tác vụ hưởng lợi nhiều nhất từ suy luận đầy đủ.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Kiến trúc luồng kép kết hợp Think-While-Speaking và MTP là giải pháp hiệu quả để đưa khả năng suy luận chuỗi tư duy (CoT) vào các trợ lý giọng nói full-duplex thời gian thực mà không làm vỡ nhịp hội thoại. Việc lọc chất lượng dữ liệu SFT khắt khe (chỉ giữ 100K mẫu chất lượng cao thay vì 2M mẫu ngẫu nhiên) và sử dụng model merging theo trọng số tham số là các phương pháp công nghệ tiết kiệm chi phí nhưng mang lại bước nhảy vọt về chất lượng.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">85.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#4 in 2026-W40</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 247.5,109.57 214.08,212.43 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="247.5" cy="109.57" r="3.5"/><circle class="radar-dot" cx="214.08" cy="212.43" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Mô hình đề xuất tích hợp gắn kết giữa full-duplex time-interleaving 320ms, kiến trúc hai bộ não song song Think-While-Speaking với MTP Medusa và Voice Agent bất đồng bộ.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 5/5 — Mô tả chuyên sâu và bài bản toàn bộ pipeline từ tiền huấn luyện 1.2T token, midtraining context 128K, thuật toán chấp nhận entropy-adaptive của MTP đến cơ chế parameter merging 3:1:1:1.</title>Technical <tspan class="radar-value">5</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 5/5 — Tài liệu cung cấp thực nghiệm cực kỳ đầy đủ trên hàng loạt benchmark tiêu chuẩn (ASR, hiểu âm thanh, StepAudioChat, AA Full-Duplex Bench, τ-Voice) kèm các nghiên cứu ablation rõ ràng.</title>Evidence <tspan class="radar-value">5</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Cung cấp thiết kế mẫu mực cho voice agent thế hệ mới có khả năng suy luận song song khi nói, nhận được 127 upvotes trên Hugging Face Daily Papers.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Báo cáo đến từ StepFun-Audio Team, nhóm nghiên cứu có nhiều đóng góp uy tín trong dòng mô hình Step-Audio và công bố các kết quả kỹ thuật chi tiết.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Mô hình đề xuất tích hợp gắn kết giữa full-duplex time-interleaving 320ms, kiến trúc hai bộ não song song Think-While-Speaking với MTP Medusa và Voice Agent bất đồng bộ.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Báo cáo đến từ StepFun-Audio Team, nhóm nghiên cứu có nhiều đóng góp uy tín trong dòng mô hình Step-Audio và công bố các kết quả kỹ thuật chi tiết.</dd></div>
+          <div><dt>Technical <span class="muted">5/5</span></dt><dd>Mô tả chuyên sâu và bài bản toàn bộ pipeline từ tiền huấn luyện 1.2T token, midtraining context 128K, thuật toán chấp nhận entropy-adaptive của MTP đến cơ chế parameter merging 3:1:1:1.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Cung cấp thiết kế mẫu mực cho voice agent thế hệ mới có khả năng suy luận song song khi nói, nhận được 127 upvotes trên Hugging Face Daily Papers.</dd></div>
+          <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Tài liệu cung cấp thực nghiệm cực kỳ đầy đủ trên hàng loạt benchmark tiêu chuẩn (ASR, hiểu âm thanh, StepAudioChat, AA Full-Duplex Bench, τ-Voice) kèm các nghiên cứu ablation rõ ràng.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Cơ chế Think-While-Speaking kết hợp MTP tối ưu độ trễ · Khả năng Full-Duplex hàng đầu đạt 98.9 điểm AA · Hỗ trợ Voice Agent thực thi bất đồng bộ linh hoạt · Hiệu năng hiểu âm thanh xuất sắc trên MMSU và MMAR · Quy trình curation và lọc dữ liệu SFT kiểm soát chặt chẽ</p>
+          <p><span class="label">Weaknesses</span> · Điểm số AudioMultiChallenge tụt hậu so với Gemini 3.1 Pro · Thực thi agent trên mảng Retail còn kém · Suy giảm Instruction Following trong chế độ tương tác · Chính sách Adaptive Thinking chưa phân bổ tối ưu theo tác vụ</p>
+          <p><span class="label">Context</span> · StepFun-Audio Team (Bin Lin, Bo Zhao, Daxin Jiang và tập thể nghiên cứu), báo cáo kỹ thuật xuất bản trên arXiv (arXiv:2609.14005v2, 2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grounding Spoken LLMs in Multi-Speaker Audio via Diarization Conditioning · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W40</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Grounding Spoken LLMs in Multi-Speaker Audio via Diarization Conditioning</h1>
+    <div class="meta">
+<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
+<span class="pill">ISCA Archive</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Alexander Polok, Samuele Cornell, Sathvik Udupa, Honza Černocký, Shinji Watanabe, Lukáš Burget</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://www.isca-archive.org/interspeech_2026/polok26b_interspeech.html" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>We propose diarization-conditioned spoken language models (SLMs), a strategy for extending SLMs to far-field multi-talker audio. Rather than adapting the decoder via Serialized Output Training, which risks catastrophic forgetting, we condition the acoustic encoder on diarization masks to extract target-speaker representations, keeping the decoder frozen. We instantiate this as Dixtral, integrating a Diarization Conditioned Whisper (DiCoW) encoder into the Voxtral SLM. On AMI, NOTSOFAR-1, LibriSpeechMix, and Mixer6, Dixtral outperforms Gemini 3.0 Flash, VibeVoice, and Voxtral Mini Transcribe V2 on speaker-attributed transcription by 29.0%, 19.8%, and 16.0% absolute cpWER respectively. On a novel long-form multi-speaker QA benchmark, zero-shot Dixtral matches Gemini on far-field content understanding, and when fine-tuned surpasses both Gemini and Voxtral operating on close-talk across all tasks.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Sep 30, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Nghiên cứu đề xuất Dixtral, phương pháp mở rộng Spoken LLM (SLM) sang môi trường nhiều người nói (far-field multi-talker) bằng cách điều kiện hóa acoustic encoder dựa trên diarization masks và đóng băng hoàn toàn LLM decoder. Mô hình kết hợp encoder DiCoW vào SLM Voxtral, giúp giảm thiểu hiện tượng catastrophic forgetting các năng lực suy luận và tóm tắt. Dixtral vượt trội đáng kể so với Gemini 3.0 Flash, VibeVoice và Voxtral MTv2 về nhận dạng tiếng nói phân định người nói (speaker-attributed ASR) và khả năng hỏi đáp paralinguistic.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Phần lớn các hệ thống Spoken LLM xử lý multi-talker hiện nay dựa vào Serialized Output Training (SOT). Phương pháp này ghép các câu thoại xen kẽ và yêu cầu thêm các token chuyển đổi người nói, buộc phải mở rộng từ vựng của LLM và fine-tune decoder. Việc này dẫn đến hai hạn chế lớn: gây ra catastrophic forgetting đối với năng lực suy luận/tóm tắt/QA vốn có của LLM, và độ phức tạp tính toán giải mã tự hồi quy tăng theo bậc hai O((S<em>N)^2) so với O(S</em>N^2) khi trích xuất từng người nói độc lập.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Dixtral tích hợp kiến trúc của Voxtral (gồm Whisper encoder, MLP modality adapter và Ministral 3B decoder) với cơ chế của DiCoW (Diarization-Conditioned Whisper):</p>
+<ul>
+<li><strong>STNO Probabilities</strong>: Từ output của hệ thống diarization, tính toán xác suất cấp khung thời gian cho 4 trạng thái: Silence (S), Target (T), Non-target (N), Overlap (O).</li>
+<li><strong>Frame-Level Diarization-Dependent Transformations (FDDT)</strong>: Thay vì che (mask) âm thanh đầu vào thô, các xác suất STNO được tích hợp vào từng Transformer layer của acoustic encoder thông qua các ma trận affine biến đổi đường chéo có thể học (W_i, b_i), điều biến các biểu diễn nội bộ theo trọng số xác suất.</li>
+<li><strong>Đóng băng Decoder và Adapter</strong>: Khi fine-tune, LLM decoder và modality adapter (MLP gồm 2 phép chiếu tuyến tính + kích hoạt GELU) được giữ đóng băng hoàn toàn; chỉ có các lớp encoder và tham số FDDT được cập nhật.</li>
+<li><strong>Chuyển đổi tác vụ linh hoạt (Dynamic Task Switching)</strong>: Có thể trích xuất người nói mục tiêu bằng STNO mask, hoặc chuyển sang suy luận ngữ cảnh âm thanh toàn cục bằng cách đặt p_T=1 và các xác suất khác bằng 0 cho toàn bộ khung thời gian.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá multi-talker ASR trên 4 tập dữ liệu: NOTSOFAR-1 (NSF-1), AMI, LibriSpeechMix (LSMix) và Mixer6 (MX6, out-of-domain) bằng thước đo cpWER (Concatenated Minimum-Permutation WER). Sử dụng hệ thống DiariZen làm diarization backbone. Đánh giá Audio QA và Summarization trên benchmark mới NSF-QA (xây dựng trên NSF-1) gồm Content QA (Entity, Topic, Yes/No, Detail), Paralinguistic QA (Emotion với 9 nhãn từ emotion2vec, Gender) và Summarization (&lt;50 từ, đo bằng ROUGE-L tối đa qua 5 bản tóm tắt tham chiếu tạo bởi Gemini 2.5 Flash). QA accuracy được chấm tự động bằng Gemini 2.5 Flash làm LLM judge. Huấn luyện trên 8 GPU A5000 24GB (bfloat16, gradient checkpointing, batch size hiệu dụng 32, 20k steps); fine-tuning QA/tóm tắt chạy trên GPU H100.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Về nhận dạng tiếng nói (macro-average cpWER trên 4 tập dữ liệu): Dixtral đạt 15.4% cpWER, vượt trội rõ rệt so với Gemini 3.0 Flash (44.4%), VibeVoice (35.2%) và Voxtral MTv2 (31.4%), tiến gần sát mô hình chuyên biệt DiCoW v3.3 (14.0%).</li>
+<li>Trên NOTSOFAR-1: Dixtral đạt 29.1% cpWER so với Gemini 3.0 Flash (39.1%), VibeVoice (35.8%) và Voxtral MTv2 (54.4%).</li>
+<li>Trên AMI (SDM): Dixtral đạt 19.8% cpWER so với Gemini 3.0 Flash (56.3%), VibeVoice (33.7%) và Voxtral MTv2 (42.3%).</li>
+<li>Trên Mixer6 CH4 (out-of-domain): Dixtral đạt 14.4% cpWER, tốt hơn Gemini 3.0 Flash (58.3%), Voxtral MTv2 (19.4%) và VibeVoice (16.0%).</li>
+<li>Zero-shot NSF-QA trên audio far-field: Dixtral đạt 54.6% Content QA (ngang ngửa Gemini 3.0 Flash đạt 55.1%), 25.4% Emotion QA và 24.4 ROUGE-L (tương đương với Voxtral Mv1 chạy trên audio close-talk đơn người nói là 25.5% và 24.1 ROUGE-L).</li>
+<li>Finetuned NSF-QA trên audio far-field: Dixtral đạt 73.0% Content QA, 47.6% Emotion QA, 95.5% Gender QA và 41.4 ROUGE-L, vượt qua cả Gemini 3.0 Flash chạy trên tín hiệu close-talk (68.1% Content QA, 34.1% Emotion QA, 75.0% Gender QA, 26.4 ROUGE-L).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Việc fine-tune cho tác vụ suy luận downstream (QA và Summarization) làm suy giảm độ chính xác nhận dạng ASR nguyên bản (cpWER trên Mixer-6 tăng từ 14.5% lên 26.1%). Thêm LoRA vào decoder giúp tăng nhận diện thuộc tính người nói (Gender QA đạt 73.3%) nhưng làm giảm khả năng bám sát chỉ dẫn (instruction-following), đôi khi tạo ra bản phiên âm nguyên văn thay vì tóm tắt (ROUGE-L giảm xuống 15.4). Hiệu năng phụ thuộc vào chất lượng hệ thống diarization bên ngoài. Benchmark QA sử dụng Gemini 2.5 Flash cho cả tạo dữ liệu và làm judge, tiềm ẩn tính circularity.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Điều kiện hóa acoustic encoder bằng diarization mask là giải pháp tối ưu để mở rộng Spoken LLM sang multi-speaker audio vì giữ nguyên được LLM decoder và tránh catastrophic forgetting. Cách tiếp cận target-speaker extraction có độ phức tạp tính toán suy luận theo quy mô O(S<em>N^2), mở rộng hiệu quả hơn nhiều so với phương pháp SOT O((S</em>N)^2) khi LLM ngày càng lớn. Hệ thống cho phép khai thác trực tiếp thông tin paralinguistic (cảm xúc, giới tính) trong môi trường nhiều người nói mà các pipeline cascaded ASR + LLM không thể làm được.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">83.7<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#6 in 2026-W40</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 214.08,212.43 116.74,197.54 72.5,109.57"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="214.08" cy="212.43" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="72.5" cy="109.57" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Ý tưởng tích hợp layer-wise diarization conditioning (FDDT) vào acoustic encoder của Spoken LLM để trích xuất target speaker và giữ decoder đông băng là hướng tiếp cận mới mẻ, giải quyết triệt để hạn chế của SOT.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kiến trúc FDDT chi tiết, phân tích độ phức tạp thuật toán O(S*N^2) thuyết phục, kỹ thuật khởi tạo và ablation study được thực hiện cẩn thận.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 5/5 — Thực nghiệm chi tiết trên 4 bộ dữ liệu ASR chuẩn và benchmark NSF-QA mới, có so sánh định lượng rõ ràng với các baselines mạnh (Gemini 3.0 Flash, VibeVoice, Voxtral).</title>Evidence <tspan class="radar-value">5</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Cung cấp giải pháp thực tế giúp triển khai Spoken LLM trong các bài toán phòng họp/hội thoại phức tạp; mở mã nguồn và phát hành benchmark NSF-QA thúc đẩy cộng đồng.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 5/5 — Nghiên cứu đến từ hai phòng lab đầu ngành về speech processing (Speech@FIT và CMU LTI), được chấp nhận công bố tại hội nghị uy tín Interspeech 2026.</title>Credibility <tspan class="radar-value">5</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Ý tưởng tích hợp layer-wise diarization conditioning (FDDT) vào acoustic encoder của Spoken LLM để trích xuất target speaker và giữ decoder đông băng là hướng tiếp cận mới mẻ, giải quyết triệt để hạn chế của SOT.</dd></div>
+          <div><dt>Credibility <span class="muted">5/5</span></dt><dd>Nghiên cứu đến từ hai phòng lab đầu ngành về speech processing (Speech@FIT và CMU LTI), được chấp nhận công bố tại hội nghị uy tín Interspeech 2026.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kiến trúc FDDT chi tiết, phân tích độ phức tạp thuật toán O(S*N^2) thuyết phục, kỹ thuật khởi tạo và ablation study được thực hiện cẩn thận.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Cung cấp giải pháp thực tế giúp triển khai Spoken LLM trong các bài toán phòng họp/hội thoại phức tạp; mở mã nguồn và phát hành benchmark NSF-QA thúc đẩy cộng đồng.</dd></div>
+          <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Thực nghiệm chi tiết trên 4 bộ dữ liệu ASR chuẩn và benchmark NSF-QA mới, có so sánh định lượng rõ ràng với các baselines mạnh (Gemini 3.0 Flash, VibeVoice, Voxtral).</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Giữ nguyên LLM decoder tránh catastrophic forgetting · cpWER vượt trội so với Gemini và VibeVoice · Độ phức tạp giải mã mở rộng O(S*N^2) tốt · Xử lý trực tiếp paralinguistic QA từ far-field audio · Mã nguồn, checkpoint và benchmark được công khai</p>
+          <p><span class="label">Weaknesses</span> · Fine-tuning QA/tóm tắt làm giảm độ chính xác ASR · Phụ thuộc vào mô hình diarization bên ngoài · Đánh giá QA dùng Gemini làm trọng tài (circularity) · Chưa mở rộng đánh giá đa ngôn ngữ</p>
+          <p><span class="label">Context</span> · Alexander Polok et al. (Speech@FIT - Brno University of Technology, Czechia và LTI - Carnegie Mellon University, USA), công bố tại Interspeech 2026.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>
