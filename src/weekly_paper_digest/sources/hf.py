@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta
 
+from ..fulltext import excerpt, hf_model_card
 from ..models import Item
 from . import SourceContext
 
@@ -46,7 +47,7 @@ def fetch_models(ctx: SourceContext) -> list[Item]:
     """Trending speech models created recently."""
     src = ctx.cfg.source("hf_models")
     created_after = ctx.now - timedelta(days=src["created_within_days"])
-    items: list[Item] = []
+    items: dict[str, Item] = {}
     for tag in src["pipeline_tags"]:
         resp = ctx.client.get(MODELS_API, params={
             "pipeline_tag": tag, "sort": "trendingScore", "limit": src["per_tag"],
@@ -55,23 +56,24 @@ def fetch_models(ctx: SourceContext) -> list[Item]:
         for m in resp.json():
             created = _dt(m.get("createdAt"))
             likes = int(m.get("likes") or 0)
-            if created is None or created < created_after or likes < src["min_likes"]:
+            if created is None or created < created_after or likes < src["min_likes"] or m["id"] in items:
                 continue
-            org = m["id"].split("/")[0]
-            items.append(Item(
+            card = hf_model_card(ctx.client, m["id"])
+            items[m["id"]] = Item(
                 id=f"hf-model:{m['id']}",
                 kind="model",
                 title=m["id"],
                 url=f"https://huggingface.co/{m['id']}",
                 sources=["HF Models"],
                 published=created,
-                authors=[org],
-                abstract=f"Hugging Face model, pipeline: {tag}.",
+                authors=[m["id"].split("/")[0]],
+                # The model card is the only description: triage/scoring would otherwise see just the id.
+                abstract=excerpt(card) if card else f"Hugging Face model, pipeline: {tag} (no model card).",
                 signals={
                     "hf_likes": likes,
                     "hf_downloads": int(m.get("downloads") or 0),
                     "hf_trending": int(m.get("trendingScore") or 0),
                     "pipeline_tag": tag,
                 },
-            ))
-    return items
+            )
+    return list(items.values())

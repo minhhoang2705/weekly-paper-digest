@@ -4,6 +4,7 @@ import os
 import time
 from datetime import datetime, timedelta
 
+from ..fulltext import excerpt, github_readme
 from ..http import github_headers
 from ..models import Item
 from . import SourceContext
@@ -45,4 +46,9 @@ def fetch(ctx: SourceContext) -> list[Item]:
                     "topics": ", ".join(r.get("topics", [])),
                 },
             )
+    for item in items.values():
+        # One-line descriptions are too thin to triage/score; the README carries the substance.
+        readme = github_readme(ctx.client, item.id.removeprefix("gh:"))
+        if readme:
+            item.abstract = f"{item.abstract}\n\nREADME: {excerpt(readme)}".strip()
     return list(items.values())

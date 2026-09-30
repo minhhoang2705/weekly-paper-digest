@@ -38,15 +38,26 @@ uv run weekly-digest --dry-run    # chỉ crawl + filter, không gọi LLM, khô
 uv run pytest -q
 ```
 
-## GitHub Actions
+## Chạy định kỳ bằng cron (trên máy local)
 
-Workflow `.github/workflows/weekly-digest.yml` chạy vào **thứ Hai 08:00 giờ Việt Nam** (có thể bấm chạy tay qua *Run workflow*) và commit digest cùng state về repo.
+`scripts/run-weekly.sh` là entrypoint cho cron. Script chạy pipeline, commit `digests/` + `state/`, rồi push lên GitHub.
 
-Workflow cần secret `GEMINI_API_KEY`:
+Cron gọi script **mỗi ngày lúc 08:00**, nhưng mỗi tuần ISO chỉ build digest **một lần**. Nhờ vậy:
+- Nếu thứ Hai máy tắt, lần chạy tiếp theo sẽ bù.
+- Nếu một lần chạy lỗi, hôm sau script tự thử lại.
+
+```cron
+0 8 * * * /home/minhtranh/works/projects/weekly-paper-digest/scripts/run-weekly.sh >> /home/minhtranh/works/projects/weekly-paper-digest/logs/cron.log 2>&1
+@reboot sleep 300 && /home/minhtranh/works/projects/weekly-paper-digest/scripts/run-weekly.sh >> /home/minhtranh/works/projects/weekly-paper-digest/logs/cron.log 2>&1
+```
 
 ```bash
-gh secret set GEMINI_API_KEY --repo minhhoang2705/weekly-paper-digest
+crontab -l                         # xem lịch
+tail -f logs/cron.log              # xem log
+FORCE=1 scripts/run-weekly.sh      # build lại digest tuần này ngay
 ```
+
+Nên điền thêm `GITHUB_TOKEN` vào `.env`: nếu không có, GitHub Search API bị giới hạn 10 request/phút và bước crawl GitHub chậm hơn khoảng 1 phút.
 
 ## Tùy chỉnh
 

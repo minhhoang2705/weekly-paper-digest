@@ -14,7 +14,7 @@ class LLM:
     def __init__(self) -> None:
         api_key = os.environ.get("GEMINI_API_KEY")
         if not api_key:
-            raise RuntimeError("GEMINI_API_KEY is not set (put it in .env or the Actions secret).")
+            raise RuntimeError("GEMINI_API_KEY is not set (paste it into .env).")
         self.client = genai.Client(
             api_key=api_key,
             http_options=types.HttpOptions(

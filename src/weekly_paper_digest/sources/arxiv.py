@@ -8,11 +8,12 @@ from datetime import datetime, timezone
 import feedparser
 
 from ..models import Item
-from . import SourceContext
+from . import PartialFailure, SourceContext
 
 API = "https://export.arxiv.org/api/query"
 PAGE = 200
 ABS_TERMS = ("speech", "spoken", "voice", "TTS", "ASR")
+EMPTY_RETRIES = 2
 
 
 def _query(categories: list[str], keyword_categories: list[str]) -> str:
@@ -44,14 +45,10 @@ def _entry_to_item(e) -> Item:
     )
 
 
-def fetch(ctx: SourceContext) -> list[Item]:
-    src = ctx.cfg.source("arxiv")
-    query = _query(src["categories"], src.get("keyword_categories", []))
-    items: list[Item] = []
-    start = 0
-    while start < src["max_results"]:
-        if start:
-            time.sleep(3)  # arXiv API etiquette
+def _page(ctx: SourceContext, query: str, start: int) -> list:
+    """One result page. The export API intermittently returns an empty 200 feed, so retry."""
+    for attempt in range(EMPTY_RETRIES + 1):
+        time.sleep(3 if start or attempt else 0)  # arXiv API etiquette
         resp = ctx.client.get(API, params={
             "search_query": query,
             "sortBy": "submittedDate",
@@ -61,8 +58,21 @@ def fetch(ctx: SourceContext) -> list[Item]:
         })
         resp.raise_for_status()
         entries = feedparser.parse(resp.content).entries
+        if entries:
+            return entries
+    return []
+
+
+def fetch(ctx: SourceContext) -> list[Item]:
+    src = ctx.cfg.source("arxiv")
+    query = _query(src["categories"], src.get("keyword_categories", []))
+    items: list[Item] = []
+    start = 0
+    while start < src["max_results"]:
+        entries = _page(ctx, query, start)
         if not entries:
-            break
+            # The window is never empty for these categories: an empty page is an API failure.
+            raise PartialFailure(items, [f"feed rỗng tại start={start} sau {EMPTY_RETRIES + 1} lần thử"])
         page = [_entry_to_item(e) for e in entries]
         items.extend(i for i in page if i.published >= ctx.since)
         if page[-1].published < ctx.since:

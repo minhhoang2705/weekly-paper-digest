@@ -39,8 +39,12 @@ class TriageBatch(BaseModel):
     items: list[TriageRow]
 
 
-def triage(llm: LLM, cfg: Config, items: list[Item]) -> list[Item]:
-    """Keep items whose main contribution is in scope; attach topic and a promise score."""
+def triage(llm: LLM, cfg: Config, items: list[Item]) -> tuple[list[Item], list[str]]:
+    """Keep items whose main contribution is in scope; attach topic and a promise score.
+
+    A failed batch or ids the model silently omitted get one retry; what still fails is
+    reported as a warning instead of killing the run.
+    """
     system = (
         "You screen candidates for a weekly speech-technology digest.\n"
         f"In-scope topics:\n{_topics(cfg)}\n"
@@ -52,7 +56,7 @@ def triage(llm: LLM, cfg: Config, items: list[Item]) -> list[Item]:
     by_id = {i.id: i for i in items}
     batches = [items[n:n + TRIAGE_BATCH] for n in range(0, len(items), TRIAGE_BATCH)]
 
-    def run(batch: list[Item]) -> list[TriageRow]:
+    def ask(batch: list[Item]) -> list[TriageRow]:
         payload = [
             {"id": i.id, "kind": i.kind, "title": i.title, "text": i.abstract[:900], "signals": _signals(i)}
             for i in batch
@@ -60,16 +64,37 @@ def triage(llm: LLM, cfg: Config, items: list[Item]) -> list[Item]:
         result = llm.structured(cfg.models["triage"], system, [json.dumps(payload, ensure_ascii=False)], TriageBatch)
         return result.items
 
+    def run(batch: list[Item]) -> tuple[list[TriageRow], int]:
+        rows: dict[str, TriageRow] = {}
+        pending = batch
+        for _ in range(2):
+            try:
+                wanted = {i.id for i in pending}
+                rows.update({r.id: r for r in ask(pending) if r.id in wanted})
+            except Exception as exc:  # noqa: BLE001 - retried, then reported
+                log.warning("triage batch failed: %s", exc)
+            pending = [i for i in batch if i.id not in rows]
+            if not pending:
+                break
+            log.warning("triage: %d/%d ids unanswered, retrying", len(pending), len(batch))
+        return list(rows.values()), len(pending)
+
     kept: list[Item] = []
+    unanswered = 0
     with ThreadPoolExecutor(max_workers=4) as pool:
-        for rows in pool.map(run, batches):
+        for rows, missing in pool.map(run, batches):
+            unanswered += missing
             for row in rows:
-                item = by_id.get(row.id)
-                if item and row.relevant and row.topic in cfg.topics:
+                item = by_id[row.id]
+                if row.relevant and row.topic in cfg.topics:
                     item.topic = row.topic
                     item.promise = max(1, min(5, row.promise))
                     kept.append(item)
-    return kept
+    if items and unanswered == len(items):
+        # Nothing triaged at all (bad key, quota, outage): fail rather than publish an empty digest.
+        raise RuntimeError("triage failed for every item; see log for the LLM error")
+    warnings = [f"Triage bỏ sót {unanswered}/{len(items)} mục (lỗi LLM hoặc model bỏ qua id)."] if unanswered else []
+    return kept, warnings
 
 
 # ---------------------------------------------------------------- scoring

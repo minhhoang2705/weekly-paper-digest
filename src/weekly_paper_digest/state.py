@@ -11,7 +11,7 @@ from .models import Item, title_key
 class State:
     """What earlier digests already published, and which ISCA volumes were scanned.
 
-    Committed to the repo by the workflow so weekly runs never repeat an item.
+    Committed to the repo by scripts/run-weekly.sh so weekly runs never repeat an item.
     """
 
     path: Path

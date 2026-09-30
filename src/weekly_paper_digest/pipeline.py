@@ -7,10 +7,12 @@ from pathlib import Path
 
 from .config import Config
 from .http import make_client
+from .llm import LLM
 from .models import Item
 from .ranking import dedupe, shortlist, top_k
 from .render import render
 from .sources import PartialFailure, SourceContext, registry
+from .stages import score, summarize, triage
 from .state import State
 
 log = logging.getLogger(__name__)
@@ -65,18 +67,17 @@ def run(cfg: Config, root: Path, *, lookback_days: int | None = None, dry_run: b
     since = now - timedelta(days=lookback_days or cfg.lookback_days)
     week = iso_week(now)
     state = State.load(root / "state" / "seen.json")
+    # Validate credentials before spending minutes crawling.
+    llm = None if dry_run else LLM()
 
     with make_client() as client:
         ctx = SourceContext(client=client, cfg=cfg, since=since, now=now, week=week, state=state)
         items, stats, warnings = crawl(ctx, week)
-        if dry_run:
+        if llm is None:
             return RunResult(week, None, stats, warnings, items)
 
-        from .llm import LLM
-        from .stages import score, summarize, triage
-
-        llm = LLM()
-        relevant = triage(llm, cfg, items)
+        relevant, triage_warnings = triage(llm, cfg, items)
+        warnings += triage_warnings
         stats["LLM triage: liên quan"] = len(relevant)
         short = shortlist(relevant, cfg.shortlist_size)
         scored = score(llm, cfg, short)

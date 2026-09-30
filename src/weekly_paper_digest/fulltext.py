@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import html
+import re
 from dataclasses import dataclass
 
 import httpx
@@ -33,6 +35,29 @@ def _pdf(client: httpx.Client, url: str) -> bytes | None:
     return resp.content if ok and len(resp.content) <= MAX_PDF_BYTES else None
 
 
+def github_readme(client: httpx.Client, repo: str) -> str | None:
+    resp = client.get(
+        f"https://api.github.com/repos/{repo}/readme",
+        headers={**github_headers(), "Accept": "application/vnd.github.raw"},
+    )
+    return resp.text if resp.status_code == 200 else None
+
+
+def hf_model_card(client: httpx.Client, model_id: str) -> str | None:
+    resp = client.get(f"https://huggingface.co/{model_id}/raw/main/README.md")
+    return resp.text if resp.status_code == 200 else None
+
+
+def excerpt(markdown: str, limit: int = 2000) -> str:
+    """README/model card trimmed for triage and scoring: prose only, capped."""
+    body = re.sub(r"\A---\n.*?\n---\n", "", markdown, flags=re.S)       # YAML front matter
+    body = re.sub(r"\[!\[[^\]]*\]\([^)]*\)\]\([^)]*\)", " ", body)       # linked badges
+    body = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", body)                    # images
+    body = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", body)                 # links -> text
+    body = html.unescape(re.sub(r"<[^>]+>", " ", body))
+    return " ".join(body.split())[:limit]
+
+
 def fetch_fulltext(client: httpx.Client, item: Item) -> FullText | None:
     """Best available primary content for an item; None means abstract only."""
     if item.kind == "paper":
@@ -45,14 +70,9 @@ def fetch_fulltext(client: httpx.Client, item: Item) -> FullText | None:
         text = _html_text(client, item.url)
         return FullText("bài viết gốc", text=text) if text else None
     if item.kind == "repo":
-        repo = item.id.removeprefix("gh:")
-        resp = client.get(
-            f"https://api.github.com/repos/{repo}/readme",
-            headers={**github_headers(), "Accept": "application/vnd.github.raw"},
-        )
-        return FullText("README", text=resp.text[:MAX_TEXT_CHARS]) if resp.status_code == 200 else None
+        text = github_readme(client, item.id.removeprefix("gh:"))
+        return FullText("README", text=text[:MAX_TEXT_CHARS]) if text else None
     if item.kind == "model":
-        model_id = item.id.removeprefix("hf-model:")
-        resp = client.get(f"https://huggingface.co/{model_id}/raw/main/README.md")
-        return FullText("model card", text=resp.text[:MAX_TEXT_CHARS]) if resp.status_code == 200 else None
+        text = hf_model_card(client, item.id.removeprefix("hf-model:"))
+        return FullText("model card", text=text[:MAX_TEXT_CHARS]) if text else None
     return None
