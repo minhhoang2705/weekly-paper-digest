@@ -14,7 +14,8 @@ ENTRY_RE = re.compile(
     r'<span[^>]*>\s*(.*?)\s*</span>',
     re.S,
 )
-ABSTRACT_RE = re.compile(r'<div id="abstract">.*?<h4>Abstract</h4>(.*?)(?:<h4>|</div>)', re.S)
+# Regular papers put the abstract straight in the div; keynotes add an <h4>Abstract</h4> heading.
+ABSTRACT_RE = re.compile(r'<div id="abstract">\s*(?:<h4>Abstract</h4>)?(.*?)(?:<h4>|</div>)', re.S)
 META_RE = re.compile(r'<meta name="(citation_pdf_url|citation_conference_title)" content="([^"]*)"')
 
 

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site.title }}{% endblock %} · {{ site.title }}</title>
+  <link rel="stylesheet" href="{{ base }}assets/style.css">
+  <script src="{{ base }}assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      {{ icon("menu") }}
+    </button>
+    <span class="brand-title">{{ site.title }}</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="{{ base }}index.html">
+      <span class="brand-icon">{{ icon("activity", 26) }}</span>
+      <span>
+        <span class="brand-title">{{ site.title }}</span>
+        <span class="brand-subtitle">{{ site.subtitle }}</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      {% for label, icon_name, page in nav %}
+        {% if page %}
+          <a class="nav-item{% if label == active %} is-active{% endif %}" href="{{ base }}{{ page }}"{% if label == active %} aria-current="page"{% endif %}>
+            {{ icon(icon_name) }}<span>{{ label }}</span>
+          </a>
+        {% else %}
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            {{ icon(icon_name) }}<span>{{ label }}</span><span class="soon">soon</span>
+          </span>
+        {% endif %}
+      {% endfor %}
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: {{ site.schedule_label }}</div>
+      <div class="status-row"><span class="dot"></span>LLM: {{ cfg.models.summarize }}</div>
+      <div class="status-row"><span class="dot{% if not latest_week %} dot-idle{% endif %}"></span>last digest: {{ latest_week or "none yet" }}</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

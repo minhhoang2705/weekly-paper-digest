@@ -21,6 +21,7 @@ class Config:
     topics: dict[str, str]
     keywords: list[str]
     sources: dict[str, dict[str, Any]]
+    site: dict[str, str]
 
     def source(self, name: str) -> dict[str, Any] | None:
         """Source settings, or None when disabled."""

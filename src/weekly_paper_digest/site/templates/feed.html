@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from "_macros.html" import item_row, empty %}
+{% block title %}Research Feed{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Research Feed</h1>
+    <p class="meta">Every item scored by the collector, newest week first. Full-text analysis exists for each week's top {{ cfg.top_k }}.</p>
+  </div>
+</header>
+
+{% if items %}
+<form class="filters" data-feed-filters role="search" onsubmit="return false">
+  <label class="search">
+    {{ icon("search", 18) }}
+    <span class="visually-hidden">Search</span>
+    <input type="search" name="q" placeholder="Search title, author, source">
+  </label>
+  <label><span class="visually-hidden">Topic</span>
+    <select name="topic">
+      <option value="">All topics</option>
+      {% for t in topics %}<option value="{{ t }}">{{ t }}</option>{% endfor %}
+    </select>
+  </label>
+  <label><span class="visually-hidden">Type</span>
+    <select name="kind">
+      <option value="">All types</option>
+      {% for k in kinds %}<option value="{{ k }}">{{ kind_label[k] }}</option>{% endfor %}
+    </select>
+  </label>
+  <label><span class="visually-hidden">Sort</span>
+    <select name="sort">
+      <option value="week">Newest week</option>
+      <option value="score">Highest score</option>
+      <option value="date">Publication date</option>
+    </select>
+  </label>
+  <label class="check"><input type="checkbox" name="top"> Analyzed (top {{ cfg.top_k }}) only</label>
+</form>
+<p class="muted result-count" data-feed-count aria-live="polite">{{ items | length }} items</p>
+<ul class="list card" data-feed-list>
+  {% for item in items %}{{ item_row(item, base) }}{% endfor %}
+</ul>
+{% else %}
+{{ empty("No items yet. The first digest will appear after the next collector run.") }}
+{% endif %}
+{% endblock %}

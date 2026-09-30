@@ -2,7 +2,7 @@
 
 Mỗi tuần tự động quét paper, blog/news, repo và model về **speech** (ASR, TTS, Speech Understanding, Voice Agent) trên arXiv, Hugging Face, GitHub, RSS blog và ISCA Archive. Tool chấm điểm từng item theo 5 tiêu chí và viết **tóm tắt chi tiết bằng tiếng Việt từ full-text** cho 10 item tốt nhất.
 
-Digest được commit vào [`digests/`](digests/) dưới tên `YYYY-Www.md`.
+Digest được commit vào [`digests/`](digests/) dưới tên `YYYY-Www.md`. Dữ liệu có cấu trúc nằm ở [`data/`](data/). Web UI xem tại **https://minhhoang2705.github.io/weekly-paper-digest/**.
 
 ## Pipeline
 
@@ -14,7 +14,8 @@ flowchart LR
     R --> T[top 10 theo điểm có trọng số]
     T --> X[full-text: PDF / arXiv HTML / bài gốc / README / model card]
     X --> W[tóm tắt chi tiết tiếng Việt]
-    W --> D[digests/YYYY-Www.md + state/seen.json]
+    W --> D[digests/*.md · data/*.json · state/seen.json]
+    D --> UI[weekly-site → docs/ → GitHub Pages]
 ```
 
 | Nguồn | Cách lấy |
@@ -33,22 +34,37 @@ flowchart LR
 ```bash
 uv sync
 # điền GEMINI_API_KEY vào .env (file này không được commit)
-uv run weekly-digest              # chạy đầy đủ, ghi digests/ và state/
+uv run weekly-digest              # chạy đầy đủ, ghi digests/, data/ và state/
 uv run weekly-digest --dry-run    # chỉ crawl + filter, không gọi LLM, không ghi file
+uv run weekly-site                # build web UI tĩnh từ data/ vào docs/
+python3 -m http.server -d docs 8000   # xem UI ở http://localhost:8000
 uv run pytest -q
 ```
 
+## Web UI
+
+`weekly-site` đọc `data/*.json` rồi build một site tĩnh (Jinja2, không cần Node) vào `docs/`. GitHub Pages phục vụ site này từ nhánh `main`, thư mục `/docs`.
+
+- **Dashboard:** top 10 của tuần mới nhất, kèm thống kê crawl và cảnh báo.
+- **Research Feed:** toàn bộ item đã chấm điểm; tìm kiếm, lọc theo topic/loại, sắp xếp theo điểm hoặc ngày.
+- **Paper detail:** Summary, Auto Analysis (thu gọn / *Full analysis*), card Ranking với radar 5 tiêu chí, lý do từng tiêu chí, strengths/weaknesses/context.
+- **Digest:** lưu trữ theo tuần, có link sang bản Markdown.
+- **Settings:** xem (chỉ đọc) nội dung `config.yaml`.
+- **Trends, Research Graph, Compare, Research Agent:** hiện trong sidebar nhưng đang disable (chưa làm).
+
+Radar dùng thang 1–5 như lúc chấm điểm. *Ranking score* là điểm tổng có trọng số, thang 0–100. Điểm được chấm trên abstract/excerpt kèm tín hiệu cộng đồng; chỉ phần *Auto Analysis* mới dựa trên full-text.
+
 ## Chạy định kỳ bằng cron (trên máy local)
 
-`scripts/run-weekly.sh` là entrypoint cho cron. Script chạy pipeline, commit `digests/` + `state/`, rồi push lên GitHub.
+`scripts/run-weekly.sh` là entrypoint cho cron. Script chạy pipeline, build UI, commit `digests/ data/ docs/ state/`, rồi push lên GitHub. Nếu push lỗi, lần chạy sau sẽ push bù.
 
 Cron gọi script **mỗi ngày lúc 08:00**, nhưng mỗi tuần ISO chỉ build digest **một lần**. Nhờ vậy:
 - Nếu thứ Hai máy tắt, lần chạy tiếp theo sẽ bù.
 - Nếu một lần chạy lỗi, hôm sau script tự thử lại.
 
 ```cron
-0 8 * * * /home/minhtranh/works/projects/weekly-paper-digest/scripts/run-weekly.sh >> /home/minhtranh/works/projects/weekly-paper-digest/logs/cron.log 2>&1
-@reboot sleep 300 && /home/minhtranh/works/projects/weekly-paper-digest/scripts/run-weekly.sh >> /home/minhtranh/works/projects/weekly-paper-digest/logs/cron.log 2>&1
+0 8 * * * mkdir -p /home/minhtranh/works/projects/weekly-paper-digest/logs && /home/minhtranh/works/projects/weekly-paper-digest/scripts/run-weekly.sh >> /home/minhtranh/works/projects/weekly-paper-digest/logs/cron.log 2>&1
+@reboot sleep 300 && mkdir -p /home/minhtranh/works/projects/weekly-paper-digest/logs && /home/minhtranh/works/projects/weekly-paper-digest/scripts/run-weekly.sh >> /home/minhtranh/works/projects/weekly-paper-digest/logs/cron.log 2>&1
 ```
 
 ```bash
@@ -57,7 +73,7 @@ tail -f logs/cron.log              # xem log
 FORCE=1 scripts/run-weekly.sh      # build lại digest tuần này ngay
 ```
 
-Nên điền thêm `GITHUB_TOKEN` vào `.env`: nếu không có, GitHub Search API bị giới hạn 10 request/phút và bước crawl GitHub chậm hơn khoảng 1 phút.
+`GITHUB_TOKEN` được lấy tự động qua `gh auth token` (máy này đã đăng nhập `gh`), nên GitHub Search API dùng hạn mức 30 request/phút. Nếu cần, có thể ghi đè bằng biến trong `.env`.
 
 ## Tùy chỉnh
 

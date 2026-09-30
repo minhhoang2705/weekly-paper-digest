@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% from "_macros.html" import item_row, empty %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Dashboard</h1>
+    <p class="meta">Speech research this week: {{ cfg.topics | join(", ") }}</p>
+  </div>
+  {% if run %}
+  <div class="header-actions">
+    <a class="button" href="{{ base }}digest/{{ run.week }}.html">{{ icon("file-text", 18) }}Digest {{ run.week }}</a>
+  </div>
+  {% endif %}
+</header>
+
+{% if run %}
+<div class="stats">
+  <div class="card stat"><span class="stat-value">{{ run.week }}</span><span class="label">Latest digest</span><span class="sublabel">{{ run.since | date }} → {{ run.generated_at | date }}</span></div>
+  <div class="card stat"><span class="stat-value">{{ run.stats.get("sau dedup", "—") }}</span><span class="label">Collected</span><span class="sublabel">unique items after dedup</span></div>
+  <div class="card stat"><span class="stat-value">{{ run.stats.get("LLM triage: liên quan", "—") }}</span><span class="label">In scope</span><span class="sublabel">passed LLM triage</span></div>
+  <div class="card stat"><span class="stat-value">{{ total_items }}</span><span class="label">In archive</span><span class="sublabel">{{ total_weeks }} week{{ "s" if total_weeks != 1 }}</span></div>
+</div>
+
+<section class="card" aria-labelledby="top-h">
+  <div class="card-header"><h2 class="label" id="top-h">Top {{ top | length }}</h2><span class="sublabel">{{ run.week }} · ranked by weighted score</span></div>
+  <ol class="list">{% for item in top %}{{ item_row(item, base, loop.index) }}{% endfor %}</ol>
+</section>
+
+{% if run.warnings %}
+<section class="card warnings" aria-labelledby="warn-h">
+  <div class="card-header"><h2 class="label label-icon" id="warn-h">{{ icon("triangle-alert", 18) }}Collector warnings</h2></div>
+  <ul class="card-body">{% for w in run.warnings %}<li>{{ w }}</li>{% endfor %}</ul>
+</section>
+{% endif %}
+{% else %}
+{{ empty("No digest yet. The collector builds the first one on its next scheduled run.") }}
+{% endif %}
+{% endblock %}

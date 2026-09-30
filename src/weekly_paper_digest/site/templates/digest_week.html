@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% from "_macros.html" import item_row %}
+{% block title %}Digest {{ run.week }}{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ base }}digest.html">{{ icon("arrow-left", 18) }}All digests</a>
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Digest {{ run.week }}</h1>
+    <p class="meta">{{ run.since | date }} → {{ run.generated_at | date }}</p>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="{{ site.repo_url }}/blob/main/digests/{{ run.week }}.md" target="_blank" rel="noopener">{{ icon("external-link", 18) }}Markdown</a>
+  </div>
+</header>
+
+<section class="card" aria-labelledby="top-h">
+  <div class="card-header"><h2 class="label" id="top-h">Top {{ top | length }}</h2><span class="sublabel">ranked by weighted score</span></div>
+  <ol class="list">{% for item in top %}{{ item_row(item, base, loop.index) }}{% endfor %}</ol>
+</section>
+
+<section class="card" aria-labelledby="run-h">
+  <div class="card-header"><h2 class="label" id="run-h">Collector run</h2></div>
+  <dl class="kv card-body">
+    {% for k, v in run.stats.items() %}<div><dt>{{ k }}</dt><dd>{{ v }}</dd></div>{% endfor %}
+  </dl>
+  {% if run.warnings %}
+  <ul class="card-body warnings-list">{% for w in run.warnings %}<li>{{ icon("triangle-alert", 16) }} {{ w }}</li>{% endfor %}</ul>
+  {% endif %}
+</section>
+{% endblock %}

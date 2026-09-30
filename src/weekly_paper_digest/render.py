@@ -50,6 +50,8 @@ def _item_section(rank: int, item: Item) -> list[str]:
         out += ["> ⚠️ Không tạo được bản tóm tắt chi tiết cho mục này (lỗi LLM) — xem link gốc.", "", "---", ""]
         return out
     out += [f"> **TL;DR:** {s['tldr']}", ""]
+    out += [f"**Điểm mạnh:** {' · '.join(s['strengths'])}  ", f"**Điểm yếu:** {' · '.join(s['weaknesses'])}  ",
+            f"**Bối cảnh:** {s['context']}", ""]
     for title, key in (("Vấn đề", "problem"), ("Phương pháp", "method"), ("Thiết lập", "setup")):
         out += [f"### {title}", s[key], ""]
     out += ["### Kết quả chính"] + [f"- {r}" for r in s["results"]] + [""]

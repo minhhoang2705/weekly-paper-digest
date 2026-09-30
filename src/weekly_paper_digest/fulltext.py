@@ -49,11 +49,15 @@ def hf_model_card(client: httpx.Client, model_id: str) -> str | None:
 
 
 def excerpt(markdown: str, limit: int = 2000) -> str:
-    """README/model card trimmed for triage and scoring: prose only, capped."""
+    """README/model card trimmed for triage, scoring and display: prose + table numbers, capped."""
     body = re.sub(r"\A---\n.*?\n---\n", "", markdown, flags=re.S)       # YAML front matter
+    body = re.sub(r"```.*?```", " ", body, flags=re.S)                   # code blocks (usage snippets)
     body = re.sub(r"\[!\[[^\]]*\]\([^)]*\)\]\([^)]*\)", " ", body)       # linked badges
     body = re.sub(r"!\[[^\]]*\]\([^)]*\)", " ", body)                    # images
     body = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", body)                 # links -> text
+    body = re.sub(r"^\s*\|?[\s:|-]+\|[\s:|-]*$", " ", body, flags=re.M)  # table separator rows
+    body = re.sub(r"^\s{0,3}#{1,6}\s+(.*)$", r"\1.", body, flags=re.M)   # headings -> sentences
+    body = re.sub(r"(\*\*|__|`)", "", body)                              # emphasis / inline code marks
     body = html.unescape(re.sub(r"<[^>]+>", " ", body))
     return " ".join(body.split())[:limit]
 

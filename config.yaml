@@ -87,3 +87,10 @@ sources:
     # Keyword-matched titles per scan (abstract page fetched for each). High enough to cover
     # a whole Interspeech volume, so selection is left to LLM triage, not archive order.
     max_candidates: 1500
+
+# Static web UI (built into docs/ for GitHub Pages).
+site:
+  title: Research Monitor
+  subtitle: personal intelligence
+  schedule_label: "weekly · cron 08:00"
+  repo_url: https://github.com/minhhoang2705/weekly-paper-digest

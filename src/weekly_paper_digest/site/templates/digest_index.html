@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "_macros.html" import empty %}
+{% block title %}Digest{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Digest</h1>
+    <p class="meta">One ranked top {{ cfg.top_k }} per week.</p>
+  </div>
+</header>
+{% if runs %}
+<ul class="list card">
+  {% for run in runs %}
+  <li class="row">
+    <div class="row-main">
+      <a class="row-title" href="{{ base }}digest/{{ run.week }}.html">{{ run.week }}</a>
+      <div class="meta meta-small"><span>{{ run.since | date }} → {{ run.generated_at | date }}</span><span aria-hidden="true">·</span>
+        <span>{{ run["items"] | selectattr("rank") | list | length }} ranked of {{ run["items"] | length }} scored</span></div>
+    </div>
+    <a class="button" href="{{ site.repo_url }}/blob/main/digests/{{ run.week }}.md" target="_blank" rel="noopener">{{ icon("external-link", 18) }}Markdown</a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+{{ empty("No digest yet.") }}
+{% endif %}
+{% endblock %}

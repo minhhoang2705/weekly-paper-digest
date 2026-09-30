@@ -1,0 +1,28 @@
+{% macro item_row(item, base, rank=None) %}
+<li class="row" data-topic="{{ item.topic }}" data-kind="{{ item.kind }}" data-top="{{ 'yes' if item.rank else 'no' }}"
+    data-score="{{ item.total }}" data-date="{{ item.published or '' }}"
+    data-text="{{ (item.title ~ ' ' ~ (item.authors | join(' ')) ~ ' ' ~ (item.sources | join(' '))) | lower }}">
+  {% if rank %}<span class="row-rank">{{ rank }}</span>{% endif %}
+  <div class="row-main">
+    <a class="row-title" href="{{ base }}items/{{ item.slug }}.html">{{ item.title }}</a>
+    <div class="meta meta-small">
+      {% if item.published %}<span>{{ item.published | date }}</span><span aria-hidden="true">·</span>{% endif %}
+      <span class="pill">{{ kind_label[item.kind] }}</span>
+      {% for source in item.sources %}<span class="pill">{{ source }}</span>{% endfor %}
+      <span class="pill pill-accent">{{ item.topic }}</span>
+      {% if item.rank %}<span class="pill pill-top">Top {{ item.rank }} · {{ item.week }}</span>{% endif %}
+    </div>
+    {% if item.summary %}<p class="row-tldr">{{ item.summary.tldr }}</p>{% endif %}
+  </div>
+  <div class="row-score" aria-label="Ranking score {{ '%.1f' | format(item.total) }} of 100">
+    <span class="row-score-value">{{ "%.1f" | format(item.total) }}</span>
+    <span class="bars" aria-hidden="true">
+      {% for c in criteria %}<span class="bar" title="{{ c | capitalize }} {{ item.scores[c] }}/5" style="--v: {{ item.scores[c] }}"></span>{% endfor %}
+    </span>
+  </div>
+</li>
+{% endmacro %}
+
+{% macro empty(message) %}
+<div class="card"><div class="card-body empty-state">{{ icon("file-text", 22) }}<p>{{ message }}</p></div></div>
+{% endmacro %}

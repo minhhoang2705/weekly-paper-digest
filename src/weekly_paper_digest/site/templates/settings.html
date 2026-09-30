@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Settings</h1>
+    <p class="meta">Read-only view of <a href="{{ site.repo_url }}/blob/main/config.yaml" target="_blank" rel="noopener">config.yaml</a>. Edit that file to change the collector.</p>
+  </div>
+</header>
+
+<div class="settings-grid">
+  <section class="card" aria-labelledby="sched-h">
+    <div class="card-header"><h2 class="label" id="sched-h">Collector</h2></div>
+    <dl class="kv card-body">
+      <div><dt>Schedule</dt><dd>{{ site.schedule_label }}</dd></div>
+      <div><dt>Crawl window</dt><dd>{{ cfg.lookback_days }} days</dd></div>
+      <div><dt>Shortlist scored</dt><dd>{{ cfg.shortlist_size }}</dd></div>
+      <div><dt>Digest size</dt><dd>top {{ cfg.top_k }}</dd></div>
+      <div><dt>Summary language</dt><dd>{{ cfg.language }}</dd></div>
+    </dl>
+  </section>
+
+  <section class="card" aria-labelledby="models-h">
+    <div class="card-header"><h2 class="label" id="models-h">Models</h2></div>
+    <dl class="kv card-body">
+      {% for stage, model in cfg.models.items() %}<div><dt>{{ stage }}</dt><dd><code>{{ model }}</code></dd></div>{% endfor %}
+    </dl>
+  </section>
+
+  <section class="card" aria-labelledby="weights-h">
+    <div class="card-header"><h2 class="label" id="weights-h">Ranking weights</h2></div>
+    <dl class="kv card-body">
+      {% for c in criteria %}<div><dt>{{ c | capitalize }}</dt><dd>{{ cfg.weights[c] }}</dd></div>{% endfor %}
+    </dl>
+  </section>
+
+  <section class="card" aria-labelledby="topics-h">
+    <div class="card-header"><h2 class="label" id="topics-h">Topics</h2></div>
+    <dl class="kv kv-stacked card-body">
+      {% for name, desc in cfg.topics.items() %}<div><dt>{{ name }}</dt><dd>{{ desc }}</dd></div>{% endfor %}
+    </dl>
+  </section>
+
+  <section class="card settings-wide" aria-labelledby="sources-h">
+    <div class="card-header"><h2 class="label" id="sources-h">Sources</h2></div>
+    <dl class="kv card-body">
+      {% for name, src in cfg.sources.items() %}
+        <div><dt>{{ name }}</dt><dd>{% if src.get("enabled") %}<span class="dot"></span> enabled{% else %}<span class="dot dot-idle"></span> disabled{% endif %}
+          {% if src.get("feeds") %} · {{ src.feeds | length }} feeds: {{ src.feeds.keys() | join(", ") }}{% endif %}
+          {% if src.get("categories") %} · {{ (src.categories + src.get("keyword_categories", [])) | join(", ") }}{% endif %}
+          {% if src.get("topics") %} · {{ src.topics | join(", ") }}{% endif %}
+          {% if src.get("pipeline_tags") %} · {{ src.pipeline_tags | join(", ") }}{% endif %}
+        </dd></div>
+      {% endfor %}
+    </dl>
+  </section>
+</div>
+{% endblock %}

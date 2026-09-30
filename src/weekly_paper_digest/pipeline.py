@@ -14,6 +14,7 @@ from .render import render
 from .sources import PartialFailure, SourceContext, registry
 from .stages import score, summarize, triage
 from .state import State
+from .store import save_run
 
 log = logging.getLogger(__name__)
 
@@ -93,6 +94,7 @@ def run(cfg: Config, root: Path, *, lookback_days: int | None = None, dry_run: b
     digest = root / "digests" / f"{week}.md"
     digest.parent.mkdir(parents=True, exist_ok=True)
     digest.write_text(render(cfg, week, since, now, top, stats, warnings), encoding="utf-8")
+    save_run(root / "data" / f"{week}.json", cfg, week, since, now, scored, top, stats, warnings)
     state.mark_published(top, week)
     state.save()
     return RunResult(week, digest, stats, warnings, top)

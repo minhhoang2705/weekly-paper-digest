@@ -157,6 +157,9 @@ class Summary(BaseModel):
     results: list[str] = Field(description="Key quantitative results, each with the exact numbers, metric and comparison baseline")
     limitations: str = Field(description="Limitations, caveats, what is not evaluated")
     takeaways: str = Field(description="Practical implications for speech engineers/researchers")
+    strengths: list[str] = Field(description="3-5 short phrases (max ~8 words each): main strengths")
+    weaknesses: list[str] = Field(description="2-4 short phrases (max ~8 words each): main weaknesses or risks")
+    context: str = Field(description="One line: who made it (authors/lab and affiliations as stated) and venue/release context")
 
 
 def _summary_system(cfg: Config) -> str:

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}{{ item.title }}{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ base }}feed.html">{{ icon("arrow-left", 18) }}Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">{{ item.title }}</h1>
+    <div class="meta">
+      {% if item.published %}<span>{{ item.published | date }}</span><span aria-hidden="true">·</span>{% endif %}
+      <span class="pill">{{ kind_label[item.kind] }}</span>
+      {% for source in item.sources %}<span class="pill">{{ source }}</span>{% endfor %}
+      {% if item.topic %}<span class="pill pill-accent">{{ item.topic }}</span>{% endif %}
+      {% if item.authors %}
+        <span class="authors">{{ item.authors[:15] | join(", ") }}{% if item.authors | length > 15 %} +{{ item.authors | length - 15 }} more{% endif %}</span>
+      {% endif %}
+    </div>
+  </div>
+  <div class="header-actions">
+    {% if item.code_url and item.code_url != item.url %}
+      <a class="button" href="{{ item.code_url | url }}" target="_blank" rel="noopener">{{ icon("external-link", 18) }}Code</a>
+    {% endif %}
+    <a class="button" href="{{ item.url | url }}" target="_blank" rel="noopener">{{ icon("external-link", 18) }}Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">{{ excerpt_label[item.kind] }}</span>
+      </div>
+      <div class="card-body prose">
+        {% if item.abstract %}<p>{{ item.abstract }}</p>{% else %}<p class="muted">No abstract available.</p>{% endif %}
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+        {% if item.sections %}
+          <span class="sublabel">analyzed {{ item.analyzed_at | date }} · {{ item.fulltext_source }}</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            {{ icon("flask-conical", 18) }}<span data-toggle-label>Full analysis</span>
+          </button>
+        {% endif %}
+      </div>
+      {% if item.sections %}
+        <div class="analysis" id="analysis-body">
+          {% for s in item.sections %}
+            <div class="analysis-section{% if not s.primary %} is-secondary{% endif %}">
+              <h3 class="label label-icon">{{ icon(s.icon, 18) }}{{ s.title }}</h3>
+              <div class="prose">{{ s.body | markdown }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="card-body empty-state">
+          {{ icon("flask-conical", 22) }}
+          <p>Not analyzed yet. Full-text analysis runs only for the week's top {{ cfg.top_k }} items;
+          this one was scored on its {{ excerpt_label[item.kind] }} but ranked outside the top {{ cfg.top_k }}.</p>
+        </div>
+      {% endif %}
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · abstract + signals</span>
+    </div>
+    {% if item.scores %}
+      <div class="score-block">
+        <div class="score">{{ "%.1f" | format(item.total) }}<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+        {% if item.rank %}<div class="rank-note">#{{ item.rank }} in {{ item.week }}</div>{% endif %}
+      </div>
+      <div class="radar-wrap">{{ radar(item.scores, item.reasons) }}</div>
+      <dl class="reasons">
+        {% for c in criteria %}
+          <div><dt>{{ c | capitalize }} <span class="muted">{{ item.scores[c] }}/5</span></dt><dd>{{ item.reasons[c] }}</dd></div>
+        {% endfor %}
+      </dl>
+      {% if item.summary %}
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span>{% for s in item.summary.strengths %} · {{ s }}{% endfor %}</p>
+          <p><span class="label">Weaknesses</span>{% for s in item.summary.weaknesses %} · {{ s }}{% endfor %}</p>
+          <p><span class="label">Context</span> · {{ item.summary.context }}</p>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="card-body empty-state"><p>Not ranked yet.</p></div>
+    {% endif %}
+  </aside>
+</div>
+{% endblock %}
