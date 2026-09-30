@@ -1,0 +1,27 @@
+[project]
+name = "weekly-paper-digest"
+version = "0.1.0"
+description = "Weekly crawl, scoring and detailed summaries of speech (ASR/TTS/SLU/voice agent) papers, blogs, repos and models"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "feedparser>=6.0.14",
+    "google-genai>=2.25.0",
+    "httpx>=0.28.1",
+    "pydantic>=2.13.5",
+    "python-dotenv>=1.2.3",
+    "pyyaml>=6.0.3",
+    "trafilatura>=2.2.0",
+]
+
+[project.scripts]
+weekly-digest = "weekly_paper_digest.__main__:main"
+
+[build-system]
+requires = ["uv_build>=0.12.13,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]

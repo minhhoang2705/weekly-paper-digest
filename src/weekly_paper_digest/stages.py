@@ -1,0 +1,176 @@
+"""LLM stages: triage (cheap relevance), scoring (5 criteria), summarization (full text)."""
+from __future__ import annotations
+
+import json
+import logging
+from concurrent.futures import ThreadPoolExecutor
+
+import httpx
+from pydantic import BaseModel, Field
+
+from .config import Config
+from .fulltext import fetch_fulltext
+from .llm import LLM, pdf_part
+from .models import CRITERIA, Item
+from .ranking import weighted_total
+
+log = logging.getLogger(__name__)
+TRIAGE_BATCH = 40
+
+
+def _topics(cfg: Config) -> str:
+    return "\n".join(f"- {name}: {desc}" for name, desc in cfg.topics.items())
+
+
+def _signals(item: Item) -> str:
+    return ", ".join(f"{k}={v}" for k, v in item.signals.items()) or "none"
+
+
+# ---------------------------------------------------------------- triage
+
+class TriageRow(BaseModel):
+    id: str
+    relevant: bool
+    topic: str = Field(description="One of the topic names, or 'Other'")
+    promise: int = Field(description="1-5: how likely this is among the most important items of the week")
+
+
+class TriageBatch(BaseModel):
+    items: list[TriageRow]
+
+
+def triage(llm: LLM, cfg: Config, items: list[Item]) -> list[Item]:
+    """Keep items whose main contribution is in scope; attach topic and a promise score."""
+    system = (
+        "You screen candidates for a weekly speech-technology digest.\n"
+        f"In-scope topics:\n{_topics(cfg)}\n"
+        "Mark relevant=true only when the item's MAIN contribution falls in one of these topics. "
+        "Pure music/general audio, speaker verification alone, or incidental mentions of speech are not relevant. "
+        "promise: 1 = routine/incremental, 3 = solid, 5 = likely a standout of the week. "
+        "Return exactly one row per input id."
+    )
+    by_id = {i.id: i for i in items}
+    batches = [items[n:n + TRIAGE_BATCH] for n in range(0, len(items), TRIAGE_BATCH)]
+
+    def run(batch: list[Item]) -> list[TriageRow]:
+        payload = [
+            {"id": i.id, "kind": i.kind, "title": i.title, "text": i.abstract[:900], "signals": _signals(i)}
+            for i in batch
+        ]
+        result = llm.structured(cfg.models["triage"], system, [json.dumps(payload, ensure_ascii=False)], TriageBatch)
+        return result.items
+
+    kept: list[Item] = []
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        for rows in pool.map(run, batches):
+            for row in rows:
+                item = by_id.get(row.id)
+                if item and row.relevant and row.topic in cfg.topics:
+                    item.topic = row.topic
+                    item.promise = max(1, min(5, row.promise))
+                    kept.append(item)
+    return kept
+
+
+# ---------------------------------------------------------------- scoring
+
+class Criterion(BaseModel):
+    score: int = Field(description="Integer 1-5")
+    reason: str = Field(description="One sentence justification")
+
+
+class ScoreCard(BaseModel):
+    novelty: Criterion
+    credibility: Criterion
+    technical: Criterion
+    impact: Criterion
+    evidence: Criterion
+
+
+RUBRIC = """Score each criterion as an integer 1-5 (1 = very weak, 3 = typical good work, 5 = exceptional):
+- novelty: how new the idea/capability is versus prior work (5 = new paradigm or first-of-its-kind; 1 = rehash).
+- credibility: trustworthiness of the source: author/lab track record, peer-reviewed venue, official release, reputable publisher.
+- technical: depth and rigor of the method or engineering (architecture, training recipe, systems design).
+- impact: expected effect on speech research or products; use adoption signals (HF upvotes, GitHub stars, likes) when given.
+- evidence: strength of empirical support: benchmarks against strong baselines, ablations, human evals, released code/weights. Claims without numbers score low.
+Score only what the provided text supports; when information is missing, score conservatively and say so."""
+
+
+def score(llm: LLM, cfg: Config, items: list[Item]) -> list[Item]:
+    system = f"You are a senior speech-technology reviewer.\n{RUBRIC}\nWrite every reason in {cfg.language}."
+
+    def run(item: Item) -> Item | None:
+        prompt = (
+            f"Kind: {item.kind}\nTopic: {item.topic}\nTitle: {item.title}\n"
+            f"Authors/owner: {', '.join(item.authors[:15]) or 'unknown'}\n"
+            f"Sources: {', '.join(item.sources)}\nSignals: {_signals(item)}\n"
+            f"Code: {item.code_url or 'none listed'}\n\nText:\n{item.abstract}"
+        )
+        try:
+            card = llm.structured(cfg.models["score"], system, [prompt], ScoreCard)
+        except Exception as exc:  # noqa: BLE001 - one failed item must not sink the run
+            log.warning("scoring failed for %s: %s", item.id, exc)
+            return None
+        for c in CRITERIA:
+            crit: Criterion = getattr(card, c)
+            item.scores[c] = max(1, min(5, crit.score))
+            item.reasons[c] = crit.reason
+        item.total = weighted_total(item.scores, cfg.weights)
+        return item
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        return [i for i in pool.map(run, items) if i is not None]
+
+
+# ---------------------------------------------------------------- summarization
+
+class Summary(BaseModel):
+    tldr: str = Field(description="2-3 sentences: what it is and why it matters")
+    problem: str = Field(description="Problem and motivation")
+    method: str = Field(description="Detailed method: architecture, key components, training objectives, data, what is new vs prior work")
+    setup: str = Field(description="Experimental setup: datasets, baselines, metrics, compute; for blogs/repos/models: usage, supported languages, requirements")
+    results: list[str] = Field(description="Key quantitative results, each with the exact numbers, metric and comparison baseline")
+    limitations: str = Field(description="Limitations, caveats, what is not evaluated")
+    takeaways: str = Field(description="Practical implications for speech engineers/researchers")
+
+
+def _summary_system(cfg: Config) -> str:
+    return (
+        "You write detailed technical briefs of speech-technology papers, posts, repos and models "
+        f"for expert engineers. Write in {cfg.language}.\n"
+        "Rules:\n"
+        "- Use ONLY the provided document. Never invent numbers, datasets, baselines or claims.\n"
+        "- Copy numbers exactly as written (WER, MOS, latency, params, hours of data...).\n"
+        "- Go beyond the abstract: explain the method concretely enough that a reader could sketch it.\n"
+        "- If the document does not state something, write 'Không được nêu trong tài liệu'.\n"
+        "- Markdown inside fields is allowed (bold, inline code, short lists)."
+    )
+
+
+def summarize(llm: LLM, cfg: Config, client: httpx.Client, items: list[Item]) -> None:
+    system = _summary_system(cfg)
+
+    def run(item: Item) -> None:
+        header = f"Kind: {item.kind}\nTitle: {item.title}\nURL: {item.url}\n"
+        try:
+            ft = fetch_fulltext(client, item)
+        except httpx.HTTPError as exc:
+            log.warning("full text fetch failed for %s: %s", item.id, exc)
+            ft = None
+        if ft is None:
+            item.fulltext_source = "chỉ có abstract/mô tả (không lấy được full-text)"
+            contents = [header + "Only the abstract/description is available:\n" + item.abstract]
+        elif ft.pdf is not None:
+            item.fulltext_source = ft.label
+            contents = [pdf_part(ft.pdf), header + "The attached PDF is the full document."]
+        else:
+            item.fulltext_source = ft.label
+            contents = [header + "Full document:\n" + (ft.text or "")]
+        try:
+            item.summary = llm.structured(cfg.models["summarize"], system, contents, Summary).model_dump()
+        except Exception as exc:  # noqa: BLE001 - rendered as a visible gap, not hidden
+            log.warning("summary failed for %s: %s", item.id, exc)
+            item.summary = None
+
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        list(pool.map(run, items))

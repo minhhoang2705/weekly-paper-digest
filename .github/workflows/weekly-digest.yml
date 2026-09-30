@@ -1,0 +1,49 @@
+name: Weekly speech digest
+
+on:
+  schedule:
+    - cron: "0 1 * * 1"   # Monday 01:00 UTC = 08:00 Vietnam
+  workflow_dispatch:
+    inputs:
+      lookback_days:
+        description: "Override crawl window (days)"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-digest
+  cancel-in-progress: false
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+
+      - run: uv sync --frozen --no-dev
+
+      - name: Build digest
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LOOKBACK: ${{ inputs.lookback_days }}
+        run: uv run weekly-digest ${LOOKBACK:+--lookback-days "$LOOKBACK"}
+
+      - name: Commit digest and state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add digests state
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+          else
+            git commit -m "digest: $(date -u +%G-W%V)"
+            git push
+          fi
