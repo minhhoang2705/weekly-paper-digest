@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2609.37028",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Chuyển đổi thành công nguyên lý signed advantage-weighted denoising từ diffusion LLM sang mô hình voice-cloning discrete diffusion đa codebook với terminal waveform rewards.",
+  "credibility": "Bài báo là preprint nộp tới ICASSP từ các đơn vị nghiên cứu/công ty tại Armenia, UAE, Nga; đã công khai mã nguồn và quy trình rõ ràng.",
+  "technical": "Thiết kế kỹ thuật vững chắc: chuẩn hóa ELBO đa codebook theo độ dài, dùng common random numbers cho corruption ratio, và phân tích sâu cơ chế surrogate REINFORCE.",
+  "impact": "Cung cấp một giải pháp post-training khả thi và tiết kiệm tài nguyên cho họ mô hình masked generative codec TTS, nhưng hiện mới giới hạn ở một backbone và tiếng Nga.",
+  "evidence": "Thực nghiệm đối chứng đầy đủ với SFT, single-reward, weighting variants và hyperparameter ablations, kèm cả kiểm định chéo qua evaluators độc lập không tham gia huấn luyện."
+ },
+ "summary": {
+  "tldr": "RAWD-TTS đề xuất phương pháp alignment hậu huấn luyện không cần likelihood-ratio (ratio-free) cho mô hình zero-shot TTS dạng discrete diffusion. Phương pháp đánh giá các rollout âm thanh cuối cùng bằng ASR và speaker rewards, sau đó dùng group-relative advantages để đánh trọng số hàm mất mát tái tạo token bị forward-masked mà không cần target audio hay likelihood trên reverse trajectory.",
+  "problem": "Mô hình discrete-diffusion TTS (như OmniVoice) tạo chuỗi acoustic codebook thông qua cơ chế iterative masked prediction. Hàm loss dự đoán acoustic token có giám sát không phản ánh trực tiếp độ rõ âm thanh (intelligibility) hoặc độ tương đồng người nói (speaker preservation) ở mức waveform. Hơn nữa, việc lựa chọn token và thứ tự vị trí giải mã xác định decoding path ngẫu nhiên khiến việc tính toán trajectory likelihood hay áp dụng policy gradient truyền thống rất phức tạp.",
+  "method": "RAWD-TTS mở rộng nguyên lý advantage-weighted denoising từ các mô hình diffusion ngôn ngữ (wd1, AWM) sang mô hình TTS đa codebook điều kiện:\n- **Rollout và Terminal Rewards**: Với mỗi prompt $q = (y, a^{\\text{ref}}, y^{\\text{ref}})$, mô hình sinh ra $G$ chuỗi acoustic tokens ngẫu nhiên $x_0 \\in \\mathcal{V}^{C \\times L}$ và giải mã ra waveform qua frozen codec. Phần thưởng kết hợp gồm $r^{\\text{asr}} = \\exp[-2.5 \\text{WER}]$ và $r^{\\text{spk}} = (1 + \\cos(e(a), e(a^{\\text{ref}}))) / 2$.\n- **Group-relative Advantages**: Tính advantage chuẩn hóa trong từng nhóm prompt $A_{bi} = (r_{bi} - \\bar{r}_b) / \\sqrt{\\frac{1}{G-1} \\sum (r_{bi} - \\bar{r}_b)^2 + \\epsilon}$ nhằm loại bỏ baseline của prompt.\n- **Final-sample Denoising Surrogate**: Detach token đầu ra $x_0$ và áp dụng $K$ lần forward corruption (masking). Mỗi lần corrupt dùng tỷ lệ masking $\\rho_{bk} \\sim \\mathcal{U}(0, 1)$ dùng chung cho cả group (common random numbers). Hàm loss tái tạo token $\\ell_{bik}(\\theta)$ được tính bằng cross-entropy trung bình trên các vị trí bị che trong từng codebook rồi kết hợp qua các codebooks (tránh thiên vị câu dài).\n- **Loss cập nhật**: Cập nhật policy qua $\\mathcal{L}(\\theta) = \\frac{1}{BGK} \\sum_{b,i,k} \\text{stopgrad}(A_{bi}) \\ell_{bik}(\\theta)$ bằng AdamW mà không cần KL divergence regularization hay supervised anchor loss.",
+  "setup": "Huấn luyện trên 8.000 prompt voice-cloning tiếng Nga trích từ Balalaika YouTube dataset (10,96 giờ audio, thời lượng trung bình 4,93s), văn bản đích 20–120 ký tự (không dùng target audio). Backbone là OmniVoice (0,6B, dự đoán 8 Higgs-audio codebooks), thích ứng qua LoRA rank 16, alpha 32. Hyperparameters mặc định: $B=4, G=8, K=3$ (hoặc $K=5$), learning rate $10^{-5}$ qua 2.000 updates trên 1 GPU NVIDIA RTX 6000 Ada (K=5 tốn 9,25 GPU-hours). Đánh giá trên 500 prompts tiếng Nga của CV3-Eval. Metrics: Whisper-large-v3 WER, WavLM-ECAPA cosine (cùng họ với reward huấn luyện); kiểm định độc lập bằng Qwen3-ASR-1.7B WER, ERes2Net cosine và DistilMOS (WavLM backbone).",
+  "results": [
+   "Tại checkpoint được reward lựa chọn, Joint K=5 giảm Whisper WER từ 3,18% (OmniVoice base) xuống 2,42% (giảm 24,0% tương đối) và tăng WavLM cosine từ 0,733 lên 0,748.",
+   "Ở checkpoint cuối cùng (update 2.000, không chọn lọc), Joint K=5 đạt Whisper WER 2,58% (giảm 19,0% tương đối) và WavLM cosine 0,755, vượt trội base trên mọi chỉ số.",
+   "Đánh giá độc lập trên Qwen3-ASR cho thấy Joint K=5 giảm WER từ 4,38% xuống 3,76% (giảm 14,0% tương đối); ERes2Net speaker cosine tăng từ 0,704 lên 0,724; DistilMOS đạt 3,25 so với 3,18 của base.",
+   "Đánh đổi đơn mục tiêu: ASR-only giảm Whisper WER xuống 2,35% nhưng làm giảm WavLM cosine xuống 0,705; Speaker-only nâng WavLM cosine lên 0,763 nhưng làm tăng WER lên 3,34%.",
+   "So với baseline SFT (cần audio mục tiêu thực): SFT đạt Whisper WER 2,94% và WavLM cosine 0,765, trong khi Joint K=5 đạt WER tốt hơn rõ rệt (2,42%) mà hoàn toàn không cần paired target speech."
+  ],
+  "limitations": "Mục tiêu surrogate có dấu không đảm bảo trust region dạng likelihood-ratio hay cải thiện đơn điệu; checkpoint báo cáo được chọn dựa trên chính tập prompt đánh giá (dù checkpoint cuối cùng vẫn giữ được cải thiện); huấn luyện dùng rollout ngẫu nhiên không có CFG trong khi đánh giá dùng CFG 2 và greedy decoding; chỉ thực nghiệm trên tiếng Nga, 1 kiến trúc backbone và 1 training run cho mỗi cấu hình.",
+  "takeaways": "Có thể align mô hình TTS discrete diffusion hiệu quả bằng cách biến các rollout sinh ra thành bài toán masked denoising có trọng số advantage, tránh hoàn toàn việc can thiệp vào reverse diffusion trajectory hoặc phụ thuộc vào target audio chuẩn.",
+  "strengths": [
+   "Không cần tính trajectory likelihood phức tạp",
+   "Không cần paired target audio khi post-training",
+   "Kiểm chứng chặt chẽ bằng evaluators độc lập",
+   "Mã nguồn huấn luyện được công khai",
+   "Chi phí huấn luyện thấp (9.25 GPU-hours)"
+  ],
+  "weaknesses": [
+   "Không có bảo đảm lý thuyết monotonic improvement",
+   "Chỉ thử nghiệm trên một ngôn ngữ (Russian)",
+   "Chỉ chạy một seed mỗi cấu hình"
+  ],
+  "context": "Nhóm tác giả thuộc lab260 (Armenia), BitmanagerAI (UAE) và MTUCI (Nga); bài báo được nộp tới IEEE ICASSP để bình duyệt."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2609.38878",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Phát hiện hiện tượng all-layer attention của LM có thể giải mã tuyến tính từ audio encoder trước khi LM chạy là một insight hoàn toàn mới, dẫn đến thiết kế cắt tỉa 2 giai đoạn với precision fusion rất độc đáo.",
+  "credibility": "Bài báo đến từ nhóm nghiên cứu uy tín tại UT Austin (tác giả chính Lili Qiu), tuy nhiên tài liệu hiện tại là bản preprint trên arXiv chưa qua bình duyệt chính thức tại hội nghị.",
+  "technical": "Phương pháp luận rất chặt chẽ với phân tích cơ chế layer-wise attention, công thức precision fusion không tham số, phương pháp kiểm tra screening drift và cô lập các biến gây nhiễu.",
+  "impact": "Có tiềm năng ứng dụng sản phẩm rất cao do tính chất drop-in không cần train lại model, giải quyết trực tiếp nghẽn cổ chai context window và thông lượng serving của các LALM hiện nay.",
+  "evidence": "Thực nghiệm cực kỳ chi tiết trên 13 LALMs, 6 benchmark chuẩn, kiểm thử ablation sâu, kiểm định thống kê McNemar và bootstrap CI rõ ràng, có phân tích latency và throughput trên phần cứng GH200/A100."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu phát hiện mức độ attention mà một audio token nhận được trên toàn bộ language model (LALM) có thể dự đoán tuyến tính trực tiếp từ encoder output trước khi language model chạy. Dựa trên phát hiện này, nhóm tác giả đề xuất Triage, phương pháp cắt tỉa audio token không cần huấn luyện lại mô hình, giúp tăng gần 3× lượng audio đưa vừa vào context window và tăng 4× số luồng phục vụ đồng thời trên một GPU.",
+  "problem": "LALM tạo ra 750–1.500 audio token cho mỗi phút âm thanh, dẫn đến chi phí prefill lớn và làm tràn context window (ví dụ Qwen2.5-Omni-3B chỉ chứa được 21,8 phút audio). Các phương pháp cắt tỉa thị giác (vision) thường cắt sau layer 2, nhưng ở audio, layer 2 vẫn nhận attention rất lớn (16,2% so với 3,6% ở image) và thứ tự xếp hạng chưa hội tụ (Spearman ρ = .39). Cắt bên trong language model không giải phóng được vị trí trong context window, do đó audio token bắt buộc phải được xếp hạng và cắt tỉa trước khi language model chạy.",
+  "method": "Triage thực hiện cắt tỉa không cần nhãn (label-free) với encoder và language model hoàn toàn đóng băng (frozen):\n- **Attention Prior**: Sử dụng mô hình hồi quy tuyến tính (ridge regression, closed-form, giải trong vài giây trên CPU) ánh xạ từ encoder output $e_i$ sang giá trị attention $g_i$ (tổng attention của các audio position qua mọi layer và head): $s_i = w^\\top e_i + b$. Prior đạt $\\rho \\ge .69$ trên 11/13 LALM.\n- **Stage 1 (trước LM)**: Với tác vụ ASR (transcription), áp dụng bin coverage (giữ token có điểm prior cao nhất trong mỗi khoảng thời gian bằng nhau để bao phủ timeline, $K_1 = K$). Với multiple-choice QA, giữ $K_1$ token có điểm prior cao nhất (top-$K$).\n- **Stage 2 (tại layer 2, cho multiple choice)**: Chạy LM qua 2 layer đầu để quan sát attention nhận từ prompt suffix (chứa câu hỏi). Kết hợp hạng phân vị của prior ($r^{pred}$) và attention quan sát ($r^{obs}$) bằng cơ chế **precision fusion**: $\\gamma_i = \\alpha_i r^{obs}_i + (1 - \\alpha_i) r^{pred}_i$, với trọng số $\\alpha_i$ là độ đồng thuận giữa các head (mean / std của attention), rồi giữ lại top $K$ token.\n- **Calibration & Screening**: Bộ tham số tỉ lệ cắt ($r_1, r_2$) được hiệu chuẩn không cần nhãn qua mức độ tự nhất quán (self-consistency) với đầu ra full-audio dưới ngân sách conservative hoặc aggressive. Một phép thử sàng lọc (screening) đo độ dịch chuyển hidden state qua 2 layer đầu ($\\Delta_2 = \\|h_2 - h_0\\| / \\|h_0\\|$) với ngưỡng 0.25 giúp phát hiện trước các mô hình không tương thích với prior tuyến tính (như dòng Qwen-Audio).",
+  "setup": "Đánh giá trên 4 mô hình chính: Qwen2.5-Omni-3B, Qwen3-Omni-30B, Voxtral-Mini-3B, Phi-4-multimodal (và 9 LALM khác để kiểm tra prior). Tác vụ transcription đo corpus WER trên LibriSpeech, FLEURS, TEDLIUM (n=300 per case, 100 trên Qwen 30B, 7 bài nói TEDLIUM). Tác vụ multiple choice đo gold accuracy trên MMSU, DREAM, AudioMarathon-RACE (n=400 per case), kèm kiểm thử trên file ghi âm dài tự nhiên 20–43 phút (QuALITY). So sánh với các baseline encoder-side (uniform pooling, VAD, random, DART, SpeechPrune) và mid-prefill (FastV, HeadRouter). Phần cứng thử nghiệm gồm NVIDIA GH200 (96 GB) và A100-80GB.",
+  "results": [
+   "Prior dự đoán tổng attention của LM đạt Spearman ρ từ .69 đến .83 trên 11/13 LALM (đạt .83 trên Ultravox 1B, .79 trên Voxtral 3B và Phi-4 5.6B), vượt trội so với năng lượng âm học (|ρ| ≤ .28) và self-information (|ρ| ≤ .26).",
+   "Ở ngân sách conservative (nén 1.11–2.00× cho ASR, 1.54–2.86× cho multiple choice), WER và accuracy của Triage luôn nằm trong khoảng chênh lệch .04 so với full audio.",
+   "Ở ngân sách aggressive (nén 1.18–2.86×), bin coverage của Triage đạt WER thấp hơn tất cả baseline (kể cả mid-prefill) trong toàn bộ 12 trường hợp transcription, thấp hơn DART trung vị .064 WER.",
+   "Ở ngân sách aggressive (nén 2.22–5.00×), precision fusion vượt DART +.043 [+.032, +.053] accuracy trung bình trên 12 trường hợp multiple-choice (dẫn trước trong 11/12 trường hợp).",
+   "Mở rộng audio đưa vừa vào context window của Qwen2.5-Omni-3B từ 21.8 phút lên khoảng 62 phút ở mức nén 2.86×. Trên 90 bản ghi tự nhiên 20–43 phút (QuALITY), aggressive Triage đạt accuracy .584, vượt truncation (+.046) và window voting (+.026).",
+   "Về hiệu năng phục vụ (serving) trên GH200 với audio 5 phút của Qwen 3B, Triage cho phép chạy đồng thời 1.024 streams (gấp 4× so với full audio) với decode throughput gấp 4.5×."
+  ],
+  "limitations": "Prior dạng tuyến tính thất bại trên hai mô hình Qwen-Audio và Qwen2-Audio (ρ lần lượt là .288 và .566, độ trôi Δ2 < 0.25), cần phải dùng mô hình MLP phi tuyến thay thế. Audio encoder vẫn phải xử lý toàn bộ N frame ban đầu (chỉ giải phóng FLOPs ở LM prefill và KV cache). Mục tiêu tối ưu g dựa trên attention, vốn chỉ là proxy đại diện cho độ hữu ích của token chứ chưa phải thước đo hoàn hảo tuyệt đối.",
+  "takeaways": "Không cần huấn luyện lại LALM hay dùng mô hình dự đoán phức tạp, kỹ sư có thể fit một hồi quy tuyến tính closed-form trong vài giây từ encoder output để cắt tỉa token trước LM. Đối với ASR, chỉ cần dùng bin coverage một giai đoạn; đối với QA/lý luận, kết hợp shortlist của prior với precision fusion ở layer 2 mang lại hiệu quả nén 2–5× mà gần như không suy giảm chất lượng.",
+  "strengths": [
+   "Khám phá mới về khả năng dự đoán tuyến tính attention",
+   "Giải thuật closed-form cực nhẹ, fit trong vài giây",
+   "Cắt trước LM giúp mở rộng context window gần 3×",
+   "Vượt trội toàn diện các baseline ASR và QA",
+   "Đánh giá thực nghiệm quy mô lớn trên 13 LALMs"
+  ],
+  "weaknesses": [
+   "Prior tuyến tính không hoạt động trên dòng Qwen-Audio",
+   "Encoder vẫn phải xử lý toàn bộ audio ban đầu",
+   "Cần bước calibration xác định tỉ lệ nén cho từng task"
+  ],
+  "context": "Kyoungjun Park, Yunzhe Li, Lili Qiu từ The University of Texas at Austin; công bố dưới dạng preprint trên arXiv (arXiv:2609.38878)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

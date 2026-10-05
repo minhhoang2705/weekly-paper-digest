@@ -1,0 +1,50 @@
+{
+ "id": "isca:interspeech_2026/cao26_interspeech",
+ "topic": "Speech Understanding",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo đề xuất cơ chế on-policy distillation liên phương thức độc đáo kết hợp dual advantage (in-modal và cross-modal) giải quyết triệt để exposure bias trong Speech LLMs.",
+  "credibility": "Nghiên cứu đến từ nhóm tác giả uy tín tại Tencent Hunyuan và Đại học Chiết Giang, được công bố tại Interspeech 2026.",
+  "technical": "Khung toán học và thiết kế thuật ngữ policy gradient chi tiết, triển khai trên nền tảng verl với chiến lược multi-sampling rollout chuẩn xác.",
+  "impact": "Cung cấp giải pháp hiệu quả cho bài toán intelligence gap trong trợ lý giọng nói E2E, dù mức độ lan tỏa thực tế cần thêm tín hiệu từ việc mở mã nguồn.",
+  "evidence": "Thực nghiệm kỹ lưỡng trên 4 bộ benchmark lớn (BIG Bench Audio, Audio Multi-Challenge, VoiceBench, MMAR) kèm đối sánh chi tiết với SFT, Offline KD và GKD."
+ },
+ "summary": {
+  "tldr": "X-OPD là khung chưng cất on-policy đa phương thức (Cross-Modal On-Policy Distillation) giúp thu hẹp khoảng cách năng lực suy luận giữa Speech LLM và Text LLM tương ứng. Phương pháp sử dụng văn bản đối sánh để làm cầu nối đánh giá các rollout tự sinh của mô hình học sinh qua cả hai phương thức âm thanh và văn bản, giúp giảm mạnh độ suy giảm hiệu năng mà không cần nhãn ground-truth hay dữ liệu huấn luyện khổng lồ.",
+  "problem": "Các mô hình Speech LLM End-to-End (E2E) thường chịu sự suy giảm hiệu năng nghiêm trọng (performance degradation/modality gap) trong các tác vụ suy luận phức tạp, trả lời câu hỏi tri thức và tuân thủ chỉ dẫn so với Text LLM cùng nền tảng. Hiện tượng này xuất phát từ sự khan hiếm dữ liệu speech-reasoning chất lượng cao và sự lệch pha biểu diễn giữa tín hiệu âm thanh liên tục và không gian rời rạc của văn bản. Các phương pháp truyền thống như SFT, Offline KD hay GKD gặp lỗi chệch phân phối (exposure bias) và gây suy giảm nghiêm trọng khả năng tổng quát (catastrophic forgetting).",
+  "method": "X-OPD thiết lập một tập dữ liệu song song $D = \\{(S_i, T_i)\\}$ có tính bất biến ngữ nghĩa (Semantic Invariance) giữa âm thanh $S_i$ và câu lệnh văn bản $T_i$. Mô hình học sinh ($\\\\pi_\\\\theta$) tự sinh độc lập $m$ quỹ đạo giải pháp (multi-sampling rollout với $n=4$) cho mỗi prompt qua cả hai phương thức speech và text. Một mô hình giáo viên thuần văn bản ($\\\\pi_\\\\phi$) cung cấp phản hồi token-level thông qua cơ chế dual-advantage:\\n- In-modal advantage: $A_{im}(y_t) = \\\\log \\\\pi_\\\\phi(y_t|T, y_{<t}) - \\\\log \\\\pi_\\\\theta(y_t|T, y_{<t})$ nhằm duy trì năng lực nền tảng trên văn bản.\\n- Cross-modal advantage: $A_{cm}(y_t) = \\\\log \\\\pi_\\\\phi(y_t|T, y_{<t}) - \\\\log \\\\pi_\\\\theta(y_t|S, y_{<t})$ nhằm kéo gần biểu diễn âm thanh của học sinh về logic của giáo viên văn bản.\\nHọc sinh được tối ưu hóa toàn bộ tham số backbone ngôn ngữ (đóng băng audio tower và modal adapter) bằng policy gradient kết hợp cả hai hàm mất mát: $L(\\\\theta) = \\\\lambda L_{im}(\\\\theta) + (1-\\\\lambda) L_{cm}(\\\\theta)$ với trọng số cân bằng mặc định $\\\\lambda = 0.5$.",
+  "setup": "Dữ liệu huấn luyện gồm 27.847 cặp chỉ dẫn (10.934 cặp từ Tulu 3 - 136.7 giờ và 16.913 cặp từ NaturalReasoning - 95.5 giờ) được viết lại bằng Gemini-3-Flash-Preview, tổng hợp âm thanh bằng CosyVoice3 (24kHz) và lọc ASR bằng SenseVoice (bỏ các mẫu WER > 5%). Mô hình nền tảng là Qwen3-Omni-A3B-Instruct; giáo viên là Qwen3-A3B-Instruct. Huấn luyện bằng verl framework với Adam optimizer, learning rate 2e-6, batch size 256, 1 epoch. Các baseline gồm SFT, Offline KD và GKD xây dựng trên ms-swift. Đánh giá trên BIG Bench Audio, Audio Multi-Challenge, VoiceBench và benchmark chống quên MMAR, sử dụng Qwen3-235B-A22B-Instruct-2507 làm LLM-as-Judge qua 3 lần chạy độc lập và 3 lần chấm điểm (trung bình 9 lần).",
+  "results": [
+   "Trên BIG Bench Audio (Speech input), X-OPD đạt 93.41% so với 85.67% của mô hình gốc Qwen3-Omni-A3B-Instruct, vượt trội hơn hẳn SFT (87.52%), Offline KD (87.08%) và GKD (84.26%).",
+   "Trên Audio Multi-Challenge (Speech input), X-OPD đạt APR 28.14% so với mô hình gốc 23.57%, trong khi SFT, Offline KD và GKD bị tụt lùi lần lượt còn 15.04%, 17.73% và 18.13%.",
+   "Trên Voice Bench (Speech input), X-OPD đạt 89.29% tương đương mô hình gốc (89.22%), trong khi các baseline SFT (82.66%), Offline KD (83.31%) và GKD (83.03%) đều bị suy giảm hiệu năng.",
+   "Về mức độ suy giảm tổng thể so với Base Text Model (Avg. Drop), X-OPD thu hẹp độ lệch phương thức âm thanh (ΔS) từ 11.29% xuống 3.43% và phương thức văn bản (ΔT) từ 5.51% xuống 0.97%.",
+   "Về chống catastrophic forgetting trên MMAR (gốc 71.3%), X-OPD (λ=0.5) giữ vững ở mức 69.3% (drop 2.0%) và λ=1 đạt 70.7% (drop 0.6%), vượt xa SFT (60.3%), Offline KD (59.9%) và GKD (60.0%).",
+   "Ablation kích thước giáo viên cho thấy ghép cặp đồng quy mô (giáo viên Qwen3-A3B-Instruct) đạt kết quả tốt hơn giáo viên quy mô lớn hơn (Qwen3-A22B-Instruct đạt ΔS 5.55% so với 3.43%)."
+  ],
+  "limitations": "Dữ liệu huấn luyện âm thanh hoàn toàn là giọng đọc tổng hợp nhân tạo (TTS qua CosyVoice3) thay vì âm thanh hội thoại tự nhiên từ đời thực. Quá trình huấn luyện đóng băng hoàn toàn audio tower và modal adapter, chỉ cập nhật LLM backbone. Chưa đánh giá tác động đối với các năng lực âm học phi ngôn ngữ như cảm xúc hay ngữ điệu.",
+  "takeaways": "Huấn luyện on-policy kết hợp dual advantage văn bản - âm thanh giải quyết triệt để exposure bias và hiện tượng 'alignment tax' trong Speech LLMs. Khi chưng cất tri thức, giáo viên có quy mô tương đương với học sinh mang lại quỹ đạo học tập hiệu quả hơn giáo viên kích thước quá lớn. Chỉ cần một lượng nhỏ dữ liệu tổng hợp (~27k mẫu, ~232 giờ) đã đủ để căn chỉnh mạnh mẽ năng lực suy luận âm thanh.",
+  "strengths": [
+   "Thu hẹp sâu sắc modality gap",
+   "Bảo tồn năng lực gốc vượt trội",
+   "Hiệu quả dữ liệu cực cao (27k mẫu)",
+   "Cơ chế dual-advantage chặt chẽ, tối ưu"
+  ],
+  "weaknesses": [
+   "Phụ thuộc giọng tổng hợp từ TTS",
+   "Đóng băng adapter và audio tower",
+   "Chưa mở mã nguồn và trọng số"
+  ],
+  "context": "Di Cao, Dongjie Fu, Hai Yu, Siqi Zheng, Xu Tan (Tencent Hunyuan) và Tao Jin (Zhejiang University); xuất bản tại Interspeech 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

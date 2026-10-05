@@ -1,0 +1,51 @@
+{
+ "id": "isca:interspeech_2026/ramapuram26_interspeech",
+ "topic": "Speech Understanding",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 5,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Bài báo tiên phong thiết lập khung nghiên cứu scaling laws toàn diện cho continuous diffusion trong mô hình hóa ngôn ngữ giọng nói không giám sát văn bản và đề xuất metric pJSD thay thế perplexity.",
+  "credibility": "Nghiên cứu đến từ nhóm nghiên cứu AI/Speech của Apple và được xuất bản tại hội nghị hàng đầu Interspeech 2026 với quy trình thực nghiệm minh bạch, có kiểm chứng qua nhiều random seeds.",
+  "technical": "Phương pháp luận chi tiết và chuẩn mực: sử dụng MM-DiT, căn chỉnh siêu tham số zero-shot bằng muP/completeP, công thức hóa bề mặt scaling có số mũ γ và tối ưu hóa hai giai đoạn kết hợp sigmoid.",
+  "impact": "Cung cấp góc nhìn thực tế quan trọng (reality check) cho trào lưu textless NLP, chỉ ra giới hạn của continuous diffusion SLMs thuần túy và định hướng nghiên cứu chuyển sang text-speech representations.",
+  "evidence": "Thực nghiệm quy mô lớn trải dài 10 mức compute budgets, kích thước mô hình từ 0.6M đến 11.5B, huấn luyện kiểm chứng mô hình 16B trên hàng chục triệu giờ âm thanh cùng các bài ablation chi tiết."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu này khảo sát các quy luật tỷ lệ (scaling laws) của Spoken Language Models sử dụng mô hình Continuous Diffusion (CD SLM) trên biểu diễn log-mel filterbanks thay vì mô hình hóa autoregressive (AR) trên các discrete tokens. Nhóm tác giả đề xuất chỉ số phoneme Jensen-Shannon divergence (pJSD) để đo lường tính ngôn ngữ (languageness) và chứng minh CD SLM tuân theo các quy luật mở rộng tương tự AR SLM, đồng thời huấn luyện mô hình quy mô lớn 16B tham số.",
+  "problem": "Các Spoken Language Models (SLMs) học trực tiếp từ âm thanh thuần túy (textless NLP) tụt hậu xa so với mô hình văn bản (chỉ đạt mức ngôn ngữ của trẻ 3-4 tuổi). Việc lượng tử hóa âm thanh liên tục thành discrete tokens cho mô hình AR gây tắc nghẽn thông tin, mật độ thông tin thấp, và chi phí tính toán mở rộng cực kỳ lớn để đạt trình độ ngôn ngữ cao.",
+  "method": "Mô hình hóa âm thanh liên tục trực tiếp từ 80-dimensional log-mel filterbanks (tần số lấy mẫu 24kHz, frame rate 80 Hz) bằng kiến trúc Multimodal Diffusion Transformer (MM-DiT) với hai luồng riêng biệt: audio context (10s) và audio continuation (30s) chỉ tương tác qua bidirectional self-attention. Huấn luyện dựa trên mục tiêu velocity prediction v-prediction với min-SNR weighting loss. Áp dụng Classifier-Free Guidance (CFG) lúc inference bằng cách đưa tín hiệu zero biểu thị khoảng lặng làm unconditional input mà không cần ngẫu nhiên drop nhãn khi train. Đề xuất metric pJSD đo khoảng cách phân bố n-gram âm vị (trích xuất qua Allosaurus và bộ vocoder HiFiGAN) để đánh giá khả năng ngôn ngữ thay cho perplexity hay các bài test ghép đôi rời rạc. Để nghiên cứu scaling, áp dụng phương pháp IsoFLOP với bề mặt loss dạng tham số có số mũ ngoài γ kết hợp thuật toán tối ưu basin-hopping và L-BFGS-B, cùng phương pháp fused two-stage sigmoid mapping cho downstream metrics. Ở quy mô 16B tham số, mô hình kết hợp conditioning từ frozen Whisper-large-v3 encoder qua Perceiver downsampling xuống 4096 tokens.",
+  "setup": "Tập dữ liệu SpeechCrawl gồm 7 triệu giờ tiếng Anh được lọc kỹ bằng WhisperX (độ dài >5 phút, ≥99% tiếng Anh) cho các thí nghiệm scaling, và hàng chục triệu giờ âm thanh hội thoại đa ngữ cho mô hình 16B. Khảo sát 10 mức ngân sách tính toán từ 10^18 đến 10^21 FLOPs, kích thước mô hình từ ~0.6M (1 layer) đến ~11.5B (27 layers) với d_emb/L = 128, điều chỉnh siêu tham số theo muP và completeP trên base model ~36M. Đánh giá chất lượng cảm nhận bằng DNSMOS (P.808, P.835), NISQA MOS và Meta Audiobox Aesthetics (CE, CU, PQ, PC).",
+  "results": [
+   "Khớp quy luật tỷ lệ validation loss với hàm L(N, D) = E + (A/N^α + B/D^β)^γ đạt sai số Train MRE: 0.49% và Test MRE: 0.80% (với E = 0.0055, A = 0.0638, B = 29.7667, α = 0.3995, β = 0.5644, γ = 0.7051).",
+   "Tỷ lệ token-trên-tham-số tối ưu r*(C) = D*/N* giảm khi compute C tăng; tại C > 5.64·10^19 thì r* < 400, và tại C = 10^21 thì r* = 245 (tương đương r*_text ≈ 12.25, thấp hơn mức tối ưu ~20 của text LLM Chinchilla).",
+   "Độ cong κ của isoFLOP tại điểm tối ưu giảm mạnh khi compute tăng, làm phẳng đường cong và mở rộng khoảng kích thước mô hình (ΔN) cùng kích thước dữ liệu (ΔD) tối ưu (sai lệch loss trong phạm vi ε = 0.001) lên khoảng 2 bậc độ lớn (orders of magnitude).",
+   "Chỉ số pJSD thể hiện hành vi scaling rõ rệt: 5-gram pJSD đạt Test MRE khoảng 1% so với 8.2% của 1-gram pJSD.",
+   "Hai thành phần thẩm mỹ Content Enjoyment (CE) và Content Usefulness (CU) tuân theo scaling law nhưng bão hòa và không thể chạm ngưỡng baseline của dữ liệu thực (CU đạt 5.4809 ở mô hình 16B so với baseline thực là 6.266 ± 0.752). Các chỉ số perceptual MOS (DNSMOS, NISQA, PQ, PC) không tuân theo scaling law mà nhanh chóng bão hòa về mức baseline thực.",
+   "Mô hình 16B đạt validation loss 0.0047 (thấp hơn giới hạn irreducible loss E = 0.0055 của kiến trúc gốc) và pJSD giảm xuống 0.1770 (CFG = 4) so với 0.2096 ở mức C = 10^21."
+  ],
+  "limitations": "Dù mô hình 16B tạo ra giọng nói đa ngữ, biểu cảm, giàu prosody nhưng sự mạch lạc ngôn ngữ dài hạn (long-form linguistic coherence) vẫn chưa đạt được. Biểu diễn continuous mel-filterbank có mật độ token cao gấp 20 lần văn bản (80 Hz so với 4 token/s), gây tốn kém tính toán. Việc nội suy scaling cho thấy CD SLM không thể đạt chất lượng dữ liệu thực ở một số tiêu chí thẩm mỹ chỉ bằng cách tăng compute thuần túy.",
+  "takeaways": "Quy luật isoFLOP phẳng ở compute cao mở ra cơ hội tối ưu suy luận nhanh (dùng mô hình nhỏ hơn hoặc ít data hơn mà không giảm chất lượng). Tuy nhiên, scaling đơn thuần trên continuous diffusion speech-only là chưa đủ để đạt được tính mạch lạc ngôn ngữ sâu; cộng đồng cần các biểu diễn âm thanh mới hoặc chuyển dịch sang mô hình kết hợp text-speech.",
+  "strengths": [
+   "Nghiên cứu scaling laws đầu tiên cho Continuous Diffusion SLM",
+   "Đề xuất metric pJSD hiệu quả cho non-autoregressive models",
+   "Phạm vi thực nghiệm lớn từ 0.6M đến 16B parameters",
+   "Thiết kế isoFLOP và điều chỉnh muP/completeP chặt chẽ",
+   "Phân tích toàn diện cả ngôn ngữ lẫn perceptual quality"
+  ],
+  "weaknesses": [
+   "Chưa giải quyết được tính mạch lạc ngôn ngữ dài hạn",
+   "Mật độ biểu diễn 80 Hz làm chuỗi dữ liệu rất dài",
+   "Phụ thuộc vocoder ngoài gây suy giảm chất lượng âm thanh"
+  ],
+  "context": "Nghiên cứu được thực hiện bởi nhóm tác giả thuộc Apple, xuất bản tại Interspeech 2026 (Sydney, Australia)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

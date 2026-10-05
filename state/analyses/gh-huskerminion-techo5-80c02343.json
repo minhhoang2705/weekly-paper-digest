@@ -1,0 +1,49 @@
+{
+ "id": "gh:huskerminion/techo5",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Phát triển dựa trên EchoLocal và khai thác amonet có sẵn, nhưng rất sáng tạo khi thay thế Android bằng Alpine Linux và daemon Go duy nhất để biến smart display thành ESPHome voice satellite hoàn chỉnh.",
+  "credibility": "Dự án nguồn mở cá nhân uy tín, minh bạch mã nguồn, hướng dẫn chi tiết và được cộng đồng kiểm thử thực tế trên nhiều phần cứng Echo Show.",
+  "technical": "Kỹ thuật hệ thống nhúng rất vững: tùy biến kernel Linux 4.9, can thiệp thanh ghi ISP camera từ userspace, tối ưu ALSA với WebRTC AEC, và tích hợp sâu ESPHome API.",
+  "impact": "Tạo giải pháp tái sử dụng phần cứng Echo Show tuyệt vời cho cộng đồng Home Assistant, tuy nhiên bị giới hạn bởi số lượng thiết bị đời cũ có thể mở khóa bootloader.",
+  "evidence": "Mã nguồn, công cụ cài đặt và hình ảnh thực tế được cung cấp đầy đủ trên thiết bị thật, dù tài liệu chưa có bảng đo lường khoa học về WER hay latency âm thanh."
+ },
+ "summary": {
+  "tldr": "TECHO5 là firmware mã nguồn mở thay thế hoàn toàn Fire OS (Android) và Alexa trên các thiết bị Amazon Echo Show bằng hệ điều hành Alpine Linux tối giản cùng một daemon Go duy nhất. Hệ thống biến thiết bị thành vệ tinh thoại (voice satellite) độc lập, hoàn toàn riêng tư cho Home Assistant qua giao thức ESPHome API với tính năng nhận diện wake word cục bộ.",
+  "problem": "Các thiết bị thông minh Amazon Echo Show bị phụ thuộc hoàn toàn vào dịch vụ đám mây Amazon Alexa, đặt ra rủi ro nghiêm trọng về quyền riêng tư và chứa nhiều quảng cáo trên màn hình. Ngoài ra, việc xử lý âm thanh phụ thuộc cloud thường gây trễ hoặc bị ảnh hưởng khi gặp nhiễu phòng (như tiếng TV làm kéo dài thời gian lắng nghe tới 10-15 giây).",
+  "method": "Hệ thống tận dụng bootloader exploit `amonet` trên nền tảng MediaTek MT8163 và kernel Linux 4.9 (xây dựng lại từ LineageOS) để khởi động thẳng vào Alpine Linux armv7 tối giản (không chạy Android runtime). Tiến trình chính `echod` viết bằng Go điều khiển trực tiếp phần cứng: nhận diện wake word cục bộ bằng microWakeWord (hỗ trợ 12 mô hình từ khóa), khử tiếng vang qua `webrtc-audio-processing` trên ALSA, và tự động ngắt lượt thoại ngay trên thiết bị khi người dùng ngừng nói (end of speech detection). Màn hình cảm ứng hỗ trợ hiển thị giao diện do thiết bị tự vẽ (instant) hoặc stream từ server `dashcast` thông qua headless browser. Hệ thống giao tiếp trực tiếp với Home Assistant qua ESPHome API mã hóa, hỗ trợ cập nhật OTA an toàn với cơ chế A/B slots tự động fallback, gọi điện SIP nội bộ/nhà mạng (SRTP/TLS) và điều khiển camera từ userspace thông qua thanh ghi ISP.",
+  "setup": "Yêu cầu thiết bị Echo Show 5 (thế hệ 1 hoặc 2) hoặc Echo Show 8 (thế hệ 1) đã mở khóa bootloader bằng amonet và flash TWRP/LineageOS 18.1. Cài đặt tự động bằng Python script (`tools/install-show.py`) qua kết nối USB serial console trên máy tính Windows, Linux hoặc macOS có sẵn `adb` và `fastboot`. Thiết bị yêu cầu máy chủ Home Assistant trong mạng nội bộ để nhận diện ESPHome node.",
+  "results": [
+   "Hỗ trợ 12 wake words chạy trực tiếp trên thiết bị (gồm 'Alexa', 'Okay Nabu', 'Hey Jarvis', 'Hey Mycroft', 'Computer' và các từ khóa khác).",
+   "Triển khai thành công trên 5 mẫu phần cứng Amazon Echo chạy MT8163: Echo Show 5 Gen 2 (cronos), Echo Show 5 Gen 1 (checkers), Echo Show 8 Gen 1 (crown), Echo Spot Gen 1 (rook), Echo Dot Gen 2 (biscuit).",
+   "Khắc phục triệt để tình trạng trễ lắng nghe kéo dài 10 đến 15 giây khi có tiếng TV hoặc giọng nói xung quanh nhờ tính năng End of speech on device.",
+   "Cung cấp 13 theme giao diện tùy chỉnh và cơ chế hiệu ứng bình minh mô phỏng ánh sáng thức giấc từ 20 đến 30 phút trước chuông báo thức."
+  ],
+  "limitations": "Chỉ hoạt động trên các dòng Amazon Echo sản xuất từ năm 2021 trở về trước có lỗ hổng bootloader amonet; các dòng Echo sau 2021 không có bản mở khóa công khai. Các dịch vụ cloud của Alexa như mua sắm hoặc Alexa Skills bị loại bỏ hoàn toàn. Một số tính năng trên Echo Show 8 gen 1 còn lỗi (gạt lẫy mute camera sẽ tắt camera cho đến khi reboot). Không có bảng đánh giá định lượng về WER hoặc độ trễ phản hồi chi tiết.",
+  "takeaways": "Dự án chứng minh tính khả thi của việc tận dụng phần cứng loa thông minh thương mại cũ làm smart display và voice satellite hoàn toàn cục bộ, bảo mật và tương thích mượt mà với Home Assistant/ESPHome.",
+  "strengths": [
+   "Loại bỏ hoàn toàn Android và Amazon Cloud",
+   "Chạy microWakeWord và VAD ngay trên thiết bị",
+   "Cập nhật OTA an toàn qua phân vùng A/B",
+   "Hỗ trợ camera, Bluetooth A2DP và gọi SIP",
+   "Hiển thị Home Assistant dashboard trực tiếp hoặc stream"
+  ],
+  "weaknesses": [
+   "Phụ thuộc bootloader exploit cho chip MT8163 cũ",
+   "Quy trình cài đặt ban đầu đòi hỏi mở khóa phức tạp",
+   "Thiếu benchmark định lượng về WER và latency"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi tác giả HuskerMinion trên GitHub, kế thừa và mở rộng từ dự án EchoLocal của Yuri Gelfand kết hợp với exploit amonet."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

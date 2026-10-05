@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.01012",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tích hợp text conditioning vào V2S không hoàn toàn mới, nhưng cách tiếp cận kết hợp GT text lúc train, pseudo-text lúc test, dual cross-attention và CFM với CFG mang lại giải pháp kiến trúc rất hợp lý thay thế classifier guidance.",
+  "credibility": "Bài báo từ nhóm tác giả thuộc Đại học Quốc gia Seoul và Đại học Soongsil, công bố trên arXiv, có tài trợ từ NRF Hàn Quốc và cung cấp liên kết mã nguồn công khai.",
+  "technical": "Thiết kế kiến trúc đa phương thức sâu sắc và chặt chẽ, từ xử lý đồng bộ thời gian văn bản/khung hình, LoRA-BERT, dual-stage attention fusion, cho đến tối ưu hóa CFM.",
+  "impact": "V2S là một nhánh nghiên cứu ngách nhưng kỹ thuật kết hợp text-conditioning không dùng classifier guidance này có thể áp dụng tốt cho các bài toán phục hồi giọng nói và hội nghị truyền hình.",
+  "evidence": "Thực nghiệm toàn diện trên cả LRS2 và LRS3, kiểm tra đánh giá chéo dataset (cross-dataset), phân tích độ nhạy lỗi văn bản, kiểm thử nghe chủ quan MTurk với 100 người và hệ thống ablation study đầy đủ số liệu."
+ },
+ "summary": {
+  "tldr": "Watch Your Speech (WYS) là một framework video-to-speech (V2S) giải quyết triệt để vấn đề ánh xạ một-nhiều (one-to-many mapping) bằng cách đưa ràng buộc văn bản tường minh (textual conditioning) vào ngay từ giai đoạn huấn luyện. Mô-đun attention-based embedding fusion kết hợp cùng Conditional Flow Matching (CFM) và Classifier-Free Guidance (CFG) giúp mô hình đạt độ đồng bộ môi-tiếng (audio-visual synchronization) vượt trội và độ tự nhiên cao mà không cần phụ thuộc vào classifier guidance phức tạp ở giai đoạn suy luận.",
+  "problem": "Quá trình tổng hợp tiếng nói từ video khuôn mặt không tiếng (V2S) gặp phải trở ngại lớn do tính nhập nhằng thị giác (visual ambiguity): các khẩu hình môi tương tự nhau có thể tương ứng với nhiều âm vị khác nhau (ví dụ: các âm bilabial /b/ và /m/), dẫn đến hiện tượng one-to-many mapping. Các phương pháp trước đây hoặc bỏ qua ngữ cảnh văn bản dẫn đến sai lệch nội dung, hoặc chỉ can thiệp bằng classifier guidance từ mô hình lip-reading ở pha inference (như LipVoicer), làm suy giảm độ tự nhiên của giọng nói và mất đồng bộ âm thanh - hình ảnh.",
+  "method": "WYS giải quyết bài toán thông qua kiến trúc gồm 4 thành phần chính:\n- **Linguistic Information via Lip-Reading**: Sử dụng ground-truth text ($y_{gt}$) trong quá trình huấn luyện và sử dụng mô hình lip-reading tiền huấn luyện (Auto-AVSR) để dự đoán văn bản ($\\hat{y}_{text}$) trong pha inference.\n- **Multimodal Feature Extraction**: Văn bản được mã hóa bằng BERT đóng băng kết hợp LoRA ($e_t \\in \\mathbb{R}^{L_t \\times 512}$); đặc trưng nhận diện người nói $e_s \\in \\mathbb{R}^{1 \\times 512}$ trích xuất từ một khung hình khuôn mặt đơn lẻ bằng ResNet18; chuỗi chuyển động vùng môi $V_{lip}$ ($88 \\times 88$ grayscale) được mã hóa bằng 3D CNN (3D Conv + ShuffleNet + TCN) thành $e_v \\in \\mathbb{R}^{L_v \\times 512}$.\n- **Attention-based Embedding Fusion**: Trích xuất ngữ cảnh nội tại qua self-attention trên từng modality ($e_v^{self}, e_t^{self}$), sau đó áp dụng dual cross-attention ($e_{v \\to t}$ lấy video làm query và $e_{t \\to v}$ lấy text làm query) để sinh ra $e_{sync} \\in \\mathbb{R}^{L_v \\times 2048}$. Embedding speaker identity $e_s$ được broadcast qua trục thời gian và ghép nối (concatenate) để tạo conditional embedding $e_{fused} \\in \\mathbb{R}^{L_v \\times 2560}$.\n- **Speech Synthesis via CFM with CFG**: Dự đoán vector trường vận tốc của mel-spectrogram dựa trên DiffWave backbone dưới hàm mất mát Conditional Flow Matching, tích hợp Classifier-Free Guidance ($p_{uncond} = 0.1$, scale $w = 2.0$, Euler ODE solver 100 bước). Cuối cùng, vocoder HiFi-GAN chuyển mel-spectrogram thành sóng âm thanh 16 kHz.",
+  "setup": "- **Tập dữ liệu**: LRS2-BBC (144K đoạn clip, 224 giờ, từ vựng 13K) và LRS3-TED (151K đoạn clip, 475 giờ, từ vựng 40K), video 25 fps, audio 16 kHz.\n- **Baseline**: VCA-GAN, SVTS, DiffV2S, IntelligibleL2S, LipVoicer, V2SFlow-V, FTV, AlignDiT, cùng pipeline Lipreading + TTS (XTTS-V2, CosyVoice).\n- **Chỉ số đánh giá**: Word Error Rate (WER) qua ASR Auto-AVSR, LSE-C và LSE-D (SyncNet) đo độ đồng bộ môi-tiếng, STOI-Net và DNSMOS đo chất lượng âm thanh, speaker similarity (spkSIM), cùng đánh giá chủ quan MOS (100 người tham gia trên MTurk).\n- **Cấu hình phần cứng**: Huấn luyện trên 1 GPU NVIDIA RTX PRO 6000 duy nhất, Adam optimizer (lr = 1e-4, batch size 64) trong 1.000.000 iterations. Kích thước mô hình là 153.15M tham số.",
+  "results": [
+   "Trên LRS2: WYS đạt WER 20.1321%, LSE-C 7.5032, LSE-D 6.8118, STOI-Net 0.9144, DNSMOS 3.0927. Vượt trội LipVoicer về độ đồng bộ và chất lượng âm thanh (LipVoicer: LSE-C 6.5512, LSE-D 7.8622, DNSMOS 3.0352) dù WER của LipVoicer nhỉnh hơn một chút (18.8991%).",
+   "Trên LRS3: WYS đạt WER 23.7349%, LSE-C 7.0148, LSE-D 7.2586, STOI-Net 0.9373, DNSMOS 3.2414. So với V2SFlow-V (WER 29.6079%, LSE-C 7.0084), WYS giảm đáng kể tỷ lệ lỗi từ.",
+   "Đánh giá chủ quan MOS trên LRS2 / LRS3: WYS đạt điểm cao nhất trong tất cả các baseline ở cả 5 tiêu chí: Quality (3.92 / 3.93), Alignment (3.99 / 4.03), Intelligibility (3.97 / 4.02), Sync (4.03 / 4.01), Naturalness (4.00 / 3.93).",
+   "Ablation Attention: Chỉ ghép nối thô (concatenation) khiến WER tăng lên 50.6510%; cross-attention đơn hướng text-to-video làm sụp đổ mô hình với WER 80.8254%; việc kết hợp self-attention và dual cross-attention đạt WER tối ưu 20.1321%.",
+   "Hiệu quả suy luận: Giảm sampling steps từ 100 bước (8.8 giây/mẫu) xuống 10 bước chỉ làm giảm nhẹ hiệu năng (WER 20.5293%, LSE-C 7.5808, DNSMOS 3.0783) nhưng tăng tốc độ xử lý lên 0.7 giây/mẫu.",
+   "Upper-bound & Robustness: Khi cấp GT text lúc inference, WER giảm mạnh xuống 9.9784%. Dưới điều kiện text bị lỗi nhẹ (WER lip-reading từ 0-50%), WYS vẫn duy trì WER 28.7612% (vượt trội các mô hình text-free như DiffV2S đạt 58.6261%)."
+  ],
+  "limitations": "Hiệu năng inference vẫn bị giới hạn bởi độ chính xác của mô hình lip-reading ngoại vi (Auto-AVSR); khi văn bản dự đoán bị lỗi nặng (WER > 50%), chất lượng nội dung âm thanh suy giảm rõ rệt (WER tăng lên 78.7142%).",
+  "takeaways": "Huấn luyện end-to-end với ground-truth text và áp dụng cross-attention định hướng theo trục thời gian video (video-query cross-attention) hiệu quả và tự nhiên hơn nhiều so với việc dùng classifier guidance bên ngoài lúc inference. Mô hình CFM có thể giảm xuống 10 sampling steps để phục vụ các bài toán V2S thời gian thực.",
+  "strengths": [
+   "Loại bỏ nhu cầu classifier guidance phức tạp",
+   "Đồng bộ khẩu hình môi đạt SOTA (LSE-C/D)",
+   "Độ tự nhiên giọng nói vượt trội baseline",
+   "Khả năng suy luận nhanh với 10 bước CFM",
+   "Thiết kế ablation study cực kỳ chi tiết"
+  ],
+  "weaknesses": [
+   "Phụ thuộc chất lượng mô hình lip-reading",
+   "Hiệu năng giảm khi văn bản lỗi nặng",
+   "Chưa tích hợp huấn luyện end-to-end lip-reading"
+  ],
+  "context": "Nghiên cứu từ Đại học Soongsil và Đại học Quốc gia Seoul (Hàn Quốc), công bố dạng preprint trên arXiv kèm mã nguồn mở GitHub."
+ },
+ "fulltext_source": "arXiv HTML",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

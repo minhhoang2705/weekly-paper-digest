@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2609.40198",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 2,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Nghiên cứu chủ yếu chuyển đổi giao thức chia nhỏ bài toán đã có từ nghiên cứu văn bản của Laban et al. sang môi trường âm thanh mà không đề xuất kiến trúc hay lý thuyết đánh giá hoàn toàn mới.",
+  "credibility": "Tài liệu là bản thảo preprint ngắn 4 trang từ nhóm nghiên cứu doanh nghiệp (SCBX R&D/DataX), chưa qua bình duyệt và không cung cấp mã nguồn hay thông tin cụ thể về snapshot API.",
+  "technical": "Quy trình thử nghiệm ở mức tổng thể; các thành phần kỹ thuật sâu như thuật toán quản lý ngữ cảnh của LEGO, cấu hình sinh audio và phương pháp chấm điểm đều bị lược bỏ hoặc không nêu chi tiết.",
+  "impact": "Bài báo đóng vai trò ghi nhận thử nghiệm sơ bộ với tập dữ liệu nhỏ (103 mẫu) và hệ thống nội bộ đóng, khó tạo ra tác động diện rộng đối với cộng đồng nghiên cứu nếu không phát hành mã nguồn/dữ liệu.",
+  "evidence": "Báo cáo chỉ đưa ra bảng kết quả tổng hợp trên 103 bài toán, thiếu phân tích phương sai, khoảng tin cậy, phân tích lỗi định tính và thử nghiệm triệt tiêu (ablation study) cho cơ chế bộ nhớ."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu giới thiệu SpeechConversationBench (SCB), một khung đánh giá năng lực suy luận toán học đa lượt (multi-turn) trên hệ thống speech-to-speech dựa trên 103 bài toán GSM8K được phân mảnh (sharded). Đánh giá chỉ ra rằng bốn hệ thống thương mại bị sụt giảm từ 5.0 đến 25.3 điểm phần trăm độ chính xác khi thông tin phân bổ qua nhiều lượt so với khi cung cấp cùng lúc trong một lượt.",
+  "problem": "Khả năng giải quyết yêu cầu hoàn chỉnh trong một lượt thoại đơn không đảm bảo hệ thống có thể xử lý khi các dữ kiện quan trọng xuất hiện rải rác qua nhiều lượt trò chuyện. Việc đánh giá suy luận toán học yêu cầu mô hình phải tích lũy các đại lượng và ràng buộc được tiết lộ tuần tự để tạo ra đáp án cuối cùng có thể kiểm chứng.",
+  "method": "Tác giả chuyển đổi giao thức FULL/CONCAT/SHARDED từ nghiên cứu văn bản của Laban et al. sang bài toán thoại:\n- **FULL**: Toàn bộ bài toán gốc được đọc trong một lượt thoại duy nhất.\n- **CONCAT**: Các mảnh thông tin (shards) tương ứng được nối lại và cung cấp chung trong một lượt thoại duy nhất để kiểm soát ảnh hưởng của việc diễn đạt lại (reformulation).\n- **SHARDED**: Thông tin được cung cấp tuần tự qua các lượt trao đổi thoại dựa trên mô phỏng hội thoại đa lượt.\nMô hình được đánh giá về độ chính xác của đáp số cuối cùng (final-answer accuracy). Ngoài bốn hệ thống thương mại, nhóm tác giả đánh giá LEGO — pipeline dạng cascade gồm ASR, LLM tích hợp cơ chế quản lý ngữ cảnh (tóm tắt lịch sử hội thoại và tái đưa thông tin liên quan vào các lượt kế tiếp), và TTS, kết hợp phát hiện kết thúc lượt nói ngữ nghĩa tiếng Thái (Thai semantic end-of-turn detection).",
+  "setup": "Tập dữ liệu gồm 103 bài toán GSM8K dạng sharded. Các hệ thống đánh giá bao gồm: GPT-4o Realtime, GPT-4o Mini Realtime, Gemini 2.5 Flash Live, Gemini 2.5 Flash Preview Native Audio Dialog, và pipeline nội bộ LEGO (SCBX Innovation Lab). Số liệu báo cáo qua độ chính xác đáp án cuối cùng ở ba điều kiện (AF, AC, AS), độ chênh lệch tuyệt đối Delta S-C = AS - AC (tính bằng điểm phần trăm - pp) và tỷ lệ duy trì RS/C = 100 * (AS / AC) (%). Chi tiết về phiên bản API snapshot, tham số sinh âm thanh, số lần lặp và bộ trích xuất câu trả lời không được nêu trong tài liệu.",
+  "results": [
+   "GPT-4o Realtime đạt AF = 70.0%, AC = 81.6%, AS = 76.6%, suy giảm Delta S-C = -5.0 pp (tỷ lệ duy trì RS/C = 93.9%).",
+   "GPT-4o Mini Realtime đạt AF = 75.5%, AC = 77.7%, AS = 52.4%, suy giảm Delta S-C = -25.3 pp (tỷ lệ duy trì RS/C = 67.4%).",
+   "Gemini 2.5 Flash Live đạt AF = 54.4%, AC = 62.1%, AS = 46.6%, suy giảm Delta S-C = -15.5 pp (tỷ lệ duy trì RS/C = 75.0%).",
+   "Gemini 2.5 Flash Preview Native Audio Dialog đạt độ chính xác cao nhất ở đơn lượt FULL với 85.0%, AC = 80.0%, nhưng tụt xuống AS = 55.0% ở SHARDED, suy giảm Delta S-C = -25.0 pp (tỷ lệ duy trì RS/C = 68.8%).",
+   "Hệ thống cascade LEGO đạt độ chính xác đồng nhất 77.5% trên cả ba điều kiện FULL, CONCAT và SHARDED, Delta S-C = 0.0 pp (RS/C = 100.0%), cao hơn GPT-4o Realtime 0.9 pp ở SHARDED."
+  ],
+  "limitations": "Quy mô thử nghiệm nhỏ (chỉ 103 bài toán toán học), không đo lường hội thoại miền mở, đa ngôn ngữ, độ trễ, ngữ điệu, hay khả năng chống nhiễu. Báo cáo không cung cấp bản ghi trung gian để phân biệt lỗi do nhận dạng tiếng nói (misperception), tính toán sai hay quên thông tin. Danh tính các mô hình thành phần và thuật toán cập nhật bộ nhớ của LEGO không được tiết lộ, đồng thời thiếu baseline văn bản tương ứng và các kiểm định thống kê/khoảng tin cậy.",
+  "takeaways": "Hiệu năng đơn lượt không phản ánh chính xác năng lực đa lượt: mô hình tốt nhất ở chế độ đơn lượt có thể tụt hậu đáng kể khi tương tác thoại dài. Khi benchmark voice agent, bắt buộc phải duy trì cả hai nhóm đối chứng đơn lượt (FULL và CONCAT) để tách biệt giữa ảnh hưởng của cách diễn đạt bài toán và sự suy giảm do tương tác tích lũy nhiều lượt.",
+  "strengths": [
+   "Thiết kế đối chứng chặt chẽ với cả FULL và CONCAT",
+   "Đánh giá trực tiếp các mô hình thoại thương mại hàng đầu",
+   "Chỉ ra sự sai lệch thứ hạng giữa đơn lượt và đa lượt",
+   "Đề xuất góc nhìn hữu ích về quản lý ngữ cảnh tường minh"
+  ],
+  "weaknesses": [
+   "Bộ dữ liệu nhỏ chỉ với 103 bài toán",
+   "Thiếu mã nguồn và chi tiết kỹ thuật hệ thống LEGO",
+   "Không có phân tích bóc tách cơ chế lỗi trung gian",
+   "Thiếu baseline văn bản đối chứng trực tiếp"
+  ],
+  "context": "Tác giả Kanpat Vesessook (SCBX R&D) và Saksorn Ruangtanusak (SCB DataX, SCBX Group); bài báo dạng preprint trên arXiv (thực hiện chủ yếu trong kỳ thực tập tại SCBX R&D năm 2024)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

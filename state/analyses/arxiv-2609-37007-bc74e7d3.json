@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2609.37007",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tái sử dụng native per-position RVQ heads kết hợp residual offset vectors siêu nhỏ thay vì huấn luyện draft heads mới là giải pháp thông minh và rất mới cho codec-based TTS.",
+  "credibility": "Bài báo dạng preprint từ Argmax Inc. (tác giả của WhisperKit), mô tả chi tiết và thực tế, nhưng chưa qua bình duyệt tại hội nghị chính thức.",
+  "technical": "Thiết kế hệ thống rất chặt chẽ, tối ưu hóa thành công sparse tree attention mask để chạy trên Apple Neural Engine với kích thước tĩnh (static shape).",
+  "impact": "Đem lại giải pháp thiết thực cho việc triển khai on-device TTS chất lượng cao, mở khóa khả năng chạy real-time trên các thiết bị thế hệ cũ như iPhone 12.",
+  "evidence": "Cung cấp đầy đủ các số đo phần cứng thực tế (iPhone 12/17, Mac M3), ablation study chi tiết cho drafter và đánh giá WER trên 6 ngôn ngữ chuẩn."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu đề xuất phương pháp RVQ position-aware speculative decoding dành cho MultiCodeDecoder trong Qwen3-TTS, giúp tăng tốc tổng hợp tiếng nói trên thiết bị di động. Bằng việc tận dụng lại các LM head có sẵn kết hợp với 3.072 tham số bias offset, phương pháp đạt 2,47 accepted tokens mỗi bước gọi mô hình mà không làm suy giảm chất lượng âm thanh hay thay đổi phân phối đầu ra.",
+  "problem": "Quá trình sinh autoregressive (AR) cho Text-to-Speech (TTS) trên thiết bị đơn luồng bị giới hạn nặng bởi băng thông bộ nhớ (memory bandwidth bound). Với Qwen3-TTS, việc sinh 1 giây âm thanh đòi hỏi ≥ 200 lượt gọi mô hình tuần tự (13 lượt outer loop CodeDecoder 28 layer và 187 lượt inner loop MultiCodeDecoder 5 layer cho 15 mã RVQ per-frame 80ms). Vòng lặp inner loop chiếm phần lớn độ trễ do kernel launch overhead và chi phí quản lý KV cache, khiến các thiết bị cũ như iPhone 12 khó đạt mức real-time.",
+  "method": "Phương pháp áp dụng speculative decoding vào inner loop MultiCodeDecoder của Qwen3-TTS:\n- **Tận dụng native multi-head:** Qwen3-TTS vốn có sẵn 15 LM head riêng cho 15 vị trí codebook RVQ. Thay vì huấn luyện thêm các head dự đoán cồng kềnh như Medusa thông thường (~94M tham số), tác giả tái sử dụng trực tiếp các LM head có sẵn.\n- **Position-aware hidden state offsets:** Vì mỗi LM head vốn chỉ nhận hidden state tại đúng vị trí của nó, tác giả thêm các vector bias $b_1, \\dots, b_K$ ($K=3$, tổng cộng chỉ 3.072 tham số) vào hidden state $h_k$ ($h_k + b_j$) để LM head vị trí $k+j$ sinh draft token cho $K$ bước kế tiếp. Toàn bộ backbone và LM heads đều được freeze.\n- **Sparse tree attention:** Drafter tạo cây ứng viên độ sâu $K$, sau đó tỉa theo thống kê acceptance offline thành tập sparse tree gồm $N$ node. Cả drafter và verifier được ghép vào một lượt gọi mô hình tĩnh (static shape compiled call) với query length $q = N + 1$ thông qua sparse tree attention mask.\n- **Lossless verification:** Sử dụng quy tắc speculative rejection sampling chuẩn trên top-k sampling, giữ nguyên phân phối xác suất và đảm bảo bảo toàn chất lượng (WER parity).",
+  "setup": "Huấn luyện offset trên tập tiếng Anh VoxPopuli train split (~462 giờ, 155.513 mẫu, 20,8M frames) với Adam, learning rate $10^{-3}$, batch size 32 trên 1 GPU NVIDIA Tesla P100. Hiệu chuẩn (calibration) sparse tree trên LibriSpeech test-clean (~4,4 giờ, 1.804 mẫu). Đánh giá WER và acceptance rate trên Fleurs ở 6 ngôn ngữ (English, German, Spanish, Russian, Japanese, Mandarin) dùng Qwen3-TTS-0.6B CustomVoice. Đo đạc độ trễ p50 qua 200 lượt trên Apple Neural Engine (ANE) định dạng W8A16 (WhisperKit stack) trên iPhone 17 Pro Max, MacBook M3 Pro và iPhone 12.",
+  "results": [
+   "Số token chấp nhận trung bình đạt 2,47 tokens/step (tương đương Medusa đạt 2,60 tokens/step nhưng Medusa tốn thêm ~94M tham số; trong khi tái sử dụng trực tiếp LM head mà không có offset chỉ đạt 1,70 tokens/step).",
+   "Giảm số lượt gọi tuần tự của toàn hệ thống từ 200 xuống ≈88 lượt/giây (12,5 outer calls và ≈76 inner calls).",
+   "Tốc độ sinh token RVQ trên thiết bị thực tế tăng 2–2,2×: đạt 2,34× trên iPhone 17 Pro Max ($N=32$), 2,13× trên MacBook M3 Pro ($N=32$), và 1,82× trên iPhone 12 ($N=16$).",
+   "Chi phí tính toán inner loop trên iPhone 12 giảm từ ~894 ms xuống còn khoảng một nửa cho mỗi giây âm thanh (mỗi AR call tốn 4,77 ms), giải phóng budget để chạy CodeDecoder và audio decoder.",
+   "Đạt WER parity trên cả 6 ngôn ngữ của Fleurs: English (4,25% AR vs 3,99% Spec), German (6,40% vs 5,58%), Spanish (7,28% vs 5,98%), Russian (9,55% vs 8,26%), Japanese (CER: 8,55% vs 7,71%), Mandarin (CER: 7,43% vs 7,18%).",
+   "Độ trễ overhead của verify call ở điểm hoạt động tối ưu $N=32$ chỉ tăng +5,3% trên iPhone 17 Pro Max (từ 2,05 ms lên 2,16 ms) và +13,6% trên MacBook M3 Pro (từ 2,2 ms lên 2,5 ms)."
+  ],
+  "limitations": "Chỉ tăng tốc được inner loop MultiCodeDecoder, chưa can thiệp vào outer loop CodeDecoder 28 layer (chiếm 12,5 calls/giây) và speech decoder. Phương pháp phụ thuộc vào kiến trúc có sẵn per-position heads (như Qwen3-TTS hay CaT-TTS). Cấu hình kích thước cây $N$ hiện phải hiệu chuẩn offline cố định cho từng thiết bị chứ chưa thích ứng động runtime.",
+  "takeaways": "Speculative decoding cho codec LM không nhất thiết phải thêm các mạng draft phức tạp hay mô hình phụ tốn kém tài nguyên. Với các kiến trúc RVQ multi-head, chỉ cần học thêm vài vector offset nhỏ (vài nghìn tham số) là đủ để biến các head có sẵn thành drafter hiệu quả, cho phép đạt real-time TTS ổn định ngay trên các thiết bị di động đời cũ chạy Apple Neural Engine.",
+  "strengths": [
+   "Thêm cực ít tham số (chỉ 3.072 tham số, +0,0005%)",
+   "Distributionally lossless bảo toàn chất lượng và WER",
+   "Tăng tốc thực tế 2-2.2x trên Apple Silicon",
+   "Khả năng tổng quát hóa đa ngôn ngữ vượt trội",
+   "Tích hợp gọn trong một compiled model call"
+  ],
+  "weaknesses": [
+   "Chưa áp dụng cho CodeDecoder 28 layers",
+   "Phụ thuộc kiến trúc RVQ có multi-head riêng",
+   "Tree size N phải calibrate offline theo thiết bị"
+  ],
+  "context": "Nhóm nghiên cứu tại Argmax, Inc. (Mỹ), công bố trên arXiv (tháng 9/2026), tích hợp vào Argmax SDK và hệ sinh thái WhisperKit."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

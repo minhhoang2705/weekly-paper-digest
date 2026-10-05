@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2609.36287",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất kiến trúc mới lạ kết hợp instruction grounding, acoustic planning 5 chiều cấp ký tự và chunk-level speech token generation thay vì sinh trực tiếp như các ITTS trước đây.",
+  "credibility": "Đến từ nhóm nghiên cứu học thuật và doanh nghiệp uy tín (SCUT, Huya, PolyU), cung cấp link demo âm thanh nhưng hiện tại tài liệu là bản preprint arXiv chưa qua peer-review.",
+  "technical": "Thiết kế phương pháp chặt chẽ từ pipeline gán nhãn 3 bước multimodal, autoregressive chunking, đến loss weighting cân bằng bằng task uncertainty và grounding-aware weights.",
+  "impact": "Cung cấp giải pháp khả thi cho bài toán fine-grained prosody editing qua ngôn ngữ tự nhiên, dù tầm ảnh hưởng thực tế còn phụ thuộc vào việc mã nguồn và trọng số có được open-source hay không.",
+  "evidence": "Đánh giá đầy đủ cả chủ quan và khách quan trên 5 thuộc tính âm học, có ablation study chi tiết và kiểm chứng độ tin cậy của dữ liệu nhãn bằng human evaluation mù."
+ },
+ "summary": {
+  "tldr": "InstCharVoice là mô hình instruction-based TTS (ITTS) hợp nhất khả năng điều khiển bằng ngôn ngữ tự nhiên với việc lập kế hoạch âm học chi tiết ở cấp độ ký tự (character-level). Mô hình liên kết các câu lệnh tự nhiên với 5 thuộc tính âm học tường minh và vị trí ký tự mục tiêu, giúp cải thiện độ chính xác điều khiển cục bộ mà không đánh đổi tính tự nhiên của giọng nói.",
+  "problem": "Các hệ thống ITTS hiện tại thường thiếu tính minh bạch và khả năng kiểm soát mịn: chúng ánh xạ trực tiếp từ câu lệnh sang âm thanh ở mức câu/đoạn mà không chỉ rõ từ/ký tự nào cần thay đổi thuộc tính âm học gì. Ngược lại, các hệ thống điều khiển âm học cấp độ ký tự lại bắt buộc người dùng nhập thủ công hàng loạt thuộc tính rời rạc, gây bất tiện và không trực quan.",
+  "method": "InstCharVoice gồm hai đóng góp chính:\n1. **Pipeline gán nhãn grounded instruction 3 giai đoạn**: Sử dụng Qwen3-Omni-30B-A3B trên tập WordVoice-5A-zh (~2.546 giờ tiếng Trung). Mô hình multimodal sinh mô tả ngữ điệu ở mức câu, tinh chỉnh với các chỉ số âm học cấp ký tự, sau đó phát hiện các đặc trưng cục bộ nổi bật (như kéo dài thời lượng, tăng năng lượng) để bổ sung yêu cầu cục bộ và gán nhãn grounding cho từng cặp ký tự - thuộc tính.\n2. **Kiến trúc InstCharVoice-LLM**: Khởi tạo từ Qwen2.5-0.5B và speech tokenizer của CosyVoice3. Mô hình xử lý chuỗi prefix `[SOS, E0, I0, C0, SOT]` (trong đó `E0` trích xuất từ mô hình voiceprint 3D-Speaker/CAMPPlus), sau đó sinh tự hồi quy từng chunk ký tự `[Ui, Ai, Si]`. Với mỗi ký tự, token `[SOC]` báo hiệu chuyển chunk, một grounding head phụ trợ dự đoán nhãn từ khóa grounded (`Gi`), 5 attribute heads song song dự đoán 5 thuộc tính âm học `Ai` (duration, boundary, energy, pitch, tone; cho phép nhận một phần thuộc tính do người dùng cung cấp qua `Ui`), trước khi sinh chuỗi speech tokens `Si`. Cuối cùng, WordVoice-FM tổng hợp dạng sóng từ `Ai` và `Si`.\n3. **Mục tiêu huấn luyện**: Joint training gồm 3 hàm mất mát Cross-Entropy (speech tokens, grounding prediction, và 5D attribute prediction) được cân bằng qua uncertainty-based loss weighting. Hàm mất mát thuộc tính áp dụng grounding-aware reweighting (GLW) với trọng số `kd = 5` cho boundary/energy và `kd = 3` cho duration/pitch/tone.",
+  "setup": "Tập dữ liệu: WordVoice-5A-zh (2.143k câu, 5.978k keywords). Huấn luyện bằng Adam (lr = 2e-5) trên 8 GPU NVIDIA A800 qua 2 giai đoạn: 5 epochs không có GLW và 3 epochs bật GLW. So sánh với 3 baseline ITTS: FireRedTTS3, Qwen3-TTS, CosyVoice3 (FireRedTTS3 và Qwen3-TTS dùng Seed-VC để voice clone sang target speaker trong đánh giá chủ quan). Đánh giá chủ quan bởi 27 người nghe bản ngữ (14 cặp instruction-text) theo thang điểm 5 cho NMOS, IMOS, SMOS (95% CI). Đánh giá khách quan: DNSMOS, CER (qua Qwen3-ASR) và 5 metric sai số âm học ở keyword-level (kD-MAE, kE-MAE, kP-MAE, kB-RER, kT-RER).",
+  "results": [
+   "Human eval về chất lượng gán nhãn (Fig. 3): Thêm cues âm học cấp ký tự tăng tỷ lệ nhất quán (consistent) từ 35.75% lên 84.50%, giảm inconsistent từ 35.25% xuống 9.25% và uncertain từ 29.00% xuống 6.25%.",
+   "Khách quan so với baselines ITTS (Table 2): InstCharVoice đạt DNSMOS cao nhất (3.686 so với GroundTruth 3.616, Qwen3-TTS 3.642, FireRedTTS3 3.599, CosyVoice3 3.583); CER đạt 3.58% (FireRedTTS3 2.89%, Qwen3-TTS 2.99%, CosyVoice3 3.12%).",
+   "Sai số âm học keyword-level thấp nhất (Table 2): kD-MAE đạt 0.0769 (FireRedTTS3: 0.1162), kE-MAE đạt 0.1271 (FireRedTTS3: 0.1409), kP-MAE đạt 0.1857 (FireRedTTS3: 0.2326), kB-RER đạt 14.04% (FireRedTTS3: 31.29%), kT-RER đạt 37.05% (FireRedTTS3: 47.02%).",
+   "Chủ quan (Table 3): InstCharVoice đạt NMOS cao nhất 3.528 ± 0.219 (FireRedTTS3: 3.331, CosyVoice3: 3.297), IMOS cao nhất 3.602 ± 0.212 (CosyVoice3: 3.402, Qwen3-TTS: 3.357), tuy nhiên SMOS đạt 3.173 ± 0.260 (thấp hơn FireRedTTS3 3.533 và CosyVoice3 3.374).",
+   "Ablation study (Table 4): Bỏ GLW khiến sai số tăng mạnh nhất (kB-RER từ 14.04% lên 20.76%, kT-RER từ 37.05% lên 41.82%); bỏ cả KP và GLW đẩy kT-RER lên 42.58% và kB-RER lên 21.54%.",
+   "So sánh kiểm soát tường minh với WordVoice (Table 5): InstCharVoice giữ vững năng lực điều khiển cấp ký tự tương đương WordVoice (P-MAE 0.1065 vs 0.1093; B-ER 12.14% vs 12.72%; T-RER 21.87% vs 24.29%; D-MAE 0.0393 vs 0.0348; E-MAE 0.0544 vs 0.0484)."
+  ],
+  "limitations": "Chỉ tập trung vào 5 thuộc tính âm học đo lường được, chưa mô hình hóa các yếu tố trừu tượng như cảm xúc hay phong cách nói tổng thể. Điểm tương đồng người nói (SMOS) còn thấp hơn baseline (3.173 vs 3.533 của FireRedTTS3). CER còn cao hơn baseline tốt nhất 0.69%. Đánh giá chủ quan chỉ thực hiện trên mẫu nhỏ (14 cặp instruction-text) và chỉ thử nghiệm trên tiếng Trung.",
+  "takeaways": "Việc chèn một bước acoustic planning tường minh ở cấp ký tự trước khi sinh speech token giúp giải quyết bài toán instruction following cục bộ trong TTS mà các mô hình direct-generation gặp khó. Kỹ thuật grounding-aware loss weighting đóng vai trò cốt lõi để mô hình tập trung vào đúng các âm vị cần biến đổi.",
+  "strengths": [
+   "Cầu nối tự nhiên giữa instruction và acoustic planning cấp ký tự",
+   "Độ chính xác điều khiển thuộc tính âm học cục bộ vượt trội",
+   "Pipeline gán nhãn tự động nhất quán cao nhờ acoustic cues",
+   "Chất lượng tự nhiên (NMOS) và bám sát lệnh (IMOS) cao nhất"
+  ],
+  "weaknesses": [
+   "Speaker similarity (SMOS) bị suy giảm so với baselines",
+   "Chỉ giới hạn ở tiếng Trung và 5 thuộc tính âm học",
+   "Tập mẫu kiểm thử chủ quan còn nhỏ (14 cặp)",
+   "Chưa mở rộng ra các câu lệnh phong cách phức tạp"
+  ],
+  "context": "Nghiên cứu từ South China University of Technology, Huya Inc. và The Hong Kong Polytechnic University; công bố dưới dạng preprint arXiv (arXiv:2609.36287)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

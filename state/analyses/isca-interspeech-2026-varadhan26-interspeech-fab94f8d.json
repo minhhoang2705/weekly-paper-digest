@@ -1,0 +1,53 @@
+{
+ "id": "isca:interspeech_2026/varadhan26_interspeech",
+ "topic": "TTS",
+ "promise": 5,
+ "scores": {
+  "novelty": 3,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Áp dụng kỹ thuật fine-tuning và vocabulary expansion quen thuộc từ F5-TTS, nhưng phát hiện mới mẻ mang tính phản trực giác rằng direct fine-tuning vượt trội hơn joint multilingual training.",
+  "credibility": "Đến từ nhóm nghiên cứu uy tín AI4Bharat (IIT Madras) và được chấp nhận xuất bản chính thức tại Interspeech 2026.",
+  "technical": "Thiết kế thực nghiệm chặt chẽ, tối ưu huấn luyện trên 32 GPU H100, mở rộng character-based tokenizer hợp lý và có phân tích chi tiết về data scaling lẫn zero-resource bootstrap.",
+  "impact": "Đưa ra giải pháp thực tiễn có chi phí dữ liệu thấp (<2%) để nhân rộng TTS chất lượng cao cho các ngôn ngữ ít tài nguyên tại Ấn Độ và mở rộng sang các ngôn ngữ không có dữ liệu.",
+  "evidence": "Cung cấp đầy đủ số liệu đánh giá khách quan (IndicConformer WER, WavLM S-SIM) và chủ quan MUSHRA với 134 chuyên gia thẩm định trên nhiều trục thử nghiệm so với các baseline mạnh."
+ },
+ "summary": {
+  "tldr": "IN-F5 là mô hình TTS đa ngôn ngữ cho 11 ngôn ngữ Ấn Độ (IN11) được chuyển giao từ mô hình nền tảng tiếng Anh F5-TTS chỉ với 1.417 giờ dữ liệu (<2% quy mô tiền huấn luyện ban đầu). Nghiên cứu chỉ ra rằng direct fine-tuning chỉ trên dữ liệu tiếng Ấn cho hiệu quả vượt trội so với train from scratch hoặc tiếp tục trộn dữ liệu tiếng Anh, đồng thời mở khóa các khả năng emergent như polyglot voice transfer, code-mixing, expressive prosody và zero-resource TTS.",
+  "problem": "Các mô hình TTS hiện đại đã đạt chất lượng tiệm cận con người về độ tự nhiên, zero-shot voice cloning và expressiveness, nhưng chủ yếu giới hạn ở tiếng Anh nhờ hàng trăm nghìn giờ dữ liệu và siêu máy tính. Việc mở rộng sang các ngôn ngữ Ấn Độ ít tài nguyên (với hơn 1 tỷ người dùng) gặp khó khăn do thiếu hụt dữ liệu và công cụ G2P, trong khi các nỗ lực đa ngôn ngữ trước đây chỉ tập trung vào mức độ dễ hiểu cơ bản chứ chưa giải quyết được các khả năng emergent như polyglot fluency hay code-mixed speech.",
+  "method": "Tác giả khởi tạo từ checkpoint F5-TTS được pretrain trên gần 100K giờ tiếng Anh, sau đó mở rộng vocabulary lên 685 raw character tokens bao phủ chữ viết bản địa của 11 ngôn ngữ Ấn Độ, bỏ qua G2P nhờ tính chất phonetic orthography cao của các ngôn ngữ này. Vector embedding của token mới được khởi tạo ngẫu nhiên từ không gian tiềm ẩn của các token tiếng Anh có sẵn. Nhóm tác giả so sánh 3 chiến lược: (i) Φ→IN (train from scratch), (ii) EN→IN (direct fine-tuning trên IN11), và (iii) EN→EN+IN (fine-tuning trên hỗn hợp cân bằng Anh - Ấn). Để tổng hợp cho ngôn ngữ zero-resource (Bhojpuri và Tulu), mô hình tận dụng việc dùng chung chữ viết (Tulu dùng chữ Kannada, Bhojpuri dùng Devanagari như Hindi) kết hợp với voice prompt từ tập dữ liệu Rasa để tạo 1 giờ dữ liệu tổng hợp được người bản ngữ thẩm định.",
+  "setup": "Tập dữ liệu IN11 gồm 1.417 giờ từ IndicTTS, LIMMITS, Rasa, Google Crowdsourced TTS và IndicVoices-R. Tập test gồm 1.100 câu được cân bằng theo người nói, giới tính và độ tuổi (IN11-Test-Set), cùng tập Rasa test set (8 ngôn ngữ). Quá trình fine-tuning chạy tối đa 150K steps trên 32 GPU NVIDIA H100 Tensor Core với AdamW (lr 5e-5, batch size 30.000 frames/GPU, 24 kHz, 100 mel channels). Đánh giá chủ quan dùng biến thể MUSHRA (gồm thang Naturalness, Speaker Similarity - MUSHRA-S, Intelligibility - MUSHRA-I) với 134 người bản ngữ. Đánh giá khách quan dùng IndicConformer cho WER và WavLM cho S-SIM so với các baseline FastPitch, FastSpeech2-HS và VoiceCraft.",
+  "results": [
+   "Chiến lược fine-tuning: Direct fine-tuning (EN→IN) đạt điểm MUSHRA tổng thể 73.4, vượt trội hoàn toàn so với fine-tuning có trộn tiếng Anh EN→EN+IN (66.2) và huấn luyện từ đầu Φ→IN (43.2).",
+   "Zero-shot voice cloning: Với seen speakers, IN-F5 đạt Naturalness 78.0 và Similarity 86.8 (vượt Human recordings là 75.9 và 84.6); với unseen speakers, IN-F5 đạt Naturalness 76.6 và Similarity 85.8 (Human: 74.6 và 83.2).",
+   "So sánh SOTA trên 8 ngôn ngữ (Rasa test set): IN-F5 đạt MUSHRA 80.5 ± 1.5 (hệ thống duy nhất đạt ngưỡng 'Excellent' ≥ 80), WER 19.2% và S-SIM 97.3, vượt qua VoiceCraft (MUSHRA 73.0, WER 21.0%, S-SIM 95.7), FastSpeech2-HS (MUSHRA 66.3) và FastPitch (MUSHRA 63.8).",
+   "Polyglot synthesis: Trong môi trường tự nhiên, IN-F5 đạt Naturalness 68.2 và Intelligibility 72.3 (tiệm cận Human là 70.6 và 74.9); ở studio-quality đạt Nat 77.6 và Int 83.9 (Human: 89.7 và 93.0).",
+   "Code-mixing (MUSHRA-I): IN-F5 đạt 76.68 tổng thể IN11-X (Human: 81.50), với hi-X đạt 85.5, ta-X đạt 76.67, pa-te đạt 79.53, nhưng giảm xuống 52.5 ở cặp khó as-te.",
+   "Data scaling: Cấu hình 10h/ngôn ngữ duy trì hiệu năng tiệm cận 100h/ngôn ngữ (MUSHRA 61.5 vs 64.3; WER monoglot 31.3% vs 32.6%), trong khi 1h/ngôn ngữ tụt giảm đáng kể (MUSHRA 33.7, WER 59.4%).",
+   "Zero-resource TTS: Trên Bhojpuri (mô phỏng zero-resource), IN-F5 đạt MUSHRA 86, vượt qua human reference thu âm (74)."
+  ],
+  "limitations": "Chất lượng code-mixing suy giảm rõ rệt trên các cặp ngôn ngữ ít tự nhiên hoặc khoảng cách ngôn ngữ lớn (như Assamese-Telugu chỉ đạt 52.5 MUSHRA-I). Khả năng polyglot studio-quality vẫn còn khoảng cách lớn so với người thật (77.6 vs 89.7). Dữ liệu 1 giờ/ngôn ngữ dẫn đến suy giảm mạnh về độ tự nhiên và WER cao (~60%). Khả năng tổng hợp tiếng Anh sau khi direct fine-tuning không được duy trì hay đánh giá.",
+  "takeaways": "Không cần thiết phải tiếp tục train kèm dữ liệu tiếng Anh khi chuyển giao foundation model sang ngôn ngữ đích; direct fine-tuning đem lại kết quả tốt nhất. Nhờ đặc tính phonetic orthography, mở rộng vocabulary ở cấp độ ký tự là giải pháp đơn giản và hiệu quả thay thế G2P. Mức dữ liệu 10 giờ/ngôn ngữ kết hợp số bước huấn luyện đủ dài (150K steps) là điểm cân bằng lý tưởng về chi phí cho các ngôn ngữ ít tài nguyên.",
+  "strengths": [
+   "Hiệu quả vượt trội chỉ với direct fine-tuning",
+   "Tận dụng chữ viết bỏ qua hoàn toàn G2P",
+   "Đánh giá MUSHRA quy mô lớn với 134 rater",
+   "Mở khóa zero-resource TTS qua cross-lingual transfer",
+   "Đạt SOTA vượt qua VoiceCraft và FastPitch"
+  ],
+  "weaknesses": [
+   "Suy giảm chất lượng ở cặp code-mixing khó",
+   "Hiệu năng kém khi giảm xuống 1h/ngôn ngữ",
+   "Khoảng cách chất lượng polyglot so với phòng thu",
+   "Chưa công bố trọng số mã nguồn mở trong bài"
+  ],
+  "context": "Praveen Srinivasa Varadhan, Srija Anand, Mitesh M. Khapra (AI4Bharat, IIT Madras) và Soma Siddhartha (Saryps Labs), công bố tại Interspeech 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

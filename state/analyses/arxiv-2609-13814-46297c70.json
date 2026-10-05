@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2609.13814",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất tiên phong kết hợp tương tác video/audio full-duplex chủ động với cơ chế ủy quyền tác vụ bất đồng bộ (asynchronous delegation) và bộ nhớ ngữ cảnh dài trên cùng một causal timeline.",
+  "credibility": "Công trình đến từ Ant Group và Đại học Thanh Hoa, mô tả phương pháp chi tiết, công khai repository mã nguồn và trang dự án.",
+  "technical": "Thiết kế kỹ thuật hoàn chỉnh và chặt chẽ từ serialization chunk 1s, causal task capture có timestamp fence, đến cơ chế visual memory gating dựa trên motion cost.",
+  "impact": "Thu hút sự quan tâm tốt với 217 upvotes trên Hugging Face và giải quyết đúng điểm nghẽn tích hợp tool-use trong các hệ thống đàm thoại full-duplex thời gian thực.",
+  "evidence": "Đánh giá thực nghiệm rộng lượng trên hơn 10 benchmark chuẩn về video streaming, audio reasoning, overlap handling và tool-use so với nhiều baseline mạnh (MiniCPM-o, GPT-4o, Gemini 3.1 Live)."
+ },
+ "summary": {
+  "tldr": "Realtime-Venus là hệ thống tương tác full-duplex chủ động gồm hai mô hình 9B (Realtime-Venus-Omni cho audio-visual và Realtime-Venus-Audio cho đàm thoại thoại) kết hợp với framework điều phối bất đồng bộ Realtime-Venus-Harness. Hệ thống giải quyết bài toán đồng bộ hóa giữa luồng tương tác thời gian thực với các tác vụ suy luận/gọi công cụ nền kéo dài mà không làm gián đoạn hội thoại.",
+  "problem": "Tương tác tự nhiên (natural interaction) đòi hỏi hệ thống phải vừa tiếp nhận luân phiên tín hiệu đa phương thức liên tục, vừa phản hồi đúng lúc và xử lý ngắt lời (interruption) hoặc backchannel. Khi cần gọi công cụ hoặc suy luận phức tạp, các tác vụ tính toán ngoài chạy ở thang thời gian chậm hơn nhiều so với hội thoại trực tiếp; do đó, việc thu thập ngữ cảnh cố định tại thời điểm yêu cầu và tái tích hợp kết quả vào hội thoại đang diễn ra mà không làm mất tính mạch lạc là thách thức lớn.",
+  "method": "Realtime-Venus xây dựng trên nền MiniCPM-o 4.5 (9B) gồm hai biến thể: Omni (dùng SigLIP2 và Whisper-Medium) và Audio (bỏ nhánh thị giác). Cả hai dùng LLM backbone Qwen3-8B và bộ giải mã âm thanh streaming flow-matching dựa trên token rời rạc S3 (CosyVoice 2). Kiến trúc tương tác chia thành runtime dual-loop: (1) **Interaction loop** xử lý các chunk 1 giây theo luồng nhân quả chung (user, assistant, background), tự động dự đoán các token điều khiển (`<|listen|>`, `<|speak|>`, `<|turn_eos|>`), thẻ phân quyền (`<delegate>`, `<backend>`) và điều tiết phát sinh văn bản theo tiến độ playback ($n_k = \\arg\\min_n |\\tau_{k-1} + D(Y_{k,1:n}) - t_k|$); (2) **Capability loop (Realtime-Venus-Harness)** thực hiện tác vụ nền qua chu trình Capture (đóng băng snapshot ngữ cảnh $X_i$), Dispatch (Router phân phối đến năng lực Multimodal, General hoặc Skill chuyên biệt) và Return (adapter trau chuốt kết quả thành phản hồi thoại, đưa qua kênh ngầm `<backend>`). Ngoài ra, Realtime-Venus-Omni gắn thêm bộ nhớ video dài không cần huấn luyện (Training-Free Long-Video Memory) lọc frame bằng chi phí chuyển động (block-level motion matching) và truy xuất kết hợp MaxSim với độ mới lạ hình ảnh (MMR). Quá trình post-training sử dụng hơn 2,8 triệu mẫu (56% hiểu offline, 37% duplex chủ động, 6% delegation) với hàm mất mát sparse cross-entropy chỉ tính trên span phản hồi.",
+  "setup": "Đánh giá video streaming và offline trên 8 benchmark: StreamingBench, OVO-Bench, ProactiveVideoQA, OmniPro, WorldSense, Daily-Omni, OmniVideoBench, LVOmniBench; bộ nhớ video dài trên LongVideoBench và CGBench. Đánh giá âm thanh trên MMAU, MMAU-Pro, MMAR, MMSU và hỏi đáp giọng nói (VoiceBench AlpacaEval, Llama Questions, Speech TriviaQA, Speech CMMLU). Đánh giá full-duplex trên Full-Duplex-Bench v1.5 (ngắt lời, backchannel, nói với người khác, tiếng ồn nền), tool-use trên FDB-v3 và bộ benchmark nội bộ Delegate Benchmark. Input audio chuẩn hóa mono 16 kHz, streaming xử lý chunk 1 giây, output audio tổng hợp ở 24 kHz; video lấy mẫu 1 fps tối đa 128 frame kích thước ~448x448.",
+  "results": [
+   "Realtime-Venus-Omni dẫn đầu các mô hình online trên 6/8 benchmark video: đạt 70.2% trên StreamingBench (vượt MiniCPM-o 4.5 đạt 67.9%), 64.7% trên OVO-Bench (so với 60.7%), 29.0% OmniPro probe accuracy (so với 25.6%) và 81.3% trên Daily-Omni (so với 79.4%).",
+   "Bộ nhớ video dài giúp Realtime-Venus-Omni tăng 5.88 điểm phần trăm trên tập 60-90 phút của LVOmniBench (từ 41.18% lên 47.06%) và tăng 4.76 điểm trên tập 40-60 phút của LongVideoBench (từ 57.14% lên 61.90%).",
+   "Realtime-Venus-Audio đạt độ chính xác cao nhất nhóm mô hình so sánh trên MMAU (78.0%) và MMAU-Pro (63.2% so với Qwen3-Omni 61.2% và MiniCPM-o 4.5 60.0%), đồng thời dẫn đầu Llama Questions (83.8%) và Speech CMMLU (67.8%), đạt 4.81 điểm VoiceBench AlpacaEval.",
+   "Trên Full-Duplex-Bench v1.5, Realtime-Venus-Audio đạt tỷ lệ tiếp tục nói (continuation rate C_RESUME) vượt trội Gemini 3.1 Live và GPT-4o: đạt 0.97 với user backchannel, 0.88 khi người dùng nói với người khác, và 0.86 khi có tiếng ồn nền (C_RESPOND tương ứng chỉ 0.00, 0.11, 0.11), dù tỷ lệ phản hồi ngắt lời (0.75) thấp hơn Joy-Duplex (0.88).",
+   "Trên Full-Duplex-Bench v3 tool-use, Realtime-Venus-Omni đạt 86.0% Tool selection F1, 53.1% Argument accuracy và 43.0% Pass@1, xếp thứ nhì sau GPT-Realtime (87.6% F1, 68.0% Argument accuracy, 60.0% Pass@1)."
+  ],
+  "limitations": "Khả năng phân biệt ngắt lời người dùng (user interruption response rate 0.75) vẫn thấp hơn Joy-Duplex (0.88) và GPT-4o (0.78). Tỷ lệ trúng đối số công cụ (Argument accuracy 52.2%-53.1%) và Pass@1 (42.0%-43.0%) còn kém xa GPT-Realtime. Ngoài ra, mô hình Audio gặp hiện tượng over-delegation (non-delegation specificity chỉ 39.44%), trong khi mô hình Omni lại bỏ sót việc ủy quyền tác vụ ngoài (recall 68.33%).",
+  "takeaways": "Cung cấp một giải pháp mẫu hoàn chỉnh cho kỹ sư voice agent: tích hợp khả năng full-duplex đồng thời với cơ chế gọi công cụ/suy luận nền bất đồng bộ thông qua dual-loop runtime, phân định rõ ràng giữa việc ra quyết định hội thoại trực tiếp và trau chuốt kết quả trả về từ backend.",
+  "strengths": [
+   "Kiến trúc dual-loop tách bạch tương tác và ủy quyền",
+   "Xử lý backchannel và tiếng ồn nền vượt trội",
+   "Bộ nhớ video dài training-free hiệu quả cao",
+   "Mở mã nguồn và dự án đầy đủ"
+  ],
+  "weaknesses": [
+   "Độ chính xác tham số công cụ còn thấp",
+   "Đánh đổi giữa giữ lời và phản hồi ngắt",
+   "Thiên lệch ủy quyền không đồng đều giữa hai biến thể"
+  ],
+  "context": "Venus Team (Ant Group) phối hợp cùng Đại học Thanh Hoa (Tsinghua University); bài báo kỹ thuật công bố trên arXiv (tháng 9/2026) kèm mã nguồn GitHub mở."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

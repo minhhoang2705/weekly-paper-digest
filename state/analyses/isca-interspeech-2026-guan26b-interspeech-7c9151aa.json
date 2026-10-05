@@ -1,0 +1,49 @@
+{
+ "id": "isca:interspeech_2026/guan26b_interspeech",
+ "topic": "Speech Understanding",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng hợp nhất AR cho ASR và Flow Matching liên tục cho TTS trên cùng một LLM backbone không dùng AdaLN-zero qua cơ chế Dual-Attention Masking là một hướng tiếp cận độc đáo, phá vỡ hạn chế của discrete codec.",
+  "credibility": "Bài báo xuất bản tại Interspeech 2026 bởi các tác giả từ các viện/đại học uy tín tại Trung Quốc kèm cam kết mở mã nguồn và checkpoint công khai.",
+  "technical": "Thiết kế kỹ thuật chặt chẽ trong việc tinh chỉnh DiT để đồng nhất kiến trúc với LLM, ghép nối time embeddings và cân bằng trọng số mất mát đa nhiệm (lambda).",
+  "impact": "Mở ra giải pháp parameter-efficient cho các thiết bị biên cần cả nghe và nói, nhưng phạm vi tác vụ hiện tại chỉ gói gọn trong ASR và TTS đơn ngữ.",
+  "evidence": "Cung cấp đầy đủ so sánh thực nghiệm với nhiều baseline SOTA đơn nhiệm và đa nhiệm, kèm các phân tích ablation rõ ràng cho attention mask, cấu trúc TTS và trọng số lambda."
+ },
+ "summary": {
+  "tldr": "UniVoice là mô hình thống nhất tích hợp cả nhận dạng tiếng nói (ASR) theo cơ chế autoregressive và tổng hợp tiếng nói (TTS) zero-shot dựa trên flow matching trong một LLM backbone 0.4B duy nhất (SmolLM2-360M). Bằng cách hoạt động trực tiếp trong không gian biểu diễn liên tục (continuous representations) thay vì discrete acoustic tokens, UniVoice bảo toàn chi tiết âm học và đạt hiệu năng cạnh tranh với các mô hình chuyên biệt từng tác vụ.",
+  "problem": "Các hệ thống LLM hiện nay thường xử lý ASR và TTS tách biệt hoặc dựa vào discrete audio tokens để mô hình hóa thống nhất. Tuy nhiên, việc lượng tử hóa rời rạc gây mất mát thông tin (information loss), làm giảm độ chính xác nhận dạng và chất lượng tổng hợp âm thanh; đồng thời các mô hình diffusion/flow-matching liên tục mạnh về sinh âm thanh nhưng thiếu khả năng suy luận autoregressive cần cho ASR.",
+  "method": "UniVoice xây dựng một kiến trúc lai hai nhánh trên cùng Transformer backbone (SmolLM2-360M):\n- Nhánh ASR: Sử dụng Whisper-large-v3-turbo encoder trích xuất đặc trưng âm học, đưa qua audio adapter (adaptive average pooling) để downsampling thời gian và căn chỉnh ngữ nghĩa với latent space của LLM, sau đó dự đoán text tokens theo autoregressive loss $L_{LM}$.\n- Nhánh TTS: Mô hình hóa TTS như bài toán speech infilling có hướng dẫn bởi text prefix sử dụng Optimal Transport Conditional Flow Matching (OT-CFM). Khác với Diffusion Transformer (DiT) chuẩn, UniVoice lược bỏ AdaLN-zero modulation để giữ nguyên các block Transformer đồng nhất giữa ASR và TTS; time embeddings được nối trực tiếp vào đầu chuỗi Mel-spectrogram nhiễu, kết hợp RoPE trong self-attention layers.\n- Dual-Attention Masking: Cơ chế tự động chuyển đổi giữa causal mask khi thực hiện ASR và bidirectional mask khi thực hiện TTS nhằm tận dụng ngữ cảnh toàn cục của văn bản.\n- Hàm mất mát chung: $L_{total} = \\lambda L_{LM}(\\theta) + L_{audio}^{cfm}(\\theta)$ với $\\lambda = 0.005$ và áp dụng Classifier-Free Guidance (CFG).",
+  "setup": "Huấn luyện trên 50.000 giờ dữ liệu LibriHeavy trong 10 epochs (AdamW lr=1.5e-3, cosine decay, warmup 20.000 bước, batch size 160.000 audio frames). Âm thanh ASR giữ nguyên 16kHz, TTS upsample lên 22.05kHz, trích xuất 80-bin Mel-spectrogram (frame size 1024, hop size 256), tái tạo dạng sóng bằng BigVGAN. Đánh giá Zero-shot TTS trên LibriSpeech-PC test set qua UTMOS, MOS, Cosine Similarity (SIM), SMOS và WER (Whisper-large-v3). Đánh giá ASR trên LibriSpeech test-clean và test-other qua WER.",
+  "results": [
+   "Zero-shot TTS so với các unified models: UniVoice đạt WER 4.06%, giảm 12% relative WER so với mô hình unified tốt trước đó (OpusLM-7B đạt 4.60%, SpeechT5 đạt 5.91%, LauraGPT đạt 8.62%); đạt UTMOS 3.72, SMOS 3.88, MOS 3.96±0.06 và SIM 0.56.",
+   "Zero-shot TTS so với mô hình đơn nhiệm UniVoice-TTS: UniVoice đạt WER 4.06% (giảm 13% relative so với 4.66% của UniVoice-TTS), SIM bằng nhau (0.56), UTMOS đạt 3.72 (thấp hơn 0.2 so với 3.92 của UniVoice-TTS) và MOS 3.96±0.06 so với 4.06±0.06.",
+   "ASR performance: UniVoice (0.4B) đạt A-WER-clean 3.0% và A-WER-other 6.3%, vượt qua Whisper-small (3.4% / 7.6%), Paraformer (3.5% / 8.2%), LauraGPT (4.4% / 7.7%) và OpusLM-0.4B (4.2% / 8.7%).",
+   "Ablation Attention Mask TTS: Full bidirectional mask vượt trội AR mask trên mọi chỉ số (WER 4.66% vs 9.85%, SIM 0.56 vs 0.49, UTMOS 3.92 vs 2.23).",
+   "Ablation nhiệm vụ TTS: Phương pháp speech-infilling giảm 18% WER và tăng 0.27 SIM/UTMOS so với baseline điều kiện hóa bằng speaker embedding (UniVoice-TTS-speaker đạt WER 5.72%, SIM 0.29, UTMOS 3.65)."
+  ],
+  "limitations": "Hiện tại mô hình chỉ giới hạn ở hai tác vụ tiếng Anh là ASR và TTS; độ tương đồng người nói (SIM = 0.56) vẫn thấp hơn các mô hình TTS chuyên biệt chuyên sâu (như CosyVoice/F5-TTS đạt 0.66) do lược bỏ cơ chế AdaLN-zero; việc cùng huấn luyện ASR và TTS gây đánh đổi nhẹ về độ tự nhiên (UTMOS giảm 0.2 so với biến thể chỉ học TTS).",
+  "takeaways": "Có thể tích hợp thành công cả nhận dạng autoregressive và sinh âm thanh liên tục (flow matching) trong cùng một LLM backbone cỡ nhỏ (~0.4B) mà không cần discrete audio codec, mở đường cho việc xây dựng trợ lý tương tác giọng nói đầu-cuối gọn nhẹ, độ trễ thấp.",
+  "strengths": [
+   "Hợp nhất ASR và TTS trong một LLM nhỏ 0.4B",
+   "Không dùng discrete codec, tránh mất mát thông tin",
+   "Cơ chế Dual-Attention Masking linh hoạt và hiệu quả",
+   "Vượt trội các mô hình unified trước đó trên ASR và TTS"
+  ],
+  "weaknesses": [
+   "SIM thấp hơn TTS chuyên biệt do thiếu AdaLN-zero",
+   "Trade-off làm giảm nhẹ UTMOS khi huấn luyện chung",
+   "Mới chỉ thử nghiệm trên tiếng Anh LibriHeavy/LibriSpeech"
+  ],
+  "context": "Nhóm nghiên cứu từ Đại học Hạ Môn, Viện Đổi mới Sáng tạo Thượng Hải, Đại học Giao thông Thượng Hải và Đại học Chiết Giang; công bố tại Interspeech 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

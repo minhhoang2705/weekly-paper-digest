@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2609.34461",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo tiên phong đề xuất giải pháp đồng bộ dual-stream kết hợp quy trình RL khép kín với user simulator (FDGym) để tối ưu tính nhất quán nhân vật trong mô hình hội thoại tiếng nói song công toàn phần.",
+  "credibility": "Bài báo là bản preprint trên arXiv đến từ các đơn vị nghiên cứu uy tín (NTU, AI Singapore, UC Berkeley) nhưng chưa công bố thông tin bình duyệt chính thức tại hội nghị/tạp chí.",
+  "technical": "Thiết kế kỹ thuật sâu sắc, kết hợp đồng bộ luồng âm thanh 80 ms, quy trình lọc dữ liệu qua Generator-Verifier với Forced Aligner, và thuật toán GRPO dựa trên tick 160 ms với 4 hàm reward tách biệt.",
+  "impact": "Cung cấp công thức huấn luyện thực tiễn giá trị cho các kỹ sư phát triển trợ lý ảo giọng nói có tính cách, tuy nhiên tài liệu chưa công bố repository mã nguồn hay trọng số mô hình mở.",
+  "evidence": "Thực nghiệm chi tiết với số liệu rõ ràng trên 3 bộ benchmark lớn (SpeechRole-Eval, VoiceBench, Full-Duplex-Bench), so sánh với cả mô hình đóng lẫn mở cùng các ablation study cụ thể."
+ },
+ "summary": {
+  "tldr": "CharDuplex là mô hình hội thoại tiếng nói song công toàn phần (full-duplex SDLM) được xây dựng trên nền GLM-4-Voice, kết hợp khả năng tương tác thời gian thực với tính nhất quán về nhân vật (character consistency). Nghiên cứu đề xuất quy trình tự động hóa để tạo dữ liệu hội thoại nhân vật và môi trường FDGym nhằm tối ưu hóa RL tương tác khép kín với user simulator mô phỏng bằng LLM. Trên benchmark SpeechRole-Eval, CharDuplex đạt điểm trung bình 0.785, dẫn đầu trong số các mô hình mã nguồn mở và cạnh tranh trực tiếp với các hệ thống thương mại đóng.",
+  "problem": "Các mô hình full-duplex SDLM hiện tại chủ yếu tập trung vào cơ chế turn-taking và năng lực suy luận tổng quát, thường phản hồi đồng nhất như một trợ lý chung thay vì duy trì tính cách, góc nhìn và tri thức của một nhân vật cụ thể qua nhiều lượt thoại. Hơn nữa, việc huấn luyện hậu kỳ (post-training) dựa trên dữ liệu thu sẵn không tái hiện được tính chất hội thoại tương tác thực tế, nơi phát ngôn tiếp theo của người dùng phụ thuộc trực tiếp vào câu trả lời động và khả năng ngắt lời (interruption) của mô hình.",
+  "method": "CharDuplex bao gồm 3 trụ cột kỹ thuật chính:\n- **Kiến trúc Dual-Stream Full-Duplex:** Tái cấu trúc GLM-4-Voice thành hai luồng song song đồng bộ: luồng âm thanh người dùng (frozen WhisperVQ tokens ở tần số 12.5 Hz, khung 80 ms) và luồng phản hồi của mô hình (text và control tokens) chia sẻ chung causal backbone và bảng token embedding qua phép cộng từng khung (framewise sum). Cơ chế căn chỉnh cấp lượt thoại (turn-level text-speech alignment) phát token `<PAD>` khi nghe, `<BOS>`, response text, `<PAD>` khi đang phát âm thanh, và `<EOS>` khi kết thúc hoặc bị ngắt lời.\n- **Quy trình tạo dữ liệu nhân vật tự động (3 giai đoạn):** Giai đoạn 1 dùng Generator LLM (Qwen3.5-397B-A17B) và Verifier LLM (GPT-5.6-Luna) để sinh và kiểm tra tính xác thực (factual support), tính nhất quán logic (dialogue consistency), kèm gán nhãn sự kiện tương tác (backchannel, thinking pause, interruption). Giai đoạn 2 tổng hợp âm thanh bằng Qwen3-TTS và lọc chất lượng qua WavLM speaker verifier (ngưỡng SIM ≥ 0.5). Giai đoạn 3 căn chỉnh từ bằng Qwen3-ForcedAligner và audio scheduler ghép kênh âm thanh hai chiều (tổng cộng 756.04 giờ thoại trên 70 nhân vật).\n- **Học tăng cường tương tác thời gian thực với FDGym:** Thiết lập môi trường streaming tương tác chia theo các nhịp 160 ms (ticks). Simulator (Qwen-235B + Qwen3-TTS) sinh giọng nói người dùng online dựa trên phần phản hồi đã lộ ra của mô hình (ước tính tốc độ nói 3.4 từ/giây). Mô hình được tối ưu bằng Group Relative Policy Optimization (GRPO) với 4 thành phần phần thưởng: interaction reward ($r_{\\text{int}} \\in [0, 1]$), character reward ($r_{\\text{char}} \\in [0, 1]$), cùng hai phần thưởng thời gian định lượng ($r_{\\text{resp}}$ với ngưỡng 2 s và $r_{\\text{yield}}$ với ngưỡng 0.64 s).",
+  "setup": "Khởi tạo từ GLM-4-Voice, huấn luyện SFT tổng quát trên 620K giờ (530K giờ speech-continuation, 70K giờ QA instruction, 20K giờ ASR-QA) và SFT nhân vật trên 756.04 giờ (40,608 hội thoại, 70 nhân vật). Huấn luyện trên 32 GPU A100 bằng NeMo Toolkit; giai đoạn RL sử dụng 8 GPU A100 qua 500 policy iterations (32 trajectories/iteration). Đánh giá tính nhất quán nhân vật trên SpeechRole-Eval (Instruction Adherence - IA, Conversational Coherence - CC, Personality Consistency - PeC, Knowledge Consistency - KC), năng lực tiếng nói tổng quát trên VoiceBench (LlamaQ, WebQ, OBQA, MMSU, SD-QA, BBH, AdvBench, AlpacaEval, CommonEval, WildVoice) và khả năng full-duplex trên Full-Duplex-Bench.",
+  "results": [
+   "Trên SpeechRole-Eval, CharDuplex đạt điểm trung bình 0.785 (IA: 0.815, CC: 0.805, PeC: 0.738, KC: 0.781), vượt xa PersonaPlex (trung bình 0.651, chênh lệch +0.134 tuyệt đối; PeC +0.186, KC +0.203) và vượt Grok Voice Think Fast 2.0 (0.704), bám sát Gemini 3.1 Flash Live Preview (0.793).",
+   "Mô hình CharDuplex-SFT đạt điểm trung bình 0.777 trên SpeechRole-Eval trước khi RL, chứng minh hiệu quả độc lập của tập dữ liệu nhân vật tổng hợp.",
+   "Trên VoiceBench, CharDuplex vượt GLM-4-Voice gốc trên tất cả 5 tác vụ QA trắc nghiệm và sự thật: LlamaQ (74.7% so với 65.7%), WebQ (40.5% so với 37.0%), OBQA (62.4% so với 53.4%), MMSU (44.0% so với 39.8%), BBH (51.2% so với 52.8% - GLM-4-Voice dẫn ở BBH nhưng CharDuplex đạt 51.2% và SD-QA 49.2% so với 37.0%).",
+   "Trên Full-Duplex-Bench, CharDuplex duy trì khả năng xử lý tương tác xuất sắc: User Interruption TOR đạt 0.990, điểm chất lượng User Interruption GPT-4o đạt 4.071, độ trễ ngắt lời Candor Latency là 0.565 s, và Smooth Turn Taking TOR đạt 0.857.",
+   "Ablation study cho thấy quy trình Generator–Verifier nâng tỷ lệ hội thoại đạt chuẩn (pass rate) theo đánh giá độc lập của GPT-5.6 Sol từ 65.6% lên 93.7%."
+  ],
+  "limitations": "Sau quá trình RL với FDGym, chỉ số Backchannel TOR trên Full-Duplex-Bench bị sụt giảm -11.48% (từ 0.636 xuống 0.709 với metric quy ước càng thấp càng tốt). Ngoài ra, nghiên cứu tập trung vào tính nhất quán nội dung ngôn ngữ của nhân vật qua văn bản chứ chưa trực tiếp mô hình hóa phong cách ngữ điệu giọng nói (acoustic persona/vocal traits) động theo nhân vật.",
+  "takeaways": "Quy trình kết hợp giữa SFT dữ liệu nhân vật tổng hợp có xác thực đa tầng và RL tương tác phản hồi động (FDGym với GRPO) là giải pháp thực tiễn hiệu quả để xây dựng voice agent full-duplex có cá tính rõ rệt mà không làm suy giảm năng lực ngôn ngữ tổng quát hay khả năng turn-taking.",
+  "strengths": [
+   "Dẫn đầu benchmark SpeechRole-Eval mã nguồn mở",
+   "Quy trình tự động hóa dữ liệu đa tầng chặt chẽ",
+   "Môi trường RL tương tác khép kín phản hồi động",
+   "Giữ vững năng lực turn-taking và suy luận tổng quát"
+  ],
+  "weaknesses": [
+   "Phụ thuộc nhiều LLM đóng lớn khi tạo dữ liệu",
+   "Chỉ số Backchannel TOR giảm sau RL",
+   "Chưa huấn luyện vocal traits acoustic theo nhân vật"
+  ],
+  "context": "Nghiên cứu được thực hiện bởi nhóm tác giả thuộc Nanyang Technological University, AI Singapore và UC Berkeley; phát hành dưới dạng arXiv preprint (tháng 9/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

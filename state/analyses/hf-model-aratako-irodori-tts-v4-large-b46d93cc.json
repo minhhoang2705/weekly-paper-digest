@@ -1,0 +1,50 @@
+{
+ "id": "hf-model:Aratako/Irodori-TTS-v4-Large",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình kết hợp flow matching RF-DiT, điều khiển phong cách bằng emoji và text caption cùng reference audio dài 120s, nhưng phần lớn kế thừa các thành phần sẵn có (Echo-TTS, DACVAE, T5Gemma).",
+  "credibility": "Phát hành từ nhà nghiên cứu độc lập trên Hugging Face, có mã nguồn mở và demo kiểm chứng rõ ràng nhưng không phải là bài báo qua bình duyệt peer-review.",
+  "technical": "Thiết kế kỹ thuật công phu với RF-DiT 24 tầng, continuous DACVAE 32 chiều, tách riêng duration predictor, sử dụng Low-Rank AdaLN và tích hợp SilentCipher watermark.",
+  "impact": "Là một tài nguyên mã nguồn mở hữu ích cho cộng đồng xử lý tiếng Nhật (61 likes, trending 54 trên HF), dù hạn chế do tính đơn ngữ.",
+  "evidence": "Đánh giá chi tiết qua nhiều benchmark (Joyo Kanji, JSUT, Coco-Nut, JVS) với 5 seed đo độ lệch chuẩn và đối sánh cụ thể với v4-Small và v4.1-Small, dù Voice Design chỉ đánh giá tự động bằng LLM."
+ },
+ "summary": {
+  "tldr": "Irodori-TTS-v4-Large là mô hình TTS tiếng Nhật quy mô xấp xỉ 3,29 tỷ tham số dựa trên kiến trúc Rectified Flow Diffusion Transformer (RF-DiT). Mô hình kết hợp văn bản đầu vào, âm thanh tham chiếu (hỗ trợ tới 120 giây) và mô tả caption để thực hiện zero-shot voice cloning, thiết kế giọng nói bằng văn bản và kiểm soát sắc thái/phi ngôn ngữ thông qua chèn emoji.",
+  "problem": "Tổng hợp giọng nói tiếng Nhật chất lượng cao (48kHz) có khả năng voice cloning độ dài lớn, kiểm soát phong cách chi tiết bằng mô tả tự nhiên (Voice Design), biểu đạt các âm thanh phi ngôn ngữ (cười, thở dài, ho) và hạn chế việc đọc sai chữ Hán (Kanji).",
+  "method": "Mô hình gồm 5 thành phần chính với quy mô xấp xỉ 3,29B tham số: (1) Shared Text/Caption Encoder dùng mô hình T5Gemma 2 fine-tune từ `google/t5gemma-2-1b-1b` chung cho cả văn bản đầu vào và caption; (2) Condition Projectors riêng biệt để chiếu biểu diễn văn bản và caption vào không gian điều kiện TTS; (3) Reference Latent Encoder mã hóa các patched latent từ âm thanh tham chiếu tối đa 120 giây; (4) Diffusion Transformer gồm 24 tầng, chiều ẩn 2.048, dùng các khối joint-attention kết hợp Low-Rank AdaLN, half-RoPE và SwiGLU MLPs; (5) Duration Predictor gồm các khối SwiGLU MLP xếp chồng, được huấn luyện riêng biệt sau khi cố định các tham số mô hình chính. Biểu diễn âm thanh sử dụng continuous latent 32 chiều từ codec `Aratako/Semantic-DACVAE-Japanese-32dim` tái tạo dạng sóng 48kHz. Quá trình sinh tích hợp đóng dấu bản quyền vô hình SilentCipher. Dữ liệu huấn luyện được chú thích tự động bằng Qwen3-Omni-30B-A3B-Instruct và tinh chỉnh caption bằng Qwen3.5-35B-A3B.",
+  "setup": "Đánh giá sử dụng suy luận FP32 với 40 bước Rectified Flow (RF). Các phép đo qua 5 seed (0-4) lấy trung bình và độ lệch chuẩn mẫu. Dữ liệu đánh giá tách biệt với tập huấn luyện: Joyo Kanji Yomi Benchmark (Parakeet Edition, 13.536 câu, CFG text 3.0), JSUT BASIC5000, Coco-Nut test set (2.890 mô tả giọng, đánh giá qua Gemini 3.6 Flash chấm điểm 1-5, CFG text/caption 3.0), và JVS dataset (100 người nói, đo CAM++ cosine similarity và top-1 với các độ dài tham chiếu: 1 clip, ~30s, ~60s, 120s; CFG text 3.0, CFG speaker 5.0).",
+  "results": [
+   "Joyo Kanji Yomi (Parakeet Edition): Irodori-TTS-v4-Large đạt Reading accuracy 92,80 ± 0,08%, Target Kana-CER 7,96 ± 0,36%, Target Kana-CER clipped 5,78 ± 0,06%, Sentence Kana-CER 1,51 ± 0,06%, Text CER 4,87 ± 0,08% (thấp hơn v4.1-Small với Reading accuracy 93,42 ± 0,04% và Text CER 4,68 ± 0,06%).",
+   "JSUT BASIC5000: v4-Large đạt Sentence Kana-CER 3,67 ± 0,03% và Standard CER 7,30 ± 0,01% (v4.1-Small đạt 3,43 ± 0,01% và 7,22 ± 0,12%).",
+   "Coco-Nut Voice Design adherence (Gemini 3.6 Flash judge): v4-Large đạt Mean score 4,2991, tỷ lệ điểm 1-2 là 14,63%, tỷ lệ điểm 4-5 là 76,24% (vượt trội hơn v4-Small với 4,2339 và 600M-v3 với 4,2096; cải thiện trung bình +0,0652 so với v4-Small với khoảng tin cậy 95% bootstrap [+0,0353, +0,0955]).",
+   "JVS Voice Cloning (CAM++ cosine / top-1): 1 clip đạt 0,6711 ± 0,0019 / 87,00 ± 0,59% (v4-Small: 0,6610 / 84,60%); ~30s đạt 0,7593 ± 0,0011 / 99,48 ± 0,27% (v4-Small: 0,7521 / 98,56%); ~60s đạt 0,7700 ± 0,0011 / 99,60 ± 0,18% (v4-Small: 0,7646 / 99,56%); 120s đạt 0,7788 ± 0,0005 / 99,64 ± 0,15% (v4-Small: 0,7753 / 99,76%)."
+  ],
+  "limitations": "Chỉ hỗ trợ tiếng Nhật; độ tương đồng giọng nói giảm mạnh khi dùng reference ngắn (khuyến nghị trên 30 giây); chưa đánh giá định lượng cho 1 file ghi âm dài liền mạch (huấn luyện dùng ghép nhiều câu ngắn); xung đột tiềm ẩn giữa caption và audio reference; độ chính xác đọc Kanji kém hơn bản v4.1-Small; hiệu ứng emoji chưa hoàn toàn ổn định; chưa có đánh giá chủ quan của con người (MOS).",
+  "takeaways": "Là mô hình TTS tiếng Nhật mã nguồn mở mạnh mẽ, phù hợp cho voice cloning chất lượng cao khi có từ 30s âm thanh tham chiếu trở lên hoặc thiết kế giọng nói qua mô tả text. Khi triển khai production cần lưu ý kiểm soát các từ Kanji hiếm và chuẩn bị xử lý lượng VRAM lớn do kích thước 3,29B tham số.",
+  "strengths": [
+   "Kiến trúc RF-DiT 3,29B tham số mạnh mẽ",
+   "Hỗ trợ audio reference dài tới 120 giây",
+   "Điều khiển cảm xúc linh hoạt qua emoji và caption",
+   "Tích hợp sẵn SilentCipher watermarking",
+   "Tái tạo âm thanh chất lượng cao 48kHz qua DACVAE"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ duy nhất tiếng Nhật",
+   "Độ chính xác đọc Kanji kém hơn bản v4.1-Small",
+   "Thiếu đánh giá thính giác người nghe (MOS)",
+   "Nguy cơ xung đột giữa điều kiện caption và reference"
+  ],
+  "context": "Mô hình do tác giả độc lập Chihiro Arata (Aratako) phát hành nguồn mở trên Hugging Face kèm repository GitHub, demo Space và giấy phép Gemma Terms of Use."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

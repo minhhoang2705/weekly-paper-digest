@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2609.31948",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đây là benchmark đầu tiên đánh giá tương tác full-duplex đa bên không có người dùng cố định, kết hợp bài toán addressee inference vào giao thức kiểm soát phát âm thanh nội sinh end-to-end với thiết kế ghép cặp explicit/implicit.",
+  "credibility": "Bản thảo preprint trên arXiv đến từ các viện trường uy tín tại Trung Quốc và Singapore (PKU, Tsinghua, NTU, Fudan), phương pháp mô tả rất chi tiết nhưng chưa qua bình duyệt chính thức tại hội nghị/tạp chí.",
+  "technical": "Quy trình thiết kế thực nghiệm rất chặt chẽ với việc tách biệt 4 mẫu số cho 4 năng lực, kiểm soát thời gian bằng Silero VAD trên waveform thay vì text timestamp, kèm phân tích bootstrap và kiểm định McNemar có hiệu chỉnh Bonferroni.",
+  "impact": "Benchmark chỉ ra điểm yếu chí mạng của các mô hình full-duplex mã nguồn mở hiện tại trong môi trường đa người nói; nhận được 84 HF upvotes, đóng góp thiết thực cho hướng phát triển voice agent tương tác nhóm.",
+  "evidence": "Cung cấp đầy đủ số liệu định lượng chi tiết trên 2.000 cặp kịch bản cho 5 mô hình open-weight và 1 mô hình text reference, có kiểm thử độ nhạy ngưỡng thời gian, kiểm định thống kê và kiểm chứng chéo bởi con người trên 300 mẫu."
+ },
+ "summary": {
+  "tldr": "Duplex-MPE là benchmark đánh giá khả năng tương tác đa bên (multi-party) của các mô hình hội thoại song công hoàn toàn (full-duplex spoken dialogue models) mà không có người dùng cố định. Bộ dữ liệu gồm 2.000 kịch bản đối thoại âm thanh liên tục (4.000 luồng stream) được ghép cặp giữa yêu cầu tường minh (explicit) và ẩn ý (implicit), đo lường riêng biệt bốn năng lực: khởi phát phản hồi mới, độ chính xác câu trả lời, duy trì im lặng và dừng nói khi yêu cầu đã được giải quyết.",
+  "problem": "Các benchmark full-duplex hiện tại chủ yếu tập trung vào việc ngắt lời, tiếp nhận lượt nói hoặc loại bỏ tạp âm/side-talk khi phục vụ một người dùng chỉ định duy nhất (designated user). Trong các môi trường thực tế (như phòng họp, phòng khách), trợ lý ảo phải tham gia vào hội thoại đa bên, nơi bất kỳ ai cũng có thể gọi trợ lý, cung cấp ngữ cảnh hoặc trực tiếp giải quyết câu hỏi của người khác. Các hệ thống hiện nay thiếu chuẩn đánh giá để xác định xem trợ lý có biết khi nào nên nói, khi nào cần giữ im lặng và khi nào phải nhường lời (yield/stop) dựa trên addressee inference từ âm thanh liên tục mà không có transcript hay nhãn lượt lời.",
+  "method": "Quy trình xây dựng và đánh giá tự động của Duplex-MPE gồm: 1) Sinh kịch bản: Claude Opus 5 tạo kịch bản hội thoại đa bên (3-4 người và trợ lý Aria) từ 5 thuộc tính (setting, activity, social relation, device context, register). Mỗi kịch bản có chính xác 1 lượt T (yêu cầu cần trả lời, không nằm ở đầu/cuối), các lượt N1 (nhắc tên nhưng không yêu cầu), N2 (nói với người/thiết bị khác), N3 (tự nói/suy nghĩ thành tiếng), và N4 (câu hỏi N4Q gửi tới Aria nhưng ngay sau đó có người khác đưa ra giải quyết N4R trong vòng 3 s). 2) Ghép cặp Explicit/Implicit: Tạo 2.000 cặp kịch bản (4.000 audio streams) bằng cách đổi lượt T giữa gọi tên trực tiếp 'Aria' và ẩn ý dựa trên ngữ cảnh đối thoại, giữ nguyên nhiệm vụ và đáp án chuẩn (gold answer). 3) Tổng hợp tiếng nói: Dùng Qwen3-TTS tổng hợp từng lượt lời độc lập theo ánh xạ voice cố định (A: ryan, B: aiden, C: eric, D: dylan ở 24 kHz). 4) Đánh giá audio-only: Mô hình nhận file âm thanh liên tục gồm spoken duty preamble (31.9 s) + chuỗi âm thanh hội thoại với khoảng lặng giữa các lượt là 0.5 s. Causal Silero VAD (ngưỡng tối thiểu 120 ms, gộp khoảng lặng < 800 ms) xác định hoạt động giọng nói của mô hình. Qwen3-ASR-1.7B chép lời và Claude Opus 5 chấm điểm ngữ nghĩa cho câu trả lời và phân loại backchannel cho các lượt yêu cầu im lặng.",
+  "setup": "Benchmark bao gồm 2.000 cặp kịch bản (4.000 cuộc hội thoại, tổng cộng 110.93 giờ âm thanh tính cả inter-turn gaps, 61.10 giờ clip tiếng người riêng biệt; trung bình 99.8 s/cuộc hội thoại). Đánh giá 5 mô hình open-weight full-duplex: MiniCPM-o 4.5, Moshi (moshiko checkpoint), FLM-Audio, Voila (autonomous-preview) và Freeze-Omni. Tham chiếu văn bản (transcript-conditioned): Gemini 3.1 Pro nhận text gán nhãn người nói và chỉ dẫn duty. Bốn chỉ số năng lực chính: Fresh-onset response rate (tỷ lệ bắt đầu nói mới trong 5 s sau T), Conditional answer accuracy (độ chính xác nội dung khi có phản hồi), Silence preservation (tỷ lệ giữ im lặng hoặc chỉ phát brief acknowledgement trên N1, N2, N3), và Answering-window yield (tỷ lệ dừng nói trong vòng 2 s sau khi N4R bắt đầu). Hai chỉ số coverage diagnostic: Response presence và Window response.",
+  "results": [
+   "MiniCPM-o 4.5 dẫn đầu ở 3 trên 4 chỉ số có chấm điểm: Fresh-onset response rate đạt 0.9500 (explicit) và 0.9435 (implicit); Conditional answer accuracy đạt 0.4730 (explicit) và 0.4665 (implicit); Silence preservation đạt 0.9242 (explicit) và 0.9289 (implicit); Answering-window yield đạt 0.5964 (explicit) và 0.5925 (implicit).",
+   "Voila đạt Answering-window yield cao nhất trên các sự kiện đủ điều kiện (0.8484 explicit, 0.8046 implicit) và Silence preservation tốt (0.8351 explicit, 0.8307 implicit), nhưng Conditional answer accuracy rất thấp (0.0031 explicit, 0.0075 implicit) và Fresh-onset response rate chỉ đạt 0.6465 explicit, 0.6670 implicit.",
+   "Freeze-Omni nói gần như liên tục: Response presence đạt 0.9955 (explicit) và 0.9975 (implicit) nhưng Fresh-onset response rate chỉ là 0.2525 và 0.2580 do 74.3% lượt T là nói nối tiếp từ trước; Silence preservation chỉ đạt 0.0002 (chỉ giữ im lặng ở 5 trên 20.360 cửa sổ); Answering-window yield không thể báo cáo (n/a) vì chỉ có đúng n=1 sự kiện thỏa điều kiện.",
+   "FLM-Audio có Response presence cao (0.9505 explicit) nhưng Conditional answer accuracy gần bằng 0 (0.0011 explicit, chỉ đúng 2 trên 1.901 lượt có phản hồi; 0.0005 implicit), và Answering-window yield rất kém (0.0082 explicit, 0.0059 implicit).",
+   "Moshi đạt Response presence 0.8155 (explicit) và 0.8220 (implicit), Fresh-onset response rate 0.6340 (explicit) và 0.6700 (implicit), nhưng Silence preservation thấp (0.2734 explicit, 0.2676 implicit) và Answering-window yield chỉ đạt 0.1918 (explicit), 0.2107 (implicit).",
+   "So sánh Explicit vs Implicit: Mô hình tham chiếu văn bản Gemini 3.1 Pro phản hồi chênh lệch rất lớn (Response presence 0.9470 explicit vs 0.3040 implicit, chênh lệch 64.3 điểm phần trăm, McNemar test p < 10^-371). Ngược lại, cả 5 hệ thống giọng nói full-duplex đều không có sự khác biệt có ý nghĩa thống kê về tỷ lệ phản hồi (chênh lệch từ -1.75 đến +0.60 điểm phần trăm, p nhỏ nhất là 0.2365)."
+  ],
+  "limitations": "Tất cả hội thoại và âm thanh đều là dữ liệu tổng hợp tiếng Anh (Claude Opus 5 và Qwen3-TTS), không phản ánh quần thể thực tế, âm học phòng thực tế (room acoustics) hoặc các chuẩn mực xã hội phức tạp. Không thể đánh giá các mô hình non-full-duplex trong giao thức tính điểm chính do đòi hỏi phân đoạn ngoài từ harness.",
+  "takeaways": "Chỉ số Response presence đơn thuần không phản ánh đúng năng lực tương tác; một mô hình có độ phủ giọng nói cao có thể là do nói bừa bãi hoặc nói liên tục không ngừng. Cần phân tách rõ ràng giữa việc phát hiện lượt cần nói mới (fresh-onset), trả lời đúng, biết giữ im lặng khi người khác nói chuyện và biết dừng lại khi lượt nói bị can thiệp. Các mô hình full-duplex hiện tại hoàn toàn chưa nhạy cảm với việc gọi tên tường minh hay ẩn ý từ luồng âm thanh đầu vào.",
+  "strengths": [
+   "Thiết kế ghép cặp explicit-implicit chặt chẽ",
+   "Tách biệt 4 năng lực với mẫu số độc lập",
+   "Quy trình đánh giá audio-only liên tục thực tế",
+   "Xác thực con người đạt độ tương đồng 98-100%"
+  ],
+  "weaknesses": [
+   "Dữ liệu hoàn toàn là kịch bản và TTS tổng hợp",
+   "Chỉ đánh giá trên tiếng Anh",
+   "Hầu hết mô hình open-weight có độ chính xác rất thấp"
+  ],
+  "context": "Nhóm tác giả đến từ Peking University, Renmin University of China, Tsinghua University, Nanyang Technological University, Xiamen University và Fudan University; công bố dưới dạng preprint trên arXiv (arXiv:2609.31948)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

@@ -1,0 +1,49 @@
+{
+ "id": "isca:interspeech_2026/jiang26g_interspeech",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo tiên phong mở rộng kiến trúc full-duplex spoken dialogue sang tạo sinh chuyển động khuôn mặt 3D đồng bộ ở cùng frame rate thông qua face tokens rời rạc.",
+  "credibility": "Công trình đến từ nhóm nghiên cứu Đại học Nagoya và được xuất bản tại Interspeech 2026 với tài liệu nghiên cứu chi tiết và quy trình thực nghiệm rõ ràng.",
+  "technical": "Thiết kế kỹ thuật chặt chẽ với việc đồng bộ tốc độ khung hình 12.5 Hz, kết hợp VQ-VAE face codec, non-causal Face Transformer và chiến lược huấn luyện hai bước hiệu quả.",
+  "impact": "Mở ra hướng đi mới cho các voice agent có hình đại diện khuôn mặt tương tác hai chiều thời gian thực, nhưng chưa công bố mã nguồn mở kèm theo bài viết.",
+  "evidence": "Thực nghiệm đầy đủ với 180 giờ dữ liệu, đánh giá cả teacher-forced và free-run, đo đạc đồng bộ qua SyncNet, kiểm định âm học, LLMAJ và ablation study chi tiết."
+ },
+ "summary": {
+  "tldr": "Moshi-Face mở rộng mô hình hội thoại full-duplex Moshi để đồng thời tiếp nhận và sinh biểu cảm/chuyển động khuôn mặt 3D cùng với giọng nói theo thời gian thực. Bằng cách nén chuyển động khuôn mặt thành các discrete face tokens ở tần số 12.5 Hz thông qua một VQ-VAE face codec kết hợp mô-đun Face Transformer không tự hồi quy (non-autoregressive), mô hình đạt được sự đồng bộ audiovisual chính xác với độ trễ thấp.",
+  "problem": "Các mô hình hội thoại spoken full-duplex hiện tại (như Moshi) xử lý hội thoại hai chiều độ trễ thấp nhưng bị giới hạn trong âm thanh, thiếu biểu cảm khuôn mặt và cử động đầu. Ngược lại, các hệ thống tương tác đa phương thức có khuôn mặt trước đây lại dựa trên kiến trúc turn-based, không hỗ trợ nói chèn (interruptions), nói đồng thời hay phản hồi đệm (backchanneling) tự nhiên theo thời gian thực.",
+  "method": "Moshi-Face tích hợp thêm luồng face tokens vào kiến trúc của Moshi:\n1. **Face Codec (VQ-VAE):** Kiến trúc gồm Encoder (1-D Conv downsampling r=2 và Transformer layer), Quantizer với codebook Z (K=256, C=128), và Decoder upsampling đối xứng. Nó chuyển đổi 3D facial meshes (5,143 đỉnh theo FLAME topology trích xuất ở 25 fps qua VHAP) thành N=8 discrete face tokens trên mỗi frame ở tần số 12.5 Hz (trùng tần số audio tokens từ Mimi). Codec được huấn luyện với hàm mất mát tổng hợp gồm L1 reconstruction loss, quantization loss và velocity loss ($L_{vq} = L_{rec} + \\lambda_q L_q + \\lambda_{vel} L_{vel}$).\n2. **Các luồng token (Input/Output Streams):** Vận hành ở 12.5 Hz gồm: Text token (1 vào, 1 ra cho inner monologue), Audio tokens (2M vào gồm system/user, M=8 ra) và Face tokens (2N vào gồm system/user, N=8 ra). Audio và face tokens được làm trễ 1 bước so với text tokens.\n3. **Moshi-Face Architecture & Training:** Gồm RQ-Transformer (khởi tạo từ checkpoint 7B pre-trained Moshi) dự đoán tự hồi quy $h_{i+1}$, text và audio tokens; và một non-causal Face Transformer sinh đồng thời N=8 face tokens không tự hồi quy qua non-causal self-attention, điều kiện hóa dựa trên conditioning vector $e_{i+1}^{All} = h_{i+1} + e_{i+1}^0 + \\sum_{m=1}^M e_i^m$ kết hợp với learnable positional embedding $pe^n$. Quá trình huấn luyện gồm 2 bước: Bước 1 đóng băng RQ-Transformer và chỉ huấn luyện Face Transformer (500 steps, lr=5e-4); Bước 2 tinh chỉnh toàn bộ mô hình (1,200 steps, lr khác nhau cho từng thành phần với loss weight $\\lambda=1$).",
+  "setup": "Dữ liệu huấn luyện gồm ~180 giờ hội thoại (~3,400 hội thoại) từ Meta's Seamless Interaction Dataset, dùng VHAP trích xuất 3D mesh (5,143 đỉnh, 25 fps). Stage 1 dùng 70 giờ train Face Codec (70 epochs, AdamW, lr=1e-4, batch size 4). Stage 2 huấn luyện Moshi-Face trên 3,300 hội thoại train/valid (9:1) và kiểm thử trên 100 hội thoại riêng biệt. Đánh giá gồm 2 thiết lập: Teacher-forced (ground-truth audio) và Free-run (hai mô hình Moshi-Face tương tác qua lại). Hệ thống so sánh với Moshi, Moshi-ft, Reconstructed face (upper bound) và Random face (lower bound). Đo lường bằng LSE-D (Lip Sync Error Distance), LSE-C (Confidence) qua pre-trained SyncNet trên video 2D dựng lại; UTMOS cho chất lượng giọng nói; và GPT-5-mini đánh giá ngữ nghĩa/hội thoại theo thang LLMAJ (1-5).",
+  "results": [
+   "Face Codec Codebook: cấu hình K=256, C=128 đạt MVE = 9.90 x 10^-3, LVE = 11.77 x 10^-3, Perplexity = 0.66 (vượt trội hơn K=128, C=64 với MVE 11.20 và LVE 12.79).",
+   "Teacher-forced AV Sync: Moshi-Face đạt LSE-D 8.76 và LSE-C 0.14, áp sát upper bound Reconstructed face (LSE-D 8.53, LSE-C 0.12) và vượt trội Random face (LSE-D 11.7, LSE-C 0.13).",
+   "Free-run AV Sync: Moshi-Face duy trì LSE-D 11.0 và LSE-C 0.16 (so với Random face là LSE-D 11.8, LSE-C 0.11).",
+   "Chất lượng giọng nói: Moshi-Face đạt UTMOS 1.75 (Moshi gốc đạt 3.08; Moshi-ft đạt 1.69; bản ablation không full fine-tuning đạt 2.42).",
+   "Chất lượng ngữ nghĩa (LLMAJ 1-5): Moshi-Face đạt Coherence 3.79 (cao nhất bảng), Naturalness 4.52 (cao thứ hai sau bản w/o Face Transformer pre-training 4.53), Relevance 4.24 và Overall Quality 3.76 (so với Moshi gốc là Coh 3.76, Nat 3.73, Rel 4.26, Ove 3.85)."
+  ],
+  "limitations": "Face codec hiện tại là non-causal, chưa hỗ trợ trực tiếp input/output visual dạng streaming causal thời gian thực. Thiếu đánh giá perceptual trực tiếp từ con người (human evaluations). Tinh chỉnh trên tập dữ liệu tương đối nhỏ (180h) khiến điểm số âm học UTMOS bị giảm rõ rệt so với mô hình Moshi pre-trained ban đầu.",
+  "takeaways": "Khung làm việc full-duplex có thể mở rộng tự nhiên sang xử lý khuôn mặt đa phương thức bằng cách đồng bộ hóa frame rate giữa audio codec và face codec (12.5 Hz). Việc bổ sung face tokens không làm suy giảm tính mạch lạc ngữ nghĩa của ngôn ngữ mà còn hỗ trợ thêm ngữ cảnh hội thoại, dù cần lưu ý suy hao chất lượng âm thanh khi fine-tuning trên tập dữ liệu hẹp.",
+  "strengths": [
+   "Mô hình full-duplex đa phương thức đầu tiên",
+   "Đồng bộ frame rate hoàn hảo 12.5 Hz",
+   "Sinh face tokens không tự hồi quy",
+   "Duy trì tính mạch lạc ngữ nghĩa cao"
+  ],
+  "weaknesses": [
+   "Face codec vẫn là non-causal",
+   "Điểm UTMOS giảm mạnh sau fine-tuning",
+   "Chưa có đánh giá perceptual người dùng"
+  ],
+  "context": "Jingjing Jiang, Atsumoto Ohashi, và Ryuichiro Higashinaka từ Graduate School of Informatics, Nagoya University, Japan; công bố tại Interspeech 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

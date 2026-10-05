@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2609.34973",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 5,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đây là benchmark đầu tiên mở rộng đánh giá voice agent từ hội thoại/turn-taking sang việc hoàn thành các quy trình công việc chuyên môn phức tạp dài hạn với hiện vật có thể kiểm chứng được.",
+  "credibility": "Nghiên cứu đến từ nhóm nghiên cứu uy tín tại University of Maryland College Park và được công bố tại hội nghị ICLR 2027.",
+  "technical": "Thiết kế kỹ thuật xuất sắc với môi trường Voice Workbench, cơ chế frozen speech bank giúp tái lập 100%, bảo vệ bằng CommitGuard, và hệ thống phân tích phân rã lỗi theo 4 cổng logic chi tiết.",
+  "impact": "Tác động định hướng lớn đến ngành công nghệ giọng nói khi vạch rõ ranh giới giữa năng lực đàm thoại trôi chảy và độ tin cậy trong giải quyết công việc thực tế của frontier voice agents.",
+  "evidence": "Thực nghiệm cực kỳ vững chắc trên 5 voice agent hàng đầu, có đối chứng text agents, phân rã floor control/correction uptake, kèm theo nghiên cứu live-human audit để kiểm định tính hợp lệ."
+ },
+ "summary": {
+  "tldr": "APEX-VOICE là benchmark đánh giá khả năng thực thi quy trình công việc chuyên nghiệp (professional workflows) thông qua tương tác thoại full-duplex thời gian thực trên 120 workflow tương tác thuộc 10 nhóm tác vụ. Kết quả trên 5 voice agent hàng đầu (GPT-realtime-2.1, Grok-Voice-Think-2.0, Gemini-3.8-Live, Step-Audio3, GPT-Live-1) cho thấy không hệ thống nào vượt qua 25% PASS@1 và mức RELIABLE@3 cao nhất chỉ đạt 10.8%. Nghiên cứu chỉ ra rằng dù các mô hình làm tốt việc nhường lượt nói (floor control), điểm nghẽn chính nằm ở việc thất bại trong việc cập nhật trạng thái và hiện vật công việc khi người dùng chỉnh sửa giữa câu (mid-speech corrections).",
+  "problem": "Các tác nhân giọng nói full-duplex hiện nay đã có thể nghe, nói và gọi công cụ đồng thời, nhưng sự trôi chảy trong hội thoại không đồng nghĩa với khả năng hoàn thành chính xác quy trình công việc chuyên môn được giao phó. Tương tác full-duplex làm phát sinh các phụ thuộc thời gian phức tạp (barge-in, gián đoạn, nói chèn, rút lại quyền ủy quyền, chỉnh sửa thông tin giữa chừng). Các benchmark trước đây hoặc chỉ tập trung vào cơ chế hội thoại (turn-taking, latency) hoặc đánh giá tác nhân trên giao diện văn bản/máy tính, bỏ trống câu hỏi liệu voice agent có thể biến một yêu cầu ủy quyền bằng giọng nói thành một sản phẩm công việc (work artifact) hoàn chỉnh, có thể kiểm chứng được hay không.",
+  "method": "Nghiên cứu xây dựng khung benchmark APEX-VOICE gồm 120 synthetic workflows theo 11 chiều phân loại (archetype, industry setting, work artifact, economic role, duplex phenomenon, delegation pattern, autonomy, knowledge burden, tool burden, user behavior, risk):\n- **Môi trường thực thi Voice Workbench**: Cung cấp môi trường stateful có quản lý phiên bản hiện vật (versioned artifacts), công cụ có định kiểu (typed tools), ràng buộc ủy quyền được kiểm soát chặt chẽ bởi `CommitGuard` (chặn commit trái phép hoặc sau khi bị revoke quyền), và log sự kiện định chuẩn (canonical event log) phục vụ deterministic replay.\n- **Mô phỏng người dùng đóng băng (Frozen User Simulator)**: Chính sách người dùng (User Policy) phản ứng động theo trạng thái môi trường. Các phản hồi của người dùng được sinh offline bằng LLM (GPT-5.6-Sol), kiểm duyệt leakage/fidelity nghiêm ngặt, và tổng hợp âm thanh bằng Kokoro TTS thành ngân hàng giọng nói cố định (frozen speech bank). Khi chạy thực tế, âm thanh được stream theo frame 40 ms trên media timeline dùng chung mà không cần gọi LLM/TTS tự do tại inference-time, đảm bảo tính tái lập 100%.\n- **Đánh giá 4 cổng logic (Logical Gates)**: Để đạt Workflow Success (WS = 1), hệ thống phải thỏa mãn tích của 4 cổng: Target State (TS), Process Validity (PV - không vi phạm ràng buộc/quyền hạn), Action Completion (AC - hoàn thành đủ tool call/evidence), và Artifact Validity (AV - toàn bộ 10-20 trường dữ liệu phải chính xác tuyệt đối và không chứa dữ liệu cũ/stale).\n- **Quy trình chấm điểm 2 tầng**: Kết hợp deterministic verifiers (khớp chính xác, chuẩn hóa số/ngày tháng/địa chỉ) và gọi GPT-4o judge (nhiệt độ 0) để đánh giá tương đương ngữ nghĩa cho các trường văn bản tự do.",
+  "setup": "Đánh giá 120 workflow trên 5 frontier real-time voice systems: GPT-realtime-2.1, Grok-Voice-Think-2.0, Gemini-3.8-Live, Step-Audio3 (chạy giao diện streaming native tool use) và GPT-Live-1 (tầng thoại kết hợp backend text model mặc định gpt-5.6 Sol). So sánh đối chứng với hệ thống Cascaded (Whisper-LV3 - GPT-5.6 - Chatterbox-TurboTTS) và 5 mô hình text agents (Claude-Opus-5.5, GPT-6-sol, GPT-5.5, Gemini-3.8-Flash, Kimi K3). Mỗi task chạy 3 lần độc lập để đo: PASS@1 (tỷ lệ thành công trung bình 1 lượt), PASS@3 (thành công ít nhất 1 trong 3 lượt), và RELIABLE@3 (thành công cả 3 lượt).",
+  "results": [
+   "Không có voice agent nào vượt qua 25% PASS@1: GPT-realtime-2.1 dẫn đầu với 23.6% PASS@1 và 10.8% RELIABLE@3; Grok-Voice-Think-2.0 đạt PASS@3 cao nhất (41.7%) nhưng RELIABLE@3 chỉ đạt 5.0%; Gemini-3.8-Live đạt 13.6% PASS@1 (1.7% RELIABLE@3); GPT-live-1 đạt 8.9% PASS@1 (2.5% RELIABLE@3); Step-Audio3 đạt 2.5% PASS@1 (0.8% RELIABLE@3); Cascaded baseline đạt 1.2% PASS@1 (0.0% RELIABLE@3).",
+   "Khoảng cách lớn giữa độ chính xác từng trường và hoàn thành toàn bộ workflow: GPT-realtime-2.1 đạt 91.4% Artifact Field Accuracy (AFA) nhưng tỷ lệ qua cổng Artifact Validity (AV) chỉ đạt 35.3%; Grok-Voice-Think-2.0 đạt 88.5% AFA nhưng AV chỉ đạt 27.8% (dù Target State đạt tới 99.4%).",
+   "Hiệu quả dùng công cụ (Tool-use Efficiency) khác biệt lớn: GPT-realtime-2.1 đạt tỷ lệ gần mức oracle (0.98), trong khi Grok-Voice-Think-2.0 lạm dụng công cụ ở mức 1.51 lần oracle dù PASS@1 tương đương.",
+   "Cơ chế Floor Control tốt nhưng thất bại ở khâu hấp thụ chỉnh sửa (Correction Uptake): Các mô hình native voice nhường lượt (yield) ở 99.8-100.0% trường hợp barge-in với độ trễ dừng trung vị rất thấp (Gemini: 20 ms, Grok: 28 ms, Step-Audio3: 59 ms, GPT-RT: 156 ms; riêng GPT-live-1 trễ 912 ms với độ overlap 34.79%). Tuy nhiên, AFA trên các trường bị sửa giữa chừng tụt giảm từ 20.0 đến 36.8 điểm phần trăm so với trường không bị sửa, và 71% - 89% các lỗi hỏng Artifact Validity bắt nguồn trực tiếp từ việc bỏ lỡ các sửa đổi này.",
+   "Đối chứng với Text-only: Các mô hình text đạt 54.3% - 62.0% PASS@1 và 95% - 98% AFA (GPT-5.5 cao nhất với 62.0% PASS@1), cho thấy tương tác giọng nói thời gian thực làm tăng vọt độ khó của bài toán.",
+   "Kiểm toán với người thật (Live-Human Audit trên 24 task): PASS@1 giảm trung bình 4.9 điểm phần trăm trên cả 5 hệ thống so với synthetic user (GPT-RT giảm từ 24.1% xuống 20.8%, Grok giảm từ 24.1% xuống 16.4%), xác thực rằng môi trường mô phỏng không làm sai lệch thứ hạng tương đối giữa các mô hình."
+  ],
+  "limitations": "Benchmark chỉ đánh giá các đơn vị công việc giới hạn (bounded work units), không đo lường sự thay thế lao động hoàn chỉnh hay giá trị kinh tế thực tế; chỉ hỗ trợ tiếng Anh; người dùng chính là synthetic policy với audio cố định nên chưa phản ánh toàn bộ biến thiên ngữ âm thực tế; các hệ thống đánh giá phụ thuộc vào API endpoint đám mây có thể thay đổi hoặc bị deprecate theo thời gian; các chiều trong taxonomy đồng biến thiên (co-vary) chứ không phải thiết kế trực giao hoàn toàn (fully crossed factorial).",
+  "takeaways": "Khả năng nói trôi chảy và bắt kịp lượt nói (floor control) không đồng nghĩa với độ tin cậy trong công việc chuyên môn. Điểm nghẽn lớn nhất của voice agent hiện nay là khả năng cập nhật biểu diễn trạng thái công việc nội bộ (state-tracking) và duy trì tính nhất quán của hiện vật trước các sửa đổi liên tục của người dùng. Kỹ sư xây dựng voice agent cần tập trung vào khả năng đồng bộ trạng thái thời gian thực và quản lý ngữ cảnh động thay vì chỉ tối ưu độ trễ âm thanh.",
+  "strengths": [
+   "Benchmark tiên phong kết hợp full-duplex và workflow chuyên môn",
+   "Thiết kế Voice Workbench có tính tái lập rất cao",
+   "Đánh giá khắt khe với 4 cổng logic liên kết",
+   "Kiểm toán thực nghiệm cẩn trọng với Live-Human Audit"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ tiếng Anh",
+   "Phụ thuộc nhiều vào closed-source API endpoints",
+   "Taxonomy các chiều chưa trực giao hoàn toàn"
+  ],
+  "context": "Puneet Mathur và Dinesh Manocha (University of Maryland College Park, USA) - Công bố tại hội nghị ICLR 2027 (arXiv:2609.34973v1)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

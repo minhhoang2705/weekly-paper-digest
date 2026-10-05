@@ -1,0 +1,50 @@
+{
+ "id": "url:https://huggingface.co/blog/open-tts-leaderboard",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 4,
+  "technical": 3,
+  "impact": 4,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Tích hợp các phương pháp đo lường sẵn có (Qwen3 ASR WER, WavLM SIM, RTFx, TTFA) vào một bảng xếp hạng tự động đa ngôn ngữ, không tạo ra phương pháp luận đánh giá mới hoàn toàn.",
+  "credibility": "Bài đăng chính thức từ Hugging Face Blog, nền tảng lưu trữ và benchmark mô hình mã nguồn mở hàng đầu thế giới.",
+  "technical": "Thiết lập benchmark chặt chẽ (đo median TTFA loại bỏ warm-up, dùng Qwen3 ASR top 1, WavLM embeddings trên H200), nhưng cấu trúc kỹ thuật đánh giá ở mức quy chuẩn tiêu chuẩn.",
+  "impact": "Có tiềm năng định hình tiêu chuẩn so sánh cho hơn 8.000 mô hình TTS trên Hub và giúp các mô hình open-source được đánh giá công bằng hơn.",
+  "evidence": "Mô tả rõ ràng về methodology và chỉ ra các mô hình dẫn đầu cụ thể, tuy nhiên bài blog không kèm theo bảng số liệu điểm số chi tiết từng mô hình mà điều hướng sang leaderboard."
+ },
+ "summary": {
+  "tldr": "Hugging Face giới thiệu Open TTS Leaderboard nhằm giải quyết sự phân mảnh và thiếu khả năng mở rộng của các arena đánh giá TTS truyền thống dựa trên người dùng. Hệ thống sử dụng các thước đo khách quan để đánh giá toàn diện mô hình TTS mã nguồn mở về độ rõ chữ, tốc độ suy luận, độ tương đồng giọng nói và độ trễ streaming trên môi trường đa ngôn ngữ.",
+  "problem": "Số lượng mô hình TTS mã nguồn mở tăng trưởng vượt bậc (>8K mô hình trên HF Hub tính đến 30/9/2026), nhưng phương pháp đánh giá hiện tại chủ yếu dựa trên human preference (MOS, MUSHRA, Elo arenas) tốn nhiều tuần thu thập, thiếu nhất quán giữa các người chấm theo thời gian và thiên vị các mô hình API thương mại (chỉ 16/92 mô hình trên Artificial Analysis là open-weights).",
+  "method": "Bảng xếp hạng thay thế đánh giá thủ công bằng các metric khách quan giúp rút ngắn thời gian benchmark xuống vài giờ: (1) Intelligibility: tính WER/CER giữa prompt văn bản và transcript sinh ra từ mô hình Qwen3 ASR (mô hình ASR top đầu trên Open ASR Leaderboard), dùng macro-average WER cho các ngôn ngữ và CER cho tiếng Trung, Nhật, Hàn; (2) Speaker Similarity: tính cosine similarity (SIM) giữa WavLM speaker embeddings của âm thanh tạo ra và clip tham chiếu; (3) Tốc độ và độ trễ: đo RTFx (inverse real-time factor) cho batched offline inference trên GPU NVIDIA H200, và TTFA (time-to-first-audio) đo độ trễ streaming batch size 1 trên GPU H200 và CPU (chạy 50 prompts CV3-Eval, bỏ 3 run warm-up và lấy giá trị trung vị median). Leaderboard cũng cung cấp giao diện 'Listen' để nghe trực quan, đánh giá đồ thị Pareto và hỗ trợ kiểm thử tính năng voice cloning.",
+  "setup": "Tập dữ liệu: English splits từ Seed TTS Eval và CV3 Eval (zero shot) cho tiếng Anh; Seed TTS Eval (English, Chinese) và CV3 Eval (zero shot) cho các ngôn ngữ khác; 50 English prompts từ CV3-Eval cho streaming benchmark. Phần cứng: NVIDIA H200 GPU cho offline RTFx và streaming TTFA, cùng môi trường CPU cho một số mô hình streaming. Mô hình ASR dùng để transcribe: Qwen3 ASR; Mô hình trích xuất speaker embedding: WavLM.",
+  "results": [
+   "Thời gian đánh giá một mô hình TTS giảm từ khoảng vài tuần (thu thập vote con người) xuống chỉ còn vài giờ bằng các metric tự động.",
+   "hexgrad/Kokoro-82M, Supertone/supertonic-3, và fishaudio/s2-pro dẫn đầu về macro-average WER trên English splits của Seed TTS Eval và CV3 Eval.",
+   "k2-fsa/OmniVoice, fishaudio/s2-pro, và FunAudioLLM/Fun-CosyVoice3-0.5B-2512 thể hiện hiệu năng đa ngôn ngữ vượt trội.",
+   "bosonai/higgs-tts-3-4b và openbmb/VoxCPM2 cải thiện average WER khi kích hoạt chế độ voice cloning (khi có audio tham chiếu).",
+   "kyutai/pocket-tts đạt hiệu năng streaming (TTFA) tốt trên cả hai môi trường phần cứng GPU H200 và CPU.",
+   "Chỉ 16 trên tổng số 92 mô hình trên Artificial Analysis là open-weights (tính đến 30/9/2026), minh chứng cho sự thiếu hụt đại diện của mô hình mã nguồn mở trên các arena thương mại."
+  ],
+  "limitations": "Các metric khách quan (WER proxy cho độ rõ, WavLM SIM proxy cho nhận dạng giọng) không đo lường trực tiếp độ tự nhiên (naturalness), độ biểu cảm (expressiveness) hay sở thích người nghe; Seed TTS Eval chỉ hỗ trợ tiếng Anh và tiếng Trung nên các ngôn ngữ khác phụ thuộc hoàn toàn vào CV3 Eval; đánh giá streaming trên CPU hiện mới chỉ khả dụng cho số lượng ít mô hình; mã nguồn đánh giá chưa được công bố công khai tại thời điểm ra mắt blog.",
+  "takeaways": "Cung cấp khung tham chiếu chuẩn hóa, nhanh chóng cho cộng đồng speech engineers đánh giá đa chiều (WER, SIM, RTFx, TTFA) trước khi đưa mô hình vào triển khai thực tế hoặc gửi lên arena; cung cấp góc nhìn cân bằng giữa chất lượng và tài nguyên tính toán thông qua đồ thị Pareto.",
+  "strengths": [
+   "Tự động hóa đánh giá khách quan quy mô lớn",
+   "Hỗ trợ đa ngôn ngữ và voice cloning",
+   "Benchmark độ trễ streaming chi tiết trên H200/CPU",
+   "Rút ngắn thời gian benchmark từ tuần xuống giờ"
+  ],
+  "weaknesses": [
+   "Chưa đo được độ tự nhiên và biểu cảm",
+   "Tập dữ liệu đa ngôn ngữ còn hạn chế",
+   "Script đánh giá chưa được mở nguồn ngay"
+  ],
+  "context": "Bài viết kỹ thuật phát hành bởi Hugging Face Blog nhằm công bố nền tảng Open TTS Leaderboard phục vụ cộng đồng mã nguồn mở."
+ },
+ "fulltext_source": "bài viết gốc",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

@@ -1,0 +1,52 @@
+{
+ "id": "gh:oruk-ai/orukeet",
+ "topic": "ASR",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng thay thế 50% kernel temporal depthwise của Conformer bằng các hàm Gabor giải tích cố định để tăng tính khái quát hóa cho ASR là một hướng tiếp cận mới lạ và thú vị.",
+  "credibility": "Dự án đến từ Oruk AI hợp tác cùng các nhà nghiên cứu từ Stanford, Cambridge, công khai đầy đủ mã nguồn, checksum hash, checkpoint weights và báo cáo kỹ thuật.",
+  "technical": "Kỹ thuật fit hàm Gabor, pipeline distillation/fine-tuning chặt chẽ và tối ưu hóa runtime chuyên biệt (Metal kernel, attention/cache) cho thiết bị biên đạt hiệu quả cao.",
+  "impact": "Kho lưu trữ đạt 139 stars và đã được tích hợp ngay vào các ứng dụng desktop client mã nguồn mở như OpenWhispr, TapTalk, hyprwhspr.",
+  "evidence": "Cung cấp bảng so sánh định lượng chi tiết trên 74 splits, LibriSpeech, FLEURS và accent benchmark, kèm số liệu latency đo đạc cụ thể trên phần cứng M4 Pro."
+ },
+ "summary": {
+  "tldr": "Orukeet là mô hình ASR đa ngôn ngữ (25 ngôn ngữ) dựa trên kiến trúc NVIDIA Parakeet TDT 0.6B v3, thay thế một nửa bộ lọc temporal depthwise bằng 12.288 Gabor kernel đóng băng. Mô hình vượt trội hơn Parakeet gốc trên 61/74 tập kiểm thử, đạt mức giảm 10.6% relative WER trên 25 ngôn ngữ FLEURS và hỗ trợ inference tối ưu trên Metal, ONNX INT8 và GGUF.",
+  "problem": "Tối ưu hóa và cải thiện độ chính xác cũng như hiệu năng suy luận của mô hình ASR quy mô lớn (Parakeet TDT 0.6B) trên môi trường đa ngôn ngữ, đa accent và phần cứng biên (như Apple silicon Metal và CPU) mà không làm tăng dung lượng hay độ phức tạp của mô hình.",
+  "method": "Khởi đầu từ Parakeet TDT 0.6B v3 (627M tham số, 24-layer FastConformer encoder, 1024 filter 9-tap temporal depthwise mỗi block). Toàn bộ 24.576 filter được fit hàm Gabor: $g(t)=A\\exp[-(t-\\mu)^2/(2\\sigma^2)]\\cos(2\\pi f(t-\\mu)+\\phi)$ với $t\\in[-4, 4]$. Chọn toàn cục 12.288 kernel có normalized squared error thấp nhất (175–748 kernel/layer, median RMS error 6.32%) và đóng băng (110.592 tap cố định), giữ lại 626.897.542 tham số trainable. Quá trình huấn luyện phục hồi sử dụng transducer loss, encoder matching và token/duration distillation, tiếp nối bởi 4.035 update LR thấp. Bản phát hành r3 chạy 168 AdamW updates (LR cosine decay 5e-6 đến 5e-7, 3% warmup) qua 3 pass trên 2.939 bản ghi LibriSpeech test-other (bảo toàn casing, dấu câu và sửa từ tham chiếu).",
+  "setup": "Đánh giá qua NeMo greedy-batch TDT (FP32 weights, BF16 CUDA autocast), chuẩn hóa văn bản đồng bộ. Hỗ trợ 25 ngôn ngữ FLEURS, 47 tập accent/domain và LibriSpeech. Yêu cầu Python 3.12+, cung cấp package whl v0.1.1, hỗ trợ runtime Metal (Apple silicon), CUDA, ONNX INT8 (qua sherpa-onnx) và định dạng GGUF (Q8, F16). Tích hợp sẵn trong các ứng dụng OpenWhispr, TapTalk (Core ML) và hyprwhspr.",
+  "results": [
+   "LibriSpeech test-clean: đạt 1.46% WER so với 1.53% WER của Parakeet (2.620 bản ghi).",
+   "LibriSpeech test-other: đạt 2.86% WER so với 3.14% WER của Parakeet (2.939 bản ghi).",
+   "FLEURS English: đạt 3.82% WER so với 4.28% WER của Parakeet (647 bản ghi).",
+   "FLEURS pooled (25 ngôn ngữ): đạt 9.85% WER so với 11.01% WER của Parakeet (giảm 10.6% relative WER trên 20.146 bản ghi).",
+   "Accents/domains pooled (47 splits): đạt 15.25% WER so với 16.72% WER của Parakeet (12.006 bản ghi).",
+   "Accents/domains English (20 splits): đạt 8.84% WER so với 9.51% WER của Parakeet (5.120 bản ghi).",
+   "Độ trễ warm native Metal Q8 trên Apple M4 Pro: median giảm 42.4% (88.9 ms so với 154.2 ms ban đầu, 1.74x speedup); p95 giảm 44.4% (156.1 ms so với 280.8 ms)."
+  ],
+  "limitations": "Pha adapt cuối cùng r3 và khâu chọn checkpoint sử dụng trực tiếp tập LibriSpeech test-other (nguy cơ data contamination/overfitting trên tập test-other). Vẫn có 13/74 split kiểm thử không cải thiện so với Parakeet gốc. Benchmark độ trễ Metal v0.1.1 đầy đủ chưa được đo lại sau khi đóng gói SDK.",
+  "takeaways": "Việc thay thế một phần bộ lọc tích chập bằng hàm tham số hóa Gabor cố định là một phương pháp inductive bias hiệu quả giúp nén và tăng độ tổng quát hóa cho Conformer ASR. Orukeet là lựa chọn drop-in thay thế xuất sắc cho Parakeet TDT, đặc biệt tối ưu cho local inference trên thiết bị Apple Silicon và ONNX runtime.",
+  "strengths": [
+   "Ý tưởng Gabor kernel độc đáo và hiệu quả",
+   "Giảm WER trên 61/74 tập kiểm thử",
+   "Hỗ trợ đa nền tảng Metal, GGUF, ONNX",
+   "Tối ưu độ trễ Metal ấn tượng (1.74x)",
+   "Mở mã nguồn, weights và tài liệu đầy đủ"
+  ],
+  "weaknesses": [
+   "Fine-tune và chọn checkpoint trên LibriSpeech test-other",
+   "13/74 split không có sự cải thiện",
+   "Dữ liệu training lineage chưa mô tả đầy đủ"
+  ],
+  "context": "Nhóm nghiên cứu từ Oruk AI phối hợp cùng Stanford University, University of Cambridge, OpenWhispr và Hoid phát triển, công bố mã nguồn mở kèm preprint arXiv:2609.10054."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

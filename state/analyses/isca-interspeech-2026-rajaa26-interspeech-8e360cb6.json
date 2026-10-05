@@ -1,0 +1,50 @@
+{
+ "id": "isca:interspeech_2026/rajaa26_interspeech",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo tiên phong dùng pretraining sinh âm thanh đàm thoại 2 kênh (S2S generative pretraining) làm bước học biểu diễn cho bộ dự đoán turn-taking tường minh trong pipeline mô-đun.",
+  "credibility": "Công trình được công bố tại hội nghị đầu ngành Interspeech 2026 với tài liệu thử nghiệm chi tiết và mã nguồn công khai trên GitHub.",
+  "technical": "Thiết kế kiến trúc chặt chẽ với continuous Mimi embeddings, pipeline huấn luyện 2 giai đoạn rõ ràng kèm phân tích sâu về attention hierarchy và codebook ablation.",
+  "impact": "Giải quyết điểm nghẽn độ trễ và gián đoạn của production voice agent bằng mô hình nhẹ 0.5B chạy được trên CPU, có tính ứng dụng công nghiệp rất cao.",
+  "evidence": "Báo cáo đầy đủ số liệu thực nghiệm so sánh với baseline chuẩn (VAP, hệ thống audio-text 3.1B), kiểm chứng trên cả hai bộ dữ liệu Switchboard và otoSpeech cùng nghiên cứu ablation chi tiết."
+ },
+ "summary": {
+  "tldr": "DualTurn đề xuất phương pháp tận dụng pretraining sinh âm thanh hai kênh (dual-channel generative speech pretraining) để học biểu diễn tương tác hội thoại, sau đó fine-tune dự đoán các tín hiệu turn-taking tường minh cho pipeline ASR-LLM-TTS dạng mô-đun. Với kích thước 0.5B, mô hình chạy thời gian thực trên CPU và vượt trội cả mô hình Voice Activity Projection (VAP) lẫn hệ thống multimodal audio-text 3.1B về độ chính xác và khả năng dự đoán sớm lượt nói.",
+  "problem": "Các pipeline giọng nói sản xuất hiện nay (ASR-LLM-TTS) có năng lực suy luận và gọi công cụ mạnh mẽ nhưng phải dựa vào silence timeout để xác định lượt nói (turn-taking), dẫn đến phản hồi chậm hoặc ngắt lời người dùng. Ngược lại, các mô hình speech-to-speech (S2S) nội suy được turn-taking qua huấn luyện sinh âm thanh nhưng lại thiếu khả năng suy luận phức tạp và không thể chuyển giao trực tiếp vào pipeline mô-đun; đồng thời các giải pháp phân loại âm thanh/text hiện tại hoặc quá nặng hoặc không bao quát được overlap, backchannel và mid-turn pause.",
+  "method": "Mô hình nhận luồng âm thanh hai kênh 24 kHz, trích xuất continuous encoder embeddings (512 chiều mỗi kênh) từ Mimi neural codec đóng băng (frozen). Hai vector đặc trưng đi qua MLP riêng từng kênh, ghép nối và chiếu vào không gian ẩn (896 chiều) của backbone Qwen2.5-0.5B. Quá trình huấn luyện gồm 2 giai đoạn: (1) Stage-1 Generative Speech Pretraining: dự đoán autoregressive token âm thanh tiếp theo của cả hai người nói thông qua một depth predictor (~10.6M tham số, bị loại bỏ sau pretraining); (2) Stage-2 Turn-Taking Signal Prediction: gắn 12 classification head (6 head mỗi kênh) vào trạng thái ẩn cuối cùng để dự đoán 6 tín hiệu tự giám sát (EOT, HOLD, BOT, BC qua MLP 2 tầng dùng focal loss; VAD, FVAD 4 horizon qua linear projection dùng BCE). Các nhãn được làm mượt bằng asymmetric Gaussian cho phép dự đoán sớm tới 240 ms. Ở khâu suy luận, 18 giá trị đầu ra được tổng hợp thành 5 hành động agent (Start-talking, Continue-listening, Start-listening, Continue-talking, Backchannel) thông qua luật heuristic hoặc logistic regression (LR) probe.",
+  "setup": "Huấn luyện trên ~453 giờ hội thoại 2 kênh (289 giờ otoSpeech 24 kHz và 220 giờ Switchboard 8 kHz). Stage-1 huấn luyện LoRA (lr=3e-4) rồi full finetuning (lr=1e-5) trên 1 GPU A100 40GB; Stage-2 chỉ cập nhật classification head và LoRA (lr=1e-4) trong tối đa 10 epoch. Đánh giá trên tập test Switchboard (138 session) và otoSpeech (113 session). So sánh với baseline VAP (5.8M tham số) và mô hình audio+text fusion của Wang et al. (3.1B tham số, RedPajama + HuBERT). Độ trễ mô hình unquantized là ~78 ms trên CPU và 27 ms trên GPU A100 với stride 240 ms.",
+  "results": [
+   "Trên benchmark Switchboard (5 action classes), DualTurn (LoRA) đạt weighted F1 0.633 so với VAP (LR-6) đạt 0.389 và VAP (native) đạt 0.276.",
+   "Ở bài toán word-level turn prediction trên Switchboard, DualTurn với LR-probe đạt AUC trung bình 0.963 (EER 9.7%) và ngay cả khi chỉ dùng duy nhất tín hiệu EOT (không tham số kết hợp) cũng đạt AUC 0.914, vượt trội mô hình audio-text 3.1B của Wang et al. (AUC 0.880, EER 19.3%).",
+   "Khả năng dự đoán backchannel (BC F1) đạt 0.349 trên Switchboard (otoSpeech đạt 0.512), trong khi baseline VAP hoàn toàn không dự đoán được (BC F1 = 0.000).",
+   "Trên giao thức đánh giá frame-level 1s nguyên bản của VAP trên Switchboard, DualTurn (LoRA) vượt VAP trên mọi chỉ số: Shift/Hold wF1 0.985 vs. 0.843; Short/Long wF1 0.979 vs. 0.916; Shift-Prediction wF1 0.764 vs. 0.720; BC-Prediction wF1 0.864 vs. 0.838.",
+   "DualTurn phát hiện ranh giới chuyển lượt sớm hơn VAP khoảng 220 ms (trung vị -360 ms so với -140 ms tính từ điểm kết thúc nói), giảm nhầm lẫn ST-thành-CL từ 27.4% xuống 22.4% và giảm tỷ lệ ngắt lời 5 điểm phần trăm."
+  ],
+  "limitations": "Dù recall của tín hiệu Backchannel (BC) tăng mạnh lên 0.458, precision vẫn ở mức thấp (0.282) do tần suất xuất hiện BC dưới 8%, dẫn đến nhiều cảnh báo giả nếu dùng làm trigger đơn lẻ. Dữ liệu huấn luyện chỉ giới hạn ở ~453 giờ tiếng Anh giữa hai người nói (two-party), chưa được kiểm nghiệm trên ngữ cảnh đa người nói (multi-party), đa ngôn ngữ hay nhiều phương ngữ/phong cách đàm thoại khác nhau.",
+  "takeaways": "Pretraining sinh âm thanh hai kênh chính là chìa khóa giúp LLM học được cấu trúc phân tầng chú ý (multi-scale attention) và nắm bắt thông tin ngữ nghĩa/ngữ điệu cho turn-taking. Các kỹ sư xây dựng voice agent có thể dùng trực tiếp biểu diễn liên tục từ neural codec kết hợp LLM nhỏ gọn (0.5B) để dự đoán turn-taking chính xác, chạy mượt trên CPU mà không cần phụ thuộc vào VAD truyền thống hay silence timeout.",
+  "strengths": [
+   "Chạy thời gian thực trên CPU (~78 ms latency)",
+   "Vượt trội mô hình đa phương thức 3.1B dù chỉ 0.5B",
+   "Dự đoán turn-taking sớm hơn 220 ms so với VAP",
+   "Tự giám sát hoàn toàn, không cần nhãn thủ công",
+   "Cơ chế ánh xạ tín hiệu sang hành động minh bạch"
+  ],
+  "weaknesses": [
+   "Precision của Backchannel còn thấp (chỉ đạt 0.282)",
+   "Chỉ đánh giá trên tiếng Anh hai người nói",
+   "Phụ thuộc pipeline 2 giai đoạn cần pretraining tốn kém"
+  ],
+  "context": "Shangeth Rajaa (Anyreach AI), công bố tại Interspeech 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

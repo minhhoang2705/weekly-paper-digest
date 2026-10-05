@@ -1,0 +1,49 @@
+{
+ "id": "isca:interspeech_2026/tian26_interspeech",
+ "topic": "TTS",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo đề xuất paradigm mới sử dụng chuỗi suy luận planning và rich caption dạng text dài để điều khiển universal speech synthesis thay vì metadata slot cố định.",
+  "credibility": "Nhóm tác giả uy tín từ CMU, LY Corporation và NVIDIA Research, công bố tại hội nghị đầu ngành Interspeech 2026.",
+  "technical": "Thiết kế pipeline mô phỏng và lọc dữ liệu 6 bước rất chặt chẽ cùng kiến trúc hierarchical workflow (planning-caption-generation) trên nền tảng LLM-codec thống nhất.",
+  "impact": "Mở ra hướng tiếp cận human-centric cho các hệ thống TTS tương lai, dù việc thiếu voice cloning bằng audio prompt có thể hạn chế ứng dụng thực tế tức thì.",
+  "evidence": "Có đầy đủ kết quả thực nghiệm định lượng rõ ràng với WER, đánh giá LLM-as-a-judge và thử nghiệm MOS từ con người trên nhiều tác vụ khác nhau."
+ },
+ "summary": {
+  "tldr": "Bagpiper-TTS là hệ thống tổng hợp giọng nói đa năng (universal speech synthesis) điều khiển hoàn toàn bằng ngôn ngữ tự nhiên thay vì các slot metadata cứng nhắc. Bằng quy trình ba bước khép kín (Planning - Rich Caption - Generation) xây dựng trên mô hình nền tảng Bagpiper-Base, hệ thống hỗ trợ đa dạng tác vụ từ classical TTS, đối thoại đa người nói, intent-to-speech, nhập vai đến hát.",
+  "problem": "Các hệ thống TTS truyền thống và hiện đại (dựa trên LLM hoặc diffusion) phụ thuộc vào định dạng đầu vào cố định và metadata dạng slot định nghĩa sẵn (speaker ID, emotion, stress), tạo ra khoảng cách lớn với các yêu cầu tự do, đa dạng trong thực tế. Chúng gặp khó khăn khi mở rộng sang các bài toán phức tạp như đối thoại nhiều người nói, role-play và hát trong một kiến trúc thống nhất mà không làm tăng độ phức tạp của pipeline.",
+  "method": "Bagpiper-TTS kế thừa Bagpiper-Base (backbone Qwen3-8B-Base decoder-only LLM kết hợp audio tokenizer đa luồng X-Codec ở tần số 50Hz sinh ra 8 discrete code/frame, đã được pre-train trên 600 tỷ token). Quy trình thực thi end-to-end gồm 3 giai đoạn phân cấp:\n1. **Textual Planning**: Suy luận qua yêu cầu tự do của người dùng, phân tích ý đồ (intent understanding), bố cục kịch bản, và ràng buộc phong cách/môi trường.\n2. **Rich Caption Synthesis**: Sinh ra một bản đặc tả văn bản chi tiết (hàng trăm token cho đoạn 30 giây) bao gồm nội dung phiên âm (transcription) và thuộc tính âm học/phi ngôn ngữ (paralinguistic metadata).\n3. **Speech Generation**: Dựa trên rich caption để điều khiển việc sinh mã âm thanh với Classifier-Free Guidance (CFG).\nĐể phục vụ fine-tuning, nhóm tác giả xây dựng pipeline giả lập dữ liệu gồm 6 bước: curation dữ liệu âm thanh -> gán nhãn caption tự động (Qwen-30B-A3B-Captioner) -> lọc dựa trên WER transcription -> giả lập yêu cầu người dùng (User Request Simulation bằng text LLM) -> giả lập quá trình suy luận (Planning Process Simulation) -> thẩm định tính nhất quán văn bản (Textual Consistency Validation bằng LLM-as-a-judge). Tổng cộng 738k mẫu được tạo ra cho Classical TTS (31.9%), General-Purpose (20.8%), Role-Play (18.4%), Multi-Talker (13.8%), Intent-to-Speech (8.8%), và SVS (6.4%).",
+  "setup": "Mô hình được supervised fine-tuning trên 738k mẫu trong 2 epoch với global batch size 160k tokens, learning rate cố định 1e-5, sử dụng 8 GPU NVIDIA H100 trong 16 giờ. Khi suy luận dùng decoupled Top-k sampling và CFG với guidance scale λ = 3. Đánh giá gồm: Classical TTS trên Seed-TTS-Eval (En); các tác vụ nâng cao (Multi-talker, Intent-to-speech, Role-play, SVS) trên 300 prompt giả lập bằng GPT-OSS-120B (được cô lập khỏi pipeline tạo dữ liệu huấn luyện), đo bằng WER, task fulfillment score (TF) chấm bởi Gemini-3-Flash (thang 1-5) và đánh giá chủ quan người thật MOS (MTurk, 10 mẫu ngẫu nhiên/tác vụ, ít nhất 3 người chấm/mẫu).",
+  "results": [
+   "Seed-TTS-Eval (En): Bagpiper-TTS đạt WER 1.7% khi nhận prompt ngôn ngữ tự nhiên, vượt trội CosyVoice 2 (2.6%) và VibeVoice (3.0%), bám sát Qwen3-TTS (1.5%).",
+   "Multi-Talker TTS: Đạt WER 4.2% (so với VibeVoice-1.5B là 4.6%), Task Fulfillment (TF) đạt 4.23 (so với VibeVoice-1.5B là 3.32), và MOS chủ quan đạt 3.60 (so với VibeVoice-1.5B là 3.77).",
+   "Intent-to-Speech: Không có WER (do không có transcription cố định), đạt TF 3.80 và MOS 3.57.",
+   "Role-Play TTS: Đạt WER 2.0%, TF 3.72 và MOS 3.93.",
+   "Singing Voice Synthesis (SVS): Đạt WER 7.2% (so với YuE là 11.0%), TF đạt 4.60 (so với YuE là 3.75), và MOS chủ quan đạt 3.67 (so với YuE là 3.73)."
+  ],
+  "limitations": "Hiện tượng hallucination vẫn tồn tại ở các giai đoạn tạo dữ liệu mô phỏng và suy luận (đặc biệt trong khâu captioner tự động). Hệ thống tập trung hoàn toàn vào giao diện ngôn ngữ tự nhiên nên không tiếp nhận prompt âm thanh tham chiếu (reference audio) để định hình giọng nói cụ thể.",
+  "takeaways": "Sử dụng text planning và rich caption là hướng đi khả thi để chuyển đổi TTS từ slot-filling cứng nhắc sang giao diện hội thoại tự do, giải quyết được nhiều tác vụ đa dạng (đối thoại, hát, suy luận ý định) trong cùng một mô hình LLM hợp nhất mà vẫn đảm bảo tính chính xác và chất lượng âm thanh cao.",
+  "strengths": [
+   "Giao diện ngôn ngữ tự nhiên linh hoạt",
+   "Mô hình hợp nhất nhiều tác vụ phức tạp",
+   "Quy trình tự động mô phỏng dữ liệu chặt chẽ",
+   "Độ rõ âm tốt với WER thấp trên benchmark"
+  ],
+  "weaknesses": [
+   "Chưa hỗ trợ reference audio prompt",
+   "Dễ bị ảnh hưởng bởi hallucination từ captioner",
+   "Đánh giá chủ quan quy mô còn nhỏ (10 mẫu/task)"
+  ],
+  "context": "Nghiên cứu từ Language Technologies Institute, Carnegie Mellon University kết hợp cùng LY Corporation và NVIDIA Research; được công bố tại Interspeech 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

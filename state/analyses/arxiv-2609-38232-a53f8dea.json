@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2609.38232",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất bài toán kiểm định contract test với cấu trúc variable-onset và paired branches mới lạ để vạch trần các lỗi shortcut trong streaming turn-taking.",
+  "credibility": "Tác giả thuộc cơ quan nghiên cứu quốc gia (National Research Council Canada), bản thảo là preprint arXiv và phân tích minh bạch các lỗi dữ liệu trước đó.",
+  "technical": "Thiết kế thực nghiệm và xử lý kỹ thuật kiểm soát rò rỉ âm thanh (crossfade, noise level) rất cẩn thận, dù phương pháp mô hình hóa chỉ dừng ở linear probe.",
+  "impact": "Tác động ở mức cảnh báo phương pháp luận đánh giá cho cộng đồng SLM, chưa cung cấp kiến trúc mô hình hay dataset tự nhiên quy mô lớn sẵn sàng triển khai.",
+  "evidence": "Báo cáo số liệu chi tiết với khoảng tin cậy bootstrap 1.000 lần, paired differences, và phân tích permutation test trung thực với các giới hạn thực nghiệm."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu đề xuất PACT-SLM, một bài kiểm tra đánh giá theo hợp đồng (contract test) với variable-onset nhằm phân định ranh giới bằng chứng hành động và thời điểm hành động cho spoken agents. Qua cấu trúc cặp đối chiếu (paired contrast) kiểm soát các đường tắt (shortcuts) như thời gian trôi qua hay endpoint, kết quả cho thấy việc nhận diện hành động và xác định thời điểm kích hoạt là hai năng lực tách biệt.",
+  "problem": "Các mô hình streaming spoken language models (SLM) và full-duplex có thể đưa ra quyết định hành động trước khi người dùng dứt lời, nhưng các phép đo điểm cuối (final-turn scores) không thể phát hiện lỗi hệ thống hành động quá sớm trước khi có đủ bằng chứng âm thanh. Đánh giá hiện tại thiếu một ràng buộc kiểm soát để biết tiền tố (prefix) nào đang hiển thị, thời điểm hợp lệ đầu tiên của hành động, và liệu mô hình có lợi dụng các lối tắt như độ dài thời gian trôi qua hay điểm kết thúc hay không.",
+  "method": "PACT-SLM xây dựng 340 nhóm đối chiếu gồm 2 câu sinh tự động khớp transcript nhưng khác nhãn hành động đích. Hai nhánh giữ nguyên audio giống hệt nhau (byte-identical) cho đến prefix cuối cùng gán nhãn WAIT, sau đó phân kỳ tại điểm giữa thời gian trước prefix hành động đầu tiên hợp lệ ($k^*_i \\in \\{0.4, 0.6, 0.8\\}$) kèm crossfade 50 ms. Prefixes được cắt ở 5 tỷ lệ {0.2, 0.4, 0.6, 0.8, 1.0}, bổ sung nhiễu Gaussian 15 dB cấp độ cặp trước khi crop để giữ tính lồng ghép (nested). Nghiên cứu trích xuất biểu diễn từ WavLM Base Plus đóng băng (768 chiều, mean-pooling) huấn luyện qua multinomial logistic regression, sau khi sửa lỗi ánh xạ nhãn nhánh lịch sử bằng nhãn ngữ nghĩa từ source-index. Các baseline kiểm soát gồm: Always wait, Endpoint plurality, Elapsed time only, Authored text only (TF-IDF), Scalar acoustics, và Prefix-shuffled WavLM.",
+  "setup": "Tập dữ liệu chẩn đoán gồm 4.200 bản ghi prefix từ 680 quỹ đạo nguồn (340 nhóm): Train gồm 208 nhóm (2.080 records clean), Development gồm 52 nhóm (520 records clean), và Test gồm 80 nhóm (1.600 records trên cả clean và noise 15 dB) từ 4 họ ngữ nghĩa chưa từng thấy (book uncertainty, calendar noise, message barge-in, timer urgency). Đánh giá sử dụng bootstrap theo nhóm 1.000 lần và kiểm định hoán vị 100 lần. Phần cứng/phần mềm: PyTorch 2.6.0, TorchAudio 2.6.0, CUDA 12.4; WavLM Base Plus có 94,4M tham số ở tần số lấy mẫu 16 kHz.",
+  "results": [
+   "WavLM Base Plus đạt độ chính xác nhãn ngữ nghĩa sau onset (pooled post-onset label accuracy) là 26,03% [22,14%, 29,68%], cao hơn prefix-shuffled WavLM (15,29%, chênh lệch +10,74%), scalar acoustics (14,88%, chênh lệch +11,16%) và authored text (18,60%, chênh lệch +7,44%).",
+   "Trong phép kiểm định 100-permutation hoán vị nhãn nội bộ prefix, điểm 26,03% của WavLM Base Plus nằm ở phân vị thứ 96, thấp hơn ngưỡng tham chiếu phân vị thứ 97,5 (26,73%), do đó chưa đủ cơ sở để khẳng định hiệu ứng đặc thù giọng nói mạnh mẽ.",
+   "Về độ chính xác thời điểm onset (onset exactness), mô hình chỉ dựa vào thời gian trôi qua (Elapsed time only) đạt 36,25% [25,00%, 47,50%], vượt trội so với WavLM Base Plus chỉ đạt 23,13% [17,81%, 28,13%] (chênh lệch WavLM trừ Elapsed time là -13,12%).",
+   "WavLM Base Plus kích hoạt hành động sớm ngoài ý muốn trên 18,99% [14,19%, 24,85%] tiền tố trước onset và chỉ dự đoán chính xác toàn bộ quỹ đạo (trajectory exactness) 5,94% [3,44%, 9,06%].",
+   "Dưới điều kiện nhiễu 15 dB chưa từng thấy, độ chính xác nhãn sau onset của WavLM Base Plus giảm từ 38,43% xuống 13,64%, và trajectory exactness sụt giảm từ 11,25% xuống 0,62%."
+  ],
+  "limitations": "Bộ kiểm tra dựa trên tiếng nói nhân tạo được gán nhãn onset cơ học, chưa đo lường cảm nhận tự nhiên của con người hay tính phù hợp của hành động. Không đánh giá mô hình streaming SLM hoàn chỉnh mà chỉ khảo sát probe hồi quy trên biểu diễn WavLM đóng băng. Đợt kiểm tra chỉ dừng lại ở phân tích post-audit trên embedding lưu sẵn, mã nguồn phát hành chỉ hỗ trợ rescore chứ không chứa tệp audio gốc hoặc code trích xuất lại đặc trưng.",
+  "takeaways": "Không thể dùng một thước đo duy nhất ở cuối câu để đánh giá spoken agent streaming; việc nhận diện hành động và căn thời điểm kích hoạt phải được đo lường tách biệt. Thời lượng trôi qua là một lối tắt nguy hiểm giúp dự đoán thời điểm tốt hơn cả mô hình âm thanh nhưng lại kém trong việc nhận diện đúng hành động.",
+  "strengths": [
+   "Thiết kế đối chiếu biến thiên thời điểm chặt chẽ",
+   "Kiểm soát triệt để các shortcut âm học và text",
+   "Phân tích thống kê và kiểm định hoán vị cẩn trọng",
+   "Minh bạch phát hiện và sửa chữa lỗi nhãn lịch sử"
+  ],
+  "weaknesses": [
+   "Chỉ thử nghiệm probe tuyến tính trên speech tổng hợp",
+   "Chưa đánh giá end-to-end trên native streaming SLMs",
+   "Dữ liệu audio gốc và pipeline trích xuất chưa công khai"
+  ],
+  "context": "Tác giả Mengzhe Geng thuộc National Research Council Canada; bản thảo công bố trên arXiv (cs.SD) vào tháng 09/2026 kèm mã nguồn rescoring trên GitHub."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

@@ -1,0 +1,54 @@
+{
+ "id": "arxiv:2609.21967",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình tiên phong tích hợp native tool calling vào hệ thống full-duplex speech-to-speech hoàn toàn mở thông qua kiến trúc kênh hàm số song song thay vì tuần tự hóa như DuplexSLA.",
+  "credibility": "Tài liệu đến từ nhóm nghiên cứu AI/Speech uy tín của NVIDIA, công bố phương pháp và kiến trúc chi tiết, đồng thời phát hành trọng số mô hình trên Hugging Face.",
+  "technical": "Thiết kế kỹ thuật sâu sắc kết hợp FastConformer, Nemotron 9B, RNN-T phụ, MoG-based TTS decoder và pipeline suy luận đồng bộ phức tạp qua Triton Server và custom vLLM.",
+  "impact": "Đặt nền móng mở đầu tiên cho các trợ lý giọng nói tương tác thời gian thực có thể thao tác với API ngoại vi, thu hẹp khoảng cách với các giải pháp đóng như OpenAI Realtime API.",
+  "evidence": "Cung cấp đầy đủ số liệu thực nghiệm trên nhiều bộ benchmark chuẩn (FDB 1.0/1.5/3.0, VoiceBench, OpenASR, LibriTTS) với các đường cơ sở cạnh tranh mạnh mẽ."
+ },
+ "summary": {
+  "tldr": "NemotronLabs VoiceChat là một mô hình speech-to-speech song công (full-duplex) mã nguồn mở tích hợp khả năng gọi công cụ (tool calling) trực tiếp. Mô hình kết hợp streaming speech encoder, backbone LLM decoder-only với các luồng đầu ra song song chuyên biệt cho văn bản và function calling, nhánh phụ RNN-T để nhận dạng lời nói người dùng, cùng streaming TTS decoder. Thiết kế này giúp hệ thống nghe, phiên âm, suy luận, gọi công cụ và nói chuyện trên cùng một dòng thời gian thời gian thực mà không làm gián đoạn tương tác hội thoại.",
+  "problem": "Phần lớn các voice agent hiện nay hoạt động ở chế độ bán song công (half-duplex) dựa trên VAD, chỉ phản hồi sau khi người dùng ngừng nói, làm mất đi các tính chất tự nhiên của hội thoại như chen ngang (barge-in), phản hồi đệm (backchannel) hay phân định lượt lời chính xác. Mặc dù các mô hình song công gần đây đã cải thiện động lực hội thoại, việc tích hợp khả năng gọi công cụ ngoại vi (tool calling) vào mô hình song công mở vẫn chưa được khám phá đầy đủ, hoặc bị tuần tự hóa (serialization) vào kênh sinh văn bản gây trễ.",
+  "method": "NemotronLabs VoiceChat sử dụng kiến trúc streaming đa luồng:\n- **Perception & STT**: Waveform người dùng (16-kHz) được xử lý qua streaming encoder FastConformer 600M tham số (24 layer, hidden dimension 1024, downsample 8x thành 80 ms/frame, causal với 70-frame left context). Trạng thái encoder được đưa qua adapter vào LLM backbone (NVIDIA Nemotron-Nano-9B-v2-Base) và đồng thời nuôi một nhánh phụ RNN-T (prediction network 2 layer 640 dim, joint network 640 dim, 1024 BPE) để streaming user transcription độc lập.\n- **Tool Calling Channel**: Kênh hàm số (function channel) tự hồi quy chuyên biệt chạy song song với kênh agent-text. Tầng modality-fusion tính tổng trọng số của audio embedding (weight 1), agent-text token embedding trước đó (weight 1), và function token embedding trước đó (weight 2). Kênh này xuất padding khi không gọi công cụ và xuất chuỗi JSON tool call kẹp giữa `<SOTC>` và `<EOTC>`. Runtime sử dụng kỹ thuật 'fast-decode' để trích xuất tool call và 'fast-inject' kết quả trả về (`<TOOL_RESPONSE>` đến `<EOTR>`).\n- **VoiceChat-TTS Decoder**: Acoustic backbone Gemma 3 (778M) kết hợp causal audio codec (199M) sinh waveform 22-kHz ở 12.5 Hz (31 mức RVQ). Sử dụng Character-Aware Subword Encoder và Mixture-of-Gaussians estimation head (4–8 bước tinh chỉnh) để sinh âm thanh theo khung thời gian 80 ms stream từ agent text.\n- **Huấn luyện**: Gồm 2 giai đoạn: Continual Pre-training (CPT) trên dữ liệu text chuyển thành pseudo-dialogue 2 kênh (tỷ lệ 0.95 speech-text pretraining, 0.05 single-turn QA) và Supervised Fine-Tuning (SFT) đa tác vụ (retention 46.8%, conversational 23.8%, tool calling 26.0%, safety 3.4%) kết hợp data augmentation (early interruption $p=0.1$, backchannel injection $p=0.05$, text-channel delay 160 ms).",
+  "setup": "Đánh giá trên Full-Duplex-Bench (FDB) 1.0 (pause handling, smooth turn-taking, user interruption), FDB 1.5 (user-backchannel condition), FDB 3.0 (tool calling với disfluency), VoiceBench (9 tập con đo lường trí tuệ), OpenASR Leaderboard (8 tập dữ liệu đo WER với chunk 80ms và 160ms) và LibriTTS (đo WER, SECS, SQuIM-MOS cho TTS). Hệ thống được huấn luyện trên 64 GPU với AdamW (lr $5 \\times 10^{-5}$, bf16) và chạy benchmark suy luận trên 1 GPU NVIDIA H100 PCIe 80GB (Triton Inference Server + fork tùy biến vLLM).",
+  "results": [
+   "FDB 1.0 Pause Handling: Takeover Rate (TOR) thấp nhất trong các mô hình open-weight với 15.3% trên Synthetic và 25.5% trên CANDOR (so với Moshi 98.5%/98.0%, PersonaPlex 35.8%/43.1%).",
+   "FDB 1.0 Turn-taking & Interruption: Đạt Smooth turn-taking TOR 81.5% (latency 0.448 s), User interruption TOR 100.0% với latency 0.480 s và điểm chất lượng phản hồi GPT-4o đạt 4.33/5 (vượt Moshi 0.77, Freeze-Omni 3.62, PersonaPlex 4.29).",
+   "FDB 1.5 Backchannel: Đạt tỷ lệ Resume 93.0% (cao nhất trong các hệ thống open-weight, Freeze-Omni đạt 80.0%, Moshi đạt 6.0%) và chỉ phản hồi nhầm 1.0%.",
+   "VoiceBench: Điểm trung bình chuẩn hóa đạt 55.1 (ngang Freeze-Omni 55.2, vượt trội Moshi 29.5 và PersonaPlex 30.6); đạt điểm an toàn AdvBench 100.0 (tuyệt đối).",
+   "FDB 3.0 Tool Calling: Đạt Tool Selection F1 82.5% (vượt Gemini Live 2.5 đạt 78.6% và Gemini Live 3.1 đạt 81.7%), Argument Accuracy đạt 42.2% và Pass@1 đạt 33.0%.",
+   "ASR (OpenASR Leaderboard): Điểm WER trung bình trên 8 tập dữ liệu đạt 9.02% với chunk 80 ms và giảm xuống 8.28% với chunk 160 ms.",
+   "TTS (LibriTTS unseen turn 1): WER 2.00%, SECS 0.757, SQuIM-MOS 4.380 (vượt Audio Flamingo 3-Chat với WER 4.51% và MOS 3.600).",
+   "Hiệu năng suy luận: Đo trên 1 GPU H100 PCIe với 4 luồng đồng thời đạt per-stream p95 latency 118 ms trên mỗi chunk audio 160 ms (thông lượng 1.36x real-time)."
+  ],
+  "limitations": "Cửa sổ ngữ cảnh âm thanh tối đa chỉ khoảng 2 phút; khả năng gọi công cụ giảm sút khi có nhiều hơn 5 công cụ trong phiên làm việc; gọi nhiều công cụ đồng thời chưa ổn định, còn gặp lỗi bịa tham số (invented arguments) hoặc trả lời từ tri thức nội tại thay vì gọi tool; không hỗ trợ barge-in trong lúc công cụ đang thực thi; độ suy giảm nhận dạng và tương tác khi môi trường có độ vang hoặc nhiều tạp âm/tiếng người nói nền lớn; xảy ra hiện tượng trôi giọng nói (identity drift) ở zero-shot TTS sau 4 lượt hội thoại (SECS giảm từ 0.757 xuống 0.685).",
+  "takeaways": "Việc tách biệt kênh tool-calling và text generation thành các stream song song cho phép đưa tính năng function calling vào hệ thống speech-to-speech song công thời gian thực mà không làm nghẽn pipeline hội thoại. Kỹ thuật chèn tin nhắn đệm (filler message) và cơ chế can thiệp endpointing từ nhánh RNN-T là các giải pháp kỹ thuật hữu ích để che giấu độ trễ mạng/API và kiểm soát lượt lời trong thực tế.",
+  "strengths": [
+   "Hệ thống full-duplex open-weight đầu tiên hỗ trợ tool calling",
+   "Luồng function calling song song tránh nghẽn timeline hội thoại",
+   "Xử lý ngắt lời và backchannel xuất sắc trên FDB",
+   "Tích hợp đồng thời streaming ASR, TTS và LLM 9B",
+   "Runtime tối ưu đạt 1.36x real-time trên H100"
+  ],
+  "weaknesses": [
+   "Độ chính xác trích xuất argument cho tool còn thấp",
+   "Không hỗ trợ user barge-in khi tool đang chạy",
+   "Hiện tượng trôi danh tính người nói ở zero-shot TTS",
+   "Cửa sổ ngữ cảnh hội thoại giới hạn ở 2 phút"
+  ],
+  "context": "Nghiên cứu được thực hiện bởi đội ngũ NVIDIA (tác giả chính gồm Jagadeesh Balam, Boris Ginsburg và nhóm tác giả), phát hành dưới dạng báo cáo kỹ thuật mã nguồn mở (arXiv, tháng 9/2026) với trọng số mô hình được cung cấp trên Hugging Face."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

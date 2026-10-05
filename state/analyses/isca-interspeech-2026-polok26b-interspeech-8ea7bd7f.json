@@ -1,0 +1,52 @@
+{
+ "id": "isca:interspeech_2026/polok26b_interspeech",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 5,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tích hợp layer-wise diarization conditioning (FDDT) vào acoustic encoder của Spoken LLM để trích xuất target speaker và giữ decoder đông băng là hướng tiếp cận mới mẻ, giải quyết triệt để hạn chế của SOT.",
+  "credibility": "Nghiên cứu đến từ hai phòng lab đầu ngành về speech processing (Speech@FIT và CMU LTI), được chấp nhận công bố tại hội nghị uy tín Interspeech 2026.",
+  "technical": "Thiết kế kiến trúc FDDT chi tiết, phân tích độ phức tạp thuật toán O(S*N^2) thuyết phục, kỹ thuật khởi tạo và ablation study được thực hiện cẩn thận.",
+  "impact": "Cung cấp giải pháp thực tế giúp triển khai Spoken LLM trong các bài toán phòng họp/hội thoại phức tạp; mở mã nguồn và phát hành benchmark NSF-QA thúc đẩy cộng đồng.",
+  "evidence": "Thực nghiệm chi tiết trên 4 bộ dữ liệu ASR chuẩn và benchmark NSF-QA mới, có so sánh định lượng rõ ràng với các baselines mạnh (Gemini 3.0 Flash, VibeVoice, Voxtral)."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu đề xuất Dixtral, phương pháp mở rộng Spoken LLM (SLM) sang môi trường nhiều người nói (far-field multi-talker) bằng cách điều kiện hóa acoustic encoder dựa trên diarization masks và đóng băng hoàn toàn LLM decoder. Mô hình kết hợp encoder DiCoW vào SLM Voxtral, giúp giảm thiểu hiện tượng catastrophic forgetting các năng lực suy luận và tóm tắt. Dixtral vượt trội đáng kể so với Gemini 3.0 Flash, VibeVoice và Voxtral MTv2 về nhận dạng tiếng nói phân định người nói (speaker-attributed ASR) và khả năng hỏi đáp paralinguistic.",
+  "problem": "Phần lớn các hệ thống Spoken LLM xử lý multi-talker hiện nay dựa vào Serialized Output Training (SOT). Phương pháp này ghép các câu thoại xen kẽ và yêu cầu thêm các token chuyển đổi người nói, buộc phải mở rộng từ vựng của LLM và fine-tune decoder. Việc này dẫn đến hai hạn chế lớn: gây ra catastrophic forgetting đối với năng lực suy luận/tóm tắt/QA vốn có của LLM, và độ phức tạp tính toán giải mã tự hồi quy tăng theo bậc hai O((S*N)^2) so với O(S*N^2) khi trích xuất từng người nói độc lập.",
+  "method": "Dixtral tích hợp kiến trúc của Voxtral (gồm Whisper encoder, MLP modality adapter và Ministral 3B decoder) với cơ chế của DiCoW (Diarization-Conditioned Whisper):\n- **STNO Probabilities**: Từ output của hệ thống diarization, tính toán xác suất cấp khung thời gian cho 4 trạng thái: Silence (S), Target (T), Non-target (N), Overlap (O).\n- **Frame-Level Diarization-Dependent Transformations (FDDT)**: Thay vì che (mask) âm thanh đầu vào thô, các xác suất STNO được tích hợp vào từng Transformer layer của acoustic encoder thông qua các ma trận affine biến đổi đường chéo có thể học (W_i, b_i), điều biến các biểu diễn nội bộ theo trọng số xác suất.\n- **Đóng băng Decoder và Adapter**: Khi fine-tune, LLM decoder và modality adapter (MLP gồm 2 phép chiếu tuyến tính + kích hoạt GELU) được giữ đóng băng hoàn toàn; chỉ có các lớp encoder và tham số FDDT được cập nhật.\n- **Chuyển đổi tác vụ linh hoạt (Dynamic Task Switching)**: Có thể trích xuất người nói mục tiêu bằng STNO mask, hoặc chuyển sang suy luận ngữ cảnh âm thanh toàn cục bằng cách đặt p_T=1 và các xác suất khác bằng 0 cho toàn bộ khung thời gian.",
+  "setup": "Đánh giá multi-talker ASR trên 4 tập dữ liệu: NOTSOFAR-1 (NSF-1), AMI, LibriSpeechMix (LSMix) và Mixer6 (MX6, out-of-domain) bằng thước đo cpWER (Concatenated Minimum-Permutation WER). Sử dụng hệ thống DiariZen làm diarization backbone. Đánh giá Audio QA và Summarization trên benchmark mới NSF-QA (xây dựng trên NSF-1) gồm Content QA (Entity, Topic, Yes/No, Detail), Paralinguistic QA (Emotion với 9 nhãn từ emotion2vec, Gender) và Summarization (<50 từ, đo bằng ROUGE-L tối đa qua 5 bản tóm tắt tham chiếu tạo bởi Gemini 2.5 Flash). QA accuracy được chấm tự động bằng Gemini 2.5 Flash làm LLM judge. Huấn luyện trên 8 GPU A5000 24GB (bfloat16, gradient checkpointing, batch size hiệu dụng 32, 20k steps); fine-tuning QA/tóm tắt chạy trên GPU H100.",
+  "results": [
+   "Về nhận dạng tiếng nói (macro-average cpWER trên 4 tập dữ liệu): Dixtral đạt 15.4% cpWER, vượt trội rõ rệt so với Gemini 3.0 Flash (44.4%), VibeVoice (35.2%) và Voxtral MTv2 (31.4%), tiến gần sát mô hình chuyên biệt DiCoW v3.3 (14.0%).",
+   "Trên NOTSOFAR-1: Dixtral đạt 29.1% cpWER so với Gemini 3.0 Flash (39.1%), VibeVoice (35.8%) và Voxtral MTv2 (54.4%).",
+   "Trên AMI (SDM): Dixtral đạt 19.8% cpWER so với Gemini 3.0 Flash (56.3%), VibeVoice (33.7%) và Voxtral MTv2 (42.3%).",
+   "Trên Mixer6 CH4 (out-of-domain): Dixtral đạt 14.4% cpWER, tốt hơn Gemini 3.0 Flash (58.3%), Voxtral MTv2 (19.4%) và VibeVoice (16.0%).",
+   "Zero-shot NSF-QA trên audio far-field: Dixtral đạt 54.6% Content QA (ngang ngửa Gemini 3.0 Flash đạt 55.1%), 25.4% Emotion QA và 24.4 ROUGE-L (tương đương với Voxtral Mv1 chạy trên audio close-talk đơn người nói là 25.5% và 24.1 ROUGE-L).",
+   "Finetuned NSF-QA trên audio far-field: Dixtral đạt 73.0% Content QA, 47.6% Emotion QA, 95.5% Gender QA và 41.4 ROUGE-L, vượt qua cả Gemini 3.0 Flash chạy trên tín hiệu close-talk (68.1% Content QA, 34.1% Emotion QA, 75.0% Gender QA, 26.4 ROUGE-L)."
+  ],
+  "limitations": "Việc fine-tune cho tác vụ suy luận downstream (QA và Summarization) làm suy giảm độ chính xác nhận dạng ASR nguyên bản (cpWER trên Mixer-6 tăng từ 14.5% lên 26.1%). Thêm LoRA vào decoder giúp tăng nhận diện thuộc tính người nói (Gender QA đạt 73.3%) nhưng làm giảm khả năng bám sát chỉ dẫn (instruction-following), đôi khi tạo ra bản phiên âm nguyên văn thay vì tóm tắt (ROUGE-L giảm xuống 15.4). Hiệu năng phụ thuộc vào chất lượng hệ thống diarization bên ngoài. Benchmark QA sử dụng Gemini 2.5 Flash cho cả tạo dữ liệu và làm judge, tiềm ẩn tính circularity.",
+  "takeaways": "Điều kiện hóa acoustic encoder bằng diarization mask là giải pháp tối ưu để mở rộng Spoken LLM sang multi-speaker audio vì giữ nguyên được LLM decoder và tránh catastrophic forgetting. Cách tiếp cận target-speaker extraction có độ phức tạp tính toán suy luận theo quy mô O(S*N^2), mở rộng hiệu quả hơn nhiều so với phương pháp SOT O((S*N)^2) khi LLM ngày càng lớn. Hệ thống cho phép khai thác trực tiếp thông tin paralinguistic (cảm xúc, giới tính) trong môi trường nhiều người nói mà các pipeline cascaded ASR + LLM không thể làm được.",
+  "strengths": [
+   "Giữ nguyên LLM decoder tránh catastrophic forgetting",
+   "cpWER vượt trội so với Gemini và VibeVoice",
+   "Độ phức tạp giải mã mở rộng O(S*N^2) tốt",
+   "Xử lý trực tiếp paralinguistic QA từ far-field audio",
+   "Mã nguồn, checkpoint và benchmark được công khai"
+  ],
+  "weaknesses": [
+   "Fine-tuning QA/tóm tắt làm giảm độ chính xác ASR",
+   "Phụ thuộc vào mô hình diarization bên ngoài",
+   "Đánh giá QA dùng Gemini làm trọng tài (circularity)",
+   "Chưa mở rộng đánh giá đa ngôn ngữ"
+  ],
+  "context": "Alexander Polok et al. (Speech@FIT - Brno University of Technology, Czechia và LTI - Carnegie Mellon University, USA), công bố tại Interspeech 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

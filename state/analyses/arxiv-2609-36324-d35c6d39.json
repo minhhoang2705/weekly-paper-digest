@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2609.36324",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo khéo léo thích ứng Eulerian flow-map distillation sang TTS có điều kiện bằng forward-mode JVP tiết kiệm bộ nhớ, đề xuất thuật toán lập lịch TD-DP không cần metric ngoài và đưa ra cơ chế temporal self-distillation dùng soft-DTW cho 1-step TTS.",
+  "credibility": "Tác giả đến từ viện nghiên cứu MBZUAI uy tín, tuy nhiên tài liệu hiện ở dạng bản thảo preprint trên arXiv và chưa qua bình duyệt tại hội nghị chuyên ngành.",
+  "technical": "Công thức toán học vi phân chặt chẽ, tối ưu hóa forward-mode JVP để giảm 6 lần bộ nhớ đỉnh cùng thiết kế hàm mất mát TD-DP và soft-DTW divergence xử lý triệt để bài toán căn chỉnh thời gian.",
+  "impact": "Đóng góp giải pháp thiết thực giúp tăng tốc độ huấn luyện distillation và suy diễn TTS few-step, nhưng mức độ ảnh hưởng diện rộng còn chờ mã nguồn mở và kiểm chứng thực tế từ cộng đồng.",
+  "evidence": "Cung cấp đầy đủ số liệu thực nghiệm so sánh với baseline mạnh (IntMeanFlow do chính tác giả tái lập), đo đạc chi tiết trên 2 bộ benchmark (Seed-TTS và LibriSpeech-PC) với nhiều độ đo chuẩn (WER, SIM-o, UTMOS, RTF)."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu đề xuất Local Flow-Map Distillation (LFMD) nhằm chưng cất mô hình flow-matching TTS xuống vài bước tạo (few-step) mà không cần tích phân quỹ đạo của teacher trong quá trình tạo target. Kết hợp với thuật toán lập lịch suy diễn TD-DP dựa trên đồ thị chi phí nhất quán và kỹ thuật temporal self-distillation sử dụng soft-DTW, mô hình đạt WER 1.80% chỉ với 1-NFE trên Seed-TTS, tiệm cận mức 1.76% của teacher 32-NFE.",
+  "problem": "Các mô hình flow-matching TTS (như F5-TTS, E2 TTS) cho chất lượng cao nhưng đòi hỏi số lượng hàm đánh giá mạng lớn (NFEs, thường 32 bước) qua tích phân số ODE. Các phương pháp chưng cất flow-map trước đây (IntMeanFlow, DSFlow) phải xấp xỉ vận tốc trung bình bằng cách tích phân quỹ đạo teacher, dẫn đến sự đánh đổi giữa độ chính xác của target và chi phí huấn luyện (phụ thuộc vào bộ giải ODE, lưới rời rạc hóa và số bước teacher). Ngoài ra, các phương pháp lập lịch suy diễn hiện có hoặc mang tính thực nghiệm thủ công (EPSS) hoặc đòi hỏi tìm kiếm lặp tốn kém qua mô hình đánh giá âm thanh bên ngoài (O3S).",
+  "method": "LFMD gồm 3 thành phần cốt lõi:\n- **Local Flow-Map Distillation (LFMD):** Áp dụng đồng nhất thức vi phân thời điểm khởi hành (departure-time flow-map identity) $\\bar{u}_T = v_T + (s-t) \\frac{d\\bar{u}_T}{dt}$ vào TTS có điều kiện. Target được xây dựng cục bộ chỉ từ vận tốc teacher $v_T$ tại trạng thái xuất phát $x_t$ mà không cần rollout ODE qua $[t, s]$. Đạo hàm tổng $\\dot{u}$ được tính qua forward-mode JVP dọc theo $(v_T, 1)$. Bằng cách tắt reverse-mode graph ở nhánh JVP và teacher, bộ nhớ huấn luyện đỉnh giảm khoảng 6 lần trong PyTorch. Quá trình học được ổn định nhờ curriculum tăng dần độ dài khoảng $\\Delta = s-t$ ($h_k$), hệ số hiệu chỉnh đạo hàm $\\beta_k$ tăng lên 0.95, và hàm phạt neo vận tốc teacher ở khoảng ngắn $\\lambda_a \\alpha(\\Delta) \\|u_\\theta - v_T\\|_M^2$.\n- **Teacher-Derived Step Scheduling (TD-DP):** Lập lịch suy diễn qua quy hoạch động trên một đồ thị chi phí tích lũy chung kết hợp: (1) chi phí nhất quán teacher cục bộ $C_T$ (dùng chính JVP để đo đạo hàm dọc theo trường teacher) và (2) chi phí nhất quán hợp thành $C_C$ (kiểm tra tính chất nửa nhóm qua việc gộp ánh xạ tại điểm giữa logit-time). Một đồ thị chi phí tính toán một lần có thể tái sử dụng cho mọi ngân sách NFE mà không cần mô hình đánh giá âm thanh bên ngoài.\n- **Temporal Self-Distillation cho 1-NFE:** Dùng mô hình LFMD 4 bước (đã đóng băng) làm mục tiêu tự chưng cất cho các mô hình 1-3 NFE. Để giải quyết sai lệch căn chỉnh thời gian cục bộ giữa multistep target và 1-step prediction, phương pháp sử dụng hàm mất mát phân kỳ soft-DTW có giới hạn biên độ (band-constrained, $b=4, \\gamma=0.1$) kết hợp self-comparison correction, đồng thời bổ sung hai số hạng chuẩn hóa MSE toàn độ phân giải ($0.1 \\|S-Y\\|_M^2$) và neo chống trôi nguồn ($0.1 \\|S-S_0\\|_M^2$).",
+  "setup": "Huấn luyện từ đầu các teacher F5-TTS gồm kích thước Small (160M), Base (350M), Medium (600M) trên 95k giờ dữ liệu tiếng Anh và tiếng Trung Emilia, cùng một bản Small trên 585 giờ LibriTTS; sử dụng vocoder Vocos (24-kHz). Baseline so sánh chính là IntMeanFlow (IMF, được nhóm tái lập chính xác với 16 bước tích phân Sway-sampling). Đánh giá trên tập Seed-TTS test-en và LibriSpeech-PC test-clean theo giao thức cross-sentence. Chỉ số đánh giá gồm: Whisper large-v3 WER (%), WavLM SIM-o, và UTMOS (trung bình qua 3 seed). Đo lường RTF trên phần cứng AMD MI210.",
+  "results": [
+   "Chi phí huấn luyện LFMD tương đương IMF 4 bước teacher, và nhanh hơn khoảng 1.5×, 2.5×, 4× so với IMF sử dụng lần lượt 8, 16, và 32 bước teacher.",
+   "Trên Seed-TTS test-en (Emilia Base, 1 NFE): LFMD thô + TD-DP đạt WER 5.49%, SIM-o 0.558, UTMOS 2.82 so với IMF + O3S đạt WER 7.77%, SIM-o 0.515, UTMOS 1.98.",
+   "Sau khi áp dụng Temporal Self-Distillation (soft-DTW) ở 1 NFE (Emilia Base): LFMD + TD-DP + DTW đạt WER 1.80%, SIM-o 0.607, UTMOS 3.41, vượt trội so với self-distillation MSE dạng frame-wise (WER ~3.9%) và bám sát teacher 32-NFE (WER 1.76%, SIM-o 0.667, UTMOS 3.76).",
+   "Ở cấu hình 4 NFEs (Emilia Base): LFMD + TD-DP đạt WER 1.59%, SIM-o 0.637, UTMOS 3.70 (vượt teacher về WER 1.59% vs 1.76%), so với IMF + O3S đạt WER 1.68%, SIM-o 0.655, UTMOS 3.73.",
+   "Trên LibriSpeech-PC test-clean (LibriTTS Small, 1 NFE): LFMD đạt WER 6.85%, SIM-o 0.510, UTMOS 2.28 so với IMF đạt WER 8.08%, SIM-o 0.508, UTMOS 2.18.",
+   "Tốc độ suy diễn (RTF × 10^-2 trên AMD MI210): Cấu hình Base 1 NFE đạt RTF 1.63, nhanh hơn khoảng 10× so với teacher 32 bước (RTF 20.33); LFMD và IMF có chi phí suy diễn tương đương nhau."
+  ],
+  "limitations": "Mặc dù đạt WER 1.80% ở 1 NFE tiệm cận teacher (1.76%), chất lượng âm thanh và độ tương đồng người nói ở 1 NFE vẫn còn khoảng cách đáng kể so với teacher (SIM-o 0.607 vs 0.667; UTMOS 3.41 vs 3.76). Quá trình hoàn thiện 1 NFE đòi hỏi thêm giai đoạn fine-tuning tự chưng cất (self-distillation). Bài báo chưa cung cấp đánh giá nghe chủ quan của con người (MOS) và chưa thử nghiệm tổng hợp tiếng Trung dù dữ liệu huấn luyện có chứa tiếng Trung.",
+  "takeaways": "Với flow-matching TTS, việc dùng đạo hàm cục bộ (LFMD qua forward-mode JVP) loại bỏ hoàn toàn nhu cầu giải tích phân ODE tốn kém khi tạo target huấn luyện mà vẫn duy trì hoặc vượt trội chất lượng so với integral distillation. Lập lịch TD-DP cho phép dùng chung một đồ thị chi phí tĩnh cho mọi cấu hình bước suy diễn mà không cần cào metric bên ngoài. Khi chưng cất xuống cực hạn 1 NFE, việc dùng soft-DTW để dung sai lệch pha thời gian hiệu quả vượt trội so với hàm mất mát MSE từng khung.",
+  "strengths": [
+   "Không cần tích phân ODE khi huấn luyện",
+   "Tiết kiệm 6x VRAM nhờ forward-mode JVP",
+   "Lập lịch TD-DP không cần metric ngoài",
+   "Soft-DTW cải thiện mạnh chất lượng 1-NFE"
+  ],
+  "weaknesses": [
+   "Khoảng cách SIM-o và UTMOS ở 1-NFE còn lớn",
+   "Đòi hỏi bước fine-tuning tự chưng cất riêng",
+   "Thiếu đánh giá nghe chủ quan của người",
+   "Chưa công bố mã nguồn hay trọng số"
+  ],
+  "context": "Nhóm tác giả thuộc Institute of Foundation Models (IFM), Đại học MBZUAI; công bố dưới dạng preprint trên arXiv."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

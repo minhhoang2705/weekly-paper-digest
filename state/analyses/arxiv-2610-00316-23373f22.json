@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.00316",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Bài báo đặt ra bài toán hoàn toàn mới khi lần đầu tiên đánh giá document grounding và hallucination trực tiếp trên các hệ thống full-duplex và real-time voice agents.",
+  "credibility": "Công trình đến từ nhóm nghiên cứu uy tín thuộc Adobe Research và University of Maryland, cung cấp đầy đủ thông tin trang dự án và cấu hình thực nghiệm minh bạch.",
+  "technical": "Thiết kế thực nghiệm rất bài bản với 3 giao thức (Context Saturation, Grounding Decay, Proactive Grounding) cùng metric Quality-Adjusted Latency (QAL) được định nghĩa chặt chẽ.",
+  "impact": "Benchmark lấp đầy khoảng trống quan trọng giữa speech LM và RAG thực tế, định hướng cách xây dựng voice agent đáng tin cậy trong các tác vụ chuyên ngành.",
+  "evidence": "Kết quả thực nghiệm vô cùng chi tiết trên 7 hệ sinh thái voice agent khác nhau với 1.636 QA pairs, kiểm thử lặp 3 lần, phân rã đầy đủ tỷ lệ hallucination và phân bố độ trễ."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu giới thiệu DuplexSpeechBench-Document Grounding (DSB-DG), benchmark chuyên biệt đầu tiên nhằm đánh giá khả năng bám sát tài liệu văn bản (document grounding) và ảo giác (hallucination) của các voice agent real-time và full-duplex. Benchmark gồm 1.636 cặp QA từ 50 tài liệu thuộc 5 lĩnh vực chuyên môn với 5 cấp độ độ dài ngữ cảnh (từ 500 đến 8.000 tokens), được kiểm thử qua 3 giao thức: Context Saturation, Grounding Decay và Proactive Grounding.",
+  "problem": "Các voice agent thế hệ mới (như GPT-Realtime, Gemini-Live, Moshi) có khả năng đàm thoại hai chiều tự nhiên với độ trễ thấp, nhưng khi ứng dụng vào các lĩnh vực chuyên môn (hợp đồng pháp lý, y tế, tài chính), mô hình thường sinh ra câu trả lời sai sự thật (hallucination) một cách trôi chảy và tự tin. Các benchmark hiện có chỉ đo đạc cơ chế hội thoại (turn-taking, ngắt lời) hoặc đọc hiểu văn bản tĩnh (text-based RAG/QA) chứ chưa từng đánh giá khả năng trích xuất và duy trì thông tin từ tài liệu dài trong môi trường tương tác âm thanh trực tiếp.",
+  "method": "DSB-DG thiết lập 3 giao thức thử nghiệm độc lập: (1) **Context Saturation**: kiểm tra độ bền grounding khi ngữ cảnh tài liệu mở rộng qua 5 tier độ dài (500, 1k, 2k, 4k, 8k tokens) dưới dạng lồng nhau nhất quán (prefix-consistent); (2) **Grounding Decay**: đo lường mức độ suy giảm trí nhớ về tài liệu qua hội thoại nhiều lượt (17 lượt gồm các probe câu hỏi lặp lại A và A' xen kẽ bởi distractor B); (3) **Proactive Grounding**: đánh giá hiệu quả khi tái đưa ngữ cảnh tài liệu vào giữa cuộc trò chuyện (C0 không refresh, C1 một lần, C2 nhiều lần). Bộ câu hỏi được sinh từ GPT-OSS-20B và qua quy trình xác minh 3 giai đoạn (answerability, ambiguity bằng GPT-OSS-120B, cross-tier consistency). Đánh giá hoàn toàn tự động bằng Whisper-large-v3 kết hợp LLM Judge (GPT-OSS-120B) chấm theo cấu trúc JSON.",
+  "setup": "Đánh giá 7 hệ thống: Cascaded (Whisper -> GPT-4o -> TTS), GPT-Realtime, Gemini-Live, MiniCPM-o-4.5, Ultravox-v0.6-Qwen3-32B, SALMONN-7B và Moshi-7B. Câu hỏi người dùng được tổng hợp âm thanh chuẩn hóa (16kHz mono, Kokoro-TTS giọng en-US-JennyNeural). Các chỉ số chính gồm Grounding Accuracy (GA), Hallucination Rate (HR), Grounding Decay Score (GDS = GA(A') - GA(A)), First-Token Emission Delay (FTED: p50, mean, p95), và Quality-Adjusted Latency (QAL = FTED_p50 * (1 - GA_T3)).",
+  "results": [
+   "Tại mức ngữ cảnh 2k tokens (T3), hệ thống Cascaded đạt GA cao nhất với 90,3%, bám sát bởi MiniCPM-o (88,0%), GPT-Realtime (87,7%) và Gemini-Live (87,4%); trong khi Moshi gần như không thể grounding (GA đạt 3,2%).",
+   "Khi tăng ngữ cảnh (Context Saturation), SALMONN sụt giảm nghiêm trọng từ T3 sang T4 (GA giảm từ 70,3% xuống 37,2%, tức -33,1%), đồng thời Hallucination Rate tăng vọt từ 30,1% lên 39,8% và chạm 46,5% ở T5; MiniCPM-o cũng sụt giảm GA ở T5 xuống 74,0% (HR tăng lên 25,0%).",
+   "Về Grounding Decay qua hội thoại 17 lượt, Gemini-Live duy trì tốt nhất (GDS = +3,3%), Cascaded giữ ổn định tuyệt đối (GDS = 0,0%), trong khi Ultravox-32B bị quên nhiều nhất (GDS = -5,0%, GA từ 80,0% xuống 75,0%) và SALMONN giảm -4,6%.",
+   "Trong giao thức Proactive Grounding, việc re-inject ngữ cảnh tài liệu giúp GPT-Realtime tăng mạnh (delta_light = +14,6% với C1) và Cascaded (delta_heavy = +7,1% với C2), nhưng lại phản tác dụng làm giảm GA trên các mô hình open-weight nhỏ hơn như SALMONN (-4,4% ở C2) và UV-32B (-2,2% ở C2).",
+   "Về đánh đổi chất lượng - độ trễ (FTED p50): Moshi nhanh nhất (229 ms) nhưng thất bại về grounding; GPT-Realtime và Cascaded tối ưu nhất trên Pareto frontier với FTED p50 lần lượt là 1214 ms (QAL = 150) và 1469 ms (QAL = 143), trong khi Gemini-Live có độ trễ sàn cao (6806 ms, QAL = 856) và UV-32B lên tới 9855 ms.",
+   "Phân tích bản chất lỗi: Ảo giác chủ yếu là intrinsic hallucination (đọc hiểu sai tài liệu có sẵn, ví dụ 10,0% intrinsic vs 2,6% extrinsic ở Gemini-Live, 11,4% vs 1,7% ở GPT-Realtime) chứ không phải do bịa đặt thông tin hoàn toàn bên ngoài (extrinsic)."
+  ],
+  "limitations": "Benchmark giới hạn ở 5 lĩnh vực chuyên môn và độ dài tối đa xấp xỉ 8k tokens; sử dụng giọng đọc tổng hợp (synthetic TTS) nên chưa phản ánh được tính đa dạng giọng điệu thực tế, phương ngữ, tiếng ồn hay ngắt lời tự nhiên; đánh giá phụ thuộc chủ yếu vào LLM Judge; các cơ chế nạp context giữa các mô hình chưa đồng nhất về mặt kiến trúc gốc.",
+  "takeaways": "Khả năng phản hồi hội thoại trôi chảy (fluency) không đồng nghĩa với tính chính xác dữ kiện (factuality); lỗi quá tải ngữ cảnh của voice agent thường bộc lộ dưới dạng tự tin nói sai thay vì từ chối trả lời (abstention). Kỹ thuật tái nạp ngữ cảnh (context re-injection) cần được thiết kế phụ thuộc vào năng lực kiến trúc vì có thể làm suy giảm hiệu năng trên các mô hình open-weight cỡ nhỏ.",
+  "strengths": [
+   "Tiên phong benchmark document grounding cho full-duplex voice",
+   "Thiết kế 3 giao thức đánh giá toàn diện, chặt chẽ",
+   "Quy trình tạo dữ liệu kiểm chứng đa tầng chất lượng",
+   "Đánh giá hệ thống trên cả proprietary và open-weight"
+  ],
+  "weaknesses": [
+   "Dữ liệu âm thanh đầu vào hoàn toàn là synthetic TTS",
+   "Độ dài tài liệu tối đa chỉ dừng lại ở 8k tokens",
+   "Giao diện đưa context vào giữa các hệ thống chưa đồng nhất"
+  ],
+  "context": "Nhóm tác giả thuộc Adobe Research (San Jose) và University of Maryland College Park, công bố trên arXiv vào tháng 09/2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2609.39938",
+ "topic": "Speech Understanding",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đề xuất kiến trúc hai giai đoạn phân cấp theo block/cửa sổ với chi phí context O(1), dùng chung logit đầu ra của LLM để xếp hạng khối mà không cần retriever phụ hay agent phức tạp.",
+  "credibility": "Bản preprint từ nhóm nghiên cứu Northeastern University và Futurewei Technologies, quy trình thực nghiệm và kiểm tra rò rỉ dữ liệu (contamination audit) rất chi tiết.",
+  "technical": "Thiết kế hệ thống chặt chẽ, tối ưu token accounting, phân tích sâu toán học đằng sau logit ranking, và khai thác hiệu quả vLLM prefix caching.",
+  "impact": "Cung cấp giải pháp thực tiễn có khả năng áp dụng cao cho các hệ thống video-LLM và streaming assistant xử lý video thời lượng nhiều giờ.",
+  "evidence": "Thực nghiệm đồ sộ trên nhiều benchmark lớn (TraceAV, VideoOdyssey, MMOU, StreamArena...), so sánh chặt chẽ cùng stack, cung cấp đầy đủ ablation study và khoảng tin cậy bootstrap 95%."
+ },
+ "summary": {
+  "tldr": "LEAP là một framework trích xuất bằng chứng (evidence retrieval) cho bài toán Long-form Audio-Visual Question Answering (AVQA) giúp mô hình đạt độ dài ngữ cảnh và bộ nhớ $O(1)$ theo thời lượng video. Thay vì nhồi toàn bộ video vào context, LEAP chia bản ghi thành các khối cố định, dùng LoRA định vị (localization) nhẹ để chấm điểm các cửa sổ ứng viên, sau đó chỉ mã hóa lại tối đa 9 cửa sổ điểm cao nhất kèm transcript outline trong một lượt trả lời duy nhất. Phương pháp giúp cải thiện 4.5–16.8% độ chính xác trên Qwen3-Omni-30B và chuyển giao thành công sang MiniCPM-o 4.5.",
+  "problem": "AVQA độ dài hàng giờ gặp phải nghịch lý ngữ cảnh (context dilemma): mã hóa dày toàn bộ bản ghi làm cạn kiệt giới hạn ngữ cảnh (chạm trần ~81 phút ở 65k tokens) và tràn ngập thông tin nhiễu, trong khi nén thưa thời gian đồng đều làm loãng bằng chứng âm thanh/hình ảnh chi tiết. Các phương pháp chọn lọc hiện tại dễ bỏ sót cửa sổ cần thiết, phương pháp nén làm mất chi tiết và các agent thường phải xử lý lại media tốn kém ở mỗi câu hỏi.",
+  "method": "LEAP chia video thành các block cố định không chồng lấn $\\Delta = 600$s, mỗi block chia thành $K=8$ candidate windows $\\delta = 75$s. \n1. **Giai đoạn 1 (Localization pass):** Mô hình nền tảng (frozen backbone) mang `localization LoRA` (rank 16) quét từng block một lần. Video được nén thưa (0.5 fps, tối đa 24 frames/block), âm thanh giữ nguyên native rate (13 tokens/giây). Mô hình dự đoán logit của các chữ cái đại diện cho các cửa sổ trong prompt, chấm điểm $r_{m,k} = \\sigma(\\ell_{m,k})$ và điểm block $g_m = \\max_k r_{m,k}$. Đồng thời hỗ trợ kênh quét qua văn bản ASR pre-computed (transcript channel) với base model để tiết kiệm chi phí.\n2. **Giai đoạn 2 (Answer pass):** Giữ lại $B=3$ block có $g_m$ cao nhất, trong mỗi block lấy $W=3$ cửa sổ điểm cao nhất (tổng tối đa $BW=9$ cửa sổ $\\le 36,864$ tokens). Mô hình chuyển sang `answer LoRA` (rank 16) và đọc các cửa sổ này với mật độ cao hơn (32 frames/cửa sổ + audio gốc) kèm theo một `transcript outline` (tóm tắt văn bản theo phút, xếp hạng theo câu hỏi, tối đa 4,000 tokens).\n3. **Huấn luyện:** Cả hai LoRA gắn vào query, key, value, output projections. `Localization LoRA` được train bằng cross-entropy nhãn cửa sổ bao phủ bằng chứng nhiều nhất trên LongVALE (clip $\\le 600$s). `Answer LoRA` train cross-entropy sinh câu trả lời trên dữ liệu OmniVideo-100K kèm các đoạn distractor.",
+  "setup": "Đánh giá trên 4 benchmark chính: TraceAV-Bench, LVOmniBench, VideoOdyssey-AV (video dài 1–4h) và MMOU (test-mini 5,000 câu hỏi và test-15K). Đánh giá bổ sung trên OmniVideoBench, CG-Bench mini, LVBench, Video-MME và streaming benchmark StreamArena. Backbones sử dụng là Qwen3-Omni-30B-A3B-Instruct và MiniCPM-o 4.5 (9B). Phần cứng huấn luyện: NVIDIA H100 (bf16), inference đo latency trên 1 H100.",
+  "results": [
+   "Trên Qwen3-Omni-30B, LEAP đạt độ chính xác lần lượt là 60.9% (TraceAV), 45.8% (LVOmniBench), 53.7% (VideoOdyssey 1–4h), 66.3% (MMOU); vượt trội so với baseline official recipe của Qwen3-Omni-30B (56.4%, 40.7%, 36.9%, 56.5%).",
+   "Vượt trội so với baseline đọc cả clip 'Whole clip, uniform, frame-matched' (53.6%, 40.4%, —, 57.8%) trên cùng backbone.",
+   "Chuyển giao sang MiniCPM-o 4.5, LEAP đạt 57.8% (TraceAV General), 69.6% (TraceAV Hallucination), 44.4% (LVOmniBench), 51.0% (MMOU test-15K), vượt xa kết quả công bố của MiniCPM-o 4.5 (44.8%, 66.5%, 34.8%, 46.8%).",
+   "Kênh transcript giúp giảm 4.74×–6.21× số token định vị và giảm độ trễ query-time xuống còn 3.4s–18.6s (so với 5.5s–30.0s của media channel) trong khi độ chính xác duy trì tương đương (64.6% vs 63.6% trên TraceAV; 46.5% vs 45.8% trên LVOmni).",
+   "Trên StreamArena (causal streaming inference, không cần streaming-specific training), LEAP-media đạt HR avg 32.0% và LEAP-transcript đạt 30.1%, vượt trội so với baseline Whole prefix (25.4%) và Uniform windows (20.2%)."
+  ],
+  "limitations": "Nếu bằng chứng trải dài toàn bộ video hoặc câu hỏi dạng đếm (Counting task trên VideoOdyssey đạt 34.6% thấp hơn official baseline 38.3%), việc chọn một vài cửa sổ rời rạc có thể kém hiệu quả hơn. Chưa có cơ chế vòng lặp tự động quay lại quét thêm cửa sổ nếu các cửa sổ đã chọn ban đầu bỏ sót bằng chứng.",
+  "takeaways": "Tách biệt giai đoạn định vị bằng chứng thô (chi phí thấp, ngữ cảnh độc lập $O(1)$) và giai đoạn lý luận chi tiết (ngữ cảnh bounded, mật độ cao) là giải pháp tối ưu cho xử lý đa phương thức thời lượng dài, giải quyết triệt để rào cản context window mà không cần nén mất mát thông tin âm thanh/hình ảnh.",
+  "strengths": [
+   "Bộ nhớ và ngữ cảnh per-pass đạt $O(1)$",
+   "Hỗ trợ kênh transcript quét cực nhanh",
+   "Tương thích suy luận streaming không cần huấn luyện lại",
+   "Kết quả thực nghiệm vượt trội đa benchmark"
+  ],
+  "weaknesses": [
+   "Kém hiệu quả ở tác vụ đếm (counting)",
+   "Chưa có cơ chế re-try khi truy xuất trượt",
+   "Phụ thuộc mô hình ASR cho outline"
+  ],
+  "context": "Juyi Lin et al. (Northeastern University & Futurewei Technologies), arXiv preprint (arXiv:2609.39938v1, Sep 2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

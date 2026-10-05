@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.00658",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đây là corpus tiếng Nga mở đầu tiên chuyên dụng cho long-form TTS với thiết kế đối chứng độ dài chuỗi trên cùng một nguồn bản ghi âm.",
+  "credibility": "Bài báo là bản nộp ICASSP từ nhóm nghiên cứu độc lập (lab260/BitmanagerAI/MTUCI), cung cấp đầy đủ liên kết mã nguồn và dữ liệu kiểm chứng.",
+  "technical": "Quy trình thiết kế thí nghiệm kiểm soát exposure tốt, phân chia channel-disjoint nghiêm ngặt và phân tích kỹ lưỡng cơ chế early EOS khi huấn luyện short-window.",
+  "impact": "Cung cấp tài nguyên quý giá cho cộng đồng tiếng Nga và đặt ra chuẩn mực đánh giá all-attempt không che giấu lỗi cho bài toán long-form TTS.",
+  "evidence": "Thực nghiệm đa dạng trên 4 mô hình lớn, báo cáo khoảng tin cậy bootstrap 95%, cung cấp đầy đủ log thất bại và các chỉ số chẩn đoán theo thời gian."
+ },
+ "summary": {
+  "tldr": "Tài liệu giới thiệu Balalaika-Longform, bộ dữ liệu tiếng Nga mở gồm 189,13 giờ âm thanh liên tục (độ dài 30 giây đến 15 phút) nhằm phục vụ nghiên cứu continuous long-form text-to-speech. Bằng cách so sánh các nhánh huấn luyện song song (long sequence vs. short window tiling) trên cùng bản ghi âm trên 4 kiến trúc (CosyVoice3, Qwen3-TTS, VoxCPM2, F5-TTS), nghiên cứu chứng minh việc huấn luyện trực tiếp trên chuỗi dài giúp cải thiện đáng kể khả năng đọc văn bản liên tục mà không bị dừng sớm.",
+  "problem": "Các mô hình TTS hiện nay thường được huấn luyện và đánh giá trên các câu ngắn hoặc dựa vào kỹ thuật chia nhỏ văn bản (text chunking), dẫn tới việc mất ngữ cảnh ngữ điệu (prosodic context) và không kiểm tra được khả năng duy trì giọng đọc đơn lẻ (single-pass continuous generation) cho sách nói hay podcast. Huấn luyện trên các đoạn ngắn khiến các mô hình autoregressive học thói quen phát tín hiệu kết thúc (EOS) quá sớm, gây sụt giảm nghiêm trọng độ trung thực nội dung khi gặp văn bản dài.",
+  "method": "Tác giả xây dựng corpus Balalaika-Longform v3.1 từ 313 video YouTube Creative Commons (41 kênh, 6.380 phân đoạn) bằng pipeline Balalaika, khử nhiễu/vỗ tay bằng MossFormer2, gán nhãn ASR (GigaAM-v3-e2e-CTC và ROVER voting) và chia tập train/dev/test theo kênh (channel-disjoint). Để cô lập tác động của độ dài chuỗi huấn luyện, nhóm tạo ra hai chế độ huấn luyện từ cùng một nguồn âm thanh: Long-SFT (giữ nguyên phân đoạn dài tới 15 phút) và Short-SFT (chia nhỏ thành 28.532 cửa sổ ngắn <= 30 giây, trung bình 21,5 giây). Họ tiến hành fine-tuning 4 mô hình: CosyVoice3 (chỉ train LM), Qwen3-TTS, VoxCPM2 (autoregressive) và F5-TTS (flow-matching non-autoregressive) dưới cùng mức độ tiếp xúc dữ liệu (token/audio exposure).",
+  "setup": "Đánh giá theo giao thức continuous inference không chia nhỏ (unsplit), không reset trạng thái, không best-of-N và giữ lại toàn bộ các lần thử thất bại (all-attempt evaluation). Dữ liệu đánh giá gồm: (1) Two-voice set với 60 lượt thử trên 5 khoảng thời lượng (20s đến 12 phút); (2) Published-text set gồm 50 cặp text-voice (21 giọng chưa từng thấy, văn bản trích từ 22 tác phẩm văn học) ở 3 mức độ dài: ~75 từ, ~300 từ và ~1.200 từ. Metric chính là All-attempt WER (đo bằng GigaAM-v3-RNNT), Correct-word recall, DistillMOS và độ tương đồng người nói (WeSpeaker cosine).",
+  "results": [
+   "Tại độ dài ~1.200 từ trên tập published-text, CosyVoice3 Long-SFT giảm WER từ 99,9% (Short-SFT) xuống 47,3%, và đạt 16,6% WER (Recall 85,9%) với phiên bản Long-SFT-Punct khớp định dạng dấu câu.",
+   "Đối với Qwen3-TTS tại ~1.200 từ, Long-SFT-Punct đạt WER 35,2% (Recall 67,1%) so với 88,0% của Short-SFT và 66,9% của Base model.",
+   "Đối với VoxCPM2 tại ~1.200 từ, Long-SFT-Punct đạt WER 49,0% (Recall 54,9%) so với 90,5% của Short-SFT và 94,9% của Base model.",
+   "Đối với mô hình flow-matching F5-TTS, Long-SFT-Punct chỉ giảm nhẹ WER ở 1.200 từ xuống 94,7% (so với 99,3% Short-SFT và 99,7% Base), cho thấy mô hình không autoregressive này vẫn không thể đọc văn bản dài liên tục một cách đáng tin cậy.",
+   "Trên tập kiểm soát 2 giọng của CosyVoice3, Long-SFT đạt tỷ lệ hoàn thành (Complete) 71,7% và WER 20,47% (so với Short-SFT chỉ đạt 26,7% Complete và 60,88% WER), trong đó Base và Short-SFT không hoàn thành bất kỳ mẫu nào vượt quá 90 giây."
+  ],
+  "limitations": "Tập published-text chỉ gồm 50 cặp trích từ 22 tác phẩm được chọn theo metadata sau khi đã thấy kết quả sơ bộ; chưa có bài kiểm tra nghe chủ quan từ con người (human listening test); nhãn người nói và bản phiên âm ASR hoàn toàn tự động; hiệu ứng độ dài ở VoxCPM2 bị nhiễu do giới hạn vị trí 8.192 buộc phải loại bỏ 18,2% âm thanh dài nhất ở nhánh Long.",
+  "takeaways": "Huấn luyện trên cửa sổ ngắn khiến mô hình học thiên kiến dừng sớm (early EOS) tương ứng với độ dài cửa sổ, gây lỗi nghiêm trọng khi suy luận continuous long-form; việc chuẩn bị dữ liệu chuỗi dài và định dạng transcript đồng nhất là yếu tố cốt lõi giúp các mô hình TTS autoregressive duy trì năng lực đọc văn bản dài trong một lượt chạy duy nhất.",
+  "strengths": [
+   "Corpus tiếng Nga mở đầu tiên cho long-form TTS",
+   "Thiết kế đối chứng Short/Long tiling chặt chẽ",
+   "Giao thức all-attempt evaluation minh bạch không cherry-picking",
+   "Thử nghiệm rộng trên 4 kiến trúc sinh âm thanh",
+   "Phát hành toàn bộ dữ liệu, mã nguồn và log"
+  ],
+  "weaknesses": [
+   "Thiếu đánh giá thính giác chủ quan từ con người",
+   "Transcript và phân đoạn hoàn toàn dựa vào ASR tự động",
+   "Mô hình flow-matching (F5-TTS) hoàn toàn thất bại ở văn bản dài"
+  ],
+  "context": "Nhóm nghiên cứu thuộc BitmanagerAI (Dubai), lab260 (Yerevan) và MTUCI (Moscow); bài báo nộp cho IEEE ICASSP kèm mã nguồn và dữ liệu công khai trên Hugging Face/GitHub."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

@@ -1,0 +1,53 @@
+{
+ "id": "arxiv:2609.27372",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 5,
+  "credibility": 3,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Bài báo đề xuất mô hình đánh giá hoàn toàn mới, chuyển dịch căn bản từ kiểm tra cửa sổ nhị phân sang chấm điểm strictly proper continuous ranked probability score có điều kiện theo intent posterior và speaker memory profile.",
+  "credibility": "Tài liệu là bản thảo preprint trên arXiv từ nhóm nghiên cứu độc lập (People Make Things), chưa qua bình duyệt tại hội nghị chuyên ngành dù phương pháp được mô tả rất chi tiết.",
+  "technical": "Thiết kế kỹ thuật và toán học rất sâu sắc với 3 định lý/bổ đề chứng minh tính strictly proper, tính quy giảm về Full-Duplex-Bench và tính định danh của intent mixture, kết hợp calibration chặt chẽ cho LLM judge.",
+  "impact": "Benchmark chỉ ra trực diện sai sót cốt lõi của các mô hình full-duplex hiện nay (over-eagerness), định hướng lại cách thức huấn luyện và đánh giá turn-taking cho toàn bộ lĩnh vực voice agent.",
+  "evidence": "Thực nghiệm đồ sộ trên 11 mô hình hàng đầu (cả open-source và proprietary API), 9,728 episodes từ 5 tập dữ liệu, có kiểm chứng 1,280 lượt bởi con người và ablation phong phú (swap profile, slice fairness)."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu giới thiệu TACT (Theory-of-mind Aware Conversational Timing), một benchmark đánh giá turn-taking cho các mô hình full-duplex spoken dialogue models (SDMs) dựa trên phân phối hậu nghiệm ý định tiềm ẩn (latent intent) của người nói và hồ sơ bộ nhớ từng người. Phương pháp thay thế các cửa sổ nhị phân truyền thống bằng hàm chấm điểm strictly proper continuous ranked probability score (twCRPS) có trọng số theo kernel phân phối thời gian thực tế của con người, chứng minh rằng quyết định lên tiếng là bài toán suy luận ý định thay vì tối ưu độ trễ.",
+  "problem": "Các benchmark full-duplex hiện nay (như Full-Duplex-Bench) đánh giá turn-taking bằng các quy tắc cửa sổ nhị phân cố định: phản hồi trong cửa sổ là đúng, im lặng sau khi người nói dứt câu là bỏ lỡ (miss), và nói chèn trước khi dứt câu là xâm phạm (intrusion). Cách tiếp cận này bỏ qua bản chất hội thoại thực tế: im lặng có thể là có chủ đích (phản xạ suy nghĩ, câu hỏi tu từ, giữ lượt) và nói chen (overlap) có thể mang tính hợp tác (backchannel, hoàn thành câu giúp bạn, làm rõ khẩn cấp). Đánh giá nhị phân làm các mô hình hội tụ về một chính sách thoái hóa: luôn trả lời cực nhanh và không bao giờ dám nói chen.",
+  "method": "TACT tái định nghĩa đánh giá tương tác full-duplex qua 3 thành phần chính: (1) Cấu trúc Episode kèm Memory Profile: Mỗi episode có ngữ cảnh âm thanh 2 kênh, lịch sử transcript trung bình 3.2 phút và 11.4 lượt, cùng hồ sơ bộ nhớ hành vi Ms(e) khai thác từ các episode khác của cùng người nói (trung bình 14.6 phút dữ liệu) để nắm bắt đặc tính FTO (floor-transfer-offset), dung sai tạm dừng, tỷ lệ backchannel. Ý định tiềm ẩn được phân loại thành 6 lớp Z = {ANS, REF, RHE, HOLD, BCK, ABN}, được gán nhãn bởi 3-5 annotator và kết hợp với LLM judge đã qua temperature-scaling (hệ số kết hợp λ = 0.3, giảm ECE từ 8.4% xuống 2.1%) để tạo thành posterior q̂(z|e). (2) Scoring strictly proper hai phía: Sử dụng threshold-weighted continuous ranked probability score (twCRPS) trên miền offset T = [-2s, 5s] tích hợp với hàm mật độ FTO tham chiếu hz của con người (dùng phân phối ex-Gaussian cho ANS, BCK, ABN và shifted log-normal cho REF, RHE, HOLD; xác suất không phản hồi βz từ 0.05 đến 0.90). Điểm độ dài SL dùng CRPS divergence, điểm overlap sO dựa trên xác suất hoàn thiện prosody từ bộ ước lượng VAP (κ = 1.2 s^-1) để miễn phạt cho backchannel và overlap hợp tác. (3) Đảm bảo toán học: Tác giả chứng minh twCRPS bị chặn trong [0,1], strictly proper với cận tối ưu đạt được duy nhất khi mô hình khớp phân phối con người, chứng minh Full-Duplex-Bench chỉ là trường hợp suy biến dạng hàm chỉ thị của twCRPS, và chứng minh tính định danh (identifiability) của intent mixture từ dữ liệu người nói.",
+  "setup": "Benchmark gồm 9,728 episodes (73.2 giờ) tổng hợp từ 5 kho ngữ liệu hội thoại dyadic tự nhiên: CANDOR (2,560 episodes, 19.8 h), SSSD (2,304 episodes, 17.1 h), otoSpeech-full-duplex-280h bản clean 141h (1,792 episodes, 13.9 h), Seamless Interaction (1,536 episodes, 11.5 h), AMI-IHM (768 episodes, 5.4 h), cùng 768 episodes TTS tổng hợp (5.5 h). Đánh giá 11 hệ thống bao gồm: mô hình mã nguồn mở (dGSLM, Moshi, SyncLLM, Freeze-Omni, Qwen2.5-Omni, MiniCPM-o 2.6, PersonaPlex), mô hình thương mại (GPT-4o Realtime, gpt-realtime-2, Gemini 3.1 Flash Live ở 2 mức minimal và high thinking), cùng các baseline tham chiếu (VAP-gated cascade, Never respond, Human topline). Thử nghiệm kiểm chứng metric dùng 1,280 episodes được đánh giá bởi 5 rater trên 88 cell hệ thống-điều kiện.",
+  "results": [
+   "Khoảng cách giữa mô hình và con người rất lớn: Hệ thống tốt nhất là gpt-realtime-2 chỉ đạt điểm composite 0.47 [95% CI: 0.45, 0.49] so với Human topline là 0.86 [0.84, 0.88].",
+   "Thứ hạng mô hình đảo lộn mạnh so với benchmark nhị phân (hệ số tương quan thứ hạng Spearman là 0.55): Moshi đứng thứ 2/11 ở Full-Duplex-Bench v1 (nhờ độ trễ 0.26 s) nhưng tụt xuống hạng 10/11 trên TACT (composite 0.30) do luôn chen lời khi gặp REF, RHE và HOLD.",
+   "Gemini 3.1 Flash Live bộc lộ trade-off: bản minimal phản hồi nhanh nhất (0.31 s) đứng đầu v1 nhưng chỉ xếp thứ 3 trên TACT (0.44), trong khi bản high chờ trung bình 0.74 s tụt xuống hạng 7 ở v1 nhưng vươn lên hạng 2 trên TACT (0.46).",
+   "Bệnh lý phản hồi quá vội (over-eagerness pathology): Tất cả 11 mô hình đạt điểm tốt ở ANS (0.38-0.78) nhưng sụp đổ ở REF (0.09-0.36) và RHE (0.06-0.30). Con người phản hồi trong 1 s ở 78% ca ANS nhưng chỉ 12% ca REF và 7% ca RHE; ngược lại Moshi phản hồi trong 1 s ở 95-97% các ca, và tỷ lệ giữ im lặng ở câu tu từ (RHE) của các mô hình chỉ từ < 4% (open) đến 24% (closed) so với 74% của con người.",
+   "Tính cứng nhắc hai phía về overlap: Con người phát động 63% backchannel ở dạng overlap (nói chen có chủ đích), trong khi PersonaPlex chỉ đạt 14% và các mô hình khác < 6%. Backchannel của mô hình cũng bị lệch độ dài nghiêm trọng (trung vị 8.4 s so với 1.1 s của người).",
+   "Triệt tiêu khả năng thích ứng người nói (Memory Swap Ablation): Khi hoán đổi profile người nói giữa các cá nhân đối lập, hành vi con người thay đổi rõ rệt (JSD2 = 0.23), nhưng cả 11 mô hình gần như bất biến (ΔS <= 0.01 và JSD2 <= 0.024; gpt-realtime-2 là 0.024, dGSLM là 0.003).",
+   "Độ tương quan với đánh giá con người: TACT đạt tương quan Spearman ρ = 0.81 (95% CI [0.77, 0.84]) so với phán đoán của con người, vượt xa composite nhị phân (ρ = 0.46), metric độ trễ (ρ = 0.39) và intent-conditioned binary baseline (ρ = 0.62)."
+  ],
+  "limitations": "Taxonomy 6 lớp intent thực chất làm rời rạc hóa một dải liên tục và độ nhất trí annotator Krippendorff α = 0.73 vẫn còn nhiễu nhãn; các kernel FTO mới chỉ được fit trên ngữ liệu tiếng Anh; LLM judge dùng trong posterior có thể chia sẻ các lỗi hệ thống chung; việc tính điểm overlap vẫn phụ thuộc vào ước lượng prosodic completion ψ từ mô hình VAP.",
+  "takeaways": "Thời điểm lên tiếng (turn-taking) trong hội thoại là bài toán suy luận ý định người đối thoại (Theory of Mind) chứ không phải bài toán tối ưu độ trễ thấp; các kỹ sư voice agent cần huấn luyện mô hình biết chủ động im lặng dài khi gặp câu hỏi suy ngẫm/tu từ, biết nói chen sớm cho backchannel hợp tác, và phải tận dụng hồ sơ cá nhân hóa (speaker profile) thay vì giữ một chính sách cố định cho mọi người dùng.",
+  "strengths": [
+   "Khung toán học strictly proper twCRPS chặt chẽ",
+   "Tập dữ liệu lớn (9,728 episodes, 73.2 giờ)",
+   "Tương quan cao với đánh giá người (rho=0.81)",
+   "Vạch rõ bệnh lý over-eagerness của mô hình",
+   "Ablation chứng minh mô hình thiếu thích ứng speaker"
+  ],
+  "weaknesses": [
+   "Chỉ mới fit kernel trên dữ liệu tiếng Anh",
+   "Taxonomy 6 lớp rời rạc hóa liên tục",
+   "Độ đồng thuận nhãn intent dừng ở alpha=0.73",
+   "Dựa vào VAP để ước lượng prosodic completion"
+  ],
+  "context": "Kian Shamsaie và Iman Modarressi thuộc tổ chức People Make Things; công bố dưới dạng preprint trên arXiv (arXiv:2609.27372v1, 23 Sep 2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

@@ -1,0 +1,52 @@
+{
+ "id": "hf-model:oruk/orukeet",
+ "topic": "ASR",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng xấp xỉ phân nửa số depthwise temporal filter của FastConformer bằng hàm giải tích Gabor đóng băng để tạo inductive bias là cách tiếp cận mới mẻ và độc đáo trong nén/tinh chỉnh ASR.",
+  "credibility": "Tác giả đến từ Stanford, Cambridge và Oruk AI, tài liệu cung cấp mã nguồn, commit hash, SHA-256 artifacts và báo cáo kỹ thuật rõ ràng.",
+  "technical": "Mô tả công thức toán học, ngưỡng cắt lọc kernel, quy trình distillation/matching loss cụ thể cùng các tối ưu hóa phần cứng sâu trên đa nền tảng (Metal, CUDA, ONNX INT8).",
+  "impact": "Mô hình nhận được sự đón nhận tốt trên Hugging Face (gần 30k lượt tải, 90 likes) và được đưa vào ứng dụng thực tế OpenWhispr v1.10.0 như mô hình local mặc định.",
+  "evidence": "Báo cáo chi tiết số liệu so sánh đối đầu trên 74 splits kiểm thử chuẩn (LibriSpeech, FLEURS, accent splits) kèm benchmark tốc độ suy luận trên phần cứng cụ thể."
+ },
+ "summary": {
+  "tldr": "Orukeet là mô hình ASR đa ngôn ngữ (25 ngôn ngữ) 0.6B tham số được phát triển từ NVIDIA Parakeet TDT 0.6B v3 bằng cách thay thế 50% bộ lọc depthwise trong encoder bằng 12.288 Gabor kernel đóng băng. Phương pháp này giúp giảm 10.6% WER tương đối trên tập FLEURS gộp và cải thiện trên 61/74 tập kiểm thử so với Parakeet gốc.",
+  "problem": "Tối ưu hóa và cải thiện độ chính xác lẫn hiệu năng suy luận của kiến trúc ASR FastConformer/TDT trên nhiều ngôn ngữ và ngữ âm mà không làm phình to kích thước mô hình.",
+  "method": "Khởi đầu từ Parakeet TDT 0.6B v3 (FastConformer 24 layer, 627M tham số). Trong tổng số 24.576 bộ lọc temporal depthwise 9-tap (1.024 bộ lọc mỗi block), nhóm tác giả khớp (fit) hàm Gabor $g(t) = A\\exp[-(t-\\mu)^2 / (2\\sigma^2)]\\cos(2\\pi f(t-\\mu)+\\phi)$ cho toàn bộ và chọn 12.288 bộ lọc có sai số chuẩn hóa bình phương thấp nhất (chọn 175–748 kernel/layer, sai số RMS tương đối trung vị 6.32%). 110.592 tham số này được đóng băng (frozen), còn lại 626.897.542 tham số tiếp tục huấn luyện. Quá trình Gabor recovery dùng transducer loss, encoder matching và distillation token/duration, tiếp nối bằng 4.035 bước cập nhật learning rate thấp trên 371.47 giờ (223.452 bản ghi đa ngôn ngữ/ngữ âm). Bản r3 cuối cùng thực hiện 168 bước AdamW cập nhật trên tập LibriSpeech test-other.",
+  "setup": "Đánh giá greedy-batch TDT trên NeMo (FP32 weights, BF16 CUDA autocast) trên 25 ngôn ngữ. Hỗ trợ nhiều định dạng runtime: NeMo source, Transformers FP32 (`ParakeetForTDT`), ONNX INT8 (sherpa-onnx), native Q8/F16 GGUF (NeMo-Speech.cpp), transcribe.cpp GGUF và Core ML cho Apple silicon. Không hỗ trợ streaming hoặc dịch thuật trực tiếp.",
+  "results": [
+   "LibriSpeech test-clean: 1.46% WER (so với Parakeet 1.53% WER)",
+   "LibriSpeech test-other: 2.86% WER (so với Parakeet 3.14% WER)",
+   "FLEURS English: 3.82% WER (so với Parakeet 4.28% WER)",
+   "FLEURS gộp 25 ngôn ngữ (20.146 bản ghi): 9.85% WER so với 11.01% WER của Parakeet (giảm 10.6% WER tương đối)",
+   "Accents/domains gộp 47 splits (12.006 bản ghi): 15.25% WER so với 16.72% WER của Parakeet",
+   "Accents/domains English 20 splits (5.120 bản ghi): 8.84% WER so với 9.51% WER của Parakeet",
+   "Độ trễ suy luận sherpa-onnx INT8 trên M5 Max (mẫu 160 clip): trung vị 390 ms/file so với 428 ms của Parakeet gốc và 432 ms trước tối ưu"
+  ],
+  "limitations": "Việc sử dụng trực tiếp LibriSpeech test-other cho lượt cập nhật r3 cuối cùng và checkpoint selection tiềm ẩn nguy cơ rò rỉ dữ liệu hoặc overfitting vào benchmark kiểm thử; không hỗ trợ streaming (`streaming: false`), không hỗ trợ translation (`translate: false`), và không trích xuất diarization hay emotion.",
+  "takeaways": "Cung cấp một giải pháp thay thế hiệu năng cao, drop-in replacement cho Parakeet TDT trên 25 ngôn ngữ với hệ sinh thái triển khai đa dạng (ONNX, GGUF, Core ML, OpenWhispr) giúp tăng tốc độ suy luận cục bộ trên thiết bị.",
+  "strengths": [
+   "Cải thiện WER trên 61/74 test split",
+   "Hỗ trợ đa dạng runtime: NeMo, ONNX, GGUF, Core ML",
+   "Ý tưởng khớp frozen Gabor kernels độc đáo",
+   "Được tích hợp chính thức trong OpenWhispr"
+  ],
+  "weaknesses": [
+   "Fine-tune và chọn checkpoint trên LibriSpeech test-other",
+   "Không hỗ trợ streaming ASR",
+   "Chỉ giới hạn ở 25 ngôn ngữ",
+   "Không hỗ trợ speech translation trực tiếp"
+  ],
+  "context": "Nhóm tác giả gồm Nathan Roll, Irene Yi, Büşra Marşan cùng cộng sự (Oruk AI, hợp tác cùng Stanford University, University of Cambridge, OpenWhispr, Hoid); phát hành dạng checkpoint mô hình nguồn mở kèm báo cáo kỹ thuật (arXiv:2609.10054)."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

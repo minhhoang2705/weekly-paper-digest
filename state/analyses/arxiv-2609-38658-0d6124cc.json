@@ -1,0 +1,52 @@
+{
+ "id": "arxiv:2609.38658",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Kết hợp khéo léo giữa masked-LM distillation từ mô hình AR, ReFlow distillation cho S2Mel và thuật toán ước lượng độ dài DSP training-free giúp giải quyết triệt để vấn đề phụ thuộc vào transcript của các hệ thống NAR hiện nay.",
+  "credibility": "Nhóm nghiên cứu từ Dolby Laboratories với quy trình đánh giá bài bản, rõ ràng và đối chiếu chi tiết với các baseline hiện đại trên nhiều tập dữ liệu chuẩn.",
+  "technical": "Thiết kế kỹ thuật chi tiết và chặt chẽ, bao gồm loss phục hồi latent liên tục (residual-recovery loss), coupling generation cho ReFlow và thuật toán ước lượng âm tiết bằng YIN/RMS.",
+  "impact": "Mở ra hướng đi thực tế cho các ứng dụng voice cloning độ trễ thấp và ứng dụng trên ngôn ngữ ít tài nguyên hoặc âm thanh đặc biệt (trẻ em, giọng nói khuyết tật) mà ASR không xử lý được.",
+  "evidence": "Tài liệu cung cấp kết quả định lượng toàn diện trên 4 tập dữ liệu chuẩn, kiểm tra trên 8 ngôn ngữ ngoài tập huấn luyện, 2 kịch bản âm thanh phi từ vựng, phân tích độ trễ chi tiết và ablation study đầy đủ."
+ },
+ "summary": {
+  "tldr": "Tacit-TTS là hệ thống zero-shot voice cloning non-autoregressive (NAR) không cần bản phiên âm (transcript-free) được chưng cất (distilled) từ mô hình AR IndexTTS2. Bằng cách thay thế text-to-semantic (T2S) dạng AR bằng masked Transformer, kết hợp ước lượng độ dài không cần huấn luyện (training-free) và ReFlow distillation cho bộ dựng S2Mel, hệ thống tăng tốc sinh giọng nói hơn 10× đối với các câu dài hơn 5 giây mà vẫn duy trì chất lượng tương đương.",
+  "problem": "Các mô hình TTS zero-shot autoregressive (AR) chất lượng cao (như IndexTTS2) có độ trễ suy luận lớn do giải mã tuần tự từng token. Ngược lại, các hệ thống non-autoregressive (NAR) sinh song song nhanh hơn nhưng thường phụ thuộc vào transcript của audio tham chiếu (gặp lỗi nặng hoặc thất bại khi ASR không hỗ trợ ngôn ngữ tham chiếu hoặc âm thanh không có từ vựng như tiếng bập bẹ của trẻ) và cần phải xác định độ dài câu thoại trước khi giải mã.",
+  "method": "Tacit-TTS xây dựng pipeline hai giai đoạn dựa trên kiến trúc IndexTTS2 nhưng tối ưu hóa mạnh mẽ:\n- **T2S Masked Non-Autoregressive:** Thay thế mô hình AR T2S (527M tham số) bằng bidirectional DiT (269M tham số) hoạt động theo cơ chế masked-LM (tương tự MaskGCT) với 12 bước unmasking. Giữ nguyên bộ trích xuất đặc trưng speaker ($E_s \\in \\mathbb{R}^{32 \\times d}$) và emotion ($E_e \\in \\mathbb{R}^d$) dạng đông băng (frozen w2v-BERT-2.0 + Perceiver).\n- **Kiểm soát độ dài không cần huấn luyện (Training-Free Length Control):** Ước lượng số âm tiết thoại đích $N_x^t$ từ văn bản (đếm ký tự cho tiếng Trung, `textstat` cho tiếng Anh) và số âm tiết audio tham chiếu $N_r^a$ thông qua thuật toán DSP (tìm đỉnh năng lượng RMS kết hợp thuật toán YIN để lọc vùng voiced), tính hệ số tốc độ $\\rho_r = T_r / (\\kappa N_r^a)$ (kẹp trong khoảng [7, 12]) và suy ra độ dài mục tiêu $\\hat{T} = \\text{round}(N_x^t \\tilde{\\rho}_r)$.\n- **Text-to-Semantic Distillation:** Chưng cất từ IndexTTS2 với hàm mất mát $\\mathcal{L}_{T2S} = \\mathcal{L}_{mask} + \\lambda \\mathcal{L}_{res}$, trong đó $\\mathcal{L}_{mask}$ tối ưu cross-entropy trên các vị trí bị che (mask ratio lấy mẫu theo phân phối cosin và điều biến qua AdaLN), còn $\\mathcal{L}_{res}$ phục hồi biểu diễn continuous latent $\\Delta$ từ teacher cho renderer S2Mel.\n- **Semantic-to-Mel Reflow Distillation:** Fine-tune bộ dựng flow-matching S2Mel trên đầu ra của mô hình T2S mới, sau đó áp dụng ReFlow distillation để làm thẳng quỹ đạo trajectory, giảm số bước tích phân Euler từ ~25 xuống còn 4–8 bước (mặc định 8 bước).",
+  "setup": "Đánh giá trên 4 tập dữ liệu zero-shot chuẩn: LibriSpeech test-clean (tiếng Anh, n=2544), SeedTTS test-en (n=1088), SeedTTS test-zh (n=2020), và AISHELL-1 test (tiếng Trung, n=1000). Đánh giá transcript-free trên: 8 ngôn ngữ từ FLEURS, bộ infant-babble (70 bản ghi) và synthetic-gibberish (10 câu từ giả). Metrics gồm WER (Whisper), CER (FunASR), Speaker Similarity - SS (CAM++ cosine similarity), UTMOS, DNSMOS và tốc độ thời gian thực (× real-time) đo trên 1 GPU NVIDIA A100. So sánh với CosyVoice2, SparkTTS, MaskGCT, F5-TTS và teacher IndexTTS2.",
+  "results": [
+   "Trên LibriSpeech test-clean: Tacit-TTS đạt SS 0.875 và WER 5.54%, vượt qua tất cả các baseline triển khai độc lập (CosyVoice2: SS 0.843, WER 5.999%; MaskGCT: SS 0.790, WER 7.759%; F5-TTS: SS 0.821, WER 8.044%) và bám sát teacher IndexTTS2 (SS 0.870, WER 3.115%).",
+   "Trên SeedTTS test-en: Đạt SS 0.849 và WER 2.34% (SS cao nhất trong các mô hình không phải teacher; CosyVoice2 đạt 0.794, MaskGCT đạt 0.824).",
+   "Trên dữ liệu tiếng Trung: Đạt SS 0.829, CER 1.71% (SeedTTS test-zh) và SS 0.804, CER 2.21% (AISHELL-1 test), đứng thứ hai sau CosyVoice2 nhưng vượt trội MaskGCT (CER 4.930%).",
+   "Độ trễ suy luận (câu trung bình ~5s): Giai đoạn T2S giảm từ 5274 ms (IndexTTS2) xuống 199 ms (tăng tốc 26.5×); giai đoạn S2A giảm từ 875 ms xuống 310 ms. Tổng thời gian sinh (T2S+S2A) giảm từ 6149 ms xuống 509 ms (tăng tốc 12.1×; tốc độ sinh đạt 9.09× real-time).",
+   "Cloning từ audio tham chiếu đa ngôn ngữ (FLEURS 8 thứ tiếng): Tacit-TTS đạt WER 0.10% (English targets), CER 1.90% (Chinese targets) với tỷ lệ fail 0.0%, trong khi các baseline phụ thuộc transcript bị lỗi nặng (F5-TTS: WER 24.56%; MaskGCT: fail 33.3%, WER 20.16%; CosyVoice2: WER 45.95%).",
+   "Cloning từ âm thanh phi từ vựng (Infant babble): Tacit-TTS đạt SS 0.603 và WER 3.24% (tiếng Anh), SS 0.595 và CER 5.79% (tiếng Trung), vượt qua cả IndexTTS2 (SS 0.484 / 0.425) trong khi các baseline có transcript bị hỏng nặng (WER/CER từ 31% đến 99%)."
+  ],
+  "limitations": "Hiệu năng trên tiếng Trung thấp hơn tiếng Anh do dữ liệu chưng cất bị lệch về speaker tiếng Anh (2342 tiếng Anh vs 397 tiếng Trung). Chi phí trích xuất điều kiện ban đầu (conditioning latency ~468 ms) không giảm do giữ nguyên encoder của teacher. Đối với các câu cực dài (>1 phút), tốc độ tăng tốc bị thu hẹp dần do độ phức tạp O(n^2) của full self-attention trong Transformer.",
+  "takeaways": "Chứng minh phương pháp chưng cất từ mô hình AR sang NAR kết hợp với ReFlow có thể loại bỏ hoàn toàn nút thắt độ trễ của AR TTS mà không làm suy giảm chất lượng. Thuật toán ước lượng độ dài bằng DSP không cần huấn luyện là giải pháp hiệu quả cho phép voice cloning hoạt động ổn định trên bất kỳ dạng âm thanh nào mà không cần ASR.",
+  "strengths": [
+   "Tăng tốc sinh hơn 10x so với IndexTTS2",
+   "Cloning không cần transcript tham chiếu",
+   "Hoạt động tốt trên âm thanh phi từ vựng",
+   "Chỉ cần tập dữ liệu chưng cất nhỏ (~2k giờ)",
+   "Đạt speaker similarity tiếng Anh cao nhất nhóm baseline"
+  ],
+  "weaknesses": [
+   "Chất lượng tiếng Trung kém hơn tiếng Anh",
+   "Thời gian tính condition (~468ms) chưa được tối ưu",
+   "Attention bậc hai làm giảm tốc ở câu dài",
+   "Chưa công bố mã nguồn mở công khai"
+  ],
+  "context": "Jian Chen, You Zhang và Mark Vinton đến từ Dolby Laboratories; công bố trên arXiv (arXiv:2609.38658v1, 29 tháng 9 năm 2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.00735",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đây là hệ thống TTS từ văn bản đầu tiên tích hợp giám sát động học phát âm vật lý (12 kênh EMA) để điều hòa trực tiếp bộ lọc ống thanh âm trong mô hình source-filter.",
+  "credibility": "Công trình đến từ các nhóm nghiên cứu uy tín hàng đầu về speech (SPIRE Lab - IISc và CMU) với cấu trúc bài báo đầy đủ, định dạng gửi tới IEEE/ACM TASLP.",
+  "technical": "Thiết kế kiến trúc phân luồng bất đối xứng chặt chẽ, kết hợp trích xuất đặc trưng đa tầng MMS-1B cho AAI và module OT-CFM để khôi phục chi tiết nguồn âm.",
+  "impact": "Mở ra hướng nghiên cứu mới về TTS có thể diễn giải và ứng dụng chỉnh sửa trọng âm, nghiên cứu lâm sàng, dù các sản phẩm thương mại hiện vẫn ưu tiên các mô hình black-box lớn hơn.",
+  "evidence": "Cung cấp đầy đủ kết quả thực nghiệm khách quan (WER, MCD, F0 CC), đánh giá chủ quan (MOS, UTMOS), cùng các phân tích định tính chi tiết về minimal pairs và hiện tượng rhoticity."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu đề xuất Articulatory Source-Filter TTS, kiến trúc tổng hợp tiếng nói từ văn bản có khả năng điều khiển dựa trên cơ chế vật lý bằng cách gắn bộ lọc thanh quản (vocal tract filter) vào chuyển động học phát âm (articulatory kinematics). Thông qua mô hình Acoustic-to-Articulatory Inversion (AAI) đa ngữ để gán nhãn giả động học cho dữ liệu LibriTTS kết hợp tinh chỉnh nguồn âm bằng Optimal Transport Conditional Flow Matching (OT-CFM), hệ thống đạt khả năng phân tách nguồn-bộ lọc (source-filter disentanglement) rõ ràng và cho phép can thiệp trực tiếp vào quỹ đạo chuyển động của các cơ quan phát âm (như sửa đổi giọng điệu rhotic).",
+  "problem": "Các hệ thống neural TTS hiện đại đạt chất lượng tự nhiên cao nhưng hoạt động như hộp đen khép kín (black box), thiếu khả năng điều khiển có thể diễn giải về mặt vật lý (physically interpretable control). Trong khi một số mô hình cho phép can thiệp vào cao độ và năng lượng của nguồn thanh quản, bộ lọc ống thanh âm vẫn bị xem như một đối tượng phổ trừu tượng mà không có sự liên hệ trực tiếp với các cơ quan cấu âm sinh học (lips, jaw, tongue).",
+  "method": "Quy trình gồm 2 giai đoạn chính:\n- **Giai đoạn 1 (AAI Backend)**: Sử dụng mô hình AAI nền tảng Transformer (7.3M tham số) trích xuất biểu diễn âm thanh từ 3 tầng (layer 6, 24, 36) của mô hình đa ngữ MMS-1B (frame rate 50 Hz, upsample frame duplication lên 100 Hz). Mô hình được huấn luyện trên 6 tập dữ liệu EMA (35h 55m) bằng hàm mất mát MSE kết hợp Pearson Correlation Coefficient (PCC), sau đó gán nhãn giả quỹ đạo 12 kênh chuyển động học (x, y của 6 cơ quan: Upper Lip, Lower Lip, Jaw, Tongue Tip, Tongue Body, Tongue Dorsum) cho tập train-clean-460 của LibriTTS.\n- **Giai đoạn 2 (TTS Architecture - 33M tham số)**: Văn bản mã hóa qua Phoneme Encoder được chiếu thành 3 luồng độc lập: Articulatory Embedding Predictor (AEP), Source Embedding Predictor (SEP), và Average Spectrogram Projection (ASP). ASP sử dụng Monotonic Alignment Search (MAS) để xác định thời lượng và huấn luyện Duration Predictor.\n  - *Nhánh nguồn (Source)*: SEP điều khiển Pitch and Energy Predictor (PEP) dự đoán $F_0$ và Energy. Source log-Mel Predictor (SLP) nhận $F_0$, Energy, ASP và speaker embedding để tạo log-Mel phổ nguồn thô $\\hat{M}_{src}$. Module OT-CFM (1D U-Net, 10 bước Euler ODE) nhận phần dư $M_{src}^{res} = M - \\hat{M}_{flt}$ để tinh chỉnh độ chi tiết của phổ kích thích nguồn thành $\\hat{M}_{src}^{res}$.\n  - *Nhánh lọc (Filter)*: AEP điều khiển Articulatory Trajectory Predictor (ATP) dự đoán quỹ đạo động học $\\hat{A}$ (được giám sát bằng nhãn AAI). Filter log-Mel Predictor (FLP) nhận $\\hat{A}$, ASP và speaker embedding (hoàn toàn không nhận $F_0$ và Energy) để dự đoán phổ bộ lọc $\\hat{M}_{flt}$.\n  - *Hợp nhất*: Phổ âm thanh tổng hợp $\\hat{M}_{audio} = \\hat{M}_{src}^{res} + \\hat{M}_{flt}$ và được đưa qua pre-trained HiFi-GAN vocoder để tái tạo sóng âm.",
+  "setup": "Tập dữ liệu: Huấn luyện AAI trên 6 tập EMA (SpireEMA, EMA-MAE, HPRC, USC-TIMIT, MSPKA, DKU; 86 người nói, 35h 55m); kiểm thử AAI trên tập HPRC (seen và unseen speakers). Huấn luyện TTS trên LibriTTS train-clean-460 (22.05 kHz, 80-band log-Mel); đánh giá trên LibriTTS test-clean/test-other và VCTK (đánh giá kiểm soát chéo và biến đổi prosody). Mô hình huấn luyện bằng Adam optimizer (1M steps, batch size 8 trên 2 GPU 24GB). Baselines gồm: AAI (TERA, MMS-SSL, MMS-FT); End-to-end TTS (YourTTS, XTTS); Flow-matching (Matcha-TTS có speaker embedding); Controllable TTS (StyleTTS2, HierSpeech++); cùng các biến thể ablation (Vanilla Source-Filter, w/o OT-CFM).",
+  "results": [
+   "Độ chính xác dự đoán quỹ đạo phát âm (CC trên HPRC test set): AAI với MMS-FT đạt 0.9542 (seen) và 0.7711 (unseen); mô hình Proposed TTS (ATP zero-shot) đạt CC 0.6673 (seen) và 0.6922 (unseen speakers).",
+   "Độ rõ và độ tự nhiên trên LibriTTS (test-clean / test-other): Proposed TTS (33.0M) đạt WER 5.53% / 7.33%, CER 2.29% / 3.35%, MOS 3.76 ± 0.15 / 3.65 ± 0.16, và UTMOS 3.71 ± 0.011 / 3.53 ± 0.012; vượt trội hơn YourTTS (WER 8.51% / 10.20%, MOS 3.63 / 3.59) và cạnh tranh với Vanilla Source-Filter (WER 5.96% / 7.96%, MOS 3.74 / 3.77).",
+   "Độ trung thực phổ và F0 trên LibriTTS test-clean: Proposed TTS đạt Log F0 MSE 1.19, F0 CC 0.8841 (tốt hơn XTTS 0.8730 và YourTTS 0.8718), và MCD 5.89 dB.",
+   "Ablation không dùng OT-CFM (w/o OT-CFM): Mặc dù đạt WER 4.77% trên test-clean, chất lượng tự nhiên và trung thực phổ bị suy giảm nghiêm trọng với UTMOS tụt xuống 2.26 và MCD tăng lên 6.72 dB.",
+   "Khả năng mở rộng năng lượng (VCTK Energy scaling 0.7 - 1.3): Duy trì Energy CC gần như tuyệt đối (0.9849 - 0.9890) và Log MSE thấp nhất (0.0245 - 0.0287), ổn định hơn StyleTTS2 (CC 0.8212 - 0.9603). Đồng thời giữ nguyên đặc tính bộ lọc với F1 CC duy trì ở mức ~0.88.",
+   "Phân tách chéo người nói (Cross-speaker A-B): Tín hiệu tổng hợp bám sát F0 của Người nói A (F0 CC: 0.7587 so với ceiling A-A là 0.7663), trong khi đặc tính phổ gắn với Người nói B (MCD với Người nói B đạt 5.4694, tốt hơn so với Người nói A là 5.8321)."
+  ],
+  "limitations": "Mô hình phải đánh đổi một phần độ trung thực phổ (spectral fidelity) với MCD đạt 5.89 dB so với các mô hình unconstrained dung lượng lớn như StyleTTS2 (4.52 dB). Chưa ràng buộc tương quan vật lý liên cơ quan cấu âm (inter-articulator constraints), và chưa đo lường MOS chủ quan cho biến thể ablation không có OT-CFM.",
+  "takeaways": "Việc phân tách rạch ròi nguồn-bộ lọc và ép bộ lọc phụ thuộc vào biểu diễn chuyển động học phát âm thực tế (12 kênh EMA) mang lại khả năng can thiệp trực tiếp vào giọng điệu (accent modification) và chuyển đổi đặc tính phát âm ở mức cử chỉ vật lý (gesture level) mà các mô hình black-box không thể thực hiện.",
+  "strengths": [
+   "Kiểm soát phát âm trực tiếp mức động học",
+   "Phân tách rõ ràng giữa nguồn và lọc",
+   "Refinement nguồn âm bằng OT-CFM hiệu quả",
+   "Tận dụng tốt tri thức đa ngữ MMS"
+  ],
+  "weaknesses": [
+   "MCD cao hơn mô hình unconstrained lớn",
+   "Chưa có ràng buộc tương quan liên cơ quan",
+   "Phụ thuộc pipeline nhãn giả hai giai đoạn"
+  ],
+  "context": "Jesuraj Bandekar & Prasanta Kumar Ghosh (SPIRE Lab, IISc Bangalore) kết hợp cùng Shinji Watanabe (CMU); bài báo hướng đến IEEE/ACM Transactions on Audio, Speech, and Language Processing (đăng tải trên arXiv:2610.00735)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

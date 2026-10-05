@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2609.36903",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 5,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đây là công trình đầu tiên mở rộng mô hình full-duplex end-to-end sang bài toán hội thoại đa bên (multi-party), ngữ cảnh dài (>30 phút) và song ngữ cùng lúc, kèm data engine tự động và benchmark hoàn chỉnh.",
+  "credibility": "Nghiên cứu đến từ lab uy tín (CUHK MMLab / CPII), cung cấp đầy đủ chi tiết huấn luyện, mã nguồn, link bộ dữ liệu và tuân thủ checklist của NeurIPS.",
+  "technical": "Quy trình sinh dữ liệu 2 bước kết hợp TTS có điều kiện cảm xúc, ép kênh audio, căn chỉnh nhãn MFA và giám sát song song cả luồng người dùng được thiết kế rất chặt chẽ và nhất quán.",
+  "impact": "Việc phát hành công khai 57.6k giờ dữ liệu hội thoại full-duplex mức codec-frame giải quyết trực tiếp nút thắt thiếu dữ liệu mở kéo dài trong cộng đồng nghiên cứu voice agent.",
+  "evidence": "Các thực nghiệm so sánh chi tiết với 4 baseline mạnh, có phân tích ablation về tỷ lệ dữ liệu/độ dài/số lượng người nói, đo đạc latency tương tác và kiểm chứng độ tương quan cao với người đánh giá."
+ },
+ "summary": {
+  "tldr": "MultiTalk mở rộng mô hình giọng nói full-duplex dạng Moshi sang tương tác hội thoại dài (>30 phút), đa người tham gia (multi-party) và song ngữ Anh - Trung. Công trình đóng góp một data engine cùng tập dữ liệu tổng hợp 57.6k giờ (MultiTalkPT/FT), benchmark đánh giá đa bên MultiTalkBench dựa trên audio thực tế, và mô hình Moshi-MTB 7B vượt trội các baseline mã nguồn mở.",
+  "problem": "Các mô hình full-duplex speech-to-speech hiện nay chủ yếu bị giới hạn trong đối thoại song phương (dyadic 1-1) và các đoạn hội thoại ngắn vài giây đến vài phút. Trong khi đó, các tình huống thực tế như cuộc họp, lớp học nhóm hay robot xã hội đòi hỏi mô hình phải theo dõi ngữ cảnh dài hạn, phân biệt nhiều người nói, hiểu cấu trúc turn-taking phức tạp và phản hồi đúng đối tượng (addressee selection). Sự thiếu hụt dữ liệu đa kênh mức codec-frame và thiếu benchmark đánh giá tương tác đa người dài hạn là nút thắt chính.",
+  "method": "MultiTalk giải quyết bài toán qua 3 trụ cột:\n1. **Data Engine & Corpus (57.6k giờ)**: Tạo hội thoại song ngữ Anh - Trung qua quy trình 2 bước LLM: Call #1 dựng world model (scenario, dàn nhân vật, tính cách, lộ trình tương tác); Call #2 tạo kịch bản chi tiết với ràng buộc phân bổ độ dài lượt thoại (60% ngắn, 30% vừa, 10% dài), chèn backchannels, ngắt lời (interruptions), nói chồng (overlapping) và các khoảng lặng tường minh ({speaker=silence, text=[Xs]}). Script được lọc qua 4 lớp chất lượng, tổng hợp âm thanh bằng IndexTTS2 (gán prompt giọng theo giới tính và vector cảm xúc 8 chiều), ghép kênh đa loa với kiểm soát khoảng hở/chồng chéo và căn chỉnh thời gian từ mức từ bằng Montreal Forced Aligner (MFA). Bộ dữ liệu gồm MultiTalkPT (54.4k giờ tiền huấn luyện) và MultiTalkFT (3.2k giờ fine-tuning).\n2. **MultiTalkBench**: Benchmark dài trung bình 32.6 phút (lên tới 43.6 phút) trích xuất từ 104 phiên ghi âm người thật (AMI, ICSI, CHiME-6, AISHELL-4/5, AliMeeting, MagicData-RAMC) có mic riêng từng người. Mô hình đóng vai một người tham gia chỉ định ($s_k$) theo persona prompt. Đánh giá tự động qua 6 lượt gọi LLM-as-Judge (Gemma-4-31B-it) trên 27 tiêu chí thuộc 4 nhóm: General (G1-G4), Multi-Party IQ (M1-M6), Role-conditional (4 vai: Facilitator, Driver, Collaborator, Evaluator) và điểm cơ học Participation Score ($P1$).\n3. **Mô hình Moshi-MTB**: Khởi tạo từ `moshiko-pytorch-bf16` (7B), giữ nguyên kiến trúc 2 luồng của Moshi nhưng gộp toàn bộ các người nói không phải target vào kênh user. Huấn luyện 2 giai đoạn: Giai đoạn 1 pre-training song ngữ trên MultiTalkPT (5,000 steps, batch 21h, 60% EN / 40% ZH, giám sát dự đoán cả luồng audio của user); Giai đoạn 2 fine-tuning đa người trên MultiTalkFT (200 steps).",
+  "setup": "Đánh giá thực hiện trên MultiTalkBench (104 mẫu, độ dài trung bình 32.6 phút). So sánh với 4 baseline mã nguồn mở: Moshiko-7B, PersonaPlex-7B, MiniCPM-o-4.5 (9B), và Qwen3-Omni-30B-A3B-Instruct (30B MoE). Phần cứng: GPU NVIDIA H800-80GB (Phase 1 tốn ~560 GPU-hours; Phase 2 tốn ~33 GPU-hours; quá trình render TTS cho 57.6k giờ tốn 64 GPU trong 30 ngày).",
+  "results": [
+   "Moshi-MTB đạt Final Score tổng thể là 13.15, tăng +182.2% so với gốc Moshiko-7B (4.66) và vượt qua tất cả baseline: Qwen3-Omni-30B (4.94), PersonaPlex-7B (2.52), MiniCPM-o-4.5 (11.05); tuy nhiên vẫn còn khoảng cách lớn so với Human reference (68.74).",
+   "Trên nhóm Multi-Party IQ, Moshi-MTB đạt 8.56 (tăng +255.2% so với 2.41 của Moshiko-7B), dẫn trước MiniCPM-o-4.5 ở các mục Speaker Tracking (14.56 vs 13.60), Group Awareness (15.80 vs 14.40), Noise Resistance (12.77 vs 8.23).",
+   "Trên nhóm Role-conditional, Moshi-MTB đạt 12.16 (+83.7% so với 6.62 của Moshiko-7B), vượt xa MiniCPM-o-4.5 (7.81) và Qwen3-Omni-30B (5.08).",
+   "Khai phóng năng lực tiếng Trung: Điểm ZH Final Score tăng từ 0.36 (Moshiko-7B) lên 16.27 (~45 lần), đồng thời điểm tiếng Anh (EN) vẫn tăng từ 7.82 lên 10.87 (+39.0%).",
+   "Đo đạc tương tác thời gian thực: Moshi-MTB đạt độ trễ bắt đầu phản hồi (response onset latency) 870 ms, stop latency 2230 ms (so với 5475 ms của Moshiko-7B), duy trì backchannel 94.1%, và bỏ qua hội thoại ngoài lề (side-conversation ignoring) đạt 98.8% (so với 92.0% của Moshiko-7B).",
+   "Tương quan giữa LLM-as-judge (Gemma-4-31B) và đánh giá người thật đạt hệ số Spearman rho = 0.898 trên Final Score."
+  ],
+  "limitations": "Khoảng cách năng lực tuyệt đối tới con người còn rất lớn (13.15 so với 68.74 của Human reference). Dữ liệu huấn luyện là giọng nói tổng hợp (IndexTTS2 + thuật toán mix/ghép) nên vẫn tồn tại synthetic-to-real gap so với ngữ điệu tự nhiên. Benchmark chỉ đánh giá tiếng Anh và tiếng Trung riêng biệt, chưa kiểm tra hiện tượng chêm xen ngôn ngữ trong câu (intra-sentential code-switching). Thử nghiệm mới chỉ áp dụng trên backbone 7B mà chưa scale lên các mô hình nền tảng lớn hơn.",
+  "takeaways": "Hiệu năng hội thoại đa người (multi-party) phụ thuộc chủ yếu vào phân phối dữ liệu huấn luyện thay vì kích thước tham số mô hình (mô hình 7B tối ưu dữ liệu vượt trội mô hình MoE 30B). Các kỹ sư xây dựng voice agent full-duplex có thể tận dụng engine sinh kịch bản và tập dữ liệu song ngữ 57.6k giờ để huấn luyện mô hình xử lý họp nhóm, đồng thời sử dụng MultiTalkBench để đo lường khả năng tương tác dài hạn.",
+  "strengths": [
+   "Bộ dữ liệu full-duplex 57.6k giờ mã nguồn mở",
+   "Benchmark hội thoại đa bên thực tế dài >30 phút",
+   "Mở khóa tiếng Trung xuất sắc không làm suy giảm tiếng Anh",
+   "Vượt trội mô hình MoE 30B dù chỉ dùng 7B"
+  ],
+  "weaknesses": [
+   "Cách biệt điểm số còn rất xa con người (13.15 vs 68.74)",
+   "Dữ liệu train hoàn toàn tổng hợp từ TTS",
+   "Chưa đánh giá intra-sentential code-switching",
+   "Chưa kiểm chứng trên các backbone quy mô lớn"
+  ],
+  "context": "Ke Wang, Houxing Ren cùng nhóm nghiên cứu tại CUHK MMLab và CPII (InnoHK); bài báo công bố trên arXiv (09/2026), nộp vào track Datasets and Benchmarks của NeurIPS 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

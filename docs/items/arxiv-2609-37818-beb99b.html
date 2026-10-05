@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thinking in Depth, Speaking Directly: Recurrent Latent Reasoning for Paralinguistically Grounded Spoken Dialogue · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Thinking in Depth, Speaking Directly: Recurrent Latent Reasoning for Paralinguistically Grounded Spoken Dialogue</h1>
+    <div class="meta">
+      <span>published Sep 29, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Shengbo Cai, Yuxiang Wang, Jingran Xie, Zhisheng Zhang, Shun Lei, Di Cao, Teddy Sun, Zhiyong Wu</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2609.37818" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Empathetic spoken dialogue requires models to use both what is said and how it is said to decide how to respond. Explicit CoT can improve paralinguistic perception and make acoustic cues more explicit in replies, yet does not ensure their effective use in response planning. We call this mismatch the perception-reasoning gap. In addition, CoT may not fully capture acoustic cues in words, and generating it adds inference latency. To address these limitations, we introduce LoopSLM, which builds on looped Transformers for latent reasoning, reusing a decoder block to refine hidden states with acoustic grounding at every pass. Its two-stage training further narrows the perception-reasoning gap by separating learning to reason from learning to respond, enabling direct inference without CoT. On EchoMind, LoopSLM improves paralinguistic understanding, reasoning, and reply quality over Qwen2.5-Omni-7B. Against the CoT-SFT baseline, LoopSLM gains over 20 points in reasoning accuracy while generating 64.5% fewer tokens at half the latency. It also outperforms Qwen3-Omni-Thinking on most empathetic reply metrics with 34x lower latency. Despite training only on dialogue data, LoopSLM improves accuracy on general audio benchmarks.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 5, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>LoopSLM là mô hình speech language model (SLM) đầu tiên tích hợp kiến trúc looped Transformer để thực hiện suy luận tiềm ẩn (latent reasoning) theo chiều sâu bộ giải mã thay vì sinh chuỗi CoT dạng văn bản khi suy luận. Bằng cách tách biệt việc học suy luận từ CoT và việc sinh phản hồi trực tiếp qua hai giai đoạn huấn luyện, LoopSLM giúp thu hẹp &quot;perception–reasoning gap&quot; và cải thiện đáng kể khả năng phản hồi đồng cảm với độ trễ thấp.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Trong hội thoại tiếng nói đồng cảm, phản hồi phù hợp phụ thuộc vào cả nội dung nói và cách nói (paralinguistic cues như ngữ điệu, chất giọng, nhịp điệu). Phương pháp fine-tuning bằng Chain-of-Thought (CoT) thông thường làm tăng khả năng nhận biết âm học nhưng lại làm suy yếu khả năng dùng các manh mối đó để lập kế hoạch phản hồi (&quot;perception–reasoning gap&quot;), đồng thời việc sinh token CoT tường minh làm tăng độ trễ suy luận. Các phương pháp latent reasoning trước đây học qua nén CoT hoặc chưng cất biểu diễn vẫn gặp hạn chế về căn chỉnh hoặc phải sinh các bước ẩn tự hồi quy.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>LoopSLM chuyển việc lập kế hoạch phản hồi từ trục chuỗi (sequence axis) sang chiều sâu lặp lại (recurrent decoder depth):</p>
+<ul>
+<li><strong>Kiến trúc Decoder</strong>: Xây dựng trên Qwen2.5-Omni-7B Thinker (28 layer). Decoder được chia thành: Prelude (L1–8, đóng băng), Loop (L9–11, tham số chia sẻ $\theta_L$), Transition (L12–14, đóng băng), và Coda (L15–28, $\theta_C$). Việc lặp L9–11 giúp giữ thông tin ngữ âm tốt hơn so với các tầng muộn (L15–17) hay tầng sớm (L3–5 làm giảm độ chính xác phiên âm).</li>
+<li><strong>ReCue (Re-anchoring to acoustic Cues)</strong>: Cung cấp bằng chứng âm thanh gốc ở mỗi lượt lặp $r$ thông qua bộ nhớ đa tỷ lệ lấy từ 4 tầng của audio encoder đóng băng ($s \in {8, 16, 24, 32}$) bằng 16 truy vấn học được ($Q$). Mỗi lượt $r$, ReCue thực hiện cross-attention có trọng số kết hợp $\alpha_{r,s}$, vector nhúng vòng lặp $e_r$, và điều biến scale-only $\Gamma_r$ lên pre-norm của Loop.</li>
+<li><strong>Two-stage CoT-to-response training</strong>:
+<ul>
+<li><em>Stage 1</em>: Tối ưu hóa cross-entropy trên chuỗi speech-grounded CoT trace $z$, chỉ cập nhật Loop và ReCue (Coda đóng băng) để ép việc suy luận âm học vào khối lặp.</li>
+<li><em>Stage 2</em>: Cập nhật Coda để ánh xạ trạng thái ẩn đã tinh chế trực tiếp sang câu trả lời $y$ (không có CoT ở đầu ra), đồng thời đóng băng Loop và ReCue.</li>
+</ul>
+</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Dữ liệu huấn luyện gồm 380.540 câu thoại (431,9 giờ; 71% thời lượng là synthetic audio, tỷ lệ 62,2% tiếng Trung / 37,8% tiếng Anh) được gắn nhãn định dạng Cue/Need/Risk/Plan bằng Gemini-3.5-Flash (trace ~70 token). Huấn luyện trên 8 GPU H800 (Stage 1: 1 epoch, Stage 2: 0,5 epoch). Đánh giá trên EchoMind (MCQ accuracy % cho understanding/reasoning trên synthetic/human speech S/H; đánh giá chất lượng phản hồi C1–C4 thang điểm 1–5 bằng DeepSeek V4 Flash và Gemini-3.7-Flash), SD-Eval (thang 1–10), MMSU và MMAU-Pro. Các baseline gồm các mô hình off-the-shelf (Qwen2.5-Omni-7B, Kimi-Audio, Audio-Flamingo-3, OSUM-EChat, MiniCPM-o 4.5, MiMo-Audio-Think, Qwen3-Omni-Thinking) và các bản CoT-SFT.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên EchoMind, LoopSLM-R4 cải thiện độ chính xác hiểu ngữ âm (understanding) và suy luận (reasoning) trung bình so với Qwen2.5-Omni-7B lần lượt là 9,8 và 6,6 điểm phần trăm (Underst: 70,10/64,97% so với 60,47/55,09%; Reason: 63,90/63,38% so với 57,59/56,60%).</li>
+<li>So với baseline CoT-SFT trên cùng mô hình nền Qwen2.5 (Reason: 43,77/42,46%), LoopSLM-R4 tăng hơn 20 điểm phần trăm độ chính xác suy luận, đồng thời giảm 64,5% số token sinh ra (34,4 token so với 96,9 token) và giảm một nửa độ trễ.</li>
+<li>So với Qwen3-Omni-Thinking 30B (yêu cầu trung bình 711,0 token ở chế độ off-the-shelf và 171,6 token ở CoT-SFT), LoopSLM-R4 đạt điểm chất lượng phản hồi cao hơn trên hầu hết các tiêu chí (C1: 4,80/4,75, C2: 4,62/4,76, C3: 4,21/4,54) với độ trễ trung vị thấp hơn 34 lần.</li>
+<li>Trên các benchmark âm thanh tổng quát, dù chỉ huấn luyện trên dữ liệu hội thoại, LoopSLM-R4 vẫn cải thiện điểm số so với base Qwen2.5-Omni-7B: MMSU đạt 64,72% (so với 63,46%), MMAU-Pro đạt 56,09% (so với 53,71%), và SD-Eval đạt 5,22 (so với 4,62).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Khi tăng số vòng lặp lên R=6 trong quá trình huấn luyện, độ tuân thủ định dạng bị suy giảm khiến độ chính xác hiểu và suy luận giảm mạnh (Understanding: 47,5/23,4%, Reasoning: 57,5/49,8%). Việc loại bỏ ReCue làm suy giảm điểm hiểu ngữ âm và chất lượng câu trả lời. Tài liệu chưa đánh giá kiểm thử lắng nghe trực tiếp từ con người (human evaluation).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Thay vì bắt mô hình sinh CoT dạng chuỗi token gây chậm trễ khi tương tác giọng nói thời gian thực, có thể nén khả năng suy luận vào chiều sâu lặp lại của Transformer (looped depth) kết hợp tái căn chỉnh thông tin âm học liên tục qua ReCue, sau đó dùng stage 2 để ánh xạ trực tiếp sang câu trả lời.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">75.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#8 (tied) in 2026-W41</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đề xuất kết hợp looped Transformer với bộ nhớ âm học ReCue đa tầng và quy trình huấn luyện hai giai đoạn CoT-to-response để thực hiện latent reasoning cho SLM.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kiến trúc chi tiết, phân tích rõ ràng vị trí đặt Loop dựa trên độ sâu biểu diễn của decoder và kiểm soát chặt chẽ giữa generic depth và recurrent transform.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Thực nghiệm đa dạng với các baseline mạnh, ablation study chi tiết cho từng thành phần (ReCue, số vòng lặp R, quy trình 2 stage), tuy nhiên chưa phát hành trọng số mã nguồn.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Giải quyết bài toán then chốt về độ trễ và suy luận đồng cảm trong voice agents, mở ra hướng tối ưu hóa phản hồi thời gian thực mà không cần sinh token CoT.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Nghiên cứu đến từ nhóm tác giả uy tín tại Đại học Thanh Hoa, CUHK Thâm Quyến và Tencent Hunyuan, có phương pháp thực nghiệm và kiểm soát chặt chẽ.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đề xuất kết hợp looped Transformer với bộ nhớ âm học ReCue đa tầng và quy trình huấn luyện hai giai đoạn CoT-to-response để thực hiện latent reasoning cho SLM.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Nghiên cứu đến từ nhóm tác giả uy tín tại Đại học Thanh Hoa, CUHK Thâm Quyến và Tencent Hunyuan, có phương pháp thực nghiệm và kiểm soát chặt chẽ.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kiến trúc chi tiết, phân tích rõ ràng vị trí đặt Loop dựa trên độ sâu biểu diễn của decoder và kiểm soát chặt chẽ giữa generic depth và recurrent transform.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Giải quyết bài toán then chốt về độ trễ và suy luận đồng cảm trong voice agents, mở ra hướng tối ưu hóa phản hồi thời gian thực mà không cần sinh token CoT.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Thực nghiệm đa dạng với các baseline mạnh, ablation study chi tiết cho từng thành phần (ReCue, số vòng lặp R, quy trình 2 stage), tuy nhiên chưa phát hành trọng số mã nguồn.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kiến trúc looped Transformer đầu tiên cho SLM · Giảm độ trễ vượt trội so với CoT-SFT · Khắc phục perception-reasoning gap hiệu quả · Cơ chế ReCue neo giữ ngữ âm vững chắc · Khái quát hóa tốt sang benchmark âm thanh chung</p>
+          <p><span class="label">Weaknesses</span> · Chưa có đánh giá kiểm thử từ con người · Số vòng lặp nhạy cảm (R=6 suy giảm mạnh) · Mã nguồn và trọng số chưa được công bố</p>
+          <p><span class="label">Context</span> · Nghiên cứu được thực hiện bởi nhóm tác giả thuộc Đại học Thanh Hoa (Tsinghua University), Đại học Trung văn Hồng Kông, Thâm Quyến (CUHK-SZ) và Tencent Hunyuan; đăng tải trên arXiv (mã arXiv:2609.37818v1) vào tháng 9 năm 2026.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{
+ "id": "gh:huskerminion/techo5-dot",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án phát triển tiếp dựa trên daemon của EchoLocal và userspace từ EchoMuse nhưng mang lại tính mới khi loại bỏ hoàn toàn Fire OS để đưa Alpine Linux thuần vào Echo Dot 2 cùng driver Wi-Fi/Bluetooth tự viết.",
+  "credibility": "Dự án cá nhân nguồn mở trên GitHub với 92 stars, tài liệu kỹ thuật chi tiết, cung cấp mã nguồn đầy đủ và trích dẫn rõ ràng các upstream/credits.",
+  "technical": "Kỹ thuật nhúng rất sâu: khởi tạo chip MediaTek trực tiếp bằng cmd/wmtup, backport 48 bản vá kernel, giải pháp A/B slot rollback và phân tích âm học thực nghiệm trên mảng 7 mic.",
+  "impact": "Dự án tập trung vào phần cứng cụ thể đã cũ (Echo Dot Gen 2 ra mắt năm 2016) và đòi hỏi bước bẻ khóa phức tạp nên đối tượng người dùng thực tế khá hẹp.",
+  "evidence": "Cung cấp số đo chi tiết về dB microphone, thời gian boot, mức tiêu thụ RAM, CPU và mã nguồn đầy đủ, dù các thử nghiệm chỉ được đo trên 3 thiết bị vật lý của tác giả."
+ },
+ "summary": {
+  "tldr": "TECHO5 Dot thay thế hoàn toàn Fire OS trên phần cứng Amazon Echo Dot Gen 2 (biscuit) bằng một bản phân phối Alpine Linux tối giản cùng daemon điều khiển duy nhất. Dự án biến thiết bị thành voice satellite cục bộ cho Home Assistant qua giao thức ESPHome API mã hóa, xử lý wake word trực tiếp trên thiết bị (on-device) mà không gửi dữ liệu âm thanh về đám mây của Amazon.",
+  "problem": "Các thiết bị loa thông minh như Echo Dot Gen 2 phụ thuộc hoàn toàn vào dịch vụ đám mây của Amazon (Alexa), tiềm ẩn nguy cơ về quyền riêng tư và trở nên vô dụng nếu mất kết nối hoặc bị ngừng hỗ trợ. Việc chạy daemon trên nền tảng Fire OS gốc gặp nhiều overhead từ Android stack, rủi ro bảo mật và không tối ưu hóa tài nguyên phần cứng cho môi trường local-first.",
+  "method": "Hệ thống thay thế hoàn toàn Fire OS và khởi động Linux từ phân vùng recovery: \n- **Audio pipeline**: Thu âm từ mảng 7 microphone phần cứng; thay vì sử dụng delay-and-sum beamforming (vốn không mang lại hiệu quả trên vòng tròn 72 mm), daemon tính trung bình cộng tín hiệu của cả 7 mic và thực hiện echo cancellation (AEC) khử tiếng ồn loa trên tín hiệu trung bình này. Wake word chạy cục bộ bằng engine microWakeWord (hỗ trợ các mô hình như 'Okay Nabu', 'Alexa', 'Jarvis'...). \n- **Hạ tầng hệ thống**: Khởi động Alpine Linux không chứa bất kỳ process Android nào. Tự giao tiếp và kích hoạt chip Wi-Fi MediaTek thông qua tool riêng (`cmd/wmtup`). Tái biên dịch Linux kernel từ mã nguồn GPL của Amazon, backport 48 bản vá bảo mật Bluetooth (từ lỗ hổng BlueBorne trở đi), đồng thời tạo bridge đưa kênh raw HCI sang BlueZ và bluez-alsa (kèm bản vá crash fdk-aac). \n- **Bảo mật và cập nhật**: Kiến trúc cập nhật phân vùng kép (A/B slots) được ký điện tử bằng ed25519 với khả năng tự động rollback nếu boot lỗi; tường lửa chỉ mở các cổng cho Home Assistant, mDNS, SSH (keys-only) và Sendspin.",
+  "setup": "Yêu cầu phần cứng Echo Dot Gen 2 đã unlock bootloader bằng amonet, chạy Fire OS 6574.1 hoặc ở chế độ TWRP/root adb. Công cụ cài đặt bằng Python (`tools/install-dot.py`) hỗ trợ Windows, Linux, macOS. Kiểm thử thực tế diễn ra trên 3 thiết bị thử nghiệm (bench Dot) kết nối với Home Assistant qua giao thức ESPHome.",
+  "results": [
+   "Mảng 7 mic trung bình thu tiếng nói tốt hơn mic trung tâm từ 1–2.5 dB và tốt hơn 2–4 dB trong dải tần số 1.5–4.7 kHz.",
+   "Thời gian reboot đến khi Home Assistant API phản hồi: TECHO5 Dot v0.2.0 đạt 45.5–46.4 s (qua 3 lần chạy), so với 43.6 s trên Fire OS 6 chạy daemon dưới dạng Android service.",
+   "Tiến trình boot chi tiết: Dot kết nối Wi-Fi tại giây thứ 21 và bắt đầu lắng nghe wake word tại giây thứ 26.",
+   "Mức tiêu thụ bộ nhớ RAM: còn trống khoảng 445 MB trên tổng số 481 MB khi chạy đầy đủ toàn bộ dịch vụ (bao gồm Bluetooth).",
+   "Mức sử dụng CPU cho wake word: chiếm khoảng 30% của một nhân CPU (one core).",
+   "Kích thước root filesystem: chỉ 49 MB."
+  ],
+  "limitations": "Yêu cầu thiết bị phải được unlock bootloader từ trước bằng amonet (dự án không tích hợp sẵn công cụ bẻ khóa). Một số tính năng chưa được kiểm thử trên bản image này bao gồm ngõ ra âm thanh 3.5 mm và giao thức Sendspin (cổng 8928). Mất toàn bộ các kỹ năng (skills) và tính năng mua sắm gắn liền với đám mây Alexa.",
+  "takeaways": "Cung cấp một giải pháp mẫu mực về kỹ thuật firmware/embedded Linux để tái sử dụng phần cứng smart speaker thương mại cũ thành smart voice satellite cục bộ, tiết kiệm bộ nhớ (chỉ tốn 36 MB RAM runtime) và tối ưu độ nhạy microphone bằng xử lý trung bình tín hiệu.",
+  "strengths": [
+   "Loại bỏ hoàn toàn Fire OS",
+   "Khai thác mảng 7 mic tối ưu",
+   "Cực kỳ tiết kiệm RAM (49 MB rootfs)",
+   "Cập nhật A/B ký số an toàn",
+   "Hỗ trợ đầy đủ Bluetooth đa hướng"
+  ],
+  "weaknesses": [
+   "Cần unlock phần cứng phức tạp trước",
+   "Cổng 3.5mm và Sendspin chưa test",
+   "Thời gian boot chưa cải thiện nhiều"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi HuskerMinion (phát triển tiếp nối từ daemon EchoLocal của Yuri Gelfand và các nghiên cứu từ EchoMuse), phát hành trên GitHub theo giấy phép MIT."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

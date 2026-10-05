@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2609.40181",
+ "topic": "Speech Understanding",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đề xuất quy trình kết hợp mid-training pivot data, RIVAL adversarial supervision, parameter interpolation với targeted MOPD, cùng các kiến trúc chuyên biệt cho S2ST (Hidden2CV mapper + DiffRO) và NativeLongBench.",
+  "credibility": "Báo cáo kỹ thuật chi tiết từ Index LLM Team (Bilibili), phương pháp thực nghiệm bài bản, đối chuẩn với các mô hình thương mại và mã nguồn mở hàng đầu.",
+  "technical": "Thiết kế kỹ thuật sâu từ WSD mid-training, tinh chỉnh RL đa mục tiêu (XCOMET-XXL, RaR, DiffRO), chưng cất MOPD, cho đến kiến trúc mapper âm thanh và alignment cho văn bản dài.",
+  "impact": "Giải quyết trọn vẹn chuỗi giá trị sản xuất nội dung đa ngôn ngữ thực tế (dịch thuật phụ đề, lồng tiếng khớp khẩu hình/thời lượng, dịch sách và video speech-to-speech).",
+  "evidence": "Cung cấp hệ thống kết quả thực nghiệm dày đặc với số liệu cụ thể trên hàng loạt benchmark tiêu chuẩn và in-house, kèm phân tích ablation rõ ràng cho từng thành phần."
+ },
+ "summary": {
+  "tldr": "Index-Translate là họ mô hình dịch đa ngữ (2B, 9B, 35B-A3B) phát triển từ nền tảng Qwen3.5, hỗ trợ 150 ngôn ngữ với khả năng tuân thủ chỉ dẫn phức tạp. Hệ thống mở rộng sang dịch tiếng nói end-to-end (Index-Echo), dịch khống chế số lượng âm tiết cho lồng tiếng (Index-Homura), và dịch toàn văn tài liệu siêu dài (Index-NativeLong).",
+  "problem": "Mô hình dịch ngôn ngữ cần bảo toàn ngữ nghĩa chính xác qua nhiều ngôn ngữ nhưng phải đáp ứng đồng thời nhiều yêu cầu thực tế: giữ nguyên định dạng, thuật ngữ và mã nguồn; hiểu tiếng lóng/meme văn hóa; khống chế số âm tiết khớp thời lượng lồng tiếng; duy trì tính nhất quán trên ngữ cảnh dài; cũng như xử lý hiểu và phát âm thanh.",
+  "method": "Họ mô hình phát triển từ Qwen3.5 trải qua 3 giai đoạn chính: (1) Multilingual mid-training trên 150 ngôn ngữ với 167.77B tokens theo lịch trình WSD (Constant: 7k bước tỉ lệ General:Parallel:Monolingual = 1:1:1; Decay: 3k bước General:pivot-20:pivot-148 = 1:4:2). (2) Post-training với các chuyên gia General, Instruction (1.045 triệu mẫu, tỉ lệ token 1:1 với dữ liệu năng lực chung), và Meme; tinh chỉnh RL qua GRPO và Rubric-as-Reward (RaR), sử dụng khung RIVAL để giám sát judge đối kháng. (3) Tích hợp chuyên gia bằng parameter interpolation (trọng số 0.8 General / 0.1 Instruction / 0.1 Meme cho bản 2B/9B) kết hợp targeted Multi-Teacher On-Policy Distillation (MOPD) với hàm mục tiêu reverse-KL. Các mô hình mở rộng chuyên biệt gồm: Index-Echo kết nối encoder AuT (Qwen3-Omni) với decoder Index-Translate cho S2TT, và thêm Hidden2CV mapper (~30M tham số) đóng băng S2TT nối vào CosyVoice3 LM với thuật toán DiffRO (Token2Text content-consistency reward) cho S2ST; Index-Homura dùng GRPO với length reward để điều khiển số lượng âm tiết chính xác; Index-NativeLong thực hiện full-parameter SFT trên tài liệu dài (4K–64K tokens) trong cửa sổ ngữ cảnh 256K.",
+  "setup": "Đánh giá trên FLORES-200 (420 chiều), FLORES low-resource (1,040 chiều, 62 ngôn ngữ), WMT24++, WMT26, instTrans (3,000 mẫu core, 2,793 mẫu low-resource), IFMTBench (7,064 mẫu), SandGlass (3,600 mẫu/mô hình), NativeLongBench (GuoFeng, BWB, General Books từ 4K đến 64K tokens), và tập test video in-house (140 đoạn 50–60s cho S2TT, 100–200 mẫu/chiều cho S2ST). Metrics gồm COMET-22, XCOMET-XXL, GPT-5.6-Sol / Gemini-3.1-Pro judge, IFscore, off-target rate, WER/CER, speaker cosine similarity, tỷ lệ độ dài âm tiết trong khoảng ±1 và ±10%, và document-SEGALE/COMET.",
+  "results": [
+   "Văn bản thông thường: Index-Translate-35B-A3B (preview) đạt FLORES COMET-22 là 0.8794 và WMT24++ là 0.8586; Index-Translate-9B đạt FLORES COMET-22 là 0.8789 và WMT24++ là 0.8601 (so với DeepSeek-V4.1-Flash: 0.8762/0.8510; GPT-5.6-Sol: 0.8650/0.8469).",
+   "Tuân thủ chỉ dẫn & ít tài nguyên: Trên instTrans core, 35B-A3B đạt IFscore 0.8336 (chất lượng 0.6901); trên instTrans_minor, 9B đạt IFscore cao nhất là 0.7725 và tỷ lệ off-target thấp nhất 3.47% (so với GPT-5.6-Sol đạt IFscore 0.6866, off-target 7.73%).",
+   "Dịch tiếng nói S2TT: Index-Echo-9B đạt MT judge 0.857, median ASR error 0.102, Start-time MAE 0.488s; Index-Echo-2B đạt median ASR error 0.088 và Start-time MAE 0.395s (thấp nhất trong các mô hình so sánh, kể cả Qwen3.8-Omni-Flash có ASR error 0.112 và MAE 1.004s).",
+   "Dịch tiếng nói sang tiếng nói S2ST: Mô hình E2E giảm content error trung bình ở 8 trên 12 cặp kích thước–chiều dịch so với pipeline (Index-Echo-S2TT + CosyVoice3); ở đánh giá nguồn tiếng Trung, Index-Echo-2B đạt MT judge zh->en là 0.905 (so với SeamlessM4T-v2 là 0.370).",
+   "Khống chế số âm tiết lồng tiếng: Trên SandGlass (3,600 trường hợp), Index-Homura-9B (RL) đạt tỷ lệ trong khoảng ±10% âm tiết là 81.92%, mean |d| 0.0693, hệ số góc slope 0.968 (vượt trội so với GPT-5.6-Sol: 47.64%, mean |d| 0.3223; DeepSeek-V4-Flash: 16.36%, mean |d| 0.3368).",
+   "Dịch tài liệu siêu dài: Trên NativeLongBench ở dải độ dài 4K–64K tokens, Index-NativeLong-9B đạt điểm trung bình document-SEGALE/COMET cao nhất ở cả 3 tập: GuoFeng (0.7891), BWB (0.7683), General Books (0.8848), bỏ xa Qwen3.8 Flash (lần lượt là 0.7053, 0.6823, 0.8206)."
+  ],
+  "limitations": "MOPD gặp khó khăn khi xử lý các ràng buộc liên quan đến độ dài do cơ chế giám sát token-level; việc hợp nhất chuyên gia (model merge) làm suy giảm mạnh khả năng kiểm soát âm tiết (tỷ lệ thành công giảm từ 54.39% xuống 15.44% trên cấu hình thử nghiệm 4 nhánh 2B); mô hình kích thước nhỏ (2B) đôi khi bị lặp đoạn trong quá trình sinh tài liệu siêu dài.",
+  "takeaways": "Việc kết hợp parameter interpolation với targeted MOPD là giải pháp hiệu quả để dung hòa giữa chất lượng dịch và tuân thủ chỉ dẫn, nhưng các tác vụ đặc thù về khống chế âm tiết (dubbing), tài liệu siêu dài (native long), và tiếng nói (speech S2TT/S2ST) vẫn cần các mô hình chuyên biệt hóa (dedicated specialists/adapters) thay vì cố gộp chung vào một mô hình duy nhất.",
+  "strengths": [
+   "Hệ thống hóa toàn diện cho 150 ngôn ngữ",
+   "Tích hợp S2TT và S2ST hoàn chỉnh",
+   "Khống chế số lượng âm tiết chuẩn xác",
+   "Khả năng dịch tài liệu dài native tới 64K"
+  ],
+  "weaknesses": [
+   "MOPD kém hiệu quả với ràng buộc độ dài",
+   "Khả năng kiểm soát âm tiết suy giảm khi merge",
+   "Bản 2B có hiện tượng lặp ở tài liệu dài"
+  ],
+  "context": "Nghiên cứu từ Bilibili Index Team (tác giả liên hệ: Tianjiao Li), công bố trên arXiv vào tháng 9/2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

@@ -1,0 +1,51 @@
+{
+ "id": "isca:interspeech_2026/zhu26e_interspeech",
+ "topic": "TTS",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đề xuất thành công việc chuyển đổi trực tiếp từ text sang multi-codebook acoustic tokens thông qua discrete masked diffusion, đồng thời là công trình đầu tiên áp dụng hiệu quả khởi tạo từ causal LLM cho backbone bidirectional NAR TTS.",
+  "credibility": "Đến từ nhóm nghiên cứu uy tín của Daniel Povey tại Xiaomi Corp., được chấp nhận tại Interspeech 2026 và công khai mã nguồn cùng trọng số tiền huấn luyện.",
+  "technical": "Thiết kế kỹ thuật rõ ràng, giải quyết triệt để vấn đề mất thông tin của mô hình hai tầng bằng full-codebook random masking, chiến lược time-shifted unmasking kết hợp layer penalty, và chuẩn bị bộ dữ liệu 581k giờ với data cleaning chặt chẽ.",
+  "impact": "Mở rộng độ phủ zero-shot TTS lên mức kỷ lục hơn 600 ngôn ngữ, cung cấp mô hình mã nguồn mở chất lượng cao vượt cả các dịch vụ thương mại như ElevenLabs trên benchmark đa ngôn ngữ.",
+  "evidence": "Thực nghiệm đa dạng và chi tiết trên LibriSpeech-PC, Seed-TTS, MiniMax-24 và FLEURS-102 với đầy đủ chỉ số khách quan (WER, CER, SIM-o, UTMOS), đánh giá con người (CMOS, SMOS) cùng ablation studies rõ ràng chứng minh vai trò của từng thành phần cốt lõi."
+ },
+ "summary": {
+  "tldr": "OmniVoice là mô hình zero-shot TTS non-autoregressive (NAR) đơn tầng (single-stage) theo phong cách diffusion language model, hỗ trợ mở rộng quy mô lên hơn 600 ngôn ngữ. Mô hình ánh xạ trực tiếp từ văn bản sang acoustic tokens đa tầng (multi-codebook) mà không cần qua tầng semantic trung gian, nhờ chiến lược full-codebook random masking và khởi tạo trọng số từ LLM causal tiền huấn luyện.",
+  "problem": "Các mô hình discrete NAR TTS SOTA thường phụ thuộc vào pipeline 2 tầng phức tạp (text-to-semantic rồi semantic-to-acoustic), dẫn đến hiện tượng tích lũy sai số (error propagation) và thắt cổ chai thông tin (information bottleneck) làm mất chi tiết âm thanh. Ngược lại, các mô hình single-stage trước đây lại gặp vấn đề về độ rõ lời (speech intelligibility), đồng thời các hệ thống zero-shot TTS hiện hữu hầu như chỉ hỗ trợ vài chục ngôn ngữ do hạn chế về khả năng mở rộng dữ liệu và kiến trúc.",
+  "method": "OmniVoice xây dựng trên kiến trúc bidirectional Transformer với hàm mục tiêu discrete masked diffusion để trực tiếp ánh xạ chuỗi text tokens $Y$ (ghép giữa instruction và transcript) cùng acoustic prompt $X_{prompt}$ sang target acoustic tokens $X_{target}$ gồm $C=8$ codebooks (trích xuất bởi Higgs-audio tokenizer). Phương pháp gồm hai cải tiến kỹ thuật chính: (1) **Full-Codebook Random Masking**: thay vì mask theo từng tầng (per-layer schedule), mô hình lấy mẫu ngẫu nhiên độc lập $m_{i,j} \backsim \\text{Bernoulli}(p_t)$ trên toàn bộ ma trận kích thước $T \\times C$ với tỷ lệ mask $p_t \\backsim \\mathcal{U}(0, 1)$, giúp tính loss trên trung bình 50% số token (gấp $C$ lần cách cũ) và đẩy nhanh tốc độ hội tụ; (2) **LLM Initialization**: khởi tạo backbone từ trọng số LLM tiền huấn luyện Qwen3-0.6B giúp kế thừa tri thức ngôn ngữ, biến mô hình thành NAR TTS đầu tiên tận dụng thành công LLM initialization để cải thiện độ rõ lời. Ngoài ra, mô hình tích hợp prompt denoising (huấn luyện với token `<|denoise|>` trên prompt bị nhiễu/reverberation), attribute-guided voice design (điều khiển giọng qua tuổi, giới tính, cao độ, phương ngữ), paralinguistic control (tiếng cười) và phonetic override.",
+  "setup": "Mô hình được huấn luyện trên 8 GPU với sequence packing size 8,192. Hai phiên bản huấn luyện gồm: bản bilingual (100k giờ tiếng Trung và tiếng Anh từ Emilia, 300k updates) và bản multilingual (581k giờ trên 600+ ngôn ngữ từ 50 bộ dữ liệu mã nguồn mở được lọc bằng rule-based filtering và công cụ phục hồi âm thanh Sidon, chạy 2M updates kèm up-sampling ngôn ngữ ít tài nguyên). Quá trình suy luận chạy qua 32 bước unmasking lặp với lịch trình time-shifted ($r_n = \\frac{\\tau \\cdot (n/N)}{1 + (\\tau - 1) \\cdot (n/N)}$ với $\\tau = 0.1$), áp dụng layer penalty và classifier-free guidance (scale = 2). Đánh giá qua SIM-o, WER/CER, UTMOS, CMOS và SMOS trên LibriSpeech-PC, Seed-TTS, MiniMax-24 và FLEURS-102.",
+  "results": [
+   "Trên LibriSpeech-PC test-clean, OmniVoice (500k Multi) đạt WER 1.30, SIM-o 0.729, UTMOS 4.28 (vượt F5-TTS WER 1.89, ZipVoice WER 1.64, MaskGCT WER 2.26 và Ground-truth WER 1.87).",
+   "Trên Seed-TTS test-zh, OmniVoice đạt WER 0.84, SIM-o 0.777, UTMOS 3.11 (bản OmniVoice-Emilia đạt WER 0.89 so với MaskGCT 2.40 và ZipVoice 1.40).",
+   "Trên Seed-TTS test-en, OmniVoice đạt WER 1.60, SIM-o 0.741, UTMOS 3.91 (bản OmniVoice-Emilia đạt WER 1.72 so với MaskGCT 2.88).",
+   "Trên benchmark MiniMax-Multilingual-24 (trung bình 24 ngôn ngữ), OmniVoice đạt WER 2.850 và SIM-o 0.830, vượt trội so với ElevenLabs Multilingual v2 (WER 10.950, SIM-o 0.655) và MiniMax-Speech (WER 3.774, SIM-o 0.766).",
+   "Trên FLEURS-Multilingual-102 (102 ngôn ngữ), OmniVoice đạt CER trung bình 4.00% và SIM-o 0.788, tốt hơn cả Ground-truth (CER 5.11%), với 82 ngôn ngữ có CER <= 5% và 95 ngôn ngữ có CER <= 10%.",
+   "Ablation study trên LibriSpeech-PC chỉ ra full-codebook random mask đạt WER 1.57, SIM-o 0.697 (vượt trội so với MaskGCT-style WER 2.04 và SoundStorm-style WER 3.00); LLM initialization giảm WER từ 2.56-2.79 (khởi tạo ngẫu nhiên) xuống còn 1.57."
+  ],
+  "limitations": "Tài liệu không phân tích chi tiết độ trễ suy luận thực tế (latency/RTF) khi chạy 32 bước unmasking; hiệu năng chi tiết trên từng ngôn ngữ trong số hơn 600 ngôn ngữ chưa được kiểm thử toàn diện ngoại trừ tập FLEURS (102 ngôn ngữ) và MiniMax (24 ngôn ngữ); chưa cung cấp so sánh với các mô hình thương mại lớn ngoài ElevenLabs và MiniMax.",
+  "takeaways": "Việc chuyển đổi trực tiếp text-to-acoustic trong mô hình discrete NAR TTS hoàn toàn khả thi và vượt trội nếu giải quyết được vấn đề mật độ huấn luyện (full-codebook random masking) và tri thức ngôn ngữ ban đầu (LLM initialization từ causal LLM sang bidirectional backbone). Đây là cấu trúc lý tưởng để scale TTS đa ngôn ngữ quy mô lớn mà không gặp rủi ro vỡ luồng cascaded pipeline.",
+  "strengths": [
+   "Hỗ trợ quy mô hơn 600 ngôn ngữ",
+   "Kiến trúc single-stage tinh gọn, loại bỏ cascade",
+   "Khai phóng LLM initialization cho discrete NAR",
+   "Full-codebook random masking tối ưu hiệu suất",
+   "Vượt baseline thương mại trên benchmark đa ngữ"
+  ],
+  "weaknesses": [
+   "Cần 32 bước lặp suy luận",
+   "Chưa đo đạc latency và RTF cụ thể",
+   "Đánh giá mới dừng ở 102 ngôn ngữ"
+  ],
+  "context": "Han Zhu, Lingxuan Ye, Wei Kang, Zengwei Yao, Liyong Guo, Fangjun Kuang, Zhifeng Han, Weiji Zhuang, Long Lin, Daniel Povey (Xiaomi Corp., Trung Quốc); công bố tại Interspeech 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

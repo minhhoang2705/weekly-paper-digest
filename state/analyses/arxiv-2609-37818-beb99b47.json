@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2609.37818",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất kết hợp looped Transformer với bộ nhớ âm học ReCue đa tầng và quy trình huấn luyện hai giai đoạn CoT-to-response để thực hiện latent reasoning cho SLM.",
+  "credibility": "Nghiên cứu đến từ nhóm tác giả uy tín tại Đại học Thanh Hoa, CUHK Thâm Quyến và Tencent Hunyuan, có phương pháp thực nghiệm và kiểm soát chặt chẽ.",
+  "technical": "Thiết kế kiến trúc chi tiết, phân tích rõ ràng vị trí đặt Loop dựa trên độ sâu biểu diễn của decoder và kiểm soát chặt chẽ giữa generic depth và recurrent transform.",
+  "impact": "Giải quyết bài toán then chốt về độ trễ và suy luận đồng cảm trong voice agents, mở ra hướng tối ưu hóa phản hồi thời gian thực mà không cần sinh token CoT.",
+  "evidence": "Thực nghiệm đa dạng với các baseline mạnh, ablation study chi tiết cho từng thành phần (ReCue, số vòng lặp R, quy trình 2 stage), tuy nhiên chưa phát hành trọng số mã nguồn."
+ },
+ "summary": {
+  "tldr": "LoopSLM là mô hình speech language model (SLM) đầu tiên tích hợp kiến trúc looped Transformer để thực hiện suy luận tiềm ẩn (latent reasoning) theo chiều sâu bộ giải mã thay vì sinh chuỗi CoT dạng văn bản khi suy luận. Bằng cách tách biệt việc học suy luận từ CoT và việc sinh phản hồi trực tiếp qua hai giai đoạn huấn luyện, LoopSLM giúp thu hẹp \"perception–reasoning gap\" và cải thiện đáng kể khả năng phản hồi đồng cảm với độ trễ thấp.",
+  "problem": "Trong hội thoại tiếng nói đồng cảm, phản hồi phù hợp phụ thuộc vào cả nội dung nói và cách nói (paralinguistic cues như ngữ điệu, chất giọng, nhịp điệu). Phương pháp fine-tuning bằng Chain-of-Thought (CoT) thông thường làm tăng khả năng nhận biết âm học nhưng lại làm suy yếu khả năng dùng các manh mối đó để lập kế hoạch phản hồi (\"perception–reasoning gap\"), đồng thời việc sinh token CoT tường minh làm tăng độ trễ suy luận. Các phương pháp latent reasoning trước đây học qua nén CoT hoặc chưng cất biểu diễn vẫn gặp hạn chế về căn chỉnh hoặc phải sinh các bước ẩn tự hồi quy.",
+  "method": "LoopSLM chuyển việc lập kế hoạch phản hồi từ trục chuỗi (sequence axis) sang chiều sâu lặp lại (recurrent decoder depth):\n- **Kiến trúc Decoder**: Xây dựng trên Qwen2.5-Omni-7B Thinker (28 layer). Decoder được chia thành: Prelude (L1–8, đóng băng), Loop (L9–11, tham số chia sẻ $\\theta_L$), Transition (L12–14, đóng băng), và Coda (L15–28, $\\theta_C$). Việc lặp L9–11 giúp giữ thông tin ngữ âm tốt hơn so với các tầng muộn (L15–17) hay tầng sớm (L3–5 làm giảm độ chính xác phiên âm).\n- **ReCue (Re-anchoring to acoustic Cues)**: Cung cấp bằng chứng âm thanh gốc ở mỗi lượt lặp $r$ thông qua bộ nhớ đa tỷ lệ lấy từ 4 tầng của audio encoder đóng băng ($s \\in \\{8, 16, 24, 32\\}$) bằng 16 truy vấn học được ($Q$). Mỗi lượt $r$, ReCue thực hiện cross-attention có trọng số kết hợp $\\alpha_{r,s}$, vector nhúng vòng lặp $e_r$, và điều biến scale-only $\\Gamma_r$ lên pre-norm của Loop.\n- **Two-stage CoT-to-response training**: \n  + *Stage 1*: Tối ưu hóa cross-entropy trên chuỗi speech-grounded CoT trace $z$, chỉ cập nhật Loop và ReCue (Coda đóng băng) để ép việc suy luận âm học vào khối lặp.\n  + *Stage 2*: Cập nhật Coda để ánh xạ trạng thái ẩn đã tinh chế trực tiếp sang câu trả lời $y$ (không có CoT ở đầu ra), đồng thời đóng băng Loop và ReCue.",
+  "setup": "Dữ liệu huấn luyện gồm 380.540 câu thoại (431,9 giờ; 71% thời lượng là synthetic audio, tỷ lệ 62,2% tiếng Trung / 37,8% tiếng Anh) được gắn nhãn định dạng Cue/Need/Risk/Plan bằng Gemini-3.5-Flash (trace ~70 token). Huấn luyện trên 8 GPU H800 (Stage 1: 1 epoch, Stage 2: 0,5 epoch). Đánh giá trên EchoMind (MCQ accuracy % cho understanding/reasoning trên synthetic/human speech S/H; đánh giá chất lượng phản hồi C1–C4 thang điểm 1–5 bằng DeepSeek V4 Flash và Gemini-3.7-Flash), SD-Eval (thang 1–10), MMSU và MMAU-Pro. Các baseline gồm các mô hình off-the-shelf (Qwen2.5-Omni-7B, Kimi-Audio, Audio-Flamingo-3, OSUM-EChat, MiniCPM-o 4.5, MiMo-Audio-Think, Qwen3-Omni-Thinking) và các bản CoT-SFT.",
+  "results": [
+   "Trên EchoMind, LoopSLM-R4 cải thiện độ chính xác hiểu ngữ âm (understanding) và suy luận (reasoning) trung bình so với Qwen2.5-Omni-7B lần lượt là 9,8 và 6,6 điểm phần trăm (Underst: 70,10/64,97% so với 60,47/55,09%; Reason: 63,90/63,38% so với 57,59/56,60%).",
+   "So với baseline CoT-SFT trên cùng mô hình nền Qwen2.5 (Reason: 43,77/42,46%), LoopSLM-R4 tăng hơn 20 điểm phần trăm độ chính xác suy luận, đồng thời giảm 64,5% số token sinh ra (34,4 token so với 96,9 token) và giảm một nửa độ trễ.",
+   "So với Qwen3-Omni-Thinking 30B (yêu cầu trung bình 711,0 token ở chế độ off-the-shelf và 171,6 token ở CoT-SFT), LoopSLM-R4 đạt điểm chất lượng phản hồi cao hơn trên hầu hết các tiêu chí (C1: 4,80/4,75, C2: 4,62/4,76, C3: 4,21/4,54) với độ trễ trung vị thấp hơn 34 lần.",
+   "Trên các benchmark âm thanh tổng quát, dù chỉ huấn luyện trên dữ liệu hội thoại, LoopSLM-R4 vẫn cải thiện điểm số so với base Qwen2.5-Omni-7B: MMSU đạt 64,72% (so với 63,46%), MMAU-Pro đạt 56,09% (so với 53,71%), và SD-Eval đạt 5,22 (so với 4,62)."
+  ],
+  "limitations": "Khi tăng số vòng lặp lên R=6 trong quá trình huấn luyện, độ tuân thủ định dạng bị suy giảm khiến độ chính xác hiểu và suy luận giảm mạnh (Understanding: 47,5/23,4%, Reasoning: 57,5/49,8%). Việc loại bỏ ReCue làm suy giảm điểm hiểu ngữ âm và chất lượng câu trả lời. Tài liệu chưa đánh giá kiểm thử lắng nghe trực tiếp từ con người (human evaluation).",
+  "takeaways": "Thay vì bắt mô hình sinh CoT dạng chuỗi token gây chậm trễ khi tương tác giọng nói thời gian thực, có thể nén khả năng suy luận vào chiều sâu lặp lại của Transformer (looped depth) kết hợp tái căn chỉnh thông tin âm học liên tục qua ReCue, sau đó dùng stage 2 để ánh xạ trực tiếp sang câu trả lời.",
+  "strengths": [
+   "Kiến trúc looped Transformer đầu tiên cho SLM",
+   "Giảm độ trễ vượt trội so với CoT-SFT",
+   "Khắc phục perception-reasoning gap hiệu quả",
+   "Cơ chế ReCue neo giữ ngữ âm vững chắc",
+   "Khái quát hóa tốt sang benchmark âm thanh chung"
+  ],
+  "weaknesses": [
+   "Chưa có đánh giá kiểm thử từ con người",
+   "Số vòng lặp nhạy cảm (R=6 suy giảm mạnh)",
+   "Mã nguồn và trọng số chưa được công bố"
+  ],
+  "context": "Nghiên cứu được thực hiện bởi nhóm tác giả thuộc Đại học Thanh Hoa (Tsinghua University), Đại học Trung văn Hồng Kông, Thâm Quyến (CUHK-SZ) và Tencent Hunyuan; đăng tải trên arXiv (mã arXiv:2609.37818v1) vào tháng 9 năm 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

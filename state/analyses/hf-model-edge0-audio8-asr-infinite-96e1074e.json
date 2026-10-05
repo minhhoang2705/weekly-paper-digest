@@ -1,0 +1,49 @@
+{
+ "id": "hf-model:Edge0/Audio8-ASR-Infinite",
+ "topic": "ASR",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Kết hợp native streaming đa clock (80/120/160 ms), target delay linh hoạt và Rolling KV Cache với RoPE re-basing để xử lý audio dài vô hạn trên vLLM.",
+  "credibility": "Phát hành bởi tổ chức Edge0 trên Hugging Face kèm mã nguồn và Docker demo, tuy nhiên bài báo khoa học (arXiv) vẫn đang trong trạng thái 'coming soon'.",
+  "technical": "Kiến trúc causal audio tower sliding window kết hợp Qwen2.5-3B, cơ chế Semantic VAD nhiều horizon và tích hợp hệ thống vLLM rolling KV cache chỉn chu.",
+  "impact": "Thu hút sự quan tâm lớn từ cộng đồng với hơn 1.500 likes và gần 27.000 lượt tải trên Hugging Face, giải quyết bài toán streaming ASR liên tục trong thực tế.",
+  "evidence": "Cung cấp bảng so sánh số liệu cụ thể trên 4 tập benchmark chuẩn (AISHELL-1, AISHELL-4, LibriSpeech clean/other) nhưng chưa nêu thông tin chi tiết về dữ liệu huấn luyện."
+ },
+ "summary": {
+  "tldr": "Audio8-ASR-Infinite là mô hình ASR streaming đa ngữ (tiếng Trung và tiếng Anh) với khả năng nhận dạng thời gian thực liên tục 24/7 nhờ cơ chế Rolling KV Cache trong vLLM. Mô hình cho phép tuỳ chọn clock âm thanh (80/120/160 ms) và độ trễ nhận dạng (240–560 ms), đồng thời tích hợp Semantic VAD.",
+  "problem": "Nhận dạng tiếng nói streaming thời gian thực thường gặp thách thức về độ trễ, bùng nổ bộ nhớ và độ trễ khi xử lý âm thanh có độ dài không giới hạn, cũng như các lỗi nhận diện khoảng lặng suy nghĩ (thinking pause) hay nói lắp khi dùng VAD âm học truyền thống.",
+  "method": "Kế thừa kiến trúc âm thanh realtime từ Voxtral và cơ chế streaming kiểu DSM (Delay-condition Sequence Modeling). Hệ thống kết hợp Causal Audio Tower khởi tạo từ Voxtral Realtime 4B (32 layers, hidden 1280, 128 mel bins, sliding window 750) và Decoder/LM Head từ Qwen2.5-3B-Instruct (36 layers, hidden 2048, 16 query heads / 2 KV heads) thông qua Audio Projector (max frame len 8 -> projection size 10240, GELU) và Frame Length Embedding. Cung cấp audio clock có thể chọn (80/120/160 ms tương ứng 12.5, 8.3, 6.25 bước/s) và target delay (240-560 ms). Hỗ trợ Semantic VAD (heads phân loại 8 class tại các horizon 0.5/1.0/2.0/3.0 s). Sử dụng vLLM tối ưu với rolling KV window 30 giây kèm RoPE re-basing để giữ memory và latency cố định khi chạy 24/7.",
+  "setup": "Đánh giá mô hình ở audio clock 80 ms, delay 480 ms (greedy decode, EOS suppressed). So sánh với Voxtral-Mini-4B-Realtime-2602 và nemotron-3.5-asr-streaming-0.6b (tại delay 560 ms). Tập kiểm thử: AISHELL-1, AISHELL-4, LibriSpeech test-clean và test-other. Ngôn ngữ hỗ trợ: tiếng Trung (zh) và tiếng Anh (en). Dữ liệu/trọng số: `bfloat16`, kích thước trọng số 8.17 GB, yêu cầu GPU hỗ trợ vLLM/Docker hoặc chạy simulated-streaming bằng PyTorch/Transformers.",
+  "results": [
+   "Trên aishell1/test (CER): Audio8 đạt 1.750%, vượt trội so với Voxtral-Mini-4B-Realtime (16.795%) và Nemotron-3.5-0.6B (12.927% @ 560ms)",
+   "Trên aishell4/test (CER): Audio8 đạt 2.893%, vượt trội so với Voxtral-Mini-4B-Realtime (16.456%) và Nemotron-3.5-0.6B (14.677% @ 560ms)",
+   "Trên librispeech test.clean (WER): Audio8 đạt 3.042%, thấp hơn Voxtral-Mini-4B-Realtime (2.210%) và tốt hơn Nemotron-3.5-0.6B (3.353% @ 560ms)",
+   "Trên librispeech test.other (WER): Audio8 đạt 6.808%, thấp hơn Voxtral-Mini-4B-Realtime (5.552%) và tốt hơn Nemotron-3.5-0.6B (7.140% @ 560ms)",
+   "Điểm trung bình (Average error rate): Audio8 đạt 3.623% trên 4 tập, so với 10.253% của Voxtral (trên 2 tập tiếng Trung) và 9.524% của Nemotron-3.5-0.6B"
+  ],
+  "limitations": "Tài liệu chưa công bố thông tin chi tiết về tập dữ liệu tiền huấn luyện và huấn luyện; chỉ mới hỗ trợ hai ngôn ngữ (tiếng Trung và tiếng Anh); điểm hoạt động ngoài các kết hợp định sẵn giữa audio clock và target delay có thể không đạt hiệu năng tối ưu; bài báo arXiv chưa phát hành chính thức.",
+  "takeaways": "Cung cấp một giải pháp mã nguồn mở mạnh mẽ cho ASR streaming với độ trễ cực thấp (có thể xuống 240 ms) và triển khai production dễ dàng qua vLLM Docker với Rolling KV cache 30s.",
+  "strengths": [
+   "Streaming 24/7 không tăng bộ nhớ",
+   "Độ trễ thấp, tuỳ biến linh hoạt",
+   "CER tiếng Trung vượt trội baseline",
+   "Tích hợp Semantic VAD phân loại tốt"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ tiếng Trung và Anh",
+   "Chưa có bài báo arXiv chi tiết",
+   "WER tiếng Anh kém Voxtral-Mini-4B"
+  ],
+  "context": "Mô hình phát hành mã nguồn mở bởi Edge0 (Edge0-AI) trên Hugging Face dưới giấy phép Apache 2.0 kèm theo triển khai vLLM."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

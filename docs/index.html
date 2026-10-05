@@ -56,7 +56,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W40</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -65,185 +65,210 @@
 <header class="page-header">
   <div class="page-heading">
     <h1 class="title">Dashboard</h1>
-    <p class="meta">Speech research this week: ASR, TTS, Speech Understanding, Voice Agent</p>
+    <p class="meta">Speech research from the latest crawl window: TTS, Speech Understanding, Voice Agent, Speech LLM</p>
   </div>
   <div class="header-actions">
-    <a class="button" href="digest/2026-W40.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg>Digest 2026-W40</a>
+    <a class="button" href="digest/2026-W41.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg>Digest 2026-W41</a>
   </div>
 </header>
 
 <div class="stats">
-  <div class="card stat"><span class="stat-value">2026-W40</span><span class="label">Latest digest</span><span class="sublabel">Sep 16, 2026 → Sep 30, 2026</span></div>
-  <div class="card stat"><span class="stat-value">1957</span><span class="label">Collected</span><span class="sublabel">unique items after dedup</span></div>
-  <div class="card stat"><span class="stat-value">956</span><span class="label">In scope</span><span class="sublabel">passed LLM triage</span></div>
-  <div class="card stat"><span class="stat-value">30</span><span class="label">In archive</span><span class="sublabel">1 week</span></div>
+  <div class="card stat"><span class="stat-value">2026-W41</span><span class="label">Latest digest</span><span class="sublabel">crawl window 7 days: Sep 28, 2026 → Oct 5, 2026</span></div>
+  <div class="card stat"><span class="stat-value">566</span><span class="label">Collected</span><span class="sublabel">unique items after dedup</span></div>
+  <div class="card stat"><span class="stat-value">127</span><span class="label">In scope</span><span class="sublabel">passed LLM triage</span></div>
+  <div class="card stat"><span class="stat-value">60</span><span class="label">In archive</span><span class="sublabel">2 weeks</span></div>
 </div>
 
 <section class="card" aria-labelledby="top-h">
-  <div class="card-header"><h2 class="label" id="top-h">Top 10</h2><span class="sublabel">2026-W40 · ranked by weighted score</span></div>
-  <ol class="list"><li class="row" data-topic="Speech Understanding" data-kind="paper" data-top="yes"
-    data-score="91.3" data-date="2026-09-18T08:15:34+00:00"
-    data-text="omnivchat: synthesizing, benchmarking, and training for native audio-visual dialogue haolin he yunfei chu qi chen wen huang yuan feng muzhi zhu zheqi dai haoning xu dongchao yang chunyat wu zining liang zhengxi liu xiquan li xie chen xize cheng qize yang jin xu qiuqiang kong arxiv hf daily papers">
+  <div class="card-header"><h2 class="label" id="top-h">Top 10</h2><span class="sublabel">2026-W41 · ranked by weighted score · “=” marks a tie</span></div>
+  <ol class="list"><li class="row" data-topic="TTS" data-kind="paper" data-top="yes"
+    data-score="86.2" data-date="2026-09-29T05:11:04+00:00"
+    data-text="reconstructing the vocal tract with differentiable acoustic simulation eric ming chen jin woo lee vincent sitzmann arxiv">
 <span class="row-rank">1</span>  <div class="row-main">
-    <a class="row-title" href="items/arxiv-2609-21465-bf1b56.html">OmniVChat: Synthesizing, Benchmarking, and Training for Native Audio-Visual Dialogue</a>
+    <a class="row-title" href="items/arxiv-2609-36737-26c858.html">Reconstructing the Vocal Tract with Differentiable Acoustic Simulation</a>
     <div class="meta meta-small">
-<span>Sep 18, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
-<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span>      <span class="pill pill-accent">Speech Understanding</span>
-<span class="pill pill-top">Top 1 · 2026-W40</span>    </div>
-<p class="row-tldr">Nghiên cứu định nghĩa tác vụ OmniVChat (hội thoại audio-visual tự nhiên không qua tầng ASR cascade) và giải quyết hai nút thắt lớn về dữ liệu và đánh giá. Nhóm tác giả giới thiệu engine đa tác tử OmniVChat-Studio để tạo dữ liệu tổng hợp, bộ benchmark đa tầng OmniVChat-Bench (kèm tập kiểm thử người thật OmniVChat-Bench-Human), và phương pháp OmniVChat-RL giúp tối ưu đồng thời tính chính xác, tính súc tích và văn phong thoại.</p>  </div>
-  <div class="row-score" aria-label="Ranking score 91.3 of 100">
-    <span class="row-score-value">91.3</span>
+      <span>published Sep 29, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">TTS</span>
+<span class="pill pill-top">Top 1 · 2026-W41</span>    </div>
+<p class="row-tldr">Bài báo giới thiệu một bộ mô phỏng âm học thanh đạo (vocal tract) khả vi và tăng tốc trên GPU nhằm giải quyết bài toán nghịch đảo tái tạo hình học thanh đạo từ âm thanh tiếng nói thuần túy mà không cần dữ liệu ghép cặp. Bằng cách kết hợp mô phỏng trong miền tần số (FDS), mô hình nhiễu loạn khả vi cho phụ âm và biểu diễn hình học bằng neural fields, phương pháp đạt tốc độ mô phỏng nhanh hơn 70 lần so với miền thời gian và giải quyết tình trạng kẹt nghiệm cục bộ. Hệ thống chứng minh tính khả thi qua hai ứng dụng mới: mô hình tự mã hóa (autoencoder) tự giám sát trên 11 ngôn ngữ và tái tạo video MRI thanh đạo chuyển động từ âm thanh đơn lẻ.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 86.2 of 100">
+    <span class="row-score-value">86.2</span>
     <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 5/5" style="--v: 5"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 5/5" style="--v: 5"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+<span class="bar" title="Novelty 5/5" style="--v: 5"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 5/5" style="--v: 5"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
   </div>
 </li>
-<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
-    data-score="91.3" data-date="2026-09-28T11:53:07+00:00"
-    data-text="apex-voice: can voice agents complete professional workflows through full-duplex interaction puneet mathur dinesh manocha arxiv">
+<li class="row" data-topic="Speech Understanding" data-kind="paper" data-top="yes"
+    data-score="85.0" data-date="2026-09-30T17:05:58+00:00"
+    data-text="index-translate: a multilingual translation model family -- text, speech, controlled dubbing, and long-document translation tianjiao li mengran yu chenyu shi lusheng zhang qisi chen yanshan zhou ji qi jingying liu yuang feng ziang cui tianxing yan arxiv">
 <span class="row-rank">2</span>  <div class="row-main">
-    <a class="row-title" href="items/arxiv-2609-34973-7c981e.html">APEX-Voice: Can Voice Agents Complete Professional Workflows Through Full-Duplex Interaction</a>
+    <a class="row-title" href="items/arxiv-2609-40181-a2b467.html">Index-Translate: A Multilingual Translation Model Family -- Text, Speech, Controlled Dubbing, and Long-Document Translation</a>
     <div class="meta meta-small">
-<span>Sep 28, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
-<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
-<span class="pill pill-top">Top 2 · 2026-W40</span>    </div>
-<p class="row-tldr">APEX-VOICE là benchmark đánh giá khả năng thực thi quy trình công việc chuyên nghiệp (professional workflows) thông qua tương tác thoại full-duplex thời gian thực trên 120 workflow tương tác thuộc 10 nhóm tác vụ. Kết quả trên 5 voice agent hàng đầu (GPT-realtime-2.1, Grok-Voice-Think-2.0, Gemini-3.8-Live, Step-Audio3, GPT-Live-1) cho thấy không hệ thống nào vượt qua 25% PASS@1 và mức RELIABLE@3 cao nhất chỉ đạt 10.8%. Nghiên cứu chỉ ra rằng dù các mô hình làm tốt việc nhường lượt nói (floor control), điểm nghẽn chính nằm ở việc thất bại trong việc cập nhật trạng thái và hiện vật công việc khi người dùng chỉnh sửa giữa câu (mid-speech corrections).</p>  </div>
-  <div class="row-score" aria-label="Ranking score 91.3 of 100">
-    <span class="row-score-value">91.3</span>
-    <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 5/5" style="--v: 5"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 5/5" style="--v: 5"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
-  </div>
-</li>
-<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
-    data-score="87.5" data-date="2026-09-23T05:21:10+00:00"
-    data-text="neither silence nor overlap is failure: intent-conditioned evaluation of turn-taking in full-duplex spoken dialogue models kian shamsaie iman modarressi arxiv">
-<span class="row-rank">3</span>  <div class="row-main">
-    <a class="row-title" href="items/arxiv-2609-27372-5a4834.html">Neither Silence nor Overlap Is Failure: Intent-Conditioned Evaluation of Turn-Taking in Full-Duplex Spoken Dialogue Models</a>
-    <div class="meta meta-small">
-<span>Sep 23, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
-<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
-<span class="pill pill-top">Top 3 · 2026-W40</span>    </div>
-<p class="row-tldr">Nghiên cứu giới thiệu TACT (Theory-of-mind Aware Conversational Timing), một benchmark đánh giá turn-taking cho các mô hình full-duplex spoken dialogue models (SDMs) dựa trên phân phối hậu nghiệm ý định tiềm ẩn (latent intent) của người nói và hồ sơ bộ nhớ từng người. Phương pháp thay thế các cửa sổ nhị phân truyền thống bằng hàm chấm điểm strictly proper continuous ranked probability score (twCRPS) có trọng số theo kernel phân phối thời gian thực tế của con người, chứng minh rằng quyết định lên tiếng là bài toán suy luận ý định thay vì tối ưu độ trễ.</p>  </div>
-  <div class="row-score" aria-label="Ranking score 87.5 of 100">
-    <span class="row-score-value">87.5</span>
-    <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 5/5" style="--v: 5"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 5/5" style="--v: 5"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
-  </div>
-</li>
-<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
-    data-score="85.0" data-date="2026-09-12T00:00:00+00:00"
-    data-text="stepaudio 3 realtime technical report bin lin bo zhao boyang zhang boyong wu chao yan chen geng chen wu cheng yi chengli feng chenglin zhu chengting feng chengyuan yao daijiao liu danni wan daxin jiang dongjian li dongqing pang fei tian feng tian future li gang yu guanglong yang haoyang zhang hongyuan wang jia peng jiahao song jialong xue jiamin fan jiangjie zhen jianzheng gao jincheng wen jinghua liang jinglan gong jun chen li xie liang zhao lifang zhang lingli ji lun cai min xu peilin li peng yang pengfei tan qingjian lin qinxin du ruijie xiong runze li shenghua hu shengqian qin shi qiu siqi tu siyi zhou tianjiao deng wanying lu weiming niu wen sun wenwen qu xiangyu zhang xianwei zhang xiaosu su xing chen xinyu liu xuerui yang yan wu yang li yang yang yechang huang yibo zhu yifan zhang yinuo yan youjun chen yu fu yu luo yu zhou yujie chen yumang wang yunzhou ju yuxiang yang yuxin li yuxin zhang zekai liu zengwei yao zhaoxin yuan zhenwei mou zhiquan zhang zhiyue wu zichao li zichao zhou ziqi ren zixuan wang hf daily papers">
-<span class="row-rank">4</span>  <div class="row-main">
-    <a class="row-title" href="items/arxiv-2609-14005-b13af6.html">StepAudio 3 Realtime Technical Report</a>
-    <div class="meta meta-small">
-<span>Sep 12, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
-<span class="pill">HF Daily Papers</span>      <span class="pill pill-accent">Voice Agent</span>
-<span class="pill pill-top">Top 4 · 2026-W40</span>    </div>
-<p class="row-tldr">StepAudio 3 Realtime là mô hình nền tảng audio-language full-duplex được xây dựng dựa trên vòng lặp listen-converse-think-act. Điểm cốt lõi của hệ thống là cơ chế Think-While-Speaking kết hợp phân luồng suy luận ngầm song song với phát âm thanh thời gian thực, cho phép suy luận sâu mà không làm tăng độ trễ đàm thoại. Mô hình đạt các kết quả ấn tượng như 90.6 trên benchmark MMSU, 98.9 Overall trên Artificial Analysis Full-Duplex Bench và 56.0% task-success rate trên τ-Voice.</p>  </div>
+      <span>published Sep 30, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Speech Understanding</span>
+<span class="pill pill-top">Top 2 · 2026-W41</span>    </div>
+<p class="row-tldr">Index-Translate là họ mô hình dịch đa ngữ (2B, 9B, 35B-A3B) phát triển từ nền tảng Qwen3.5, hỗ trợ 150 ngôn ngữ với khả năng tuân thủ chỉ dẫn phức tạp. Hệ thống mở rộng sang dịch tiếng nói end-to-end (Index-Echo), dịch khống chế số lượng âm tiết cho lồng tiếng (Index-Homura), và dịch toàn văn tài liệu siêu dài (Index-NativeLong).</p>  </div>
   <div class="row-score" aria-label="Ranking score 85.0 of 100">
     <span class="row-score-value">85.0</span>
     <span class="bars" aria-hidden="true">
 <span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 5/5" style="--v: 5"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
   </div>
 </li>
-<li class="row" data-topic="ASR" data-kind="paper" data-top="yes"
-    data-score="83.7" data-date="2026-09-24T12:06:46+00:00"
-    data-text="yodas v3: over 1 million hours of high-bandwidth, stereophonic, multilingual speech william chen shinnosuke takamichi sayaka shiota satoru fukayama samuele cornell shinji watanabe arxiv isca archive">
-<span class="row-rank">5</span>  <div class="row-main">
-    <a class="row-title" href="items/arxiv-2609-29448-58af00.html">YODAS v3: Over 1 Million Hours of High-Bandwidth, Stereophonic, Multilingual Speech</a>
+<li class="row" data-topic="TTS" data-kind="paper" data-top="yes"
+    data-score="80.0" data-date="2026-09-29T23:25:21+00:00"
+    data-text="tacit-tts: from autoregressive decoding to masked prediction for efficient transcript-free voice cloning jian chen you zhang mark vinton arxiv papers with code">
+<span class="row-rank">=3</span>  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-38658-0d6124.html">Tacit-TTS: From Autoregressive Decoding to Masked Prediction for Efficient Transcript-Free Voice Cloning</a>
     <div class="meta meta-small">
-<span>Sep 24, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
-<span class="pill">arXiv</span><span class="pill">ISCA Archive</span>      <span class="pill pill-accent">ASR</span>
-<span class="pill pill-top">Top 5 · 2026-W40</span>    </div>
-<p class="row-tldr">YODAS v3 là bộ dữ liệu âm thanh tiếng nói đa ngôn ngữ có giám sát yếu (weakly-labeled) quy mô lớn nhất hiện nay với hơn 1,1 triệu giờ âm thanh 48kHz đa kênh (stereo) thuộc 147 ngôn ngữ dưới giấy phép CC BY 3.0. Dữ liệu cân bằng ngôn ngữ tốt hơn nhờ phương pháp lọc từ khóa độc lập theo từng ngôn ngữ từ Wikipedia, cung cấp phụ đề gốc, bản dịch tiếng Anh và mốc thời gian cấp phát ngôn.</p>  </div>
-  <div class="row-score" aria-label="Ranking score 83.7 of 100">
-    <span class="row-score-value">83.7</span>
-    <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 5/5" style="--v: 5"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 5/5" style="--v: 5"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
-  </div>
-</li>
-<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
-    data-score="83.7" data-date="2026-09-30T10:18:07.808019+00:00"
-    data-text="grounding spoken llms in multi-speaker audio via diarization conditioning alexander polok samuele cornell sathvik udupa honza černocký shinji watanabe lukáš burget isca archive">
-<span class="row-rank">6</span>  <div class="row-main">
-    <a class="row-title" href="items/isca-interspeech-2026-polok26b-interspeech-8ea7bd.html">Grounding Spoken LLMs in Multi-Speaker Audio via Diarization Conditioning</a>
-    <div class="meta meta-small">
-<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
-<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Voice Agent</span>
-<span class="pill pill-top">Top 6 · 2026-W40</span>    </div>
-<p class="row-tldr">Nghiên cứu đề xuất Dixtral, phương pháp mở rộng Spoken LLM (SLM) sang môi trường nhiều người nói (far-field multi-talker) bằng cách điều kiện hóa acoustic encoder dựa trên diarization masks và đóng băng hoàn toàn LLM decoder. Mô hình kết hợp encoder DiCoW vào SLM Voxtral, giúp giảm thiểu hiện tượng catastrophic forgetting các năng lực suy luận và tóm tắt. Dixtral vượt trội đáng kể so với Gemini 3.0 Flash, VibeVoice và Voxtral MTv2 về nhận dạng tiếng nói phân định người nói (speaker-attributed ASR) và khả năng hỏi đáp paralinguistic.</p>  </div>
-  <div class="row-score" aria-label="Ranking score 83.7 of 100">
-    <span class="row-score-value">83.7</span>
-    <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 5/5" style="--v: 5"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
-  </div>
-</li>
-<li class="row" data-topic="Speech Understanding" data-kind="paper" data-top="yes"
-    data-score="83.7" data-date="2026-09-30T10:18:07.808019+00:00"
-    data-text="scaling properties of continuous diffusion spoken language models jason ramapuram eeshan gunesh dhekane amitis shidani dan busbridge bogdan mazoure zijin gu russ webb tatiana likhomanenko navdeep jaitly isca archive">
-<span class="row-rank">7</span>  <div class="row-main">
-    <a class="row-title" href="items/isca-interspeech-2026-ramapuram26-interspeech-c210d2.html">Scaling Properties of Continuous Diffusion Spoken Language Models</a>
-    <div class="meta meta-small">
-<span>Sep 30, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
-<span class="pill">ISCA Archive</span>      <span class="pill pill-accent">Speech Understanding</span>
-<span class="pill pill-top">Top 7 · 2026-W40</span>    </div>
-<p class="row-tldr">Nghiên cứu này khảo sát các quy luật tỷ lệ (scaling laws) của Spoken Language Models sử dụng mô hình Continuous Diffusion (CD SLM) trên biểu diễn log-mel filterbanks thay vì mô hình hóa autoregressive (AR) trên các discrete tokens. Nhóm tác giả đề xuất chỉ số phoneme Jensen-Shannon divergence (pJSD) để đo lường tính ngôn ngữ (languageness) và chứng minh CD SLM tuân theo các quy luật mở rộng tương tự AR SLM, đồng thời huấn luyện mô hình quy mô lớn 16B tham số.</p>  </div>
-  <div class="row-score" aria-label="Ranking score 83.7 of 100">
-    <span class="row-score-value">83.7</span>
-    <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 5/5" style="--v: 5"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
-  </div>
-</li>
-<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
-    data-score="81.2" data-date="2026-09-29T07:25:29+00:00"
-    data-text="multitalk: scaling full-duplex speech models to long, multi-party, bilingual conversation ke wang houxing ren zimu lu yunqiao yang zhuofan zong mingjie zhan hongsheng li arxiv">
-<span class="row-rank">8</span>  <div class="row-main">
-    <a class="row-title" href="items/arxiv-2609-36903-2c0f95.html">MultiTalk: Scaling Full-Duplex Speech Models to Long, Multi-Party, Bilingual Conversation</a>
-    <div class="meta meta-small">
-<span>Sep 29, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
-<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
-<span class="pill pill-top">Top 8 · 2026-W40</span>    </div>
-<p class="row-tldr">MultiTalk mở rộng mô hình giọng nói full-duplex dạng Moshi sang tương tác hội thoại dài (&gt;30 phút), đa người tham gia (multi-party) và song ngữ Anh - Trung. Công trình đóng góp một data engine cùng tập dữ liệu tổng hợp 57.6k giờ (MultiTalkPT/FT), benchmark đánh giá đa bên MultiTalkBench dựa trên audio thực tế, và mô hình Moshi-MTB 7B vượt trội các baseline mã nguồn mở.</p>  </div>
-  <div class="row-score" aria-label="Ranking score 81.2 of 100">
-    <span class="row-score-value">81.2</span>
-    <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 5/5" style="--v: 5"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
-  </div>
-</li>
-<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
-    data-score="81.2" data-date="2026-09-28T13:16:39+00:00"
-    data-text="duplexcadence: exact state and execution from a speech model&#39;s declared timelines haixiao gao yimin zheng linyou xiao zeke xie arxiv">
-<span class="row-rank">9</span>  <div class="row-main">
-    <a class="row-title" href="items/arxiv-2609-35115-5c278b.html">DuplexCadence: Exact State and Execution from a Speech Model&#39;s Declared Timelines</a>
-    <div class="meta meta-small">
-<span>Sep 28, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
-<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
-<span class="pill pill-top">Top 9 · 2026-W40</span>    </div>
-<p class="row-tldr">DuplexCadence là hệ thống runtime tối ưu hóa suy luận thời gian thực cho các mô hình giọng nói full-duplex bằng cách khai báo tường minh các native clock và chính sách lưu giữ trạng thái (retention policy). Hệ thống kết hợp phân bổ bộ nhớ theo nhu cầu tại địa chỉ cố định (demand-sized, address-stable state allocation) và ghi/phát lại đồ thị CUDA chính xác kích thước (exact-shape graph replay) không cần padding, giúp tăng tốc 2.85× và giảm 38.8% peak memory với đầu ra bit-for-bit identical.</p>  </div>
-  <div class="row-score" aria-label="Ranking score 81.2 of 100">
-    <span class="row-score-value">81.2</span>
-    <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 5/5" style="--v: 5"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
-  </div>
-</li>
-<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
-    data-score="80.0" data-date="2026-09-21T14:20:47+00:00"
-    data-text="qwen-audio-3.1-realtime: towards reliable agentic voice interaction lujia bao qian chen luyao cheng chong deng yuxiang kong xiangang li xu li jiaqing liu chao-hong tan haoyu wang wen wang xilou wang haoxiang xu junhao xu liang yi binbin zhang qinglin zhang qiquan zhang arxiv">
-<span class="row-rank">10</span>  <div class="row-main">
-    <a class="row-title" href="items/arxiv-2609-25176-aa7509.html">Qwen-Audio-3.1-Realtime: Towards Reliable Agentic Voice Interaction</a>
-    <div class="meta meta-small">
-<span>Sep 21, 2026</span><span aria-hidden="true">·</span>      <span class="pill">Paper</span>
-<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
-<span class="pill pill-top">Top 10 · 2026-W40</span>    </div>
-<p class="row-tldr">Qwen-Audio-3.1-Realtime là mô hình trợ lý giọng nói thời gian thực phát triển dựa trên ba lớp cốt lõi: Think (suy luận âm thanh), Act (thực thi công cụ trong môi trường tương tác), và Speak &amp; Coordinate (điều phối chính sách hội thoại song công full-duplex). Báo cáo kỹ thuật trình bày giải pháp kết hợp giữa chưng cất chính sách on-policy (M2-OPD), tối ưu hóa Group Relative Policy Optimization (GRPO) trên môi trường tự tiến hóa với phản hồi đa cấp độ, cùng kiến trúc Voice Harness phân tách tác vụ foreground-background.</p>  </div>
+      <span>published Sep 29, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">Papers with Code</span>      <span class="pill pill-accent">TTS</span>
+<span class="pill pill-top">Top =3 · 2026-W41</span>    </div>
+<p class="row-tldr">Tacit-TTS là hệ thống zero-shot voice cloning non-autoregressive (NAR) không cần bản phiên âm (transcript-free) được chưng cất (distilled) từ mô hình AR IndexTTS2. Bằng cách thay thế text-to-semantic (T2S) dạng AR bằng masked Transformer, kết hợp ước lượng độ dài không cần huấn luyện (training-free) và ReFlow distillation cho bộ dựng S2Mel, hệ thống tăng tốc sinh giọng nói hơn 10× đối với các câu dài hơn 5 giây mà vẫn duy trì chất lượng tương đương.</p>  </div>
   <div class="row-score" aria-label="Ranking score 80.0 of 100">
     <span class="row-score-value">80.0</span>
     <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 5/5" style="--v: 5"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="80.0" data-date="2026-09-29T01:43:55+00:00"
+    data-text="duplexspeechbench-document grounding: benchmarking document grounding and hallucinations in voice agents puneet mathur nedim lipka zeyu jin dinesh manocha arxiv">
+<span class="row-rank">=3</span>  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-00316-23373f.html">DuplexSpeechBench-Document Grounding: Benchmarking Document Grounding and Hallucinations in Voice Agents</a>
+    <div class="meta meta-small">
+      <span>published Sep 29, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top =3 · 2026-W41</span>    </div>
+<p class="row-tldr">Nghiên cứu giới thiệu DuplexSpeechBench-Document Grounding (DSB-DG), benchmark chuyên biệt đầu tiên nhằm đánh giá khả năng bám sát tài liệu văn bản (document grounding) và ảo giác (hallucination) của các voice agent real-time và full-duplex. Benchmark gồm 1.636 cặp QA từ 50 tài liệu thuộc 5 lĩnh vực chuyên môn với 5 cấp độ độ dài ngữ cảnh (từ 500 đến 8.000 tokens), được kiểm thử qua 3 giao thức: Context Saturation, Grounding Decay và Proactive Grounding.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 80.0 of 100">
+    <span class="row-score-value">80.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech LLM" data-kind="paper" data-top="yes"
+    data-score="80.0" data-date="2026-10-01T12:28:03+00:00"
+    data-text="aural: adaptive latent reasoning with joint chunk for speech language models yuxiang wang kunyu feng yuancheng wang zihang liu shengbo cai qinke ni wan lin tao feng yingda shen ming-hao hsu zhixian zhao liqiang zhang teddy sun steve yves zhizheng wu arxiv">
+<span class="row-rank">=3</span>  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-01560-20a038.html">AURAL: Adaptive Latent Reasoning with Joint Chunk for Speech Language Models</a>
+    <div class="meta meta-small">
+      <span>published Oct 1, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Speech LLM</span>
+<span class="pill pill-top">Top =3 · 2026-W41</span>    </div>
+<p class="row-tldr">AURAL là khung suy luận tiềm ẩn (latent reasoning) dành cho mô hình ngôn ngữ tiếng nói (Speech Language Model - SLM), mô hình hóa phân phối đa đường đi (multi-path) và dự đoán đồng thời từng chunk trạng thái ẩn tương lai. Phương pháp kết hợp bộ dữ liệu AuralReason-683K và thuật toán RL thích ứng độ sâu suy luận theo độ khó câu hỏi, mang lại hiệu năng tương đương CoT-RL nhưng giảm thời gian phản hồi token đầu tiên tới 11.8 lần trên Qwen2.5-Omni.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 80.0 of 100">
+    <span class="row-score-value">80.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech LLM" data-kind="paper" data-top="yes"
+    data-score="76.2" data-date="2026-09-30T03:28:23+00:00"
+    data-text="audio token attention is predictable before the language model runs kyoungjun park yunzhe li lili qiu arxiv">
+<span class="row-rank">=6</span>  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-38878-3c27ae.html">Audio Token Attention Is Predictable Before the Language Model Runs</a>
+    <div class="meta meta-small">
+      <span>published Sep 30, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Speech LLM</span>
+<span class="pill pill-top">Top =6 · 2026-W41</span>    </div>
+<p class="row-tldr">Nghiên cứu phát hiện mức độ attention mà một audio token nhận được trên toàn bộ language model (LALM) có thể dự đoán tuyến tính trực tiếp từ encoder output trước khi language model chạy. Dựa trên phát hiện này, nhóm tác giả đề xuất Triage, phương pháp cắt tỉa audio token không cần huấn luyện lại mô hình, giúp tăng gần 3× lượng audio đưa vừa vào context window và tăng 4× số luồng phục vụ đồng thời trên một GPU.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 76.2 of 100">
+    <span class="row-score-value">76.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech Understanding" data-kind="paper" data-top="yes"
+    data-score="76.2" data-date="2026-09-30T15:19:12+00:00"
+    data-text="leap: learned block-wise evidence retrieval for long audio-video perception juyi lin zhiqiang lao jiali cui lin zhao pu zhao dichang zhang arman akbari yu qi xinru jiang yanzhi wang heather yu liang peng arxiv papers with code">
+<span class="row-rank">=6</span>  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-39938-56dd5e.html">LEAP: Learned Block-wise Evidence Retrieval for Long Audio-Video Perception</a>
+    <div class="meta meta-small">
+      <span>published Sep 30, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">Papers with Code</span>      <span class="pill pill-accent">Speech Understanding</span>
+<span class="pill pill-top">Top =6 · 2026-W41</span>    </div>
+<p class="row-tldr">LEAP là một framework trích xuất bằng chứng (evidence retrieval) cho bài toán Long-form Audio-Visual Question Answering (AVQA) giúp mô hình đạt độ dài ngữ cảnh và bộ nhớ $O(1)$ theo thời lượng video. Thay vì nhồi toàn bộ video vào context, LEAP chia bản ghi thành các khối cố định, dùng LoRA định vị (localization) nhẹ để chấm điểm các cửa sổ ứng viên, sau đó chỉ mã hóa lại tối đa 9 cửa sổ điểm cao nhất kèm transcript outline trong một lượt trả lời duy nhất. Phương pháp giúp cải thiện 4.5–16.8% độ chính xác trên Qwen3-Omni-30B và chuyển giao thành công sang MiniCPM-o 4.5.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 76.2 of 100">
+    <span class="row-score-value">76.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="75.0" data-date="2026-09-28T03:53:05+00:00"
+    data-text="salmonn-duo: adaptive dual-system coordination for full-duplex voice agents wenyi yu siyin wang terumi chiba xianzhao chen xiaohai tian jun zhang lu lu chao zhang arxiv">
+<span class="row-rank">=8</span>  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-34247-bb1201.html">SALMONN-duo: Adaptive Dual-System Coordination for Full-Duplex Voice Agents</a>
+    <div class="meta meta-small">
+      <span>published Sep 28, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top =8 · 2026-W41</span>    </div>
+<p class="row-tldr">SALMONN-duo là mô hình voice agent song công (full-duplex) kết hợp kiến trúc dual-system: System 1 là speech LLM tương tác thời gian thực nhanh nhạy và System 2 là LLM agent bất đồng bộ giải quyết tác vụ phức tạp. Bằng cách áp dụng SFT nhận thức ranh giới tri thức và cost-aware GRPO, mô hình biết tự điều phối khi nào cần tự trả lời và khi nào cần ủy quyền (delegate) cho backend nhằm tối ưu chi phí và độ trễ.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 75.0 of 100">
+    <span class="row-score-value">75.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech LLM" data-kind="paper" data-top="yes"
+    data-score="75.0" data-date="2026-09-28T17:30:33+00:00"
+    data-text="hear: real voices, real bias: a large-scale human-recorded, demographically diverse benchmark for audio language models shen yan duc le irina-elena veliche arxiv">
+<span class="row-rank">=8</span>  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-35952-cf4dd1.html">HEAR: Real Voices, Real Bias: A Large-Scale Human-Recorded, Demographically Diverse Benchmark for Audio Language Models</a>
+    <div class="meta meta-small">
+      <span>published Sep 28, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Speech LLM</span>
+<span class="pill pill-top">Top =8 · 2026-W41</span>    </div>
+<p class="row-tldr">HEAR là benchmark đầu tiên quy mô lớn đánh giá thiên kiến (demographic bias) trong Audio-LLM sử dụng 87k mẫu giọng nói người thật từ 843 người tham gia đa dạng nhân khẩu học tại Mỹ thay vì giọng tổng hợp TTS. Nghiên cứu khảo sát cả kiến trúc Speech-to-Speech (S2S) và Speech-to-Text (S2T), cho thấy bias phụ thuộc vào từng mô hình cụ thể và câu lệnh cá nhân hóa (personalization instruction) có xu hướng làm trầm trọng thêm sự chênh lệch nhân khẩu học.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 75.0 of 100">
+    <span class="row-score-value">75.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="75.0" data-date="2026-09-29T15:28:13+00:00"
+    data-text="thinking in depth, speaking directly: recurrent latent reasoning for paralinguistically grounded spoken dialogue shengbo cai yuxiang wang jingran xie zhisheng zhang shun lei di cao teddy sun zhiyong wu arxiv">
+<span class="row-rank">=8</span>  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-37818-beb99b.html">Thinking in Depth, Speaking Directly: Recurrent Latent Reasoning for Paralinguistically Grounded Spoken Dialogue</a>
+    <div class="meta meta-small">
+      <span>published Sep 29, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top =8 · 2026-W41</span>    </div>
+<p class="row-tldr">LoopSLM là mô hình speech language model (SLM) đầu tiên tích hợp kiến trúc looped Transformer để thực hiện suy luận tiềm ẩn (latent reasoning) theo chiều sâu bộ giải mã thay vì sinh chuỗi CoT dạng văn bản khi suy luận. Bằng cách tách biệt việc học suy luận từ CoT và việc sinh phản hồi trực tiếp qua hai giai đoạn huấn luyện, LoopSLM giúp thu hẹp &#34;perception–reasoning gap&#34; và cải thiện đáng kể khả năng phản hồi đồng cảm với độ trễ thấp.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 75.0 of 100">
+    <span class="row-score-value">75.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
   </div>
 </li>
 </ol>
 </section>
 
+<section class="card warnings" aria-labelledby="warn-h">
+  <div class="card-header"><h2 class="label label-icon" id="warn-h"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Collector warnings</h2></div>
+  <ul class="card-body"><li>hf_papers: không crawl được — HTTPStatusError: Client error &#39;400 Bad Request&#39; for url &#39;https://huggingface.co/api/daily_papers?date=2026-10-05&amp;limit=100&#39;
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400</li></ul>
+</section>
   </main>
 </body>
 </html>

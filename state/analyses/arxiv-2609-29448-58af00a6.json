@@ -1,0 +1,47 @@
+{
+ "id": "arxiv:2609.29448",
+ "topic": "ASR",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 5,
+  "technical": 4,
+  "impact": 5,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đây là tập dữ liệu mở đầu tiên vượt mốc 1 triệu giờ hỗ trợ đầy đủ âm thanh stereo 48kHz chất lượng cao và có nhãn giám sát yếu trên 147 ngôn ngữ, đi kèm chiến lược sinh từ khóa độc lập để cân bằng tài nguyên.",
+  "credibility": "Đến từ nhóm nghiên cứu ESPnet danh tiếng tại CMU và các viện nghiên cứu hàng đầu Nhật Bản (Keio, TMU, AIST), được chấp nhận tại hội nghị Interspeech 2026 và công khai toàn bộ dữ liệu trên Hugging Face.",
+  "technical": "Quy trình crawl dữ liệu chặt chẽ, có các bước phân tích kỹ thuật chuyên sâu về băng thông thực (STFT 8192 mẫu) và kiểm tra tính đa kênh thực (RMS sai phân), cùng thử nghiệm ASR và codec hoàn chỉnh trên nền tảng ESPnet.",
+  "impact": "Là tài nguyên nền tảng quan trọng giải quyết sự thiếu hụt nghiêm trọng về dữ liệu tiếng nói spatial/stereo và high-bandwidth cho nghiên cứu mã nguồn mở, dự kiến tác động lớn đến các nghiên cứu speech foundation model và audio codec.",
+  "evidence": "Báo cáo đầy đủ các số liệu thống kê chi tiết về phân bổ thời lượng, băng thông và số kênh thực, kèm theo kết quả thực nghiệm rõ ràng trên benchmark chuẩn CommonVoice và LibriTTS."
+ },
+ "summary": {
+  "tldr": "YODAS v3 là bộ dữ liệu âm thanh tiếng nói đa ngôn ngữ có giám sát yếu (weakly-labeled) quy mô lớn nhất hiện nay với hơn 1,1 triệu giờ âm thanh 48kHz đa kênh (stereo) thuộc 147 ngôn ngữ dưới giấy phép CC BY 3.0. Dữ liệu cân bằng ngôn ngữ tốt hơn nhờ phương pháp lọc từ khóa độc lập theo từng ngôn ngữ từ Wikipedia, cung cấp phụ đề gốc, bản dịch tiếng Anh và mốc thời gian cấp phát ngôn.",
+  "problem": "Hầu hết các tập dữ liệu tiếng nói mã nguồn mở quy mô lớn (như YODAS v2, VoxPopuli, MLS, LibriLight) chỉ cung cấp âm thanh đơn kênh (monaural) ở tần số lấy mẫu 16 kHz hoặc 24 kHz, đồng thời thiên lệch nặng về tiếng Anh. Điều này tạo ra rào cản lớn cho các nghiên cứu mới đòi hỏi âm thanh độ trung thực cao hoặc âm thanh không gian đa kênh như spatial audio processing, high-fidelity neural audio codec, full-band TTS, và stereo speech enhancement.",
+  "method": "Quy trình thu thập và xây dựng tập dữ liệu gồm các bước chính: 1) Sinh từ khóa tìm kiếm: Tải dump Wikipedia cho từng ngôn ngữ riêng lẻ, lọc từ khóa theo tiêu chí (độ dài 3-30 ký tự, không bắt đầu bằng số/dấu câu, không phải mã template/DOI), sau đó huấn luyện unigram subword tokenizer và giữ lại các từ có xác suất xuất hiện cao nhất để tránh thiên lệch về ngôn ngữ giàu tài nguyên. 2) Tìm kiếm video trên YouTube: Lọc video có giấy phép Creative Commons, ưu tiên thời điểm tải lên gần nhất để giảm thiểu việc thuật toán chỉ đề xuất các video lượt xem cao, đồng thời loại trừ hoàn toàn các video ID đã có trong YODAS v2. 3) Tải và xử lý: Giữ nguyên định dạng tải về với chất lượng cao nhất là 48kHz multi-channel OPUS; ưu tiên phụ đề thủ công nếu có (chiếm 3,7%), nếu không sẽ lấy phụ đề tự động của YouTube; tải thêm phụ đề dịch tiếng Anh cho các video không phải tiếng Anh; toàn bộ phụ đề và bản dịch đều có timestamp ở cấp phát ngôn kèm phần mô tả video. Tác giả cũng phân tích chi tiết: ước lượng băng thông thực bằng STFT 8192 mẫu (chỉ ra 92,5% dữ liệu vượt mức 32 kHz và 67,3% đạt 44,1 kHz) và phân tích tính đa kênh qua tỷ lệ sai khác RMS giữa các kênh (71% dữ liệu tương đương ~780K giờ là âm thanh stereo/đa kênh thực sự).",
+  "setup": "Tác giả đánh giá tập dữ liệu qua hai bài toán downstream: 1) ASR: Huấn luyện mô hình đơn ngữ OWSM v4 base (102M tham số) trên tập con 7 ngôn ngữ (English: 4500 giờ; Deu, Fra, Jap, Por, Rus, Vie: ~100 giờ mỗi thứ tiếng) trong 40K bước bằng ESPnet, kiểm tra độ nhạy của bộ lọc điểm CTC quantile filter (θCTC = 0.00, 0.10, 0.20, 0.30) và đo WER/CER trên CommonVoice. 2) Neural Audio Codec: Huấn luyện kiến trúc DAC trên 1200 giờ dữ liệu ngẫu nhiên từ YODAS v3 ở 3 tần số (16kHz, 24kHz, 48kHz) bằng ESPnet-Codec; so sánh với các baseline LibriTTS (585 giờ ở 16kHz, 24kHz) và AMUSE (33K giờ ở 16kHz, 44kHz); đánh giá bằng VERSA trên tập test LibriTTS (out-of-domain) và tập con 1000 video YODAS v3 (in-domain) thông qua thang đo STOI và speaker similarity (SPK) dựa trên WavLM.",
+  "results": [
+   "Về độ sạch transcript ASR trên CommonVoice: Mô hình huấn luyện không cần lọc điểm số (θCTC = 0.00) đạt kết quả tốt nhất ở hầu hết các ngôn ngữ so với các ngưỡng lọc nghiêm ngặt hơn (θCTC = 0.10, 0.20, 0.30): Deu đạt WER 14.4 (so với 16.3 ở θCTC=0.30), Fra đạt WER 17.2 (so với 21.8), Jap đạt CER 27.7 (so với 34.5), Por đạt WER 11.1 (so với 13.4), Rus đạt WER 15.3 (so với 16.7), Vie đạt WER 20.6 (so với 23.1); riêng English đạt WER 15.9 ở θCTC=0.00 và 15.3 ở θCTC=0.10/0.20.",
+   "Về chất lượng Neural Audio Codec: Mô hình DAC 48kHz huấn luyện trên 1200 giờ YODAS v3 đạt hiệu năng vượt trội trên cả tập kiểm tra out-of-domain LibriTTS (STOI: 0.97, SPK: 0.84) và in-domain YODAS v3 (STOI: 0.94, SPK: 0.90).",
+   "Mô hình DAC 48kHz của YODAS v3 vượt qua baseline AMUSE 44kHz (huấn luyện trên 33K giờ) trên cả tập LibriTTS (STOI 0.97 vs 0.95; SPK 0.84 vs 0.82) và tập kiểm tra phức tạp YODAS v3 (STOI 0.94 vs 0.90; SPK 0.90 vs 0.77)."
+  ],
+  "limitations": "Phần lớn phụ đề là nhãn tự động từ YouTube (phụ đề thủ công chỉ chiếm 3,7%), có thể tiềm ẩn sai số nhận dạng; nhãn ngôn ngữ dựa hoàn toàn vào YouTube-provided locale chứ không dùng bộ phân loại Language ID tự động vì chi phí tính toán; phần lớn dữ liệu video bị chi phối bởi video ngắn YouTube Shorts (<1 phút chiếm hơn 24%) hoặc livestream dài (>60 phút).",
+  "takeaways": "YODAS v3 mở ra nguồn dữ liệu mở khổng lồ 48kHz stereo cho cộng đồng phát triển các mô hình nền tảng tiếng nói thế hệ mới, neural audio codecs chất lượng cao, và hệ thống spatial audio mà không cần phụ thuộc vào dữ liệu nội bộ độc quyền. Chất lượng transcript tự động của YouTube hiện nay đã đủ tốt để huấn luyện trực tiếp mô hình nhận dạng mà không cần bước lọc CTC gắt gao.",
+  "strengths": [
+   "Quy mô mở kỷ lục hơn 1,1 triệu giờ",
+   "Chất lượng 48kHz đa kênh stereo thực tế cao",
+   "Phân bổ ngôn ngữ cân bằng tốt",
+   "Bổ sung phụ đề dịch tiếng Anh đi kèm"
+  ],
+  "weaknesses": [
+   "Tỷ lệ phụ đề thủ công rất thấp (3,7%)",
+   "Gán nhãn ngôn ngữ phụ thuộc locale YouTube",
+   "Tồn tại nhiều video ngắn YouTube Shorts"
+  ],
+  "context": "William Chen, Samuele Cornell, Shinji Watanabe (CMU), Shinnosuke Takamichi (Keio University), Sayaka Shiota (Tokyo Metropolitan University), Satoru Fukayama (AIST); công bố tại Interspeech 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

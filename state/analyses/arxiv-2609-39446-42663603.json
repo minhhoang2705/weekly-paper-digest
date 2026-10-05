@@ -1,0 +1,48 @@
+{
+ "id": "arxiv:2609.39446",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mở rộng đáng kể phạm vi đánh giá full-duplex bằng cách chuẩn hóa 6 hành vi tương tác (đặc biệt là Proactive Initiation và Active Silence) trên 3 điều kiện ngữ cảnh khác nhau thay vì chỉ kiểm tra turn-taking thụ động.",
+  "credibility": "Nghiên cứu đến từ các đơn vị uy tín tại Trung Quốc (BIGAI, Peking University, SJTU) nhưng tài liệu mới dừng lại ở dạng bản thảo kỹ thuật trên arXiv chưa qua bình duyệt.",
+  "technical": "Thiết kế giao thức streaming 80-ms chunks ở RTF 1.0 chặt chẽ, xây dựng chỉ số đồng bộ BAS dựa trên làm mịn Gaussian và tích hợp đánh giá đa tiêu chí từ GPT-4o và AnyAudio-Judge.",
+  "impact": "Đặt ra bài toán đánh giá quan trọng cho thế hệ voice agent kế tiếp, song tác động thực tế còn phụ thuộc vào việc cộng đồng áp dụng bộ benchmark và bộ công cụ đi kèm.",
+  "evidence": "Thực nghiệm chi tiết trên 1.290 trial với 12 hệ thống full-duplex tiên tiến, báo cáo đầy đủ các chỉ số BCR, Content, Latency, BAS cùng phân tích case study cụ thể."
+ },
+ "summary": {
+  "tldr": "DuplexAct-Bench là bộ benchmark song ngữ (Anh - Trung) đánh giá toàn diện các hệ thống hội thoại full-duplex thông qua 6 hành vi tương tác bổ trợ và 3 điều kiện ngữ cảnh. Bộ benchmark thử nghiệm 12 hệ thống speech agent và chỉ ra sự chênh lệch lớn giữa chất lượng ngữ nghĩa (Content) và tính kịp thời về mặt thời gian (Timing), đặc biệt là ở các hành vi chủ động (proactive behaviors).",
+  "problem": "Các benchmark full-duplex hiện tại chủ yếu tập trung vào việc luân phiên lượt lời (turn-taking) phản ứng thụ động và phản hồi theo kích hoạt từ người dùng, bỏ qua các hành vi tương tác chủ động (proactive behaviors) đòi hỏi agent phải tự quyết định có nên nói, khi nào nói và nói như thế nào trong các điều kiện ngữ cảnh biến đổi liên tục.",
+  "method": "DuplexAct-Bench chuẩn hóa việc đánh giá 6 hành vi tương tác: Agent Interruption, User Interruption, Interruption Resistance, Active Silence, Proactive Initiation, và Agent Backchannel trên 3 điều kiện ngữ cảnh (Pre-session, In-session, No-explicit) qua 30 kịch bản. Dữ liệu thử nghiệm gồm 1.290 trial được tạo sơ thảo bởi GPT-5.6 kết hợp hội thoại từ biểu diễn xiangsheng và tập dữ liệu otoSpeech, sau đó kiểm duyệt thủ công và tổng hợp âm thanh bằng ViiTorVoice trộn nhiễu nền. Hệ thống đánh giá hai chiều độc lập: (1) Content (0-5 điểm) gồm 3 khía cạnh từ transcript qua GPT-4o (Semantic Fulfillment, Constraint Adherence, Contextual Consistency) và Prosodic Appropriateness qua AnyAudio-Judge; (2) Timing đo độ trễ L hoặc Backchannel Alignment Score (BAS) với bộ lọc Gaussian và đa mô hình gán nhãn. Tiêu chí tổng hợp là Behavioral Correctness Rate (BCR), yêu cầu Content >= 2.5 và thỏa mãn tiêu chuẩn Timing.",
+  "setup": "Đánh giá 1,290 streaming trials (tiếng Anh và tiếng Trung) trên 12 hệ thống full-duplex (7 mô hình triển khai cục bộ: Freeze-Omni, MiniCPM-o 4.5, Moshi, PersonaPlex, VITA-1.5, Raon-SpeechChat, DuplexCascade; 5 remote API: Nemotron 3 VoiceChat, Qwen3.5-Omni, Grok Voice, GPT Realtime 2.1, Gemini 2.5 Native Audio). Audio được truyền theo streaming chunk xấp xỉ 80ms ở Real-Time Factor 1.0.",
+  "results": [
+   "Tại hành vi Interruption Resistance ở điều kiện No-explicit, BCR cao nhất đạt 100.0% (Grok Voice và GPT Realtime 2.1), nhưng tụt mạnh xuống chỉ còn tối đa 20.0% ở dịch đồng thời (MiniCPM-o 4.5) và 30.0% ở hát song ca (Gemini 2.5 Native Audio).",
+   "Hành vi Proactive Initiation ở điều kiện No-explicit rất khó với toàn bộ các mô hình, với mức BCR cao nhất chỉ đạt 8.8% (Qwen3.5-Omni).",
+   "Tính nhất quán giữa các điều kiện rất thấp: Freeze-Omni đạt 88.8% BCR cho Pre-session Active Silence nhưng tụt xuống 5.0% ở In-session; ngược lại Gemini 2.5 Native Audio duy trì ổn định với 76.3% (Pre-session) và 80.0% (In-session).",
+   "Sự mất cân đối giữa Content và Timing: GPT Realtime 2.1 đạt điểm Content cao nhất ở Agent Interruption (4.12/5) nhưng BCR chỉ đạt 2.5% (Pre-session), 1.3% (In-session) và 1.3% (No-explicit); VITA-1.5 và DuplexCascade đạt latency thấp nhất ở Proactive Initiation (10.05 s) nhưng điểm Content chỉ đạt 0.48 và 0.49 dẫn đến BCR 0.0%."
+  ],
+  "limitations": "Phần lớn âm thanh thử nghiệm được tổng hợp nhân tạo (TTS qua ViiTorVoice) thay vì giọng nói tự nhiên hoàn toàn từ người thật (chỉ dùng otoSpeech cho tập con backchannel No-explicit); đánh giá Content phụ thuộc vào LLM-as-a-judge (GPT-4o và AnyAudio-Judge).",
+  "takeaways": "Chỉ số latency thấp hoặc chất lượng text/audio cao riêng lẻ không phản ánh được khả năng tương tác real-time thành công; các nhà phát triển agent cần tối ưu đồng thời cả Content và Timing (như thước đo BCR) và tập trung cải thiện khả năng chủ động can thiệp (proactive initiation) cùng khả năng chủ động giữ im lặng (active silence).",
+  "strengths": [
+   "Phân loại hành vi tương tác toàn diện và logic",
+   "Đánh giá kết hợp cả Content và Timing",
+   "Tập mô hình thử nghiệm phong phú gồm cả API thương mại",
+   "Phương pháp đo lường Backchannel Alignment Score chặt chẽ"
+  ],
+  "weaknesses": [
+   "Chủ yếu dựa trên âm thanh nhân tạo TTS",
+   "Phụ thuộc nhiều vào đánh giá tự động từ LLM",
+   "Tài liệu chưa công bố mã nguồn mở kèm theo"
+  ],
+  "context": "Keyue Xing, Wentao Ding cùng các cộng sự từ BIGAI (State Key Laboratory of General Artificial Intelligence), Đại học Bắc Kinh và Đại học Giao thông Thượng Hải; công bố trên arXiv (tháng 9/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

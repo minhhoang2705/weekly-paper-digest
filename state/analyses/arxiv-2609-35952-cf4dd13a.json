@@ -1,0 +1,48 @@
+{
+ "id": "arxiv:2609.35952",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đây là benchmark quy mô lớn đầu tiên dùng 87k giọng nói người thật (non-TTS) đa dạng nhân khẩu học để đánh giá thiên kiến trong Audio-LLM kèm các metrics mới như VCD và DMD.",
+  "credibility": "Nhóm tác giả đến từ Meta Superintelligence Labs, có thỏa thuận đạo đức và đồng thuận rõ ràng từ người tham gia, mã nguồn và benchmark được công bố trên GitHub chính thức của tổ chức.",
+  "technical": "Thiết kế đo lường bias chi tiết, phân tách rõ content-based và audio-based bias, kết hợp bài toán MCQA và Open QA cùng kiểm định thống kê Mann-Whitney U và Chi-square.",
+  "impact": "Bộ dữ liệu và phát hiện về việc personalization prompt làm trầm trọng bias có giá trị định hướng thực tiễn cao cho cộng đồng phát triển Audio-LLM và Voice AI agents.",
+  "evidence": "Báo cáo chi tiết và đầy đủ số liệu thực nghiệm trên 4 Audio-LLM tiêu biểu, có phân tích thống kê định lượng trên cả Spoken BBQ và Open QA."
+ },
+ "summary": {
+  "tldr": "HEAR là benchmark đầu tiên quy mô lớn đánh giá thiên kiến (demographic bias) trong Audio-LLM sử dụng 87k mẫu giọng nói người thật từ 843 người tham gia đa dạng nhân khẩu học tại Mỹ thay vì giọng tổng hợp TTS. Nghiên cứu khảo sát cả kiến trúc Speech-to-Speech (S2S) và Speech-to-Text (S2T), cho thấy bias phụ thuộc vào từng mô hình cụ thể và câu lệnh cá nhân hóa (personalization instruction) có xu hướng làm trầm trọng thêm sự chênh lệch nhân khẩu học.",
+  "problem": "Khi Audio-LLM tiếp nhận trực tiếp tín hiệu âm thanh thô, các đặc trưng cận ngôn ngữ (paralinguistic cues) trong giọng nói người dùng có thể kích hoạt các thiên kiến xã hội ngoài ý muốn trong quá trình suy luận và đưa ra khuyến nghị. Các benchmark trước đây phụ thuộc vào giọng TTS (thiếu tính hợp lệ sinh thái / ecological validity) hoặc chỉ khảo sát phạm vi hẹp, chưa có benchmark giọng người thật quy mô lớn nào đánh giá đồng thời cả mô hình Speech-to-Text lẫn mô hình Realtime Speech-to-Speech.",
+  "method": "Tác giả xây dựng bộ dữ liệu HEAR với 87k bản ghi âm từ 843 người tham gia qua ứng dụng di động tại nhà. Benchmark gồm hai tác vụ chính cùng các hệ số đo lường mới: 1) **Spoken BBQ Task**: Chuyển thể benchmark BBQ sang dạng nói gồm các ngữ cảnh mơ hồ đi kèm câu hỏi phủ định (negative) hoặc không phủ định (non-negative). Đo content-based bias qua Speaker-Incline Rate (SIR) và Flip Rate (FR); đo audio-based bias qua Voice-Conditioned Disparity (VCD - đo độ lệch tính nhất quán giữa hai nhóm nhân khẩu học khi đổi dạng câu hỏi) và Demographic Matching Disparity (DMD - đo độ nhạy khi nhóm nhân khẩu học của speaker trùng khớp hoặc không trùng khớp với reference party). 2) **Open QAs Task**: Các câu hỏi mở thực tế (ví dụ: tư vấn nghề nghiệp) đánh giá qua Distribution Disparity Rate (DDR, dùng kiểm định Chi-square) và Response Helpfulness Rate. Đánh giá thêm ảnh hưởng của System Prompt mặc định so với Personalized System Prompt (yêu cầu phân tích đặc trưng nhân khẩu học người nói).",
+  "setup": "Tập dữ liệu: 87k audio thực tế từ 843 người tham gia tại Mỹ (đa dạng giới tính, độ tuổi, dân tộc, ngôn ngữ mẹ đẻ). Mô hình đánh giá: S2S (GPT Realtime, Gemini Realtime) và S2T (Qwen-Omni / Qwen3-Omni-30B-A3B-Instruct, Gemma4 / Gemma4-E4B). Hệ thống so sánh: Default System Prompt vs. Personalized System Prompt. Metrics: SIR, FR, VCD (Gender, Age, Language), DMD (Gender, Age), DDR, Helpfulness Rate.",
+  "results": [
+   "Spoken BBQ Content Bias: Gemini Realtime đạt mức thiên kiến thấp nhất (SIR Negative Question = 3.62%, Average FR = 6.39%; Non-Negative Question SIR = 6.05%, Average FR = 6.73%). Qwen-Omni có SIR cao nhất ở câu hỏi Non-Negative (27.01%), GPT Realtime đạt 17.31%, Gemma 4 đạt 16.69%.",
+   "VCD (Default Prompt): Tất cả mô hình đều nhất quán hơn với giọng nam so với giọng nữ (VCD Female, Male: Gemini Realtime 5.12%, GPT-Realtime 7.38%, Gemma4 9.49%, Qwen-Omni 10.78%), nhất quán hơn với người trẻ so với người lớn tuổi (VCD Old, Young từ -8.25% đến -17.00%), và ổn định hơn với người bản ngữ tiếng Anh (VCD Non-EN, EN từ 12.57% đến 26.34%).",
+   "Ảnh hưởng của Personalization Prompt trên Spoken BBQ: Nhìn chung làm tăng độ chênh lệch nhân khẩu học; ví dụ VCD(Female, Male) của Gemini Realtime tăng từ 5.12% lên 11.09%, GPT-Realtime tăng từ 7.38% lên 9.48%; VCD(Old, Young) của Qwen-Omni tăng từ -17.00% lên -25.47%.",
+   "Open QA Bias & Helpfulness: Dưới Default Prompt, Disparity của GPT-Realtime là 8.00% (Helpful 86.15%), Gemini Realtime là 18.00% (Helpful 32.62%), Qwen-Omni là 22.00% (Helpful 76.85%), Gemma4 là 10.00% (Helpful 50.10%). Dưới Personalized Prompt, Disparity của Qwen-Omni tăng vọt lên 54.00% (Helpful 68.76%), trong khi tỉ lệ Helpful của hầu hết các mô hình đều giảm (GPT-Realtime giảm còn 73.91%, Gemma4 giảm còn 47.66%)."
+  ],
+  "limitations": "Tập dữ liệu chỉ thu thập hoàn toàn bằng tiếng Anh (English-only) và toàn bộ 843 người tham gia đều là cư dân Hoa Kỳ (U.S. residents), do đó kết quả có thể không khái quát hóa được cho các khu vực và ngôn ngữ khác.",
+  "takeaways": "Voice bias là đặc tính phụ thuộc vào từng kiến trúc và mô hình Audio-LLM cụ thể chứ không đồng nhất. Các kỹ sư triển khai Audio-LLM cần đặc biệt cẩn trọng với các prompt yêu cầu cá nhân hóa theo nhân khẩu học, vì chúng có xu hướng khuếch đại sự phân biệt đối xử và giảm tính hữu ích của câu trả lời thay vì cải thiện trải nghiệm người dùng.",
+  "strengths": [
+   "Benchmark giọng người thật quy mô lớn đầu tiên (87k mẫu)",
+   "Đánh giá cả mô hình Speech-to-Speech và Speech-to-Text",
+   "Đề xuất các metric đo lường mới chặt chẽ (VCD, DMD, DDR)",
+   "Phát hiện thực nghiệm giá trị về tác động tiêu cực của personalization prompt"
+  ],
+  "weaknesses": [
+   "Chỉ giới hạn ở tiếng Anh và người tham gia tại Mỹ",
+   "Số lượng mô hình đánh giá còn giới hạn (4 mô hình)",
+   "Chưa đề xuất hoặc kiểm nghiệm phương pháp trực tiếp để giảm thiểu bias"
+  ],
+  "context": "Nghiên cứu từ Meta Superintelligence Labs (Shen Yan, Duc Le, Irina-Elena Veliche), phát hành dạng preprint trên arXiv và mã nguồn/benchmark mở tại GitHub facebookresearch/hear_voice_bias_benchmark."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

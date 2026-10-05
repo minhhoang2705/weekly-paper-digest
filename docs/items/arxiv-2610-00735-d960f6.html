@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Articulatory Source-Filter TTS: Physically Grounded Control through Vocal Tract Kinematics · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Articulatory Source-Filter TTS: Physically Grounded Control through Vocal Tract Kinematics</h1>
+    <div class="meta">
+      <span>published Sep 30, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">TTS</span>        <span class="authors">Jesuraj Bandekar, Shinji Watanabe, Prasanta Kumar Ghosh</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.00735" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Modern neural text-to-speech (TTS) systems achieve remarkable acoustic fidelity but act as black boxes, offering little interpretable control over the vocal tract filter. We propose a controllable source-filter TTS architecture grounded in articulatory kinematics. An Acoustic-to-Articulatory Inversion (AAI) model, enhanced by large-scale pretrained representations, generates kinematic pseudo-trajectories for a large TTS corpus. These trajectories condition the filter response, while predicted pitch and energy contours parameterise the glottal source. Source and filter are predicted independently, and the source is refined by an Optimal Transport Conditional Flow Matching (OT-CFM) module before recombination into the final spectrogram. Our model achieves intelligibility and naturalness competitive with similarly sized baselines, with only a modest spectral fidelity cost in exchange for explicit control. Evaluations reveal clear source-filter disentanglement, enabling stable prosodic scaling and cross-speaker source/filter recombination, where F0 remains tied to the source speaker while vocal-tract characteristics follow the filter speaker. Finally, direct manipulation of articulatory trajectories enables fine-grained control, such as accent modification, offering a new direction for interpretable speech synthesis. Audio samples: https://coding-phoenix-12.github.io/ArticulatorySFTTS/</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 5, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Nghiên cứu đề xuất Articulatory Source-Filter TTS, kiến trúc tổng hợp tiếng nói từ văn bản có khả năng điều khiển dựa trên cơ chế vật lý bằng cách gắn bộ lọc thanh quản (vocal tract filter) vào chuyển động học phát âm (articulatory kinematics). Thông qua mô hình Acoustic-to-Articulatory Inversion (AAI) đa ngữ để gán nhãn giả động học cho dữ liệu LibriTTS kết hợp tinh chỉnh nguồn âm bằng Optimal Transport Conditional Flow Matching (OT-CFM), hệ thống đạt khả năng phân tách nguồn-bộ lọc (source-filter disentanglement) rõ ràng và cho phép can thiệp trực tiếp vào quỹ đạo chuyển động của các cơ quan phát âm (như sửa đổi giọng điệu rhotic).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các hệ thống neural TTS hiện đại đạt chất lượng tự nhiên cao nhưng hoạt động như hộp đen khép kín (black box), thiếu khả năng điều khiển có thể diễn giải về mặt vật lý (physically interpretable control). Trong khi một số mô hình cho phép can thiệp vào cao độ và năng lượng của nguồn thanh quản, bộ lọc ống thanh âm vẫn bị xem như một đối tượng phổ trừu tượng mà không có sự liên hệ trực tiếp với các cơ quan cấu âm sinh học (lips, jaw, tongue).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Quy trình gồm 2 giai đoạn chính:</p>
+<ul>
+<li><strong>Giai đoạn 1 (AAI Backend)</strong>: Sử dụng mô hình AAI nền tảng Transformer (7.3M tham số) trích xuất biểu diễn âm thanh từ 3 tầng (layer 6, 24, 36) của mô hình đa ngữ MMS-1B (frame rate 50 Hz, upsample frame duplication lên 100 Hz). Mô hình được huấn luyện trên 6 tập dữ liệu EMA (35h 55m) bằng hàm mất mát MSE kết hợp Pearson Correlation Coefficient (PCC), sau đó gán nhãn giả quỹ đạo 12 kênh chuyển động học (x, y của 6 cơ quan: Upper Lip, Lower Lip, Jaw, Tongue Tip, Tongue Body, Tongue Dorsum) cho tập train-clean-460 của LibriTTS.</li>
+<li><strong>Giai đoạn 2 (TTS Architecture - 33M tham số)</strong>: Văn bản mã hóa qua Phoneme Encoder được chiếu thành 3 luồng độc lập: Articulatory Embedding Predictor (AEP), Source Embedding Predictor (SEP), và Average Spectrogram Projection (ASP). ASP sử dụng Monotonic Alignment Search (MAS) để xác định thời lượng và huấn luyện Duration Predictor.
+<ul>
+<li><em>Nhánh nguồn (Source)</em>: SEP điều khiển Pitch and Energy Predictor (PEP) dự đoán $F_0$ và Energy. Source log-Mel Predictor (SLP) nhận $F_0$, Energy, ASP và speaker embedding để tạo log-Mel phổ nguồn thô $\hat{M}<em>{src}$. Module OT-CFM (1D U-Net, 10 bước Euler ODE) nhận phần dư $M</em>{src}^{res} = M - \hat{M}<em>{flt}$ để tinh chỉnh độ chi tiết của phổ kích thích nguồn thành $\hat{M}</em>{src}^{res}$.</li>
+<li><em>Nhánh lọc (Filter)</em>: AEP điều khiển Articulatory Trajectory Predictor (ATP) dự đoán quỹ đạo động học $\hat{A}$ (được giám sát bằng nhãn AAI). Filter log-Mel Predictor (FLP) nhận $\hat{A}$, ASP và speaker embedding (hoàn toàn không nhận $F_0$ và Energy) để dự đoán phổ bộ lọc $\hat{M}_{flt}$.</li>
+<li><em>Hợp nhất</em>: Phổ âm thanh tổng hợp $\hat{M}<em>{audio} = \hat{M}</em>{src}^{res} + \hat{M}_{flt}$ và được đưa qua pre-trained HiFi-GAN vocoder để tái tạo sóng âm.</li>
+</ul>
+</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Tập dữ liệu: Huấn luyện AAI trên 6 tập EMA (SpireEMA, EMA-MAE, HPRC, USC-TIMIT, MSPKA, DKU; 86 người nói, 35h 55m); kiểm thử AAI trên tập HPRC (seen và unseen speakers). Huấn luyện TTS trên LibriTTS train-clean-460 (22.05 kHz, 80-band log-Mel); đánh giá trên LibriTTS test-clean/test-other và VCTK (đánh giá kiểm soát chéo và biến đổi prosody). Mô hình huấn luyện bằng Adam optimizer (1M steps, batch size 8 trên 2 GPU 24GB). Baselines gồm: AAI (TERA, MMS-SSL, MMS-FT); End-to-end TTS (YourTTS, XTTS); Flow-matching (Matcha-TTS có speaker embedding); Controllable TTS (StyleTTS2, HierSpeech++); cùng các biến thể ablation (Vanilla Source-Filter, w/o OT-CFM).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Độ chính xác dự đoán quỹ đạo phát âm (CC trên HPRC test set): AAI với MMS-FT đạt 0.9542 (seen) và 0.7711 (unseen); mô hình Proposed TTS (ATP zero-shot) đạt CC 0.6673 (seen) và 0.6922 (unseen speakers).</li>
+<li>Độ rõ và độ tự nhiên trên LibriTTS (test-clean / test-other): Proposed TTS (33.0M) đạt WER 5.53% / 7.33%, CER 2.29% / 3.35%, MOS 3.76 ± 0.15 / 3.65 ± 0.16, và UTMOS 3.71 ± 0.011 / 3.53 ± 0.012; vượt trội hơn YourTTS (WER 8.51% / 10.20%, MOS 3.63 / 3.59) và cạnh tranh với Vanilla Source-Filter (WER 5.96% / 7.96%, MOS 3.74 / 3.77).</li>
+<li>Độ trung thực phổ và F0 trên LibriTTS test-clean: Proposed TTS đạt Log F0 MSE 1.19, F0 CC 0.8841 (tốt hơn XTTS 0.8730 và YourTTS 0.8718), và MCD 5.89 dB.</li>
+<li>Ablation không dùng OT-CFM (w/o OT-CFM): Mặc dù đạt WER 4.77% trên test-clean, chất lượng tự nhiên và trung thực phổ bị suy giảm nghiêm trọng với UTMOS tụt xuống 2.26 và MCD tăng lên 6.72 dB.</li>
+<li>Khả năng mở rộng năng lượng (VCTK Energy scaling 0.7 - 1.3): Duy trì Energy CC gần như tuyệt đối (0.9849 - 0.9890) và Log MSE thấp nhất (0.0245 - 0.0287), ổn định hơn StyleTTS2 (CC 0.8212 - 0.9603). Đồng thời giữ nguyên đặc tính bộ lọc với F1 CC duy trì ở mức ~0.88.</li>
+<li>Phân tách chéo người nói (Cross-speaker A-B): Tín hiệu tổng hợp bám sát F0 của Người nói A (F0 CC: 0.7587 so với ceiling A-A là 0.7663), trong khi đặc tính phổ gắn với Người nói B (MCD với Người nói B đạt 5.4694, tốt hơn so với Người nói A là 5.8321).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Mô hình phải đánh đổi một phần độ trung thực phổ (spectral fidelity) với MCD đạt 5.89 dB so với các mô hình unconstrained dung lượng lớn như StyleTTS2 (4.52 dB). Chưa ràng buộc tương quan vật lý liên cơ quan cấu âm (inter-articulator constraints), và chưa đo lường MOS chủ quan cho biến thể ablation không có OT-CFM.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Việc phân tách rạch ròi nguồn-bộ lọc và ép bộ lọc phụ thuộc vào biểu diễn chuyển động học phát âm thực tế (12 kênh EMA) mang lại khả năng can thiệp trực tiếp vào giọng điệu (accent modification) và chuyển đổi đặc tính phát âm ở mức cử chỉ vật lý (gesture level) mà các mô hình black-box không thể thực hiện.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">70.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đây là hệ thống TTS từ văn bản đầu tiên tích hợp giám sát động học phát âm vật lý (12 kênh EMA) để điều hòa trực tiếp bộ lọc ống thanh âm trong mô hình source-filter.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kiến trúc phân luồng bất đối xứng chặt chẽ, kết hợp trích xuất đặc trưng đa tầng MMS-1B cho AAI và module OT-CFM để khôi phục chi tiết nguồn âm.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Cung cấp đầy đủ kết quả thực nghiệm khách quan (WER, MCD, F0 CC), đánh giá chủ quan (MOS, UTMOS), cùng các phân tích định tính chi tiết về minimal pairs và hiện tượng rhoticity.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Mở ra hướng nghiên cứu mới về TTS có thể diễn giải và ứng dụng chỉnh sửa trọng âm, nghiên cứu lâm sàng, dù các sản phẩm thương mại hiện vẫn ưu tiên các mô hình black-box lớn hơn.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Công trình đến từ các nhóm nghiên cứu uy tín hàng đầu về speech (SPIRE Lab - IISc và CMU) với cấu trúc bài báo đầy đủ, định dạng gửi tới IEEE/ACM TASLP.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đây là hệ thống TTS từ văn bản đầu tiên tích hợp giám sát động học phát âm vật lý (12 kênh EMA) để điều hòa trực tiếp bộ lọc ống thanh âm trong mô hình source-filter.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Công trình đến từ các nhóm nghiên cứu uy tín hàng đầu về speech (SPIRE Lab - IISc và CMU) với cấu trúc bài báo đầy đủ, định dạng gửi tới IEEE/ACM TASLP.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kiến trúc phân luồng bất đối xứng chặt chẽ, kết hợp trích xuất đặc trưng đa tầng MMS-1B cho AAI và module OT-CFM để khôi phục chi tiết nguồn âm.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Mở ra hướng nghiên cứu mới về TTS có thể diễn giải và ứng dụng chỉnh sửa trọng âm, nghiên cứu lâm sàng, dù các sản phẩm thương mại hiện vẫn ưu tiên các mô hình black-box lớn hơn.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Cung cấp đầy đủ kết quả thực nghiệm khách quan (WER, MCD, F0 CC), đánh giá chủ quan (MOS, UTMOS), cùng các phân tích định tính chi tiết về minimal pairs và hiện tượng rhoticity.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kiểm soát phát âm trực tiếp mức động học · Phân tách rõ ràng giữa nguồn và lọc · Refinement nguồn âm bằng OT-CFM hiệu quả · Tận dụng tốt tri thức đa ngữ MMS</p>
+          <p><span class="label">Weaknesses</span> · MCD cao hơn mô hình unconstrained lớn · Chưa có ràng buộc tương quan liên cơ quan · Phụ thuộc pipeline nhãn giả hai giai đoạn</p>
+          <p><span class="label">Context</span> · Jesuraj Bandekar &amp; Prasanta Kumar Ghosh (SPIRE Lab, IISc Bangalore) kết hợp cùng Shinji Watanabe (CMU); bài báo hướng đến IEEE/ACM Transactions on Audio, Speech, and Language Processing (đăng tải trên arXiv:2610.00735).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

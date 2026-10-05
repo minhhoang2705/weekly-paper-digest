@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2609.39088",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo đưa ra cơ chế chẩn đoán RVQ codebook độc đáo và thiết kế kiến trúc SCIC kết hợp định tuyến thời gian lẫn trọng số codebook chuyên biệt cho điều khiển ngữ điệu tương đối theo người nói.",
+  "credibility": "Nghiên cứu đến từ nhóm nghiên cứu TaoLive-AIGC của Alibaba nhưng hiện là bản thảo tải lên arXiv, chưa qua bình duyệt tại hội nghị chuyên ngành.",
+  "technical": "Phương pháp toán học chặt chẽ từ chuẩn hóa hướng tương đối, can thiệp ẩn trên RVQ, đến thuật toán tối ưu đa mục tiêu GDPO với phần thưởng có biên chặn rõ ràng.",
+  "impact": "Có giá trị thực tiễn cao cho TTS thương mại điện tử và live-streaming dài tập, tuy nhiên chưa có mã nguồn mở nên mức độ lan tỏa cộng đồng sẽ bị hạn chế.",
+  "evidence": "Cung cấp đầy đủ kết quả đo lường khách quan về độ chính xác điều khiển, CER, SIM, độ lệch biên MAE, phân tích bão hòa codebook và đánh giá nghe chủ quan HMOS trên văn bản dài."
+ },
+ "summary": {
+  "tldr": "SCIC đề xuất phương pháp điều khiển ngữ điệu nội dòng tương đối theo người nói (Speaker-Relative Inline Prosody Control) cho các mô hình TTS dựa trên codec như Qwen3-TTS. Bằng việc phân tách phạm vi thời gian (Temporal Instruction Router) và phân bổ trọng số riêng trên các tầng residual codebook (Tag-Specific Codebook Weighting), kết hợp hậu đào tạo GDPO đa phần thưởng, hệ thống nâng cao đáng kể độ chính xác kiểm soát pitch, energy, speed và pause mà vẫn duy trì chất lượng âm thanh và độ tương đồng người nói.",
+  "problem": "TTS đọc văn bản dài trong ngữ cảnh live-streaming đòi hỏi ngữ điệu phụ thuộc ngữ cảnh và tính mạch lạc ở cấp đoạn văn. Các hệ thống TTS điều khiển bằng instruction hiện tại chủ yếu dùng điều kiện toàn cục hoặc đồng nhất, thiếu khả năng kiểm soát tường minh sự biến đổi ngữ điệu tương đối ở cấp mệnh đề (clause-level), đồng thời không mô hình hóa chính xác phạm vi thời gian cũng như cơ chế phân bổ thông tin âm học trên các tầng residual vector quantization (RVQ) codebook.",
+  "method": "Hệ thống bao gồm các thành phần cốt lõi: 1) **Speaker-Relative Inline Control**: Đặt thẻ tag trước mệnh đề mục tiêu để chỉ định mức biến đổi Pitch ($12\\log_2(F_i/F_{i-1})$), Energy ($20\\log_{10}(E_i/E_{i-1})$), Speed ($\text{log}(r_i/r_{i-1})$) so với mệnh đề liền trước của cùng người nói, và Pause theo khoảng thời gian tuyệt đối (L1 [0.50, 0.75]s, L2 [0.75, 1.00]s, L3 [1.00, 1.25]s). 2) **RVQ Codebook Diagnosis**: Can thiệp biểu diễn ẩn để phân tích mức độ truyền thuộc tính qua các codebook. Kết quả cho thấy Energy bão hòa sớm ở các tầng đầu ($q_1–q_3$ đạt cumulative transfer 94.0%), trong khi Pitch cần tiền tố sâu hơn ($q_1–q_{10}$ đạt 95.4%). Do đó, Speed và Pause được giữ trên nhánh dự đoán $q_0$ (Main Talker), còn Pitch và Energy can thiệp vào Multi-Token Prediction (MTP). 3) **SCIC (Scope- and Codebook-Aware Instruction Conditioning)**: Dùng Temporal Instruction Router dự đoán mức kích hoạt frame-level $\\rho_{t,\\tau}$ từ trạng thái $h_t$ của Main Talker, kết hợp trọng số codebook theo thẻ $\\omega_{\\tau,k}$ để tiêm vector điều kiện $s_{t,k} = \\sum_\\tau \\rho_{t,\\tau} \\omega_{\\tau,k} e_\\tau$ vào embedding đầu vào $u_{t,k}$ của MTP dự đoán $q_1–q_{15}$. 4) **Multi-reward GDPO Post-training**: Tối ưu chính sách theo nhóm có chuẩn hóa độc lập đa phần thưởng (Rctrl có biên độ phạt/thưởng theo ngưỡng người nói, Rpau, CER và SIM).",
+  "setup": "Dữ liệu huấn luyện gồm khoảng 1.000 giờ tiếng Trung tự nhiên từ 30 người nói (chứa 132.018 thẻ instruction, mỗi bản ghi $\\le$ 90 giây). Mô hình nền tảng khởi tạo từ Qwen3-TTS CPT live-streaming, huấn luyện SFT dùng LoRA rank-32 ($\\alpha=64$) trên attention/MLP bằng 8 GPU NVIDIA RTX PRO 5000 72GB. Đánh giá gồm 1.800 mẫu Pitch/Energy/Speed (tính control-direction accuracy và median direction-normalized change), 1.200 mẫu cho mỗi mức Pause (interval-hit accuracy), CER qua Qwen3-ASR (1.800 câu), SIM qua WeSpeaker (1.200 mẫu), Router Boundary MAE (ms) dùng Qwen3-ForcedAligner-0.6B, và long-form HMOS (200 văn bản >60 giây, 5 người nghe).",
+  "results": [
+   "SCIC-SFT cải thiện độ chính xác điều khiển so với Instruction SFT: Pitch đạt 90.14% (tăng 7.31 điểm phần trăm), Energy đạt 96.39% (tăng 10.53 điểm phần trăm), Speed đạt 91.40% (tăng 0.51 điểm phần trăm), Pause macro ACC đạt 91.93% (tăng 0.67 điểm phần trăm).",
+   "SCIC-GDPO nâng cao hơn nữa độ chính xác điều khiển: Pitch đạt 92.48% (tăng 9.65 pp so với Instruction SFT 82.83%), Energy đạt 97.16% (tăng 11.30 pp so với 85.86%), Speed đạt 93.86% (tăng 2.97 pp so với 90.89%), Pause macro ACC đạt 95.13% (tăng 3.87 pp so với 91.26%, cụ thể L1: 95.82%, L2: 95.90%, L3: 93.68%).",
+   "Độ rõ và độ tương đồng giọng nói được duy trì ổn định: CER đạt 1.64% (so với 1.68% của Instruction SFT) và SIM đạt 0.8718 (so với 0.8721 của Instruction SFT).",
+   "Đánh giá nghe chủ quan HMOS trên văn bản dài (>60s) tăng từ 3.244 (Zero-Shot) và 3.504 (SFT không instruction) lên 4.042 với hệ thống hoàn chỉnh có paragraph-level instruction.",
+   "Ablation study xác nhận: Thay thế soft Router bằng hard Router làm tăng Boundary MAE từ 295 ms lên 375 ms và giảm Pitch ACC xuống 88.41%; loại bỏ Tag-Specific Codebook Weighting làm giảm Pitch ACC xuống 89.43% và Energy ACC xuống 94.90%."
+  ],
+  "limitations": "Hệ thống chỉ được thiết lập và đánh giá trong bài toán thích ứng người nói (speaker-adapted, 30 giọng nói) chứ chưa đánh giá khả năng tổng quát hóa zero-shot sang người nói mới; tập dữ liệu chỉ giới hạn ở tiếng Trung; mã nguồn và trọng số mô hình không được công bố công khai.",
+  "takeaways": "Khi điều khiển chi tiết ngữ điệu trong các mô hình TTS dùng RVQ autoregressive + MTP, không nên tiêm token instruction một cách đồng nhất. Cần tách biệt thuộc tính thời gian (Speed/Pause trên $q_0$) và thuộc tính âm học (Pitch/Energy trên $q_1–q_{15}$), đồng thời định tuyến thời gian mềm và phân bổ trọng số phù hợp với đặc tính bão hòa từng tầng codebook.",
+  "strengths": [
+   "Chẩn đoán RVQ codebook sâu sắc và thuyết phục",
+   "Định tuyến thời gian và gán trọng số codebook chuẩn xác",
+   "Tối ưu GDPO đa phần thưởng hiệu quả cao",
+   "Giữ vững CER và speaker similarity khi tăng cường kiểm soát"
+  ],
+  "weaknesses": [
+   "Chỉ thử nghiệm trên tiếng Trung và 30 người nói",
+   "Chưa đánh giá trên bài toán zero-shot speaker",
+   "Không phát hành mã nguồn hoặc trọng số mô hình"
+  ],
+  "context": "Nhóm tác giả TaoLive-AIGC Team thuộc Taobao & Tmall Group, Alibaba; công bố dưới dạng bản thảo kỹ thuật trên arXiv (09/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

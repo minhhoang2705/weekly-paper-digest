@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2609.35820",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đây là công trình tiên phong kết hợp tương tác spoken full-duplex, executable tool use và kiểm thử generation/interaction quality đa chiều trên nhiều ngôn ngữ.",
+  "credibility": "Tác giả đến từ Princeton và các đơn vị nghiên cứu AI uy tín (Sierra, Mercor); quy trình kiểm định chất lượng LLM-judge có ngưỡng thống kê và đối soát con người rõ ràng.",
+  "technical": "Thiết kế thực nghiệm chặt chẽ với paired permutation test, phân rã chi tiết các failure modes (non-response, interruption, selectivity) và kiểm soát latency ở mức tick 200-ms.",
+  "impact": "Đặt ra chuẩn mực đánh giá mới cho các sản phẩm voice agent đa ngôn ngữ thực tế, cung cấp bộ công cụ LanguageFactory mở cho cộng đồng.",
+  "evidence": "Thực nghiệm quy mô lớn với 4.500 cuộc gọi voice chính và 1.800 cuộc gọi text đối chứng, báo cáo số liệu và khoảng tin cậy thống kê chi tiết."
+ },
+ "summary": {
+  "tldr": "$\\tau$-Multilingual là benchmark đánh giá voice agent full-duplex đa ngôn ngữ mở rộng từ $\\tau$-Voice sang 6 ngôn ngữ (English, Spanish, Brazilian Portuguese, Hindi, Korean, Mandarin) trên 3 domain với 4.500 cuộc gọi. Nghiên cứu chỉ ra sự phân hóa lớn về hiệu năng: trong khi Spanish, Portuguese và Hindi duy trì task completion gần tương đương English, Korean và Mandarin sụt giảm nghiêm trọng do lỗi authentication, entity handling và conversational dynamics.",
+  "problem": "Phần lớn các benchmark voice agent full-duplex hiện nay (như $\\tau$-Voice, EVA-Bench, FDB-v3) chỉ đánh giá tiếng Anh, dù tiếng Anh chỉ chiếm 19% dân số thế giới. Các benchmark đa ngôn ngữ trước đó hoặc chỉ chạy trên text dialogue, hoặc chỉ xét spoken intent/slot prediction mà không hỗ trợ môi trường tương tác full-duplex với tool use và kiểm thử chất lượng ngôn ngữ/phát âm đa chiều.",
+  "method": "Benchmark kế thừa runtime full-duplex của $\\tau$-Voice (chu kỳ 200 ms, binary environment rewards) và giới thiệu quy trình **LanguageFactory** do người bản ngữ xây dựng và kiểm duyệt: bản địa hóa persona của caller, quy tắc phát âm (speech rules), thực thể định danh (identity entities) nhưng vẫn giữ nguyên logic tác vụ và cơ chế chấm điểm.\nHệ thống đo lường gồm 3 nhóm chỉ số chính:\n- **Task completion**: Tỷ lệ đạt reward hoàn thành tác vụ ở cấp độ cuộc gọi.\n- **Interaction quality**: Điểm số (thang 100) trừ đi trung bình của 5 tỷ lệ lỗi cấp cuộc gọi: non-response (trả lời trễ/bỏ lỡ lượt), interruption (nói chen/talk-over), selectivity (phản hồi nhầm backchannel/tiếng đệm), monologue (> 45 giây), và validated tool misuse.\n- **Generation quality**: Tỷ lệ câu phản hồi của agent vượt qua kiểm tra naturalness (phát hiện cách diễn đạt gượng gạo/translationese) và speech fidelity (sử dụng Gemini 3.1 Pro Preview multimodal so sánh audio và text dự kiến; đánh rớt nếu có lỗi mức độ $\\ge 2$ hoặc sai thanh điệu làm đổi nghĩa tiếng Trung).\nCác bộ đánh giá LLM-as-a-judge đều phải thỏa mãn ngưỡng validation: precision, recall > 0.75, F1 > 0.80, và Cohen's $\\kappa > 0.60$.",
+  "setup": "Tập dữ liệu gồm 900 task instances bản địa hóa (50 task $\\times$ 3 domain $\\times$ 6 ngôn ngữ). Thử nghiệm 5 cấu hình voice agent chính (tổng 4.500 cuộc gọi): OpenAI `gpt-realtime-2` (minimal và xhigh reasoning), `Gemini 3.1 Flash Live Preview` (minimal và high reasoning), và `Grok Voice Think Fast 1.0`. Caller simulator kết hợp `gpt-5.5` xhigh (text) và `Eleven v3` (TTS). Đối chứng text half-duplex gồm 1.800 lượt gọi với `GPT-5.5` xhigh và `Gemini 3.1 Pro Preview` high.",
+  "results": [
+   "Task completion trung bình theo hệ thống: Grok dẫn đầu ở mức 75% (75.1%), GPT xhigh đạt 56%, Gem high đạt 54%, GPT min đạt 41%, Gem min đạt 36%.",
+   "Khoảng cách Task completion so với tiếng Anh: Spanish, Portuguese và Hindi bám sát tiếng Anh trong biên độ 3.2 điểm, nhưng Korean giảm 14.7 điểm (ước lượng paired loss là 18.8 điểm, 95% CI: 14.8–23.3) và Mandarin giảm 8.4 điểm (paired loss 9.5 điểm, 95% CI: 6.0–13.4) với p < .00005 sau hiệu chỉnh Holm.",
+   "Chênh lệch voice–text rất lớn: Text vượt trội hơn voice từ 16.8 đến 41.1 điểm phần trăm trên tất cả các ngôn ngữ, chênh lệch lớn nhất ở Korean (text đạt 82.0% so với 40.9% ở voice).",
+   "Tỷ lệ lỗi Interaction: Korean bị non-response cao (46.3% vs 27.8% ở English) và tool-use failure (84.8% vs 49.8%); Mandarin bị lỗi interruption cao (90.9% vs 78.0%) và tool-use failure (77.4%). Lỗi selectivity cao trên diện rộng ở tất cả các hệ thống (86.7–93.5%).",
+   "Generation quality đi ngược với Task completion: Grok đạt Task completion cao nhất (75.1%) nhưng Generation quality thấp nhất (52.3%). GPT xhigh dẫn đầu Generation quality (67.5%), dẫn đầu tại Spanish (68%), Portuguese (74%), Hindi (62%).",
+   "Turn-taking latency: Cấu hình reasoning cao hơn làm tăng độ trễ: GPT tăng từ 1.12 s (min) lên 1.42 s (xhigh); Gemini tăng từ 1.34 s (min) lên 1.82 s (high). Grok có thời lượng cuộc gọi trung bình 24.7 phút so với 11.7–14.2 phút của GPT/Gemini."
+  ],
+  "limitations": "Chỉ khảo sát 6 ngôn ngữ, 3 domain và dựa hoàn toàn vào 3 họ mô hình nguồn đóng thương mại do không có mô hình open-weight nào đáp ứng đồng thời full-duplex speech, tool use và đa ngôn ngữ; Grok chỉ được chạy 1 trial; caller simulator đọc trực tiếp transcript của agent thay vì nhận diện qua ASR nên bỏ qua tác động của ASR noise lên caller.",
+  "takeaways": "Đánh giá voice agent chỉ dựa trên độ hoàn thành tác vụ (task completion) hoặc chỉ đo tiếng Anh sẽ che giấu các lỗi nghiêm trọng về hội thoại (non-response, interruption) và phát âm/văn phong bản địa. Với các ngôn ngữ Đông Á (Hàn, Trung), việc chuẩn hóa entity (tên họ, romanization vs native script) là điểm nghẽn lớn nhất gây thất bại trong tool execution.",
+  "strengths": [
+   "Benchmark full-duplex đa ngôn ngữ đầu tiên có live tool use",
+   "Phương pháp phân rã chỉ số toàn diện (task, interaction, generation)",
+   "Quy trình LanguageFactory và human validation nghiêm ngặt",
+   "Phát hiện sâu sắc về lỗi bản địa hóa entity và văn hóa"
+  ],
+  "weaknesses": [
+   "Hoàn toàn phụ thuộc vào các API nguồn đóng thương mại",
+   "Grok chỉ được đánh giá trên 1 trial duy nhất",
+   "Caller simulator dùng text transcript bỏ qua ASR caller-side"
+  ],
+  "context": "Nghiên cứu được thực hiện bởi nhóm tác giả từ Sierra, Mercor và Princeton University; mã nguồn và rubric đánh giá được phát hành công khai trên GitHub."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

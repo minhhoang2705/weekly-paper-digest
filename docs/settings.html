@@ -56,7 +56,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W40</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -74,7 +74,7 @@
     <div class="card-header"><h2 class="label" id="sched-h">Collector</h2></div>
     <dl class="kv card-body">
       <div><dt>Schedule</dt><dd>weekly · cron 08:00</dd></div>
-      <div><dt>Crawl window</dt><dd>14 days</dd></div>
+      <div><dt>Crawl window</dt><dd>7 days</dd></div>
       <div><dt>Full-text analyzed</dt><dd>top 30 after triage</dd></div>
       <div><dt>Digest size</dt><dd>top 10</dd></div>
       <div><dt>Summary language</dt><dd>tiếng Việt (giữ nguyên thuật ngữ kỹ thuật tiếng Anh)</dd></div>
@@ -96,7 +96,7 @@
   <section class="card" aria-labelledby="topics-h">
     <div class="card-header"><h2 class="label" id="topics-h">Topics</h2></div>
     <dl class="kv kv-stacked card-body">
-<div><dt>ASR</dt><dd>automatic speech recognition, speech-to-text, multilingual/low-resource ASR, streaming ASR, diarization as part of transcription</dd></div><div><dt>TTS</dt><dd>text-to-speech, speech synthesis, voice cloning, vocoders, expressive/zero-shot TTS, speech codecs for generation</dd></div><div><dt>Speech Understanding</dt><dd>spoken language understanding, speech LLMs / audio-language models, speech translation, emotion/paralinguistics, spoken QA</dd></div><div><dt>Voice Agent</dt><dd>voice assistants and agents, full-duplex spoken dialogue, speech-to-speech models, real-time voice pipelines, turn-taking</dd></div>    </dl>
+<div><dt>TTS</dt><dd>text-to-speech, speech synthesis, voice cloning, vocoders, expressive/zero-shot TTS, speech codecs for generation, non-verbal vocalization, context-aware TTS, multilingual and Vietnamese TTS</dd></div><div><dt>Speech Understanding</dt><dd>spoken language understanding, speech translation, emotion/paralinguistics, spoken QA</dd></div><div><dt>Voice Agent</dt><dd>voice assistants and agents, full-duplex spoken dialogue, speech-to-speech models, real-time voice pipelines, turn-taking</dd></div><div><dt>Speech LLM</dt><dd>LLM work whose main contribution changes speech/voice systems: speech/audio-language models, omni-modal LLMs with speech in or out, speech/audio tokenizers and codecs built for LLMs, LLM methods shown on speech tasks (spoken reasoning, streaming/latency of spoken responses). NOT generic text LLM work</dd></div>    </dl>
   </section>
 
   <section class="card settings-wide" aria-labelledby="sources-h">
@@ -104,8 +104,9 @@
     <dl class="kv card-body">
         <div><dt>arxiv</dt><dd><span class="dot"></span> enabled · eess.AS, cs.SD, cs.CL, cs.AI, cs.LG        </dd></div>
         <div><dt>hf_papers</dt><dd><span class="dot"></span> enabled        </dd></div>
-        <div><dt>hf_models</dt><dd><span class="dot"></span> enabled · automatic-speech-recognition, text-to-speech, audio-text-to-text, audio-to-audio        </dd></div>
-        <div><dt>github</dt><dd><span class="dot"></span> enabled · speech-recognition, asr, speech-to-text, text-to-speech, tts, speech-synthesis, voice-cloning, voice-agent, voice-assistant, spoken-language-understanding, speech-llm        </dd></div>
+        <div><dt>paperswithcode</dt><dd><span class="dot"></span> enabled        </dd></div>
+        <div><dt>hf_models</dt><dd><span class="dot"></span> enabled · text-to-speech, audio-text-to-text, audio-to-audio        </dd></div>
+        <div><dt>github</dt><dd><span class="dot"></span> enabled · text-to-speech, tts, speech-synthesis, voice-cloning, voice-agent, voice-assistant, spoken-language-understanding, speech-llm        </dd></div>
         <div><dt>rss</dt><dd><span class="dot"></span> enabled · 9 feeds: Hugging Face Blog, Google Research, Google DeepMind, OpenAI, Microsoft Research, NVIDIA Developer, AWS Machine Learning, Apple Machine Learning, Daily (Pipecat)        </dd></div>
         <div><dt>isca</dt><dd><span class="dot"></span> enabled        </dd></div>
     </dl>

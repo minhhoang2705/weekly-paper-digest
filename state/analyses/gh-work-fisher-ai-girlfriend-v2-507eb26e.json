@@ -1,0 +1,48 @@
+{
+ "id": "gh:work-fisher/ai-girlfriend-v2",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Hệ thống chủ yếu tích hợp các thành phần sẵn có (Silero VAD, Whisper, OmniVoice, Duix, LLM API) với cơ chế quản lý bộ nhớ DSH dạng checkpoint.",
+  "credibility": "Dự án phát triển bởi tác giả cá nhân trên GitHub, không phải ấn phẩm hội nghị hay nghiên cứu từ phòng lab lớn.",
+  "technical": "Thiết kế kỹ thuật hoàn chỉnh với 18 unit tests, có xử lý atomic write, rollback khi ngắt quãng và bridge giữa Windows với WSL2.",
+  "impact": "Độ phổ biến ở mức khiêm tốn trên GitHub với 55 stars và 12 forks, tập trung vào cộng đồng người dùng desktop cá nhân.",
+  "evidence": "Có video demo thực tế và 18 unit test kiểm thử logic, nhưng hoàn toàn thiếu các đo đạc thực nghiệm về WER, độ trễ end-to-end hay tài nguyên tiêu thụ."
+ },
+ "summary": {
+  "tldr": "AI Girlfriend V2 là hệ thống trợ lý giọng nói đồng hành chạy cục bộ trên Windows, tích hợp bộ nhớ dài hạn DSH, nhân bản giọng nói nội bộ và tùy chọn khẩu hình người ảo qua WSL2. Dự án giải quyết vấn đề mất ngữ cảnh sau khi khởi động lại bằng cách kết hợp trích xuất sự kiện với cơ sở dữ liệu SQLite và tìm kiếm ngữ nghĩa.",
+  "problem": "Các trợ lý giọng nói thông thường chỉ ghi nhớ ngữ cảnh trong cửa sổ phiên hiện tại và mất hết ký ức sau khi khởi động lại, đồng thời người dùng không có quyền xem xét, chỉnh sửa hoặc can thiệp trực tiếp vào dữ liệu mà hệ thống đã ghi nhớ.",
+  "method": "Pipeline hoạt động tuần tự cục bộ (lắng nghe tại `127.0.0.1`): Silero VAD bắt âm thanh micrô → Whisper STT nhận dạng giọng nói → Realtime WebSocket chuyển dữ liệu đến DSH Bridge. Tại đây, DSH Bridge kết nối với DSH session memory, cơ sở dữ liệu sự kiện (SQLite) và semantic indexing để truy xuất lịch sử, trước khi gọi LLM ngoài qua API tương thích OpenAI (GLM, Kimi, DeepSeek). Văn bản phản hồi từ LLM được đưa vào OmniVoice TTS để tạo âm thanh phân đoạn. Hệ thống hỗ trợ 2 chế độ: Digital human mode (khống chế độ dài ≤ 96 ký tự, đẩy audio qua Duix/HeyGem chạy trên WSL2 để đồng bộ khẩu hình) và Pure voice mode (cho phép trả lời đầy đủ, phân đoạn phát âm thanh theo dấu câu gần nhất ở mức khoảng 90 ký tự).",
+  "setup": "Nền tảng Windows 10/11, Python 3.11, tùy chọn WSL2 cho engine người ảo Duix/HeyGem. Yêu cầu tải gói tích hợp hoặc các tài nguyên ngoài khoảng 15.6 GB (runtime Python, models, WSL rootfs). LLM sử dụng API bên ngoài (lưu cấu hình tại `app/heygem-data/llm-provider.json`). Quá trình kiểm thử thực thi qua `unittest discover -s app/dsh-bridge/tests`.",
+  "results": [
+   "Vượt qua toàn bộ 18 bài unit test kiểm tra ghi checkpoint nguyên tử (atomic checkpoint write), cơ chế rollback, căn chỉnh input vòng đầu, CRUD sự kiện dài hạn, ức chế truy xuất và 2 chế độ xuất.",
+   "Tạo video minh họa kỹ thuật số thực tế độ dài 8.32 giây với độ phân giải 1280×720 kèm âm thanh đồng bộ khẩu hình.",
+   "Quy tắc tích lũy điểm quan hệ (Affinity progress): 1 điểm/lượt đối thoại hợp lệ, 15 điểm cho lần đầu trong ngày, trần tối đa 40 điểm chat/ngày."
+  ],
+  "limitations": "Mã nguồn GitHub không bao gồm sẵn ~15.6 GB tài nguyên (models, runtime, WSL rootfs); chức năng '移出记忆' (xóa khỏi bộ nhớ) chỉ ức chế truy xuất trong bảng sự kiện chứ không xóa vĩnh viễn tệp lưu trữ DSH gốc; không công bố các số đo định lượng chuẩn (WER, latency, MOS, RTF); phụ thuộc API LLM bên thứ ba ngoài máy cục bộ.",
+  "takeaways": "Một kiến trúc tham khảo hữu ích cho kỹ sư muốn xây dựng Voice Agent tương tác cục bộ trên Windows, cung cấp mẫu thiết kế kết hợp checkpointing nguyên tử, quản lý bộ nhớ dài hạn có thể can thiệp (human-in-the-loop) và phân mảnh độ dài câu để tối ưu độ trễ TTS/khẩu hình.",
+  "strengths": [
+   "Quản lý bộ nhớ dài hạn minh bạch",
+   "Pipeline thoại cục bộ bảo vệ riêng tư",
+   "Cơ chế ghi checkpoint nguyên tử an toàn",
+   "Hỗ trợ linh hoạt chế độ thuần giọng nói"
+  ],
+  "weaknesses": [
+   "Thiếu số đo định lượng về latency/MOS",
+   "Phụ thuộc gói tài nguyên ngoài 15.6GB",
+   "Cần API LLM bên ngoài",
+   "Vấn đề phân mảnh giấy phép bản quyền"
+  ],
+  "context": "Dự án mã nguồn mở phát triển bởi Work-Fisher trên GitHub, xây dựng và chỉnh sửa dựa trên giao diện UI của tác giả penposs và thư viện speech-to-speech."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

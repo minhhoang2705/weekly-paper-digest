@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2609.34247",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo tiên phong đề xuất cơ chế tối ưu hóa giá trị ủy quyền (delegation utility) có nhận thức ranh giới tri thức và chi phí cho voice agent song công (full-duplex) thông qua kết hợp SFT và GRPO.",
+  "credibility": "Nghiên cứu đến từ nhóm tác giả uy tín tại Đại học Thanh Hoa và ByteDance, kế thừa trực tiếp từ công trình SALMONN-omni đã công bố tại NeurIPS 2025.",
+  "technical": "Thiết kế kỹ thuật hoàn chỉnh và chi tiết từ pipeline tổng hợp dữ liệu 3 vai, tích hợp token DELEGATE, mô phỏng độ trễ bất đồng bộ đến hàm reward đa thành phần (pass, safety, cost) trong GRPO.",
+  "impact": "Cung cấp giải pháp thực tế giải quyết nút thắt lớn nhất của full-duplex voice agent: làm sao vừa phản hồi siêu nhanh vừa có thể gọi tool/suy luận phức tạp mà không bùng nổ chi phí điện toán.",
+  "evidence": "Hệ thống thí nghiệm thực nghiệm phong phú trên 5 tập dữ liệu Spoken QA, hội thoại nhiều lượt MultiTurn, benchmark môi trường τ-Voice với phân tích ablation rõ ràng về cơ chế routing, độ trễ và ASR."
+ },
+ "summary": {
+  "tldr": "SALMONN-duo là mô hình voice agent song công (full-duplex) kết hợp kiến trúc dual-system: System 1 là speech LLM tương tác thời gian thực nhanh nhạy và System 2 là LLM agent bất đồng bộ giải quyết tác vụ phức tạp. Bằng cách áp dụng SFT nhận thức ranh giới tri thức và cost-aware GRPO, mô hình biết tự điều phối khi nào cần tự trả lời và khi nào cần ủy quyền (delegate) cho backend nhằm tối ưu chi phí và độ trễ.",
+  "problem": "Các voice agent tương tác thời gian thực (full-duplex) đòi hỏi độ trễ cực thấp và khả năng xử lý turn-taking tự nhiên (barge-in, backchanneling), trong khi việc suy luận đa bước, truy vấn tri thức chuyên sâu hoặc dùng tool lại có độ trễ thay đổi và tiêu tốn tài nguyên tính toán. Các voice agent mã nguồn mở hiện nay hoặc gọi backend cho mọi lượt (như MoshiRAG gây lãng phí và trễ) hoặc hiếm khi gọi công cụ (như VoiceChat), thiếu cơ chế tối ưu hóa giá trị ủy quyền (delegation utility) dựa trên ranh giới tri thức và thiếu đánh giá trên hội thoại định hướng tác vụ (task-oriented) nhiều lượt.",
+  "method": "SALMONN-duo áp dụng thiết kế dual-system lấy cảm hứng từ lý thuyết nhận thức: 1) System 1 (Frontend tương tác nhanh): Xây dựng trên SALMONN-omni với SPEAR làm streaming speech encoder, Llama-3.1-8B-Instruct làm backbone LLM và CosyVoice2-0.5B làm streaming speech synthesizer. Bỏ echo stream để xử lý hội thoại dài hơn, đưa kết quả từ System 2 vào qua N=100 token mỗi khối 80-ms. Mô hình quyết định gọi backend bằng cách sinh token đặc biệt `DELEGATE` ngay đầu câu phản hồi (cho kết quả tốt hơn cơ chế delegation head riêng biệt), đồng thời phát ra các câu filler phù hợp ngữ cảnh để giữ phản hồi tự nhiên trong lúc chờ backend. 2) System 2 (Backend tư duy chậm): Agent bất đồng bộ (sử dụng GPT-4o cho QA hoặc GPT-5.2 / Codex cho tác vụ phức tạp/công cụ), nhận lịch sử hội thoại từ streaming ASR (gpt-realtime-whisper). 3) Knowledge-boundary-aware SFT: Tạo nhãn gọi System 2 dựa trên độ chính xác thực tế của 3 rollout từ Llama-3.1-8B-Instruct trên 309k mẫu QA đơn lượt và 36k hội thoại đa lượt (10-15 lượt, mô phỏng qua 3 vai: Gemma, Llama, Qwen), kèm 32k episode từ τ-Voice. 4) Cost-aware GRPO: Tối ưu chính sách ủy quyền với phần thưởng QA theo thứ tự ưu tiên r_direct,correct > r_delegate,correct > r_direct,incorrect = r_delegate,incorrect. Trên đối thoại tác vụ nhiều lượt (τ-Voice), bổ sung phần thưởng an toàn (safety reward) phạt ảo giác (hallucination) và vi phạm policy, cùng phần thưởng chi phí (cost reward) phạt mỗi lượt gọi System 2 mà không dùng đến tool (-0.2 điểm).",
+  "setup": "Huấn luyện trên 64 GPU A100-80G với AdamW (weight decay 0.1, lr=2e-4 cho SFT, 1e-6 cho RL). Bộ dữ liệu SFT gồm 309k QA đơn lượt (TriviaQA, Natural Questions, HotpotQA), 36k hội thoại nhiều lượt và 32k episode τ-Voice. Đánh giá QA đơn lượt trên Llama Questions, Web Questions, TriviaQA, HotpotQA, HaluEval. Đánh giá đa lượt trên tập MultiTurn (923 hội thoại). Đánh giá agentic grounded trên test split của τ-Voice (tùy biến tắt chen ngang/backchannel của user simulator và tạp âm) và bài kiểm tra xử lý chen ngang (user interrupt question). Chấm điểm tự động dùng gpt-4o-2024-11-20 và gpt-5.2-2025-12-11.",
+  "results": [
+   "Về cơ chế điều phối (Table 1): Phương án chèn delegation token trực tiếp vào phản hồi đạt AUROC 0.745 trên TriviaQA, 0.691 trên HotpotQA và 0.732 trên HaluEval, vượt trội đáng kể so với phương án dùng delegation head ở layer 32 (lần lượt là 0.684, 0.619, 0.741) và giữ độ chính xác nội tại (%Acc khi không có System 2) cao hơn (68.5% so với 54.5% trên TriviaQA).",
+   "Spoken QA đơn lượt (Table 2): SALMONN-duo (8B) đạt độ chính xác / tỷ lệ ủy quyền (%Del) linh hoạt: LlamaQ (79.7% / 16.3%), WebQ (71.5% / 26.7%), TriviaQA (80.2% / 25.0%), HotpotQA (46.1% / 61.3%), HaluEval (43.9% / 59.0%). Ngược lại, MoshiRAG gọi backend gần như tuyệt đối (99.9% - 100.0%), còn VoiceChat hiếm khi gọi (0.0% - 7.9%) dẫn đến độ chính xác HotpotQA chỉ 10.4%.",
+   "Hội thoại đa lượt (Table 3, MultiTurn): SALMONN-duo đạt độ chính xác trung bình 56.2% với tỷ lệ gọi backend 61.9%, vượt MoshiRAG (54.3% Acc nhưng tỷ lệ gọi backend lên tới 95.6%) và Qwen3-Omni-A3B-Ins 30B (44.5% Acc).",
+   "Tác vụ định hướng công cụ τ-Voice (Table 5): Mô hình SFT kết hợp GRPO (+r_safety + r_cost) đạt Pass@1 tổng thể 64.0% (ngang ngửa GPT-realtime-1.5 ở mức 64.0%), tỷ lệ ảo giác giảm xuống 0.72 (so với 0.83 của SFT), tuân thủ chính sách đạt 0.67 và tỷ lệ ủy quyền hiệu quả (thực sự dùng tool) đạt 85.4% với %Del là 62.7%.",
+   "Xử lý chen ngang (Table 6): Sau khi huấn luyện cost-aware GRPO, mô hình trả lời đúng thứ tự yêu cầu khi bị user ngắt lời đạt 87.8% (so với 81.9% của SFT), đồng thời duy trì độ chính xác của câu hỏi chen ngang ở mức 74.7% (so với 77.2% của SFT và 76.8% của bản tham chiếu)."
+  ],
+  "limitations": "Đánh giá trên tập τ-Voice đã bị đơn giản hóa (tắt tính năng ngắt lời và backchannel định kỳ 2 giây của user simulator, loại bỏ tạp âm nền và biến thể người nói). Đa số thử nghiệm giả định backend truy cập trực tiếp vào text lịch sử hội thoại chuẩn (ground-truth) thay vì phụ thuộc hoàn toàn vào luồng ASR thực tế. Hệ thống chưa hỗ trợ System 1 phát hiện và sửa sai nếu System 2 trả về thông tin không chính xác. Kích thước nhóm trong GRPO bị giới hạn ở G=4 do chi phí huấn luyện.",
+  "takeaways": "Thay vì tích hợp trực tiếp việc gọi tool phức tạp vào mô hình giọng nói song công gây tăng độ trễ và chi phí suy luận, việc phân tách kiến trúc thành System 1 (full-duplex speech tương tác nhẹ, phát filler) và System 2 (asynchronous text agent) kết hợp học ranh giới tri thức và RL phạt chi phí là hướng tiếp cận hiệu quả, cân bằng tốt giữa trải nghiệm thời gian thực và khả năng hoàn thành tác vụ.",
+  "strengths": [
+   "Kiến trúc dual-system phân tách tương tác và suy luận rõ ràng",
+   "Cơ chế cost-aware GRPO cân bằng chi phí và độ chính xác",
+   "Đánh giá toàn diện trên cả QA và tác vụ τ-Voice đa lượt",
+   "Xử lý tự nhiên ngắt lời (barge-in) và phát câu filler mượt mà"
+  ],
+  "weaknesses": [
+   "Benchmark τ-Voice bị lược bỏ tạp âm và dynamic barge-in",
+   "Đánh giá chính phụ thuộc vào lịch sử văn bản ground-truth",
+   "Chưa có cơ chế sửa lỗi nếu System 2 trả lời sai"
+  ],
+  "context": "Wenyi Yu, Siyin Wang, Terumi Chiba, Chao Zhang (Đại học Thanh Hoa) cùng Xianzhao Chen, Xiaohai Tian, Jun Zhang, Lu Lu (ByteDance); bản thảo công bố trên arXiv (arXiv:2609.34247v1) tháng 9 năm 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W41"
+}

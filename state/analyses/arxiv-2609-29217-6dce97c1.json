@@ -1,0 +1,52 @@
+{
+ "id": "arxiv:2609.29217",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất đồng thiết kế mới lạ kết hợp explicit decision token, dự đoán cửa sổ động 3 mức và cơ chế Bounded Text-ahead cho tương tác song công thích ứng, vượt qua các hạn chế tĩnh của các mô hình trước.",
+  "credibility": "Bài báo kỹ thuật công bố trên arXiv từ nhóm nghiên cứu công ty Zuoyebang, cung cấp đầy đủ công thức và cấu trúc giao thức nhưng chưa qua bình duyệt tại hội nghị/tạp chí chính thức.",
+  "technical": "Thiết kế kỹ thuật rất sâu và chặt chẽ, chi tiết từ ngữ pháp token, vòng đời slot FIFO, quy trình SFT cuốn chiếu 3 giai đoạn đến căn chỉnh loss weighting và GRPO.",
+  "impact": "Mở ra hướng thiết kế chuẩn hóa và thực tế cho voice agent full-duplex thời gian thực, tuy nhiên chưa có thông tin công khai mã nguồn hoặc trọng số mô hình.",
+  "evidence": "Cung cấp bằng chứng thực nghiệm phong phú trên 3 benchmark chuẩn (FDB-v1, FDB-v1.5, HumDial), có ablation study chi tiết cho từng cơ chế (JSON vs Canonical, Text-ahead, Window policy, Curriculum vs Mixed SFT)."
+ },
+ "summary": {
+  "tldr": "AdaptDuplex mở rộng mô hình Qwen3-Omni thành hệ thống hội thoại nói song công toàn phần (full-duplex spoken dialogue) có khả năng thích ứng linh hoạt theo ngữ cảnh thay vì cố định tham số vận hành. Mô hình đồng thiết kế ba thành phần: giao thức chuỗi token chuẩn hóa (canonical sequence protocol) gọn nhẹ, cơ chế tương tác thích ứng (dynamic window và tiered actions), cùng quy trình huấn luyện cuốn chiếu (progressive curriculum SFT + Talker/Joint SFT + GRPO). Kết quả thực nghiệm cho thấy AdaptDuplex vượt trội các baseline song công như DuplexOmni và MiniCPM-o 4.5 trên Full-Duplex-Bench (v1, v1.5) và đạt điểm Final cao nhất (69.6) trên HumDial-FDBench.",
+  "problem": "Các mô hình hội thoại full-duplex hiện tại chủ yếu áp dụng điểm vận hành tĩnh: độ dài cửa sổ thời gian (window duration) và tập hành động khả dụng bị gắn cứng tại thời điểm thiết kế. Giao thức biểu diễn hoặc quá nặng nề (như định dạng JSON gây độ trễ và lỗi cấu trúc) hoặc quá thưa thớt, không thể mở rộng hành vi; mối quan hệ text-speech bị khóa cứng theo frame hoặc tỷ lệ cố định. Ngoài ra, việc huấn luyện đồng thời khả năng tuân thủ giao thức, kiểm soát tương tác và sinh tiếng nói trực tiếp trên mô hình omni tiền huấn luyện dễ gây vướng mắc (entanglement) giữa các mục tiêu học tập.",
+  "method": "AdaptDuplex kế thừa kiến trúc Thinker-Talker của Qwen3-Omni-30B-A3B-Instruct (MoE, 3B active) với nguyên tắc cốt lõi: 'mọi quyết định hành vi đều là một explicit token'. Phương pháp gồm ba tầng đồng thiết kế: 1) Compact canonical sequence protocol: Mỗi cửa sổ là một chuỗi chuẩn hóa gồm quyền nghe/nói (listen/speak), chuỗi token hành động (<|memory|>, <|launch:N|>, <|cancel:N|>), text phản hồi tùy chọn, token cửa sổ tiếp theo và token ranh giới. Talker lấy text từ hàng đợi FIFO turn-local và căn chỉnh dual-stream thông qua kỹ thuật Bounded Text-ahead (chuyển tối đa dk <= 2 token text sang cửa sổ trước theo lịch trình Random Ahead) giúp giảm -78% token giao thức và triệt tiêu lỗi cú pháp so với JSON. Ngoài ra cho phép điều khiển runtime không cần huấn luyện lại qua logits bias. 2) Adaptive interaction mechanisms: Dự đoán cửa sổ động zk thuộc {short (0.48s), mid (0.64s), long (0.96s)} tại 12.5 Hz codec dựa trên ngữ cảnh đa phương thức causally available; phân tầng hành động gồm L0 (phản hồi trực tiếp), L1 (củng cố trạng thái nhận thức non-blocking vào bộ nhớ cục bộ qua <|memory|>), và L2 (điều phối bất đồng bộ tối đa 4 slot gọi LLM/tool bên ngoài thông qua <|launch:N|> và <|cancel:N|> với N thuộc {0..3}). Kết quả trả về dưới dạng Tool Block được loss-mask tại ranh giới Unit. 3) Progressive training pipeline: SFT Thinker theo giáo trình 3 giai đoạn (C1: turn-based cửa sổ cố định; C2: duplex cơ bản với dynamic window; C3: full duplex với L1/L2), tiếp theo là Talker-only SFT, Joint SFT trên tập dữ liệu DuplexDrama, và tối ưu hóa chính sách bằng GRPO với hàm thưởng kết hợp nhịp điệu đàm thoại, chất lượng phát ngôn và tính phù hợp của hành động L2.",
+  "setup": "Khởi tạo từ Qwen3-Omni-30B-A3B-Instruct, huấn luyện trên 8 GPU NVIDIA H100 với tập dữ liệu tổng hợp 765,424 hội thoại (17,259 giờ, trong đó 10,857 giờ là giọng assistant) và tinh chỉnh Joint SFT trên tập con DuplexDrama. Inference streaming chạy trên 1 GPU H100. Đánh giá trên: Full-Duplex-Bench (FDB) v1, FDB-v1.5 (xử lý chồng lấn tiếng nói), và HumDial-FDBench (bản ghi đàm thoại kịch bản tiếng Trung ZH và tiếng Anh EN). Baseline so sánh: DuplexOmni, MiniCPM-o 4.5, Qwen3-Omni+VAD (half-duplex tham chiếu), Moshi, Freeze-Omni. Metrics gồm Takeover Rate (TOR), Behavior score, Stop latency, Response latency, GPT-4o score, CER/WER, UTMOSv2, và điểm tổng hợp Final score.",
+  "results": [
+   "Trên FDB-v1 và FDB-v1.5, AdaptDuplex vượt DuplexOmni trên 18/21 chỉ số và vượt MiniCPM-o 4.5 trên 19/22 chỉ số về turn-taking, xử lý overlap và độ trễ.",
+   "Trên HumDial-FDBench, AdaptDuplex đạt Final score cao nhất (69.6) trong các mô hình full-duplex so sánh (vượt DuplexOmni đạt 48.7, MiniCPM-o 4.5 đạt 60.6, Freeze-Omni đạt 43.8, Moshi đạt 34.5), với độ trễ Delay kết hợp là 1.042 s (0.835 s cho ZH và 1.345 s cho EN).",
+   "Trên FDB-v1 ngắt lời (Interruption), AdaptDuplex đạt TOR 0.985 và response latency 0.131 s, nhanh và chuẩn xác hơn DuplexOmni (TOR 0.746, latency 0.158 s) và nhanh hơn MiniCPM-o 4.5 (TOR 0.985, latency 1.408 s); điểm GPT-4o đạt 4.512.",
+   "Trên FDB-v1.5 kịch bản Backchannel, AdaptDuplex đạt Behavior 0.55 và response latency 0.43 s, vượt trội DuplexOmni (0.28, 0.82 s) và MiniCPM-o 4.5 (0.46, 2.34 s); kịch bản Background speech đạt Behavior 0.43 so với 0.07 của DuplexOmni.",
+   "Giao thức canonical serialization giảm số lượng token/cửa sổ từ 26.440 xuống 5.867 (-78%), loại bỏ hoàn toàn cửa sổ lỗi cấu trúc (0.48% về 0.00%), và giảm GPU busy time P50 từ 789.4 ms xuống 418.5 ms (-47%) so với định dạng JSON kiểu DuplexOmni.",
+   "Kỹ thuật Bounded Text-ahead với lịch trình Random Ahead nâng điểm tự nhiên UTMOSv2 từ 2.90 lên 3.65, giảm CER ZH / WER EN từ 10.74%/19.10% xuống 4.83%/8.93%, và tăng tỷ lệ hoàn tất đúng hạn ValidEnd từ 50.00% lên 86.37% so với căn chỉnh Aligned (dk=0)."
+  ],
+  "limitations": "Mô hình hiện chỉ được đánh giá trên tiếng Trung (ZH) và tiếng Anh (EN). Bộ điều khiển cửa sổ thời gian chỉ lựa chọn giữa 3 mức rời rạc (0.48 s, 0.64 s, 0.96 s) chứ chưa hỗ trợ liên tục. Số lượng tác vụ suy luận ngoài (L2) bị giới hạn tối đa 4 slot đồng thời. Khả năng bảo toàn năng lực tổng quát (general-ability retention) sau khi thích ứng song công chưa được đo lường, và đánh giá L1/L2 mới thực hiện trên gold prefix/context chứ chưa nối end-to-end với backend thực tế.",
+  "takeaways": "Việc biến các quyết định hành vi thành explicit token trong một giao thức chuỗi chuẩn hóa giúp mô hình hội thoại full-duplex vừa có tốc độ giải mã tối ưu, vừa cho phép can thiệp tham số tại runtime bằng logits bias mà không cần fine-tune lại. Cơ chế dự đoán kích thước cửa sổ động và Bounded Text-ahead là giải pháp thực dụng giải quyết mâu thuẫn giữa độ trễ phản hồi và chất lượng bằng chứng âm học cho các kỹ sư phát triển voice agent.",
+  "strengths": [
+   "Giao thức token hóa giảm 78% overhead so với JSON",
+   "Điều khiển runtime không cần huấn luyện lại qua logits bias",
+   "Dynamic window cân bằng tối ưu giữa độ trễ và bằng chứng",
+   "Bounded Text-ahead cải thiện mạnh UTMOSv2 và WER/CER",
+   "Hiệu năng toàn diện dẫn đầu trên FDB và HumDial-FDBench"
+  ],
+  "weaknesses": [
+   "Mới đánh giá trên 2 ngôn ngữ (ZH và EN)",
+   "Cửa sổ thời gian giới hạn trong 3 mức rời rạc",
+   "Giới hạn cứng tối đa 4 slot tác vụ đồng thời",
+   "Chưa đo lường end-to-end với backend LLM/tool thực tế"
+  ],
+  "context": "Nhóm tác giả từ Zuoyebang Education Technology (Beijing) Co., Ltd.; công bố trên arXiv (mã lưu trữ arXiv:2609.29217v2, tháng 9 năm 2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

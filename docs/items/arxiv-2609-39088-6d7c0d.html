@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SCIC: Scope- and Codebook-Aware Instruction Conditioning for Speaker-Adapted Expressive TTS · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">SCIC: Scope- and Codebook-Aware Instruction Conditioning for Speaker-Adapted Expressive TTS</h1>
+    <div class="meta">
+      <span>published Sep 30, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">TTS</span>        <span class="authors">Longyu Lu, Zongwei Du, Mengtao Xing, Zhuoqun Liu, Zifan Guan, Meiguang Jin, Junfeng Ma</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2609.39088" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Long-form live-streaming TTS requires context-dependent prosody and paragraph-level coherence. However, many existing instruction-based TTS systems use global or uniform conditions, providing limited explicit control over clause-level relative prosodic changes. We introduce Speaker-Relative Inline Prosody Control, where each Pitch, Energy, or Speed instruction targets a clause relative to the preceding clause from the same speaker, while Pause uses an absolute duration interval. In codec-based TTS, Speed and Pause affect sequence length, whereas Pitch and Energy rely on residual codebooks. By analyzing Qwen3-TTS RVQ codebooks, we find that Energy concentrates in early residual codebooks, whereas Pitch accumulates across a deeper prefix. We therefore propose Scope- and Codebook-Aware Instruction Conditioning (SCIC), combining a Temporal Instruction Router for frame-level tag activation with Tag-Specific Codebook Weighting over residual codebooks. SCIC improves speaker-relative Pitch and Energy control over standard instruction fine-tuning using text-token tags. We further apply multi-reward GDPO post-training to jointly optimize control and quality, improving control accuracy while preserving CER and speaker similarity. In long-form synthesis, SCIC produces a more distinct paragraph-level expressive hierarchy than speaker-adapted SFT without instructions. Audio demos are available at: https://taoliveaigc.github.io/SCIC/</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 5, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>SCIC đề xuất phương pháp điều khiển ngữ điệu nội dòng tương đối theo người nói (Speaker-Relative Inline Prosody Control) cho các mô hình TTS dựa trên codec như Qwen3-TTS. Bằng việc phân tách phạm vi thời gian (Temporal Instruction Router) và phân bổ trọng số riêng trên các tầng residual codebook (Tag-Specific Codebook Weighting), kết hợp hậu đào tạo GDPO đa phần thưởng, hệ thống nâng cao đáng kể độ chính xác kiểm soát pitch, energy, speed và pause mà vẫn duy trì chất lượng âm thanh và độ tương đồng người nói.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>TTS đọc văn bản dài trong ngữ cảnh live-streaming đòi hỏi ngữ điệu phụ thuộc ngữ cảnh và tính mạch lạc ở cấp đoạn văn. Các hệ thống TTS điều khiển bằng instruction hiện tại chủ yếu dùng điều kiện toàn cục hoặc đồng nhất, thiếu khả năng kiểm soát tường minh sự biến đổi ngữ điệu tương đối ở cấp mệnh đề (clause-level), đồng thời không mô hình hóa chính xác phạm vi thời gian cũng như cơ chế phân bổ thông tin âm học trên các tầng residual vector quantization (RVQ) codebook.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Hệ thống bao gồm các thành phần cốt lõi: 1) <strong>Speaker-Relative Inline Control</strong>: Đặt thẻ tag trước mệnh đề mục tiêu để chỉ định mức biến đổi Pitch ($12\log_2(F_i/F_{i-1})$), Energy ($20\log_{10}(E_i/E_{i-1})$), Speed ($	ext{log}(r_i/r_{i-1})$) so với mệnh đề liền trước của cùng người nói, và Pause theo khoảng thời gian tuyệt đối (L1 [0.50, 0.75]s, L2 [0.75, 1.00]s, L3 [1.00, 1.25]s). 2) <strong>RVQ Codebook Diagnosis</strong>: Can thiệp biểu diễn ẩn để phân tích mức độ truyền thuộc tính qua các codebook. Kết quả cho thấy Energy bão hòa sớm ở các tầng đầu ($q_1–q_3$ đạt cumulative transfer 94.0%), trong khi Pitch cần tiền tố sâu hơn ($q_1–q_{10}$ đạt 95.4%). Do đó, Speed và Pause được giữ trên nhánh dự đoán $q_0$ (Main Talker), còn Pitch và Energy can thiệp vào Multi-Token Prediction (MTP). 3) <strong>SCIC (Scope- and Codebook-Aware Instruction Conditioning)</strong>: Dùng Temporal Instruction Router dự đoán mức kích hoạt frame-level $\rho_{t,\tau}$ từ trạng thái $h_t$ của Main Talker, kết hợp trọng số codebook theo thẻ $\omega_{\tau,k}$ để tiêm vector điều kiện $s_{t,k} = \sum_\tau \rho_{t,\tau} \omega_{\tau,k} e_\tau$ vào embedding đầu vào $u_{t,k}$ của MTP dự đoán $q_1–q_{15}$. 4) <strong>Multi-reward GDPO Post-training</strong>: Tối ưu chính sách theo nhóm có chuẩn hóa độc lập đa phần thưởng (Rctrl có biên độ phạt/thưởng theo ngưỡng người nói, Rpau, CER và SIM).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Dữ liệu huấn luyện gồm khoảng 1.000 giờ tiếng Trung tự nhiên từ 30 người nói (chứa 132.018 thẻ instruction, mỗi bản ghi $\le$ 90 giây). Mô hình nền tảng khởi tạo từ Qwen3-TTS CPT live-streaming, huấn luyện SFT dùng LoRA rank-32 ($\alpha=64$) trên attention/MLP bằng 8 GPU NVIDIA RTX PRO 5000 72GB. Đánh giá gồm 1.800 mẫu Pitch/Energy/Speed (tính control-direction accuracy và median direction-normalized change), 1.200 mẫu cho mỗi mức Pause (interval-hit accuracy), CER qua Qwen3-ASR (1.800 câu), SIM qua WeSpeaker (1.200 mẫu), Router Boundary MAE (ms) dùng Qwen3-ForcedAligner-0.6B, và long-form HMOS (200 văn bản &gt;60 giây, 5 người nghe).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>SCIC-SFT cải thiện độ chính xác điều khiển so với Instruction SFT: Pitch đạt 90.14% (tăng 7.31 điểm phần trăm), Energy đạt 96.39% (tăng 10.53 điểm phần trăm), Speed đạt 91.40% (tăng 0.51 điểm phần trăm), Pause macro ACC đạt 91.93% (tăng 0.67 điểm phần trăm).</li>
+<li>SCIC-GDPO nâng cao hơn nữa độ chính xác điều khiển: Pitch đạt 92.48% (tăng 9.65 pp so với Instruction SFT 82.83%), Energy đạt 97.16% (tăng 11.30 pp so với 85.86%), Speed đạt 93.86% (tăng 2.97 pp so với 90.89%), Pause macro ACC đạt 95.13% (tăng 3.87 pp so với 91.26%, cụ thể L1: 95.82%, L2: 95.90%, L3: 93.68%).</li>
+<li>Độ rõ và độ tương đồng giọng nói được duy trì ổn định: CER đạt 1.64% (so với 1.68% của Instruction SFT) và SIM đạt 0.8718 (so với 0.8721 của Instruction SFT).</li>
+<li>Đánh giá nghe chủ quan HMOS trên văn bản dài (&gt;60s) tăng từ 3.244 (Zero-Shot) và 3.504 (SFT không instruction) lên 4.042 với hệ thống hoàn chỉnh có paragraph-level instruction.</li>
+<li>Ablation study xác nhận: Thay thế soft Router bằng hard Router làm tăng Boundary MAE từ 295 ms lên 375 ms và giảm Pitch ACC xuống 88.41%; loại bỏ Tag-Specific Codebook Weighting làm giảm Pitch ACC xuống 89.43% và Energy ACC xuống 94.90%.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Hệ thống chỉ được thiết lập và đánh giá trong bài toán thích ứng người nói (speaker-adapted, 30 giọng nói) chứ chưa đánh giá khả năng tổng quát hóa zero-shot sang người nói mới; tập dữ liệu chỉ giới hạn ở tiếng Trung; mã nguồn và trọng số mô hình không được công bố công khai.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Khi điều khiển chi tiết ngữ điệu trong các mô hình TTS dùng RVQ autoregressive + MTP, không nên tiêm token instruction một cách đồng nhất. Cần tách biệt thuộc tính thời gian (Speed/Pause trên $q_0$) và thuộc tính âm học (Pitch/Energy trên $q_1–q_{15}$), đồng thời định tuyến thời gian mềm và phân bổ trọng số phù hợp với đặc tính bão hòa từng tầng codebook.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">66.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Bài báo đưa ra cơ chế chẩn đoán RVQ codebook độc đáo và thiết kế kiến trúc SCIC kết hợp định tuyến thời gian lẫn trọng số codebook chuyên biệt cho điều khiển ngữ điệu tương đối theo người nói.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Phương pháp toán học chặt chẽ từ chuẩn hóa hướng tương đối, can thiệp ẩn trên RVQ, đến thuật toán tối ưu đa mục tiêu GDPO với phần thưởng có biên chặn rõ ràng.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Cung cấp đầy đủ kết quả đo lường khách quan về độ chính xác điều khiển, CER, SIM, độ lệch biên MAE, phân tích bão hòa codebook và đánh giá nghe chủ quan HMOS trên văn bản dài.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Có giá trị thực tiễn cao cho TTS thương mại điện tử và live-streaming dài tập, tuy nhiên chưa có mã nguồn mở nên mức độ lan tỏa cộng đồng sẽ bị hạn chế.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Nghiên cứu đến từ nhóm nghiên cứu TaoLive-AIGC của Alibaba nhưng hiện là bản thảo tải lên arXiv, chưa qua bình duyệt tại hội nghị chuyên ngành.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Bài báo đưa ra cơ chế chẩn đoán RVQ codebook độc đáo và thiết kế kiến trúc SCIC kết hợp định tuyến thời gian lẫn trọng số codebook chuyên biệt cho điều khiển ngữ điệu tương đối theo người nói.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Nghiên cứu đến từ nhóm nghiên cứu TaoLive-AIGC của Alibaba nhưng hiện là bản thảo tải lên arXiv, chưa qua bình duyệt tại hội nghị chuyên ngành.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Phương pháp toán học chặt chẽ từ chuẩn hóa hướng tương đối, can thiệp ẩn trên RVQ, đến thuật toán tối ưu đa mục tiêu GDPO với phần thưởng có biên chặn rõ ràng.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Có giá trị thực tiễn cao cho TTS thương mại điện tử và live-streaming dài tập, tuy nhiên chưa có mã nguồn mở nên mức độ lan tỏa cộng đồng sẽ bị hạn chế.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Cung cấp đầy đủ kết quả đo lường khách quan về độ chính xác điều khiển, CER, SIM, độ lệch biên MAE, phân tích bão hòa codebook và đánh giá nghe chủ quan HMOS trên văn bản dài.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Chẩn đoán RVQ codebook sâu sắc và thuyết phục · Định tuyến thời gian và gán trọng số codebook chuẩn xác · Tối ưu GDPO đa phần thưởng hiệu quả cao · Giữ vững CER và speaker similarity khi tăng cường kiểm soát</p>
+          <p><span class="label">Weaknesses</span> · Chỉ thử nghiệm trên tiếng Trung và 30 người nói · Chưa đánh giá trên bài toán zero-shot speaker · Không phát hành mã nguồn hoặc trọng số mô hình</p>
+          <p><span class="label">Context</span> · Nhóm tác giả TaoLive-AIGC Team thuộc Taobao &amp; Tmall Group, Alibaba; công bố dưới dạng bản thảo kỹ thuật trên arXiv (09/2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

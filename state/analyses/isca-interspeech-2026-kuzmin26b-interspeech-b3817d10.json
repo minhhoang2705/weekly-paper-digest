@@ -1,0 +1,49 @@
+{
+ "id": "isca:interspeech_2026/kuzmin26b_interspeech",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo tiên phong mở rộng kỹ thuật probing danh tính người nói sang các kiến trúc LLM full-duplex always-on và đề xuất cơ chế wave-to-feature anonymization phù hợp với hệ thống hội thoại liên tục.",
+  "credibility": "Nghiên cứu được chấp nhận tại Interspeech 2026, thực hiện bởi nhóm tác giả uy tín từ NTU, A*STAR, Huawei và PolyU, tuân thủ chặt chẽ benchmark VoicePrivacy 2024.",
+  "technical": "Thiết kế kỹ thuật vững chắc với probe ECAPA-TDNN lazy-informed, so sánh chi tiết giữa continuous và discrete encoder, cùng giải pháp loại bỏ synthesizer dư thừa (Anon-W2F) kèm fine-tuning mô hình.",
+  "impact": "Đặt nền móng quan trọng cho việc giải quyết các thách thức tuân thủ pháp lý (GDPR) trong các speech agent thế hệ mới, dù các mô hình full-duplex E2E hiện vẫn đang trong giai đoạn chuyển giao sang sản phẩm thực tế.",
+  "evidence": "Cung cấp đầy đủ số liệu thực nghiệm định lượng về EER, Linkability, sBLEU, sBERT và các chỉ số real-time latency/interruption trên nhiều cấu hình và layer."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu đầu tiên phân tích rủi ro rò rỉ danh tính người nói (speaker identity leakage) từ các hidden states bên trong mô hình hội thoại full-duplex end-to-end (E2E) như Moshi và SALM-Duplex. Nhóm tác giả đề xuất hai giải pháp ẩn danh trực tuyến (streaming anonymization) dựa trên Stream-Voice-Anon: wave-to-wave (Anon-W2W) và wave-to-feature (Anon-W2F), giúp tăng đáng kể EER tiệm cận mức ngẫu nhiên (50%) trong khi vẫn duy trì độ trễ phản hồi dưới 1 giây.",
+  "problem": "Các mô hình hội thoại full-duplex E2E truyền âm thanh người dùng liên tục qua backbone LLM (always-on decoder-only LLM), duy trì trạng thái nội bộ liên tục trong suốt cuộc hội thoại. Theo các quy định như GDPR, việc lưu trữ thông tin nhận dạng người nói bên trong các biểu diễn mô hình tiềm ẩn rủi ro tuân thủ nghiêm ngặt, nhưng trước đây chưa có công trình nào đánh giá mức độ rò rỉ danh tính người nói từ các hidden states này.",
+  "method": "Tác giả đánh giá rủi ro rò rỉ bằng cách huấn luyện mô hình tấn công xác minh người nói (probe ECAPA-TDNN) dựa trên giao thức VoicePrivacy 2024 (kịch bản lazy-informed attacker) trên các tầng hidden state (early, mid, late và mean-pooled). Sau đó, hai phương án ẩn danh streaming bằng Stream-Voice-Anon được áp dụng: (1) Anon-W2W: xử lý ở mức waveform làm tiền xử lý trước khi đưa vào encoder gốc; (2) Anon-W2F: thay thế continuous encoder của SALM-Duplex bằng discrete encoder của Stream-Voice-Anon (dựa trên kiến trúc Firefly) để ẩn danh trực tiếp trên discrete token representations, loại bỏ bước tổng hợp waveform dư thừa rồi fine-tune LLM trên InstructS2S-200K.",
+  "setup": "Đánh giá privacy trên tập VoicePrivacy 2024 Challenge (từ LibriSpeech dev-clean và test-clean); probe ECAPA-TDNN được huấn luyện từ đầu trên LibriSpeech train-clean-360. Đánh giá chất lượng và hiệu năng trên MtBenchEval (chuẩn hóa bởi URO-Bench). Các mô hình gồm Moshi (RVQ discrete encoder, N=32 tầng) và SALM-Duplex (ASR continuous encoder hoặc Firefly discrete encoder, N=20 tầng). Các thước đo: EER, Linkability (Lnk), sBLEU (S2T, S2S), sBERT (S2T, S2S), RTFx, First Response Latency (FRL), Turn-Taking Success Rate (TTSR), Interruption Latency (Int.L.), Interruption Success Rate (ISR) trên 1 GPU.",
+  "results": [
+   "Moshi discrete baseline rò rỉ danh tính nghiêm trọng với EER chỉ đạt 6.4% (Lnk = 0.90); khi thêm Anon-W2W, EER tăng lên 36.9% (+30.5 điểm phần trăm) và Lnk giảm về 0.35.",
+   "SALM-Duplex continuous encoder gốc có EER 28.5% (Lnk = 0.29), cho thấy pretraining ASR giúp lọc bớt đặc trưng người nói so với discrete encoder (11.2% EER, Lnk = 0.79). Khi áp dụng Anon-W2F cho SALM-Duplex discrete, EER tăng hơn 3.5 lần từ 11.2% lên 41.0% (tiệm cận mức ngẫu nhiên 50%), Lnk giảm còn 0.23.",
+   "Phân tích layer-wise cho thấy Moshi rò rỉ đồng đều qua các tầng (EER từ 5.6% đến 7.3%), trong khi SALM-Duplex rò rỉ mạnh ở các tầng sớm (early layer EER 7.5% discrete, 24.6% continuous) và giảm dần ở tầng muộn (late layer EER 20.1% discrete, 32.1% continuous). Khi ẩn danh, EER của tất cả các tầng đều đạt khoảng 31–44%.",
+   "Về hiệu năng và độ trễ, Anon-W2W giữ FRL ở mức 0.72s (Moshi) và 0.80s (SALM-Duplex); Anon-W2F đạt FRL 0.50s với RTFx 2.5x (nhanh hơn Anon-W2W ở mức 1.6x-1.7x do tránh tổng hợp waveform), trong khi sBERT S2T đạt 78-93% so với baseline."
+  ],
+  "limitations": "Tập dữ liệu đánh giá quyền riêng tư dựa trên LibriSpeech (read speech) chứ chưa phải hội thoại tự nhiên (spontaneous speech). Các chỉ số utility chỉ dựa trên text (sBLEU, sBERT), chưa đo chất lượng âm thanh như MOS hay UTMOS. Module ẩn danh làm giảm RTFx đáng kể (từ 17-263x xuống 1.6-2.5x). Phương pháp Anon-W2F yêu cầu sửa kiến trúc/huấn luyện lại và mới chỉ triển khai trên SALM-Duplex mà chưa tích hợp cho Moshi.",
+  "takeaways": "Các hệ thống speech LLM full-duplex dùng discrete audio codec rò rỉ danh tính người nói rất lớn ngay từ vài lượt hội thoại đầu tiên. Để tuân thủ GDPR và bảo vệ quyền riêng tư, kỹ sư cần thiết kế cơ chế ẩn danh ngay từ đầu (privacy-by-design); trong đó phương pháp ẩn danh ở cấp feature (Anon-W2F) cho hiệu quả bảo vệ tốt hơn và độ trễ thấp hơn so với tiền xử lý waveform (Anon-W2W).",
+  "strengths": [
+   "Nghiên cứu đầu tiên về privacy probe cho full-duplex LLM",
+   "Thiết kế Anon-W2F tối ưu loại bỏ bước synthesis dư thừa",
+   "Đánh giá toàn diện cả privacy, utility và độ trễ tương tác",
+   "Phân tích chi tiết theo từng layer và độ dài hội thoại"
+  ],
+  "weaknesses": [
+   "Chỉ đánh giá privacy trên read speech LibriSpeech",
+   "Thiếu đánh giá thính giác chủ quan (MOS/UTMOS)",
+   "Chi phí tính toán module ẩn danh làm giảm RTFx mạnh",
+   "Anon-W2F chưa được tích hợp thử nghiệm trên Moshi"
+  ],
+  "context": "Nhóm tác giả từ NTU, A*STAR, Huawei Leibniz Research Center, CUHK và PolyU; công bố tại Interspeech 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

@@ -1,0 +1,48 @@
+{
+ "id": "hf-model:netease-youdao/Confucius4-R2T2",
+ "topic": "ASR",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 3,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình đề xuất phương pháp học Longest Stable Prefix (LSP) kết hợp kỹ thuật kiến tạo dữ liệu đặc thù để đạt true-streaming append-only linh hoạt chunk 80ms–2s trên nền tảng ASR dạng LLM.",
+  "credibility": "Sản phẩm chính thức từ nhóm nghiên cứu NetEase Youdao, công khai trọng số, Docker, mã nguồn vLLM và tài liệu hướng dẫn đầy đủ.",
+  "technical": "Thiết kế hệ thống và tích hợp streaming qua vLLM rất tốt, tuy nhiên tài liệu chưa trình bày chi tiết toán học và công thức huấn luyện của LSP do báo cáo kỹ thuật chưa ra mắt.",
+  "impact": "Giải quyết đúng điểm nghẽn của streaming ASR ứng dụng cho downstream LLM agent/live captioning, đạt 473 likes và hơn 11.500 lượt tải trên Hugging Face.",
+  "evidence": "Cung cấp bảng benchmark chi tiết trên 9 tập tiếng Anh và 5 tập tiếng Trung đối đầu trực diện với 7 mô hình mã nguồn mở và độc quyền ở cùng cấu hình độ trễ."
+ },
+ "summary": {
+  "tldr": "Confucius4-R2T2 là mô hình ASR true streaming phát triển bởi NetEase Youdao dựa trên Qwen3-ASR-1.7B, hỗ trợ chunk giải mã tùy biến từ 80 ms đến 2 s với độ trễ trung bình 200–600 ms. Mô hình áp dụng cơ chế append-only (cam kết văn bản vĩnh viễn, không chỉnh sửa lại token đã phát) giúp loại bỏ hiện tượng nhấp nháy chữ trên giao diện và tương thích trực tiếp với các pipeline NLP/LLM agent thời gian thực.",
+  "problem": "Các mô hình pseudo-streaming ASR thông thường liên tục chỉnh sửa văn bản đã xuất ra (text revisions), gây giật nhấp nháy thị giác khó chịu trong hiển thị phụ đề trực tiếp và phá vỡ chuỗi xử lý của các hệ thống downstream như Simultaneous Speech Translation hoặc LLM Agent vốn yêu cầu văn bản đầu vào ổn định theo thời gian thực.",
+  "method": "Xây dựng trên nền tảng Qwen3-ASR (base model: Qwen/Qwen3-ASR-1.7B). Mô hình được huấn luyện bằng tập kỹ thuật kiến tạo dữ liệu đặc thù bao gồm: dữ liệu tiền tố ổn định (stable-prefix data), dữ liệu căn chỉnh thời gian cưỡng bức (forced time-alignment data), và phân đoạn âm thanh mức token (token-level audio segmentation). Kết hợp cùng mô hình học Longest Stable Prefix (LSP), R2T2 xác định động thời điểm tiền tố đã an toàn để phát ra và thời điểm cần thêm ngữ cảnh âm thanh tương lai. Mô hình vận hành ở chế độ append-only, hỗ trợ context/hotword prompt, backend tối ưu thông lượng cao vLLM và backend Transformers.",
+  "setup": "Đánh giá trên 9 tập kiểm thử tiếng Anh (AMI, Giga-clean, LibriSpeech-clean, LibriSpeech-other, SPGI, VoxPopuli, Earnings22, TED-LIUM, EN-RealSI) dùng WER (%) và 5 tập kiểm thử tiếng Trung (Wenet-net, Wenet-meeting, SPEECHIO-06, SPEECHIO-07, CN-RealSI) dùng CER (%). So sánh ở cấu hình chunk 160 ms với Qwen3-ASR base (160ms), pseudo-streaming Qwen3-ASR (2s/u2/t5), X-ASR (160ms), WhisperRT (200ms), Nemotron (160ms), Voxtral (160ms) và 3 hệ thống thương mại (AssemblyAI, Commercial A, Commercial B). Hỗ trợ suy luận qua vLLM, tích hợp sẵn WebSocket server kết hợp VAD (Stream-VAD từ FireRedVAD).",
+  "results": [
+   "Ở cấu hình 160 ms chunk trên tiếng Anh, R2T2 đạt WER vượt trội so với Qwen3-ASR base 160ms: AMI đạt 11.37% (so với 24.79%), LS-clean đạt 2.13% (so với 22.30%), LS-other đạt 4.88% (so với 25.74%), Earnings22 đạt 9.36% (so với 29.72%).",
+   "Vượt qua tất cả các mô hình open-source true-streaming 160 ms trên toàn bộ các benchmark tiếng Anh (ví dụ trên VoxPopuli: R2T2 đạt 3.07% vs X-ASR 5.68%, Nemotron 5.69%, Voxtral 6.30%).",
+   "Trên tiếng Trung ở chunk 160 ms, R2T2 vượt xa Qwen3-ASR base 160ms trên mọi tập dữ liệu: Wenet-net đạt CER 5.87% (vs 19.79%), Wenet-meeting đạt 7.27% (vs 20.38%), SPEECHIO-06 đạt 7.30% (vs 24.50%), SPEECHIO-07 đạt 8.20% (vs 21.16%), CN-RealSI đạt 3.48% (vs 39.72%).",
+   "Đạt độ chính xác cạnh tranh trực tiếp với các hệ thống thương mại đóng (pseudo-streaming): trên CN-RealSI, R2T2 đạt 3.48% CER, tốt hơn Commercial A (3.99%) và Commercial B (3.64%)."
+  ],
+  "limitations": "Chi tiết toán học và thuật toán huấn luyện của cơ chế Longest Stable Prefix (LSP) chưa được công bố chi tiết trong tài liệu (hứa hẹn trong technical report sắp tới). Dù hỗ trợ đa ngôn ngữ (Pháp, Đức, Nhật, Hàn,...), tài liệu chưa cung cấp số liệu đánh giá định lượng cho các ngôn ngữ ngoài tiếng Anh và tiếng Trung. Kích thước tập dữ liệu huấn luyện và chi phí compute không được nêu.",
+  "takeaways": "Là lựa chọn mã nguồn mở hàng đầu hiện nay cho các hệ thống streaming ASR cần độ trễ thấp (160 ms chunk, 200–600 ms latency) và yêu cầu tính nhất quán đầu ra (append-only không giật sửa từ). Sẵn sàng triển khai production nhờ tích hợp trực tiếp vLLM, Docker container và kiến trúc WebSocket kết hợp VAD.",
+  "strengths": [
+   "True streaming append-only không giật sửa chữ",
+   "Chunk linh hoạt từ 80ms đến 2s",
+   "Vượt trội baselines mã nguồn mở ở 160ms",
+   "Tích hợp sẵn vLLM và WebSocket server"
+  ],
+  "weaknesses": [
+   "Chưa công bố chi tiết báo cáo kỹ thuật LSP",
+   "Thiếu số liệu định lượng cho ngôn ngữ phụ",
+   "Thông tin dataset huấn luyện không được nêu"
+  ],
+  "context": "NetEase Youdao phát hành mã nguồn mở (mã nguồn Apache 2.0, trọng số giấy phép NetEase) trên GitHub, Hugging Face và ModelScope, xây dựng trên Qwen3-ASR của Alibaba Qwen."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}

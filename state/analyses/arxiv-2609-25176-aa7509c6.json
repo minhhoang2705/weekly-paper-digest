@@ -1,0 +1,57 @@
+{
+ "id": "arxiv:2609.25176",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất quy trình hoàn chỉnh kết hợp M2-OPD, môi trường thực thi tự tiến hóa, GRPO 3 cấp độ và chính sách hội thoại đa luồng cho voice agent thời gian thực.",
+  "credibility": "Báo cáo kỹ thuật chi tiết từ nhóm nghiên cứu Qwen của Alibaba Group, kế thừa chuỗi phát triển mô hình âm thanh uy tín (Qwen-Audio, Fun-Audio-Chat).",
+  "technical": "Quy trình kỹ thuật và thiết kế hệ thống cực kỳ sâu sắc, từ hàm thưởng GRPO, xác minh database/assertion đến kiến trúc full-duplex và định tuyến tác vụ bất đồng bộ.",
+  "impact": "Đặt ra chuẩn mực thiết kế mới cho voice agent đa năng thời gian thực, mở rộng ranh giới từ xử lý giọng nói đơn thuần sang tương tác tác tử có suy luận và hành động.",
+  "evidence": "Hệ thống số liệu thực nghiệm đồ sộ trên hàng loạt benchmark công khai và nội bộ (BBA, FLEURS, FDB, tau-Voice, safety), tuy nhiên còn thiếu ablation cụ thể và benchmark S2S tau-Voice chính thức."
+ },
+ "summary": {
+  "tldr": "Qwen-Audio-3.1-Realtime là mô hình trợ lý giọng nói thời gian thực phát triển dựa trên ba lớp cốt lõi: Think (suy luận âm thanh), Act (thực thi công cụ trong môi trường tương tác), và Speak & Coordinate (điều phối chính sách hội thoại song công full-duplex). Báo cáo kỹ thuật trình bày giải pháp kết hợp giữa chưng cất chính sách on-policy (M2-OPD), tối ưu hóa Group Relative Policy Optimization (GRPO) trên môi trường tự tiến hóa với phản hồi đa cấp độ, cùng kiến trúc Voice Harness phân tách tác vụ foreground-background.",
+  "problem": "Các trợ lý giọng nói thời gian thực không chỉ cần độ trễ thấp mà còn phải có khả năng suy luận trên các yêu cầu liên tục biến đổi, thực thi công cụ chính xác, diễn giải phản hồi môi trường, tuân thủ các quy tắc ràng buộc nghiệp vụ và kiểm soát thời điểm nói/ngắt lời/nhường lượt một cách tự nhiên trong tương tác song công (full-duplex).",
+  "method": "Hệ thống bao gồm các thành phần và kỹ thuật chính:\n- **Kiến trúc mô hình**: Gồm hai nhánh chia sẻ kiến trúc Audio Encoder + LLM chạy song song: Full-Duplex Decision Model (dự đoán tiếp tục nghe, bắt đầu nói, dừng, hoặc tiếp tục sau ngắt lời) và Speech-to-Text Model (sinh nội dung văn bản phản hồi). Một bộ Context-aware Voice Renderer chuyển nội dung cùng ngữ cảnh âm thanh/hội thoại thành luồng tiếng nói streaming.\n- **Foundation Training (Think)**: Gồm 4 giai đoạn: (1) Core-Cocktail SFT cân bằng tham số ngôn ngữ với Text LLM gốc và tinh chỉnh trên dữ liệu âm thanh - văn bản quy mô triệu giờ; (2) Multimodality OPD giám sát quỹ đạo của Audio Student bằng phân phối từ Text Teacher và Audio Reference đóng băng; (3) Domain Expert Training huấn luyện chuyên gia (empathy, ngữ dụng, cảnh âm thanh) qua GRPO; (4) Multi-Teacher OPD hợp nhất phân phối từ các chuyên gia âm thanh vào một mô hình AudioLM triển khai duy nhất.\n- **Học hành động trong môi trường thực thi (Act)**: Khởi tạo từ các schema công cụ và máy chủ MCP (Model Context Protocol). Xây dựng môi trường giả lập gồm tool pool, cơ sở dữ liệu JSON private cho từng phiên và business policy bằng ngôn ngữ tự nhiên. Quá trình tự tiến hóa (self-evolving) điều chỉnh độ khó dựa trên log lỗi rollout. Áp dụng GRPO với tín hiệu phần thưởng ở 3 mức độ: Dialogue level (kết quả cuối cùng), Milestone level (chuỗi công cụ trung gian hợp lệ), và Turn level (chọn tool, tham số và chất lượng phản hồi cục bộ). Tích hợp phạt số lượng truy vấn tìm kiếm dư thừa và quy tắc báo cáo tiến độ (progress acknowledgment) trước khi gọi công cụ.\n- **Chính sách hội thoại (Speak & Coordinate)**: Phân định chính sách theo: Whether (quyết định nói, gọi tool, hỏi lại hay từ chối), When (chính sách duplex điều kiện hóa theo âm thanh, lịch sử và trạng thái hệ thống: pause handling, interruption, backchannel, talking to others), và How (kiểm soát phong cách, persona, độ đồng cảm empathy thông qua chuyên gia SFT và GRPO).\n- **Voice Harness**: Kiến trúc phân tách foreground (xử lý hội thoại trực tiếp và công cụ nhẹ) và background runtime (thực thi tác vụ bền bỉ đa bước, bộ nhớ người dùng 4 lớp có thứ tự ưu tiên).",
+  "setup": "Đánh giá đa diện trên nhiều cấu hình: S2T (speech-to-text), S2S (speech-to-speech) và T2T (text-to-text). Các bộ benchmark công khai và nội bộ bao gồm: OpenAudioBench (OAB), VoiceBench, Big Bench Audio (BBA) mở rộng 14 ngôn ngữ, Audio MultiChallenge (AMC, chấm bằng GPT-4o-mini), MMAU, LibriSpeech, FLEURS (14 ngôn ngữ), LongBench v2, MiniLongBench, Long-AMC, VoiceChat-L, bản chuyển thể S2T half-duplex của tau-Voice, SpeechFCEval, EVA-A (200/213 phiên, giám khảo chính Gemini-3-flash-preview), WebSearch1K (1.000 mẫu đơn lượt), CharacterEval, RMTBench, EchoMind, VoiceChat (218 hội thoại, 2.706 lượt, chấm bởi Qwen-Plus), Full-Duplex-Bench (FDB v1.0, v1.5, v3.0), Qwen-Audio-FDB nội bộ, HalluQA, TruthfulQA, DNA, CDNA, bộ tấn công đa lượt tiếng Trung/Anh và kiểm thử Red-team 5 người (50 phiên). So sánh đối đầu chủ yếu với Qwen-Audio-3.0-Realtime, GPT-Realtime-2 (cấu hình low-effort) và SeedDuplex 1.2.6.1.",
+  "results": [
+   "Trên bản chuyển thể S2T half-duplex của tau-Voice: Qwen-Audio-3.1-Realtime đạt Overall task success 82.0% (so với 78.4% của 3.0, 43.8% của GPT-Realtime-2 và 40.3% của SeedDuplex 1.2.6.1); trong đó Retail đạt 73.7% (vs 72.8%), Airline đạt 74.0% (vs 64.0%), Telecom đạt 93.9% (vs 90.4%).",
+   "Trên SpeechFCEval: độ chính xác gọi hàm bằng giọng nói đạt 86.00% (tăng từ 83.28% ở bản 3.0; GPT-Realtime-2 đạt 70.74%).",
+   "Trên FDB v1.5 (S2S): tỷ lệ phản hồi sai với tiếng nói nền (Background Speech Respond) giảm mạnh từ 73.00% (3.0) xuống còn 13.00%, trong khi tỷ lệ tiếp tục nói (Resume) tăng từ 26.00% lên 87.00%. Với tác vụ Talking to Others, tỷ lệ phản hồi giảm từ 13.00% xuống 3.00% và Resume đạt 96.00%.",
+   "Trên FDB v1.0: Candor Pause Handling Takeover Rate (TOR) giảm từ 0.1100 (3.0) xuống 0.0509; Synthetic TOR giữ mức thấp 0.0073.",
+   "Trên FDB v3.0: tỷ lệ chèn từ đệm (Filler rate) giảm từ 0.7590 (3.0) xuống 0.2960; Turn-taking interrupt rate là 0.1110 (so với 0.1700 của 3.0).",
+   "Trên Qwen-Audio-FDB nội bộ: tỷ lệ vượt qua cấp phiên (session-level pass rate) tăng vọt từ 0.0800 lên 0.9600 ở Multi-party Interaction và từ 0.0700 lên 0.6800 ở Semantic Control.",
+   "Trên Multilingual BBA (14 ngôn ngữ): độ chính xác trung bình đạt 88.1% (tăng 6.4 điểm phần trăm so với 81.7% của bản 3.0 và vượt 82.1% của GPT-Realtime-2), với bước nhảy vọt ở tiếng Ả Rập (52.5% -> 79.1%), tiếng Thái (51.5% -> 79.0%) và tiếng Việt (61.5% -> 79.2%).",
+   "Trên nhận dạng giọng nói (ASR): macro-average WER trên FLEURS giảm sâu từ 9.01% xuống 3.98%; WER LibriSpeech clean/other đạt 1.19% / 2.31%.",
+   "Về an toàn và độ tin cậy: HalluQA đạt 71.33% (vs 68.44%), TruthfulQA đạt 82.28% (vs 78.73%), DNA đạt 94.99% (vs 91.80%), CDNA đạt 90.57% (vs 83.49%). Tỷ lệ tấn công thành công đa lượt giảm mạnh từ 80.50% xuống 26.00% (tiếng Trung) và từ 63.50% xuống 23.50% (tiếng Anh). Trong kiểm thử Red-team 50 phiên, mô hình đạt 92.00% pass rate (so với 96.00% của GPT-Realtime-2).",
+   "Trên WebSearch1K: số lượng câu truy vấn đề xuất trung bình giảm 76.0% (từ 4.37 xuống 1.05 câu), giữ F1 ở mức 58.61% và call rate đạt 17.40%.",
+   "Thử nghiệm định tuyến hệ thống Voice Harness (với foreground là Qwen-Audio-3.0): cơ chế hybrid routing đạt 91.04% task success (122/134 ca) so với 72.39% của foreground direct tools và 90.30% của text background direct tools, với độ trễ trung bình chung thấp nhất đạt 4.729 giây."
+  ],
+  "limitations": "Kết quả tau-Voice được đo bằng bản chuyển thể S2T half-duplex tự xây dựng, không thể so sánh trực tiếp với benchmark S2S full-duplex chuẩn; đánh giá EVA-A loại trừ 13/213 phiên lỗi/timeout và dùng cấu hình chấm khác bản gốc. Thiếu các bài kiểm tra bóc tách (ablation studies) cô lập tác động riêng lẻ của Core-Cocktail SFT, từng nhánh OPD hay độ hạt reward GRPO. Nhiều bộ dữ liệu đánh giá sử dụng giọng nói tổng hợp hoặc tập con nhỏ, chưa có khoảng tin cậy thống kê suite-wide hay phân tích rò rỉ dữ liệu (contamination analysis). Đánh giá Voice Harness chỉ mới thử nghiệm mô phỏng trên nền bản 3.0 chứ chưa phải mô hình 3.1 hoàn chỉnh.",
+  "takeaways": "Để xây dựng Voice Agent đáng tin cậy, không thể chỉ tối ưu độ trễ phản hồi mà phải kết hợp chặt chẽ giữa chính sách hội thoại full-duplex (kiểm soát việc ngắt lời, phân biệt tiếng ồn nền/người thứ ba) và khả năng thực thi công cụ trong môi trường có trạng thái (stateful validation). Việc chưng cất tri thức text-teacher sang audio-student kết hợp GRPO đa cấp độ (dialogue/milestone/turn) là công thức hiệu quả để vừa duy trì khả năng suy luận vừa đạt hành vi đàm thoại tự nhiên.",
+  "strengths": [
+   "Kiến trúc huấn luyện M2-OPD và GRPO đa cấp độ",
+   "Môi trường thực thi tự tiến hóa kèm kiểm tra trạng thái",
+   "Cải thiện vượt bậc khả năng lọc nhiễu nền và hội thoại đa bên",
+   "Đột phá nhận dạng và hiểu âm thanh đa ngôn ngữ",
+   "Khung kiến trúc phân tách foreground-background chi tiết"
+  ],
+  "weaknesses": [
+   "Thiếu kiểm thử bóc tách (ablation) cho từng thành phần",
+   "tau-Voice chỉ đánh giá trên bản S2T half-duplex chuyển thể",
+   "Thử nghiệm Voice Harness chỉ mới đo trên bản 3.0",
+   "Phụ thuộc nhiều vào giọng tổng hợp và LLM-as-a-judge"
+  ],
+  "context": "Nhóm tác giả Alibaba Token Foundry thuộc Alibaba Group; công bố dưới dạng báo cáo kỹ thuật (Technical Report) trên arXiv (mã arXiv:2609.25176)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W40"
+}
