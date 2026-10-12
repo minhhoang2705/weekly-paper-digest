@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>OmniVChat: Synthesizing, Benchmarking, and Training for Native Audio-Visual Dialogue · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -87,7 +89,7 @@
         <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
       </div>
       <div class="card-body prose">
-<p>We define OmniVChat (Omni Video Chat) as the task of native audio-visual dialogue between a user and an omni model. In OmniVChat, omni models directly and simultaneously receive audio and video from a user and return text. The user&#39;s query is embedded in the audio and video, without a separate text question, external captioning, or speech recognition. Direct audio-visual input reduces external latency and computation while preserving perceptual cues. However, research on OmniVChat faces two constraints: data availability and evaluation. Recordings of people using their own devices are scarce. Furthermore, a good reply often needs to account for the user&#39;s surroundings, facial expressions, and nearby objects, and such responses can be expressed in many different ways, making keyword matching unreliable for evaluating reply quality. Recent progress in agent systems and video generation makes generation for comprehension viable, which means using synthesized dialogues for training and evaluation. Therefore, we present OmniVChat-Studio, a multi-agent data engine for synthesizing single- and multi-turn audio-visual dialogues. We use synthesized dialogues to build OmniVChat-Bench, an evaluation benchmark that evaluates omni models&#39; basic dialogue abilities across five ability categories. We also present OmniVChat-RL, a reinforcement learning reward design that jointly targets reply correctness, efficiency, and style in OmniVChat. Training Qwen3-Omni-Instruct with OmniVChat-RL on synthesized dialogues improves its performance on both OmniVChat-Bench and the human-recorded OmniVChat-Bench-Human. These gains validate the reward design and show transfer to real-world dialogues in training and evaluation.</p>      </div>
+<p>We define OmniVChat (Omni Video Chat) as the task of native audio-visual dialogue between a user and an omni model. In OmniVChat, omni models directly and simultaneously receive audio and video from a user and return text. The user's query is embedded in the audio and video, without a separate text question, external captioning, or speech recognition. Direct audio-visual input reduces external latency and computation while preserving perceptual cues. However, research on OmniVChat faces two constraints: data availability and evaluation. Recordings of people using their own devices are scarce. Furthermore, a good reply often needs to account for the user's surroundings, facial expressions, and nearby objects, and such responses can be expressed in many different ways, making keyword matching unreliable for evaluating reply quality. Recent progress in agent systems and video generation makes generation for comprehension viable, which means using synthesized dialogues for training and evaluation. Therefore, we present OmniVChat-Studio, a multi-agent data engine for synthesizing single- and multi-turn audio-visual dialogues. We use synthesized dialogues to build OmniVChat-Bench, an evaluation benchmark that evaluates omni models' basic dialogue abilities across five ability categories. We also present OmniVChat-RL, a reinforcement learning reward design that jointly targets reply correctness, efficiency, and style in OmniVChat. Training Qwen3-Omni-Instruct with OmniVChat-RL on synthesized dialogues improves its performance on both OmniVChat-Bench and the human-recorded OmniVChat-Bench-Human. These gains validate the reward design and show transfer to real-world dialogues in training and evaluation.</p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">
@@ -115,7 +117,7 @@
 <ul>
 <li><strong>OmniVChat-Studio</strong>: Engine đa tác tử tổng hợp hội thoại đơn lượt (single-turn) và đa lượt (multi-turn) từ kho ngữ liệu văn bản. Gồm 4 tác tử: Director (lập kế hoạch, sinh kịch bản và câu thoại tham chiếu), Renderer (sinh video kèm âm thanh đồng bộ 1080P/44.1kHz), Reviewer (sinh caption, báo cáo kiểm định 7 yếu tố chất lượng và trả lời Q-A tập trung), và Validator (kiểm tra luật định dạng, thời lượng, quy tắc cơ chế sửa chữa có ngân sách).</li>
 <li><strong>OmniVChat-Bench &amp; Rubric phân tầng</strong>: Tập đánh giá gồm 2.800 mẫu tổng hợp (2.550 đơn lượt, 250 đa lượt) trên 5 nhóm năng lực (DSLP, MEA, MSA, AH, ER), 17 nhóm phụ và 22 lĩnh vực ngữ cảnh. Mỗi mẫu đi kèm rubric phân tầng: Tier 0 (cổng kiểm tra ngôn ngữ, không đạt thì 0 điểm), các Tier 1-3 tính điểm tuần tự (chỉ tính điểm tier sau nếu hoàn thành toàn bộ tiêu chí tier trước). Điểm số do LLM chấm (qwen3.7-max).</li>
-<li><strong>OmniVChat-RL</strong>: Tinh chỉnh mô hình bằng thuật toán GSPO (Group Sequence Policy Optimization) với hàm thưởng tổng hợp: $R(y) = r(y) + \lambda_{fmt} f(y) + \lambda_{eff} e(y) + \lambda_{sty} s(y)$. Trong đó $r(y)$ là điểm rubric, $f(y)$ phạt tag suy nghĩ/trống (trọng số 0.5), $e(y)$ chuẩn hóa hiệu quả độ dài trong nhóm câu trả lời (trọng số 0.1), và $s(y)$ chấm 7 tiêu chí văn phong tự nhiên/ngắn gọn/đúng ngữ pháp qua LLM judge (trọng số 0.5).</li>
+<li><strong>OmniVChat-RL</strong>: Tinh chỉnh mô hình bằng thuật toán GSPO (Group Sequence Policy Optimization) với hàm thưởng tổng hợp: <span class="math inline">R(y) = r(y) + \lambda_{fmt} f(y) + \lambda_{eff} e(y) + \lambda_{sty} s(y)</span>. Trong đó <span class="math inline">r(y)</span> là điểm rubric, <span class="math inline">f(y)</span> phạt tag suy nghĩ/trống (trọng số 0.5), <span class="math inline">e(y)</span> chuẩn hóa hiệu quả độ dài trong nhóm câu trả lời (trọng số 0.1), và <span class="math inline">s(y)</span> chấm 7 tiêu chí văn phong tự nhiên/ngắn gọn/đúng ngữ pháp qua LLM judge (trọng số 0.5).</li>
 </ul>
 </div>
             </div>

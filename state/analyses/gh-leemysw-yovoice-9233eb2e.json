@@ -1,0 +1,44 @@
+{
+ "id": "gh:leemysw/yovoice",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Dự án chủ yếu đóng gói và kết hợp các mô hình TTS/sinh nhạc hiện có (VoxCPM2, IndexTTS, Qwen3-TTS, Kokoro, ACE-Step) qua engine audio.cpp thành một desktop tool và MCP service.",
+  "credibility": "Kho mã nguồn mở cá nhân trên GitHub đạt hơn 900 stars, có tài liệu hướng dẫn và bộ cài release rõ ràng, nhưng không phải bài báo khoa học bình duyệt.",
+  "technical": "Thiết kế kỹ thuật hoàn chỉnh từ desktop app, pipeline audio.cpp, quản lý lượng tử hóa GGUF (Q8, BF16), hỗ trợ đa backend tăng tốc phần cứng, đến CLI và giao thức MCP.",
+  "impact": "Thu hút mức độ quan tâm tốt (916 stars, 65 forks) từ cộng đồng người dùng cần công cụ TTS cục bộ không phụ thuộc cloud API.",
+  "evidence": "Tài liệu chỉ liệt kê kích thước tệp và định dạng mô hình, hoàn toàn không có số liệu định lượng kiểm chứng thực nghiệm về chất lượng (MOS) hay tốc độ xử lý."
+ },
+ "summary": {
+  "tldr": "yovoice là một ứng dụng desktop mã nguồn mở (phiên bản 0.2.0) chạy cục bộ trên macOS và Windows, tích hợp nhiều mô hình TTS, voice cloning và tạo nhạc. Dự án cung cấp giao diện làm việc hoàn chỉnh, hỗ trợ CLI, Agent Skill và API/MCP server mà không cần phụ thuộc vào cloud API trả phí.",
+  "problem": "Việc lồng tiếng, tạo giọng đọc (narration/voiceover) và sản xuất nội dung âm thanh thường phụ thuộc vào các dịch vụ cloud API đắt đỏ tính phí theo ký tự, thiếu quyền riêng tư và hạn chế khả năng kiểm soát chi tiết cảm xúc hoặc kiểu trình diễn.",
+  "method": "yovoice tích hợp engine suy luận cục bộ `audio.cpp` (hỗ trợ tăng tốc phần cứng qua Metal trên Apple Silicon, cùng CPU, NVIDIA CUDA 12.4/13.3 và Vulkan thử nghiệm trên Windows). Hệ thống cho phép tải và import các mô hình GGUF ở nhiều mức lượng tử hóa (Q8, BF16, F16, ORIG). Các mô hình và tính năng cốt lõi bao gồm: VoxCPM2 (2B, xuất âm thanh 48 kHz, voice design bằng văn bản, voice cloning hỗ trợ transcript); IndexTTS 2.0/2.5 (cloning, điều khiển cảm xúc, chỉnh sửa phát âm); OmniVoice (0.6B, voice design dựa trên thuộc tính, thẻ âm thanh phi ngôn ngữ); Qwen3-TTS (0.6B/1.7B với clone, custom voice, voice design không cần audio mẫu); Kokoro-82M (giọng tích hợp gọn nhẹ); ACE-Step 1.5 Turbo (sinh bài hát/nhạc cụ từ style prompt và lời); và module Score dựng nhạc MIDI lặp lại chính xác bằng bộ tổng hợp SoundFont (go-meltysynth).",
+  "setup": "Hỗ trợ hệ điều hành macOS 14+ (Apple Silicon qua file `.dmg`) và Windows 10/11 x64 (bộ cài exe đi kèm runtime CUDA 12.4 hoặc CUDA 13.3, yêu cầu WebView2 Runtime). Cung cấp lệnh `yovoice serve` triển khai authenticated HTTP API / MCP service và Agent Skill cho AI agent. Dữ liệu người dùng lưu tại `~/.yovoice`.",
+  "results": [
+   "Không có kết quả định lượng cụ thể (như MOS, WER, RTF hay latency đo lường) được công bố trong tài liệu."
+  ],
+  "limitations": "Tài liệu không cung cấp các phép đo benchmark định lượng cụ thể về tốc độ suy luận hoặc chất lượng âm thanh; trọng số mô hình OmniVoice mang giấy phép CC-BY-NC giới hạn mục đích phi thương mại; một số tính năng như Vulkan trên Windows và Kokoro-82M 1.1-zh vẫn ở trạng thái thử nghiệm.",
+  "takeaways": "Cung cấp một giải pháp đóng gói all-in-one rất tiện dụng cho kỹ sư âm thanh và nhà phát triển cần triển khai hệ thống TTS/voice cloning cục bộ thông qua desktop UI, CLI tự động hóa hoặc MCP server mà không tốn chi phí API.",
+  "strengths": [
+   "Hỗ trợ đa dạng mô hình TTS tiên tiến",
+   "Chạy hoàn toàn offline, bảo mật dữ liệu",
+   "Tích hợp CLI, Agent Skill và MCP",
+   "Tối ưu phần cứng với Metal và CUDA"
+  ],
+  "weaknesses": [
+   "Thiếu số liệu benchmark hiệu năng chi tiết",
+   "OmniVoice vướng giấy phép phi thương mại CC-BY-NC"
+  ],
+  "context": "Dự án nguồn mở của tác giả leemysw trên GitHub (phiên bản 0.2.0, giấy phép Apache-2.0)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

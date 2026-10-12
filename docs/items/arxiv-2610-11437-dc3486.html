@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edit Who Speaks, Control How They Speak: Global Timbre Editing and Local Instruction Control for TTS · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Edit Who Speaks, Control How They Speak: Global Timbre Editing and Local Instruction Control for TTS</h1>
+    <div class="meta">
+      <span>published Oct 8, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">TTS</span>        <span class="authors">Junchuan Zhao, Chenglin Xu, Wei Zeng, Haoyang Li, Yiwen Guo, Ye Wang</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.11437" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Instruction-based text-to-speech (TTS) offers control over voice characteristics and speech expression through interfaces including voice cloning and text-based voice design. Voice cloning reproduces a reference voice, whereas text-based voice design creates a voice from a natural-language description. However, neither interface directly enables users to modify the timbre of a given reference and synthesize speech with the modified voice. Meanwhile, utterance-level expressive instructions leave changes across individual text segments underspecified. We introduce \textbf{EDICT}, a framework that unifies global timbre editing and local expressive control by using an edited acoustic reference to anchor voice identity across segments. To enable synthesis with an instruction-edited voice, EDICT combines reference audio with structured timbre edits to generate an edited reference in codec-token space. This representation serves as a shared voice anchor for a frozen TTS backbone, allowing segment-specific natural-language instructions to guide expression. To accommodate instruction changes while supporting acoustic continuity, EDICT rebuilds the KV cache at each segment boundary, refreshing instruction conditioning while retaining bounded acoustic context from previously generated speech. Evaluations on our proposed TimbreEdit-Bench and IntraTTS-Bench demonstrate improved timbre editing and a favorable balance between local instruction adherence, speaker consistency, and transition quality. Audio demos are available.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 12, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>EDICT là khung làm việc thống nhất giữa chỉnh sửa âm sắc toàn cục (global timbre editing) dựa trên giọng mẫu và điều khiển biểu cảm cục bộ theo phân đoạn (intra-utterance local instruction) cho mô hình TTS. Phương pháp kết hợp một bộ timbre editor huấn luyện bằng weighted DPO để tạo ra codec reference làm điểm tựa nhận diện người nói, cùng cơ chế tái tạo KV cache (KV cache reconstruction) không cần huấn luyện lại backbone TTS để loại bỏ hiện tượng rò rỉ điều khiển (control leakage) giữa các phân đoạn.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các hệ thống TTS dựa trên chỉ dẫn (instruction-based TTS) hiện tại gặp hai giới hạn: ở mức toàn cục, voice cloning chỉ sao chép giọng mẫu còn voice design tạo giọng từ mô tả, thiếu khả năng chỉnh sửa tương đối các thuộc tính âm sắc (timbre) từ một giọng mẫu có sẵn; ở mức cục bộ, hướng dẫn trên toàn câu không kiểm soát được biểu cảm biến đổi linh hoạt qua từng phân đoạn ngắn, trong khi các phương pháp phân đoạn hiện có (như TED-TTS) bị rò rỉ điều khiển (control leakage) do KV cache của các bước trước mang trạng thái âm thanh cũ sang các phân đoạn sau.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>EDICT xây dựng mô hình xếp tầng gồm hai giai đoạn:\n1. <strong>Reference-Conditioned Timbre Editing (Stage I)</strong>: Một mô hình chỉnh sửa âm sắc <span class="math inline">p_{\theta}</span> (khởi tạo từ Qwen3-TTS-12Hz-1.7B-Base) nhận reference codec <span class="math inline">c_{\text{ref}}</span>, mã hóa thao tác thuộc tính <span class="math inline">z_{\text{edit}}</span> (gồm 9 trục tri giác: gender, age, pitch register, brightness, vocal weight, resonance focus, roughness, breathiness, nasality; unmentioned attributes gán nhãn <code>&lt;keep&gt;</code>), và văn bản <span class="math inline">x_{\text{edit}}</span> để sinh ra reference codec đã chỉnh sửa <span class="math inline">c'_{\text{ref}}</span>. Quá trình huấn luyện trải qua SFT trên 1M cặp âm thanh tổng hợp, sau đó tối ưu bằng reward-weighted DPO (wDPO) kết hợp auxiliary SFT: <span class="math inline">\mathcal{L}_{w\text{DPO}} = -\frac{\sum_{(g,j)\in B} w_{g,j} \log \sigma(\beta [q_\theta(c_g^+|g) - q_\theta(c_{g,j}^-|g)])}{\sum_{(g,j)\in B} w_{g,j}} + \lambda_{\text{SFT}} \mathcal{L}_{\text{SFT}}</span>, với trọng số chênh lệch phần thưởng <span class="math inline">w_{g,j} = \text{clip}\left(\frac{\Delta_{g,j}}{0.2}, 0.5, 2.0\right)</span> dựa trên độ tương đồng cosine speaker embedding từ WavLM.\n2. <strong>Segment-Level Instruction Control (Stage II)</strong>: Sử dụng một frozen autoregressive TTS backbone (như Qwen3-TTS-VD hoặc CosyVoice 2). Tại mỗi ranh giới phân đoạn (khi gặp non-final <code>&lt;EOS&gt;</code>), hệ thống loại bỏ KV cache cũ và dựng prefill mới <span class="math inline">P_{k+1}</span> bao gồm instruction mới, văn bản mới, reference đã chỉnh sửa <span class="math inline">c'_{\text{ref}}</span>, cùng với việc giữ lại và recompute toàn bộ keys/values cho <span class="math inline">S</span> vị trí codec đầu tiên và <span class="math inline">K</span> vị trí codec gần nhất (<span class="math inline">S=4, K=5</span>). Việc recompute dưới điều kiện mới giúp ngăn rò rỉ phong cách cũ nhưng vẫn duy trì tính liên tục và độ nhất quán người nói.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Tập huấn luyện Stage I gồm 1M cặp chỉnh sửa tiếng Trung - tiếng Anh tổng hợp từ Qwen3-TTS-VD qua 5,800 profiles (239,794 bản ghi, 518.23 giờ). Đánh giá trên hai benchmark mới đề xuất: <strong>TimbreEdit-Bench</strong> (1,955 cặp source-target trên 200 held-out profiles) và <strong>IntraTTS-Bench</strong> (997 requests gồm 2-3 phân đoạn văn bản và delivery instruction). Đánh giá mở rộng trên tập dữ liệu người thật ESD (200 cặp) và MED-TTS (500 mẫu). Các baseline gồm: Qwen3-TTS-VD, Qwen3-TTS-Base, CosyVoice 2, FreeVC, Seed-VC, TED-TTS, Concat. (tổng hợp độc lập rồi ghép file), và Joint (sinh 1 lượt với prompt toàn câu). Thước đo: CER/WER (Whisper large-v3), UTMOS, DNSMOS OVRL, SIM-T/SIM-R (WavLM, ERes2Net), SIM-I (inter-segment similarity), Gemini 3.1 Pro đánh giá (SegAcc, EmoAcc, Trans, Up/Down Acc, Category Acc, Preservation), cùng human listening test (19 người nghe đánh giá N-MOS, Edit-MOS, S-MOS, Instr-MOS, Trans-MOS với 95% bootstrap CI) và TCD (Transition Cepstral Discontinuity).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên TimbreEdit-Bench (Structured), EDICT-Stage I đạt WavLM SIM-T 0.819 so với Qwen3-TTS-VD đạt 0.701, Qwen3-TTS-Base đạt 0.632, CosyVoice 2 đạt 0.646; đạt ERes2Net SIM-T 0.653 so với Qwen3-TTS-VD đạt 0.450; <span class="math inline">\Delta</span> (SIM-T - SIM-R) dương ở mức 0.199 (WavLM) và 0.211 (ERes2Net), trong khi các hệ thống khác đều âm.</li>
+<li>Trên TimbreEdit-Bench (Descriptive), EDICT-Stage I đạt WavLM SIM-T 0.793 và ERes2Net SIM-T 0.648, vượt qua Qwen3-TTS-VD (0.676 / 0.435) và CosyVoice 2 (0.644 / 0.419).</li>
+<li>Về độ chính xác thuộc tính (TimbreEdit-Bench), EDICT-Stage I (Structured) đạt Up Acc 70.8%, Down Acc 80.6%, Category Acc 89.3% (so với Qwen3-TTS-VD là 67.0%, 64.3%, 53.2%), nhưng Preservation đạt 66.7% (thấp hơn 83.3% của Qwen3-TTS-VD).</li>
+<li>Trên IntraTTS-Bench với backbone Qwen3-TTS-VD, EDICT-Stage II đạt SegAcc 82.30%, EmoAcc 83.60%, Trans 82.00% và SIM-I 0.915, vượt trội so với TED-TTS (SegAcc 74.25%, EmoAcc 74.02%, Trans 78.03%, SIM-I 0.911), dù Concat. đạt SegAcc cao hơn (92.44%) nhưng Trans rất thấp (60.68%) và SIM-I chỉ đạt 0.658.</li>
+<li>Trên IntraTTS-Bench với CosyVoice 2, EDICT-Stage II đạt SegAcc 60.56%, EmoAcc 60.10%, Trans 76.20% (so với TED-TTS là 58.10%, 58.00%, 63.94%).</li>
+<li>Khi kết hợp đồng thời (Joint Timbre &amp; Delivery Control trên Qwen3-TTS-VD), EDICT pipeline đạt SegAcc 81.62%, Trans 83.45%, SIM-I 0.917, WavLM SIM-T 0.788, ERes2Net SIM-T 0.609, vượt qua Qwen3-TTS-VD Joint (SegAcc 60.19%, Trans 70.07%, SIM-T WavLM 0.683) và Concat. (SegAcc 86.43%, Trans 56.69%).</li>
+<li>Trên 500 mẫu MED-TTS, EDICT-Stage II đạt Emo2v 85.81% (English) và 79.96% (Chinese), cao hơn TED-TTS (80.91% / 76.32%), đồng thời đạt độ gián đoạn phổ thấp nhất với <span class="math inline">10^{-3}\text{TCD}</span> là 0.357 (English) và 0.392 (Chinese) so với TED-TTS (0.463 / 0.449).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Việc tái tạo KV cache dẫn đến sự suy giảm nhẹ về độ trung thực nội dung văn bản (content fidelity), khiến English WER tăng nhẹ (5.1% so với 3.8% của Joint trên IntraTTS-Bench; 1.09% so với 0.69% của TED-TTS trên MED-TTS English). Có sự đánh đổi rõ rệt giữa độ chính xác chỉnh sửa thuộc tính và việc bảo toàn thuộc tính không nhắc tới (Preservation của EDICT đạt 66.7% - 70.1%, thấp hơn mức 83.3% - 85.0% của Qwen3-TTS-VD). Toàn bộ dữ liệu huấn luyện timbre editor là dữ liệu tổng hợp sinh ra từ Qwen3-TTS-VD.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Kỹ thuật KV cache reconstruction kết hợp recompute trạng thái trên context giới hạn (<span class="math inline">S</span> frame đầu để neo voice identity và <span class="math inline">K</span> frame gần nhất để duy trì continuation) là một giải pháp hoàn toàn training-free hữu ích giúp giải quyết triệt để control leakage trong autoregressive TTS. Đối với chỉnh sửa timbre giọng, việc biểu diễn theo các trục thuộc tính tri giác và hậu huấn luyện wDPO có thể chuyển giao tốt ngay cả trên giọng nói người thật.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">66.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đề xuất cơ chế kết hợp độc đáo giữa global timbre editing qua codec token và segment-level control thông qua việc tái tạo (recomputing) KV cache thay vì chỉ áp dụng mask đơn thuần.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật vững chắc với mô hình hai tầng, xây dựng hàm mất mát wDPO có reward gap cụ thể, cơ chế prefill/decoding tái tạo KV cache được mô tả toán học rõ ràng và có phân tích attention sâu.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Thực nghiệm rất phong phú trên 2 benchmark mới cùng tập dữ liệu ESD và MED-TTS, có bảng ablation chi tiết cho từng thành phần (SFT scale, DPO pool, KV context size S và K) và human evaluation có bootstrap confidence intervals.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Cung cấp hai bộ benchmark giá trị (TimbreEdit-Bench và IntraTTS-Bench) cùng giải pháp training-free giải quyết vấn đề rò rỉ điều khiển trong autoregressive TTS, có tiềm năng ứng dụng thực tế cao.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Bài báo là bản preprint từ các tác giả thuộc National University of Singapore và NTU, trình bày phương pháp và thực nghiệm chi tiết nhưng chưa qua phản biện tại hội nghị chính thức.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đề xuất cơ chế kết hợp độc đáo giữa global timbre editing qua codec token và segment-level control thông qua việc tái tạo (recomputing) KV cache thay vì chỉ áp dụng mask đơn thuần.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Bài báo là bản preprint từ các tác giả thuộc National University of Singapore và NTU, trình bày phương pháp và thực nghiệm chi tiết nhưng chưa qua phản biện tại hội nghị chính thức.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật vững chắc với mô hình hai tầng, xây dựng hàm mất mát wDPO có reward gap cụ thể, cơ chế prefill/decoding tái tạo KV cache được mô tả toán học rõ ràng và có phân tích attention sâu.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Cung cấp hai bộ benchmark giá trị (TimbreEdit-Bench và IntraTTS-Bench) cùng giải pháp training-free giải quyết vấn đề rò rỉ điều khiển trong autoregressive TTS, có tiềm năng ứng dụng thực tế cao.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Thực nghiệm rất phong phú trên 2 benchmark mới cùng tập dữ liệu ESD và MED-TTS, có bảng ablation chi tiết cho từng thành phần (SFT scale, DPO pool, KV context size S và K) và human evaluation có bootstrap confidence intervals.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kiểm soát biểu cảm phân đoạn training-free · Giải quyết triệt để control leakage · Bộ dữ liệu benchmark song ngữ quy chuẩn · wDPO tối ưu timbre editing hiệu quả · Đánh giá toàn diện cả khách quan lẫn chủ quan</p>
+          <p><span class="label">Weaknesses</span> · WER/CER tăng nhẹ khi tái tạo cache · Độ bảo toàn thuộc tính unmentioned giảm · Dữ liệu huấn luyện Stage I hoàn toàn synthetic</p>
+          <p><span class="label">Context</span> · Nhóm tác giả đến từ National University of Singapore, LIGHTSPEED, Nanyang Technological University và Independent Researcher; công bố dưới dạng preprint trên arXiv.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

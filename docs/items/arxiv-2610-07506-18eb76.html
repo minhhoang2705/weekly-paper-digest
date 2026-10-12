@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jarvis: A Proactive Speech Agent for Multi-Party Conversations · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Jarvis: A Proactive Speech Agent for Multi-Party Conversations</h1>
+    <div class="meta">
+      <span>published Oct 5, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Seunghyun Oh, Hirotaka Hiraki, Shuyue Stella Li, Yulia Tsvetkov, Shyamnath Gollakota</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.07506" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Speech agents are reactive and dyadic: they speak when spoken to, and to one person at a time. We ask what it takes for a speech agent to instead take part in a conversation among several people and speak up only when it can help. We introduce Jarvis, a real-time proactive speech agent that audibly participates in multi-party human conversations. Grounded in a document shared beforehand, Jarvis follows the discussion and intervenes when the group misses or misstates a fact and does not correct itself within a few turns. We make three contributions: a problem setting based on epistemic breakdowns that makes proactive intervention measurable, realized as CHI-180-proactive, a synthetic multi-party dataset seeded with known gaps, errors, and self-corrections; a proactive backbone that harnesses a small, open-weight model with deterministic checks and grounds every claim in a source sentence; and interaction techniques for taking the floor in live speech and showing the cited evidence on screen. On CHI-180-proactive, Jarvis is correct on most events it addresses and stays silent 97% of the time when the group resolves an issue itself. A live study with 23 participants confirms these trends with real-time interventions.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 12, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Nghiên cứu giới thiệu Jarvis, trợ lý giọng nói chủ động (proactive speech agent) hoạt động thời gian thực trong các cuộc hội thoại nhiều người (multi-party). Được nạp trước tài liệu cơ sở (shared document), Jarvis theo dõi cuộc trò chuyện, tự động can thiệp bằng giọng nói và trích dẫn số trang/đoạn trích để giải đáp thắc mắc hoặc sửa sai sót về thông tin khi các thành viên không tự đính chính sau một vài lượt thoại.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các trợ lý giọng nói hiện nay chủ yếu mang tính phản hồi thụ động (chỉ nói khi được gọi tên như 'Hey Alexa') và hoạt động theo hình thức đối thoại 1-1 (dyadic). Khi tham gia vào hội thoại nhóm nhiều người, các hệ thống gặp phải các rào cản: không xác định được khi nào nên can thiệp và nội dung cần nói (RQ1), làm thế nào để giành lượt thoại (take/hold the floor) mà không làm gián đoạn người khác (RQ2), và thiếu bài toán cũng như bộ benchmark chuẩn xác để đo lường tính chủ động một cách khách quan thay vì dựa trên cảm tính xã hội (RQ3).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Jarvis hoạt động theo pipeline thời gian thực gồm 3 mô-đun chính:</p>
+<ol>
+<li><strong>Speech Processing Module</strong>: Thu nhận luồng âm thanh riêng biệt từ từng người tham gia qua Zoom RTMS (16-kHz PCM16, khung 20 ms). Chạy VAD song song (Silero VAD) để phát hiện trạng thái tiếng nói; wake-word detector 2 giai đoạn (openWakeWord kết hợp CNN-GRU 1,2M tham số); ASR streaming thời gian thực trên từng người dùng mô hình <code>nvidia/nemotron-speech-streaming-en-0.6b</code> (độ trễ phát hiện kết thúc lượt thoại trung vị 224 ms); TTS thời gian thực sử dụng <code>kyutai/tts-1.6b-en_fr</code> và Mimi codec (độ trễ phát âm thanh 0,70–0,95 s).</li>
+<li><strong>Proactive Backbone</strong>: Tận dụng một mô hình ngôn ngữ mã nguồn mở nhỏ (<code>Qwen3.6-35B-A3B</code> với 3B tham số kích hoạt) chạy qua một bộ khung điều khiển tất định (deterministic harness). Tài liệu được chia thành các câu đánh số <span class="math inline">[S0], [S1], \dots</span>. Mỗi lượt thoại, mô hình <strong>Monitor</strong> phân loại trạng thái hội thoại vào 6 nhóm (incorrect_info, missing_info, misattribution, on_track, off_topic, unanswerable), trích xuất mệnh đề (claim) và ID câu tham chiếu. Song song đó, <strong>Self-Repair Check</strong> kiểm tra xem người tham gia đã tự sửa lỗi chưa thông qua kiểm tra logic tất định (yêu cầu ít nhất 60% token nội dung khớp trong 3 lượt gần nhất). Bộ <strong>Claim Ledger and Gate</strong> theo dõi chuỗi tồn tại của vấn đề: chỉ kích hoạt khi bộ đếm đạt ngưỡng kiên nhẫn <span class="math inline">\tau = 2</span>, chưa được người dùng tự sửa, không bị cooldown (<span class="math inline">\rho = 6</span>) và chưa được nói trước đó. Khi mở cổng, mô hình <strong>Grounded Generation</strong> sinh câu trả lời dựa trên ID câu trích dẫn; nếu không thể gán vào câu trích dẫn hợp lệ, mô hình sẽ từ chối can thiệp.</li>
+<li><strong>Interaction Module</strong>: Quản lý lượt thoại dựa trên máy trạng thái. Chờ khoảng lặng VAD <span class="math inline">\ge 2,0</span> s với RMS <span class="math inline">&lt; 0,004</span> trong 350 ms mới phát âm thanh can thiệp. Xử lý chen ngang (barge-in): 0,5 s tiếng nói liên tục của người dùng sẽ ngắt agent ngay lập tức; nếu ngắt trước 2 s thì phát lại toàn bộ, 2–5 s thì tiếp tục từ câu bị cắt, trên 5 s thì hủy bỏ phần còn lại. Cung cấp chế độ <strong>Hand-Raising</strong> (giơ tay trên Zoom, chờ câu lệnh 'Go ahead, agent' tối đa 60 s mới nói) và hiển thị bằng chứng trực quan trên giao diện xem PDF chia sẻ.</li>
+</ol>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Tác giả xây dựng bộ dữ liệu đánh giá tổng hợp <strong>CHI-180-proactive</strong> gồm 180 bài báo CHI (2008–2025) thuộc 18 tiểu ban, tổng cộng 50.400 lượt thoại và 4.320 sự kiện (events: gap, wrong, self-correction, resolved question, unanswerable). Thực hiện benchmark QA đối chiếu với QASPER và COVID-QA. Thử nghiệm phần cứng chạy trên một node trang bị 2 GPU Nvidia L40 với vLLM. Nghiên cứu thực tế (live user study) được tiến hành trên Zoom với 23 người tham gia (14 phiên thảo luận, 49,5 phút/phiên trung vị), tích hợp cả lỗi cài cắm (planted) và lỗi tự phát (spontaneous). Đánh giá chất lượng can thiệp tự động qua LLM-judge (Claude Sonnet 5) có độ tương đồng <span class="math inline">&gt;95\%</span> với đánh giá của con người.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên benchmark tài liệu QA (QASPER, COVID-QA, CHI-180), Qwen3.6-35B-A3B đạt độ chính xác Strict lần lượt là .864, .917, .926; Strict+Partial lần lượt là .974, .979, .977; độ hợp lệ trích dẫn đạt .913–.929; TTFT đạt 368–443 ms và Total Latency đạt 1.101–1.192 ms.</li>
+<li>Ở bài test nhường lượt thoại khi bị cắt lời (barge-in), Jarvis dừng phát âm thanh trong 51/54 lượt thử (94,4%, 95% CI 84,9–98,1%), trong khi baseline không nhường lời đạt 0/54 (0,0%); độ trễ nhường lượt trung vị là 486 ms (khoảng 465–521 ms).</li>
+<li>Trên tập CHI-180-proactive, Jarvis can thiệp 90,6% số sự kiện khoảng trống thông tin (gap, N=1.800) và 76,9% số lỗi sai (wrong, N=720); khi can thiệp, thông tin đưa ra đúng hoặc đúng một phần đạt 97,0% (gap) và 95,3% (wrong).</li>
+<li>Jarvis giữ im lặng trong 97,4% trường hợp người tham gia tự giải quyết vấn đề (self-correction đạt 96,8% im lặng; resolved question đạt 97,4% im lặng). Khi can thiệp, 98% trường hợp diễn ra trong vòng 2–3 lượt thoại sau khi sự cố xuất hiện.</li>
+<li>Ablation study: Khi gỡ bỏ cơ chế trì hoãn (deference gate và self-repair check), tỷ lệ im lặng giảm sâu xuống 16% và Jarvis nói chen ngang trước khi người tham gia kịp tự sửa lỗi trong 80% trường hợp.</li>
+<li>Trong thử nghiệm thực tế với 23 người dùng (164 quyết định can thiệp, 134 lượt phát âm thanh), 85% quyết định can thiệp xuất hiện trong vòng 2 lượt thoại; 148/164 (90%) can thiệp chính xác hoàn toàn và 15/164 đúng một phần (chỉ 1 trường hợp sai); trích dẫn trang và quote khớp bằng chứng trong 84/87 trường hợp.</li>
+<li>Tỉ lệ giải quyết vấn đề trong thực tế: Jarvis và người tham gia đã cùng giải quyết 74% lỗi cài sẵn (52/84 do agent), 72% lỗi tự phát (19/32 do agent), và 83% câu hỏi/khoảng trống thông tin (84/107 do agent).</li>
+<li>21/23 người tham gia đánh giá rất cao việc hiển thị nguồn tài liệu trên màn hình (điểm tin tưởng tăng từ 2,48 lên 4,74 trên thang 5 điểm; điểm kiểm tra nguồn tăng từ 2,26 lên 4,65).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Mô hình hoạt động theo dạng 'closed-book', chỉ giải đáp được thông tin nằm trong văn bản đã nạp sẵn, không thể truy vấn công cụ bên ngoài hay kiến thức tham số rộng hơn. Các lỗi từ ASR (sai tên riêng, số liệu) dễ làm trật nhịp nhận diện; việc diễn đạt lại mệnh đề khiến embedding sai khác có thể vô tình reset bộ đếm kiên nhẫn dẫn đến bỏ lỡ lượt can thiệp. Hệ thống hiện chỉ hỗ trợ tiếng Anh và phòng họp trực tuyến có luồng âm thanh tách biệt từng người (chưa xử lý được phòng họp hội trường chung micro). Việc liên tục bị AI sửa lỗi đôi khi gây cảm giác ngại ngùng/bối rối về mặt xã hội cho người tham gia.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Để xây dựng agent giọng nói chủ động trong hội thoại nhóm, cần chuyển dịch từ mô hình xã hội tự do sang phát hiện sự cố tri thức (epistemic breakdowns) có đối chiếu với văn bản nền tảng. Thay vì dùng một LLM duy nhất tự quyết định mọi việc, việc bọc mô hình nhỏ gọn (MoE 35B/3B active) trong một harness gồm các bộ lọc tất định (deterministic gate, persistence count, self-repair check) kết hợp grounding cấp độ câu và VAD floor-control là chiến lược tối ưu giúp hệ thống vừa phản hồi thời gian thực, vừa tránh nói chen ngang vô duyên.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">80.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#3 (tied) in 2026-W42</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 214.08,212.43 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="214.08" cy="212.43" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Bài báo chuyển dịch xuất sắc bài toán trợ lý giọng nói từ đối thoại 1-1 bị động sang chủ động can thiệp trong hội thoại nhóm nhiều người dựa trên việc phát hiện epistemic breakdown từ văn bản nền tảng.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế hệ thống thời gian thực toàn diện, tích hợp chặt chẽ từ ASR/VAD/TTS streaming, mô hình MoE nhỏ gọn cho đến bộ lọc tất định (gate, persistence, self-repair) và quản lý lượt thoại.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 5/5 — Thực nghiệm cực kỳ vững chắc với đầy đủ benchmark mô hình (độ trễ, độ chính xác, trích dẫn), nghiên cứu bóc tách ablation rõ ràng và thử nghiệm trực tiếp trên 23 người dùng với dữ liệu định lượng và định tính cụ thể.</title>Evidence <tspan class="radar-value">5</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Đưa ra một hướng tiếp cận mẫu mực và bộ benchmark CHI-180-proactive cụ thể, giải quyết bài toán cốt lõi về thời điểm và phương thức can thiệp của voice agent trong hội nghị trực tuyến.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Nhóm tác giả đến từ các trường đại học uy tín (Paul G. Allen School - University of Washington và University of Tokyo) với các nghiên cứu sâu về speech và tương tác người-máy.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Bài báo chuyển dịch xuất sắc bài toán trợ lý giọng nói từ đối thoại 1-1 bị động sang chủ động can thiệp trong hội thoại nhóm nhiều người dựa trên việc phát hiện epistemic breakdown từ văn bản nền tảng.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Nhóm tác giả đến từ các trường đại học uy tín (Paul G. Allen School - University of Washington và University of Tokyo) với các nghiên cứu sâu về speech và tương tác người-máy.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế hệ thống thời gian thực toàn diện, tích hợp chặt chẽ từ ASR/VAD/TTS streaming, mô hình MoE nhỏ gọn cho đến bộ lọc tất định (gate, persistence, self-repair) và quản lý lượt thoại.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Đưa ra một hướng tiếp cận mẫu mực và bộ benchmark CHI-180-proactive cụ thể, giải quyết bài toán cốt lõi về thời điểm và phương thức can thiệp của voice agent trong hội nghị trực tuyến.</dd></div>
+          <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Thực nghiệm cực kỳ vững chắc với đầy đủ benchmark mô hình (độ trễ, độ chính xác, trích dẫn), nghiên cứu bóc tách ablation rõ ràng và thử nghiệm trực tiếp trên 23 người dùng với dữ liệu định lượng và định tính cụ thể.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kiến trúc harness tất định rất thực dụng · Độ trễ thời gian thực tối ưu tốt · Cơ chế tự nhường lời (barge-in) nhanh nhạy · Bộ benchmark CHI-180-proactive khách quan, đo lường được · Đánh giá người dùng thực tế chi tiết</p>
+          <p><span class="label">Weaknesses</span> · Chỉ hỗ trợ dạng closed-book một tài liệu · Chỉ hỗ trợ tiếng Anh phòng họp tách kênh · Nhạy cảm với lỗi chính tả từ ASR · Ngưỡng đếm kiên nhẫn cài đặt thủ công</p>
+          <p><span class="label">Context</span> · Seunghyun Oh, Hirotaka Hiraki, Shuyue Stella Li, Yulia Tsvetkov, Shyamnath Gollakota (Đại học Washington &amp; Đại học Tokyo), đăng tải trên arXiv (tháng 10/2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

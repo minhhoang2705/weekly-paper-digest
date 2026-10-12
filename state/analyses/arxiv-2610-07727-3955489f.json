@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2610.07727",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất ý tưởng mới lạ: phân tích toán học softmax gốc thành phân cấp control/content kết hợp event-causal masking dựa trên speech episode thực tế mà không cần thêm module mạng mới.",
+  "credibility": "Đến từ nhóm nghiên cứu uy tín Qualcomm AI Research và KAIST AI, công bố chi tiết công thức toán, ablation study đa dạng và chạy lặp lại trên 3 seed.",
+  "technical": "Phân tích kỹ thuật rất sâu sắc về credit assignment, bóc tách chính xác KL divergence, PPO ratios cho từng factor và kiểm tra lỗi sai số dấu phẩy động.",
+  "impact": "Mở ra hướng hậu huấn luyện (post-training) RL hiệu quả và thực tế cho các mô hình đàm thoại song công hoàn toàn (SLMs), giải quyết mâu thuẫn giữa timing và content.",
+  "evidence": "Thực nghiệm đầy đủ trên cả Moshi và PersonaPlex với Full-Duplex-Bench v1, phân tích ablation chi tiết từng thành phần và so sánh phân phối Wasserstein-1 với dữ liệu người thật."
+ },
+ "summary": {
+  "tldr": "HiPLEX là một framework Reinforcement Learning (RL) dành cho full-duplex speech language models (SLMs), giải quyết bài toán gán tín hiệu thưởng (credit assignment) đồng thời cho cả thời điểm phát âm (timing) và nội dung ngữ nghĩa (content). Phương pháp phân rã text policy sẵn có thành control policy (khi nào phát âm: pad/epad/cont) và conditional content policy (phát âm từ gì khi chọn cont) mà không thay đổi kiến trúc mô hình. Kết quả trên Full-Duplex-Bench v1 cho thấy HiPLEX giảm tỷ lệ cướp lời (takeover rate) khi người dùng ngập ngừng và tạo phản hồi tự nhiên hơn hẳn so với GRPO truyền thống.",
+  "problem": "Trong các mô hình đàm thoại song công hoàn toàn (full-duplex SLMs như Moshi, PersonaPlex), mô hình vừa phải nghe vừa phải tạo âm thanh liên tục theo thời gian thực (streaming). Việc huấn luyện RL gặp trở ngại lớn: nếu tối ưu hóa RL trên flat token stream thông thường, tín hiệu thưởng về timing và semantic bị trộn lẫn; phạt/thưởng theo fixed window không phân biệt được frame nào gây trễ và frame nào bắt đầu nói đúng lúc; huấn luyện timing-only làm suy thoái chất lượng ngữ nghĩa (lặp từ, suy giảm judged quality), còn huấn luyện chung cả chuỗi thì credit assignment bị loãng do các token đệm (pad/epad).",
+  "method": "HiPLEX thực hiện factorization phân cấp trực tiếp từ text head có sẵn mà không thêm tham số:\n- **Phân rã Policy**: Text logits $\\ell_t(v)$ (với nhiệt độ $T_{text} = 0.7$) được chia thành: nhóm điều khiển $\\mathcal{V}_{pad}$, $\\mathcal{V}_{epad}$, $\\mathcal{V}_{cont}$. Control policy chọn nhóm qua log-sum-exp và softmax 3 chiều $\\pi_\\theta^{ctrl}(c_t | s_t)$; conditional content policy $\\pi_\\theta^{cont}(w_t | s_t, c_t=cont)$ chọn từ trong $\\mathcal{V}_{cont}$. Xác suất gốc được bảo toàn chính xác: $\\pi_\\theta(w_t) = \\pi_\\theta^{ctrl}(cont) \\times \\pi_\\theta^{cont}(w_t | cont)$.\n- **Event-causal Credit Masks**: Sử dụng Silero VAD trên audio sinh ra để nhóm các đoạn thoại ngắn ($\\le 1$ s, backchannel) và kéo dài ($> 1$ s, turn). Tín hiệu thưởng timing (turn-taking, pause, backchannel, interruption) được chuẩn hóa theo nhóm (group-relative advantage) và định tuyến qua binary mask phụ thuộc dấu: phạt phản hồi trễ áp lên các frame chờ trước đó thay vì đè lên frame bắt đầu nói; thưởng turn-onset chỉ gán vào frame bắt đầu nói (80 ms).\n- **Định tuyến Semantic Reward**: Transcribe ngữ cảnh và audio sinh ra bằng Parakeet-TDT-0.6B-v2, chấm điểm qua LLM judge (Gemini 2.5 Flash-Lite rubric 0–2), chuẩn hóa theo nhóm và chỉ gán advantage này vào content policy tại các frame $c_t = cont$.\n- **Mục tiêu huấn luyện**: PPO-style clipped loss chuẩn hóa riêng theo số lượng frame được chọn của mỗi factor ($L_{ctrl}$ và $L_{cont}$) cộng với KL divergence riêng biệt đến reference policy ($L_{KL}$).",
+  "setup": "- **Mô hình nền**: Moshi (frame clock 12.5 Hz, tức 80 ms/frame) và PersonaPlex (thêm text prompt + voice prompt).\n- **Dữ liệu huấn luyện**: Tập con hội thoại (`ipc_conversation`) từ Seamless-Interaction, trích xuất 73,561 interaction windows (271 giờ, ~18.3–18.4k windows cho mỗi nhóm hành vi: turn-taking, pause handling, backchanneling, interruption handling).\n- **Baseline**: Pretrained base checkpoint và GRPO tái lập theo công thức của Ohashi et al. (2026).\n- **Đánh giá**: Full-Duplex-Bench v1 (137 synthetic-pause, 216 CANDOR-pause, 55 backchannel, 119 smooth-turn, 200 user-interruption clips). Đánh giá chất lượng ngữ nghĩa qua gpt-4o-2024-08-06 trên transcript Parakeet-TDT-0.6B-v2.",
+  "results": [
+   "Trên Moshi (seed 42, 100 epochs), HiPLEX giảm CANDOR pause TOR từ 0.454 (GRPO) xuống 0.306, giảm Backchannel TOR từ 0.309 (GRPO) xuống 0.127, và giảm User Interruption Latency từ 0.660 s (GRPO) xuống 0.439 s, trong khi GPT-4o Judge đạt 4.083 (so với 3.942 của GRPO).",
+   "Trung bình qua 3 seed (42, 43, 44) trên Moshi: CANDOR Pause TOR đạt 0.329 ± 0.083 (GRPO: 0.495 ± 0.050), Backchannel TOR đạt 0.109 ± 0.018 (GRPO: 0.297 ± 0.011), Post-interruption Latency đạt 0.466 ± 0.061 s (GRPO: 0.631 ± 0.026 s), Smooth Turn TOR hoàn hảo 1.000 ± 0.000 (GRPO: 0.992 ± 0.000).",
+   "Về khoảng cách phân phối Wasserstein-1 so với dữ liệu người Seamless-Fisher trên Moshi: HiPLEX đạt 0.902 ở turn taking (GRPO: 1.781), 0.327 ở backchannel rate (GRPO: 1.512), và 0.238 ở backchannel length (GRPO: 0.266).",
+   "Ablation semantic reward ($R_{llm}$): Thiếu $R_{llm}$, điểm GPT-4o Judge của HiPLEX sụt giảm nghiêm trọng từ 4.083 xuống 2.332, và tỷ lệ lặp lại trigram (Repetition-3) tăng vọt từ 0.002 lên 0.098.",
+   "Ablation credit mask: Event-causal mask (HiPLEX) đạt Turn TOR 1.000 và Judge 4.083; trong khi masked random sụp đổ (Turn TOR 0.067, Int. latency 3.277 s), còn factorized all-frames làm tăng Int. latency lên 0.874 s."
+  ],
+  "limitations": "PersonaPlex nhạy cảm cao với learning rate (dễ sụp đổ thành câm lặng hoàn toàn nếu giữ nguyên learning rate $4 \\times 10^{-6}$ của Moshi do prompt prior nói nhiều/giữ lượt). Một số metric của benchmark Full-Duplex-Bench v1 bị bão hòa (ví dụ Syn Pause TOR do ảnh hưởng của câu chào đầu đoạn trích, Smooth Turn TOR đếm cả từ nói trước ranh giới lượt). Ngoài ra, phương pháp tối ưu hóa theo phân phối trung bình chứ chưa cá nhân hóa động theo sở thích đàm thoại của từng người dùng.",
+  "takeaways": "Không cần thêm module quản lý hay thay đổi kiến trúc mô hình full-duplex để làm RL: chỉ cần bóc tách toán học phân phối logits thành control/content kết hợp với event-causal credit masking theo VAD. Kỹ sư speech cần chú ý không được huấn luyện timing-only vì sẽ phá hỏng semantic (gây lặp từ), đồng thời phải cẩn trọng điều chỉnh learning rate và trọng số reward khi chuyển giữa các mô hình có system prompt/persona khác nhau.",
+  "strengths": [
+   "Không thay đổi kiến trúc hay thêm tham số",
+   "Phân rã toán học hoàn hảo phân phối logits",
+   "Event-causal mask gán tín hiệu phạt/thưởng chuẩn xác",
+   "Cải thiện vượt trội các chỉ số kiềm chế lời nói"
+  ],
+  "weaknesses": [
+   "Cực kỳ nhạy cảm với learning rate trên PersonaPlex",
+   "Cần tinh chỉnh tỷ lệ reward theo từng prompt prior",
+   "Phụ thuộc pipeline ngoài (Silero VAD, Parakeet, LLM judge)"
+  ],
+  "context": "Nghiên cứu hợp tác giữa Qualcomm AI Research và KAIST AI (tác giả chính Kyudan Jung thực hiện khi đang thực tập tại Qualcomm Technologies, Inc.); công bố trên arXiv tháng 10/2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SPEAR-Gen: Generation-Aware Pre-training for Unified Speech Representations · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -110,11 +112,11 @@
             </div>
             <div class="analysis-section">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
-              <div class="prose"><p>SPEAR-Gen sử dụng kiến trúc encoder Zipformer nhận đầu vào 128-d log-Mel filterbank ở 100 Hz và xuất biểu diễn $H$ ở 50 Hz. Quy trình huấn luyện gồm:</p>
+              <div class="prose"><p>SPEAR-Gen sử dụng kiến trúc encoder Zipformer nhận đầu vào 128-d log-Mel filterbank ở 100 Hz và xuất biểu diễn <span class="math inline">H</span> ở 50 Hz. Quy trình huấn luyện gồm:</p>
 <ol>
-<li><strong>Task-Aligned Feature Aggregation (TAFA) tạo mục tiêu MVQ:</strong> Trích xuất các tầng ẩn từ mô hình đóng băng SPEAR-XLarge (13 tầng, kích thước 1280), chuẩn hóa LayerNorm từng tầng, ghép nối (concatenate) lại rồi chiếu qua ma trận tuyến tính học được $P_\phi$ thành vector 1280-d $Z$. $Z$ được dùng điều kiện hóa một text LLM (Qwen3-0.6B) với LoRA, huấn luyện qua loss cross-entropy sinh text đa tác vụ (ASR, SV, ER). Biểu diễn $Z$ được lượng tử hóa bằng bộ lượng tử hóa MVQ (8 codebook x 256 entry) thành các target tokens cho mục tiêu MTP với xác suất bỏ qua masking $p_{\text{clean}} = 0.1$.</li>
-<li><strong>Generative Coarse-to-Fine Modelling:</strong> Bộ giải mã thô $D_{\text{mel}}$ (ConvNeXt 15M tham số) tái tạo log-Mel spectrogram $M$ với hàm mất mát $\ell_1$ ($L_{\text{mel}}$). Phần sai số residual $R = M - \text{sg}(\hat{M})$ được mô hình hóa bằng conditional Flow Matching decoder $D_{\text{FM}}$ (ConvNeXt 15M tham số) với phân phối thời gian $\tau \sim \text{Beta}(2, 5)$ ($L_{\text{FM}}$).</li>
-<li><strong>Hàm mục tiêu chung:</strong> $\mathcal{L} = \mathcal{L}<em>{\text{MTP}} + \lambda (\mathcal{L}</em>{\text{mel}} + \gamma \mathcal{L}_{\text{FM}})$ với $\lambda = \gamma = 0.5$. Sau khi huấn luyện, toàn bộ các decoder bị loại bỏ, chỉ giữ lại duy nhất encoder SPEAR-Gen.</li>
+<li><strong>Task-Aligned Feature Aggregation (TAFA) tạo mục tiêu MVQ:</strong> Trích xuất các tầng ẩn từ mô hình đóng băng SPEAR-XLarge (13 tầng, kích thước 1280), chuẩn hóa LayerNorm từng tầng, ghép nối (concatenate) lại rồi chiếu qua ma trận tuyến tính học được <span class="math inline">P_\phi</span> thành vector 1280-d <span class="math inline">Z</span>. <span class="math inline">Z</span> được dùng điều kiện hóa một text LLM (Qwen3-0.6B) với LoRA, huấn luyện qua loss cross-entropy sinh text đa tác vụ (ASR, SV, ER). Biểu diễn <span class="math inline">Z</span> được lượng tử hóa bằng bộ lượng tử hóa MVQ (8 codebook x 256 entry) thành các target tokens cho mục tiêu MTP với xác suất bỏ qua masking <span class="math inline">p_{\text{clean}} = 0.1</span>.</li>
+<li><strong>Generative Coarse-to-Fine Modelling:</strong> Bộ giải mã thô <span class="math inline">D_{\text{mel}}</span> (ConvNeXt 15M tham số) tái tạo log-Mel spectrogram <span class="math inline">M</span> với hàm mất mát <span class="math inline">\ell_1</span> (<span class="math inline">L_{\text{mel}}</span>). Phần sai số residual <span class="math inline">R = M - \text{sg}(\hat{M})</span> được mô hình hóa bằng conditional Flow Matching decoder <span class="math inline">D_{\text{FM}}</span> (ConvNeXt 15M tham số) với phân phối thời gian <span class="math inline">\tau \sim \text{Beta}(2, 5)</span> (<span class="math inline">L_{\text{FM}}</span>).</li>
+<li><strong>Hàm mục tiêu chung:</strong> <span class="math inline">\mathcal{L} = \mathcal{L}_{\text{MTP}} + \lambda (\mathcal{L}_{\text{mel}} + \gamma \mathcal{L}_{\text{FM}})</span> với <span class="math inline">\lambda = \gamma = 0.5</span>. Sau khi huấn luyện, toàn bộ các decoder bị loại bỏ, chỉ giữ lại duy nhất encoder SPEAR-Gen.</li>
 </ol>
 </div>
             </div>
@@ -130,7 +132,7 @@
 <li>Về speech resynthesis trên test-clean, SPEAR-Gen Base cải thiện vượt bậc so với SPEAR: PESQ tăng từ 1.20 lên 2.94, ViSQOL tăng từ 1.70 lên 4.12, SIM tăng từ 0.467 lên 0.892, WER giảm từ 2.61 xuống 2.22.</li>
 <li>So với WavCube (350M parameters), SPEAR-Gen Base (95M) đạt kết quả SUPERB vượt trội trên toàn bộ các task (PR 4.53 vs 9.91, ASR 3.71 vs 9.36, ER 69.48 vs 63.47, SID 70.23 vs 42.36, SV 5.08 vs 5.86, SD 3.26 vs 8.14) dù số tham số ít hơn nhiều, đồng thời resynthesis đạt mức cạnh tranh (PESQ 2.94 vs 2.93, ViSQOL 4.12 vs 3.92, SIM 0.892 vs 0.900).</li>
 <li>SPEAR-Gen Large (327M, LibriHeavy 50k) đạt hiệu năng cao nhất: SUPERB ASR 3.41, PR 3.25, ER 71.05%, SID 74.62%, SV 4.32%, SD 2.56%; resynthesis PESQ 2.98, ViSQOL 4.19, UTMOS 3.78, STOI 0.96, WER 2.19, SIM 0.910.</li>
-<li>Ablation study (Bảng 4 &amp; 5): Chỉ dùng Generative loss mà bỏ MTP khiến SUPERB ASR suy giảm nghiêm trọng từ 3.71 lên 20.72; thay thế TAFA bằng LayerAvg làm ASR tăng lên 4.35; dùng SPEAR-Gen (Mel $\ell_1$ + residual FM, 30M decoder) cho PESQ 2.94 vượt trội so với chỉ dùng Mel $\ell_1$ 30M (PESQ 2.73) hoặc Full-mel FM 30M (PESQ 2.61).</li>
+<li>Ablation study (Bảng 4 &amp; 5): Chỉ dùng Generative loss mà bỏ MTP khiến SUPERB ASR suy giảm nghiêm trọng từ 3.71 lên 20.72; thay thế TAFA bằng LayerAvg làm ASR tăng lên 4.35; dùng SPEAR-Gen (Mel <span class="math inline">\ell_1</span> + residual FM, 30M decoder) cho PESQ 2.94 vượt trội so với chỉ dùng Mel <span class="math inline">\ell_1</span> 30M (PESQ 2.73) hoặc Full-mel FM 30M (PESQ 2.61).</li>
 </ul>
 </div>
             </div>
@@ -141,7 +143,7 @@
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
-              <div class="prose"><p>Kỹ sư có thể huấn luyện một encoder duy nhất vừa làm tốt hiểu vừa làm tốt sinh bằng cách kết hợp dự đoán token đa tầng (TAFA-MTP) với hàm mất mát tạo sinh hai tầng (Mel $\ell_1$ thô + residual Flow Matching tinh). Đặc biệt, việc bổ sung residual generative supervision không làm giảm mà còn hỗ trợ cải thiện các tác vụ paralinguistic (ER, SV) trên biểu diễn tầng cuối.</p>
+              <div class="prose"><p>Kỹ sư có thể huấn luyện một encoder duy nhất vừa làm tốt hiểu vừa làm tốt sinh bằng cách kết hợp dự đoán token đa tầng (TAFA-MTP) với hàm mất mát tạo sinh hai tầng (Mel <span class="math inline">\ell_1</span> thô + residual Flow Matching tinh). Đặc biệt, việc bổ sung residual generative supervision không làm giảm mà còn hỗ trợ cải thiện các tác vụ paralinguistic (ER, SV) trên biểu diễn tầng cuối.</p>
 </div>
             </div>
         </div>

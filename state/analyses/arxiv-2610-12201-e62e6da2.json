@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2610.12201",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo đề xuất giải pháp mới mẻ về runtime steering cho full-duplex speech thông qua token injection vào text stream kết hợp kiến trúc Actor-Director và GDPO đa phần thưởng.",
+  "credibility": "Bản thảo preprint trên arXiv (thực hiện một phần tại hội thảo JSALT 2026) bởi nhóm tác giả thuộc các trường đại học uy tín (UIUC, KIT, Charles University, v.v.).",
+  "technical": "Thiết kế kỹ thuật chi tiết và chặt chẽ, từ cơ chế fusion token, chuẩn hóa reward GDPO, đến 4 metric thưởng turn-taking bằng VAD để hạn chế reward hacking.",
+  "impact": "Đưa ra hướng tiếp cận quan trọng giải quyết bài toán cốt lõi về kiểm soát mô hình giọng nói full-duplex làm user simulator và agent đàm thoại có định hướng.",
+  "evidence": "Thực nghiệm phong phú trên 2 benchmark (SimIF-Bench và Full-Duplex-Bench), so sánh đầy đủ với GPT-Realtime, KAME, Raon và PersonaPlex với các số liệu định lượng chi tiết."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu giới thiệu SteerablePlex, một mô hình hội thoại full-duplex có khả năng tiếp nhận chỉ dẫn văn bản ngay trong thời gian thực (online instruction following) mà vẫn duy trì khả năng turn-taking tự nhiên. Hệ thống kết hợp kiến trúc Actor–Director với thuật toán tối ưu hóa đa phần thưởng GDPO, giúp mô hình vượt qua GPT-Realtime về tỷ lệ hoàn thành mục tiêu hội thoại đa giai đoạn trên benchmark mới SimIF-Bench.",
+  "problem": "Các mô hình full-duplex speech có thể vừa nghe vừa nói nhưng rất khó kiểm soát trong thời gian thực: chúng không có ranh giới lượt lời rõ ràng, dễ bị trôi ngữ cảnh/chỉ dẫn (prompt drift) khi hội thoại kéo dài, và ngân sách độ trễ khắt khe làm giới hạn kích thước mô hình để lập kế hoạch dài hạn. Khi đóng vai trò user simulator (như người kiểm tra trong Full-Duplex-Bench v2), việc không tuân thủ kịch bản làm sai lệch kết quả đánh giá đối tượng kiểm tra.",
+  "method": "Hệ thống bao gồm hai cấu phần chính:\n- **Kiến trúc Actor–Director**: Actor là mô hình full-duplex SteerablePlex (dựa trên PersonaPlex gồm 3 luồng đồng bộ: user audio, model audio, model text). Director là một text-LLM bất đồng bộ (Qwen3.8-27B) theo dõi hội thoại thông qua streaming ASR (Parakeet-TDT-0.6B-v2) và luồng text nội bộ của actor; mỗi 2 giây, director cập nhật trạng thái mục tiêu và quyết định hành động (`send`, `wait`, hoặc `none`). Khi can thiệp, lệnh điều khiển dạng văn bản được chèn trực tiếp vào luồng model-text giữa cặp token đặc biệt `<SOI>` và `<EOI>`, trong khi hai luồng audio nhận token silence và thời gian hội thoại tạm dừng.\n- **Huấn luyện RL đa mục tiêu bằng GDPO**: Tinh chỉnh LoRA (temporal/depth rank 128/32, scaling 2.0) trên PersonaPlex bằng GDPO (Group Reward-Decoupled Normalization Policy Optimization) với $G=8$. Hàm mục tiêu chuẩn hóa độc lập từng chiều phần thưởng trong nhóm: $z_{i,d} = (r_{i,d} - \\mu_d)/\\sigma_d$, tổng hợp $A_i$ và tối ưu $\\mathcal{L}_{\\text{RL}}(\\theta) = \\frac{1}{G}\\sum_{i=1}^G [ -A_i \\log \\pi_\\theta(y_i \\mid h) + \\beta \\mathbb{D}_{\\text{KL}}^{(i)}(\\pi_\\theta \\parallel \\pi_{\\text{ref}}) ]$. Bộ phần thưởng gồm: (1) Goal completion $r_i^{\\text{goal}} \\in \\{0, 0.5, 1\\}$, (2) Naturalness $r_i^{\\text{nat}} \\in \\{0, 1\\}$ từ LLM judge, và (3) Bốn phần thưởng turn-taking dựa trên VAD (Silero VAD): phạt chồng lấn quá mức $r_i^{\\text{ovl}}$, phạt cướp lời khi đối phương ngừng tạm thời $r_i^{\\text{take}}$, phạt độ trễ phản hồi $r_i^{\\text{lat}}$, và điểm F1 backchannel $r_i^{\\text{bc}}$ so với mẫu tham chiếu.",
+  "setup": "Đánh giá trên SimIF-Bench gồm 200 kịch bản nhiều giai đoạn từ Full-Duplex-Bench v2 (PersonaPlex đóng vai trò thí sinh, cuộc gọi kết thúc sau 120 giây; đánh giá bằng LLM judge qua 3 lượt với majority vote cho nhãn phân loại và median cho naturalness 1–5). Dữ liệu huấn luyện gồm 9.417 mẫu RL (130,8 giờ rollout) trích từ Fisher qua Qwen3-32B và 2.000 hội thoại tổng hợp (84,1 giờ stereo audio từ pipeline Behavior-SD, trích 200 kịch bản giữ lại). Đánh giá turn-taking thực hiện trên benchmark Full-Duplex-Bench. Các baseline gồm: GPT-Realtime, KAME (gpt-4.1-nano), KAME (gemma-4), Raon-SpeechChat-9B và PersonaPlex.",
+  "results": [
+   "Trên SimIF-Bench (200 kịch bản), SteerablePlex (in-domain) đạt tỷ lệ hoàn thành mục tiêu (completion) 91.4% và đúng thứ tự (exact order) 47.5%, vượt trội hoàn toàn so với GPT-Realtime (80.6% completion, 32.5% exact order) và PersonaPlex ban đầu (10.6% completion, 0.0% exact order).",
+   "Phiên bản SteerablePlex không phụ thuộc tác vụ (task-independent) đạt 72.8% completion và 4.37 điểm Topic adherence (so với GPT-Realtime là 4.72 và PersonaPlex là 2.19), duy trì Naturalness ở mức 3.49 (so với GPT-Realtime là 3.61).",
+   "Trên Full-Duplex-Bench, SteerablePlex cải thiện 6/10 chỉ số tương tác so với PersonaPlex gốc: Pause handling Syn. giảm từ 0.642 xuống 0.394 (in-domain: 0.365), Cand. giảm từ 0.718 xuống 0.500 (in-domain: 0.417), Backchannel TOR giảm từ 0.418 xuống 0.218, Smooth turn TOR tăng từ 0.983 lên 1.000, Interruption TOR tăng từ 0.935 lên 1.000, và Interruption Rating tăng từ 4.684 lên 4.790 (in-domain: 4.725).",
+   "So với baseline điều khiển liên tục KAME (bị suy giảm nghiêm trọng backchannel frequency xuống 0.025–0.028 và interruption rating còn 3.083–3.521), SteerablePlex bảo toàn tính năng turn-taking tốt hơn nhiều nhờ phần thưởng VAD chuyên biệt (interruption rating 4.790 vs 3.083–3.521)."
+  ],
+  "limitations": "Phiên bản task-independent SteerablePlex đạt tỷ lệ exact order khá thấp (11.5%), cho thấy huấn luyện trên chỉ dẫn đơn lẻ (single-instruction) gặp khó khăn khi chuyển giao sang luồng đa chỉ dẫn dài hạn nếu không có dữ liệu căn chỉnh cấu trúc kịch bản. Ngoài ra, mô hình ghi nhận sự thoái lui nhẹ ở độ trễ phản hồi (smooth turn latency tăng từ 0.020 s lên 0.156 s / 0.203 s) và tần suất backchannel giảm từ 0.176 xuống 0.113 / 0.118.",
+  "takeaways": "Để kiểm soát mô hình hội thoại full-duplex mà không phá vỡ khả năng tương tác tự nhiên, phương pháp hiệu quả là kết hợp một LLM đạo diễn bất đồng bộ định kỳ bơm lệnh điều khiển dạng token văn bản vào luồng sinh văn bản nội bộ, đồng thời dùng RL đa mục tiêu (GDPO) có ràng buộc turn-taking (VAD rewards) để ngăn chặn hành vi cướp lời đối phương.",
+  "strengths": [
+   "Kiến trúc Actor-Director kết hợp điều khiển runtime hiệu quả",
+   "Định dạng chèn lệnh vào text stream trực tiếp",
+   "Thiết kế reward GDPO ngăn chặn reward hacking turn-taking",
+   "Vượt qua GPT-Realtime trên SimIF-Bench về độ hoàn thành kịch bản"
+  ],
+  "weaknesses": [
+   "Độ trễ mượt (smooth turn latency) bị tăng nhẹ",
+   "Tần suất backchannel bị suy giảm so với base model",
+   "Bản task-independent theo dõi thứ tự đa mục tiêu còn thấp",
+   "Phụ thuộc hệ thống phụ trợ (ASR streaming và LLM 27B)"
+  ],
+  "context": "Haolong Zheng và các cộng sự (UIUC, KIT, Charles University, Imperial College London, Tsinghua, Edinburgh); nghiên cứu thực hiện một phần tại JSALT 2026, xuất bản trên arXiv tháng 10/2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

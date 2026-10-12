@@ -1,0 +1,54 @@
+{
+ "id": "gh:nyosegawa/speech.cpp",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Dự án mở rộng hệ sinh thái ggml bằng cách kết hợp trọn vẹn cả TTS, ASR và VAD thành một C API thống nhất và OpenAI-compatible server.",
+  "credibility": "Dự án cá nhân độc lập trên GitHub, có hệ thống CI, kiểm tra khớp tensor với bản gốc nhưng chưa qua bình duyệt học thuật.",
+  "technical": "Kỹ thuật port mô hình giọng nói phức tạp sang ggml với backend Metal/Vulkan/CPU, hỗ trợ streaming, quantization và kiểm chứng tensor chặt chẽ.",
+  "impact": "Cung cấp giải pháp thay thế cục bộ hữu ích cho OpenAI API, tuy nhiên mức độ phổ biến hiện tại ở mức khiêm tốn với 70 GitHub stars.",
+  "evidence": "Tài liệu công bố số liệu chi tiết về độ trễ, RTF, CER/WER trên các benchmark chuẩn (Common Voice, FLEURS) và phần cứng cụ thể."
+ },
+ "summary": {
+  "tldr": "speech.cpp là thư viện và công cụ dòng lệnh C++ dựa trên ggml, tích hợp toàn diện TTS, ASR và VAD mà không cần môi trường Python hay CUDA. Dự án hỗ trợ tăng tốc trên Metal, Vulkan và CPU với độ trễ phát âm thanh đầu tiên chỉ từ 0.03-0.04 giây, đồng thời cung cấp HTTP server tương thích OpenAI Audio API.",
+  "problem": "Các pipeline hội thoại bằng giọng nói thường cồng kềnh, phụ thuộc vào môi trường Python, PyTorch và CUDA, gây khó khăn cho việc nhúng trên các thiết bị cục bộ (edge/desktop) với độ trễ thấp và quy trình cài đặt đơn giản.",
+  "method": "Xây dựng toàn bộ hệ thống bằng C++ thuần thông qua một file thực thi `speech` và thư viện `libspeech` với C API (`speech.h`), sử dụng backend `ggml` hỗ trợ CPU, Metal (Apple Silicon) và Vulkan (Windows/Linux). Các mô hình được đóng gói thành định dạng GGUF duy nhất tích hợp cả codec âm thanh, hỗ trợ quantization (F32, F16, Q8_0). Từng tầng tính toán của mô hình được đối chiếu với tensor từ triển khai gốc để đảm bảo độ chính xác. Dự án tích hợp các mô hình: TTS (`qwen3-tts-0.6b/1.7b`, `irodori-tts`, `irodori-tts-mf`), ASR (`qwen3-asr-0.6b/1.7b`, `reazonspeech-v2`, `parakeet-tdt`), và VAD (`silero-vad` dung lượng 1.2 MB). Hỗ trợ chạy server OpenAI API (`/v1/audio/speech`, `/v1/audio/transcriptions`) và worker process qua giao thức JSON Lines.",
+  "setup": "Đo đạc hiệu năng bằng `speech-bench` vào ngày 2026-10-08 và 2026-10-10 trên Apple M5 (Metal) và NVIDIA RTX 2080 (Vulkan), xử lý từng request đơn lẻ. Dữ liệu đánh giá: TTS đo trên 20 câu tiếng Nhật; ASR đo trên 4,483 câu thuộc tập test Common Voice 8.0 tiếng Nhật và 300 câu FLEURS tiếng Anh. Yêu cầu hệ thống: Linux x64 cần glibc 2.34 trở lên.",
+  "results": [
+   "TTS `qwen3-tts-0.6b` (Q8_0): Thời gian audio đầu tiên 0.04 s (M5) / 0.03 s (RTX 2080); Real-time factor 0.31 / 0.27; CER đạt 5.8% / 8.0%.",
+   "TTS `qwen3-tts-1.7b` (Q8_0): Thời gian audio đầu tiên 0.06 s (M5) / 0.04 s (RTX 2080); Real-time factor 0.42 / 0.32; CER đạt 3.0% / 2.8%.",
+   "TTS `irodori-tts-mf` (F16): Thời gian audio đầu tiên 0.25 s (M5) / 0.12 s (RTX 2080); Real-time factor 0.17 / 0.07; CER đạt 6.1% / 7.1%.",
+   "TTS `irodori-tts` (F16, 16 steps): Thời gian audio đầu tiên 1.24 s (M5) / 0.52 s (RTX 2080); Real-time factor 0.34 / 0.13; CER đạt 3.2% / 3.2%.",
+   "ASR `parakeet-tdt_ctc-0.6b-ja` (F16): CER trên Common Voice ja đạt 7.9% (3.0% khi chấp nhận biến thể chính tả); thời gian trung vị 0.05 s (M5) / 0.04 s (RTX 2080).",
+   "ASR `reazonspeech-v2` (F16): CER trên Common Voice ja đạt 12.0% (7.1%); thời gian trung vị 0.08 s (M5) / 0.11 s (RTX 2080).",
+   "ASR `qwen3-asr-0.6b` (Q8_0): CER trên Common Voice ja đạt 11.9% (7.0%); thời gian trung vị 0.13 s (M5) / 0.09 s (RTX 2080).",
+   "ASR `qwen3-asr-1.7b` (Q8_0): CER trên Common Voice ja đạt 9.5% (4.7%); thời gian trung vị 0.31 s (M5) / 0.16 s (RTX 2080).",
+   "ASR `parakeet-tdt-0.6b-v3` (F16): WER đạt 8.8% trên FLEURS en; thời gian trung vị 0.09 s (M5) / 0.08 s (RTX 2080)."
+  ],
+  "limitations": "Server HTTP tích hợp (`speech serve`) lắng nghe trên 127.0.0.1 và không có cơ chế xác thực (authentication). Tài liệu chỉ benchmark xử lý đơn lẻ từng request một, chưa đánh giá tải đa luồng đồng thời; phần lớn benchmark chi tiết tập trung vào tiếng Nhật và tiếng Anh.",
+  "takeaways": "Cung cấp một giải pháp C++ gọn nhẹ, hoàn chỉnh cho toàn bộ pipeline đàm thoại giọng nói cục bộ mà không cần cài đặt Python hay CUDA, rất thích hợp để nhúng vào ứng dụng desktop hoặc agent thời gian thực.",
+  "strengths": [
+   "Triển khai C++ gọn nhẹ không cần Python/CUDA",
+   "Độ trễ phát âm cực thấp (0.03-0.04 s)",
+   "Tương thích OpenAI Audio API chuẩn",
+   "Tích hợp trọn gói TTS, ASR, VAD",
+   "Kiểm tra tensor khớp với bản gốc"
+  ],
+  "weaknesses": [
+   "Server mặc định thiếu xác thực bảo mật",
+   "Chỉ đo đạc tuần tự đơn luồng",
+   "Mức độ đón nhận còn hạn chế (70 stars)"
+  ],
+  "context": "Phát triển bởi nyosegawa, phát hành mã nguồn mở trên GitHub theo giấy phép MIT."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

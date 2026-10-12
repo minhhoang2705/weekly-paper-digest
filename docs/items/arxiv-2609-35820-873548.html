@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>$τ$-Multilingual: Benchmarking Voice Agents Across Languages · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -66,7 +68,7 @@
 
 <header class="page-header">
   <div class="page-heading">
-    <h1 class="title">$τ$-Multilingual: Benchmarking Voice Agents Across Languages</h1>
+    <h1 class="title"><span class="math inline">τ</span>-Multilingual: Benchmarking Voice Agents Across Languages</h1>
     <div class="meta">
       <span>published Sep 21, 2026</span><span aria-hidden="true">·</span>
 
@@ -86,7 +88,7 @@
         <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
       </div>
       <div class="card-body prose">
-<p>English-only benchmarks expose only a narrow slice of voice-agent behavior. We introduce $τ$-Multilingual, extending $τ$-Voice to Spanish, Brazilian Portuguese, Hindi, Korean, and Mandarin with native-speaker review and evaluation of generated language and spoken output. Across 4,500 full-duplex calls and five voice configurations, Spanish, Portuguese, and Hindi remain within 3.2 task-completion points of English, but Korean and Mandarin fall by 14.7 and 8.4 points. The failure modes also vary: Korean systems miss more responses, Mandarin systems interrupt more often, and both struggle with tools and entities. Grok leads task completion but scores lowest on generation quality, motivating separate task, interaction, and generation reporting. We release language packs, validated judges, and tools for community-built multilingual voice-agent evaluation.</p>      </div>
+<p>English-only benchmarks expose only a narrow slice of voice-agent behavior. We introduce <span class="math inline">τ</span>-Multilingual, extending <span class="math inline">τ</span>-Voice to Spanish, Brazilian Portuguese, Hindi, Korean, and Mandarin with native-speaker review and evaluation of generated language and spoken output. Across 4,500 full-duplex calls and five voice configurations, Spanish, Portuguese, and Hindi remain within 3.2 task-completion points of English, but Korean and Mandarin fall by 14.7 and 8.4 points. The failure modes also vary: Korean systems miss more responses, Mandarin systems interrupt more often, and both struggle with tools and entities. Grok leads task completion but scores lowest on generation quality, motivating separate task, interaction, and generation reporting. We release language packs, validated judges, and tools for community-built multilingual voice-agent evaluation.</p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">
@@ -100,29 +102,29 @@
         <div class="analysis" id="analysis-body">
             <div class="analysis-section">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
-              <div class="prose"><p>$\tau$-Multilingual là benchmark đánh giá voice agent full-duplex đa ngôn ngữ mở rộng từ $\tau$-Voice sang 6 ngôn ngữ (English, Spanish, Brazilian Portuguese, Hindi, Korean, Mandarin) trên 3 domain với 4.500 cuộc gọi. Nghiên cứu chỉ ra sự phân hóa lớn về hiệu năng: trong khi Spanish, Portuguese và Hindi duy trì task completion gần tương đương English, Korean và Mandarin sụt giảm nghiêm trọng do lỗi authentication, entity handling và conversational dynamics.</p>
+              <div class="prose"><p><span class="math inline">\tau</span>-Multilingual là benchmark đánh giá voice agent full-duplex đa ngôn ngữ mở rộng từ <span class="math inline">\tau</span>-Voice sang 6 ngôn ngữ (English, Spanish, Brazilian Portuguese, Hindi, Korean, Mandarin) trên 3 domain với 4.500 cuộc gọi. Nghiên cứu chỉ ra sự phân hóa lớn về hiệu năng: trong khi Spanish, Portuguese và Hindi duy trì task completion gần tương đương English, Korean và Mandarin sụt giảm nghiêm trọng do lỗi authentication, entity handling và conversational dynamics.</p>
 </div>
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
-              <div class="prose"><p>Phần lớn các benchmark voice agent full-duplex hiện nay (như $\tau$-Voice, EVA-Bench, FDB-v3) chỉ đánh giá tiếng Anh, dù tiếng Anh chỉ chiếm 19% dân số thế giới. Các benchmark đa ngôn ngữ trước đó hoặc chỉ chạy trên text dialogue, hoặc chỉ xét spoken intent/slot prediction mà không hỗ trợ môi trường tương tác full-duplex với tool use và kiểm thử chất lượng ngôn ngữ/phát âm đa chiều.</p>
+              <div class="prose"><p>Phần lớn các benchmark voice agent full-duplex hiện nay (như <span class="math inline">\tau</span>-Voice, EVA-Bench, FDB-v3) chỉ đánh giá tiếng Anh, dù tiếng Anh chỉ chiếm 19% dân số thế giới. Các benchmark đa ngôn ngữ trước đó hoặc chỉ chạy trên text dialogue, hoặc chỉ xét spoken intent/slot prediction mà không hỗ trợ môi trường tương tác full-duplex với tool use và kiểm thử chất lượng ngôn ngữ/phát âm đa chiều.</p>
 </div>
             </div>
             <div class="analysis-section">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
-              <div class="prose"><p>Benchmark kế thừa runtime full-duplex của $\tau$-Voice (chu kỳ 200 ms, binary environment rewards) và giới thiệu quy trình <strong>LanguageFactory</strong> do người bản ngữ xây dựng và kiểm duyệt: bản địa hóa persona của caller, quy tắc phát âm (speech rules), thực thể định danh (identity entities) nhưng vẫn giữ nguyên logic tác vụ và cơ chế chấm điểm.
+              <div class="prose"><p>Benchmark kế thừa runtime full-duplex của <span class="math inline">\tau</span>-Voice (chu kỳ 200 ms, binary environment rewards) và giới thiệu quy trình <strong>LanguageFactory</strong> do người bản ngữ xây dựng và kiểm duyệt: bản địa hóa persona của caller, quy tắc phát âm (speech rules), thực thể định danh (identity entities) nhưng vẫn giữ nguyên logic tác vụ và cơ chế chấm điểm.
 Hệ thống đo lường gồm 3 nhóm chỉ số chính:</p>
 <ul>
 <li><strong>Task completion</strong>: Tỷ lệ đạt reward hoàn thành tác vụ ở cấp độ cuộc gọi.</li>
 <li><strong>Interaction quality</strong>: Điểm số (thang 100) trừ đi trung bình của 5 tỷ lệ lỗi cấp cuộc gọi: non-response (trả lời trễ/bỏ lỡ lượt), interruption (nói chen/talk-over), selectivity (phản hồi nhầm backchannel/tiếng đệm), monologue (&gt; 45 giây), và validated tool misuse.</li>
-<li><strong>Generation quality</strong>: Tỷ lệ câu phản hồi của agent vượt qua kiểm tra naturalness (phát hiện cách diễn đạt gượng gạo/translationese) và speech fidelity (sử dụng Gemini 3.1 Pro Preview multimodal so sánh audio và text dự kiến; đánh rớt nếu có lỗi mức độ $\ge 2$ hoặc sai thanh điệu làm đổi nghĩa tiếng Trung).
-Các bộ đánh giá LLM-as-a-judge đều phải thỏa mãn ngưỡng validation: precision, recall &gt; 0.75, F1 &gt; 0.80, và Cohen's $\kappa &gt; 0.60$.</li>
+<li><strong>Generation quality</strong>: Tỷ lệ câu phản hồi của agent vượt qua kiểm tra naturalness (phát hiện cách diễn đạt gượng gạo/translationese) và speech fidelity (sử dụng Gemini 3.1 Pro Preview multimodal so sánh audio và text dự kiến; đánh rớt nếu có lỗi mức độ <span class="math inline">\ge 2</span> hoặc sai thanh điệu làm đổi nghĩa tiếng Trung).
+Các bộ đánh giá LLM-as-a-judge đều phải thỏa mãn ngưỡng validation: precision, recall &gt; 0.75, F1 &gt; 0.80, và Cohen's <span class="math inline">\kappa &gt; 0.60</span>.</li>
 </ul>
 </div>
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
-              <div class="prose"><p>Tập dữ liệu gồm 900 task instances bản địa hóa (50 task $\times$ 3 domain $\times$ 6 ngôn ngữ). Thử nghiệm 5 cấu hình voice agent chính (tổng 4.500 cuộc gọi): OpenAI <code>gpt-realtime-2</code> (minimal và xhigh reasoning), <code>Gemini 3.1 Flash Live Preview</code> (minimal và high reasoning), và <code>Grok Voice Think Fast 1.0</code>. Caller simulator kết hợp <code>gpt-5.5</code> xhigh (text) và <code>Eleven v3</code> (TTS). Đối chứng text half-duplex gồm 1.800 lượt gọi với <code>GPT-5.5</code> xhigh và <code>Gemini 3.1 Pro Preview</code> high.</p>
+              <div class="prose"><p>Tập dữ liệu gồm 900 task instances bản địa hóa (50 task <span class="math inline">\times</span> 3 domain <span class="math inline">\times</span> 6 ngôn ngữ). Thử nghiệm 5 cấu hình voice agent chính (tổng 4.500 cuộc gọi): OpenAI <code>gpt-realtime-2</code> (minimal và xhigh reasoning), <code>Gemini 3.1 Flash Live Preview</code> (minimal và high reasoning), và <code>Grok Voice Think Fast 1.0</code>. Caller simulator kết hợp <code>gpt-5.5</code> xhigh (text) và <code>Eleven v3</code> (TTS). Đối chứng text half-duplex gồm 1.800 lượt gọi với <code>GPT-5.5</code> xhigh và <code>Gemini 3.1 Pro Preview</code> high.</p>
 </div>
             </div>
             <div class="analysis-section">

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RVQ Position Aware Speculative Decoding for On Device Text to Speech · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -86,7 +88,7 @@
         <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
       </div>
       <div class="card-body prose">
-<p>Autoregressive decoding (AR) with Transformer models is memory bandwidth bound at single stream inference, the typical deployment regime for on device text to speech (TTS). Real time streaming with Qwen3-TTS requires more than 200 sequential model calls per second, dominated by the inner loop MultiCodeDecoder that emits the 15 residual vector quantization (RVQ) codes per 80 ms audio frame. We propose RVQ position aware speculative decoding for the MultiCodeDecoder, attaining 2.47 accepted tokens per model call at $5\times10^{-4}$ percent added parameters and 10 to 20 percent per round speculation/verification overhead, reducing real time synthesis from 200 to 88 sequential model calls per second. The scheme is distributionally lossless under the deployed top-k sampling, and WER parity with the original system is consistent with this guarantee. We deliver 2 to 2.2x speedup for RVQ token generation with Qwen3-TTS 0.6B on recent iPhone and Apple Silicon Mac devices.</p>      </div>
+<p>Autoregressive decoding (AR) with Transformer models is memory bandwidth bound at single stream inference, the typical deployment regime for on device text to speech (TTS). Real time streaming with Qwen3-TTS requires more than 200 sequential model calls per second, dominated by the inner loop MultiCodeDecoder that emits the 15 residual vector quantization (RVQ) codes per 80 ms audio frame. We propose RVQ position aware speculative decoding for the MultiCodeDecoder, attaining 2.47 accepted tokens per model call at <span class="math inline">5\times10^{-4}</span> percent added parameters and 10 to 20 percent per round speculation/verification overhead, reducing real time synthesis from 200 to 88 sequential model calls per second. The scheme is distributionally lossless under the deployed top-k sampling, and WER parity with the original system is consistent with this guarantee. We deliver 2 to 2.2x speedup for RVQ token generation with Qwen3-TTS 0.6B on recent iPhone and Apple Silicon Mac devices.</p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">
@@ -113,15 +115,15 @@
               <div class="prose"><p>Phương pháp áp dụng speculative decoding vào inner loop MultiCodeDecoder của Qwen3-TTS:</p>
 <ul>
 <li><strong>Tận dụng native multi-head:</strong> Qwen3-TTS vốn có sẵn 15 LM head riêng cho 15 vị trí codebook RVQ. Thay vì huấn luyện thêm các head dự đoán cồng kềnh như Medusa thông thường (~94M tham số), tác giả tái sử dụng trực tiếp các LM head có sẵn.</li>
-<li><strong>Position-aware hidden state offsets:</strong> Vì mỗi LM head vốn chỉ nhận hidden state tại đúng vị trí của nó, tác giả thêm các vector bias $b_1, \dots, b_K$ ($K=3$, tổng cộng chỉ 3.072 tham số) vào hidden state $h_k$ ($h_k + b_j$) để LM head vị trí $k+j$ sinh draft token cho $K$ bước kế tiếp. Toàn bộ backbone và LM heads đều được freeze.</li>
-<li><strong>Sparse tree attention:</strong> Drafter tạo cây ứng viên độ sâu $K$, sau đó tỉa theo thống kê acceptance offline thành tập sparse tree gồm $N$ node. Cả drafter và verifier được ghép vào một lượt gọi mô hình tĩnh (static shape compiled call) với query length $q = N + 1$ thông qua sparse tree attention mask.</li>
+<li><strong>Position-aware hidden state offsets:</strong> Vì mỗi LM head vốn chỉ nhận hidden state tại đúng vị trí của nó, tác giả thêm các vector bias <span class="math inline">b_1, \dots, b_K</span> (<span class="math inline">K=3</span>, tổng cộng chỉ 3.072 tham số) vào hidden state <span class="math inline">h_k</span> (<span class="math inline">h_k + b_j</span>) để LM head vị trí <span class="math inline">k+j</span> sinh draft token cho <span class="math inline">K</span> bước kế tiếp. Toàn bộ backbone và LM heads đều được freeze.</li>
+<li><strong>Sparse tree attention:</strong> Drafter tạo cây ứng viên độ sâu <span class="math inline">K</span>, sau đó tỉa theo thống kê acceptance offline thành tập sparse tree gồm <span class="math inline">N</span> node. Cả drafter và verifier được ghép vào một lượt gọi mô hình tĩnh (static shape compiled call) với query length <span class="math inline">q = N + 1</span> thông qua sparse tree attention mask.</li>
 <li><strong>Lossless verification:</strong> Sử dụng quy tắc speculative rejection sampling chuẩn trên top-k sampling, giữ nguyên phân phối xác suất và đảm bảo bảo toàn chất lượng (WER parity).</li>
 </ul>
 </div>
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
-              <div class="prose"><p>Huấn luyện offset trên tập tiếng Anh VoxPopuli train split (~462 giờ, 155.513 mẫu, 20,8M frames) với Adam, learning rate $10^{-3}$, batch size 32 trên 1 GPU NVIDIA Tesla P100. Hiệu chuẩn (calibration) sparse tree trên LibriSpeech test-clean (~4,4 giờ, 1.804 mẫu). Đánh giá WER và acceptance rate trên Fleurs ở 6 ngôn ngữ (English, German, Spanish, Russian, Japanese, Mandarin) dùng Qwen3-TTS-0.6B CustomVoice. Đo đạc độ trễ p50 qua 200 lượt trên Apple Neural Engine (ANE) định dạng W8A16 (WhisperKit stack) trên iPhone 17 Pro Max, MacBook M3 Pro và iPhone 12.</p>
+              <div class="prose"><p>Huấn luyện offset trên tập tiếng Anh VoxPopuli train split (~462 giờ, 155.513 mẫu, 20,8M frames) với Adam, learning rate <span class="math inline">10^{-3}</span>, batch size 32 trên 1 GPU NVIDIA Tesla P100. Hiệu chuẩn (calibration) sparse tree trên LibriSpeech test-clean (~4,4 giờ, 1.804 mẫu). Đánh giá WER và acceptance rate trên Fleurs ở 6 ngôn ngữ (English, German, Spanish, Russian, Japanese, Mandarin) dùng Qwen3-TTS-0.6B CustomVoice. Đo đạc độ trễ p50 qua 200 lượt trên Apple Neural Engine (ANE) định dạng W8A16 (WhisperKit stack) trên iPhone 17 Pro Max, MacBook M3 Pro và iPhone 12.</p>
 </div>
             </div>
             <div class="analysis-section">
@@ -129,16 +131,16 @@
               <div class="prose"><ul>
 <li>Số token chấp nhận trung bình đạt 2,47 tokens/step (tương đương Medusa đạt 2,60 tokens/step nhưng Medusa tốn thêm ~94M tham số; trong khi tái sử dụng trực tiếp LM head mà không có offset chỉ đạt 1,70 tokens/step).</li>
 <li>Giảm số lượt gọi tuần tự của toàn hệ thống từ 200 xuống ≈88 lượt/giây (12,5 outer calls và ≈76 inner calls).</li>
-<li>Tốc độ sinh token RVQ trên thiết bị thực tế tăng 2–2,2×: đạt 2,34× trên iPhone 17 Pro Max ($N=32$), 2,13× trên MacBook M3 Pro ($N=32$), và 1,82× trên iPhone 12 ($N=16$).</li>
+<li>Tốc độ sinh token RVQ trên thiết bị thực tế tăng 2–2,2×: đạt 2,34× trên iPhone 17 Pro Max (<span class="math inline">N=32</span>), 2,13× trên MacBook M3 Pro (<span class="math inline">N=32</span>), và 1,82× trên iPhone 12 (<span class="math inline">N=16</span>).</li>
 <li>Chi phí tính toán inner loop trên iPhone 12 giảm từ ~894 ms xuống còn khoảng một nửa cho mỗi giây âm thanh (mỗi AR call tốn 4,77 ms), giải phóng budget để chạy CodeDecoder và audio decoder.</li>
 <li>Đạt WER parity trên cả 6 ngôn ngữ của Fleurs: English (4,25% AR vs 3,99% Spec), German (6,40% vs 5,58%), Spanish (7,28% vs 5,98%), Russian (9,55% vs 8,26%), Japanese (CER: 8,55% vs 7,71%), Mandarin (CER: 7,43% vs 7,18%).</li>
-<li>Độ trễ overhead của verify call ở điểm hoạt động tối ưu $N=32$ chỉ tăng +5,3% trên iPhone 17 Pro Max (từ 2,05 ms lên 2,16 ms) và +13,6% trên MacBook M3 Pro (từ 2,2 ms lên 2,5 ms).</li>
+<li>Độ trễ overhead của verify call ở điểm hoạt động tối ưu <span class="math inline">N=32</span> chỉ tăng +5,3% trên iPhone 17 Pro Max (từ 2,05 ms lên 2,16 ms) và +13,6% trên MacBook M3 Pro (từ 2,2 ms lên 2,5 ms).</li>
 </ul>
 </div>
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
-              <div class="prose"><p>Chỉ tăng tốc được inner loop MultiCodeDecoder, chưa can thiệp vào outer loop CodeDecoder 28 layer (chiếm 12,5 calls/giây) và speech decoder. Phương pháp phụ thuộc vào kiến trúc có sẵn per-position heads (như Qwen3-TTS hay CaT-TTS). Cấu hình kích thước cây $N$ hiện phải hiệu chuẩn offline cố định cho từng thiết bị chứ chưa thích ứng động runtime.</p>
+              <div class="prose"><p>Chỉ tăng tốc được inner loop MultiCodeDecoder, chưa can thiệp vào outer loop CodeDecoder 28 layer (chiếm 12,5 calls/giây) và speech decoder. Phương pháp phụ thuộc vào kiến trúc có sẵn per-position heads (như Qwen3-TTS hay CaT-TTS). Cấu hình kích thước cây <span class="math inline">N</span> hiện phải hiệu chuẩn offline cố định cho từng thiết bị chứ chưa thích ứng động runtime.</p>
 </div>
             </div>
             <div class="analysis-section is-secondary">

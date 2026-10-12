@@ -1,0 +1,50 @@
+{
+ "id": "hf-model:canberkkkkkk/ema-lightning",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 5,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Thiết kế kiến trúc rất sáng tạo với Windowed Gaussian aligner không cần căn chỉnh ngoài, shared modulation cho DiT để giảm 83% tham số điều chế, cùng việc áp dụng thành công DMD2 distillation vào TTS siêu nhẹ 4-step.",
+  "credibility": "Dự án phát hành độc lập trên Hugging Face/GitHub bởi tác giả cá nhân (Canberk Aslan), tuy chưa công bố qua hội nghị bình duyệt nhưng cung cấp đầy đủ mã nguồn mở, pip package và benchmark kiểm chứng rõ ràng.",
+  "technical": "Kỹ thuật tối ưu hóa toàn diện và chiều sâu kỹ thuật cao: từ tối ưu tham số DiT, flow-matching distillation 4 bước, đến serving scheduler Playhead và CUDA graph profiling cho inference cực đoan.",
+  "impact": "Tác động rất mạnh mẽ đối với cộng đồng speech tiếng Thổ Nhĩ Kỳ và các ứng dụng edge/on-device TTS (hơn 18k downloads, 356 likes), dù phạm vi ứng dụng bị giới hạn bởi tính đơn ngữ và đơn giọng.",
+  "evidence": "Cung cấp bảng so sánh chi tiết trên benchmark Freya-TR-Eval với 15 hệ thống cạnh tranh (cả API thương mại lẫn open-source), đo đạc RTF, GPU RAM, độ trễ và WER kèm độ lệch chuẩn cụ thể."
+ },
+ "summary": {
+  "tldr": "EMA Lightning là mô hình TTS tiếng Thổ Nhĩ Kỳ siêu nhỏ gọn (tổng cộng 8.6M tham số, dung lượng ~34 MB) dựa trên Diffusion Transformer (DiT) kết hợp flow-matching distilled và HiFi-GAN decoder. Mô hình đạt tốc độ tổng hợp cực nhanh (440× thời gian thực trên RTX 4090, first audio latency 3.86 ms) đồng thời đạt độ chính xác phát âm dẫn đầu benchmark Freya-TR-Eval với 0.92% WER.",
+  "problem": "Các mô hình TTS hiện đại thường có kích thước tham số rất lớn (từ hàng trăm triệu đến hàng tỷ tham số), độ trễ cao và chi phí vận hành đắt đỏ, gây khó khăn cho việc triển khai suy luận thời gian thực/streaming hoặc phục vụ đồng thời nhiều kết nối trên phần cứng giới hạn.",
+  "method": "Hệ thống bao gồm hai thành phần chính: Acoustic model (5.6M params, `ema.pt`) và Vocoder (3.0M params, `decoder.pt`):\n- **Text Encoder & Word–Letter Timeline**: Văn bản tiếng Thổ Nhĩ Kỳ được chuẩn hóa bằng `normalizer-tr`. Ký tự ($d = 224$) qua 4 block ConvNeXt và 2 self-attention block với RoPE để tạo biểu diễn $\\mathbf{h} \\in \\mathbb{R}^{L \\times d}$. Convolutional duration predictor dự đoán số frame ký tự $\\hat{d}_\\ell$ mà không cần alignment ngoài, từ đó xác định tọa độ từ-ký tự $p = w + \\pi$.\n- **Windowed Gaussian Aligner**: Mỗi frame output $f$ chỉ chú ý cục bộ vào ký tự của từ hiện tại và từ liền kề ($|w_f - w_\\ell| \\le 1$), áp dụng Gaussian bias: $\\alpha_{f\\ell} = \\operatorname{softmax}_{\\ell}\\left(\\tau \\frac{\\mathbf{q}_f^\\top \\mathbf{k}_\\ell}{\\sqrt{d}} - \\beta \\frac{(p_f - p_\\ell)^2}{2\\sigma^2}\\right)$, tạo điều kiện $\\mathbf{c} \\in \\mathbb{R}^{T \\times d}$.\n- **Latent Generator & Shared Modulation**: Gồm 6 block DiT (8 heads, RoPE, SwiGLU) sinh latents 64 chiều ở tần số 25 Hz. Để tiết kiệm tham số (từ 1.81M xuống 0.31M), một ma trận chiếu timestep $\\mathbf{W}$ duy nhất được chia sẻ cho toàn bộ block kết hợp learned offset $\\boldsymbol{\\delta}_k$: $[\\boldsymbol{\\gamma}_1, \\boldsymbol{\\beta}_1, \\boldsymbol{\\alpha}_1, \\boldsymbol{\\gamma}_2, \\boldsymbol{\\beta}_2, \\boldsymbol{\\alpha}_2]_k = \\mathbf{W} \\operatorname{SiLU}(\\mathbf{e}(t)) + \\boldsymbol{\\delta}_k$.\n- **DMD2 Distillation**: Từ teacher flow-matching (16 midpoint steps / 32 passes), mô hình student được chưng cất bằng DMD2 xuống còn 4 bước ($t \\in \\{0, 1/4, 1/2, 3/4\\}$) dự đoán clean latent $\\hat{\\mathbf{z}}_1 = \\mathbf{z}_t + (1-t)v_\\theta(\\mathbf{z}_t, t, \\mathbf{c})$.\n- **Decoder**: Dạng HiFi-GAN upsampling $\\times 1920$ (các hệ số 8, 6, 5, 2, 2, 2) biến 25 Hz latents thành audio 48 kHz qua các cửa sổ 4 giây (8 frame context hai phía), cửa sổ đầu tiên dài 1 giây để giảm latency.\n- **Inference & Serving**: Đi kèm bộ điều phối Playhead xử lý đa luồng theo batch qua 2 hàng đợi và chế độ `.lightning()` tận dụng PyTorch compile, cuDNN benchmark và CUDA graphs.",
+  "setup": "Huấn luyện trên tập dữ liệu nội bộ khoảng 1000 giờ giọng đọc đơn ca tiếng Thổ Nhĩ Kỳ. Đánh giá trên benchmark Freya-TR-Eval (495 câu, đo bằng Whisper large-v3 beam 5, băng tần 8 kHz, 3 seeds/takes). So sánh với nhiều hệ thống: Trendyol-TTS (2.38B), Gemini 3.8, ElevenLabs v4, Anka TTS (336M), Piper, XTTS-v2, MMS-TTS, v.v. Phần cứng đo đạc: NVIDIA RTX 4090 và RTX PRO 6000.",
+  "results": [
+   "Freya-TR-Eval WER / CER: EMA Lightning đạt 0.92 ± 0.13% WER và 0.18% CER, vượt qua Trendyol-TTS (0.98% WER, 0.19% CER), Gemini 3.8 Flash-Lite (1.31% WER), Gemini 3.8 Flash (1.35% WER) và ElevenLabs v4 (1.43% WER).",
+   "Tốc độ suy luận (RTX 4090): RTF đạt 0.0023 (440× real time) ở single stream, đạt 1,316× real time khi batch 64 (phiên bản plain PyTorch đạt 87× single, 952× batch 64).",
+   "Độ trễ và bộ nhớ: First audio latency điển hình là 3.86 ms (bao gồm chuẩn hóa văn bản). Bộ nhớ GPU chỉ tốn 0.28 GB (vọt lên 1.39 GB ở batch 64 với plain PyTorch).",
+   "Tốc độ trên CPU: Đạt khoảng 6× real time (RTF 0.166 trên cloud-container CPU).",
+   "Độ tự nhiên (UTMOS): Đạt khoảng 3.30 trên Freya-TR-Eval, tương đương ElevenLabs v4 (3.30), nhưng thấp hơn Gemini 3.8 (3.52 - 3.61) và Trendyol-TTS (3.83)."
+  ],
+  "limitations": "Chỉ hỗ trợ đơn giọng nói (single-speaker), không hỗ trợ voice cloning hay kiểm soát cảm xúc. Chỉ hoạt động trên tiếng Thổ Nhĩ Kỳ (từ nước ngoài bị đọc theo quy tắc chính tả tiếng Thổ Nhĩ Kỳ). Độ tự nhiên UTMOS (3.30) ở mức khá, chưa bằng các mô hình quy mô lớn như Trendyol-TTS hay Gemini 3.8.",
+  "takeaways": "Minh chứng kỹ thuật xuất sắc cho thấy kiến trúc DiT kết hợp flow-matching distillation (DMD2) và tối ưu hóa hệ thống (CUDA graphs, shared modulation, Playhead scheduler) có thể nén mô hình TTS xuống mức dưới 10M tham số nhưng vẫn đạt độ chính xác phát âm và tốc độ suy luận vượt trội so với các mô hình tỷ tham số.",
+  "strengths": [
+   "Kích thước cực nhỏ (8.6M tham số, ~34 MB)",
+   "Tốc độ siêu nhanh (440× đến 1,316× real-time)",
+   "Độ trễ âm thanh đầu tiên 3.86 ms",
+   "WER thấp nhất benchmark Freya-TR-Eval (0.92%)",
+   "Bộ điều phối Playhead và CUDA graphs tối ưu"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ một giọng đọc duy nhất",
+   "Giới hạn duy nhất trong tiếng Thổ Nhĩ Kỳ",
+   "Điểm UTMOS thấp hơn các mô hình lớn"
+  ],
+  "context": "Tác giả Canberk Aslan (canberkkkkkk), phát hành mã nguồn mở theo giấy phép Apache 2.0 trên Hugging Face và GitHub đi kèm gói Python pip `ema-lightning`."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

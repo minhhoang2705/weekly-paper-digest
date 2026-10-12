@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.12214",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất rolling masked diffusion giải quyết bài toán suy luận song song trong mô hình full-duplex tương tác hai chiều—nơi tương lai người dùng chưa xuất hiện—thay thế speculative decoding truyền thống một cách sáng tạo.",
+  "credibility": "Bài báo từ tác giả độc lập thuộc Đại học Seoul ở dạng preprint đang được bình duyệt, tuy nhiên tài liệu mô tả quy trình cực kỳ chi tiết, minh bạch và có trang demo công khai.",
+  "technical": "Phân tích kỹ thuật rất sâu sắc về native delay 17 luồng, cấu trúc future-gating LoRA, suy diễn Bayes cho tiêu chí revision, cùng thí nghiệm teacher-forcing bóc tách nguyên nhân sụt giảm NLL của codebook âm thanh.",
+  "impact": "Mở ra hướng tối ưu hóa triển khai rất thiết thực cho các tác vụ voice agent full-duplex thời gian thực, dù hiện tại mức độ tiếp nhận thực tế còn phụ thuộc vào việc phát hành mã nguồn mở sau bình duyệt.",
+  "evidence": "Cung cấp đầy đủ bằng chứng định lượng trên nhiều benchmark uy tín (Full-Duplex-Bench v1.0/v1.5, VoiceBench, OpenAudioBench), đo kiểm runtime phần cứng thực tế và kiểm định thống kê kèm đánh giá người nghe."
+ },
+ "summary": {
+  "tldr": "DiffuPlex là framework rolling masked diffusion giúp tăng tốc các mô hình đối thoại giọng nói song công (full-duplex spoken dialog) bằng cách dự đoán trước nhiều frame của cả người dùng và trợ lý trong một lượt chạy backbone duy nhất. Thay vì thực thi tuần tự từng frame 80ms, mô hình chỉ giữ lại prefix có độ tin cậy cao và thực hiện sửa đổi (revision) khi tín hiệu người dùng thực tế phân kỳ, giúp tăng tốc Core LM từ 1.61× đến 1.80× mà vẫn đảm bảo độ trễ thời gian thực.",
+  "problem": "Các mô hình full-duplex đa luồng (multi-stream) tiên tiến (như Moshi, PersonaPlex) phải chạy một lượt suy luận temporal-backbone sau mỗi frame 80ms (12.5Hz) để kịp thời phản hồi ngắt lời và chen ngang. Tuy nhiên, hơn 95% thời gian hội thoại thực tế chỉ có một người nói hoặc xen kẽ im lặng, khiến việc kích hoạt backbone liên tục từng frame gây lãng phí tính toán lớn; đồng thời việc áp dụng speculative decoding truyền thống gặp khó khăn do chưa có luồng âm thanh người dùng trong tương lai để xác thực.",
+  "method": "DiffuPlex xây dựng trên nền tảng `personaplex-rl-seamless` và sử dụng cơ chế rolling masked diffusion:\n- **Masked Future Prediction**: Dự đoán một khối tương lai $W$ frame ($W=16$) trong một lần kích hoạt backbone (wake). Các vị trí tương lai chưa có dữ liệu được thay bằng các embedding `MASK` riêng cho từng stream dựa trên 17 luồng (1 text trợ lý, 8 codebook Mimi trợ lý, 8 codebook Mimi người dùng) và độ trễ tự nhiên (native delay).\n- **Future-gated LoRA & Self-Distillation**: Đóng băng backbone gốc và chỉ huấn luyện LoRA (rank 128) cho các bước tương lai $h \\ge 2$ ($g(h)=\\mathbb{1}[h \\ge 2]$) kết hợp stream-specific MASK embeddings. Mô hình chưng cất tri thức từ backbone autoregressive sạch qua phân phối text, phân phối tương tác 3 trạng thái (PAD, EPAD, lexical) và các codebook âm thanh.\n- **Rolling Draft Generation**: Lựa chọn prefix $\\tilde{r}$ dựa trên ngưỡng tin cậy text $\\tau_{\\text{conf}} = 0.80$ và trạng thái hội thoại. Chính sách **LISTEN** chỉ tiêu thụ tương lai khi trợ lý giữ im lặng (trạng thái PAD, $m \\ge 6$), còn **SPEAK** cho phép tiêu thụ cả frame nói của trợ lý ($m \\ge 2$).\n- **User-Aware Draft Revision**: Trong lúc phát âm thanh ở tốc độ 80ms, mô hình so sánh token ngữ nghĩa người dùng thực tế $x_h$ với phân phối dự đoán $q_h$ qua công thức tỷ lệ odds Bayes: $S_h = -\\log q_h(x_h) + \\log P_h(A_h(y_h)) - \\log P_h(y_h) \\ge \\tau_{\\text{rev}}$ (với $\\tau_{\\text{rev}} = -0.5$). Nếu bị kích hoạt, phần tương lai chưa phát sẽ bị hủy và kích hoạt backbone wake mới, giữ nguyên những gì đã phát.",
+  "setup": "Mô hình được huấn luyện trên tập Seamless Interaction (42,413 session, 2,728.5h hội thoại song công sau lọc) trong 526 bước với 4 GPU NVIDIA RTX A6000. Đánh giá trên Full-Duplex-Bench v1.0 (727 clip), Full-Duplex-Bench v1.5 (498 clip), VoiceBench (7,783 mẫu) và OpenAudioBench (2,499 mẫu). Đo runtime trên 1 GPU RTX A6000 với 60 clip chuẩn hóa. So sánh với các baseline: Moshi, PersonaPlex, `personaplex-rl-seamless`, cùng các baseline deferred-execution không cần huấn luyện (PAD, SILERO, SMART TURN) với giới hạn trễ $R \\in \\{2, 4, 6, 8\\}$.",
+  "results": [
+   "Trên tập runtime 60 clip, DiffuPlex-LISTEN và DiffuPlex-SPEAK đạt tốc độ xử lý streaming wall-clock tăng 1.455× và 1.590×, Core LM speedup đạt 1.608× (giảm từ 656.8s xuống 408.4s) và 1.797× (xuống 365.5s) so với RL-Seamless.",
+   "Số frame trung bình tiến triển trên mỗi wake ($c$) đạt 1.91 (LISTEN) và 2.23 (SPEAK) trên Full-Duplex-Bench v1.0, và 1.98 (LISTEN) cùng 2.26 (SPEAK) trên tập runtime 60 clip.",
+   "Độ trễ p99 của mỗi backbone wake là 61.34ms (LISTEN) và 61.41ms (SPEAK), với 0% số frame vượt quá ngưỡng thời gian thực 80ms.",
+   "Đánh giá người dùng (human evaluation) cho thấy DiffuPlex-LISTEN bảo toàn chất lượng tự nhiên giọng nói (NMOS 3.92 ± 0.11 so với 3.93 ± 0.12 của RL-Seamless) và chất lượng hội thoại (DMOS 4.08 ± 0.13 so với 4.09 ± 0.14); DiffuPlex-SPEAK giữ vững DMOS (4.07 ± 0.13) nhưng NMOS giảm xuống 3.54 ± 0.12 (tương đương Moshi 3.52 ± 0.15).",
+   "Trên VoiceBench (s→t / s→s), DiffuPlex-LISTEN đạt 31.93 / 31.52 so với RL-Seamless 31.95 / 31.61; OpenAudioBench đạt 36.71 / 33.53 so với 35.66 / 34.03.",
+   "So với baseline deferred-execution (như PAD R=6 tăng tốc 2.05× nhưng tần suất backchannel giảm từ 0.163 xuống 0.048, trễ chuyển lượt tăng từ 0.124s lên 0.423s), DiffuPlex duy trì hành vi tự nhiên vượt trội (turn latency 0.173s cho LISTEN và 0.156s cho SPEAK)."
+  ],
+  "limitations": "Mô hình được chuyển đổi (adapt) qua LoRA từ backbone autoregressive có sẵn thay vì huấn luyện native masked diffusion từ đầu; luật retention và revision tách rời heuristic chứ chưa được huấn luyện end-to-end; chính sách SPEAK bị suy giảm độ tự nhiên âm thanh do thiếu thông tin điều kiện ngữ nghĩa cùng-frame (cb0) khi dự đoán codebook âm thanh cb1-7 ở bước xa ($h \\ge 2$); thử nghiệm chuyển giao trực tiếp sang checkpoint PersonaPlex gốc bị sụt giảm chất lượng xử lý ngắt lời và tạm dừng.",
+  "takeaways": "Dự đoán song song tương lai kết hợp kiểm tra độ phân kỳ theo thời gian thực giúp giảm đáng kể chi phí tính toán temporal-backbone trong tương tác song công mà không phá vỡ nhịp điệu hội thoại; đối với hệ thống sản phẩm yêu cầu âm thanh tự nhiên cao nhất, chính sách LISTEN là lựa chọn an toàn không suy giảm chất lượng, trong khi tối ưu acoustic conditioning ở các bước sâu là chìa khóa để triển khai chính sách SPEAK.",
+  "strengths": [
+   "Tăng tốc Core LM tới 1.80× mà không trễ frame >80ms",
+   "Thiết kế rolling masked diffusion và LoRA future-gating thông minh",
+   "Cơ chế revision Bayes chi phí thấp, tránh gián đoạn tương tác",
+   "Thực nghiệm và phân tích ablation chuyên sâu, chặt chẽ"
+  ],
+  "weaknesses": [
+   "Chất lượng giọng nói SPEAK suy giảm do thiếu same-frame cb0",
+   "Luật retention và revision dùng ngưỡng heuristic rời rạc",
+   "Chưa đánh giá trên các kiến trúc full-duplex khác biệt"
+  ],
+  "context": "Nghiên cứu của Heeseung Kim (University of Seoul, Hàn Quốc), bản thảo preprint đăng tải trên arXiv (mã 2610.12214)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

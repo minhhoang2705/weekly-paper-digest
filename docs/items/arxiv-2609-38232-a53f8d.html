@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>When Does a Spoken Agent Have Enough Evidence to Act? The PACT-SLM Contract Test · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -110,7 +112,7 @@
             </div>
             <div class="analysis-section">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
-              <div class="prose"><p>PACT-SLM xây dựng 340 nhóm đối chiếu gồm 2 câu sinh tự động khớp transcript nhưng khác nhãn hành động đích. Hai nhánh giữ nguyên audio giống hệt nhau (byte-identical) cho đến prefix cuối cùng gán nhãn WAIT, sau đó phân kỳ tại điểm giữa thời gian trước prefix hành động đầu tiên hợp lệ ($k^*_i \in {0.4, 0.6, 0.8}$) kèm crossfade 50 ms. Prefixes được cắt ở 5 tỷ lệ {0.2, 0.4, 0.6, 0.8, 1.0}, bổ sung nhiễu Gaussian 15 dB cấp độ cặp trước khi crop để giữ tính lồng ghép (nested). Nghiên cứu trích xuất biểu diễn từ WavLM Base Plus đóng băng (768 chiều, mean-pooling) huấn luyện qua multinomial logistic regression, sau khi sửa lỗi ánh xạ nhãn nhánh lịch sử bằng nhãn ngữ nghĩa từ source-index. Các baseline kiểm soát gồm: Always wait, Endpoint plurality, Elapsed time only, Authored text only (TF-IDF), Scalar acoustics, và Prefix-shuffled WavLM.</p>
+              <div class="prose"><p>PACT-SLM xây dựng 340 nhóm đối chiếu gồm 2 câu sinh tự động khớp transcript nhưng khác nhãn hành động đích. Hai nhánh giữ nguyên audio giống hệt nhau (byte-identical) cho đến prefix cuối cùng gán nhãn WAIT, sau đó phân kỳ tại điểm giữa thời gian trước prefix hành động đầu tiên hợp lệ (<span class="math inline">k^*_i \in \{0.4, 0.6, 0.8\}</span>) kèm crossfade 50 ms. Prefixes được cắt ở 5 tỷ lệ {0.2, 0.4, 0.6, 0.8, 1.0}, bổ sung nhiễu Gaussian 15 dB cấp độ cặp trước khi crop để giữ tính lồng ghép (nested). Nghiên cứu trích xuất biểu diễn từ WavLM Base Plus đóng băng (768 chiều, mean-pooling) huấn luyện qua multinomial logistic regression, sau khi sửa lỗi ánh xạ nhãn nhánh lịch sử bằng nhãn ngữ nghĩa từ source-index. Các baseline kiểm soát gồm: Always wait, Endpoint plurality, Elapsed time only, Authored text only (TF-IDF), Scalar acoustics, và Prefix-shuffled WavLM.</p>
 </div>
             </div>
             <div class="analysis-section is-secondary">

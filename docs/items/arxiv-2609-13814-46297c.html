@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Realtime-Venus: A full-duplex interaction system with asynchronous delegation · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -111,7 +113,7 @@
             </div>
             <div class="analysis-section">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
-              <div class="prose"><p>Realtime-Venus xây dựng trên nền MiniCPM-o 4.5 (9B) gồm hai biến thể: Omni (dùng SigLIP2 và Whisper-Medium) và Audio (bỏ nhánh thị giác). Cả hai dùng LLM backbone Qwen3-8B và bộ giải mã âm thanh streaming flow-matching dựa trên token rời rạc S3 (CosyVoice 2). Kiến trúc tương tác chia thành runtime dual-loop: (1) <strong>Interaction loop</strong> xử lý các chunk 1 giây theo luồng nhân quả chung (user, assistant, background), tự động dự đoán các token điều khiển (<code>&lt;|listen|&gt;</code>, <code>&lt;|speak|&gt;</code>, <code>&lt;|turn_eos|&gt;</code>), thẻ phân quyền (<code>&lt;delegate&gt;</code>, <code>&lt;backend&gt;</code>) và điều tiết phát sinh văn bản theo tiến độ playback ($n_k = \arg\min_n |\tau_{k-1} + D(Y_{k,1:n}) - t_k|$); (2) <strong>Capability loop (Realtime-Venus-Harness)</strong> thực hiện tác vụ nền qua chu trình Capture (đóng băng snapshot ngữ cảnh $X_i$), Dispatch (Router phân phối đến năng lực Multimodal, General hoặc Skill chuyên biệt) và Return (adapter trau chuốt kết quả thành phản hồi thoại, đưa qua kênh ngầm <code>&lt;backend&gt;</code>). Ngoài ra, Realtime-Venus-Omni gắn thêm bộ nhớ video dài không cần huấn luyện (Training-Free Long-Video Memory) lọc frame bằng chi phí chuyển động (block-level motion matching) và truy xuất kết hợp MaxSim với độ mới lạ hình ảnh (MMR). Quá trình post-training sử dụng hơn 2,8 triệu mẫu (56% hiểu offline, 37% duplex chủ động, 6% delegation) với hàm mất mát sparse cross-entropy chỉ tính trên span phản hồi.</p>
+              <div class="prose"><p>Realtime-Venus xây dựng trên nền MiniCPM-o 4.5 (9B) gồm hai biến thể: Omni (dùng SigLIP2 và Whisper-Medium) và Audio (bỏ nhánh thị giác). Cả hai dùng LLM backbone Qwen3-8B và bộ giải mã âm thanh streaming flow-matching dựa trên token rời rạc S3 (CosyVoice 2). Kiến trúc tương tác chia thành runtime dual-loop: (1) <strong>Interaction loop</strong> xử lý các chunk 1 giây theo luồng nhân quả chung (user, assistant, background), tự động dự đoán các token điều khiển (<code>&lt;|listen|&gt;</code>, <code>&lt;|speak|&gt;</code>, <code>&lt;|turn_eos|&gt;</code>), thẻ phân quyền (<code>&lt;delegate&gt;</code>, <code>&lt;backend&gt;</code>) và điều tiết phát sinh văn bản theo tiến độ playback (<span class="math inline">n_k = \arg\min_n |\tau_{k-1} + D(Y_{k,1:n}) - t_k|</span>); (2) <strong>Capability loop (Realtime-Venus-Harness)</strong> thực hiện tác vụ nền qua chu trình Capture (đóng băng snapshot ngữ cảnh <span class="math inline">X_i</span>), Dispatch (Router phân phối đến năng lực Multimodal, General hoặc Skill chuyên biệt) và Return (adapter trau chuốt kết quả thành phản hồi thoại, đưa qua kênh ngầm <code>&lt;backend&gt;</code>). Ngoài ra, Realtime-Venus-Omni gắn thêm bộ nhớ video dài không cần huấn luyện (Training-Free Long-Video Memory) lọc frame bằng chi phí chuyển động (block-level motion matching) và truy xuất kết hợp MaxSim với độ mới lạ hình ảnh (MMR). Quá trình post-training sử dụng hơn 2,8 triệu mẫu (56% hiểu offline, 37% duplex chủ động, 6% delegation) với hàm mất mát sparse cross-entropy chỉ tính trên span phản hồi.</p>
 </div>
             </div>
             <div class="analysis-section is-secondary">

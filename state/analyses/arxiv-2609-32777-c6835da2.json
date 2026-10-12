@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2609.32777",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất phương pháp mới mẻ kết hợp exemplar encoder, prototype anchoring và classifier-free-like guidance để tách rời và điều khiển accent trong flow-matching TTS mà không cần nhãn tại inference.",
+  "credibility": "Bản thảo preprint trên arXiv với mã nguồn công khai, phương pháp được mô tả chi tiết, tuy nhiên tài liệu mang nhãn ngày/tháng dị biệt (arXiv 2026).",
+  "technical": "Thiết kế kỹ thuật vững chắc với RMS injection, ràng buộc stop-gradient trên Bernoulli mixture, loss đối nghịch loại bỏ thông tin speaker và các phân tích ablation kỹ lưỡng.",
+  "impact": "Mở ra hướng đi hữu ích cho zero-shot TTS đa chất giọng, tuy nhiên mức độ quan tâm ban đầu trên cộng đồng còn khiêm tốn (35 HF upvotes, 3 GitHub stars).",
+  "evidence": "Thực nghiệm đa dạng trên 1,764 mẫu thử, phân tích chi tiết khoảng tin cậy bootstrap 95%, sweep tham số guidance, ablation study đầy đủ và có listening test có ý nghĩa thống kê."
+ },
+ "summary": {
+  "tldr": "DEFINE là mô hình zero-shot TTS cho phép tách rời đặc trưng người nói (speaker identity) và giọng vùng miền (accent) thông qua hai đoạn audio mẫu riêng biệt. Phương pháp này tích hợp LoRA vào mô hình F5-TTS cùng kỹ thuật prototype anchoring và hệ số guidance $w$ ở giai đoạn inference, giúp điều chỉnh cường độ accent liên tục mà không cần huấn luyện lại hay dùng mô hình voice conversion hậu xử lý.",
+  "problem": "Các mô hình zero-shot TTS hiện tại mã hóa chung identity người nói và accent trong cùng một audio reference, do dữ liệu huấn luyện thường gán mỗi người nói với duy nhất một accent bản ngữ. Các giải pháp trước đây thường dựa vào nhãn accent rời rạc đóng (closed-set) hoặc phải dùng thêm một mô hình voice/accent conversion riêng biệt làm suy giảm độ tương đồng người nói và tăng độ phức tạp hệ thống.",
+  "method": "DEFINE xây dựng trên backbone F5-TTS (343M tham số) dựa trên conditional flow matching trên mel-spectrogram và đóng băng backbone, chỉ huấn luyện 6.3M tham số LoRA (rank 16) tại các tầng attention query/value, FFN và adaLN:\n- **Accent Injection:** Vector biểu diễn accent $a \\in \\mathbb{R}^{128}$ được đưa vào bằng cách cộng dồn có điều chỉnh tỷ lệ RMS vào timestep embedding $e_t$ và text embedding $e_y$: $e_t \\leftarrow e_t + \\gamma_t \\rho(e_t) \\text{LN}(W_t a)$ và $e_y \\leftarrow e_y + \\gamma_y \\rho(e_y) \\text{LN}(W_y a)$, trong đó $\\rho(u) = \\sqrt{\\frac{1}{n} \\sum_{i=1}^n u_i^2}$. Khi huấn luyện, xác suất dropout $p_{drop} = 0.15$ được dùng để huấn luyện nhánh không accent ($a=0$).\n- **Exemplar Encoder & Prototype Anchoring:** Audio mẫu accent được trích xuất đặc trưng từ layer 15 của mô hình XLS-R đóng băng, pooling và ánh xạ qua MLP $g_\\phi$ thành embedding $a_{enc}$. Để khắc phục việc hàm mất mát flow-matching cung cấp tín hiệu giám sát yếu, tác giả dùng một bảng prototype tĩnh $P \\in \\mathbb{R}^{C \\times d}$ ($C=23$) kết hợp hàm mất mát cosine và contrastive $\\mathcal{L}_{proto}$, cùng loss tương phản nhãn $\\mathcal{L}_{con}$ và gradient reversal layer phân loại người nói $\\mathcal{L}_{spk}$. Khi huấn luyện, decoder nhận hỗn hợp Bernoulli giữa $a_{enc}$ (kèm stop-gradient) và vector prototype $p_c$ với $\\pi = 0.5$.\n- **Inference Guidance:** Tại bước suy luận, bảng prototype bị loại bỏ và chỉ dùng exemplar encoder. Vận tốc vector trường được định hướng theo công thức: $\\hat{v} = v_\\emptyset + s(v_\\emptyset - v_u) + w(v_a - v_\\emptyset)$ với $s = 2$, trong đó trọng số $w$ điều khiển độ đậm nhạt của accent trực tiếp.",
+  "setup": "Dữ liệu huấn luyện gồm tập tiếng Anh của Common Voice (15 accent được phân loại: 10 seen, 3 held-out là Australian, Irish, Filipino; 2 out-of-domain là Welsh, West Indian; cộng thêm 13 accent L2 khác không đánh giá, tổng $C=23$). Dữ liệu được tăng cường bằng 94.7k cặp prompt-target lệch đặc trưng tạo bởi Seed-VC và 137k bản ghi thật. Đánh giá trên 1,764 mẫu (1,134 seen, 378 held-out, 252 OOD). Các độ đo gồm: Accent Accuracy (ACC, dùng 15-way logistic regression probe trên layer-15 XLS-R, chance=0.067), Speaker Similarity (SPK, ECAPA-TDNN), WER (Whisper large-v3) và UTMOS. Baselines gồm F5-TTS gốc, DEFINE tắt accent ($w=0$), pipeline F5-TTS $\\to$ Seed-VC cascade, và prototype-lookup oracle.",
+  "results": [
+   "Trên seen accents (n=1,134): DEFINE ($w=15$) đạt ACC 0.196, SPK 0.624, WER 0.067, UTMOS 3.93 so với F5-TTS (ACC 0.079, SPK 0.732, WER 0.071, UTMOS 3.99) và Cascade F5-TTS $\\to$ Seed-VC (ACC 0.188, SPK 0.600, WER 0.056, UTMOS 3.92).",
+   "Trên out-of-domain accents (n=252): DEFINE ($w=15$) đạt ACC 0.087, SPK 0.640, WER 0.074, UTMOS 3.97, tương đương về mặt thống kê với Cascade Seed-VC (ACC 0.083, SPK 0.601, WER 0.047, UTMOS 3.94) và vượt trội so với F5-TTS gốc (ACC 0.024).",
+   "Trên held-out accents (n=378): DEFINE ($w=15$) đạt ACC 0.127, SPK 0.654, UTMOS 4.01; thấp hơn Cascade Seed-VC về ACC (0.175) nhưng cao hơn về SPK (0.603) và UTMOS (3.89).",
+   "Guidance sweep: Khi tăng $w$ từ 0 lên 19 trên seen accents, ACC tăng từ 0.065 lên đỉnh 0.214 trong khi SPK giảm dần từ 0.694 xuống 0.604.",
+   "Listening test (seen accents, prototype-lookup $w=11$): DEFINE nhận được 70% số phiếu bầu (77/110 votes) so với Cascade (21%, 23/110) và F5-TTS gốc (9%, 10/110) với p=0.0014."
+  ],
+  "limitations": "Khả năng chuyển đổi accent giảm rõ rệt trên các accent chưa từng thấy trong quá trình huấn luyện (held-out đạt 0.127 so với cascade 0.175). Exemplar encoder vẫn bị hiện tượng speaker overfitting (độ chính xác nearest-prototype giảm từ 0.873 ở training speakers xuống 0.540 ở unseen speakers). Tăng trọng số $w$ làm suy giảm đơn điệu độ tương đồng người nói (SPK). Thử nghiệm nghe ở người (listening test) mới chỉ thực hiện trên prototype lookup thay vì exemplar encoder trực tiếp.",
+  "takeaways": "Có thể tích hợp khả năng điều khiển accent trực tiếp vào mô hình TTS dạng flow-matching mà không cần can thiệp hậu xử lý waveform, chỉ với 6.3M tham số LoRA. Kỹ thuật prototype anchoring kết hợp contrastive learning là chìa khóa để ổn định không gian conditioning toàn cục khi objective sinh học cung cấp gradient yếu.",
+  "strengths": [
+   "Kiểm soát accent liên tục qua tham số scalar $w$",
+   "Huấn luyện tham số hiệu quả qua LoRA (6.3M params)",
+   "Bảo toàn identity người nói tốt hơn cascade",
+   "Không cần nhãn accent tại thời điểm inference"
+  ],
+  "weaknesses": [
+   "Encoder bị speaker overfitting trên unseen speakers",
+   "Hiệu quả suy giảm rõ rệt trên held-out accents",
+   "Đánh giá chủ quan chưa test trực tiếp exemplar mode"
+  ],
+  "context": "Nghiên cứu từ Đại học Ca' Foscari Venice, SUTD, Kandinsky Lab và Sleeping AI; mã nguồn mở tại GitHub (AMAAI-Lab/define)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

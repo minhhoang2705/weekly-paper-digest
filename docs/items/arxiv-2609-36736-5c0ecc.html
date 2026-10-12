@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>From Neurons to Conversation: Speech Brain-Computer Interfaces · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -110,7 +112,7 @@
             </div>
             <div class="analysis-section">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
-              <div class="prose"><p>Tác giả cấu trúc hệ thống Speech BCI thành ngăn xếp tương tác đa tầng: (1) <strong>Tầng nguồn thần kinh &amp; biểu diễn</strong>: phân cấp từ kiểm soát vận động khớp âm (vSMC), đặc trưng âm học/ngữ âm (STG), đến biểu diễn từ vựng/ngữ nghĩa phân tán (mạng lưới trán - thái dương); (2) <strong>Thu nhận tín hiệu</strong>: cân bằng giữa tính xâm lấn và độ phân giải không gian/thời gian qua ECoG, sEEG, endovascular, mảng vi điện cực xâm lấn vỏ não (MEA như Utah array, Neuralink N1 1.024 kênh) và các phương pháp phi xâm lấn (EEG, MEG, fMRI); (3) <strong>Mô hình giải mã</strong>: mô hình hóa xác suất tuần tự $y_{1:T} \sim p_\theta(y_{1:T} | x_{1:U})$ bao gồm hồi quy tuyến tính chuẩn hóa, mô hình không gian trạng thái (Kalman filter, HMM), mạng nơ-ron sâu (CNN, LSTM/GRU, TCN), cơ chế căn chỉnh nhãn CTC ($L_{\text{CTC}}$) và Sequence-to-Sequence/Transformer; (4) <strong>Học tự giám sát &amp; mô hình nền tảng</strong>: sử dụng InfoNCE loss để căn chỉnh đa phương thức giữa biểu diễn não bộ và biểu diễn âm thanh tự giám sát (như wav2vec 2.0); (5) <strong>Ước lượng độ bất định &amp; Vòng lặp đóng (Closed-loop)</strong>: áp dụng Monte Carlo Dropout để phân tách aleatoric và epistemic uncertainty, đồng thời mô hình hóa sự đồng thích ứng hai chiều giữa não bộ và bộ giải mã theo thời gian thực.</p>
+              <div class="prose"><p>Tác giả cấu trúc hệ thống Speech BCI thành ngăn xếp tương tác đa tầng: (1) <strong>Tầng nguồn thần kinh &amp; biểu diễn</strong>: phân cấp từ kiểm soát vận động khớp âm (vSMC), đặc trưng âm học/ngữ âm (STG), đến biểu diễn từ vựng/ngữ nghĩa phân tán (mạng lưới trán - thái dương); (2) <strong>Thu nhận tín hiệu</strong>: cân bằng giữa tính xâm lấn và độ phân giải không gian/thời gian qua ECoG, sEEG, endovascular, mảng vi điện cực xâm lấn vỏ não (MEA như Utah array, Neuralink N1 1.024 kênh) và các phương pháp phi xâm lấn (EEG, MEG, fMRI); (3) <strong>Mô hình giải mã</strong>: mô hình hóa xác suất tuần tự <span class="math inline">y_{1:T} \sim p_\theta(y_{1:T} | x_{1:U})</span> bao gồm hồi quy tuyến tính chuẩn hóa, mô hình không gian trạng thái (Kalman filter, HMM), mạng nơ-ron sâu (CNN, LSTM/GRU, TCN), cơ chế căn chỉnh nhãn CTC (<span class="math inline">L_{\text{CTC}}</span>) và Sequence-to-Sequence/Transformer; (4) <strong>Học tự giám sát &amp; mô hình nền tảng</strong>: sử dụng InfoNCE loss để căn chỉnh đa phương thức giữa biểu diễn não bộ và biểu diễn âm thanh tự giám sát (như wav2vec 2.0); (5) <strong>Ước lượng độ bất định &amp; Vòng lặp đóng (Closed-loop)</strong>: áp dụng Monte Carlo Dropout để phân tách aleatoric và epistemic uncertainty, đồng thời mô hình hóa sự đồng thích ứng hai chiều giữa não bộ và bộ giải mã theo thời gian thực.</p>
 </div>
             </div>
             <div class="analysis-section is-secondary">

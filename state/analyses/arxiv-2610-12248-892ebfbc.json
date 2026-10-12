@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.12248",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo đặt ra bài toán mới kết hợp đồng thời nhận thức video/audio egocentric, mô hình full-duplex và can thiệp giọng nói chủ động trong một mô hình duy nhất thay vì ghép nối pipeline API rời rạc.",
+  "credibility": "Tác giả đơn lẻ từ Đại học Seoul, bài viết là preprint trên arXiv nhưng phương pháp và quy trình thí nghiệm được mô tả chi tiết, minh bạch kèm project page.",
+  "technical": "Thiết kế kỹ thuật công phu từ pipeline tách âm thanh/tổng hợp lời thoại có kiểm soát độ dài đến công thức SFT (tách gradient) và length-normalized DPO tối ưu hóa timing.",
+  "impact": "Mở ra hướng đi mới có tính ứng dụng rất cao cho các thiết bị đeo thông minh (AR glasses), cung cấp benchmark và phương pháp mẫu cho bài toán trợ lý chủ động bằng giọng nói.",
+  "evidence": "Kết quả thực nghiệm toàn diện so sánh với 6 baselines mạnh (cả closed-source và open-source), có phân tích ablation kỹ lưỡng, kiểm định ý nghĩa thống kê Wilcoxon và đánh giá người thật trên MTurk."
+ },
+ "summary": {
+  "tldr": "EgoVoice là framework huấn luyện và đánh giá trợ lý giọng nói chủ động (proactive spoken assistant) đầu tiên từ luồng video và audio góc nhìn thứ nhất (egocentric streams). Tác giả tái cấu trúc tập dữ liệu HoloAssist thành luồng dữ liệu sạch có căn chỉnh thời gian, sau đó tinh chỉnh mô hình omni-modal MiniCPM-o 4.5 bằng SFT và DPO để mô hình tự quyết định khi nào cần im lặng hoặc can thiệp bằng giọng nói trước khi người dùng thực hiện hành động.",
+  "problem": "Phần lớn các trợ lý giọng nói hiện nay là dạng thụ động (reactive), chỉ phản hồi khi người dùng đặt câu hỏi. Tuy nhiên trong các tác vụ thao tác vật lý thực tế (như lắp ráp đồ đạc, nấu ăn), người dùng thường bận tay, không kịp hỏi hoặc không nhận ra mình sắp phạm lỗi, đòi hỏi trợ lý phải chủ động can thiệp đúng lúc. Các nghiên cứu trước đây phân mảnh: trợ lý video chủ động chỉ xuất ra văn bản (text), mô hình spoken dialogue full-duplex chỉ tập trung vào hội thoại thông thường, và việc tổng hợp TTS ngây thơ lên nhãn văn bản bị lệch pha thời gian so với hành động vật lý liên tục của người dùng.",
+  "method": "EgoVoice xây dựng pipeline xử lý dữ liệu từ HoloAssist (1.673 phiên, 124,8 giờ): (1) Tách âm thanh nền bằng SAM-Audio từ các đoạn giọng nói và lọc sạch tiếng nói dư bằng Silero VAD; (2) Chuẩn hóa văn bản bằng gpt-5.4-mini và loại bỏ 9,0% câu mở/kết thừa; (3) Tái tổng hợp giọng nói sạch với độ dài chặt chẽ bằng IndexTTS2 (lấy speaker từ Multilingual LibriSpeech) và kiểm chứng WER = 0% bằng Qwen3-ASR-1.7B, thu về 1.249 phiên train (91,7 giờ) và 170 phiên benchmark (12,9 giờ).\\n\\nVề kiến trúc và huấn luyện:\\n- Mô hình nền tảng: MiniCPM-o 4.5 (9B), nhận các chunk 1 giây chứa 1 khung hình video và 1 giây audio (tiếng người dùng + nền). Ở mỗi chunk, mô hình phát ra token LISTEN hoặc SPEAK (sinh tiếp text BPE và đưa hidden state qua speech decoder 0.3B tham số để tạo S3 speech token, giải mã sang waveform bằng flow-matching decoder).\\n- Supervised Fine-Tuning (SFT): Áp dụng LoRA ($r=32, \\alpha=64$) trên cả LLM backbone và speech decoder. Hàm mất mát: $\\mathcal{L}_{\\text{SFT}} = \\mathcal{L}_{\\text{LM}} + 0.1 \\cdot \\mathcal{L}_{\\text{S3}}$, trong đó gradient từ $\\mathcal{L}_{\\text{S3}}$ bị detach không truyền ngược vào LLM backbone.\\n- Direct Preference Optimization (DPO): Tinh chỉnh riêng thời điểm can thiệp bằng LoRA trên LLM backbone sử dụng length-normalized DPO với $\\beta = 0.1$. Sinh $N=10$ mẫu ứng viên trên mỗi cửa sổ ngữ cảnh, chấm điểm bằng Onset F1 so với tham chiếu để chọn cặp $(y^+, y^-)$ (độ lệch F1 tối thiểu 0,10, thu về 5.335 cặp ưu tiên).",
+  "setup": "Đánh giá trên 170 phiên benchmark HoloAssist giữ lại (held-out, 12,9 giờ), cung cấp system prompt chứa tên nhiệm vụ và công thức từng bước (recipe).\\n- Kênh đánh giá chính: `text-asr` (chuyển âm thanh do mô hình sinh ra ngược lại văn bản bằng Qwen3-ASR-1.7B và căn chỉnh thời gian mức từ bằng Qwen3-ForcedAligner-0.6B).\\n- Tiêu chí đánh giá: Onset Timing (Precision, Recall, F1 qua thuật toán Hungarian với cửa sổ bất đối xứng $[-2.5\\text{s}, +1.5\\text{s}]$); End-of-Utterance Timing (end-vs-action trên tập con 942 directive utterances với ngưỡng $T=5\\text{s}$, start-vs-action, duration); Content Relevance (cosine similarity qua Qwen3-Embedding-0.6B); LLM-as-a-judge qua gpt-5.4-mini (thang Likert 1-5: Correctness, Promptness, Efficiency, Overall); Human preference trên Amazon Mechanical Turk.\\n- Baselines so sánh: Closed-source APIs (Gemini Live `gemini-live-2.5-flash-native-audio`, OpenAI `gpt-realtime`, `gpt-realtime-2`), ProAssist (8B text-only và cascade + ASR/TTS), zero-shot MiniCPM-o 4.5 (9B).\\n- Hạ tầng tính toán: GPU NVIDIA A6000, RTX PRO 6000, B200.",
+  "results": [
+   "Về Onset Timing (kênh text-asr): EgoVoice-DPO đạt F1 cao nhất là 0.324 (Prec. 0.482, Rec. 0.285) và EgoVoice-SFT đạt F1 = 0.274 (Prec. 0.467, Rec. 0.235), vượt trội hoàn toàn so với MiniCPM-o 4.5 zero-shot (F1 = 0.113), ProAssist cascade (F1 = 0.195), và các API thương mại (Gemini Live F1 = 0.022, gpt-realtime F1 = 0.030, gpt-realtime-2 F1 = 0.024).",
+   "Về Content Relevance (Cosine similarity): EgoVoice-SFT đạt 0.684 và EgoVoice-DPO đạt 0.649, vượt ProAssist cascade (0.564), zero-shot MiniCPM-o 4.5 (0.519) và gpt-realtime (0.500).",
+   "Về End Timing (end-vs-act mean / median): Chỉ EgoVoice-SFT (+1.57s / +1.52s) và EgoVoice-DPO (+1.75s / +1.62s) đạt giá trị dương (kết thúc nói trước khi người dùng bắt đầu hành động), bám rất sát giảng viên con người (+1.69s / +1.38s), trong khi ProAssist cascade (-0.44s / -1.56s), MiniCPM-o 4.5 (-4.69s / -0.40s) và gpt-realtime-2 (-16.1s / -16.8s) đều nói đè lên lúc người dùng đã thực hiện thao tác.",
+   "Về LLM Judge (gpt-5.4-mini thang 1-5): EgoVoice-SFT đạt Overall 2.23 và EgoVoice-DPO đạt 2.18, cải thiện vượt bậc so với MiniCPM-o 4.5 zero-shot (Overall 1.41, $p < 10^{-12}$), trong khi ProAssist đạt 2.06 (cascade đạt 1.92).",
+   "Đánh giá người dùng (Human preference): Cả EgoVoice-SFT (45.6% win vs 31.3% lose, $p=0.01$) và EgoVoice-DPO (45.3% win vs 33.0% lose, $p=0.02$) đều được người dùng ưu tiên vượt trội so với MiniCPM-o 4.5."
+  ],
+  "limitations": "Dữ liệu chỉ giới hạn trong các tác vụ lắp ráp từ HoloAssist, chưa kiểm chứng trên các miền khác (nấu ăn, định vị ngoài trời); mô hình bị ràng buộc bởi độ phân giải chunk 1 giây của MiniCPM-o 4.5, hạn chế khả năng phản hồi sub-second; tồn tại lỗi lặp từ và thỉnh thoảng sinh nhầm tiếng Trung thừa hưởng từ backbone; đánh giá trên video quay sẵn nên chưa mô phỏng tương tác hai chiều thời gian thực (barge-in/ngắt lời); recall còn thấp (EgoVoice-DPO chỉ đạt 0.285) và 28.2% trường hợp can thiệp vẫn kết thúc muộn sau khi người dùng đã bắt đầu hành động.",
+  "takeaways": "Quyết định 'khi nào nói' trong tương tác giọng nói chủ động là chưa đủ, mà 'độ dài câu nói' (duration) đóng vai trò quyết định để đảm bảo trợ lý kết thúc trước khi hành động diễn ra. Quy trình hai bước SFT (đảm bảo nội dung chính xác) kết hợp DPO chuẩn hóa độ dài (tối ưu thời điểm can thiệp) là chiến lược hiệu quả cho các kỹ sư phát triển trợ lý AR/smart glasses.",
+  "strengths": [
+   "Tiên phong đào tạo end-to-end spoken proactive assistant",
+   "Quy trình xử lý âm thanh egocentric chặt chẽ",
+   "Cải thiện vượt trội timing và content so với baseline",
+   "Bổ sung metric end-vs-action phản ánh thực tế tương tác",
+   "Đánh giá toàn diện kết hợp tự động và người dùng"
+  ],
+  "weaknesses": [
+   "Recall can thiệp vẫn còn thấp (0.285)",
+   "Vẫn thừa hưởng lỗi lặp từ của backbone",
+   "Chưa hỗ trợ xử lý ngắt lời hai chiều (barge-in)",
+   "Tập dữ liệu chỉ gói gọn trong lắp ráp đồ đạc"
+  ],
+  "context": "Heeseung Kim (Khoa AI, Đại học Seoul - University of Seoul), công bố dưới dạng preprint trên arXiv (mã arXiv:2610.12248v1 [cs.CL], tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

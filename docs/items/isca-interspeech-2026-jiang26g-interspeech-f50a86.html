@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Integrating Facial Generation into Full-Duplex Spoken Dialogue Systems · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -86,7 +88,7 @@
         <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
       </div>
       <div class="card-body prose">
-<p>Full-duplex spoken dialogue models, such as Moshi, enable natural, low-latency voice conversations. However, they remain limited to the audio modality, lacking the facial expressions that are integral to human communication. We present Moshi-Face, the first full-duplex dialogue model that jointly processes the user&#39;s audio and facial input while simultaneously generating speech and facial motion. We first construct a vector-quantized variational autoencoder (VQ-VAE) as a face codec that encodes 3D head meshes extracted from facial videos into compact discrete tokens, referred to as face tokens, and conversely reconstructs 3D meshes from these tokens. We then extend Moshi with a Face Transformer module that generates face tokens non-autoregressively, enabling Moshi-Face to produce synchronized audio and face tokens in real time. Experiments show that Moshi-Face achieves audiovisual alignment at low latency while preserving the dialogue quality of the original audio-only model.</p>      </div>
+<p>Full-duplex spoken dialogue models, such as Moshi, enable natural, low-latency voice conversations. However, they remain limited to the audio modality, lacking the facial expressions that are integral to human communication. We present Moshi-Face, the first full-duplex dialogue model that jointly processes the user's audio and facial input while simultaneously generating speech and facial motion. We first construct a vector-quantized variational autoencoder (VQ-VAE) as a face codec that encodes 3D head meshes extracted from facial videos into compact discrete tokens, referred to as face tokens, and conversely reconstructs 3D meshes from these tokens. We then extend Moshi with a Face Transformer module that generates face tokens non-autoregressively, enabling Moshi-Face to produce synchronized audio and face tokens in real time. Experiments show that Moshi-Face achieves audiovisual alignment at low latency while preserving the dialogue quality of the original audio-only model.</p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">
@@ -112,9 +114,9 @@
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
               <div class="prose"><p>Moshi-Face tích hợp thêm luồng face tokens vào kiến trúc của Moshi:</p>
 <ol>
-<li><strong>Face Codec (VQ-VAE):</strong> Kiến trúc gồm Encoder (1-D Conv downsampling r=2 và Transformer layer), Quantizer với codebook Z (K=256, C=128), và Decoder upsampling đối xứng. Nó chuyển đổi 3D facial meshes (5,143 đỉnh theo FLAME topology trích xuất ở 25 fps qua VHAP) thành N=8 discrete face tokens trên mỗi frame ở tần số 12.5 Hz (trùng tần số audio tokens từ Mimi). Codec được huấn luyện với hàm mất mát tổng hợp gồm L1 reconstruction loss, quantization loss và velocity loss ($L_{vq} = L_{rec} + \lambda_q L_q + \lambda_{vel} L_{vel}$).</li>
+<li><strong>Face Codec (VQ-VAE):</strong> Kiến trúc gồm Encoder (1-D Conv downsampling r=2 và Transformer layer), Quantizer với codebook Z (K=256, C=128), và Decoder upsampling đối xứng. Nó chuyển đổi 3D facial meshes (5,143 đỉnh theo FLAME topology trích xuất ở 25 fps qua VHAP) thành N=8 discrete face tokens trên mỗi frame ở tần số 12.5 Hz (trùng tần số audio tokens từ Mimi). Codec được huấn luyện với hàm mất mát tổng hợp gồm L1 reconstruction loss, quantization loss và velocity loss (<span class="math inline">L_{vq} = L_{rec} + \lambda_q L_q + \lambda_{vel} L_{vel}</span>).</li>
 <li><strong>Các luồng token (Input/Output Streams):</strong> Vận hành ở 12.5 Hz gồm: Text token (1 vào, 1 ra cho inner monologue), Audio tokens (2M vào gồm system/user, M=8 ra) và Face tokens (2N vào gồm system/user, N=8 ra). Audio và face tokens được làm trễ 1 bước so với text tokens.</li>
-<li><strong>Moshi-Face Architecture &amp; Training:</strong> Gồm RQ-Transformer (khởi tạo từ checkpoint 7B pre-trained Moshi) dự đoán tự hồi quy $h_{i+1}$, text và audio tokens; và một non-causal Face Transformer sinh đồng thời N=8 face tokens không tự hồi quy qua non-causal self-attention, điều kiện hóa dựa trên conditioning vector $e_{i+1}^{All} = h_{i+1} + e_{i+1}^0 + \sum_{m=1}^M e_i^m$ kết hợp với learnable positional embedding $pe^n$. Quá trình huấn luyện gồm 2 bước: Bước 1 đóng băng RQ-Transformer và chỉ huấn luyện Face Transformer (500 steps, lr=5e-4); Bước 2 tinh chỉnh toàn bộ mô hình (1,200 steps, lr khác nhau cho từng thành phần với loss weight $\lambda=1$).</li>
+<li><strong>Moshi-Face Architecture &amp; Training:</strong> Gồm RQ-Transformer (khởi tạo từ checkpoint 7B pre-trained Moshi) dự đoán tự hồi quy <span class="math inline">h_{i+1}</span>, text và audio tokens; và một non-causal Face Transformer sinh đồng thời N=8 face tokens không tự hồi quy qua non-causal self-attention, điều kiện hóa dựa trên conditioning vector <span class="math inline">e_{i+1}^{All} = h_{i+1} + e_{i+1}^0 + \sum_{m=1}^M e_i^m</span> kết hợp với learnable positional embedding <span class="math inline">pe^n</span>. Quá trình huấn luyện gồm 2 bước: Bước 1 đóng băng RQ-Transformer và chỉ huấn luyện Face Transformer (500 steps, lr=5e-4); Bước 2 tinh chỉnh toàn bộ mô hình (1,200 steps, lr khác nhau cho từng thành phần với loss weight <span class="math inline">\lambda=1</span>).</li>
 </ol>
 </div>
             </div>

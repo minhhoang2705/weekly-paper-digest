@@ -1,0 +1,52 @@
+{
+ "id": "arxiv:2610.11437",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất cơ chế kết hợp độc đáo giữa global timbre editing qua codec token và segment-level control thông qua việc tái tạo (recomputing) KV cache thay vì chỉ áp dụng mask đơn thuần.",
+  "credibility": "Bài báo là bản preprint từ các tác giả thuộc National University of Singapore và NTU, trình bày phương pháp và thực nghiệm chi tiết nhưng chưa qua phản biện tại hội nghị chính thức.",
+  "technical": "Thiết kế kỹ thuật vững chắc với mô hình hai tầng, xây dựng hàm mất mát wDPO có reward gap cụ thể, cơ chế prefill/decoding tái tạo KV cache được mô tả toán học rõ ràng và có phân tích attention sâu.",
+  "impact": "Cung cấp hai bộ benchmark giá trị (TimbreEdit-Bench và IntraTTS-Bench) cùng giải pháp training-free giải quyết vấn đề rò rỉ điều khiển trong autoregressive TTS, có tiềm năng ứng dụng thực tế cao.",
+  "evidence": "Thực nghiệm rất phong phú trên 2 benchmark mới cùng tập dữ liệu ESD và MED-TTS, có bảng ablation chi tiết cho từng thành phần (SFT scale, DPO pool, KV context size S và K) và human evaluation có bootstrap confidence intervals."
+ },
+ "summary": {
+  "tldr": "EDICT là khung làm việc thống nhất giữa chỉnh sửa âm sắc toàn cục (global timbre editing) dựa trên giọng mẫu và điều khiển biểu cảm cục bộ theo phân đoạn (intra-utterance local instruction) cho mô hình TTS. Phương pháp kết hợp một bộ timbre editor huấn luyện bằng weighted DPO để tạo ra codec reference làm điểm tựa nhận diện người nói, cùng cơ chế tái tạo KV cache (KV cache reconstruction) không cần huấn luyện lại backbone TTS để loại bỏ hiện tượng rò rỉ điều khiển (control leakage) giữa các phân đoạn.",
+  "problem": "Các hệ thống TTS dựa trên chỉ dẫn (instruction-based TTS) hiện tại gặp hai giới hạn: ở mức toàn cục, voice cloning chỉ sao chép giọng mẫu còn voice design tạo giọng từ mô tả, thiếu khả năng chỉnh sửa tương đối các thuộc tính âm sắc (timbre) từ một giọng mẫu có sẵn; ở mức cục bộ, hướng dẫn trên toàn câu không kiểm soát được biểu cảm biến đổi linh hoạt qua từng phân đoạn ngắn, trong khi các phương pháp phân đoạn hiện có (như TED-TTS) bị rò rỉ điều khiển (control leakage) do KV cache của các bước trước mang trạng thái âm thanh cũ sang các phân đoạn sau.",
+  "method": "EDICT xây dựng mô hình xếp tầng gồm hai giai đoạn:\\n1. **Reference-Conditioned Timbre Editing (Stage I)**: Một mô hình chỉnh sửa âm sắc $p_{\\theta}$ (khởi tạo từ Qwen3-TTS-12Hz-1.7B-Base) nhận reference codec $c_{\\text{ref}}$, mã hóa thao tác thuộc tính $z_{\\text{edit}}$ (gồm 9 trục tri giác: gender, age, pitch register, brightness, vocal weight, resonance focus, roughness, breathiness, nasality; unmentioned attributes gán nhãn `<keep>`), và văn bản $x_{\\text{edit}}$ để sinh ra reference codec đã chỉnh sửa $c'_{\\text{ref}}$. Quá trình huấn luyện trải qua SFT trên 1M cặp âm thanh tổng hợp, sau đó tối ưu bằng reward-weighted DPO (wDPO) kết hợp auxiliary SFT: $\\mathcal{L}_{w\\text{DPO}} = -\\frac{\\sum_{(g,j)\\in B} w_{g,j} \\log \\sigma(\\beta [q_\\theta(c_g^+|g) - q_\\theta(c_{g,j}^-|g)])}{\\sum_{(g,j)\\in B} w_{g,j}} + \\lambda_{\\text{SFT}} \\mathcal{L}_{\\text{SFT}}$, với trọng số chênh lệch phần thưởng $w_{g,j} = \\text{clip}\\left(\\frac{\\Delta_{g,j}}{0.2}, 0.5, 2.0\\right)$ dựa trên độ tương đồng cosine speaker embedding từ WavLM.\\n2. **Segment-Level Instruction Control (Stage II)**: Sử dụng một frozen autoregressive TTS backbone (như Qwen3-TTS-VD hoặc CosyVoice 2). Tại mỗi ranh giới phân đoạn (khi gặp non-final `<EOS>`), hệ thống loại bỏ KV cache cũ và dựng prefill mới $P_{k+1}$ bao gồm instruction mới, văn bản mới, reference đã chỉnh sửa $c'_{\\text{ref}}$, cùng với việc giữ lại và recompute toàn bộ keys/values cho $S$ vị trí codec đầu tiên và $K$ vị trí codec gần nhất ($S=4, K=5$). Việc recompute dưới điều kiện mới giúp ngăn rò rỉ phong cách cũ nhưng vẫn duy trì tính liên tục và độ nhất quán người nói.",
+  "setup": "Tập huấn luyện Stage I gồm 1M cặp chỉnh sửa tiếng Trung - tiếng Anh tổng hợp từ Qwen3-TTS-VD qua 5,800 profiles (239,794 bản ghi, 518.23 giờ). Đánh giá trên hai benchmark mới đề xuất: **TimbreEdit-Bench** (1,955 cặp source-target trên 200 held-out profiles) và **IntraTTS-Bench** (997 requests gồm 2-3 phân đoạn văn bản và delivery instruction). Đánh giá mở rộng trên tập dữ liệu người thật ESD (200 cặp) và MED-TTS (500 mẫu). Các baseline gồm: Qwen3-TTS-VD, Qwen3-TTS-Base, CosyVoice 2, FreeVC, Seed-VC, TED-TTS, Concat. (tổng hợp độc lập rồi ghép file), và Joint (sinh 1 lượt với prompt toàn câu). Thước đo: CER/WER (Whisper large-v3), UTMOS, DNSMOS OVRL, SIM-T/SIM-R (WavLM, ERes2Net), SIM-I (inter-segment similarity), Gemini 3.1 Pro đánh giá (SegAcc, EmoAcc, Trans, Up/Down Acc, Category Acc, Preservation), cùng human listening test (19 người nghe đánh giá N-MOS, Edit-MOS, S-MOS, Instr-MOS, Trans-MOS với 95% bootstrap CI) và TCD (Transition Cepstral Discontinuity).",
+  "results": [
+   "Trên TimbreEdit-Bench (Structured), EDICT-Stage I đạt WavLM SIM-T 0.819 so với Qwen3-TTS-VD đạt 0.701, Qwen3-TTS-Base đạt 0.632, CosyVoice 2 đạt 0.646; đạt ERes2Net SIM-T 0.653 so với Qwen3-TTS-VD đạt 0.450; $\\Delta$ (SIM-T - SIM-R) dương ở mức 0.199 (WavLM) và 0.211 (ERes2Net), trong khi các hệ thống khác đều âm.",
+   "Trên TimbreEdit-Bench (Descriptive), EDICT-Stage I đạt WavLM SIM-T 0.793 và ERes2Net SIM-T 0.648, vượt qua Qwen3-TTS-VD (0.676 / 0.435) và CosyVoice 2 (0.644 / 0.419).",
+   "Về độ chính xác thuộc tính (TimbreEdit-Bench), EDICT-Stage I (Structured) đạt Up Acc 70.8%, Down Acc 80.6%, Category Acc 89.3% (so với Qwen3-TTS-VD là 67.0%, 64.3%, 53.2%), nhưng Preservation đạt 66.7% (thấp hơn 83.3% của Qwen3-TTS-VD).",
+   "Trên IntraTTS-Bench với backbone Qwen3-TTS-VD, EDICT-Stage II đạt SegAcc 82.30%, EmoAcc 83.60%, Trans 82.00% và SIM-I 0.915, vượt trội so với TED-TTS (SegAcc 74.25%, EmoAcc 74.02%, Trans 78.03%, SIM-I 0.911), dù Concat. đạt SegAcc cao hơn (92.44%) nhưng Trans rất thấp (60.68%) và SIM-I chỉ đạt 0.658.",
+   "Trên IntraTTS-Bench với CosyVoice 2, EDICT-Stage II đạt SegAcc 60.56%, EmoAcc 60.10%, Trans 76.20% (so với TED-TTS là 58.10%, 58.00%, 63.94%).",
+   "Khi kết hợp đồng thời (Joint Timbre & Delivery Control trên Qwen3-TTS-VD), EDICT pipeline đạt SegAcc 81.62%, Trans 83.45%, SIM-I 0.917, WavLM SIM-T 0.788, ERes2Net SIM-T 0.609, vượt qua Qwen3-TTS-VD Joint (SegAcc 60.19%, Trans 70.07%, SIM-T WavLM 0.683) và Concat. (SegAcc 86.43%, Trans 56.69%).",
+   "Trên 500 mẫu MED-TTS, EDICT-Stage II đạt Emo2v 85.81% (English) và 79.96% (Chinese), cao hơn TED-TTS (80.91% / 76.32%), đồng thời đạt độ gián đoạn phổ thấp nhất với $10^{-3}\\text{TCD}$ là 0.357 (English) và 0.392 (Chinese) so với TED-TTS (0.463 / 0.449)."
+  ],
+  "limitations": "Việc tái tạo KV cache dẫn đến sự suy giảm nhẹ về độ trung thực nội dung văn bản (content fidelity), khiến English WER tăng nhẹ (5.1% so với 3.8% của Joint trên IntraTTS-Bench; 1.09% so với 0.69% của TED-TTS trên MED-TTS English). Có sự đánh đổi rõ rệt giữa độ chính xác chỉnh sửa thuộc tính và việc bảo toàn thuộc tính không nhắc tới (Preservation của EDICT đạt 66.7% - 70.1%, thấp hơn mức 83.3% - 85.0% của Qwen3-TTS-VD). Toàn bộ dữ liệu huấn luyện timbre editor là dữ liệu tổng hợp sinh ra từ Qwen3-TTS-VD.",
+  "takeaways": "Kỹ thuật KV cache reconstruction kết hợp recompute trạng thái trên context giới hạn ($S$ frame đầu để neo voice identity và $K$ frame gần nhất để duy trì continuation) là một giải pháp hoàn toàn training-free hữu ích giúp giải quyết triệt để control leakage trong autoregressive TTS. Đối với chỉnh sửa timbre giọng, việc biểu diễn theo các trục thuộc tính tri giác và hậu huấn luyện wDPO có thể chuyển giao tốt ngay cả trên giọng nói người thật.",
+  "strengths": [
+   "Kiểm soát biểu cảm phân đoạn training-free",
+   "Giải quyết triệt để control leakage",
+   "Bộ dữ liệu benchmark song ngữ quy chuẩn",
+   "wDPO tối ưu timbre editing hiệu quả",
+   "Đánh giá toàn diện cả khách quan lẫn chủ quan"
+  ],
+  "weaknesses": [
+   "WER/CER tăng nhẹ khi tái tạo cache",
+   "Độ bảo toàn thuộc tính unmentioned giảm",
+   "Dữ liệu huấn luyện Stage I hoàn toàn synthetic"
+  ],
+  "context": "Nhóm tác giả đến từ National University of Singapore, LIGHTSPEED, Nanyang Technological University và Independent Researcher; công bố dưới dạng preprint trên arXiv."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

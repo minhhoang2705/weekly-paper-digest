@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Teaching LLMs to Hear Who Spoke What: Metadata-Supervised Pretraining for Encoder-Free Speech-LLMs · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -110,18 +112,18 @@
             </div>
             <div class="analysis-section">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
-              <div class="prose"><p>Mô hình kế thừa thiết kế encoder-free từ Mel-LLM dựa trên Phi-4-MM: trích xuất 80 chiều log-Mel spectrogram, downsample tỷ lệ $r=8$ (tương đương 12.5 Hz token rate) qua các lớp tích chập nhẹ (lightweight Conv), rồi chiếu tuyến tính vào không gian embedding của LLM. LLM được giữ đông băng (frozen) và tinh chỉnh qua LoRA.</p>
+              <div class="prose"><p>Mô hình kế thừa thiết kế encoder-free từ Mel-LLM dựa trên Phi-4-MM: trích xuất 80 chiều log-Mel spectrogram, downsample tỷ lệ <span class="math inline">r=8</span> (tương đương 12.5 Hz token rate) qua các lớp tích chập nhẹ (lightweight Conv), rồi chiếu tuyến tính vào không gian embedding của LLM. LLM được giữ đông băng (frozen) và tinh chỉnh qua LoRA.</p>
 <p>Phương pháp pretraining gồm 3 thành phần chính:</p>
 <ol>
 <li><strong>Metadata-Supervised Pretraining (MSP):</strong> Huấn luyện mô hình sinh chuỗi JSON tuần tự gồm <code>(gender, emotion, language, speaker, content)</code> trước khi sinh văn bản, giúp ép mô hình học biểu diễn âm học trước khi dựa vào ngữ nghĩa.</li>
-<li><strong>Speaker-Aware Utterance Composition (SAUC):</strong> Ghép động các câu đơn thoại trong batch thành một dòng thời gian hội thoại đa người nói; tại mỗi điểm giao tiếp có xác suất 50% tạo chồng lấn (overlap $\le$ một nửa câu ngắn hơn) hoặc khoảng lặng (silence gap $\le 2$s), tối đa 2 người nói đồng thời.</li>
-<li><strong>Input Span Masking:</strong> Áp dụng span masking ngẫu nhiên tại độ phân giải 12.5 Hz với xác suất bắt đầu $p=0.04$, độ dài $L=4$ (320 ms, tương đương che ~15% chuỗi), thay thế khung hình bằng giá trị trung bình cộng nhiễu Gaussian.</li>
+<li><strong>Speaker-Aware Utterance Composition (SAUC):</strong> Ghép động các câu đơn thoại trong batch thành một dòng thời gian hội thoại đa người nói; tại mỗi điểm giao tiếp có xác suất 50% tạo chồng lấn (overlap <span class="math inline">\le</span> một nửa câu ngắn hơn) hoặc khoảng lặng (silence gap <span class="math inline">\le 2</span>s), tối đa 2 người nói đồng thời.</li>
+<li><strong>Input Span Masking:</strong> Áp dụng span masking ngẫu nhiên tại độ phân giải 12.5 Hz với xác suất bắt đầu <span class="math inline">p=0.04</span>, độ dài <span class="math inline">L=4</span> (320 ms, tương đương che ~15% chuỗi), thay thế khung hình bằng giá trị trung bình cộng nhiễu Gaussian.</li>
 </ol>
 </div>
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
-              <div class="prose"><p>Dữ liệu pretraining metadata gồm ~10k giờ từ các bộ dữ liệu AMI (IHM), ICSI, TED-LIUM, Earnings-22, VoxPopuli, Common Voice, LibriSpeech, VoxCeleb, Fisher và LibriHeavy-medium (bổ sung pseudo-label cảm xúc bằng <code>emotion2vec_plus_large</code>, giới tính bằng ECAPA classifier, và transcription bằng <code>faster-whisper large-v3</code>), trộn với dữ liệu thuần ASR (SPGISpeech, MLS, GigaSpeech, FLEURS) theo tỷ lệ 3:1. Huấn luyện 80k steps trên 16 GPU NVIDIA H200 với AdamW, lr $1\times 10^{-4}$. Đánh giá joint ASR và speaker diarization trên AMI (IHM-Mix) và CH109 Full bằng 2 thước đo WDER và cpWER. Đánh giá paralinguistic trên IEMOCAP (emotion), VoxCeleb (gender, age) và WavLLM (speaker verification).</p>
+              <div class="prose"><p>Dữ liệu pretraining metadata gồm ~10k giờ từ các bộ dữ liệu AMI (IHM), ICSI, TED-LIUM, Earnings-22, VoxPopuli, Common Voice, LibriSpeech, VoxCeleb, Fisher và LibriHeavy-medium (bổ sung pseudo-label cảm xúc bằng <code>emotion2vec_plus_large</code>, giới tính bằng ECAPA classifier, và transcription bằng <code>faster-whisper large-v3</code>), trộn với dữ liệu thuần ASR (SPGISpeech, MLS, GigaSpeech, FLEURS) theo tỷ lệ 3:1. Huấn luyện 80k steps trên 16 GPU NVIDIA H200 với AdamW, lr <span class="math inline">1\times 10^{-4}</span>. Đánh giá joint ASR và speaker diarization trên AMI (IHM-Mix) và CH109 Full bằng 2 thước đo WDER và cpWER. Đánh giá paralinguistic trên IEMOCAP (emotion), VoxCeleb (gender, age) và WavLLM (speaker verification).</p>
 </div>
             </div>
             <div class="analysis-section">

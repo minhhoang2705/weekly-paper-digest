@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DEFINE: Exemplar-Guided Accent Control for Zero-Shot TTS · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">DEFINE: Exemplar-Guided Accent Control for Zero-Shot TTS</h1>
+    <div class="meta">
+      <span title="Listed by HF Daily Papers inside the crawl window">found Oct 5, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 30, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">HF Daily Papers</span><span class="pill pill-accent">TTS</span>        <span class="authors">Ambuj Mehrish, Abhinaba Roy, Alex Ivanov, Tawsif Ahmed, Dorien Herremans</span>
+    </div>
+  </div>
+  <div class="header-actions">
+      <a class="button" href="https://github.com/AMAAI-Lab/define" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Code</a>
+    <a class="button" href="https://huggingface.co/papers/2609.32777" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Zero-shot text-to-speech (TTS) can reproduce an unseen speaker from a short reference recording, but typically entangles speaker identity and accent within the same reference. We introduce DEFINE, an end-to-end framework that decouples these factors by conditioning speaker identity and target accent on separate audio exemplars. A single inference-time guidance weight continuously controls accent strength without retraining. Built on F5-TTS with parameter-efficient LoRA adaptation, DEFINE maps short accent exemplars into a conditioning space using an exemplar encoder supervised through learned accent prototypes, requiring neither accent labels at inference time nor post-synthesis waveform conversion. On seen accents, increasing accent guidance improves accent-probe accuracy from 6.5% to 19.6%. More importantly, a single DEFINE model generalizes accent control beyond its training accent set: on seen and out-of-domain accents, though not on held-out accents, it matches the accent transfer performance of a two-model TTS-voice-conversion cascade while achieving higher speaker similarity and comparable predicted speech quality. These results demonstrate that speaker identity and accent can be independently controlled from audio exemplars within a single zero-shot TTS model, including for accents unseen during training.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 12, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>DEFINE là mô hình zero-shot TTS cho phép tách rời đặc trưng người nói (speaker identity) và giọng vùng miền (accent) thông qua hai đoạn audio mẫu riêng biệt. Phương pháp này tích hợp LoRA vào mô hình F5-TTS cùng kỹ thuật prototype anchoring và hệ số guidance <span class="math inline">w</span> ở giai đoạn inference, giúp điều chỉnh cường độ accent liên tục mà không cần huấn luyện lại hay dùng mô hình voice conversion hậu xử lý.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình zero-shot TTS hiện tại mã hóa chung identity người nói và accent trong cùng một audio reference, do dữ liệu huấn luyện thường gán mỗi người nói với duy nhất một accent bản ngữ. Các giải pháp trước đây thường dựa vào nhãn accent rời rạc đóng (closed-set) hoặc phải dùng thêm một mô hình voice/accent conversion riêng biệt làm suy giảm độ tương đồng người nói và tăng độ phức tạp hệ thống.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>DEFINE xây dựng trên backbone F5-TTS (343M tham số) dựa trên conditional flow matching trên mel-spectrogram và đóng băng backbone, chỉ huấn luyện 6.3M tham số LoRA (rank 16) tại các tầng attention query/value, FFN và adaLN:</p>
+<ul>
+<li><strong>Accent Injection:</strong> Vector biểu diễn accent <span class="math inline">a \in \mathbb{R}^{128}</span> được đưa vào bằng cách cộng dồn có điều chỉnh tỷ lệ RMS vào timestep embedding <span class="math inline">e_t</span> và text embedding <span class="math inline">e_y</span>: <span class="math inline">e_t \leftarrow e_t + \gamma_t \rho(e_t) \text{LN}(W_t a)</span> và <span class="math inline">e_y \leftarrow e_y + \gamma_y \rho(e_y) \text{LN}(W_y a)</span>, trong đó <span class="math inline">\rho(u) = \sqrt{\frac{1}{n} \sum_{i=1}^n u_i^2}</span>. Khi huấn luyện, xác suất dropout <span class="math inline">p_{drop} = 0.15</span> được dùng để huấn luyện nhánh không accent (<span class="math inline">a=0</span>).</li>
+<li><strong>Exemplar Encoder &amp; Prototype Anchoring:</strong> Audio mẫu accent được trích xuất đặc trưng từ layer 15 của mô hình XLS-R đóng băng, pooling và ánh xạ qua MLP <span class="math inline">g_\phi</span> thành embedding <span class="math inline">a_{enc}</span>. Để khắc phục việc hàm mất mát flow-matching cung cấp tín hiệu giám sát yếu, tác giả dùng một bảng prototype tĩnh <span class="math inline">P \in \mathbb{R}^{C \times d}</span> (<span class="math inline">C=23</span>) kết hợp hàm mất mát cosine và contrastive <span class="math inline">\mathcal{L}_{proto}</span>, cùng loss tương phản nhãn <span class="math inline">\mathcal{L}_{con}</span> và gradient reversal layer phân loại người nói <span class="math inline">\mathcal{L}_{spk}</span>. Khi huấn luyện, decoder nhận hỗn hợp Bernoulli giữa <span class="math inline">a_{enc}</span> (kèm stop-gradient) và vector prototype <span class="math inline">p_c</span> với <span class="math inline">\pi = 0.5</span>.</li>
+<li><strong>Inference Guidance:</strong> Tại bước suy luận, bảng prototype bị loại bỏ và chỉ dùng exemplar encoder. Vận tốc vector trường được định hướng theo công thức: <span class="math inline">\hat{v} = v_\emptyset + s(v_\emptyset - v_u) + w(v_a - v_\emptyset)</span> với <span class="math inline">s = 2</span>, trong đó trọng số <span class="math inline">w</span> điều khiển độ đậm nhạt của accent trực tiếp.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Dữ liệu huấn luyện gồm tập tiếng Anh của Common Voice (15 accent được phân loại: 10 seen, 3 held-out là Australian, Irish, Filipino; 2 out-of-domain là Welsh, West Indian; cộng thêm 13 accent L2 khác không đánh giá, tổng <span class="math inline">C=23</span>). Dữ liệu được tăng cường bằng 94.7k cặp prompt-target lệch đặc trưng tạo bởi Seed-VC và 137k bản ghi thật. Đánh giá trên 1,764 mẫu (1,134 seen, 378 held-out, 252 OOD). Các độ đo gồm: Accent Accuracy (ACC, dùng 15-way logistic regression probe trên layer-15 XLS-R, chance=0.067), Speaker Similarity (SPK, ECAPA-TDNN), WER (Whisper large-v3) và UTMOS. Baselines gồm F5-TTS gốc, DEFINE tắt accent (<span class="math inline">w=0</span>), pipeline F5-TTS <span class="math inline">\to</span> Seed-VC cascade, và prototype-lookup oracle.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên seen accents (n=1,134): DEFINE (<span class="math inline">w=15</span>) đạt ACC 0.196, SPK 0.624, WER 0.067, UTMOS 3.93 so với F5-TTS (ACC 0.079, SPK 0.732, WER 0.071, UTMOS 3.99) và Cascade F5-TTS <span class="math inline">\to</span> Seed-VC (ACC 0.188, SPK 0.600, WER 0.056, UTMOS 3.92).</li>
+<li>Trên out-of-domain accents (n=252): DEFINE (<span class="math inline">w=15</span>) đạt ACC 0.087, SPK 0.640, WER 0.074, UTMOS 3.97, tương đương về mặt thống kê với Cascade Seed-VC (ACC 0.083, SPK 0.601, WER 0.047, UTMOS 3.94) và vượt trội so với F5-TTS gốc (ACC 0.024).</li>
+<li>Trên held-out accents (n=378): DEFINE (<span class="math inline">w=15</span>) đạt ACC 0.127, SPK 0.654, UTMOS 4.01; thấp hơn Cascade Seed-VC về ACC (0.175) nhưng cao hơn về SPK (0.603) và UTMOS (3.89).</li>
+<li>Guidance sweep: Khi tăng <span class="math inline">w</span> từ 0 lên 19 trên seen accents, ACC tăng từ 0.065 lên đỉnh 0.214 trong khi SPK giảm dần từ 0.694 xuống 0.604.</li>
+<li>Listening test (seen accents, prototype-lookup <span class="math inline">w=11</span>): DEFINE nhận được 70% số phiếu bầu (77/110 votes) so với Cascade (21%, 23/110) và F5-TTS gốc (9%, 10/110) với p=0.0014.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Khả năng chuyển đổi accent giảm rõ rệt trên các accent chưa từng thấy trong quá trình huấn luyện (held-out đạt 0.127 so với cascade 0.175). Exemplar encoder vẫn bị hiện tượng speaker overfitting (độ chính xác nearest-prototype giảm từ 0.873 ở training speakers xuống 0.540 ở unseen speakers). Tăng trọng số <span class="math inline">w</span> làm suy giảm đơn điệu độ tương đồng người nói (SPK). Thử nghiệm nghe ở người (listening test) mới chỉ thực hiện trên prototype lookup thay vì exemplar encoder trực tiếp.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Có thể tích hợp khả năng điều khiển accent trực tiếp vào mô hình TTS dạng flow-matching mà không cần can thiệp hậu xử lý waveform, chỉ với 6.3M tham số LoRA. Kỹ thuật prototype anchoring kết hợp contrastive learning là chìa khóa để ổn định không gian conditioning toàn cục khi objective sinh học cung cấp gradient yếu.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">66.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đề xuất phương pháp mới mẻ kết hợp exemplar encoder, prototype anchoring và classifier-free-like guidance để tách rời và điều khiển accent trong flow-matching TTS mà không cần nhãn tại inference.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật vững chắc với RMS injection, ràng buộc stop-gradient trên Bernoulli mixture, loss đối nghịch loại bỏ thông tin speaker và các phân tích ablation kỹ lưỡng.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Thực nghiệm đa dạng trên 1,764 mẫu thử, phân tích chi tiết khoảng tin cậy bootstrap 95%, sweep tham số guidance, ablation study đầy đủ và có listening test có ý nghĩa thống kê.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Mở ra hướng đi hữu ích cho zero-shot TTS đa chất giọng, tuy nhiên mức độ quan tâm ban đầu trên cộng đồng còn khiêm tốn (35 HF upvotes, 3 GitHub stars).</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Bản thảo preprint trên arXiv với mã nguồn công khai, phương pháp được mô tả chi tiết, tuy nhiên tài liệu mang nhãn ngày/tháng dị biệt (arXiv 2026).</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đề xuất phương pháp mới mẻ kết hợp exemplar encoder, prototype anchoring và classifier-free-like guidance để tách rời và điều khiển accent trong flow-matching TTS mà không cần nhãn tại inference.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Bản thảo preprint trên arXiv với mã nguồn công khai, phương pháp được mô tả chi tiết, tuy nhiên tài liệu mang nhãn ngày/tháng dị biệt (arXiv 2026).</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật vững chắc với RMS injection, ràng buộc stop-gradient trên Bernoulli mixture, loss đối nghịch loại bỏ thông tin speaker và các phân tích ablation kỹ lưỡng.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Mở ra hướng đi hữu ích cho zero-shot TTS đa chất giọng, tuy nhiên mức độ quan tâm ban đầu trên cộng đồng còn khiêm tốn (35 HF upvotes, 3 GitHub stars).</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Thực nghiệm đa dạng trên 1,764 mẫu thử, phân tích chi tiết khoảng tin cậy bootstrap 95%, sweep tham số guidance, ablation study đầy đủ và có listening test có ý nghĩa thống kê.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kiểm soát accent liên tục qua tham số scalar <span class="math inline">w</span> · Huấn luyện tham số hiệu quả qua LoRA (6.3M params) · Bảo toàn identity người nói tốt hơn cascade · Không cần nhãn accent tại thời điểm inference</p>
+          <p><span class="label">Weaknesses</span> · Encoder bị speaker overfitting trên unseen speakers · Hiệu quả suy giảm rõ rệt trên held-out accents · Đánh giá chủ quan chưa test trực tiếp exemplar mode</p>
+          <p><span class="label">Context</span> · Nghiên cứu từ Đại học Ca' Foscari Venice, SUTD, Kandinsky Lab và Sleeping AI; mã nguồn mở tại GitHub (AMAAI-Lab/define).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

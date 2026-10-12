@@ -1,0 +1,47 @@
+{
+ "id": "gh:fabriciowth/cozmo-esp32",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 2,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Ý tưởng kết nối ESP32 với Cloud Voice Agent thông qua trình duyệt web và Python bridge là giải pháp tích hợp kỹ thuật khéo léo nhưng không giới thiệu phương pháp luận hay kiến trúc mô hình mới.",
+  "credibility": "Dự án nguồn mở DIY của một lập trình viên cá nhân, không có tài liệu học thuật hay tổ chức nghiên cứu bảo trợ.",
+  "technical": "Kỹ thuật ở mức ghép nối các API có sẵn (Deepgram, OpenAI, Arduino libraries), code bridge Python đơn giản, thiếu giải pháp xử lý DSP hoặc acoustic echo cancellation trên phần cứng.",
+  "impact": "Mức độ quan tâm cộng đồng ở mức khiêm tốn (102 stars, 24 forks trên GitHub), chủ yếu phục vụ cộng đồng làm dự án DIY/hobbyist.",
+  "evidence": "Tài liệu chỉ cung cấp video demo, hướng dẫn nối dây và mã nguồn, hoàn toàn không có phép đo định lượng về độ trễ, độ chính xác hay chi phí vận hành."
+ },
+ "summary": {
+  "tldr": "Dự án mã nguồn mở chế tạo trợ lý robot để bàn chi phí thấp mô phỏng Cozmo, sử dụng vi điều khiển ESP32 và linh kiện phổ thông. Kiến trúc phân tách việc điều khiển phần cứng (OLED, servo, cảm biến) trên ESP32 và đẩy toàn bộ xử lý thoại (ASR, LLM, TTS) sang trình duyệt web kết nối với Deepgram Voice Agent và OpenAI API.",
+  "problem": "Vi điều khiển giá rẻ như ESP32 bị giới hạn nghiêm trọng về bộ nhớ RAM và năng lực tính toán để xử lý pipeline âm thanh thời gian thực (nhận dạng giọng nói, streaming audio, suy luận LLM và tổng hợp giọng nói). Việc chạy trực tiếp các mô hình AI giọng nói trên chip đòi hỏi phần cứng phức tạp và đắt tiền hơn.",
+  "method": "Hệ thống áp dụng mô hình phân tách chức năng:\n- **ESP32**: Khởi tạo web server nội mạng phục vụ UI điều khiển; điều khiển màn hình OLED I2C 0.96 inch hiển thị animation mắt (\"thở\" theo nhịp nói, chớp mắt), mô-đun LED giao thông, còi buzzer chủ động, servo SG90 360 độ điều khiển cánh tay và cảm biến âm thanh KY-037 / nút bấm. ESP32 tự quản lý logic trò chơi oẳn tù tì (sinh số ngẫu nhiên phần cứng và tính điểm).\n- **Trình duyệt (Mac/Mobile)**: Thu âm giọng nói và phát audio trực tiếp qua WebSocket đến **Deepgram Voice Agent**. Deepgram chịu trách nhiệm transcription, chuyển tiếp ngữ cảnh tới `gpt-4o-mini` để suy luận và phát âm phản hồi tiếng Bồ Đào Nha (pt-BR) qua OpenAI TTS.\n- **Function Calling & Tích hợp**: Trình duyệt điều hướng lệnh gọi hàm: gửi HTTP request tới ESP32 để kích hoạt biểu cảm/chuyển động, và gọi tới script cầu nối Python (`mac/cozmo_mac.py` chạy cục bộ trên 127.0.0.1) để điều khiển macOS (mở ứng dụng, soạn thảo/sửa đổi trang web HTML theo thời gian thực, gửi tin nhắn WhatsApp có xác nhận bằng giọng nói hai bước).",
+  "setup": "Cấu hình phần cứng: ESP32 WROOM-32 (30 chân), màn hình OLED I2C SSD1306, mô-đun đèn LED giao thông, buzzer 5V, micro servo SG90 360°, cảm biến âm thanh KY-037. Thư viện Arduino: `Adafruit SSD1306`, `Adafruit GFX`, `ArduinoJson` (v7), `ESP32Servo`. Phía trình duyệt yêu cầu cờ Chrome `Insecure origins treated as secure` để cấp quyền microphone qua HTTP. Kết nối API yêu cầu OpenAI API key và Deepgram API key.",
+  "results": [
+   "Không có số liệu benchmark định lượng (độ trễ RTF, WER, MOS) được báo cáo trong tài liệu.",
+   "Chi phí phần cứng ESP32 được công bố vào khoảng R$ 40 cùng các linh kiện phổ thông từ marketplace."
+  ],
+  "limitations": "Không hỗ trợ ngắt lời (barge-in / full-duplex) khi robot đang nói vì micro bị ngắt gửi âm thanh để tránh dội âm thanh từ loa vào mic; âm thanh hội thoại phát ra từ điện thoại/Mac thay vì từ chính robot; servo quay 360 độ liên tục nên điều khiển góc quay chỉ dựa vào thời gian (open-loop, không có phản hồi vị trí); Deepgram TTS chưa hỗ trợ tiếng Bồ Đào Nha nên phải dùng OpenAI TTS; tính năng đo mực nước bằng cảm biến HC-SR04 chưa hoạt động hoàn chỉnh.",
+  "takeaways": "Một kiến trúc thực tế cho các dự án IoT voice agent giá rẻ: tận dụng trình duyệt trên điện thoại hoặc máy tính làm trạm trung gian xử lý media và WebSockets giúp giải phóng ESP32 khỏi tải tính toán âm thanh, trong khi vẫn cho phép LLM điều khiển trực tiếp các bộ chấp hành phần cứng qua HTTP function calling.",
+  "strengths": [
+   "Kiến trúc tách tải âm thanh thông minh",
+   "Chi phí linh kiện phần cứng rất rẻ",
+   "Khả năng gọi hàm điều khiển OS và IoT đa dạng",
+   "Cơ chế an toàn hai lớp cho tác vụ nhạy cảm"
+  ],
+  "weaknesses": [
+   "Thiếu số liệu đo lường định lượng và benchmark",
+   "Không hỗ trợ ngắt lời tự nhiên (full-duplex)",
+   "Phụ thuộc hoàn toàn vào thiết bị ngoài phát âm thanh",
+   "Servo điều khiển vòng hở không có phản hồi góc"
+  ],
+  "context": "Dự án mã nguồn mở cá nhân của tác giả Fabrício Dev (mrfab.dev / @fabriciowth) phát hành trên GitHub theo giấy phép MIT."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

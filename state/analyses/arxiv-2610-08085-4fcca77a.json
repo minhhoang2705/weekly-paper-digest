@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.08085",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tái định nghĩa CTC logits như khoảng cách âm bản trực tiếp tới ma trận embedding cố định của LLM giúp thống nhất căn chỉnh hình học và thời gian mà không cần adapter hay projection module là cách tiếp cận mới mẻ và thanh thoát.",
+  "credibility": "Bản thảo preprint trên arXiv đến từ nhóm tác giả uy tín (IIIT Delhi, Microsoft Research India, NUS) kèm mã nguồn GitHub công khai, dù chưa trải qua bình duyệt tại hội nghị chuyên ngành.",
+  "technical": "Thiết kế kỹ thuật chặt chẽ, giải quyết đồng thời hai chiều căn chỉnh biểu diễn, phân tích sâu cơ chế positional overfitting của blank token và có các phép thử kiểm chứng tương phản rõ ràng.",
+  "impact": "Cung cấp một giải pháp gọn nhẹ thay thế các kiến trúc adapter phức tạp cho cộng đồng Speech-LLM, nhưng tầm ảnh hưởng thực tế còn chờ mức độ đón nhận và kiểm chứng trong cộng đồng mã nguồn mở.",
+  "evidence": "Kết quả thực nghiệm đầy đủ trên ASR, Speech Translation và Emotion Recognition so sánh chi tiết với cascaded system và các baseline mạnh, đi kèm ablation study chi tiết cho từng thành phần loss và setup token."
+ },
+ "summary": {
+  "tldr": "DirectSpeech2LLM là một framework Speech-LLM end-to-end đơn giản giúp giảm hiện tượng prompt overfitting khi mô hình chỉ huấn luyện trên tác vụ ASR nhưng cần tổng quát hóa zero-shot sang các tác vụ mới. Phương pháp tính toán distance-based CTC loss trực tiếp dựa trên ma trận embedding bị đóng băng của LLM và downsample biểu diễn speech bằng greedy CTC labels để đưa thẳng vào LLM mà không cần adapter hay projection module trung gian. Được huấn luyện hoàn toàn chỉ trên 960 giờ dữ liệu LibriSpeech ASR, mô hình vượt trội hơn các baseline end-to-end trên ASR và đạt tỉ lệ tuân thủ chỉ dẫn (IFR) gần như tuyệt đối trên các tác vụ chưa thấy như Speech Translation và Emotion Recognition.",
+  "problem": "Các mô hình Speech-LLM hiện tại thường gặp hiện tượng prompt overfitting (thất bại khi tổng quát hóa sang các instruction mới): khi chỉ được huấn luyện bằng instruction ASR, mô hình vẫn tiếp tục hành xử như hệ thống ASR ngay cả khi nhận prompt yêu cầu dịch thuật (speech translation) hoặc trả lời câu hỏi. Nguyên nhân xuất phát từ: (1) Output embedding space của speech foundation model (SFM-OES) không bị ràng buộc hình học (geometric alignment) với input embedding space của LLM (LLM-IES), khiến vector speech trôi dạt vào các vùng tùy ý làm suy giảm năng lực của LLM đông băng; (2) Phương pháp downsampling thời gian cố định không tương thích với biến thiên nhịp điệu phát âm (temporal mismatch), làm sai lệch phân phối đầu vào của LLM.",
+  "method": "DirectSpeech2LLM tích hợp đồng thời căn chỉnh hình học và thời gian mà không cần thêm module chiếu (projection layer), adapter riêng biệt hay rời rạc hóa token:\n- **Speech Tokenizer & Modified CTC Loss**: Tính logits theo khoảng cách Euclid âm bình phương giữa frame embedding $s_t \\in \\mathbb{R}^{d_{\\text{llm}}}$ của SFM và embedding ma trận $Q \\in \\mathbb{R}^{|V_{\\text{llm}}| \\times d_{\\text{llm}}}$ của LLM: $Z_{t,v} = -\\|s_t - q_v\\|_2^2 = -(\\left\\|s_t\\right\\|_2^2 - 2 s_t^\\top q_v + \\left\\|q_v\\right\\|_2^2)$. Logits được tính trên toàn bộ từ vựng LLM qua log-softmax để tạo ràng buộc negative embeddings, nhưng hàm mất mát $\\mathcal{L}_{\\text{ctc}}$ chỉ tính trên tập nhãn con $V_{\\text{ctc}} \\subseteq V_{\\text{llm}}$ (984 token trích xuất bằng BPE 1000 bước trên LibriSpeech kết hợp bộ từ vựng Qwen-3).\n- **CTC-guided Downsampling**: Dùng nhãn giải mã tham lam $\\hat{I}_t = \\arg\\min_j \\|s_t - q_j\\|_2^2$ để gom các chuỗi nhãn liên tiếp giống nhau, mean-pooling các frame tương ứng thành embedding phân đoạn $s_i^{\\text{seg}}$. Toàn bộ blank segment được global mean-pool thành 1 vector blank duy nhất nằm ở đầu chuỗi (đại diện bằng ký tự '_').\n- **Commitment Loss**: Ràng buộc tường minh SFM embedding hướng tới vector anchor tương ứng trong LLM: $\\mathcal{L}_{\\text{commit}} = \\frac{1}{\\sqrt{d_{\\text{llm}}}} \\sum_{t=1}^T M_t \\|s_t - q_{\\hat{I}_t}\\|_2^2$ (với $M_t = \\mathbf{1}[\\hat{I}_t \\neq b]$ bỏ qua blank token, và giá trị loss bị giới hạn không vượt quá $\\mathcal{L}_{\\text{ctc}}$).\n- **Huấn luyện hai giai đoạn**: Stage 1 chỉ huấn luyện 6 layer cuối của Data2Vec-Large với $\\mathcal{L}_{\\text{ctc}} + \\mathcal{L}_{\\text{commit}}$ (50k steps). Stage 2 (end-to-end, 20k steps) mở thêm cross-entropy loss của LLM (đông băng toàn bộ LLM, chỉ fine-tune 2 layer cuối của SFM): $\\mathcal{L} = \\mathcal{L}_{\\text{ctc}} + \\mathcal{L}_{\\text{commit}} + \\lambda_{\\text{llm}} \\mathcal{L}_{\\text{llm}}$.",
+  "setup": "- **Dữ liệu huấn luyện**: 960 giờ LibriSpeech (1k data) và mở rộng thêm 1800 giờ English Mozilla Common Voice v24 thành 2.8k giờ (chỉ huấn luyện duy nhất single-task English ASR).\n- **Mô hình**: SFM dùng Data2Vec-Large (~300M params, khởi tạo từ checkpoint ASR); LLM dùng Qwen3-4B, Qwen3-1.7B, Qwen3-8B và Phi3.1-3.8B (tất cả đông băng).\n- **Đánh giá & Benchmark**: LibriSpeech test-clean/test-other và VoxPopuli out-of-domain (metric: WER qua jiwer toolkit); CoVoST2 zero-shot ST en-de và en-zh (metric: BLEU qua SacreBLEU); Spoken QA/Emotion Recognition trên IEMOCAP 4-class (metric: Accuracy và Instruction Following Rate - IFR).\n- **Hạ tầng tính toán**: 4 GPU NVIDIA B200 (180 GB memory), batch tối đa 800s audio, chuẩn TF32. Stage 1 mất ~2.5 giờ, Stage 2 mất ~2 giờ cho cấu hình Qwen3-4B.",
+  "results": [
+   "ASR LibriSpeech (1k data, Qwen3-4B backbone): Đạt WER 2.21% (test-clean) và 4.28% (test-other), vượt trội hơn TASU (3.28% / 6.91%), AlignFormer (38k hrs: 3.52% / 6.47%; tiếp tục 1k hrs: 2.43% / 5.0%), LegoSLM (1k hrs: - / 7.0%; 56k hrs: - / 5.2%), và tiệm cận hệ thống Cascaded Whisper+LLaMA-7B (2.7% / 5.2%).",
+   "Zero-shot Speech Translation trên CoVoST2 (1k ASR data, Qwen3-4B): Đạt 19.97 BLEU (en-de) và 33.74 BLEU (en-zh), tiệm cận hệ thống cascaded upper-bound (19.88 en-de, 34.03 en-zh), và bỏ xa AlignFormer (15.70 en-de, 10.97 en-zh).",
+   "Zero-shot IEMOCAP Emotion Recognition (1k ASR data, Qwen3-4B): Đạt Accuracy 40.16% với tỉ lệ tuân thủ chỉ dẫn IFR = 1.00 (so với AlignFormer đạt 31.18% Accuracy, IFR = 0.99).",
+   "Mở rộng mô hình và dữ liệu: Tăng dữ liệu lên 2.8k giờ (Qwen3-4B) nâng BLEU CoVoST2 lên 21.13 (en-de) và 36.05 (en-zh); mở rộng mô hình lên Qwen3-8B đạt WER 2.07% / 4.06% trên LibriSpeech và 41.45% Accuracy (IFR = 1.00) trên IEMOCAP.",
+   "Độ nhạy của ràng buộc hình học: Wav2Prompt sụt giảm thảm hại từ 13.8 xuống 5.4 BLEU khi bỏ MSE loss, trong khi DirectSpeech2LLM chỉ giảm nhẹ từ 19.97 xuống 19.69 BLEU khi bỏ commitment loss do modified CTC đã cung cấp implicit geometric grounding."
+  ],
+  "limitations": "Mô hình chỉ mới được huấn luyện đơn tác vụ trên tiếng Anh (single-task English ASR); chưa khảo sát sâu trên môi trường đa ngôn ngữ (multilingual) và đa tác vụ. Việc suy luận giọng nói dài (longform speech > 5 phút) bị suy giảm độ chính xác nghiêm trọng do sự mất cân xứng độ dài ngữ cảnh của transformer self-attention và vị trí cố định của blank embedding. Căn chỉnh thời gian phụ thuộc hoàn toàn vào greedy CTC decoding thay vì beam search kết hợp n-gram LM.",
+  "takeaways": "Không cần adapter phức tạp hay projection layer để kết nối Speech Foundation Model với LLM; chỉ cần đồng bộ hóa hình học (distance-based logits dựa trên LLM embedding space) và đồng bộ hóa thời gian (CTC run-length pooling) là đủ để Speech-LLM giữ trọn khả năng tuân thủ chỉ dẫn (zero-shot instruction following). Khi đánh giá các tác vụ zero-shot chưa thấy trong tập train, nên loại bỏ vector blank token (NB setup) để tránh hiện tượng mô hình bị positional overfitting vào tác vụ ASR.",
+  "strengths": [
+   "Không cần adapter hay projection module phức tạp",
+   "Giữ nguyên năng lực zero-shot instruction-following hoàn hảo",
+   "Cung cấp 3 chế độ suy luận linh hoạt",
+   "Chi phí huấn luyện thấp, hội tụ nhanh",
+   "Khả năng mở rộng tốt theo dữ liệu và tham số"
+  ],
+  "weaknesses": [
+   "Hiệu năng suy giảm mạnh trên audio dài (>5 phút)",
+   "Mới chỉ thử nghiệm trên dữ liệu đơn ngữ tiếng Anh",
+   "Phụ thuộc giải mã greedy CTC nhạy cảm định dạng"
+  ],
+  "context": "Tác giả Hemant Yadav, Sunayana Sitaram, Roger Zimmermann, Rajiv Ratn Shah thuộc IIIT Delhi, Microsoft Research India và National University of Singapore; công bố dưới dạng preprint trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

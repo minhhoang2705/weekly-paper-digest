@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DiffuPlex: Accelerating Full-Duplex Spoken Dialog Models via Rolling Masked Diffusion · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">DiffuPlex: Accelerating Full-Duplex Spoken Dialog Models via Rolling Masked Diffusion</h1>
+    <div class="meta">
+      <span>published Oct 8, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Heeseung Kim</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.12214" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Recent full-duplex spoken dialog models enable simultaneous listening and speaking, but fine-grained models still advance their backbone autoregressively at every interaction frame. We introduce DiffuPlex, a rolling masked diffusion framework that reduces this sequential computation by predicting multiple future user and assistant frames in a single backbone wake. DiffuPlex consumes only a confident prefix of each predicted future while interaction continues at the original frame rate. As user speech arrives, it checks the corresponding user predictions and, when the interaction diverges, preserves already played assistant content while revising only the unplayed future. We consider two inference policies over the same predictor: DiffuPlex-LISTEN consumes multiple future frames when they predict assistant silence, whereas DiffuPlex-SPEAK can also consume predicted assistant speech. Across full-duplex interaction and spoken-language evaluations, DiffuPlex substantially reduces sequential backbone computation while largely preserving interaction behavior and general capability. DiffuPlex-LISTEN and DiffuPlex-SPEAK achieve <span class="math inline">1.46\times</span> and <span class="math inline">1.59\times</span> deployment-path wall-clock speedups and <span class="math inline">1.61\times</span> and <span class="math inline">1.80\times</span> Core LM speedups, with all measured backbone invocations completing within the 80ms interaction interval. Human evaluation shows that LISTEN preserves speech naturalness and conversational quality, while SPEAK retains conversational quality with some degradation in speech naturalness.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 12, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>DiffuPlex là framework rolling masked diffusion giúp tăng tốc các mô hình đối thoại giọng nói song công (full-duplex spoken dialog) bằng cách dự đoán trước nhiều frame của cả người dùng và trợ lý trong một lượt chạy backbone duy nhất. Thay vì thực thi tuần tự từng frame 80ms, mô hình chỉ giữ lại prefix có độ tin cậy cao và thực hiện sửa đổi (revision) khi tín hiệu người dùng thực tế phân kỳ, giúp tăng tốc Core LM từ 1.61× đến 1.80× mà vẫn đảm bảo độ trễ thời gian thực.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình full-duplex đa luồng (multi-stream) tiên tiến (như Moshi, PersonaPlex) phải chạy một lượt suy luận temporal-backbone sau mỗi frame 80ms (12.5Hz) để kịp thời phản hồi ngắt lời và chen ngang. Tuy nhiên, hơn 95% thời gian hội thoại thực tế chỉ có một người nói hoặc xen kẽ im lặng, khiến việc kích hoạt backbone liên tục từng frame gây lãng phí tính toán lớn; đồng thời việc áp dụng speculative decoding truyền thống gặp khó khăn do chưa có luồng âm thanh người dùng trong tương lai để xác thực.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>DiffuPlex xây dựng trên nền tảng <code>personaplex-rl-seamless</code> và sử dụng cơ chế rolling masked diffusion:</p>
+<ul>
+<li><strong>Masked Future Prediction</strong>: Dự đoán một khối tương lai <span class="math inline">W</span> frame (<span class="math inline">W=16</span>) trong một lần kích hoạt backbone (wake). Các vị trí tương lai chưa có dữ liệu được thay bằng các embedding <code>MASK</code> riêng cho từng stream dựa trên 17 luồng (1 text trợ lý, 8 codebook Mimi trợ lý, 8 codebook Mimi người dùng) và độ trễ tự nhiên (native delay).</li>
+<li><strong>Future-gated LoRA &amp; Self-Distillation</strong>: Đóng băng backbone gốc và chỉ huấn luyện LoRA (rank 128) cho các bước tương lai <span class="math inline">h \ge 2</span> (<span class="math inline">g(h)=\mathbb{1}[h \ge 2]</span>) kết hợp stream-specific MASK embeddings. Mô hình chưng cất tri thức từ backbone autoregressive sạch qua phân phối text, phân phối tương tác 3 trạng thái (PAD, EPAD, lexical) và các codebook âm thanh.</li>
+<li><strong>Rolling Draft Generation</strong>: Lựa chọn prefix <span class="math inline">\tilde{r}</span> dựa trên ngưỡng tin cậy text <span class="math inline">\tau_{\text{conf}} = 0.80</span> và trạng thái hội thoại. Chính sách <strong>LISTEN</strong> chỉ tiêu thụ tương lai khi trợ lý giữ im lặng (trạng thái PAD, <span class="math inline">m \ge 6</span>), còn <strong>SPEAK</strong> cho phép tiêu thụ cả frame nói của trợ lý (<span class="math inline">m \ge 2</span>).</li>
+<li><strong>User-Aware Draft Revision</strong>: Trong lúc phát âm thanh ở tốc độ 80ms, mô hình so sánh token ngữ nghĩa người dùng thực tế <span class="math inline">x_h</span> với phân phối dự đoán <span class="math inline">q_h</span> qua công thức tỷ lệ odds Bayes: <span class="math inline">S_h = -\log q_h(x_h) + \log P_h(A_h(y_h)) - \log P_h(y_h) \ge \tau_{\text{rev}}</span> (với <span class="math inline">\tau_{\text{rev}} = -0.5</span>). Nếu bị kích hoạt, phần tương lai chưa phát sẽ bị hủy và kích hoạt backbone wake mới, giữ nguyên những gì đã phát.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Mô hình được huấn luyện trên tập Seamless Interaction (42,413 session, 2,728.5h hội thoại song công sau lọc) trong 526 bước với 4 GPU NVIDIA RTX A6000. Đánh giá trên Full-Duplex-Bench v1.0 (727 clip), Full-Duplex-Bench v1.5 (498 clip), VoiceBench (7,783 mẫu) và OpenAudioBench (2,499 mẫu). Đo runtime trên 1 GPU RTX A6000 với 60 clip chuẩn hóa. So sánh với các baseline: Moshi, PersonaPlex, <code>personaplex-rl-seamless</code>, cùng các baseline deferred-execution không cần huấn luyện (PAD, SILERO, SMART TURN) với giới hạn trễ <span class="math inline">R \in \{2, 4, 6, 8\}</span>.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên tập runtime 60 clip, DiffuPlex-LISTEN và DiffuPlex-SPEAK đạt tốc độ xử lý streaming wall-clock tăng 1.455× và 1.590×, Core LM speedup đạt 1.608× (giảm từ 656.8s xuống 408.4s) và 1.797× (xuống 365.5s) so với RL-Seamless.</li>
+<li>Số frame trung bình tiến triển trên mỗi wake (<span class="math inline">c</span>) đạt 1.91 (LISTEN) và 2.23 (SPEAK) trên Full-Duplex-Bench v1.0, và 1.98 (LISTEN) cùng 2.26 (SPEAK) trên tập runtime 60 clip.</li>
+<li>Độ trễ p99 của mỗi backbone wake là 61.34ms (LISTEN) và 61.41ms (SPEAK), với 0% số frame vượt quá ngưỡng thời gian thực 80ms.</li>
+<li>Đánh giá người dùng (human evaluation) cho thấy DiffuPlex-LISTEN bảo toàn chất lượng tự nhiên giọng nói (NMOS 3.92 ± 0.11 so với 3.93 ± 0.12 của RL-Seamless) và chất lượng hội thoại (DMOS 4.08 ± 0.13 so với 4.09 ± 0.14); DiffuPlex-SPEAK giữ vững DMOS (4.07 ± 0.13) nhưng NMOS giảm xuống 3.54 ± 0.12 (tương đương Moshi 3.52 ± 0.15).</li>
+<li>Trên VoiceBench (s→t / s→s), DiffuPlex-LISTEN đạt 31.93 / 31.52 so với RL-Seamless 31.95 / 31.61; OpenAudioBench đạt 36.71 / 33.53 so với 35.66 / 34.03.</li>
+<li>So với baseline deferred-execution (như PAD R=6 tăng tốc 2.05× nhưng tần suất backchannel giảm từ 0.163 xuống 0.048, trễ chuyển lượt tăng từ 0.124s lên 0.423s), DiffuPlex duy trì hành vi tự nhiên vượt trội (turn latency 0.173s cho LISTEN và 0.156s cho SPEAK).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Mô hình được chuyển đổi (adapt) qua LoRA từ backbone autoregressive có sẵn thay vì huấn luyện native masked diffusion từ đầu; luật retention và revision tách rời heuristic chứ chưa được huấn luyện end-to-end; chính sách SPEAK bị suy giảm độ tự nhiên âm thanh do thiếu thông tin điều kiện ngữ nghĩa cùng-frame (cb0) khi dự đoán codebook âm thanh cb1-7 ở bước xa (<span class="math inline">h \ge 2</span>); thử nghiệm chuyển giao trực tiếp sang checkpoint PersonaPlex gốc bị sụt giảm chất lượng xử lý ngắt lời và tạm dừng.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Dự đoán song song tương lai kết hợp kiểm tra độ phân kỳ theo thời gian thực giúp giảm đáng kể chi phí tính toán temporal-backbone trong tương tác song công mà không phá vỡ nhịp điệu hội thoại; đối với hệ thống sản phẩm yêu cầu âm thanh tự nhiên cao nhất, chính sách LISTEN là lựa chọn an toàn không suy giảm chất lượng, trong khi tối ưu acoustic conditioning ở các bước sâu là chìa khóa để triển khai chính sách SPEAK.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">66.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đề xuất rolling masked diffusion giải quyết bài toán suy luận song song trong mô hình full-duplex tương tác hai chiều—nơi tương lai người dùng chưa xuất hiện—thay thế speculative decoding truyền thống một cách sáng tạo.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Phân tích kỹ thuật rất sâu sắc về native delay 17 luồng, cấu trúc future-gating LoRA, suy diễn Bayes cho tiêu chí revision, cùng thí nghiệm teacher-forcing bóc tách nguyên nhân sụt giảm NLL của codebook âm thanh.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Cung cấp đầy đủ bằng chứng định lượng trên nhiều benchmark uy tín (Full-Duplex-Bench v1.0/v1.5, VoiceBench, OpenAudioBench), đo kiểm runtime phần cứng thực tế và kiểm định thống kê kèm đánh giá người nghe.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Mở ra hướng tối ưu hóa triển khai rất thiết thực cho các tác vụ voice agent full-duplex thời gian thực, dù hiện tại mức độ tiếp nhận thực tế còn phụ thuộc vào việc phát hành mã nguồn mở sau bình duyệt.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Bài báo từ tác giả độc lập thuộc Đại học Seoul ở dạng preprint đang được bình duyệt, tuy nhiên tài liệu mô tả quy trình cực kỳ chi tiết, minh bạch và có trang demo công khai.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đề xuất rolling masked diffusion giải quyết bài toán suy luận song song trong mô hình full-duplex tương tác hai chiều—nơi tương lai người dùng chưa xuất hiện—thay thế speculative decoding truyền thống một cách sáng tạo.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Bài báo từ tác giả độc lập thuộc Đại học Seoul ở dạng preprint đang được bình duyệt, tuy nhiên tài liệu mô tả quy trình cực kỳ chi tiết, minh bạch và có trang demo công khai.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Phân tích kỹ thuật rất sâu sắc về native delay 17 luồng, cấu trúc future-gating LoRA, suy diễn Bayes cho tiêu chí revision, cùng thí nghiệm teacher-forcing bóc tách nguyên nhân sụt giảm NLL của codebook âm thanh.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Mở ra hướng tối ưu hóa triển khai rất thiết thực cho các tác vụ voice agent full-duplex thời gian thực, dù hiện tại mức độ tiếp nhận thực tế còn phụ thuộc vào việc phát hành mã nguồn mở sau bình duyệt.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Cung cấp đầy đủ bằng chứng định lượng trên nhiều benchmark uy tín (Full-Duplex-Bench v1.0/v1.5, VoiceBench, OpenAudioBench), đo kiểm runtime phần cứng thực tế và kiểm định thống kê kèm đánh giá người nghe.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Tăng tốc Core LM tới 1.80× mà không trễ frame &gt;80ms · Thiết kế rolling masked diffusion và LoRA future-gating thông minh · Cơ chế revision Bayes chi phí thấp, tránh gián đoạn tương tác · Thực nghiệm và phân tích ablation chuyên sâu, chặt chẽ</p>
+          <p><span class="label">Weaknesses</span> · Chất lượng giọng nói SPEAK suy giảm do thiếu same-frame cb0 · Luật retention và revision dùng ngưỡng heuristic rời rạc · Chưa đánh giá trên các kiến trúc full-duplex khác biệt</p>
+          <p><span class="label">Context</span> · Nghiên cứu của Heeseung Kim (University of Seoul, Hàn Quốc), bản thảo preprint đăng tải trên arXiv (mã 2610.12214).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

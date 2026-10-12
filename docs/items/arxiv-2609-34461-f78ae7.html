@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CharDuplex: Building Character-Consistent Full-Duplex Spoken Dialogue Models · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -114,7 +116,7 @@
 <ul>
 <li><strong>Kiến trúc Dual-Stream Full-Duplex:</strong> Tái cấu trúc GLM-4-Voice thành hai luồng song song đồng bộ: luồng âm thanh người dùng (frozen WhisperVQ tokens ở tần số 12.5 Hz, khung 80 ms) và luồng phản hồi của mô hình (text và control tokens) chia sẻ chung causal backbone và bảng token embedding qua phép cộng từng khung (framewise sum). Cơ chế căn chỉnh cấp lượt thoại (turn-level text-speech alignment) phát token <code>&lt;PAD&gt;</code> khi nghe, <code>&lt;BOS&gt;</code>, response text, <code>&lt;PAD&gt;</code> khi đang phát âm thanh, và <code>&lt;EOS&gt;</code> khi kết thúc hoặc bị ngắt lời.</li>
 <li><strong>Quy trình tạo dữ liệu nhân vật tự động (3 giai đoạn):</strong> Giai đoạn 1 dùng Generator LLM (Qwen3.5-397B-A17B) và Verifier LLM (GPT-5.6-Luna) để sinh và kiểm tra tính xác thực (factual support), tính nhất quán logic (dialogue consistency), kèm gán nhãn sự kiện tương tác (backchannel, thinking pause, interruption). Giai đoạn 2 tổng hợp âm thanh bằng Qwen3-TTS và lọc chất lượng qua WavLM speaker verifier (ngưỡng SIM ≥ 0.5). Giai đoạn 3 căn chỉnh từ bằng Qwen3-ForcedAligner và audio scheduler ghép kênh âm thanh hai chiều (tổng cộng 756.04 giờ thoại trên 70 nhân vật).</li>
-<li><strong>Học tăng cường tương tác thời gian thực với FDGym:</strong> Thiết lập môi trường streaming tương tác chia theo các nhịp 160 ms (ticks). Simulator (Qwen-235B + Qwen3-TTS) sinh giọng nói người dùng online dựa trên phần phản hồi đã lộ ra của mô hình (ước tính tốc độ nói 3.4 từ/giây). Mô hình được tối ưu bằng Group Relative Policy Optimization (GRPO) với 4 thành phần phần thưởng: interaction reward ($r_{\text{int}} \in [0, 1]$), character reward ($r_{\text{char}} \in [0, 1]$), cùng hai phần thưởng thời gian định lượng ($r_{\text{resp}}$ với ngưỡng 2 s và $r_{\text{yield}}$ với ngưỡng 0.64 s).</li>
+<li><strong>Học tăng cường tương tác thời gian thực với FDGym:</strong> Thiết lập môi trường streaming tương tác chia theo các nhịp 160 ms (ticks). Simulator (Qwen-235B + Qwen3-TTS) sinh giọng nói người dùng online dựa trên phần phản hồi đã lộ ra của mô hình (ước tính tốc độ nói 3.4 từ/giây). Mô hình được tối ưu bằng Group Relative Policy Optimization (GRPO) với 4 thành phần phần thưởng: interaction reward (<span class="math inline">r_{\text{int}} \in [0, 1]</span>), character reward (<span class="math inline">r_{\text{char}} \in [0, 1]</span>), cùng hai phần thưởng thời gian định lượng (<span class="math inline">r_{\text{resp}}</span> với ngưỡng 2 s và <span class="math inline">r_{\text{yield}}</span> với ngưỡng 0.64 s).</li>
 </ul>
 </div>
             </div>

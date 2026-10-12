@@ -1,0 +1,47 @@
+{
+ "id": "hf-model:KittenML/kitten-tts-2",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Ứng dụng đóng gói trọng số ternary 1.58-bit lossless cho Speech LLM và decoder chưng cất 4-bit là cách tiếp cận thực tế sáng tạo nhưng kiến trúc TTS LLM nhìn chung là quen thuộc.",
+  "credibility": "Mô hình được phát hành công khai bởi KittenML trên Hugging Face kèm gói pip và kho weights đầy đủ, nhưng không kèm theo bài báo bình duyệt học thuật.",
+  "technical": "Thiết kế kỹ thuật hoàn chỉnh từ nén ternary 5 trits/byte, lượng tử hóa embedding 4-bit đến single-step student flow decoder và tích hợp inference GGUF.",
+  "impact": "Thu hút hơn 13.000 lượt tải và 72 lượt thích, có giá trị ứng dụng cao cho thiết bị cá nhân hoặc máy chủ cấu hình thấp nhưng bị ràng buộc bởi ngưỡng thương mại 1 triệu USD.",
+  "evidence": "Tài liệu chỉ công bố kích thước mô hình, sai số L2 embedding và chênh lệch perplexity nội bộ, hoàn toàn không cung cấp điểm số chuẩn hóa (MOS, WER, độ tương đồng giọng nói)."
+ },
+ "summary": {
+  "tldr": "KittenTTS 2 là mô hình Speech LLM kích thước 1.7B tham số hỗ trợ in-context voice cloning và điều khiển biểu cảm qua văn bản markup. Mô hình sinh mã S3 codec tokens và giải mã thành âm thanh 24 kHz qua bộ vocoder, đồng thời hỗ trợ nén ternary 1.58-bit cho phép chạy gọn nhẹ trên CPU.",
+  "problem": "Các mô hình Speech LLM kích thước lớn thường đòi hỏi dung lượng bộ nhớ lớn và tài nguyên tính toán cao khi suy luận, đồng thời gặp khó khăn trong việc kiểm soát sắc thái biểu cảm tự nhiên và hỗ trợ voice cloning đa ngôn ngữ một cách linh hoạt.",
+  "method": "KittenTTS 2 sử dụng kiến trúc Speech Language Model 1.7B tham số nhận đầu vào là text và dự đoán các token S3 codec, sau đó đưa qua quy trình giải mã âm thanh 2 giai đoạn (bộ flow decoder và vocoder) để tạo âm thanh 24 kHz:\n- **Biểu diễn trọng số ternary 1.58-bit**: Trọng số tuyến tính của LLM được lượng tử hóa ternary dạng $\\{-scale, 0, +scale\\}$ cho mỗi block 128 phần tử, đóng gói 5 trits vào 1 byte (1.6 bits/weight). File `lm/model-ternary.safetensors` giảm dung lượng từ 3.47 GB xuống 0.95 GB hoàn toàn lossless (cho kết quả bit-identical so với bf16).\n- **Biến thể nhúng (embedding)**: Bản `emb4` lượng tử hóa 324M tham số embedding về 4-bit (TL2), giảm tổng kích thước xuống 469 MB với sai số tương đối L2 là 0.118 và mất mát ~0.1 điểm perplexity.\n- **Hệ thống Decoder**: Tầng flow decoder đầu tiên hỗ trợ hoán đổi sang mô hình học sinh chưng cất 1 bước (`student_w4`) với trọng số 4-bit (chỉ 39 MB so với 459 MB của bản `default`).\n- **In-context Voice Cloning & Điều khiển biểu cảm**: Hỗ trợ trích xuất embedding người nói từ 5-30 giây âm thanh tham chiếu qua mô hình `pyannote`. Điều khiển biểu cảm thông qua 10 thẻ cảm xúc dẫn đầu (ví dụ: `[joyful]`, `[angry]`), 10 thẻ biến cố phát âm nội dòng (ví dụ: `<laugh>`, `<sigh>`) và nhấn âm `(((emphasis)))`.",
+  "setup": "Cài đặt thông qua thư viện `kittenml` trên môi trường Python 3.10+ và PyTorch; hỗ trợ CPU/GPU tự động nhận diện hoặc chạy qua bản fork llama.cpp (`kitten-tts-2-cpp`) với định dạng GGUF. Cung cấp sẵn 47 giọng nói tích hợp sẵn, bao gồm 9 giọng theo ngôn ngữ (Arabic, Chinese, French, German, Hindi, Italian, Portuguese, Russian, Spanish) và yêu cầu tắt chuẩn hóa văn bản (`normalize=False`) đối với các ngôn ngữ ngoài tiếng Anh.",
+  "results": [
+   "Kích thước file trọng số LLM ternary dạng packed đạt 0.95 GB (3.6x nhỏ hơn bản bf16 3.47 GB) mà vẫn giữ nguyên độ chính xác bit-identical đối với âm thanh đầu ra.",
+   "Biến thể `emb4` giảm kích thước xuống còn 469 MB, đạt sai số L2 relative error 0.118 trên 324M tham số token embedding và chỉ chênh lệch khoảng 0.1 điểm perplexity trên tập đánh giá nội bộ.",
+   "Decoder chưng cất single-step `student_w4` nén trọng số 4-bit giảm dung lượng lưu trữ từ 459 MB (`default`) xuống còn 39 MB."
+  ],
+  "limitations": "Bộ chuẩn hóa văn bản mặc định chỉ tối ưu cho tiếng Anh và làm sai lệch số, ngày tháng ở ngôn ngữ khác nếu không tắt. Tính năng điều khiển cảm xúc đang ở giai đoạn Beta, mang tính định hướng chứ không đảm bảo tuyệt đối và phụ thuộc vào từng giọng; mô hình chỉ nhận diện đúng 20 thẻ định trước, các thẻ lạ sẽ bị đọc trực tiếp thành lời.",
+  "takeaways": "Một giải pháp Speech LLM mã nguồn mở và dễ triển khai, rất phù hợp cho ứng dụng biên (edge/CPU) nhờ kỹ thuật đóng gói trọng số ternary 1.58-bit kết hợp flow decoder chưng cất 4-bit dung lượng cực nhỏ.",
+  "strengths": [
+   "Đóng gói ternary 1.58-bit lossless giảm 3.6x dung lượng",
+   "Hỗ trợ chạy CPU tối ưu qua GGUF và llama.cpp",
+   "Hỗ trợ 47 giọng có sẵn và in-context voice cloning",
+   "Điều khiển biểu cảm trực quan qua các markup tag"
+  ],
+  "weaknesses": [
+   "Bộ text normalizer chưa hỗ trợ tốt đa ngôn ngữ",
+   "Thiếu đánh giá chuẩn hóa khách quan như WER hoặc MOS",
+   "Giới hạn thương mại theo doanh thu 1 triệu USD"
+  ],
+  "context": "Mô hình mã nguồn mở phát hành trên Hugging Face bởi KittenML / Stellon Labs dưới giấy phép Stellon Labs Community License."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

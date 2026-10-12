@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.11299",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo đề xuất khung phân rã 6 module chuyên biệt cho harness hội thoại song công và cơ chế đệ quy RSI biến chính delegate thành người ra đề thi và sửa harness dựa trên trace lỗi tương tác.",
+  "credibility": "Đến từ nhóm nghiên cứu CUHK-Shenzhen và Amphion với mã nguồn mở trên GitHub, công bố dưới dạng arXiv preprint.",
+  "technical": "Thiết kế kỹ thuật rất chặt chẽ từ session engine, task ledger, mô phỏng 19 yêu cầu x 22 mẫu tương tác, định nghĩa trace lỗi đến hệ thống cổng kiểm tra với 6 bất biến bắt buộc.",
+  "impact": "Đưa ra giải pháp trực diện cho bài toán kết nối full-duplex SLM với background agent/tool-calling vốn đang là điểm nghẽn lớn trong các trợ lý giọng nói thế hệ mới.",
+  "evidence": "Đánh giá thực nghiệm chi tiết trên nhiều bộ benchmark tiêu chuẩn (OBQA, MMSU, BFCL-v3, FDB-v1, FDB-v3) với đối chuẩn mạnh và phân tích ablation chi tiết giữa One-shot, Sequential và RSI."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu giới thiệu DuplexAgent và Duplex-Harness-RSI, một khung kiến trúc phân rã điều phối voice agent song công (full-duplex) thành 6 module harness có thể chỉnh sửa cùng một vòng lặp tự cải tiến hồi quy khép kín. Bằng cách dùng chính các mô hình reasoning và coding agent trong nhóm ủy quyền để lập đề thi (Exam Planner) và sửa mã nguồn harness (Harness Editor) từ vết lỗi tương tác, hệ thống duy trì được tính liên tục của đàm thoại thời gian thực đồng thời vượt trội về khả năng suy luận và thực thi công cụ.",
+  "problem": "Các mô hình tương tác full-duplex xử lý hội thoại mượt mà (nghe/nói đồng thời, chen ngang, backchannel) nhưng yếu về suy luận phức tạp và gọi công cụ dài hạn; ngược lại, các coding/reasoning agent mạnh về thực thi nhưng chạy tuần tự, không thể bám sát dòng hội thoại trực tiếp. Việc kết nối hai bên đòi hỏi một lớp điều phối (harness) xử lý tiếp nhận, hủy bỏ, cập nhật tác vụ khi người dùng đổi ý hoặc nói chèn; tuy nhiên các hệ thống hiện có thường dựa vào các luật heuristic chắp vá, gắn chặt với hệ thống cụ thể khiến việc chẩn đoán và khắc phục lỗi có hệ thống trở nên rất khó khăn.",
+  "method": "Hệ thống triển khai theo công thức $S = (F, B, H)$ gồm mô hình tương tác full-duplex $F$, nhóm ủy quyền $B$ (delegation pool) và harness điều phối $H$. Kiến trúc harness $H$ phân rã thành 6 module rõ ràng: **Policy** (quyết định tự trả lời, ủy quyền hay điều khiển tác vụ), **Intake** (giải mã ý định và khớp với tác vụ trên sổ cái task ledger), **Hold** (duy trì phản hồi khi tác vụ đang chạy), **Worker** (chọn delegate, ngữ cảnh và hợp đồng kết quả), **Deliver** (kiểm soát thời điểm và cách trả kết quả vào khoảng lặng), và **Memory** (đồng bộ ngữ cảnh giữa hội thoại và tác vụ nền). Quá trình cải tiến **Duplex-Harness-RSI** vận hành khép kín: một simulator tổng hợp các bài kiểm tra đếm giờ dựa trên lưới 19 loại yêu cầu $\\times$ 22 mẫu hình tương tác; Observer và Diagnoser lập vết thực thi (trace) và gán nhãn lỗi $\\phi(\\tau) = (\\text{cause}, \\text{module}, \\text{pattern})$; Exam Planner (DeepSeek-v4-flash) chọn trọng số kiểm tra tiếp theo dựa trên lịch sử lưu trữ; Harness Editor (Codex) đề xuất bản vá code/prompt trên các bề mặt module tương ứng. Bản vá phải vượt qua cổng phát triển (development gate) và cổng bảo vệ (protection gate) với 6 bất biến (invariants) ràng buộc nghiêm ngặt.",
+  "setup": "Đánh giá khả năng tri thức đàm thoại bằng OBQA và MMSU (VoiceBench); gọi công cụ bằng BFCL-v3 (5 tập con đơn lượt) và FDB-v3 (dưới giọng nói ngập ngừng tự nhiên); đo đạc thời gian song công qua FDB-v1 (Takeover Rate - TOR trên khoảng dừng synthetic/Candor, chuyển lượt và chen ngang). Mô hình tương tác cơ sở gồm NVIDIA-NemotronLabs-VoiceChat-11B (VoiceChat) và Qwen-Audio-3.0-Realtime (Qwen-Realtime); nhóm ủy quyền dùng DeepSeek-v4-flash và Codex (gpt-5.6-sol). Simulator sử dụng Qwen3-TTS tổng hợp âm thanh đa dạng giọng đọc, tiếng ồn và hiệu ứng kênh.",
+  "results": [
+   "Trên VoiceChat, DuplexAgent tăng độ chính xác BFCL trung bình từ 53.5% (gốc) và 24.9% (Qwen-Audio-Agent) lên 75.8%; trên FDB-v3 Pass@1 đạt 47.0% so với 16.0% (VoiceChat) và 5.0% (Qwen-Audio-Agent).",
+   "Trên Qwen-Realtime, DuplexAgent đạt 90.8% BFCL trung bình (so với 82.0% của Qwen-Realtime gốc và 80.8% của Qwen-Audio-Agent), FDB-v3 Pass@1 đạt 49.0% (so với 39.0% gốc và 30.0% của Qwen-Audio-Agent).",
+   "Về tri thức đàm thoại, DuplexAgent đạt 80.6% OBQA và 80.5% MMSU trên VoiceChat (so với 54.2% và 36.1% của VoiceChat gốc); đạt 92.1% OBQA và 82.7% MMSU trên Qwen-Realtime (so với 86.3% và 64.8% gốc).",
+   "Khả năng timing song công trên VoiceChat giữ ổn định với Interrupt TOR 0.965 (gốc 1.00) và hạ Pause Candor TOR từ 0.343 xuống 0.241 (giảm nói chèn vào lúc ngập ngừng); trên Qwen-Realtime Turn TOR tăng từ 0.898 lên 0.966 và Interrupt TOR tăng từ 0.89 lên 0.97.",
+   "Ablation kiểm tra harness trên VoiceChat (fixed core): Điểm cộng tác $Q$ của ban đầu ($g_0$) là 54.6%, One-shot Editing đạt 57.4%, Sequential Editing đạt 61.9%, trong khi Duplex-Harness-RSI ($r_{10}$) vọt lên 85.3% (tỷ lệ bỏ sót ủy quyền giảm từ 30.3% xuống 1.3%). Trên Qwen-Realtime, điểm $Q$ tăng từ 47.1% ($g_0$) lên 84.8% ($g_8$, +37.7 điểm)."
+  ],
+  "limitations": "Cải tiến của Duplex-Harness-RSI chỉ can thiệp vào các tệp module harness (chỉ dẫn, prompt, luật mã thực thi) trong khi trọng số của mô hình tương tác song công (interaction model) được giữ cố định. Do đó, các lỗi thuộc về tầng nhận thức âm thanh (speech perception) hoặc phán đoán ranh giới lượt nói của mô hình nền tảng không thể khắc phục được bằng harness. Ngoài ra, trên Qwen-Realtime, chỉ số ngắt lời lúc ngập ngừng nhân tạo (synthetic pause TOR) bị suy giảm nhẹ từ 0.074 lên 0.147.",
+  "takeaways": "Tách bạch rõ ranh giới giữa mô hình tương tác thoại trực tiếp và nhóm mô hình tính toán nền tảng thông qua một harness module hóa (6 thành phần) cùng cơ chế sổ cái tác vụ (task ledger) là kiến trúc tối ưu để vừa giữ độ nhạy đàm thoại vừa gọi công cụ chính xác. Việc kết hợp simulator theo kịch bản thời gian thực với vòng lặp RSI có kiểm định cổng kép giúp tự động hóa hoàn toàn quy trình sửa lỗi harness mà không cần can thiệp thủ công.",
+  "strengths": [
+   "Kiến trúc 6 module harness phân rã tường minh",
+   "Vòng lặp RSI tự sửa lỗi có kiểm chứng",
+   "Bộ simulator 19x22 kiểm thử đếm giờ toàn diện",
+   "Vượt trội rõ rệt trên BFCL và FDB-v3",
+   "Giữ vững phản xạ tương tác song công tự nhiên"
+  ],
+  "weaknesses": [
+   "Chưa tinh chỉnh trọng số mô hình tương tác",
+   "Synthetic pause TOR suy giảm nhẹ trên Qwen-Realtime",
+   "Phụ thuộc nhiều vào chất lượng mô hình lập trình"
+  ],
+  "context": "Yingda Shen và nhóm nghiên cứu từ The Chinese University of Hong Kong, Shenzhen cùng Amphion Technology Co., Ltd; công bố dưới dạng preprint kỹ thuật trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

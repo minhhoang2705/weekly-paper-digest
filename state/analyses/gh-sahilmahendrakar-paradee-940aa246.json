@@ -1,0 +1,49 @@
+{
+ "id": "gh:sahilmahendrakar/paradee",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Quy trình chưng cất từng phần (two-stage distillation) và thêm filter pha không tham số là giải pháp kỹ thuật tinh gọn, hiệu quả nhưng không tạo ra kiến trúc nền tảng hoàn toàn mới.",
+  "credibility": "Dự án nguồn mở độc lập của cá nhân (Sahil Mahendrakar) có kèm báo cáo chi tiết và mã nguồn đầy đủ, chưa qua bình duyệt tại hội nghị học thuật lớn.",
+  "technical": "Thiết kế kỹ thuật thực dụng và kỹ lưỡng: tách rời text-side và decoder để distill, bổ sung phase filter giải quyết tiếng rè, và cung cấp adapter misaki.js cho trình duyệt.",
+  "impact": "Rất hữu ích cho các ứng dụng chạy trên trình duyệt hoặc thiết bị nhúng hạn chế tài nguyên, hiện có mức độ quan tâm ở mức khởi điểm (59 GitHub stars).",
+  "evidence": "Cung cấp bảng so sánh định lượng rõ ràng với 4 baseline mạnh (Kokoro-82M, Piper, KittenTTS), đo lường cả UTMOS, WER và tốc độ thực thi trên CPU."
+ },
+ "summary": {
+  "tldr": "Paradee là mô hình text-to-speech tiếng Anh đơn giọng (voice `af_heart`) siêu nhỏ gọn với 8.07M tham số, được chưng cất trực tiếp từ Kokoro-82M. Mô hình có kích thước file ONNX int8 chỉ khoảng 9 MB, chạy nhanh gấp 18-25 lần thời gian thực trên 1 luồng CPU và giữ được chất lượng tương đương mô hình gốc.",
+  "problem": "Các mô hình TTS hiện nay thường có kích thước lớn và đòi hỏi phần cứng GPU hoặc dung lượng tải về đáng kể, gây khó khăn khi triển khai trên các thiết bị tài nguyên thấp hoặc chạy trực tiếp phía client trong trình duyệt web mà không cần WebGPU.",
+  "method": "Paradee thu nhỏ kiến trúc của Kokoro (dựa trên StyleTTS 2 và iSTFTNet) theo bề rộng (width) và huấn luyện tách biệt từng phần dựa trên teacher đóng băng:\\n1. **Tạo corpus**: Cho Kokoro-82M đọc 12,000 câu từ WikiText-103 (23.9 giờ audio) và lưu lại toàn bộ biểu diễn trung gian.\\n2. **Text side (4.23M params)**: Học trực tiếp việc dự đoán thời lượng (duration), cao độ (pitch), độ lớn (loudness) và phoneme features từ teacher.\\n3. **Decoder (3.85M params)**: Học tái tạo lại âm thanh của teacher từ các giá trị trung gian đã lưu, sử dụng loss hàm phổ (spectrogram losses) và sau đó tinh chỉnh bằng adversarial training.\\n4. **Ghép nối & Lọc pha**: Ghép hai phần lại mà không cần huấn luyện bổ sung, lượng tử hóa sang int8. Áp dụng thêm một bộ lọc pha (phase filter) không tham số trong dải tần số hữu thanh từ 2 đến 8 kHz để triệt tiêu tiếng rè (buzz) còn sót lại của decoder nhỏ.",
+  "setup": "Tập đánh giá gồm 200 câu held-out sentences. Đo lường trên 1 CPU thread của Apple M4 Pro (cho PyTorch và ONNX Runtime). Tiền xử lý văn bản sử dụng thư viện G2P misaki. So sánh với Kokoro-82M (teacher), Kokoro-7M-Distill, Piper (en_US-lessac-medium), và KittenTTS nano 0.8 (Bella). Các độ đo gồm UTMOS (mô hình mạng nơ-ron dự đoán độ tự nhiên 1-5), WER (đo bằng Whisper base), và tốc độ thời gian thực (real-time factor).",
+  "results": [
+   "Paradee đạt UTMOS 4.41 và WER 5.7% (bản PyTorch) trên 200 câu held-out, so với Kokoro-82M đạt UTMOS 4.52 và WER 5.7%.",
+   "Kích thước file int8 của Paradee chỉ 8.45 MB (8.07M params) so với 325 MB (81.8M params) của Kokoro-82M.",
+   "Tốc độ suy luận đạt 25.0x real-time trên PyTorch và khoảng 18x real-time trên ONNX Runtime (1 luồng CPU Apple M4 Pro), nhanh hơn nhiều so với Kokoro-82M (7.6x real-time).",
+   "Vượt trội so với các mô hình nhỏ khác: Kokoro-7M-Distill (UTMOS 4.18, WER 7.4%), Piper (UTMOS 4.36, WER 8.8%), KittenTTS nano 0.8 (UTMOS 4.01, WER 5.5%).",
+   "Phiên bản ONNX int8 chạy trên ONNX Runtime đạt UTMOS 4.41 và WER 6.0% (sử dụng script chuẩn hóa văn bản riêng)."
+  ],
+  "limitations": "Mô hình chỉ hỗ trợ duy nhất một ngôn ngữ (tiếng Anh) và một giọng nói duy nhất (`af_heart`). Chưa có đánh giá nghe thẩm định thực tế từ con người (chỉ dùng UTMOS tự động). Mô hình phụ thuộc chặt chẽ vào cách phiên âm phoneme của misaki (nếu dùng eSpeak NG chuẩn trong browser mà không qua adapter misaki.js thì WER vọt lên 31%).",
+  "takeaways": "Kỹ thuật chia đôi nhánh mô hình (text side và decoder) để distill độc lập trên dữ liệu offline của teacher giúp huấn luyện cực nhanh ngay trên máy cá nhân/laptop. Phù hợp lý tưởng cho các ứng dụng web browser extension hoặc thiết bị edge computing cần TTS nhẹ, không phụ thuộc backend hay GPU.",
+  "strengths": [
+   "Kích thước cực nhỏ (8.45 MB ONNX int8)",
+   "Chất lượng tiệm cận teacher (UTMOS 4.41 vs 4.52)",
+   "Tốc độ suy luận CPU rất nhanh (18x-25x)",
+   "Huấn luyện được trên một máy tính xách tay"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ duy nhất một giọng nói",
+   "Phụ thuộc chặt vào G2P misaki",
+   "Chưa có đánh giá chủ quan bằng con người"
+  ],
+  "context": "Sahil Mahendrakar; repo mã nguồn mở kèm báo cáo kỹ thuật (Paradee-Mahendrakar-2026.pdf) và tích hợp vào tiện ích mở rộng trình duyệt Chickadee."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Research Feed · Research Monitor</title>
   <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -65,7 +67,7 @@
 <header class="page-header">
   <div class="page-heading">
     <h1 class="title">Research Feed</h1>
-    <p class="meta">Every shortlisted item with its analysis and scores, newest week first. 60 of 60 items analyzed and scored on their full text.</p>
+    <p class="meta">Every shortlisted item with its analysis and scores, newest week first. 90 of 90 items analyzed and scored on their full text.</p>
   </div>
 </header>
 
@@ -94,8 +96,635 @@
   </label>
   <label class="check"><input type="checkbox" name="top"> Top 10 only</label>
 </form>
-<p class="muted result-count" data-feed-count aria-live="polite">60 items</p>
+<p class="muted result-count" data-feed-count aria-live="polite">90 items</p>
 <ul class="list card" data-feed-list>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="91.3" data-date="2026-10-06T10:44:15+00:00"
+    data-text="conversation is a two-body problem: dyadic evaluation of full-duplex dialogue models sungnyun kim sungwoo cho jihwan oh se-young yun arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-08125-4b0582.html">Conversation Is a Two-Body Problem: Dyadic Evaluation of Full-Duplex Dialogue Models</a>
+    <div class="meta meta-small">
+      <span>published Oct 6, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top 1 · 2026-W42</span>    </div>
+<p class="row-tldr">DyaFDB là benchmark đầu tiên đánh giá các mô hình hội thoại full-duplex theo thiết lập song phương (dyadic), trong đó hai mô hình đối thoại trực tiếp với các vai trò hợp tác hoặc xung đột và cả hai bên đều được chấm điểm offline. Nghiên cứu chỉ ra rằng hội thoại full-duplex là một bài toán &quot;hai vật thể&quot; (two-body problem), nơi hiệu năng và hành vi turn-taking của một mô hình phụ thuộc mật thiết vào đối tác và cấu trúc tác vụ chứ không chỉ riêng bản thân mô hình.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 91.3 of 100">
+    <span class="row-score-value">91.3</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 5/5" style="--v: 5"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 5/5" style="--v: 5"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="paper" data-top="yes"
+    data-score="85.0" data-date="2026-10-04T00:00:00+00:00"
+    data-text="kandinsky 6.0 video: foundation models for synchronized video and audio generation team kandinsky julia agafonova bulat akhmatov mikhail aksyutin grigorii alekseenko anastasia aliaskina olga androsova vladimir arkhipkin anna averchenkova alexander belykh serafima bocharova sofiya bogakovskaya anton bukashkin mark bulygin kirill buzygin irina cheremnykh kirill chernyshev mikhail chernyshov vladimir chernyy david chikovani georgy daniltsev denis dimitrov anna dmitrienko vladimir dokholyan sergey emelyanov dmitry ermilov georgii fedorov polina gavrilova nikolai gerasimenko aleksandr gordeev andrey inozemtsev andrei ivaniuta alexander ivanov mikhail karaev anastasiia kargapoltseva ivan kirillov nikita kiselev valeria kobenko yury kolabushin denis koposov anatoly korobov vladimir korviakov kirill kozlov denis krzhivokolskiy konstantin kuklev alexander kunitsyn sergey kuzin vladislav lakhtionov alexey letunovskiy maxim litvinov alexander lyulkov georgy makarov kirill malakhov egor malykh mikhail mamaev dmitrii mikhailov polina mikhailova ivan mikheev elizaveta muromtseva nikolai nazarkin tatiana nikulina lev novitskiy stanislav onuchin nikita osterov denis parkhomenko anatoliy parpara vladimir polovnikov konstantin reznikov azat saginbaev nikita samsonov alexander sentsov nikita shaimov artem sherstyuk andrey shutkin egor silvestrov bulat suleimanov matvey suprunov sergey taranov irina tolstykh tatiana trofimuk ilya trushkin aleksandra tsybina olga varlashina viacheslav vasilev ilya vasiliev eugeny vilisov sergey yakubson konstantin zakharov hf daily papers">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-05608-8ce7d4.html">Kandinsky 6.0 Video: Foundation Models for Synchronized Video and Audio Generation</a>
+    <div class="meta meta-small">
+      <span title="Listed by HF Daily Papers inside the crawl window">found Oct 6, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 4, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">HF Daily Papers</span>      <span class="pill pill-accent">TTS</span>
+<span class="pill pill-top">Top 2 · 2026-W42</span>    </div>
+<p class="row-tldr">Kandinsky 6.0 Video là bộ foundation model khuếch tán đa phương thức (gồm bản Lite 3B và Pro 29B) cho tác vụ sinh video kèm âm thanh đồng bộ 44 kHz và hát/nói khớp khẩu hình (lip-sync) trong 5 giây ở chế độ T2AV và I2AV. Mô hình kết hợp kiến trúc dual-stream CrossDiT, quy trình continuous pretraining, SFT 11 miền kết hợp model soup, hậu huấn luyện RL dựa trên OmniNFT và chưng cất 2 giai đoạn (<span class="math inline">\pi</span>-Flow + Sim-LADD) xuống còn 10 bước tính toán.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 85.0 of 100">
+    <span class="row-score-value">85.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 5/5" style="--v: 5"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="80.0" data-date="2026-10-05T23:18:04+00:00"
+    data-text="jarvis: a proactive speech agent for multi-party conversations seunghyun oh hirotaka hiraki shuyue stella li yulia tsvetkov shyamnath gollakota arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-07506-18eb76.html">Jarvis: A Proactive Speech Agent for Multi-Party Conversations</a>
+    <div class="meta meta-small">
+      <span>published Oct 5, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top =3 · 2026-W42</span>    </div>
+<p class="row-tldr">Nghiên cứu giới thiệu Jarvis, trợ lý giọng nói chủ động (proactive speech agent) hoạt động thời gian thực trong các cuộc hội thoại nhiều người (multi-party). Được nạp trước tài liệu cơ sở (shared document), Jarvis theo dõi cuộc trò chuyện, tự động can thiệp bằng giọng nói và trích dẫn số trang/đoạn trích để giải đáp thắc mắc hoặc sửa sai sót về thông tin khi các thành viên không tự đính chính sau một vài lượt thoại.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 80.0 of 100">
+    <span class="row-score-value">80.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="paper" data-top="yes"
+    data-score="80.0" data-date="2026-10-06T23:13:22+00:00"
+    data-text="banglabox: a phonetically-balanced corpus and data-efficient foundation-model adaptation for bangla text-to-speech with zero-shot voice cloning emtiaz uddin ahmed araf mahmud sajib hossain tarikul islam tamiti sajid fardin dipto anomadarshi barua arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-09211-03f913.html">BanglaBox: A Phonetically-Balanced Corpus and Data-Efficient Foundation-Model Adaptation for Bangla Text-to-Speech with Zero-Shot Voice Cloning</a>
+    <div class="meta meta-small">
+      <span>published Oct 6, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">TTS</span>
+<span class="pill pill-top">Top =3 · 2026-W42</span>    </div>
+<p class="row-tldr">BanglaBox giới thiệu quy trình chuyển đổi mô hình TTS nền tảng tự hồi quy (Chatterbox) sang tiếng Bengali (giọng Bangladeshi) kèm khả năng zero-shot voice cloning. Tác giả đóng góp bộ dữ liệu cân bằng ngữ âm 520,3 giờ, quy trình tinh chỉnh 3 giai đoạn (mở rộng tokenizer nhất quán ngữ nghĩa merge, chuẩn hóa văn bản, và prompt-masked loss), cùng giao thức đánh giá thống kê nghiêm ngặt BanglaEval.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 80.0 of 100">
+    <span class="row-score-value">80.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="75.0" data-date="2026-10-06T04:23:23+00:00"
+    data-text="hiplex: hierarchical policy factorization for full duplex speech language models kyudan jung hyunsin park yoonhyung lee jinhwan park jinhyeok yang kihyun nam jaegul choo jinkyu lee arxiv hf daily papers papers with code">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-07727-395548.html">HiPLEX: Hierarchical Policy Factorization for Full Duplex Speech Language Models</a>
+    <div class="meta meta-small">
+      <span title="Listed by arXiv, HF Daily Papers, Papers with Code inside the crawl window">found Oct 7, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 6, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span><span class="pill">Papers with Code</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top =5 · 2026-W42</span>    </div>
+<p class="row-tldr">HiPLEX là một framework Reinforcement Learning (RL) dành cho full-duplex speech language models (SLMs), giải quyết bài toán gán tín hiệu thưởng (credit assignment) đồng thời cho cả thời điểm phát âm (timing) và nội dung ngữ nghĩa (content). Phương pháp phân rã text policy sẵn có thành control policy (khi nào phát âm: pad/epad/cont) và conditional content policy (phát âm từ gì khi chọn cont) mà không thay đổi kiến trúc mô hình. Kết quả trên Full-Duplex-Bench v1 cho thấy HiPLEX giảm tỷ lệ cướp lời (takeover rate) khi người dùng ngập ngừng và tạo phản hồi tự nhiên hơn hẳn so với GRPO truyền thống.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 75.0 of 100">
+    <span class="row-score-value">75.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="75.0" data-date="2026-10-06T17:03:54+00:00"
+    data-text="coupled but late: turn-taking between full-duplex speech models in unscripted dialogue lichen zhu yueqian lin yiheng wang hai &#34;helen&#34; li yiran chen arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-08683-0b1f18.html">Coupled but Late: Turn-Taking Between Full-Duplex Speech Models in Unscripted Dialogue</a>
+    <div class="meta meta-small">
+      <span>published Oct 6, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top =5 · 2026-W42</span>    </div>
+<p class="row-tldr">Nghiên cứu khảo sát động lực học turn-taking khi ghép đôi hai mô hình full-duplex PersonaPlex-7B giao tiếp tự do không kịch bản. Kết quả chỉ ra rằng dù thời gian chuyển lượt giữa hai mô hình có tính liên kết chặt chẽ (coupled), floor transfer diễn ra rất muộn (trung vị 400–560 ms so với 137 ms ở người) và mang bản chất thụ động (reactive wait) dựa trên khoảng lặng thay vì dự đoán kết thúc lượt nói (turn-end projection).</p>  </div>
+  <div class="row-score" aria-label="Ranking score 75.0 of 100">
+    <span class="row-score-value">75.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech LLM" data-kind="paper" data-top="yes"
+    data-score="75.0" data-date="2026-10-07T18:14:58+00:00"
+    data-text="listen-to-reason: listen with experts, retrieve over a graph, reason with llms pooneh mousavi mirco ravanelli cem subakan arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-10749-9579c5.html">Listen-to-Reason: Listen with Experts, Retrieve over a Graph, Reason with LLMs</a>
+    <div class="meta meta-small">
+      <span>published Oct 7, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Speech LLM</span>
+<span class="pill pill-top">Top =5 · 2026-W42</span>    </div>
+<p class="row-tldr">Listen-to-Reason (L2R) là một pipeline suy luận âm thanh dạng interpretable-by-design, thay thế việc kết hợp liên tục (continuous fusion) giữa audio encoder và LLM bằng một cây tri thức đa tầng (multimodal tree). Các router head gọn nhẹ đặt trên các encoder đóng băng sẽ ánh xạ từng đoạn audio chunk thành các node phân cấp dạng văn bản, cho phép bất kỳ text-only LLM đóng băng nào suy luận trực tiếp từ cây khái niệm và bản gỡ băng ASR mà không cần nghe clip âm thanh.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 75.0 of 100">
+    <span class="row-score-value">75.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="yes"
+    data-score="75.0" data-date="2026-10-06T04:21:11+00:00"
+    data-text="persist: who-what-when memory across sessions for full-duplex spoken dialogue achira lin siyuan hou wenyi yu xinnian zhao haoyu niu wang geng longshuai xiao shihai xiao mangsuo zhao chao zhang arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-07725-9f6a02.html">PERSIST: Who-What-When Memory Across Sessions for Full-Duplex Spoken Dialogue</a>
+    <div class="meta meta-small">
+      <span>published Oct 6, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+<span class="pill pill-top">Top =5 · 2026-W42</span>    </div>
+<p class="row-tldr">PERSIST là kiến trúc bộ nhớ dài hạn đa phiên (cross-session), đa người nói dành cho mô hình hội thoại tiếng nói song công hoàn toàn (full-duplex spoken dialogue), mô hình hóa tường minh ba yếu tố Who (người nói), What (nội dung ngữ nghĩa) và When (trạng thái thời gian). Hệ thống cho phép tái sử dụng biểu diễn ẩn từ backbone để triệt tiêu việc mã hóa lại âm thanh truy vấn, giảm độ trễ truy xuất từ 578.42 ms xuống còn 7.03 ms trên NPU Ascend 910B3.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 75.0 of 100">
+    <span class="row-score-value">75.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="model" data-top="yes"
+    data-score="71.2" data-date="2026-10-01T14:18:49+00:00"
+    data-text="canberkkkkkk/ema-lightning canberkkkkkk hf models">
+  <div class="row-main">
+    <a class="row-title" href="items/hf-model-canberkkkkkk-ema-lightning-2d2c9e.html">canberkkkkkk/ema-lightning</a>
+    <div class="meta meta-small">
+      <span title="Listed by HF Models inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 1, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Model</span>
+<span class="pill">HF Models</span>      <span class="pill pill-accent">TTS</span>
+<span class="pill pill-top">Top =9 · 2026-W42</span>    </div>
+<p class="row-tldr">EMA Lightning là mô hình TTS tiếng Thổ Nhĩ Kỳ siêu nhỏ gọn (tổng cộng 8.6M tham số, dung lượng ~34 MB) dựa trên Diffusion Transformer (DiT) kết hợp flow-matching distilled và HiFi-GAN decoder. Mô hình đạt tốc độ tổng hợp cực nhanh (440× thời gian thực trên RTX 4090, first audio latency 3.86 ms) đồng thời đạt độ chính xác phát âm dẫn đầu benchmark Freya-TR-Eval với 0.92% WER.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 71.2 of 100">
+    <span class="row-score-value">71.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 5/5" style="--v: 5"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech LLM" data-kind="paper" data-top="yes"
+    data-score="71.2" data-date="2026-10-07T20:13:03+00:00"
+    data-text="conversational voice aesthetic model with reinforcement learning from human listeners xilin jiang shun zhang tejas jayashankar yinghao aaron li osama hanna arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-10868-9cbf37.html">Conversational Voice Aesthetic Model with Reinforcement Learning from Human Listeners</a>
+    <div class="meta meta-small">
+      <span>published Oct 7, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Speech LLM</span>
+<span class="pill pill-top">Top =9 · 2026-W42</span>    </div>
+<p class="row-tldr">CVAM (Conversational Voice Aesthetic Model) là speech LLM 7B (dựa trên Qwen2.5-Omni) dùng để đánh giá và mô tả thẩm mỹ giọng nói trong ngữ cảnh hội thoại hai chiều cho cả giọng thật lẫn giọng tổng hợp. Bằng quy trình hậu huấn luyện hai giai đoạn gồm SFT trên 30k mẫu nhãn tổng hợp và GRPO căn chỉnh theo phân phối bình chọn của người nghe (~10 lượt đánh giá/mẫu trên CANDOR), CVAM đạt độ tương đồng với con người vượt trội so với Gemini 3.1 Pro và thỏa thuận giữa người với người (single-human-vs-rest).</p>  </div>
+  <div class="row-score" aria-label="Ranking score 71.2 of 100">
+    <span class="row-score-value">71.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="71.2" data-date="2026-10-08T06:06:42+00:00"
+    data-text="duplexagent-rsi: recursive harness improvement for full-duplex voice agent collaboration yingda shen yuxiang wang kunyu feng qinke ni jiaqi li minghao hsu junan zhang dekun chen yutong bian zhizheng wu arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-11299-36ea75.html">DuplexAgent-RSI: Recursive Harness Improvement for Full-Duplex Voice Agent Collaboration</a>
+    <div class="meta meta-small">
+      <span>published Oct 8, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+<p class="row-tldr">Nghiên cứu giới thiệu DuplexAgent và Duplex-Harness-RSI, một khung kiến trúc phân rã điều phối voice agent song công (full-duplex) thành 6 module harness có thể chỉnh sửa cùng một vòng lặp tự cải tiến hồi quy khép kín. Bằng cách dùng chính các mô hình reasoning và coding agent trong nhóm ủy quyền để lập đề thi (Exam Planner) và sửa mã nguồn harness (Harness Editor) từ vết lỗi tương tác, hệ thống duy trì được tính liên tục của đàm thoại thời gian thực đồng thời vượt trội về khả năng suy luận và thực thi công cụ.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 71.2 of 100">
+    <span class="row-score-value">71.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="71.2" data-date="2026-10-08T15:56:28+00:00"
+    data-text="steerableplex: can we steer full-duplex models? haolong zheng maike züfle dominik macháček peter polák xulin fan xavier sumba siyin wang ondřej klejch mark hasegawa-johnson arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-12201-e62e6d.html">SteerablePlex: Can We Steer Full-Duplex Models?</a>
+    <div class="meta meta-small">
+      <span>published Oct 8, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+<p class="row-tldr">Nghiên cứu giới thiệu SteerablePlex, một mô hình hội thoại full-duplex có khả năng tiếp nhận chỉ dẫn văn bản ngay trong thời gian thực (online instruction following) mà vẫn duy trì khả năng turn-taking tự nhiên. Hệ thống kết hợp kiến trúc Actor–Director với thuật toán tối ưu hóa đa phần thưởng GDPO, giúp mô hình vượt qua GPT-Realtime về tỷ lệ hoàn thành mục tiêu hội thoại đa giai đoạn trên benchmark mới SimIF-Bench.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 71.2 of 100">
+    <span class="row-score-value">71.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="71.2" data-date="2026-10-08T16:24:12+00:00"
+    data-text="egovoice: proactive spoken assistance from egocentric multimodal streams heeseung kim arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-12248-892ebf.html">EgoVoice: Proactive Spoken Assistance from Egocentric Multimodal Streams</a>
+    <div class="meta meta-small">
+      <span>published Oct 8, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+<p class="row-tldr">EgoVoice là framework huấn luyện và đánh giá trợ lý giọng nói chủ động (proactive spoken assistant) đầu tiên từ luồng video và audio góc nhìn thứ nhất (egocentric streams). Tác giả tái cấu trúc tập dữ liệu HoloAssist thành luồng dữ liệu sạch có căn chỉnh thời gian, sau đó tinh chỉnh mô hình omni-modal MiniCPM-o 4.5 bằng SFT và DPO để mô hình tự quyết định khi nào cần im lặng hoặc can thiệp bằng giọng nói trước khi người dùng thực hiện hành động.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 71.2 of 100">
+    <span class="row-score-value">71.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="paper" data-top="no"
+    data-score="70.0" data-date="2026-10-07T16:56:56+00:00"
+    data-text="steerspeech: activation steering for emotion control in generated speech afsara benazir darius pétermann felix xiaozhu lin salar rahili arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-10415-6d8380.html">Steerspeech: Activation Steering For Emotion Control In Generated Speech</a>
+    <div class="meta meta-small">
+      <span>published Oct 7, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+<p class="row-tldr">SteerSpeech là một framework activation-steering gọn nhẹ giúp điều khiển cảm xúc liên tục và đơn điệu khi inference trên mô hình TTS mà không cần tinh chỉnh mô hình nền tảng. Phương pháp huấn luyện một phép biến đổi low-rank (chỉ ~33K tham số mỗi cảm xúc) bằng objective đa chuyên gia với quy trình two-pass generation-and-replay sử dụng straight-through estimator để lan truyền gradient qua các discrete speech tokens. Kết quả trên Qwen3-TTS-0.6B cho thấy mô hình đạt điểm số cảm xúc mục tiêu gấp 1.08×–7.12× so với baseline và bảo toàn danh tính người nói tốt hơn đáng kể ở cường độ điều khiển cao.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 70.0 of 100">
+    <span class="row-score-value">70.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="66.2" data-date="2026-10-08T16:01:37+00:00"
+    data-text="diffuplex: accelerating full-duplex spoken dialog models via rolling masked diffusion heeseung kim arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-12214-d6c73d.html">DiffuPlex: Accelerating Full-Duplex Spoken Dialog Models via Rolling Masked Diffusion</a>
+    <div class="meta meta-small">
+      <span>published Oct 8, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+<p class="row-tldr">DiffuPlex là framework rolling masked diffusion giúp tăng tốc các mô hình đối thoại giọng nói song công (full-duplex spoken dialog) bằng cách dự đoán trước nhiều frame của cả người dùng và trợ lý trong một lượt chạy backbone duy nhất. Thay vì thực thi tuần tự từng frame 80ms, mô hình chỉ giữ lại prefix có độ tin cậy cao và thực hiện sửa đổi (revision) khi tín hiệu người dùng thực tế phân kỳ, giúp tăng tốc Core LM từ 1.61× đến 1.80× mà vẫn đảm bảo độ trễ thời gian thực.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 66.2 of 100">
+    <span class="row-score-value">66.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="paper" data-top="no"
+    data-score="66.2" data-date="2026-09-30T00:00:00+00:00"
+    data-text="define: exemplar-guided accent control for zero-shot tts ambuj mehrish abhinaba roy alex ivanov tawsif ahmed dorien herremans hf daily papers">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2609-32777-c6835d.html">DEFINE: Exemplar-Guided Accent Control for Zero-Shot TTS</a>
+    <div class="meta meta-small">
+      <span title="Listed by HF Daily Papers inside the crawl window">found Oct 5, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 30, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">HF Daily Papers</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+<p class="row-tldr">DEFINE là mô hình zero-shot TTS cho phép tách rời đặc trưng người nói (speaker identity) và giọng vùng miền (accent) thông qua hai đoạn audio mẫu riêng biệt. Phương pháp này tích hợp LoRA vào mô hình F5-TTS cùng kỹ thuật prototype anchoring và hệ số guidance <span class="math inline">w</span> ở giai đoạn inference, giúp điều chỉnh cường độ accent liên tục mà không cần huấn luyện lại hay dùng mô hình voice conversion hậu xử lý.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 66.2 of 100">
+    <span class="row-score-value">66.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="paper" data-top="no"
+    data-score="66.2" data-date="2026-10-05T23:46:12+00:00"
+    data-text="region-aware masking for accent-robust cross-lingual text-to-speech haoqi li shivam mehta ravi teja gadde yinghong lan arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-07524-c84d24.html">Region-Aware Masking for Accent-Robust Cross-Lingual Text-to-Speech</a>
+    <div class="meta meta-small">
+      <span>published Oct 5, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+<p class="row-tldr">Nghiên cứu đề xuất phương pháp mask nhận biết vùng (region-aware masking) nhằm giải quyết hiện tượng rò rỉ giọng điệu (accent leakage) trong zero-shot TTS đa ngôn ngữ trên nền tảng F5-TTS. Bằng cách ghép nối hai câu từ hai ngôn ngữ khác nhau và định vị mặt nạ tái tạo dựa trên ranh giới ngôn ngữ, mô hình học cách xóa bỏ sự chênh lệch giữa pha huấn luyện và suy luận mà không cần nhãn ngôn ngữ (language IDs), nhãn accent, hay sửa đổi kiến trúc.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 66.2 of 100">
+    <span class="row-score-value">66.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech LLM" data-kind="paper" data-top="no"
+    data-score="66.2" data-date="2026-10-06T10:16:49+00:00"
+    data-text="directspeech2llm: a simple end-to-end framework to mitigate prompt overfitting in speech-llms hemant yadav sunayana sitaram roger zimmermann rajiv ratn shah arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-08085-4fcca7.html">DirectSpeech2LLM: A Simple End-to-End Framework to Mitigate Prompt Overfitting in Speech-LLMs</a>
+    <div class="meta meta-small">
+      <span>published Oct 6, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Speech LLM</span>
+    </div>
+<p class="row-tldr">DirectSpeech2LLM là một framework Speech-LLM end-to-end đơn giản giúp giảm hiện tượng prompt overfitting khi mô hình chỉ huấn luyện trên tác vụ ASR nhưng cần tổng quát hóa zero-shot sang các tác vụ mới. Phương pháp tính toán distance-based CTC loss trực tiếp dựa trên ma trận embedding bị đóng băng của LLM và downsample biểu diễn speech bằng greedy CTC labels để đưa thẳng vào LLM mà không cần adapter hay projection module trung gian. Được huấn luyện hoàn toàn chỉ trên 960 giờ dữ liệu LibriSpeech ASR, mô hình vượt trội hơn các baseline end-to-end trên ASR và đạt tỉ lệ tuân thủ chỉ dẫn (IFR) gần như tuyệt đối trên các tác vụ chưa thấy như Speech Translation và Emotion Recognition.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 66.2 of 100">
+    <span class="row-score-value">66.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="paper" data-top="no"
+    data-score="66.2" data-date="2026-10-08T07:59:57+00:00"
+    data-text="edit who speaks, control how they speak: global timbre editing and local instruction control for tts junchuan zhao chenglin xu wei zeng haoyang li yiwen guo ye wang arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-11437-dc3486.html">Edit Who Speaks, Control How They Speak: Global Timbre Editing and Local Instruction Control for TTS</a>
+    <div class="meta meta-small">
+      <span>published Oct 8, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+<p class="row-tldr">EDICT là khung làm việc thống nhất giữa chỉnh sửa âm sắc toàn cục (global timbre editing) dựa trên giọng mẫu và điều khiển biểu cảm cục bộ theo phân đoạn (intra-utterance local instruction) cho mô hình TTS. Phương pháp kết hợp một bộ timbre editor huấn luyện bằng weighted DPO để tạo ra codec reference làm điểm tựa nhận diện người nói, cùng cơ chế tái tạo KV cache (KV cache reconstruction) không cần huấn luyện lại backbone TTS để loại bỏ hiện tượng rò rỉ điều khiển (control leakage) giữa các phân đoạn.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 66.2 of 100">
+    <span class="row-score-value">66.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="paper" data-top="no"
+    data-score="66.2" data-date="2026-10-08T08:12:28+00:00"
+    data-text="beyond speech captions: speech-rewarded style planning for conversational text-to-speech shiao zhu lianbo liu sizhen lyu yuzhe wang sheng li takahiro shinozaki arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-11461-409d0b.html">Beyond Speech Captions: Speech-Rewarded Style Planning for Conversational Text-to-Speech</a>
+    <div class="meta meta-small">
+      <span>published Oct 8, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+<p class="row-tldr">Nghiên cứu đề xuất SRSP (Speech-Rewarded Style Planning), một phương pháp huấn luyện bộ lập kế hoạch phong cách bằng văn bản (text-based style planner) bằng thuật toán GRPO dựa trên phản hồi trực tiếp từ mô hình downstream TTS bị đóng băng (frozen). Thay vì dùng mô tả lời nói (speech caption) làm pseudo-label, SRSP sử dụng negative teacher-forced cross-entropy loss của target speech tokens làm reward để tối ưu hóa khả năng điều khiển bộ tổng hợp âm thanh.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 66.2 of 100">
+    <span class="row-score-value">66.2</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="63.7" data-date="2026-10-06T02:36:18+00:00"
+    data-text="hiding tool latency in on-device cascaded voice agent through speculative execution kyudan jung hyunsin park yoonhyung lee jinhwan park jinhyeok yang kihyun nam jaegul choo jinkyu lee arxiv hf daily papers papers with code">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-07641-af9c1c.html">Hiding Tool Latency in On-Device Cascaded Voice Agent through Speculative Execution</a>
+    <div class="meta meta-small">
+      <span title="Listed by arXiv, HF Daily Papers, Papers with Code inside the crawl window">found Oct 7, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 6, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span><span class="pill">Papers with Code</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+<p class="row-tldr">Nghiên cứu đề xuất phương pháp speculative tool execution cho các cascaded voice agents trên thiết bị di động (on-device) nhằm ẩn độ trễ gọi công cụ bên ngoài bằng cách thực thi song song trong khi người dùng vẫn đang nói. Một bộ dự đoán dựa trên luật phân tích các giả thuyết ASR streaming bán phần để gọi trước API tìm kiếm, lưu kết quả vào cache và tiêm trực tiếp vào prompt của on-device LLM, giúp giảm thời gian phản hồi p50 từ 5.79 s xuống 4.60 s.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 63.7 of 100">
+    <span class="row-score-value">63.7</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
+    data-score="62.5" data-date="2026-10-06T15:29:37+00:00"
+    data-text="steering follows geometry, not labels: emotion directions in a full-duplex speech model pulak kuli arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-08887-977612.html">Steering Follows Geometry, Not Labels: Emotion Directions in a Full-Duplex Speech Model</a>
+    <div class="meta meta-small">
+      <span>published Oct 6, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+<p class="row-tldr">Nghiên cứu này phân tích phương pháp activation steering dựa trên vector hiệu trung bình (mean-difference) để điều khiển 4 cảm xúc (angry, happy, sad, surprise) trong mô hình đàm thoại full-duplex mã nguồn mở Moshi. Kết quả chỉ ra rằng dù cảm xúc phân tách tuyến tính tốt trong residual stream, steering lại bị lệch hướng (off-steering) do hình học không gian kích hoạt: các cảm xúc có mức độ kích thích cao (angry, happy, surprise) chia sẻ một trục chung và có xu hướng bị lái lệch về happy, trong khi chỉ có sad là tách biệt rõ ràng.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 62.5 of 100">
+    <span class="row-score-value">62.5</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 2/5" style="--v: 2"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="paper" data-top="no"
+    data-score="60.0" data-date="2026-10-07T05:00:25+00:00"
+    data-text="beyond token revision: investigating mask-and-replace diffusion for zero-shot text-to-speech hounsu kim joonyong park yuki saito satoru fukayama juhan nam arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-09448-e61bb2.html">Beyond Token Revision: Investigating Mask-and-Replace Diffusion for Zero-Shot Text-to-Speech</a>
+    <div class="meta meta-small">
+      <span>published Oct 7, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+<p class="row-tldr">Nghiên cứu làm sáng tỏ cơ chế hoạt động của mask-and-replace trong discrete diffusion cho zero-shot TTS qua phương pháp DeMaR. Kết quả chỉ ra rằng lợi ích giảm WER của mask-and-replace đến từ việc tăng cường ngữ cảnh nhiễu (noisy-context augmentation) và giám sát tái tạo trong lúc huấn luyện, chứ không phụ thuộc vào khả năng sửa đổi token tại thời điểm suy luận (inference-time revision).</p>  </div>
+  <div class="row-score" aria-label="Ranking score 60.0 of 100">
+    <span class="row-score-value">60.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech LLM" data-kind="paper" data-top="no"
+    data-score="60.0" data-date="2026-10-08T03:19:49+00:00"
+    data-text="local prototype reconstruction for text-compatible speech-to-llm bridge pretraining xinnian zhao chia-hua wu pu wang hugo van hamme arxiv">
+  <div class="row-main">
+    <a class="row-title" href="items/arxiv-2610-11159-2f9f06.html">Local Prototype Reconstruction for Text-Compatible Speech-to-LLM Bridge Pretraining</a>
+    <div class="meta meta-small">
+      <span>published Oct 8, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span>      <span class="pill pill-accent">Speech LLM</span>
+    </div>
+<p class="row-tldr">Nghiên cứu chỉ ra rằng căn chỉnh câu toàn cục (sentence-level contrastive alignment) là chưa đủ để tạo ra một bridge tái sử dụng tốt giữa frozen speech encoder và frozen LLM do thiếu tính tương thích cục bộ với manifold từ vựng của LLM. Tác giả đề xuất Local Prototype Reconstruction (LPR), một phương pháp chuẩn hóa chỉ dùng khi pretraining yêu cầu mỗi speech token phải dựng lại được từ lân cận các token embedding của LLM, giúp cải thiện rõ rệt khả năng chuyển giao sang ASR và ST đa ngữ, đặc biệt trong điều kiện ít dữ liệu.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 60.0 of 100">
+    <span class="row-score-value">60.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="repo" data-top="no"
+    data-score="60.0" data-date="2026-09-29T09:05:52+00:00"
+    data-text="nyosegawa/speech.cpp nyosegawa github">
+  <div class="row-main">
+    <a class="row-title" href="items/gh-nyosegawa-speech-cpp-cee240.html">nyosegawa/speech.cpp</a>
+    <div class="meta meta-small">
+      <span title="Listed by GitHub inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 29, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+<p class="row-tldr">speech.cpp là thư viện và công cụ dòng lệnh C++ dựa trên ggml, tích hợp toàn diện TTS, ASR và VAD mà không cần môi trường Python hay CUDA. Dự án hỗ trợ tăng tốc trên Metal, Vulkan và CPU với độ trễ phát âm thanh đầu tiên chỉ từ 0.03-0.04 giây, đồng thời cung cấp HTTP server tương thích OpenAI Audio API.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 60.0 of 100">
+    <span class="row-score-value">60.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="repo" data-top="no"
+    data-score="60.0" data-date="2026-09-25T21:29:15+00:00"
+    data-text="sahilmahendrakar/paradee sahilmahendrakar github">
+  <div class="row-main">
+    <a class="row-title" href="items/gh-sahilmahendrakar-paradee-940aa2.html">sahilmahendrakar/paradee</a>
+    <div class="meta meta-small">
+      <span title="Listed by GitHub inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 25, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+<p class="row-tldr">Paradee là mô hình text-to-speech tiếng Anh đơn giọng (voice `af_heart`) siêu nhỏ gọn với 8.07M tham số, được chưng cất trực tiếp từ Kokoro-82M. Mô hình có kích thước file ONNX int8 chỉ khoảng 9 MB, chạy nhanh gấp 18-25 lần thời gian thực trên 1 luồng CPU và giữ được chất lượng tương đương mô hình gốc.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 60.0 of 100">
+    <span class="row-score-value">60.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="model" data-top="no"
+    data-score="60.0" data-date="2026-09-27T12:21:00+00:00"
+    data-text="aratako/irodori-tts-v4-large aratako hf models">
+  <div class="row-main">
+    <a class="row-title" href="items/hf-model-aratako-irodori-tts-v4-large-b46d93.html">Aratako/Irodori-TTS-v4-Large</a>
+    <div class="meta meta-small">
+      <span title="Listed by HF Models inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 27, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Model</span>
+<span class="pill">HF Models</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+<p class="row-tldr">Irodori-TTS-v4-Large là mô hình TTS tiếng Nhật quy mô xấp xỉ 3,29 tỷ tham số dựa trên kiến trúc Rectified Flow Diffusion Transformer (RF-DiT). Mô hình kết hợp văn bản đầu vào, âm thanh tham chiếu (hỗ trợ tới 120 giây) và mô tả caption để thực hiện zero-shot voice cloning, thiết kế giọng nói bằng văn bản và kiểm soát sắc thái/phi ngôn ngữ thông qua chèn emoji.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 60.0 of 100">
+    <span class="row-score-value">60.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="repo" data-top="no"
+    data-score="57.5" data-date="2026-09-21T22:04:22+00:00"
+    data-text="gamer92000/echo-dot-assist gamer92000 github">
+  <div class="row-main">
+    <a class="row-title" href="items/gh-gamer92000-echo-dot-assist-b849f0.html">Gamer92000/echo-dot-assist</a>
+    <div class="meta meta-small">
+      <span title="Listed by GitHub inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 21, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+<p class="row-tldr">echo-dot-assist là dự án biến các loa Amazon Echo cũ thành voice satellite cho Home Assistant mà không cần kết nối tới đám mây của Amazon. Giải pháp giữ lại engine xử lý micro và wake word nguyên bản của Amazon nhưng thay thế client Alexa bằng daemon `hassmic` tương thích giao thức ESPHome hoặc Wyoming.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 57.5 of 100">
+    <span class="row-score-value">57.5</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 4/5" style="--v: 4"></span><span class="bar" title="Credibility 2/5" style="--v: 2"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="repo" data-top="no"
+    data-score="55.0" data-date="2026-09-14T23:30:01+00:00"
+    data-text="huskerminion/techo5 huskerminion github">
+  <div class="row-main">
+    <a class="row-title" href="items/gh-huskerminion-techo5-80c023.html">HuskerMinion/techo5</a>
+    <div class="meta meta-small">
+      <span title="Listed by GitHub inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 14, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+<p class="row-tldr">TECHO5 là firmware mã nguồn mở thay thế hoàn toàn Fire OS (Android) và Alexa trên các thiết bị Amazon Echo Show bằng hệ điều hành Alpine Linux tối giản cùng một daemon Go duy nhất. Hệ thống biến thiết bị thành vệ tinh thoại (voice satellite) độc lập, hoàn toàn riêng tư cho Home Assistant qua giao thức ESPHome API với tính năng nhận diện wake word cục bộ.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 55.0 of 100">
+    <span class="row-score-value">55.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Speech LLM" data-kind="model" data-top="no"
+    data-score="50.0" data-date="2026-09-30T00:43:12+00:00"
+    data-text="kittenml/kitten-tts-2 kittenml hf models">
+  <div class="row-main">
+    <a class="row-title" href="items/hf-model-kittenml-kitten-tts-2-467f88.html">KittenML/kitten-tts-2</a>
+    <div class="meta meta-small">
+      <span title="Listed by HF Models inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 30, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Model</span>
+<span class="pill">HF Models</span>      <span class="pill pill-accent">Speech LLM</span>
+    </div>
+<p class="row-tldr">KittenTTS 2 là mô hình Speech LLM kích thước 1.7B tham số hỗ trợ in-context voice cloning và điều khiển biểu cảm qua văn bản markup. Mô hình sinh mã S3 codec tokens và giải mã thành âm thanh 24 kHz qua bộ vocoder, đồng thời hỗ trợ nén ternary 1.58-bit cho phép chạy gọn nhẹ trên CPU.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 50.0 of 100">
+    <span class="row-score-value">50.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="TTS" data-kind="repo" data-top="no"
+    data-score="50.0" data-date="2026-09-15T15:18:35+00:00"
+    data-text="leemysw/yovoice leemysw github">
+  <div class="row-main">
+    <a class="row-title" href="items/gh-leemysw-yovoice-9233eb.html">leemysw/yovoice</a>
+    <div class="meta meta-small">
+      <span title="Listed by GitHub inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 15, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span>      <span class="pill pill-accent">TTS</span>
+    </div>
+<p class="row-tldr">yovoice là một ứng dụng desktop mã nguồn mở (phiên bản 0.2.0) chạy cục bộ trên macOS và Windows, tích hợp nhiều mô hình TTS, voice cloning và tạo nhạc. Dự án cung cấp giao diện làm việc hoàn chỉnh, hỗ trợ CLI, Agent Skill và API/MCP server mà không cần phụ thuộc vào cloud API trả phí.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 50.0 of 100">
+    <span class="row-score-value">50.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="repo" data-top="no"
+    data-score="50.0" data-date="2026-09-16T15:54:17+00:00"
+    data-text="huskerminion/techo5-dot huskerminion github">
+  <div class="row-main">
+    <a class="row-title" href="items/gh-huskerminion-techo5-dot-93b424.html">HuskerMinion/techo5-dot</a>
+    <div class="meta meta-small">
+      <span title="Listed by GitHub inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 16, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+<p class="row-tldr">TECHO5 Dot thay thế hoàn toàn Fire OS trên phần cứng Amazon Echo Dot Gen 2 (biscuit) bằng một bản phân phối Alpine Linux tối giản cùng daemon điều khiển duy nhất. Dự án biến thiết bị thành voice satellite cục bộ cho Home Assistant qua giao thức ESPHome API mã hóa, xử lý wake word trực tiếp trên thiết bị (on-device) mà không gửi dữ liệu âm thanh về đám mây của Amazon.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 50.0 of 100">
+    <span class="row-score-value">50.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 2/5" style="--v: 2"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="repo" data-top="no"
+    data-score="30.0" data-date="2026-09-19T08:43:16+00:00"
+    data-text="work-fisher/ai-girlfriend-v2 work-fisher github">
+  <div class="row-main">
+    <a class="row-title" href="items/gh-work-fisher-ai-girlfriend-v2-507eb2.html">Work-Fisher/ai-girlfriend-v2</a>
+    <div class="meta meta-small">
+      <span title="Listed by GitHub inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 19, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+<p class="row-tldr">AI Girlfriend V2 là hệ thống trợ lý giọng nói đồng hành chạy cục bộ trên Windows, tích hợp bộ nhớ dài hạn DSH, nhân bản giọng nói nội bộ và tùy chọn khẩu hình người ảo qua WSL2. Dự án giải quyết vấn đề mất ngữ cảnh sau khi khởi động lại bằng cách kết hợp trích xuất sự kiện với cơ sở dữ liệu SQLite và tìm kiếm ngữ nghĩa.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 30.0 of 100">
+    <span class="row-score-value">30.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 2/5" style="--v: 2"></span><span class="bar" title="Credibility 2/5" style="--v: 2"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 2/5" style="--v: 2"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
+  </div>
+</li>
+<li class="row" data-topic="Voice Agent" data-kind="repo" data-top="no"
+    data-score="25.0" data-date="2026-09-19T21:17:51+00:00"
+    data-text="fabriciowth/cozmo-esp32 fabriciowth github">
+  <div class="row-main">
+    <a class="row-title" href="items/gh-fabriciowth-cozmo-esp32-6fbafe.html">fabriciowth/cozmo-esp32</a>
+    <div class="meta meta-small">
+      <span title="Listed by GitHub inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Sep 19, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span>      <span class="pill pill-accent">Voice Agent</span>
+    </div>
+<p class="row-tldr">Dự án mã nguồn mở chế tạo trợ lý robot để bàn chi phí thấp mô phỏng Cozmo, sử dụng vi điều khiển ESP32 và linh kiện phổ thông. Kiến trúc phân tách việc điều khiển phần cứng (OLED, servo, cảm biến) trên ESP32 và đẩy toàn bộ xử lý thoại (ASR, LLM, TTS) sang trình duyệt web kết nối với Deepgram Voice Agent và OpenAI API.</p>  </div>
+  <div class="row-score" aria-label="Ranking score 25.0 of 100">
+    <span class="row-score-value">25.0</span>
+    <span class="bars" aria-hidden="true">
+<span class="bar" title="Novelty 2/5" style="--v: 2"></span><span class="bar" title="Credibility 2/5" style="--v: 2"></span><span class="bar" title="Technical 2/5" style="--v: 2"></span><span class="bar" title="Impact 2/5" style="--v: 2"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
+  </div>
+</li>
 <li class="row" data-topic="TTS" data-kind="paper" data-top="yes"
     data-score="86.2" data-date="2026-09-29T05:11:04+00:00"
     data-text="reconstructing the vocal tract with differentiable acoustic simulation eric ming chen jin woo lee vincent sitzmann arxiv">
@@ -215,7 +844,7 @@
       <span class="pill">Paper</span>
 <span class="pill">arXiv</span><span class="pill">Papers with Code</span>      <span class="pill pill-accent">Speech Understanding</span>
 <span class="pill pill-top">Top =6 · 2026-W41</span>    </div>
-<p class="row-tldr">LEAP là một framework trích xuất bằng chứng (evidence retrieval) cho bài toán Long-form Audio-Visual Question Answering (AVQA) giúp mô hình đạt độ dài ngữ cảnh và bộ nhớ $O(1)$ theo thời lượng video. Thay vì nhồi toàn bộ video vào context, LEAP chia bản ghi thành các khối cố định, dùng LoRA định vị (localization) nhẹ để chấm điểm các cửa sổ ứng viên, sau đó chỉ mã hóa lại tối đa 9 cửa sổ điểm cao nhất kèm transcript outline trong một lượt trả lời duy nhất. Phương pháp giúp cải thiện 4.5–16.8% độ chính xác trên Qwen3-Omni-30B và chuyển giao thành công sang MiniCPM-o 4.5.</p>  </div>
+<p class="row-tldr">LEAP là một framework trích xuất bằng chứng (evidence retrieval) cho bài toán Long-form Audio-Visual Question Answering (AVQA) giúp mô hình đạt độ dài ngữ cảnh và bộ nhớ <span class="math inline">O(1)</span> theo thời lượng video. Thay vì nhồi toàn bộ video vào context, LEAP chia bản ghi thành các khối cố định, dùng LoRA định vị (localization) nhẹ để chấm điểm các cửa sổ ứng viên, sau đó chỉ mã hóa lại tối đa 9 cửa sổ điểm cao nhất kèm transcript outline trong một lượt trả lời duy nhất. Phương pháp giúp cải thiện 4.5–16.8% độ chính xác trên Qwen3-Omni-30B và chuyển giao thành công sang MiniCPM-o 4.5.</p>  </div>
   <div class="row-score" aria-label="Ranking score 76.2 of 100">
     <span class="row-score-value">76.2</span>
     <span class="bars" aria-hidden="true">
@@ -269,7 +898,7 @@
       <span class="pill">Paper</span>
 <span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
 <span class="pill pill-top">Top =8 · 2026-W41</span>    </div>
-<p class="row-tldr">LoopSLM là mô hình speech language model (SLM) đầu tiên tích hợp kiến trúc looped Transformer để thực hiện suy luận tiềm ẩn (latent reasoning) theo chiều sâu bộ giải mã thay vì sinh chuỗi CoT dạng văn bản khi suy luận. Bằng cách tách biệt việc học suy luận từ CoT và việc sinh phản hồi trực tiếp qua hai giai đoạn huấn luyện, LoopSLM giúp thu hẹp &#34;perception–reasoning gap&#34; và cải thiện đáng kể khả năng phản hồi đồng cảm với độ trễ thấp.</p>  </div>
+<p class="row-tldr">LoopSLM là mô hình speech language model (SLM) đầu tiên tích hợp kiến trúc looped Transformer để thực hiện suy luận tiềm ẩn (latent reasoning) theo chiều sâu bộ giải mã thay vì sinh chuỗi CoT dạng văn bản khi suy luận. Bằng cách tách biệt việc học suy luận từ CoT và việc sinh phản hồi trực tiếp qua hai giai đoạn huấn luyện, LoopSLM giúp thu hẹp &quot;perception–reasoning gap&quot; và cải thiện đáng kể khả năng phản hồi đồng cảm với độ trễ thấp.</p>  </div>
   <div class="row-score" aria-label="Ranking score 75.0 of 100">
     <span class="row-score-value">75.0</span>
     <span class="bars" aria-hidden="true">
@@ -546,25 +1175,6 @@
 <span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 5/5" style="--v: 5"></span>    </span>
   </div>
 </li>
-<li class="row" data-topic="TTS" data-kind="model" data-top="no"
-    data-score="60.0" data-date="2026-09-27T12:21:00+00:00"
-    data-text="aratako/irodori-tts-v4-large aratako hf models">
-  <div class="row-main">
-    <a class="row-title" href="items/hf-model-aratako-irodori-tts-v4-large-b46d93.html">Aratako/Irodori-TTS-v4-Large</a>
-    <div class="meta meta-small">
-      <span title="Listed by HF Models inside the crawl window">found Oct 5, 2026</span><span aria-hidden="true">·</span>
-<span title="Original publication / creation date">published Sep 27, 2026</span><span aria-hidden="true">·</span>
-
-      <span class="pill">Model</span>
-<span class="pill">HF Models</span>      <span class="pill pill-accent">TTS</span>
-    </div>
-<p class="row-tldr">Irodori-TTS-v4-Large là mô hình TTS tiếng Nhật quy mô xấp xỉ 3,29 tỷ tham số dựa trên kiến trúc Rectified Flow Diffusion Transformer (RF-DiT). Mô hình kết hợp văn bản đầu vào, âm thanh tham chiếu (hỗ trợ tới 120 giây) và mô tả caption để thực hiện zero-shot voice cloning, thiết kế giọng nói bằng văn bản và kiểm soát sắc thái/phi ngôn ngữ thông qua chèn emoji.</p>  </div>
-  <div class="row-score" aria-label="Ranking score 60.0 of 100">
-    <span class="row-score-value">60.0</span>
-    <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
-  </div>
-</li>
 <li class="row" data-topic="TTS" data-kind="blog" data-top="no"
     data-score="58.8" data-date="2026-09-30T00:00:00+00:00"
     data-text="open tts leaderboard: scalable evaluation for multilingual text-to-speech and voice cloning hugging face blog hugging face blog">
@@ -583,25 +1193,6 @@
 <span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 4/5" style="--v: 4"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 4/5" style="--v: 4"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
   </div>
 </li>
-<li class="row" data-topic="Voice Agent" data-kind="repo" data-top="no"
-    data-score="55.0" data-date="2026-09-14T23:30:01+00:00"
-    data-text="huskerminion/techo5 huskerminion github">
-  <div class="row-main">
-    <a class="row-title" href="items/gh-huskerminion-techo5-80c023.html">HuskerMinion/techo5</a>
-    <div class="meta meta-small">
-      <span title="Listed by GitHub inside the crawl window">found Oct 5, 2026</span><span aria-hidden="true">·</span>
-<span title="Original publication / creation date">published Sep 14, 2026</span><span aria-hidden="true">·</span>
-
-      <span class="pill">Repo</span>
-<span class="pill">GitHub</span>      <span class="pill pill-accent">Voice Agent</span>
-    </div>
-<p class="row-tldr">TECHO5 là firmware mã nguồn mở thay thế hoàn toàn Fire OS (Android) và Alexa trên các thiết bị Amazon Echo Show bằng hệ điều hành Alpine Linux tối giản cùng một daemon Go duy nhất. Hệ thống biến thiết bị thành vệ tinh thoại (voice satellite) độc lập, hoàn toàn riêng tư cho Home Assistant qua giao thức ESPHome API với tính năng nhận diện wake word cục bộ.</p>  </div>
-  <div class="row-score" aria-label="Ranking score 55.0 of 100">
-    <span class="row-score-value">55.0</span>
-    <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 3/5" style="--v: 3"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
-  </div>
-</li>
 <li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
     data-score="50.0" data-date="2026-09-28T17:11:17+00:00"
     data-text="when does a spoken agent have enough evidence to act? the pact-slm contract test mengzhe geng arxiv">
@@ -618,44 +1209,6 @@
     <span class="row-score-value">50.0</span>
     <span class="bars" aria-hidden="true">
 <span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 2/5" style="--v: 2"></span><span class="bar" title="Evidence 4/5" style="--v: 4"></span>    </span>
-  </div>
-</li>
-<li class="row" data-topic="Voice Agent" data-kind="repo" data-top="no"
-    data-score="50.0" data-date="2026-09-16T15:54:17+00:00"
-    data-text="huskerminion/techo5-dot huskerminion github">
-  <div class="row-main">
-    <a class="row-title" href="items/gh-huskerminion-techo5-dot-93b424.html">HuskerMinion/techo5-dot</a>
-    <div class="meta meta-small">
-      <span title="Listed by GitHub inside the crawl window">found Oct 5, 2026</span><span aria-hidden="true">·</span>
-<span title="Original publication / creation date">published Sep 16, 2026</span><span aria-hidden="true">·</span>
-
-      <span class="pill">Repo</span>
-<span class="pill">GitHub</span>      <span class="pill pill-accent">Voice Agent</span>
-    </div>
-<p class="row-tldr">TECHO5 Dot thay thế hoàn toàn Fire OS trên phần cứng Amazon Echo Dot Gen 2 (biscuit) bằng một bản phân phối Alpine Linux tối giản cùng daemon điều khiển duy nhất. Dự án biến thiết bị thành voice satellite cục bộ cho Home Assistant qua giao thức ESPHome API mã hóa, xử lý wake word trực tiếp trên thiết bị (on-device) mà không gửi dữ liệu âm thanh về đám mây của Amazon.</p>  </div>
-  <div class="row-score" aria-label="Ranking score 50.0 of 100">
-    <span class="row-score-value">50.0</span>
-    <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 3/5" style="--v: 3"></span><span class="bar" title="Credibility 3/5" style="--v: 3"></span><span class="bar" title="Technical 4/5" style="--v: 4"></span><span class="bar" title="Impact 2/5" style="--v: 2"></span><span class="bar" title="Evidence 3/5" style="--v: 3"></span>    </span>
-  </div>
-</li>
-<li class="row" data-topic="Voice Agent" data-kind="repo" data-top="no"
-    data-score="30.0" data-date="2026-09-19T08:43:16+00:00"
-    data-text="work-fisher/ai-girlfriend-v2 work-fisher github">
-  <div class="row-main">
-    <a class="row-title" href="items/gh-work-fisher-ai-girlfriend-v2-507eb2.html">Work-Fisher/ai-girlfriend-v2</a>
-    <div class="meta meta-small">
-      <span title="Listed by GitHub inside the crawl window">found Oct 5, 2026</span><span aria-hidden="true">·</span>
-<span title="Original publication / creation date">published Sep 19, 2026</span><span aria-hidden="true">·</span>
-
-      <span class="pill">Repo</span>
-<span class="pill">GitHub</span>      <span class="pill pill-accent">Voice Agent</span>
-    </div>
-<p class="row-tldr">AI Girlfriend V2 là hệ thống trợ lý giọng nói đồng hành chạy cục bộ trên Windows, tích hợp bộ nhớ dài hạn DSH, nhân bản giọng nói nội bộ và tùy chọn khẩu hình người ảo qua WSL2. Dự án giải quyết vấn đề mất ngữ cảnh sau khi khởi động lại bằng cách kết hợp trích xuất sự kiện với cơ sở dữ liệu SQLite và tìm kiếm ngữ nghĩa.</p>  </div>
-  <div class="row-score" aria-label="Ranking score 30.0 of 100">
-    <span class="row-score-value">30.0</span>
-    <span class="bars" aria-hidden="true">
-<span class="bar" title="Novelty 2/5" style="--v: 2"></span><span class="bar" title="Credibility 2/5" style="--v: 2"></span><span class="bar" title="Technical 3/5" style="--v: 3"></span><span class="bar" title="Impact 2/5" style="--v: 2"></span><span class="bar" title="Evidence 2/5" style="--v: 2"></span>    </span>
   </div>
 </li>
 <li class="row" data-topic="Voice Agent" data-kind="paper" data-top="no"
@@ -824,7 +1377,7 @@
     data-score="81.2" data-date="2026-09-28T13:16:39+00:00"
     data-text="duplexcadence: exact state and execution from a speech model&#39;s declared timelines haixiao gao yimin zheng linyou xiao zeke xie arxiv">
   <div class="row-main">
-    <a class="row-title" href="items/arxiv-2609-35115-5c278b.html">DuplexCadence: Exact State and Execution from a Speech Model&#39;s Declared Timelines</a>
+    <a class="row-title" href="items/arxiv-2609-35115-5c278b.html">DuplexCadence: Exact State and Execution from a Speech Model's Declared Timelines</a>
     <div class="meta meta-small">
       <span>published Sep 28, 2026</span><span aria-hidden="true">·</span>
 
@@ -896,14 +1449,14 @@
     data-score="75.0" data-date="2026-09-21T18:32:01+00:00"
     data-text="$τ$-multilingual: benchmarking voice agents across languages soham ray edgard dos santos paiva ruben valenzuela karthik narasimhan keshav dhandhania victor barres arxiv">
   <div class="row-main">
-    <a class="row-title" href="items/arxiv-2609-35820-873548.html">$τ$-Multilingual: Benchmarking Voice Agents Across Languages</a>
+    <a class="row-title" href="items/arxiv-2609-35820-873548.html"><span class="math inline">τ</span>-Multilingual: Benchmarking Voice Agents Across Languages</a>
     <div class="meta meta-small">
       <span>published Sep 21, 2026</span><span aria-hidden="true">·</span>
 
       <span class="pill">Paper</span>
 <span class="pill">arXiv</span>      <span class="pill pill-accent">Voice Agent</span>
     </div>
-<p class="row-tldr">$\tau$-Multilingual là benchmark đánh giá voice agent full-duplex đa ngôn ngữ mở rộng từ $\tau$-Voice sang 6 ngôn ngữ (English, Spanish, Brazilian Portuguese, Hindi, Korean, Mandarin) trên 3 domain với 4.500 cuộc gọi. Nghiên cứu chỉ ra sự phân hóa lớn về hiệu năng: trong khi Spanish, Portuguese và Hindi duy trì task completion gần tương đương English, Korean và Mandarin sụt giảm nghiêm trọng do lỗi authentication, entity handling và conversational dynamics.</p>  </div>
+<p class="row-tldr"><span class="math inline">\tau</span>-Multilingual là benchmark đánh giá voice agent full-duplex đa ngôn ngữ mở rộng từ <span class="math inline">\tau</span>-Voice sang 6 ngôn ngữ (English, Spanish, Brazilian Portuguese, Hindi, Korean, Mandarin) trên 3 domain với 4.500 cuộc gọi. Nghiên cứu chỉ ra sự phân hóa lớn về hiệu năng: trong khi Spanish, Portuguese và Hindi duy trì task completion gần tương đương English, Korean và Mandarin sụt giảm nghiêm trọng do lỗi authentication, entity handling và conversational dynamics.</p>  </div>
   <div class="row-score" aria-label="Ranking score 75.0 of 100">
     <span class="row-score-value">75.0</span>
     <span class="bars" aria-hidden="true">

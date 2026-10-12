@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.08125",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 5,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đây là công trình đầu tiên chuyển đổi phương pháp đánh giá full-duplex dialogue từ thiết lập đơn phương với examiner cố định sang thiết lập song phương (dyadic evaluation) ghép cặp trực tiếp hai mô hình.",
+  "credibility": "Bài báo đến từ nhóm nghiên cứu uy tín KAIST AI, công bố phương pháp luận rõ ràng, phát hành mã nguồn/kịch bản tại website dự án dyafdb.github.io, dù hiện tại là bản arXiv preprint.",
+  "technical": "Thiết kế kỹ thuật xuất sắc với cơ chế lockstep bridge 80 ms, xử lý adapter và backpressure khéo léo, thiết kế 4 nhóm tác vụ chặt chẽ cùng phân rã phương sai ANOVA 3 yếu tố sâu sắc.",
+  "impact": "Định hình lại tư duy benchmark cho toàn bộ lĩnh vực voice agent full-duplex, mở ra hướng đánh giá quần thể và đối đầu tương tự Chatbot Arena trong text LLM.",
+  "evidence": "Thực nghiệm đồ sộ với 7,560 hội thoại (126 giờ âm thanh), phân tích đa chiều về turn-taking, đối chiếu với chuyên gia con người và text backbone với số liệu chi tiết tuyệt đối."
+ },
+ "summary": {
+  "tldr": "DyaFDB là benchmark đầu tiên đánh giá các mô hình hội thoại full-duplex theo thiết lập song phương (dyadic), trong đó hai mô hình đối thoại trực tiếp với các vai trò hợp tác hoặc xung đột và cả hai bên đều được chấm điểm offline. Nghiên cứu chỉ ra rằng hội thoại full-duplex là một bài toán \"hai vật thể\" (two-body problem), nơi hiệu năng và hành vi turn-taking của một mô hình phụ thuộc mật thiết vào đối tác và cấu trúc tác vụ chứ không chỉ riêng bản thân mô hình.",
+  "problem": "Các benchmark full-duplex hiện tại (như FDB-v1/v2/v3, $\\tau$-Voice, MTR-DuplexBench) đều đánh giá đơn phương (single-sided): mô hình chỉ phản hồi lại file âm thanh ghi sẵn (không thể phản ứng lại) hoặc tương tác với một người kiểm tra tự động (automated examiner) chạy theo kịch bản cố định và không bao giờ bị chấm điểm. Cách tiếp cận này bỏ qua bản chất hai chiều của hội thoại, nơi các hành vi turn-taking, ngắt lời (interruption) và chèn lời (overlap) là sản phẩm tương tác đồng thời của cả hai người nói.",
+  "method": "Tác giả xây dựng nền tảng **model-to-model bridge** chạy trên lockstep logical clock ở tốc độ frame 80 ms (1,920 mẫu tại 24 kHz): tại tick $t$, mỗi mô hình nhận trực tiếp frame âm thanh mà đối tác phát ra ở tick $t-1$. MiniCPM-o (xử lý chunk ~1 s) được bọc qua adapter có cơ chế input backpressure để đồng bộ với clock 80 ms. Benchmark thiết kế 4 nhóm tác vụ (140 kịch bản, 20 kịch bản mỗi archetype) chia thành hai nhóm: **Coordination** (T1 Role adherence gồm đối tác hợp tác T1-1 và đối tác lạc đề T1-2; T2 Information pooling theo mô hình hidden-profile đòi hỏi ghép nối thông tin để loại 4/5 phương án) và **Conflict** (T3 Contested channel gồm tranh chấp sàn nói T3-1 và ép đối tác né tránh T3-2; T4 Contested goal gồm bảo vệ lựa chọn T4-1 và tấn công/trích xuất bí mật T4-2; cùng các game mở rộng T4-3 Claim và T4-4 Negotiation). Đánh giá hoàn toàn offline bằng các chỉ số cơ học (VAD năng lượng RMS 0.010/0.004, đo thời lượng chiếm sóng exclusive occupancy, phát hiện rò rỉ secret bằng string match) và LLM judge (Claude Opus-5 chấm trên transcript ẩn danh gán nhãn Speaker A/B theo lượt mở đầu).",
+  "setup": "Đánh giá 3 mô hình full-duplex mã nguồn mở: PersonaPlex, MiniCPM-o 4.5, Raon-SpeechChat (và bổ sung Lychee-FD trong phụ lục). Thiết lập gồm 6 cặp ghép đôi (self-play và cross-play), đảo ngược vai trò và quyền mở màn (opener có 1.5 s lead-in), lặp lại 3 lần mỗi cấu hình, tạo nên tổng cộng 7,560 cuộc đối thoại kéo dài 60 s (126 giờ âm thanh). Mỗi phiên đối thoại chạy trên 2 GPU độc lập (1 GPU cho mỗi cá thể mô hình). LLM judge được đối chiếu với Sonnet-5 và 5 chuyên gia con người trên 140 lượt đánh giá mẫu của T1.",
+  "results": [
+   "Phân rã phương sai turn-taking cho thấy $TOR_{pause}$ phụ thuộc chủ yếu vào bản thân mô hình ($\\eta^2_{model} = 0.74$), nhưng $TOR_{end}$ và tỷ lệ barge-in thành công lại do đối tác quyết định ($\\eta^2_{partner}$ lần lượt là 0.65 và 0.49); tần suất backchannel phụ thuộc vào sự kết hợp giữa hai bên ($\\eta^2_{model \\times partner} = 0.32$, ví dụ PersonaPlex đạt 4.6 lần/phút khi gặp Raon nhưng MiniCPM-o self-play chỉ đạt 0.1 lần/phút).",
+   "Ở tác vụ T1 (Role adherence), Raon giữ vai tốt nhất (điểm số 0.68 ở T1-1 và tăng lên 0.83 ở T1-2 khi gặp đối tác lạc đề), trong khi PersonaPlex giữ vai kém nhất (0.51 ở T1-1 và tụt xuống 0.29 ở T1-2); Raon nhập vai sau 9-11 s, MiniCPM-o sau 13-21 s, còn PersonaPlex cần 25-27 s trong cross-play và không đạt trung vị Kaplan-Meier trong self-play.",
+   "Ở tác vụ T2 (Information pooling), hiệu năng toàn bộ các mô hình rất thấp: chỉ các đội có Raon mới giải quyết được 23-35% số lượt, các cặp không có Raon đạt dưới 20% (ngang ngẫu nhiên); các mô hình chỉ tiết lộ 39% lý do và khoảng một nửa số cặp không thể đưa ra quyết định trong vòng 1 phút (trong khi cặp text LLM Qwen3-8B tiết lộ 74% và giải quyết thành công 55%).",
+   "Ở tác vụ T3 (Contested channel), Raon chiếm sàn nói áp đảo (occupancy 0.75 trước MiniCPM-o và 0.62 trước PersonaPlex); ở vai trò né tránh (T3-2 avoider), MiniCPM-o nhường sàn tốt nhất (occupancy của presser đạt 0.62, MiniCPM-o chỉ nói 5.4 lượt), còn Raon nói liên tục dù được bảo giữ im lặng (chiếm 17.8 lượt, presser occupancy chỉ đạt 0.39).",
+   "Ở tác vụ T4-2 (Attack), tỷ lệ phòng thủ bí mật phụ thuộc nặng nề vào kẻ tấn công: cùng một mô hình defender để lộ bí mật từ 39% đến 63% tùy vào việc đối đầu với ai; PersonaPlex trích xuất bí mật mạnh nhất (46% trung bình), MiniCPM-o phòng thủ tốt nhất (chỉ lộ 29% trung bình), Raon phòng thủ tệ nhất (lộ 48% trung bình, trung vị thời gian lộ chỉ 12.2 s).",
+   "LLM judge (Claude Opus-5) đạt độ đồng thuận 89.3% với đa số ý kiến chuyên gia con người trên T1 (ngang bằng hoặc cao hơn mức đồng thuận giữa các chuyên gia với nhau là 77-88%)."
+  ],
+  "limitations": "Điểm số trung bình của mỗi mô hình phụ thuộc tương đối vào tập đối tác được đem ra ghép cặp; các chỉ số hiện tại chỉ đo lường mục tiêu thắng/thua và động lực turn-taking chứ chưa đánh giá được chất lượng đối thoại sâu (mô hình giữ vai bằng cách phớt lờ hay thuyết phục hợp lý); toàn bộ các bên tham gia đều là mô hình máy, chưa đánh giá tương tác trực tiếp với con người thời gian thực.",
+  "takeaways": "Hiệu năng của một agent full-duplex không thể đo lường chính xác bằng một người hỏi cố định (fixed examiner) vì điểm số bị chi phối mạnh mẽ bởi hành vi của đối tác. Khi phát triển voice agent, các kỹ sư cần huấn luyện và benchmark mô hình trên một quần thể đối tác đa dạng (league/dyadic evaluation), đồng thời phải huấn luyện khả năng kiềm chế/giữ kín thông tin (withholding) tương đương với khả năng chủ động nói.",
+  "strengths": [
+   "Tiên phong đặt ra chuẩn đánh giá dyadic song phương cho full-duplex",
+   "Hạ tầng bridge clock 80 ms lockstep độc lập jitter mạng",
+   "Bộ kịch bản đa dạng phong phú với 7,560 cuộc đối thoại",
+   "Phân rã phương sai ANOVA cung cấp bằng chứng định lượng chặt chẽ",
+   "Đối chiếu tỉ mỉ giữa speech models và text LLMs gốc"
+  ],
+  "weaknesses": [
+   "Chưa có người thật tham gia tương tác trực tiếp",
+   "Chưa đánh giá định lượng tính tự nhiên hay logic hội thoại",
+   "Mới chỉ thử nghiệm trên số lượng nhỏ mô hình mã nguồn mở"
+  ],
+  "context": "Nghiên cứu của Sungnyun Kim, Sungwoo Cho, Jihwan Oh, và Se-Young Yun từ KAIST AI (Hàn Quốc), đăng tải dưới dạng preprint trên arXiv vào tháng 10/2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

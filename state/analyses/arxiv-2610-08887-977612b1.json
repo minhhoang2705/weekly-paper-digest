@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.08887",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 2,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo tiên phong nghiên cứu activation steering cho biểu cảm giọng nói trên mô hình full-duplex và chứng minh hiện tượng steering tuân theo hình học biểu diễn thay vì nhãn điều khiển.",
+  "credibility": "Tài liệu là bản preprint trên arXiv từ một tác giả độc lập (Independent Researcher), chưa qua bình duyệt tại hội nghị hay tạp chí khoa học.",
+  "technical": "Phương pháp luận chặt chẽ với các phép đo linear probe, kiểm soát người nói độc lập, phân tích phân rã SVD để khử trục dùng chung và cô lập giới hạn của neural codec.",
+  "impact": "Cung cấp hiểu biết quan trọng cho cộng đồng phát triển voice agent full-duplex về giới hạn của linear steering, dù tác động thực tế còn phụ thuộc vào mức độ áp dụng mã nguồn.",
+  "evidence": "Thực nghiệm chi tiết với số liệu phong phú trên cả hai chế độ sinh âm thanh, phân tích kiểm soát với vector ngẫu nhiên, phân tích độ dài và kèm theo mã nguồn đầy đủ trong phụ lục."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu này phân tích phương pháp activation steering dựa trên vector hiệu trung bình (mean-difference) để điều khiển 4 cảm xúc (angry, happy, sad, surprise) trong mô hình đàm thoại full-duplex mã nguồn mở Moshi. Kết quả chỉ ra rằng dù cảm xúc phân tách tuyến tính tốt trong residual stream, steering lại bị lệch hướng (off-steering) do hình học không gian kích hoạt: các cảm xúc có mức độ kích thích cao (angry, happy, surprise) chia sẻ một trục chung và có xu hướng bị lái lệch về happy, trong khi chỉ có sad là tách biệt rõ ràng.",
+  "problem": "Các trợ lý giọng nói full-duplex cần khả năng điều chế cảm xúc và phong cách phát âm (delivery) linh hoạt trong thời gian thực (ví dụ: xoa dịu khách hàng, thể hiện sự khẩn cấp). Trong khi TTS và các mô hình turn-based đã áp dụng thành công prompt conditioning hay activation steering, các mô hình full-duplex hiện đại (như Moshi, PersonaPlex) chủ yếu kiểm soát danh tính người nói qua prompt chứ chưa hỗ trợ điều khiển biểu cảm động khi đang đàm thoại liên tục mà không cần huấn luyện lại.",
+  "method": "Tác giả trích xuất vector hướng cảm xúc bằng cách nạp âm thanh ESD (800 clip/cảm xúc, 10 người nói) vào output codebooks của Moshi (Mimi codec tại 12.5 Hz), đồng thời ép transcript qua luồng inner monologue để chạy forward pass. Vector chỉ hướng ở mỗi layer $l$ được tính qua hiệu trung bình các frame cuối của residual stream: $v_l = \\text{mean}(h_l \\mid e) - \\text{mean}(h_l \\mid \\text{neutral})$, sau đó chuẩn hóa đơn vị. Khi can thiệp, vector được cộng vào residual stream tại các layer 0, 8 và 24 ở mỗi frame phát âm theo công thức $\\alpha \\cdot w(l) \\cdot r_l \\cdot \\hat{v}_l$, với hệ số $\\alpha = 0.30$, trọng số độ sâu $w(l) = 1 - l/31$, và $r_l$ là median residual norm của layer đó. Ngoài ra, tác giả khử thành phần dùng chung giữa các cảm xúc bằng cách phân tích SVD ma trận $4 \\times 4096$, lấy singular vector phải đầu tiên $s_l$ (chiếm 61–64% tổng bình phương giá trị suy biến) và trừ đi tỉ lệ $(1 - \\beta)$ theo hướng này.",
+  "setup": "Thực nghiệm sử dụng checkpoint int8 `kyutai/moshika-pytorch-q8` trên 1 GPU laptop RTX 4090 16 GB. Hai chế độ sinh âm thanh được đánh giá: 'Forced text mode' (áp đặt 720 câu chuẩn Harvard sentences) và 'Free duplex mode' (mô hình nghe 50 clip ESD mỗi cảm xúc và tự phản hồi). Đo lường cảm xúc bằng `emotion2vec_plus_large` (chỉ tính trên các đoạn có $\\ge 1.5$s tiếng nói vì emotion2vec nhận diện khoảng lặng là sad), so sánh với trần điểm của âm thanh ESD thật. Độ rõ lời và sai số nhận dạng được đo bằng Whisper large-v3 (WER).",
+  "results": [
+   "Linear probe (hồi quy logistic đa thức trên 30 thành phần PCA) giải mã chính xác cảm xúc từ residual stream: phân loại 3 lớp (angry / happy / surprise) đạt độ chính xác 0.661 ở layer 8 và 0.678 ở layer 24 so với mức ngẫu nhiên 0.333; phân loại cả 5 cảm xúc đạt cao nhất 0.607 ở layer 10 (ngẫu nhiên 0.200).",
+   "Activation steering truyền thống chỉ hiệu quả với sad (đạt $P(\\text{tgt}) = 0.650$, vượt trần ESD thật là 0.448 ở forced text, tức 145% ceiling), trong khi angry chỉ đạt 25% trần (0.177 vs 0.717) và surprise chỉ đạt 30% trần (0.136 vs 0.458); cả angry và surprise đều bị lái mạnh về happy (P(happy) đạt lần lượt 0.328 và 0.463 ở forced text).",
+   "Phân tích cosine similarity giữa các vector chỉ hướng qua hai nửa người nói độc lập tại layer 24 giải thích hiện tượng off-steering: angry gần surprise (0.60) xấp xỉ mức tự tương đồng (0.65, margin chỉ +0.05); happy gần surprise (0.59) xấp xỉ tự tương đồng (0.60, margin +0.01); trong khi sad có margin áp đảo (+0.58).",
+   "Kỹ thuật chiếu bỏ thành phần dùng chung với $\\beta = 0.5$ giúp phục hồi angry (P(angry) tăng từ 0.184 lên 0.288, đạt 40% trần, đối thủ happy giảm từ 0.334 xuống 0.162, WER giảm từ 32.2% xuống 22.6%), nhưng loại bỏ hoàn toàn ($\\beta = 0.0$) làm mất luôn hướng cảm xúc (P(angry) còn 0.016), và surprise hoàn toàn không thể phục hồi ở mọi giá trị $\\beta$.",
+   "Đánh giá tái dựng codec (prime condition) cho thấy codec Mimi làm mất mát cảm xúc không đồng đều: giữ được 85% điểm happy nhưng chỉ giữ 40% điểm angry của bản thu gốc (angry tụt từ 0.791 xuống 0.315 và dồn sang neutral)."
+  ],
+  "limitations": "Chỉ thử nghiệm trên một mô hình duy nhất (Moshi), một bộ dữ liệu (ESD), một cấu hình trích xuất và chèn vector; chưa kiểm chứng trên các mô hình full-duplex khác hoặc định dạng bf16. Điểm WER ban đầu ở bản int8 khá cao (24.3%). Đánh giá cảm xúc hoàn toàn dựa trên emotion2vec mà không có bài kiểm tra nghe chủ quan (human listening test). Các kỹ thuật như Sparse Autoencoders (SAEs), LoRA hay fine-tuning chưa được khám phá.",
+  "takeaways": "Can thiệp activation steering dạng vector trung bình không thể điều khiển chính xác nhãn cảm xúc nếu hình học biểu diễn giữa các cảm xúc bị trùng lặp trục (đặc biệt là các cảm xúc high-arousal). Kỹ sư speech có thể chẩn đoán trước khả năng steering bằng cách đo khoảng cách cosine giữa các vector chỉ hướng qua tập người nói độc lập mà không cần sinh âm thanh. Cần lưu ý giới hạn biểu đạt của neural codec vì một phần lớn sự sụt giảm cảm xúc (như angry) bắt nguồn từ chính codec.",
+  "strengths": [
+   "Phát hiện hình học không gian sâu sắc",
+   "Chi phí suy luận cực thấp (training-free)",
+   "Chẩn đoán không cần sinh âm thanh (generation-free)",
+   "Tách bạch ảnh hưởng giữa LM và neural codec",
+   "Cung cấp mã nguồn triển khai chi tiết"
+  ],
+  "weaknesses": [
+   "Chỉ đánh giá trên duy nhất Moshi int8",
+   "Thiếu kiểm thử lắng nghe từ con người",
+   "Chưa phục hồi được cảm xúc surprise",
+   "Tỷ lệ WER bị tăng cao khi can thiệp"
+  ],
+  "context": "Nghiên cứu độc lập của tác giả Pulak Kuli, công bố dưới dạng preprint trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

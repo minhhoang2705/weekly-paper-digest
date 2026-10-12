@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DuplexAgent-RSI: Recursive Harness Improvement for Full-Duplex Voice Agent Collaboration · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">DuplexAgent-RSI: Recursive Harness Improvement for Full-Duplex Voice Agent Collaboration</h1>
+    <div class="meta">
+      <span>published Oct 8, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Yingda Shen, Yuxiang Wang, Kunyu Feng, Qinke Ni, Jiaqi Li, Minghao Hsu, Junan Zhang, Dekun Chen, Yutong Bian, Zhizheng Wu</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.11299" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Voice agents are converging on a collaboration pattern: a full-duplex interaction model stays on the live channel as the entry to the conversation, while search, reasoning, and coding are handled through asynchronous delegation. A duplex model supports continuous listening and speaking, but complex reasoning and tool use may exceed its capabilities. A coding agent can plan and execute extended tasks, but its sequential interface is a poor fit for live conversation. Combining them requires a harness that coordinates task acceptance, progress, cancellation, replacement, and result delivery while keeping the conversation responsive. Existing harnesses often rely on coupled heuristics, making them difficult to improve systematically from evidence. We present DuplexAgent, a full-duplex collaboration system whose harness expresses this workflow as six editable modules, and Duplex-Harness-RSI, a closed loop that revises them from interaction traces. A simulator automatically generates timed test conversations, runs the system, and produces failure traces that identify the collaboration modules requiring repair. Reasoning LLMs and coding agents in the delegation pool also serve the improvement loop: the Exam Planner selects the next tests from observed weaknesses and the repair archive, and the Harness Editor proposes targeted module changes. The capabilities that serve the user thus also improve the system's coordination. Experiments on intelligence, agentic, and duplex benchmarks show that DuplexAgent combines continuous interaction with difficult reasoning and complex task execution, achieving stronger spoken-knowledge and executable-tool scores than the compared delegated systems while maintaining strong interruption response. A harness ablation further shows that this modular, verifiable loop outperforms the initial harness and repeated editing that lacks its diagnosis and repair archive.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 12, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Nghiên cứu giới thiệu DuplexAgent và Duplex-Harness-RSI, một khung kiến trúc phân rã điều phối voice agent song công (full-duplex) thành 6 module harness có thể chỉnh sửa cùng một vòng lặp tự cải tiến hồi quy khép kín. Bằng cách dùng chính các mô hình reasoning và coding agent trong nhóm ủy quyền để lập đề thi (Exam Planner) và sửa mã nguồn harness (Harness Editor) từ vết lỗi tương tác, hệ thống duy trì được tính liên tục của đàm thoại thời gian thực đồng thời vượt trội về khả năng suy luận và thực thi công cụ.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình tương tác full-duplex xử lý hội thoại mượt mà (nghe/nói đồng thời, chen ngang, backchannel) nhưng yếu về suy luận phức tạp và gọi công cụ dài hạn; ngược lại, các coding/reasoning agent mạnh về thực thi nhưng chạy tuần tự, không thể bám sát dòng hội thoại trực tiếp. Việc kết nối hai bên đòi hỏi một lớp điều phối (harness) xử lý tiếp nhận, hủy bỏ, cập nhật tác vụ khi người dùng đổi ý hoặc nói chèn; tuy nhiên các hệ thống hiện có thường dựa vào các luật heuristic chắp vá, gắn chặt với hệ thống cụ thể khiến việc chẩn đoán và khắc phục lỗi có hệ thống trở nên rất khó khăn.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Hệ thống triển khai theo công thức <span class="math inline">S = (F, B, H)</span> gồm mô hình tương tác full-duplex <span class="math inline">F</span>, nhóm ủy quyền <span class="math inline">B</span> (delegation pool) và harness điều phối <span class="math inline">H</span>. Kiến trúc harness <span class="math inline">H</span> phân rã thành 6 module rõ ràng: <strong>Policy</strong> (quyết định tự trả lời, ủy quyền hay điều khiển tác vụ), <strong>Intake</strong> (giải mã ý định và khớp với tác vụ trên sổ cái task ledger), <strong>Hold</strong> (duy trì phản hồi khi tác vụ đang chạy), <strong>Worker</strong> (chọn delegate, ngữ cảnh và hợp đồng kết quả), <strong>Deliver</strong> (kiểm soát thời điểm và cách trả kết quả vào khoảng lặng), và <strong>Memory</strong> (đồng bộ ngữ cảnh giữa hội thoại và tác vụ nền). Quá trình cải tiến <strong>Duplex-Harness-RSI</strong> vận hành khép kín: một simulator tổng hợp các bài kiểm tra đếm giờ dựa trên lưới 19 loại yêu cầu <span class="math inline">\times</span> 22 mẫu hình tương tác; Observer và Diagnoser lập vết thực thi (trace) và gán nhãn lỗi <span class="math inline">\phi(\tau) = (\text{cause}, \text{module}, \text{pattern})</span>; Exam Planner (DeepSeek-v4-flash) chọn trọng số kiểm tra tiếp theo dựa trên lịch sử lưu trữ; Harness Editor (Codex) đề xuất bản vá code/prompt trên các bề mặt module tương ứng. Bản vá phải vượt qua cổng phát triển (development gate) và cổng bảo vệ (protection gate) với 6 bất biến (invariants) ràng buộc nghiêm ngặt.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá khả năng tri thức đàm thoại bằng OBQA và MMSU (VoiceBench); gọi công cụ bằng BFCL-v3 (5 tập con đơn lượt) và FDB-v3 (dưới giọng nói ngập ngừng tự nhiên); đo đạc thời gian song công qua FDB-v1 (Takeover Rate - TOR trên khoảng dừng synthetic/Candor, chuyển lượt và chen ngang). Mô hình tương tác cơ sở gồm NVIDIA-NemotronLabs-VoiceChat-11B (VoiceChat) và Qwen-Audio-3.0-Realtime (Qwen-Realtime); nhóm ủy quyền dùng DeepSeek-v4-flash và Codex (gpt-5.6-sol). Simulator sử dụng Qwen3-TTS tổng hợp âm thanh đa dạng giọng đọc, tiếng ồn và hiệu ứng kênh.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên VoiceChat, DuplexAgent tăng độ chính xác BFCL trung bình từ 53.5% (gốc) và 24.9% (Qwen-Audio-Agent) lên 75.8%; trên FDB-v3 Pass@1 đạt 47.0% so với 16.0% (VoiceChat) và 5.0% (Qwen-Audio-Agent).</li>
+<li>Trên Qwen-Realtime, DuplexAgent đạt 90.8% BFCL trung bình (so với 82.0% của Qwen-Realtime gốc và 80.8% của Qwen-Audio-Agent), FDB-v3 Pass@1 đạt 49.0% (so với 39.0% gốc và 30.0% của Qwen-Audio-Agent).</li>
+<li>Về tri thức đàm thoại, DuplexAgent đạt 80.6% OBQA và 80.5% MMSU trên VoiceChat (so với 54.2% và 36.1% của VoiceChat gốc); đạt 92.1% OBQA và 82.7% MMSU trên Qwen-Realtime (so với 86.3% và 64.8% gốc).</li>
+<li>Khả năng timing song công trên VoiceChat giữ ổn định với Interrupt TOR 0.965 (gốc 1.00) và hạ Pause Candor TOR từ 0.343 xuống 0.241 (giảm nói chèn vào lúc ngập ngừng); trên Qwen-Realtime Turn TOR tăng từ 0.898 lên 0.966 và Interrupt TOR tăng từ 0.89 lên 0.97.</li>
+<li>Ablation kiểm tra harness trên VoiceChat (fixed core): Điểm cộng tác <span class="math inline">Q</span> của ban đầu (<span class="math inline">g_0</span>) là 54.6%, One-shot Editing đạt 57.4%, Sequential Editing đạt 61.9%, trong khi Duplex-Harness-RSI (<span class="math inline">r_{10}</span>) vọt lên 85.3% (tỷ lệ bỏ sót ủy quyền giảm từ 30.3% xuống 1.3%). Trên Qwen-Realtime, điểm <span class="math inline">Q</span> tăng từ 47.1% (<span class="math inline">g_0</span>) lên 84.8% (<span class="math inline">g_8</span>, +37.7 điểm).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Cải tiến của Duplex-Harness-RSI chỉ can thiệp vào các tệp module harness (chỉ dẫn, prompt, luật mã thực thi) trong khi trọng số của mô hình tương tác song công (interaction model) được giữ cố định. Do đó, các lỗi thuộc về tầng nhận thức âm thanh (speech perception) hoặc phán đoán ranh giới lượt nói của mô hình nền tảng không thể khắc phục được bằng harness. Ngoài ra, trên Qwen-Realtime, chỉ số ngắt lời lúc ngập ngừng nhân tạo (synthetic pause TOR) bị suy giảm nhẹ từ 0.074 lên 0.147.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Tách bạch rõ ranh giới giữa mô hình tương tác thoại trực tiếp và nhóm mô hình tính toán nền tảng thông qua một harness module hóa (6 thành phần) cùng cơ chế sổ cái tác vụ (task ledger) là kiến trúc tối ưu để vừa giữ độ nhạy đàm thoại vừa gọi công cụ chính xác. Việc kết hợp simulator theo kịch bản thời gian thực với vòng lặp RSI có kiểm định cổng kép giúp tự động hóa hoàn toàn quy trình sửa lỗi harness mà không cần can thiệp thủ công.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">71.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Bài báo đề xuất khung phân rã 6 module chuyên biệt cho harness hội thoại song công và cơ chế đệ quy RSI biến chính delegate thành người ra đề thi và sửa harness dựa trên trace lỗi tương tác.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật rất chặt chẽ từ session engine, task ledger, mô phỏng 19 yêu cầu x 22 mẫu tương tác, định nghĩa trace lỗi đến hệ thống cổng kiểm tra với 6 bất biến bắt buộc.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Đánh giá thực nghiệm chi tiết trên nhiều bộ benchmark tiêu chuẩn (OBQA, MMSU, BFCL-v3, FDB-v1, FDB-v3) với đối chuẩn mạnh và phân tích ablation chi tiết giữa One-shot, Sequential và RSI.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Đưa ra giải pháp trực diện cho bài toán kết nối full-duplex SLM với background agent/tool-calling vốn đang là điểm nghẽn lớn trong các trợ lý giọng nói thế hệ mới.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Đến từ nhóm nghiên cứu CUHK-Shenzhen và Amphion với mã nguồn mở trên GitHub, công bố dưới dạng arXiv preprint.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Bài báo đề xuất khung phân rã 6 module chuyên biệt cho harness hội thoại song công và cơ chế đệ quy RSI biến chính delegate thành người ra đề thi và sửa harness dựa trên trace lỗi tương tác.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Đến từ nhóm nghiên cứu CUHK-Shenzhen và Amphion với mã nguồn mở trên GitHub, công bố dưới dạng arXiv preprint.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật rất chặt chẽ từ session engine, task ledger, mô phỏng 19 yêu cầu x 22 mẫu tương tác, định nghĩa trace lỗi đến hệ thống cổng kiểm tra với 6 bất biến bắt buộc.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Đưa ra giải pháp trực diện cho bài toán kết nối full-duplex SLM với background agent/tool-calling vốn đang là điểm nghẽn lớn trong các trợ lý giọng nói thế hệ mới.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Đánh giá thực nghiệm chi tiết trên nhiều bộ benchmark tiêu chuẩn (OBQA, MMSU, BFCL-v3, FDB-v1, FDB-v3) với đối chuẩn mạnh và phân tích ablation chi tiết giữa One-shot, Sequential và RSI.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kiến trúc 6 module harness phân rã tường minh · Vòng lặp RSI tự sửa lỗi có kiểm chứng · Bộ simulator 19x22 kiểm thử đếm giờ toàn diện · Vượt trội rõ rệt trên BFCL và FDB-v3 · Giữ vững phản xạ tương tác song công tự nhiên</p>
+          <p><span class="label">Weaknesses</span> · Chưa tinh chỉnh trọng số mô hình tương tác · Synthetic pause TOR suy giảm nhẹ trên Qwen-Realtime · Phụ thuộc nhiều vào chất lượng mô hình lập trình</p>
+          <p><span class="label">Context</span> · Yingda Shen và nhóm nghiên cứu từ The Chinese University of Hong Kong, Shenzhen cùng Amphion Technology Co., Ltd; công bố dưới dạng preprint kỹ thuật trên arXiv (tháng 10/2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

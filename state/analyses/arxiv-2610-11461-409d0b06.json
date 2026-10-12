@@ -1,0 +1,48 @@
+{
+ "id": "arxiv:2610.11461",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo chỉ ra nghịch lý của descriptive alignment trong TTS control và tiên phong áp dụng GRPO với speech token likelihood làm reward để huấn luyện text-based style planner.",
+  "credibility": "Bản thảo nghiên cứu được công bố trên arXiv bởi nhóm tác giả thuộc Institute of Science Tokyo với cấu trúc thực nghiệm bài bản.",
+  "technical": "Thiết kế phương pháp rõ ràng, công thức toán học và cấu hình tối ưu RL (GRPO, penalty terms, LoRA) được trình bày đầy đủ, chi tiết.",
+  "impact": "Cung cấp giải pháp thiết thực cho việc điều khiển TTS hội thoại bằng LLM nhưng mới chỉ kiểm chứng trên một mô hình TTS cụ thể và chưa có mã nguồn mở kèm theo.",
+  "evidence": "Thực nghiệm đối sánh phong phú trên nhiều metric âm thanh, kiểm định thống kê Wilcoxon và LLM-based A/B testing hỗ trợ mạnh mẽ cho các luận điểm."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu đề xuất SRSP (Speech-Rewarded Style Planning), một phương pháp huấn luyện bộ lập kế hoạch phong cách bằng văn bản (text-based style planner) bằng thuật toán GRPO dựa trên phản hồi trực tiếp từ mô hình downstream TTS bị đóng băng (frozen). Thay vì dùng mô tả lời nói (speech caption) làm pseudo-label, SRSP sử dụng negative teacher-forced cross-entropy loss của target speech tokens làm reward để tối ưu hóa khả năng điều khiển bộ tổng hợp âm thanh.",
+  "problem": "Các mô tả phong cách bằng ngôn ngữ tự nhiên làm trung gian giữa LLM và TTS có khả năng kiểm soát. Tuy nhiên, việc dùng caption âm thanh làm pseudo-label để giám sát text planner gặp hạn chế: độ tương đồng mô tả (descriptive fidelity / speech-text alignment) chỉ dự đoán yếu sự tương đồng âm thanh downstream (acoustic similarity) giữa các câu hướng dẫn ứng viên. Một caption chính xác chưa chắc đã tạo ra được lời nói gần nhất với âm thanh mục tiêu trên một bộ tổng hợp cụ thể.",
+  "method": "Quy trình huấn luyện và kiến trúc của SRSP bao gồm:\n- **Khảo sát mở đầu**: Tác giả chứng minh tương quan Spearman nội câu giữa điểm căn chỉnh speech-text (T2S qua ParaSpeechCLAP và CLSP) với các thước đo âm thanh downstream (S2S, emotion similarity, -MCD-DTW) là rất yếu, và chọn câu hướng dẫn theo T2S chỉ cải thiện rất ít so với chọn ngẫu nhiên.\n- **Problem formulation**: Planner $\\pi_\\theta(z \\mid H, y)$ nhận lịch sử hội thoại dạng văn bản $H$ và văn bản phản hồi $y$ để sinh ra chỉ dẫn phong cách $z$. Tại inference, TTS nhận $z$, $y$ và prompt âm thanh $p$ cùng người nói.\n- **Reward từ Target-Speech Likelihood**: Với mỗi chỉ dẫn ứng viên $z_i$, TTS LLM (đóng băng) tính mean teacher-forced cross-entropy loss trên chuỗi target speech tokens $s=(s_1, \\dots, s_T)$: $L_{\\text{TTS}}(z_i) = -\\frac{1}{T} \\sum_{t=1}^T \\log p_\\phi(s_t \\mid s_{<t}, y, z_i)$. Reward được định nghĩa là $R_i = -L_{\\text{TTS}}(z_i) - P_i$, trong đó $P_i$ là các hình phạt phụ trợ (phạt độ dài quá ngắn, từ ngữ lặp lại bigram/trigram).\n- **GRPO Optimization**: Lấy mẫu nhóm $G=8$ chỉ dẫn, chuẩn hóa reward $A_i = \\frac{R_i - \\bar{R}}{\\sigma_R + \\epsilon}$, và tối ưu hàm mục tiêu cắt tỉa (clipped objective) kèm theo phạt KL penalty đối với chính sách gốc $\\pi_{\\text{ref}}$.\n- **Mô hình**: Planner là Qwen3.5-9B tinh chỉnh bằng LoRA rank 16 trên toàn bộ linear layers; mô hình TTS và reward đóng băng là Fun-CosyVoice3-0.5B.",
+  "setup": "Tập dữ liệu rút trích từ ISCSLP 2026 CoT-TTS corpus (tiếng Anh) sau các bước lọc thu được 299.75 giờ, chia ra train (277.60 giờ) và 4 tập dev/test (mỗi tập 2,750 câu, ~5 giờ): `dev_in`/`test_in` giữ lại các cảnh từ phim đã có trong train, `dev_out`/`test_out` giữ lại các phim chưa từng thấy. Baselines: Raw TTS (không có chỉ dẫn phong cách), Base LLM (Qwen3.5-9B pre-RL), AF-Next (Audio Flamingo Next Captioner) và Qwen3-Omni (Qwen3-Omni-30B-A3B-Instruct) được cấp quyền truy cập waveform mục tiêu (privileged baselines). Metrics: T2S (ParaCLAP-C, ParaCLAP-S, CLSP), S2S (ParaCLAP-C, ParaCLAP-S, CLSP), Emotion Cosine Similarity (emotion2vec), MCD-DTW, cùng đánh giá A/B expressive speech tự động bằng Gemini 3.8 Flash.",
+  "results": [
+   "Trên test_in/test_out, SRSP đạt S2S ParaCLAP-C là .3632/.3627, ParaCLAP-S là .3496/.3502, CLSP là .8329/.8296, Emotion similarity là .6417/.6269, và MCD-DTW là 5.9569/6.1637, vượt qua tất cả các baseline gồm cả Base LLM (.3166/.3220, .2979/.3078, .8150/.8146, .6124/.5927, 6.3395/6.5072) và Raw TTS (.3370/.3494, .3246/.3303, .8160/.8148, .6098/.6119, 6.2426/6.3932).",
+   "Baseline đặc quyền AF-Next có T2S cao nhất (.0788/.0841, .0996/.0973, .5404/.5423) nhưng lại xếp chót ở cả 5 thang đo âm thanh downstream trên cả hai tập phân chia (S2S ParaCLAP-C .2874/.2982, MCD-DTW 6.8890/7.0128).",
+   "Trong đánh giá ngữ cảnh (context-only) bằng Gemini 3.8 Flash, tỷ lệ thắng của SRSP trước Base LLM đạt 54.19% (test_in) và 53.67% (test_out); trước Raw TTS là 65.54%/63.92%; trước AF-Next là 75.63%/75.75%; trước Qwen3-Omni là 55.21%/56.65% (p < .001).",
+   "Trong so sánh trực tiếp với Ground Truth (GT) ở bối cảnh ngữ cảnh, SRSP đạt win rate cao nhất trong số các hệ thống tổng hợp với 18.41% (test_in) và 19.06% (test_out), so với Raw TTS (12.26%/13.09%) và Base LLM (15.90%/16.87%)."
+  ],
+  "limitations": "Đánh giá chất lượng biểu cảm chủ yếu dựa trên mô hình thẩm định LLM (Gemini 3.8 Flash) và chưa được kiểm chứng qua bài test nghe từ con người (human listening tests). Cả việc tính toán reward lẫn tổng hợp âm thanh đều gắn chặt với Fun-CosyVoice3-0.5B; khả năng chuyển giao (transfer) sang các TTS backends khác chưa được đánh giá.",
+  "takeaways": "Căn chỉnh ngữ nghĩa văn bản - giọng nói (T2S descriptive alignment) không phản ánh chính xác khả năng điều khiển bộ tổng hợp âm thanh thực tế; việc sử dụng trực tiếp likelihood của target speech token từ TTS model đóng băng qua GRPO là phương pháp hiệu quả để tối ưu hóa instruction generation mà không cần gán nhãn caption thủ công.",
+  "strengths": [
+   "Ý tưởng dùng speech likelihood làm reward rất trực diện",
+   "Chứng minh rõ mismatch giữa speech-text alignment và TTS control",
+   "Vượt qua cả privileged captioning baselines có GT audio",
+   "Thiết kế kiểm nghiệm phân chia test_in và test_out chặt chẽ"
+  ],
+  "weaknesses": [
+   "Chưa có đánh giá kiểm nghiệm nghe từ con người",
+   "Chỉ thử nghiệm trên duy nhất backend Fun-CosyVoice3-0.5B",
+   "Vẫn còn khoảng cách lớn so với Ground Truth"
+  ],
+  "context": "Shiao Zhu et al. (Institute of Science Tokyo, Tokyo, Japan) đăng tải trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tacit-TTS: From Autoregressive Decoding to Masked Prediction for Efficient Transcript-Free Voice Cloning · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -112,9 +114,9 @@
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
               <div class="prose"><p>Tacit-TTS xây dựng pipeline hai giai đoạn dựa trên kiến trúc IndexTTS2 nhưng tối ưu hóa mạnh mẽ:</p>
 <ul>
-<li><strong>T2S Masked Non-Autoregressive:</strong> Thay thế mô hình AR T2S (527M tham số) bằng bidirectional DiT (269M tham số) hoạt động theo cơ chế masked-LM (tương tự MaskGCT) với 12 bước unmasking. Giữ nguyên bộ trích xuất đặc trưng speaker ($E_s \in \mathbb{R}^{32 \times d}$) và emotion ($E_e \in \mathbb{R}^d$) dạng đông băng (frozen w2v-BERT-2.0 + Perceiver).</li>
-<li><strong>Kiểm soát độ dài không cần huấn luyện (Training-Free Length Control):</strong> Ước lượng số âm tiết thoại đích $N_x^t$ từ văn bản (đếm ký tự cho tiếng Trung, <code>textstat</code> cho tiếng Anh) và số âm tiết audio tham chiếu $N_r^a$ thông qua thuật toán DSP (tìm đỉnh năng lượng RMS kết hợp thuật toán YIN để lọc vùng voiced), tính hệ số tốc độ $\rho_r = T_r / (\kappa N_r^a)$ (kẹp trong khoảng [7, 12]) và suy ra độ dài mục tiêu $\hat{T} = \text{round}(N_x^t \tilde{\rho}_r)$.</li>
-<li><strong>Text-to-Semantic Distillation:</strong> Chưng cất từ IndexTTS2 với hàm mất mát $\mathcal{L}<em>{T2S} = \mathcal{L}</em>{mask} + \lambda \mathcal{L}<em>{res}$, trong đó $\mathcal{L}</em>{mask}$ tối ưu cross-entropy trên các vị trí bị che (mask ratio lấy mẫu theo phân phối cosin và điều biến qua AdaLN), còn $\mathcal{L}_{res}$ phục hồi biểu diễn continuous latent $\Delta$ từ teacher cho renderer S2Mel.</li>
+<li><strong>T2S Masked Non-Autoregressive:</strong> Thay thế mô hình AR T2S (527M tham số) bằng bidirectional DiT (269M tham số) hoạt động theo cơ chế masked-LM (tương tự MaskGCT) với 12 bước unmasking. Giữ nguyên bộ trích xuất đặc trưng speaker (<span class="math inline">E_s \in \mathbb{R}^{32 \times d}</span>) và emotion (<span class="math inline">E_e \in \mathbb{R}^d</span>) dạng đông băng (frozen w2v-BERT-2.0 + Perceiver).</li>
+<li><strong>Kiểm soát độ dài không cần huấn luyện (Training-Free Length Control):</strong> Ước lượng số âm tiết thoại đích <span class="math inline">N_x^t</span> từ văn bản (đếm ký tự cho tiếng Trung, <code>textstat</code> cho tiếng Anh) và số âm tiết audio tham chiếu <span class="math inline">N_r^a</span> thông qua thuật toán DSP (tìm đỉnh năng lượng RMS kết hợp thuật toán YIN để lọc vùng voiced), tính hệ số tốc độ <span class="math inline">\rho_r = T_r / (\kappa N_r^a)</span> (kẹp trong khoảng [7, 12]) và suy ra độ dài mục tiêu <span class="math inline">\hat{T} = \text{round}(N_x^t \tilde{\rho}_r)</span>.</li>
+<li><strong>Text-to-Semantic Distillation:</strong> Chưng cất từ IndexTTS2 với hàm mất mát <span class="math inline">\mathcal{L}_{T2S} = \mathcal{L}_{mask} + \lambda \mathcal{L}_{res}</span>, trong đó <span class="math inline">\mathcal{L}_{mask}</span> tối ưu cross-entropy trên các vị trí bị che (mask ratio lấy mẫu theo phân phối cosin và điều biến qua AdaLN), còn <span class="math inline">\mathcal{L}_{res}</span> phục hồi biểu diễn continuous latent <span class="math inline">\Delta</span> từ teacher cho renderer S2Mel.</li>
 <li><strong>Semantic-to-Mel Reflow Distillation:</strong> Fine-tune bộ dựng flow-matching S2Mel trên đầu ra của mô hình T2S mới, sau đó áp dụng ReFlow distillation để làm thẳng quỹ đạo trajectory, giảm số bước tích phân Euler từ ~25 xuống còn 4–8 bước (mặc định 8 bước).</li>
 </ul>
 </div>

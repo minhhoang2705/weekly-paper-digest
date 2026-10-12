@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AURAL: Adaptive Latent Reasoning with Joint Chunk for Speech Language Models · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -112,8 +114,8 @@
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
               <div class="prose"><p>AURAL giải quyết các rào cản qua quy trình hai giai đoạn:</p>
 <ul>
-<li><strong>AURAL-SFT với Joint Chunk Prediction</strong>: Gom cụm (pool) $c$ vector nhúng CoT liên tiếp thành một vector mục tiêu ẩn liên tục (với $c=4$). Thay vì hồi quy từng bước tuần tự, một latent head dự đoán đồng thời một chunk gồm $m=10$ trạng thái tương lai bằng Gaussian Mixture Model ($K=4$ thành phần) với ma trận hiệp phương sai dạng low-rank-plus-diagonal ($r=16$), giảm số lượt forward tuần tự từ $L$ xuống $\lceil L/m \rceil$. Chunkwise Semantic Alignment (CSA) đóng vai trò neo ngữ nghĩa, ép các trạng thái ẩn giữ liên kết với từ vựng văn bản. Kỹ thuật Latent Scheduled Sampling (LSS) thực hiện hai lượt forward để giảm hiện tượng exposure bias trong không gian liên tục.</li>
-<li><strong>AURAL-RL thích ứng</strong>: Áp dụng GRPO với 8 rollouts mỗi prompt, chuẩn hóa log density của chunk ẩn theo số chiều $d_i^v$. Hàm thưởng chất lượng kết hợp phạt độ dài $R = q [1 + \lambda (1 - \ell(L))] - \alpha I_{EOL} - \beta I_{end}$ (với $\lambda=0.5, \alpha=0.1, \beta=0.02, L_{max}=64$) giúp mô hình tự học chính sách dừng dựa trên độ khó bài toán.</li>
+<li><strong>AURAL-SFT với Joint Chunk Prediction</strong>: Gom cụm (pool) <span class="math inline">c</span> vector nhúng CoT liên tiếp thành một vector mục tiêu ẩn liên tục (với <span class="math inline">c=4</span>). Thay vì hồi quy từng bước tuần tự, một latent head dự đoán đồng thời một chunk gồm <span class="math inline">m=10</span> trạng thái tương lai bằng Gaussian Mixture Model (<span class="math inline">K=4</span> thành phần) với ma trận hiệp phương sai dạng low-rank-plus-diagonal (<span class="math inline">r=16</span>), giảm số lượt forward tuần tự từ <span class="math inline">L</span> xuống <span class="math inline">\lceil L/m \rceil</span>. Chunkwise Semantic Alignment (CSA) đóng vai trò neo ngữ nghĩa, ép các trạng thái ẩn giữ liên kết với từ vựng văn bản. Kỹ thuật Latent Scheduled Sampling (LSS) thực hiện hai lượt forward để giảm hiện tượng exposure bias trong không gian liên tục.</li>
+<li><strong>AURAL-RL thích ứng</strong>: Áp dụng GRPO với 8 rollouts mỗi prompt, chuẩn hóa log density của chunk ẩn theo số chiều <span class="math inline">d_i^v</span>. Hàm thưởng chất lượng kết hợp phạt độ dài <span class="math inline">R = q [1 + \lambda (1 - \ell(L))] - \alpha I_{EOL} - \beta I_{end}</span> (với <span class="math inline">\lambda=0.5, \alpha=0.1, \beta=0.02, L_{max}=64</span>) giúp mô hình tự học chính sách dừng dựa trên độ khó bài toán.</li>
 <li><strong>AuralReason-683K</strong>: Xây dựng bộ dữ liệu song ngữ Trung-Anh gồm 683K phát ngôn (~1,000 giờ) với CoT súc tích (&lt;120 tokens) từ 4 nguồn: LIME-440K (320K), EmotionCoT-35K (18K), HumanSpeech-1M (75K), và GeneralSpeech (270K).</li>
 </ul>
 </div>
@@ -127,8 +129,8 @@
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
               <div class="prose"><ul>
 <li>Trên Qwen2.5-Omni, AURAL-RL đạt kết quả tương đương hoặc nhỉnh hơn CoT-RL trên 11 chỉ số: EchoMind MCQ đạt 68.63% (so với 68.42% của CoT-RL), EchoMind OpenQ đạt 3.668 (so với 3.658), GPQA đạt 39.38% (so với 37.55%), VoiceBench OBQA đạt 87.25% (so với 87.03%), MMSU đạt 64.76% (so với 64.34%).</li>
-<li>Giảm thời gian xuất hiện token câu trả lời đầu tiên (TTFT) trung bình từ 1.218 s (CoT-RL) xuống 0.103 s (AURAL-RL $c=4, m=10$), tương đương tăng tốc 11.8× (so với 0.050 s của Base sinh trực tiếp không suy luận).</li>
-<li>Giảm số lượt forward pass tuần tự trong giai đoạn suy luận từ 64.25 token passes xuống còn 1.79 chunk passes, đạt mức giảm $F_{\downarrow} = 97.21%$.</li>
+<li>Giảm thời gian xuất hiện token câu trả lời đầu tiên (TTFT) trung bình từ 1.218 s (CoT-RL) xuống 0.103 s (AURAL-RL <span class="math inline">c=4, m=10</span>), tương đương tăng tốc 11.8× (so với 0.050 s của Base sinh trực tiếp không suy luận).</li>
+<li>Giảm số lượt forward pass tuần tự trong giai đoạn suy luận từ 64.25 token passes xuống còn 1.79 chunk passes, đạt mức giảm <span class="math inline">F_{\downarrow} = 97.21%</span>.</li>
 <li>Tổng thời gian phản hồi (Full response latency) trung bình giảm từ 1.510 s (CoT-RL) xuống 0.322 s (AURAL-RL), đạt mức tăng tốc 4.7×.</li>
 <li>Chuyển giao hiệu quả sang Kimi-Audio: AURAL-RL đạt 69.53% (EchoMind MCQ), 38.64% (GPQA), 88.57% (VoiceBench OBQA), vượt trội so với Base (62.76%, 29.30%, 83.30%) và cạnh tranh trực tiếp với CoT-RL (70.12%, 37.36%, 86.81%).</li>
 <li>Độ sâu suy luận tiềm ẩn tự động co giãn theo độ khó câu hỏi: trung bình số bước ẩn trên GPQA tăng từ 13.27 lên 15.07 qua các mức độ khó 3 đến 5; trên BBH tăng từ 10.68 lên 13.47 qua các mức độ khó 1 đến 3.</li>

@@ -1,0 +1,52 @@
+{
+ "id": "arxiv:2610.09211",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đề xuất kỹ thuật mở rộng BPE merge-consistent và hàm tối ưu tiered-JSD đa tầng nhắm cụ thể vào cụm phụ âm hiếm (juktakkhor) cho mô hình TTS nền tảng.",
+  "credibility": "Bài báo cung cấp chi tiết toàn diện về phần cứng, chi phí tính toán, giao thức P.808 với 24 rater, kiểm định giả thuyết thống kê nghiêm ngặt và cam kết phát hành toàn bộ hiện vật.",
+  "technical": "Kỹ thuật thích ứng được phân tích sâu sắc từ kiến trúc, cách khởi tạo embedding tâm cụm, prompt masking, cho đến xử lý ngắt câu long-form.",
+  "impact": "Là hệ thống TTS zero-shot mã nguồn mở chất lượng cao đầu tiên cho tiếng Bengali vùng Bangladesh, cung cấp tài nguyên cân bằng ngữ âm 520 giờ quý giá cho cộng đồng.",
+  "evidence": "Các kết luận được hỗ trợ bằng kiểm định Wilcoxon có hiệu chỉnh Bonferroni, kiểm tra độ tin cậy rater (Krippendorff's alpha), ablation study chi tiết cho từng thành phần và thử nghiệm stress test trên nhiều tập dữ liệu ngoài."
+ },
+ "summary": {
+  "tldr": "BanglaBox giới thiệu quy trình chuyển đổi mô hình TTS nền tảng tự hồi quy (Chatterbox) sang tiếng Bengali (giọng Bangladeshi) kèm khả năng zero-shot voice cloning. Tác giả đóng góp bộ dữ liệu cân bằng ngữ âm 520,3 giờ, quy trình tinh chỉnh 3 giai đoạn (mở rộng tokenizer nhất quán ngữ nghĩa merge, chuẩn hóa văn bản, và prompt-masked loss), cùng giao thức đánh giá thống kê nghiêm ngặt BanglaEval.",
+  "problem": "Các tập dữ liệu và hệ thống TTS tiếng Bengali hiện có chủ yếu là đơn người nói (single-speaker), kích thước nhỏ, chỉ chú trọng độ phủ âm đơn/âm đôi mà bỏ qua các cụm phụ âm ghép phức tạp (*juktakkhor*). Ngoài ra, các hệ thống nguồn mở hiện tại như IndicF5 và YourTTS có độ tương đồng người nói (SECS) rất thấp, trong khi hệ thống SOTA như BnTTS yêu cầu tới 3.850 giờ âm thanh và không mở trọng số.",
+  "method": "Quy trình thích ứng mô hình nền tảng Chatterbox TTS (gồm bộ biến đổi AR T3 520M tham số, bộ giải mã S3Gen 24 kHz HiFi-GAN và Voice Encoder 256 chiều) gồm:\n1. **Xây dựng tập dữ liệu cân bằng (BanglaBox-520)**: Gồm Tier A (367,3 giờ phòng thu, 13 người nói) được tạo kịch bản từ LLM qua 9 cổng chất lượng nghiêm ngặt và tối ưu hóa hàm mất mát phân kỳ Jensen-Shannon đa tầng (tiered JSD) $\\mathcal{L}(S, T) = \\sum_{k \\in \\{p, d, t, j\\}} w_k \\cdot \\text{JSD}(P_k, T_k)$ trên phân bố âm đơn, âm đôi, âm ba và *juktakkhor* (trọng số $0.1, 0.2, 0.3, 0.4$); kết hợp với Tier B (153,0 giờ, 23 người nói) được lọc dựa trên SNR và ablation.\n2. **Mở rộng Tokenizer merge-consistent**: Mở rộng từ khóa từ 704 lên 4.240 tokens bằng cách lọc bỏ các quy tắc merge không hợp lệ (loại bỏ ~11% merge lỗi). Trọng số nhúng mới được khởi tạo bằng tâm cụm (centroid mean-initialization) $\\mu = \\frac{1}{704}\\sum_i e_i$.\n3. **Chuẩn hóa văn bản tiếng Bengali**: Pipeline 6 bước mở rộng số và từ viết tắt tôn kính tôn giáo/văn hóa bằng từ điển 47 mục.\n4. **Prompt-masked dual-loss training**: Chỉ huấn luyện T3, đóng băng Voice Encoder và S3Gen. Hàm mất mát gồm $\\mathcal{L} = \\mathcal{L}_{\\text{text}} + \\mathcal{L}_{\\text{speech}}^{\\text{masked}}$, trong đó mặt nạ $L_{\\text{prompt}} \\approx 75$ vị trí âm thanh đầu (3 giây) bị bỏ qua để tránh mô hình sao chép trực tiếp prompt thay vì điều kiện hóa theo speaker embedding.\n5. **Long-form inference**: Tách câu theo dấu ngắt câu Bengali (।, !, ?), cắt khoảng lặng đuôi bằng Silero-VAD và chèn khoảng lặng cố định 200 ms.",
+  "setup": "Tập dữ liệu 520,3 giờ (36 người nói, 7 lĩnh vực), chia speaker-disjoint (31 người nói huấn luyện, 5 người nói kiểm thử tách biệt ~76 giờ). Huấn luyện bằng 1 GPU NVIDIA H100 80GB (khoảng 100 H100-hours cho 8 lượt chạy Chatterbox). Đánh giá khách quan qua CER (Whisper large-v3), SECS (ECAPA-TDNN 192 chiều) và NISQA trên 436 câu. Đánh giá chủ quan theo ITU-T P.808 gồm 24 người bản xứ chấm 76 câu (1.824 lượt đánh giá/hệ thống) theo Naturalness, Clarity và SMOS với kiểm định Wilcoxon signed-rank kèm hiệu chỉnh Bonferroni.",
+  "results": [
+   "Naturalness: BanglaBox đạt 4.56 ± 0.16 MOS, vượt trội Google TTS (4.27 ± 0.17), Azure (4.13 ± 0.14), IndicF5 (3.89 ± 0.15) và YourTTS-FT (4.18 ± 0.14) với p < 0.01.",
+   "Speaker Similarity (SMOS, tham chiếu 10s): BanglaBox đạt 4.51 ± 0.10 MOS, cao hơn Google (4.17 ± 0.13), Azure (4.07 ± 0.11), IndicF5 (3.55 ± 0.14) và YourTTS-FT (3.08 ± 0.15).",
+   "Clarity: BanglaBox đạt 4.69 ± 0.08 MOS, cao hơn Google (4.51 ± 0.13) và Azure (4.44 ± 0.15) với p < 0.01.",
+   "SECS (ECAPA-TDNN): BanglaBox đạt 0.627 (tham chiếu 10s) và 0.58 (tham chiếu 5s), vượt xa IndicF5 (0.37) và YourTTS-FT (0.44).",
+   "CER trên tập kiểm thử nội bộ: BanglaBox đạt 2.9%, thấp hơn IndicF5 (3.8%) và XTTS-v2 fine-tune (3.6%), cạnh tranh với Azure (2.7%) và Google (2.2%).",
+   "Đánh giá trên benchmark công khai BnTTS: BanglaBox đạt CER thấp hơn BnTTS trên BengaliStimuli53 (7.2% vs 8.6%), BengaliNamedEntity1000 (2.9% vs 4.0%), và ShortText (6.7% vs 9.2%)."
+  ],
+  "limitations": "Số lượng người nói tương đối khiêm tốn (36 người); xuất hiện độ lệch ngữ điệu kiểu tiếng Anh ở các câu dài; kịch bản Tier A sinh từ LLM có thể mang văn phong LLM; độ chính xác phát âm các cụm 3 phụ âm cực hiếm (<0.3%) còn thấp (88.2%); chưa hỗ trợ streaming (RTF 0.42 không batch trên H100); chỉ nhắm tới chuẩn Dhaka, chưa thử nghiệm các phương ngữ Tây Bengal, Assam hay Tripura.",
+  "takeaways": "Quy trình thích ứng mô hình TTS nền tảng chỉ cần 520 giờ audio nếu được cân bằng ngữ âm bằng JSD chặt chẽ thay vì hàng ngàn giờ ngẫu nhiên. Kỹ thuật che prompt (prompt-masked loss) là chìa khóa để mô hình tự hồi quy không bị học vẹt prompt âm thanh trong tác vụ zero-shot voice cloning.",
+  "strengths": [
+   "Cân bằng ngữ âm qua hàm tiered-JSD",
+   "Quy trình mở rộng tokenizer merge-consistent chặt chẽ",
+   "Kỹ thuật prompt-masked loss hiệu quả",
+   "Đánh giá thống kê chuẩn mực (Wilcoxon + Bonferroni)",
+   "Mở mã nguồn, trọng số và dữ liệu hoàn toàn"
+  ],
+  "weaknesses": [
+   "Quy mô người nói còn hạn chế (36 người)",
+   "Chưa hỗ trợ streaming trong thời gian thực",
+   "Lỗi ngữ điệu tiếng Anh ở câu dài",
+   "Chưa xử lý chuyển mã (code-switching) triệt để"
+  ],
+  "context": "Emtiaz Uddin Ahmed et al. (được gửi lên arXiv:2610.09211 [cs.SD] vào tháng 10 năm 2026), phát hành toàn bộ dữ liệu, trọng số và code trên Hugging Face (huggingface.co/Banglabox)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

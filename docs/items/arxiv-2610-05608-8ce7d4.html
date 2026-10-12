@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kandinsky 6.0 Video: Foundation Models for Synchronized Video and Audio Generation · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Kandinsky 6.0 Video: Foundation Models for Synchronized Video and Audio Generation</h1>
+    <div class="meta">
+      <span title="Listed by HF Daily Papers inside the crawl window">found Oct 6, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 4, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">HF Daily Papers</span><span class="pill pill-accent">TTS</span>        <span class="authors">Team Kandinsky, Julia Agafonova, Bulat Akhmatov, Mikhail Aksyutin, Grigorii Alekseenko, Anastasia Aliaskina, Olga Androsova, Vladimir Arkhipkin, Anna Averchenkova, Alexander Belykh, Serafima Bocharova, Sofiya Bogakovskaya, Anton Bukashkin, Mark Bulygin, Kirill Buzygin +73 more</span>
+    </div>
+  </div>
+  <div class="header-actions">
+      <a class="button" href="https://github.com/kandinskylab/kandinsky-6" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Code</a>
+    <a class="button" href="https://huggingface.co/papers/2610.05608" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>We present Kandinsky 6.0 Video, a family of foundation diffusion models for synchronized text-to-audio-video generation, comprising Kandinsky 6.0 Video Lite (3B parameters) and Kandinsky 6.0 Video Pro (29B parameters). Both models generate 5-second video clips with synchronized 44 kHz audio, including lip-sync, in text-to-audio-video (T2AV) and image-to-audio-video (I2AV) modes; a built-in super-resolution model raises the output resolution to Full-HD (1920times1080). Building on the video generation capabilities of Kandinsky 5.0, Kandinsky 6.0 Video employs a dual-stream CrossDiT architecture that connects a pretrained video stream and a newly trained audio stream through bidirectional cross-attention for temporal and semantic alignment. Our continuous pretraining strategy first trains the audio stream from scratch on large-scale audio corpora and then trains both streams jointly on paired audio-video data while preserving unimodal fidelity; pretraining is followed by supervised fine-tuning, reinforcement-learning-based post-training, and distillation. In side-by-side human evaluation, Kandinsky 6.0 Video Pro clearly outperforms its predecessor, Kandinsky 5.0 Video Pro, and remains competitive with leading audio-video generation models, particularly in speech quality. To accelerate open research and deployment in multimedia generation, we release the code, model checkpoints, and diffusers integration under the MIT license.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 12, 2026 · arXiv HTML</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Kandinsky 6.0 Video là bộ foundation model khuếch tán đa phương thức (gồm bản Lite 3B và Pro 29B) cho tác vụ sinh video kèm âm thanh đồng bộ 44 kHz và hát/nói khớp khẩu hình (lip-sync) trong 5 giây ở chế độ T2AV và I2AV. Mô hình kết hợp kiến trúc dual-stream CrossDiT, quy trình continuous pretraining, SFT 11 miền kết hợp model soup, hậu huấn luyện RL dựa trên OmniNFT và chưng cất 2 giai đoạn (<span class="math inline">\pi</span>-Flow + Sim-LADD) xuống còn 10 bước tính toán.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Sinh video kèm âm thanh đồng bộ (T2AV) phức tạp hơn nhiều so với sinh đơn phương thức vì đòi hỏi sự nhất quán về ngữ nghĩa, thời gian và cảm xúc, đặc biệt là khớp khẩu hình nhân vật. Các hệ thống thương mại hàng đầu như Sora 2, Veo 3.1, Wan 2.6 đều đóng mã nguồn; trong khi đó, các mô hình mã nguồn mở hiện tại vẫn bị hạn chế về độ phân giải, thời lượng clip và độ chính xác đồng bộ âm thanh - hình ảnh.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Mô hình cốt lõi dùng kiến trúc dual-stream CrossDiT bất đối xứng: stream video (kế thừa từ Kandinsky 5.0, dùng Hunyuan VAE) và stream âm thanh (khởi tạo ngẫu nhiên, dùng MMAudio autoencoder 44 kHz), liên kết bằng các lớp bidirectional cross-attention qua từng block. Text được mã hóa bởi Qwen2.5-VL-7B-Instruct và CLIP ViT-L/14. Vị trí được mã hóa bằng RoPE (video chuẩn hóa theo 24 fps). Quy trình gồm 4 giai đoạn chính:</p>
+<ol>
+<li><strong>Continuous Pre-training</strong>: Huấn luyện luồng âm thanh riêng (T2A), tiếp tục song song luồng video (T2V), sau đó ghép nối cross-attention và huấn luyện chung T2AV/I2AV với chế độ <code>independent_time</code> (mức nhiễu sampled độc lập giữa âm thanh và video) cùng Token Role Embeddings (TRE).</li>
+<li><strong>Supervised Fine-Tuning (SFT)</strong>: Huấn luyện độc lập trên 11 miền nội dung; Giai đoạn 1 nâng cao chất lượng thị giác, Giai đoạn 2 tối ưu đồng bộ với loss trọng số gồm video loss (0.85), audio loss (0.15) và face loss trên vùng mặt (1.0). Sau đó trộn trọng số đồng đều bằng model soup.</li>
+<li><strong>Reinforcement Learning (OmniNFT adaptation)</strong>: Sử dụng nhóm GRPO (<span class="math inline">G=4</span> cho Pro, <span class="math inline">G=8</span> cho Lite) với LoRA (rank 64, <span class="math inline">\alpha=64</span>). Hàm reward gồm 8 mục tiêu: video (HPSv3, VideoAlign), audio (AudioBox Aesthetics, CLAP, Whisper-ASR), và sync (AV-desync, AV-align, LatentSync-gated với điểm StableSyncNet nhân điểm nhận dạng chữ Whisper). Áp dụng layer-wise gradient surgery trên KV của V2A cross-attention và region-wise loss reweighting từ attention map của A2V.</li>
+<li><strong>Chưng cất (Distillation)</strong>: Nén quỹ đạo qua <span class="math inline">\pi</span>-Flow (on-policy imitation learning) xuống 10 NFE, sau đó tinh chỉnh đối kháng qua Sim-LADD với gradient truyền ngược qua 5 bước solver cuối (DRaFT-<span class="math inline">K</span>).</li>
+<li><strong>Mô hình Super-Resolution</strong>: Sử dụng không gian latent K-VAE (64 kênh), gồm Latent Upscaler (LU) nâng kích thước trực tiếp trong latent space và SR-DiT (1.41B params, NABLA attention, chưng cất qua <span class="math inline">\pi</span>-Flow DX còn 2 NFE) để nâng video SD lên Full-HD (1920x1080).</li>
+</ol>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Huấn luyện trên tập dữ liệu quy mô lớn gồm 50M T2I, 20M T2V, 40M T2A, 7M T2AV, 116K I2AV, tập SFT (4,663 clip Stage 1 và 7,686 clip Stage 2), 2,984 clip RL và tập Russian Cultural Code (1.2M ảnh, 530K video). Hỗ trợ tiếng Anh và tiếng Nga. Đánh giá tự động trên benchmark VABench và tính WER bằng Qwen3-ASR-1.7B (speech subset VABench) hoặc Whisper-large-v3. Tối ưu phần cứng tiêu dùng bằng block offloading (chỉ giữ 2 transformer blocks trên GPU), MagCache (bỏ qua bước lấy mẫu) và SageAttention2++, cho phép chạy trên card RTX 16 GB, 24 GB và 32 GB.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên VABench, Kandinsky 6.0 Video Pro vượt LTX 2.5 ở đa số tiêu chí: speech_qn (1.496 vs 1.427), lipsync (2.072 vs 1.567), desync (0.396 vs 0.521, thấp hơn là tốt hơn), audio_aes (3.345 vs 3.307), visual_realism (4.485 vs 4.366), tv_align (0.229 vs 0.185), av_align (0.268 vs 0.258). LTX 2.5 nhỉnh hơn ở alignment (4.527 vs 4.329) và WER (0.099 vs 0.117).</li>
+<li>Kandinsky 6.0 Video Lite đạt điểm cao ở VABench: ta_align (0.374), audio_realism (3.900), visual_qa (0.691), audio_qa (0.697).</li>
+<li>RL post-training giảm mạnh WER (đo bằng Whisper-large-v3) trên benchmark test tiếng nói (64 prompt, 3 seed): Pro giảm từ 0.235 (SFT) xuống 0.124 (giảm 47% tương đối, p &lt; 0.001); Lite giảm từ 0.179 xuống 0.127 (p = 0.002). Trên tập Harvard sentences (100 prompt), Pro WER giảm từ 0.251 xuống 0.180 (p = 0.001).</li>
+<li>Đánh giá người dùng (human SBS): Kandinsky 6.0 Video Pro vượt trội rõ rệt bản tiền nhiệm Kandinsky 5.0 Video Pro ở cả T2V và I2V; thắng thế LTX 2.5 ở chất lượng hình ảnh và chất lượng giọng nói (speech quality); cạnh tranh tốt với Kling 2.6 và Veo 3.1 Fast; vượt trội Seedance 2.0 ở chất lượng giọng nói dù kém hơn ở visual fidelity; chịu lép vế trước MiniMax H3 ở hầu hết các khía cạnh thị giác nhưng vẫn cạnh tranh ở lip-sync và đồng bộ âm thanh.</li>
+<li>Thời gian sinh clip 5s ở cấu hình Pro SD: 356s trên H100, 754s trên RTX 5090 và 936s trên RTX 4090 (với MagCache và block offload).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Thời lượng video giới hạn ở mức 5 giây. Độ phân giải sinh gốc chỉ ở mức SD, phụ thuộc vào module super-resolution riêng để đạt Full-HD. Vẫn còn khoảng cách về chất lượng thị giác tổng thể và độ chi tiết âm thanh so với các mô hình thương mại đóng hàng đầu như MiniMax H3. Chạy inference trên GPU tiêu dùng còn chậm do cơ chế block offloading.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Cung cấp một pipeline hoàn chỉnh và mã nguồn mở (giấy phép MIT) cho việc sinh video kèm âm thanh đồng bộ: kiến trúc dual-stream kết hợp cross-attention, công thức RL thích ứng với gradient surgery tránh phá vỡ modal âm thanh, và quy trình chưng cất 10 NFE. Kỹ thuật block offloading và MagCache là tham chiếu tốt để triển khai foundation model 29B tham số trên GPU tiêu dùng 16-24 GB VRAM.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">85.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#2 in 2026-W42</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 247.5,109.57 214.08,212.43 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="247.5" cy="109.57" r="3.5"/><circle class="radar-dot" cx="214.08" cy="212.43" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Mô hình tích hợp khéo léo kiến trúc dual-stream CrossDiT với continuous pretraining, cơ chế gradient surgery thích ứng cho RL đa phương thức và chưng cất 2 giai đoạn ($\pi$-Flow + Sim-LADD) cùng pipeline latent super-resolution.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 5/5 — Kỹ thuật chuyên sâu và toàn diện từ kiến trúc mô hình, lọc dữ liệu đa tầng, gradient surgery trong RL, chưng cất quỹ đạo kèm đối kháng, đến tối ưu hóa suy luận với block offloading và biên dịch cục bộ.</title>Technical <tspan class="radar-value">5</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 5/5 — Báo cáo cung cấp đầy đủ thực nghiệm định lượng trên benchmark chuẩn VABench, kiểm tra ý nghĩa thống kê WER, human evaluation đa tiêu chí với nhiều đối thủ cạnh tranh và nghiên cứu cắt giảm (ablation) chi tiết.</title>Evidence <tspan class="radar-value">5</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Là một trong những foundation model sinh video kèm âm thanh/khẩu hình quy mô lớn (29B) đầu tiên được mở hoàn toàn mã nguồn và trọng số, tạo tiền đề lớn cho cộng đồng nghiên cứu đa phương thức.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Đến từ nhóm phát triển Kandinsky với bề dày nghiên cứu mô hình sinh, báo cáo chi tiết thông số kỹ thuật, dữ liệu huấn luyện và đã phát hành mã nguồn mở dưới giấy phép MIT.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Mô hình tích hợp khéo léo kiến trúc dual-stream CrossDiT với continuous pretraining, cơ chế gradient surgery thích ứng cho RL đa phương thức và chưng cất 2 giai đoạn (<span class="math inline">\pi</span>-Flow + Sim-LADD) cùng pipeline latent super-resolution.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Đến từ nhóm phát triển Kandinsky với bề dày nghiên cứu mô hình sinh, báo cáo chi tiết thông số kỹ thuật, dữ liệu huấn luyện và đã phát hành mã nguồn mở dưới giấy phép MIT.</dd></div>
+          <div><dt>Technical <span class="muted">5/5</span></dt><dd>Kỹ thuật chuyên sâu và toàn diện từ kiến trúc mô hình, lọc dữ liệu đa tầng, gradient surgery trong RL, chưng cất quỹ đạo kèm đối kháng, đến tối ưu hóa suy luận với block offloading và biên dịch cục bộ.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Là một trong những foundation model sinh video kèm âm thanh/khẩu hình quy mô lớn (29B) đầu tiên được mở hoàn toàn mã nguồn và trọng số, tạo tiền đề lớn cho cộng đồng nghiên cứu đa phương thức.</dd></div>
+          <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Báo cáo cung cấp đầy đủ thực nghiệm định lượng trên benchmark chuẩn VABench, kiểm tra ý nghĩa thống kê WER, human evaluation đa tiêu chí với nhiều đối thủ cạnh tranh và nghiên cứu cắt giảm (ablation) chi tiết.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Mở mã nguồn, trọng số và diffusers theo MIT · Đồng bộ âm thanh - khẩu hình (lip-sync) rất tốt · Hệ thống hậu huấn luyện RL và distillation bài bản · Hỗ trợ chạy trên GPU tiêu dùng 16-32GB</p>
+          <p><span class="label">Weaknesses</span> · Độ dài clip bị giới hạn trong 5 giây · Sinh gốc ở mức SD, phải dựa vào SR · Thời gian suy luận tương đối chậm trên consumer GPU · Vẫn xếp sau mô hình thương mại về visual fidelity</p>
+          <p><span class="label">Context</span> · Nhóm nghiên cứu Team Kandinsky (Julia Agafonova và cộng sự), công bố báo cáo kỹ thuật vào tháng 10/2026 kèm mã nguồn và trọng số mở.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

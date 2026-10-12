@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>LEAP: Learned Block-wise Evidence Retrieval for Long Audio-Video Perception · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -100,7 +102,7 @@
         <div class="analysis" id="analysis-body">
             <div class="analysis-section">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
-              <div class="prose"><p>LEAP là một framework trích xuất bằng chứng (evidence retrieval) cho bài toán Long-form Audio-Visual Question Answering (AVQA) giúp mô hình đạt độ dài ngữ cảnh và bộ nhớ $O(1)$ theo thời lượng video. Thay vì nhồi toàn bộ video vào context, LEAP chia bản ghi thành các khối cố định, dùng LoRA định vị (localization) nhẹ để chấm điểm các cửa sổ ứng viên, sau đó chỉ mã hóa lại tối đa 9 cửa sổ điểm cao nhất kèm transcript outline trong một lượt trả lời duy nhất. Phương pháp giúp cải thiện 4.5–16.8% độ chính xác trên Qwen3-Omni-30B và chuyển giao thành công sang MiniCPM-o 4.5.</p>
+              <div class="prose"><p>LEAP là một framework trích xuất bằng chứng (evidence retrieval) cho bài toán Long-form Audio-Visual Question Answering (AVQA) giúp mô hình đạt độ dài ngữ cảnh và bộ nhớ <span class="math inline">O(1)</span> theo thời lượng video. Thay vì nhồi toàn bộ video vào context, LEAP chia bản ghi thành các khối cố định, dùng LoRA định vị (localization) nhẹ để chấm điểm các cửa sổ ứng viên, sau đó chỉ mã hóa lại tối đa 9 cửa sổ điểm cao nhất kèm transcript outline trong một lượt trả lời duy nhất. Phương pháp giúp cải thiện 4.5–16.8% độ chính xác trên Qwen3-Omni-30B và chuyển giao thành công sang MiniCPM-o 4.5.</p>
 </div>
             </div>
             <div class="analysis-section is-secondary">
@@ -110,11 +112,11 @@
             </div>
             <div class="analysis-section">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
-              <div class="prose"><p>LEAP chia video thành các block cố định không chồng lấn $\Delta = 600$s, mỗi block chia thành $K=8$ candidate windows $\delta = 75$s.</p>
+              <div class="prose"><p>LEAP chia video thành các block cố định không chồng lấn <span class="math inline">\Delta = 600</span>s, mỗi block chia thành <span class="math inline">K=8</span> candidate windows <span class="math inline">\delta = 75</span>s.</p>
 <ol>
-<li><strong>Giai đoạn 1 (Localization pass):</strong> Mô hình nền tảng (frozen backbone) mang <code>localization LoRA</code> (rank 16) quét từng block một lần. Video được nén thưa (0.5 fps, tối đa 24 frames/block), âm thanh giữ nguyên native rate (13 tokens/giây). Mô hình dự đoán logit của các chữ cái đại diện cho các cửa sổ trong prompt, chấm điểm $r_{m,k} = \sigma(\ell_{m,k})$ và điểm block $g_m = \max_k r_{m,k}$. Đồng thời hỗ trợ kênh quét qua văn bản ASR pre-computed (transcript channel) với base model để tiết kiệm chi phí.</li>
-<li><strong>Giai đoạn 2 (Answer pass):</strong> Giữ lại $B=3$ block có $g_m$ cao nhất, trong mỗi block lấy $W=3$ cửa sổ điểm cao nhất (tổng tối đa $BW=9$ cửa sổ $\le 36,864$ tokens). Mô hình chuyển sang <code>answer LoRA</code> (rank 16) và đọc các cửa sổ này với mật độ cao hơn (32 frames/cửa sổ + audio gốc) kèm theo một <code>transcript outline</code> (tóm tắt văn bản theo phút, xếp hạng theo câu hỏi, tối đa 4,000 tokens).</li>
-<li><strong>Huấn luyện:</strong> Cả hai LoRA gắn vào query, key, value, output projections. <code>Localization LoRA</code> được train bằng cross-entropy nhãn cửa sổ bao phủ bằng chứng nhiều nhất trên LongVALE (clip $\le 600$s). <code>Answer LoRA</code> train cross-entropy sinh câu trả lời trên dữ liệu OmniVideo-100K kèm các đoạn distractor.</li>
+<li><strong>Giai đoạn 1 (Localization pass):</strong> Mô hình nền tảng (frozen backbone) mang <code>localization LoRA</code> (rank 16) quét từng block một lần. Video được nén thưa (0.5 fps, tối đa 24 frames/block), âm thanh giữ nguyên native rate (13 tokens/giây). Mô hình dự đoán logit của các chữ cái đại diện cho các cửa sổ trong prompt, chấm điểm <span class="math inline">r_{m,k} = \sigma(\ell_{m,k})</span> và điểm block <span class="math inline">g_m = \max_k r_{m,k}</span>. Đồng thời hỗ trợ kênh quét qua văn bản ASR pre-computed (transcript channel) với base model để tiết kiệm chi phí.</li>
+<li><strong>Giai đoạn 2 (Answer pass):</strong> Giữ lại <span class="math inline">B=3</span> block có <span class="math inline">g_m</span> cao nhất, trong mỗi block lấy <span class="math inline">W=3</span> cửa sổ điểm cao nhất (tổng tối đa <span class="math inline">BW=9</span> cửa sổ <span class="math inline">\le 36,864</span> tokens). Mô hình chuyển sang <code>answer LoRA</code> (rank 16) và đọc các cửa sổ này với mật độ cao hơn (32 frames/cửa sổ + audio gốc) kèm theo một <code>transcript outline</code> (tóm tắt văn bản theo phút, xếp hạng theo câu hỏi, tối đa 4,000 tokens).</li>
+<li><strong>Huấn luyện:</strong> Cả hai LoRA gắn vào query, key, value, output projections. <code>Localization LoRA</code> được train bằng cross-entropy nhãn cửa sổ bao phủ bằng chứng nhiều nhất trên LongVALE (clip <span class="math inline">\le 600</span>s). <code>Answer LoRA</code> train cross-entropy sinh câu trả lời trên dữ liệu OmniVideo-100K kèm các đoạn distractor.</li>
 </ol>
 </div>
             </div>
@@ -141,7 +143,7 @@
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
-              <div class="prose"><p>Tách biệt giai đoạn định vị bằng chứng thô (chi phí thấp, ngữ cảnh độc lập $O(1)$) và giai đoạn lý luận chi tiết (ngữ cảnh bounded, mật độ cao) là giải pháp tối ưu cho xử lý đa phương thức thời lượng dài, giải quyết triệt để rào cản context window mà không cần nén mất mát thông tin âm thanh/hình ảnh.</p>
+              <div class="prose"><p>Tách biệt giai đoạn định vị bằng chứng thô (chi phí thấp, ngữ cảnh độc lập <span class="math inline">O(1)</span>) và giai đoạn lý luận chi tiết (ngữ cảnh bounded, mật độ cao) là giải pháp tối ưu cho xử lý đa phương thức thời lượng dài, giải quyết triệt để rào cản context window mà không cần nén mất mát thông tin âm thanh/hình ảnh.</p>
 </div>
             </div>
         </div>
@@ -165,7 +167,7 @@
           <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Thực nghiệm đồ sộ trên nhiều benchmark lớn (TraceAV, VideoOdyssey, MMOU, StreamArena...), so sánh chặt chẽ cùng stack, cung cấp đầy đủ ablation study và khoảng tin cậy bootstrap 95%.</dd></div>
       </dl>
         <div class="ranking-notes">
-          <p><span class="label">Strengths</span> · Bộ nhớ và ngữ cảnh per-pass đạt $O(1)$ · Hỗ trợ kênh transcript quét cực nhanh · Tương thích suy luận streaming không cần huấn luyện lại · Kết quả thực nghiệm vượt trội đa benchmark</p>
+          <p><span class="label">Strengths</span> · Bộ nhớ và ngữ cảnh per-pass đạt <span class="math inline">O(1)</span> · Hỗ trợ kênh transcript quét cực nhanh · Tương thích suy luận streaming không cần huấn luyện lại · Kết quả thực nghiệm vượt trội đa benchmark</p>
           <p><span class="label">Weaknesses</span> · Kém hiệu quả ở tác vụ đếm (counting) · Chưa có cơ chế re-try khi truy xuất trượt · Phụ thuộc mô hình ASR cho outline</p>
           <p><span class="label">Context</span> · Juyi Lin et al. (Northeastern University &amp; Futurewei Technologies), arXiv preprint (arXiv:2609.39938v1, Sep 2026).</p>
         </div>

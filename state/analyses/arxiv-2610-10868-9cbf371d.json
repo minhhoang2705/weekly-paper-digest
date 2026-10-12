@@ -1,0 +1,48 @@
+{
+ "id": "arxiv:2610.10868",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất bài toán voice aesthetic có ngữ cảnh hội thoại và áp dụng GRPO dựa trên hàm khoảng cách phân phối phiếu bầu của người nghe thay vì tối ưu nhãn đa số điểm đơn.",
+  "credibility": "Nghiên cứu đến từ Meta Superintelligence Labs và Columbia University với phương pháp luận và dữ liệu minh bạch, dù hiện tại là bản thảo arXiv chưa qua bình duyệt xuất bản chính thức.",
+  "technical": "Thiết kế kỹ thuật chi tiết từ tiền xử lý acoustic tools, thiết kế prompt tạo synthetic descriptions, đến công thức đạo hàm hàm khoảng cách phân phối để định hình hàm thưởng GRPO.",
+  "impact": "Cung cấp nền tảng và phương pháp luận quan trọng để làm reward model hoặc judge model căn chỉnh các voice agent và hệ thống Speech-to-Speech thế hệ mới.",
+  "evidence": "Thực nghiệm đối chuẩn chặt chẽ với nhiều speech LLM hàng đầu (Gemini 3.1 Pro, Qwen-Omni), có phân tích ablation chi tiết giữa các dạng hàm thưởng và so sánh với human-level agreement."
+ },
+ "summary": {
+  "tldr": "CVAM (Conversational Voice Aesthetic Model) là speech LLM 7B (dựa trên Qwen2.5-Omni) dùng để đánh giá và mô tả thẩm mỹ giọng nói trong ngữ cảnh hội thoại hai chiều cho cả giọng thật lẫn giọng tổng hợp. Bằng quy trình hậu huấn luyện hai giai đoạn gồm SFT trên 30k mẫu nhãn tổng hợp và GRPO căn chỉnh theo phân phối bình chọn của người nghe (~10 lượt đánh giá/mẫu trên CANDOR), CVAM đạt độ tương đồng với con người vượt trội so với Gemini 3.1 Pro và thỏa thuận giữa người với người (single-human-vs-rest).",
+  "problem": "Các thang đo chất lượng âm thanh truyền thống (PESQ, POLQA, UTMOS) và các speech LLM gần đây thường đánh giá từng phát ngôn riêng lẻ, thiếu ngữ cảnh hội thoại vốn quyết định các thuộc tính như cảm xúc và phong cách truyền đạt (delivery). Thêm vào đó, các khía cạnh nhận thức mang tính chủ quan cao, không có ground truth tuyệt đối; việc huấn luyện chỉ dựa trên nhãn đa số (majority vote) hay ý kiến một người làm mất đi tính đa dạng phân phối phán đoán của con người.",
+  "method": "CVAM xây dựng trên nền Qwen2.5-Omni 7B, nhận đầu vào là audio ngữ cảnh và audio phản hồi (3–30 giây), xuất ra JSON gồm 4 trường thẩm mỹ (pitch, pacing, emotion, delivery) kèm speaker gender với các mô tả viện dẫn bằng chứng và 9 nhãn phân loại:\n- **Dữ liệu:** Lấy từ CANDOR corpus, lọc chủ đề nhạy cảm bằng Qwen3-32B, nhân 3 tập dữ liệu bằng Qwen3-TTS (1 bản thật, 1 bản voice clone, 1 bản voice design với thuộc tính đa dạng do Qwen3-Omni gợi ý).\n- **Công cụ đo đạc khách quan:** Trích xuất $F_0$ bằng Praat, căn chỉnh âm vị bằng faster-whisper-large-v3 và NeMo Forced Aligner để tính cao độ và nhịp độ (cung cấp tool measures và evidence log cho mô hình).\n- **Hai giai đoạn huấn luyện (LoRA rank 32, $\\alpha=64$):**\n  1. *SFT:* Huấn luyện trên 30k mẫu gán nhãn tổng hợp bởi Gemini 3.1 Pro (1 epoch, lr $10^{-4}$ trên $2 \\times 8$ A100s).\n  2. *RL qua GRPO:* Tối ưu trên 1.5k mẫu gán nhãn người thật (lr $10^{-5}$ trên $4 \\times 8$ A100s, $G=16$ rollouts, $\\beta=0.04$ phạt KL so với policy SFT). Phần thưởng cho 4 trường nhận thức sử dụng hàm đo khoảng cách phân phối cục bộ $r_i = \\phi(p(c_i), \\tilde{q}_{-i}(c_i))$ (với Laplace smoothing $\\lambda=1$), trong đó biến thể lấy cảm hứng từ forward-KL $\\phi(p, q) = \\min(p/q, \\kappa)$ với trần thưởng $\\kappa=5$ giúp mô hình phản ánh đúng phân phối bình chọn thay vì chỉ củng cố nhãn đa số.",
+  "setup": "Đánh giá trên tập kiểm thử gồm 1.5k lượt thoại hội thoại (0.5k real, 0.5k voice-cloned, 0.5k voice-designed) từ CANDOR với trung bình 9.78 lượt đánh giá của con người trên mỗi phản hồi. So sánh với các mô hình nền tảng speech LLM: Qwen2.5-Omni, Qwen3-Omni, Step-Audio-2 mini, Gemma-4-12B, Gemini 3.1 Pro (có và không có tool measures), cùng mức thỏa thuận giữa từng cá nhân với số đông (Single Human vs. Rest). Tiêu chí đánh giá gồm Accuracy và Macro-F1 đối với nhãn đa số bầu chọn của con người.",
+  "results": [
+   "Trên trung bình 4 trường nhận thức (Table 1), CVAM (SFT + GRPO forward-KL) đạt Accuracy 69.6% và Macro-F1 50.1%, vượt trội so với Gemini 3.1 Pro (Acc 60.2%, F1 44.2%) và mức thỏa thuận người đơn lẻ Single Human vs. Rest (Acc 60.8%, F1 43.5%).",
+   "So với mô hình gốc Qwen2.5-Omni (Acc 55.1%, F1 31.1%), CVAM (SFT + GRPO KL) tăng vọt 14.5% Accuracy và 19.0% Macro-F1 trên các trường nhận thức.",
+   "Ở bài toán so sánh các biến thể hàm thưởng GRPO (Table 3), hàm thưởng theo tỷ lệ phiếu bầu (Fraction of shared labels) tối ưu Accuracy cao nhất đạt 77.8% (F1 47.6%), trong khi hàm thưởng forward-KL đạt Macro-F1 cao nhất đạt 50.1% (Acc 69.6%), khẳng định sự đánh đổi giữa việc khớp nhãn đa số và bao phủ các lớp hiếm.",
+   "Phân rã theo loại phát ngôn (Table 4), CVAM đạt F1 cao nhất trên dữ liệu Voice-Designed (50.1% F1) do nhãn cân bằng hơn, tiếp theo là Voice-Cloned (49.8% F1, đạt Emotion F1 cao nhất 68.7%), và thấp nhất trên Real speech (44.3% F1, Acc 69.4%) do tính phức tạp tự nhiên của lời nói tự phát."
+  ],
+  "limitations": "Huấn luyện và gán nhãn người thật mới chỉ dừng lại ở quy mô nhỏ (1.5k lượt thoại huấn luyện và 1.5k kiểm thử); chỉ đánh giá tiếng Anh trên tập CANDOR; các lớp cảm xúc hiếm gặp và biểu đạt tự phát ngoài đời thực (spontaneous speech) vẫn còn nhiều nhầm lẫn đáng kể theo ma trận nhầm lẫn.",
+  "takeaways": "SFT trên dữ liệu tổng hợp đóng vai trò warmup cấu trúc output cực kỳ hiệu quả, nhưng RL (như GRPO) với hàm thưởng căn chỉnh theo phân phối phiếu bầu của con người mới là chìa khóa để giải quyết tính chủ quan trong đánh giá giọng nói, mở ra hướng ứng dụng làm reward model cho TTS hội thoại.",
+  "strengths": [
+   "Đánh giá giọng nói kèm ngữ cảnh hội thoại",
+   "GRPO căn chỉnh theo phân phối phiếu bầu",
+   "Vượt qua thỏa thuận giữa người với người",
+   "Đánh giá công bằng cả giọng thật và AI"
+  ],
+  "weaknesses": [
+   "Quy mô nhãn người còn hạn chế (1.5k)",
+   "Chỉ thử nghiệm trên tiếng Anh CANDOR",
+   "Nhận diện cảm xúc hiếm vẫn còn thấp"
+  ],
+  "context": "Nghiên cứu được thực hiện bởi Xilin Jiang (Columbia University, thực tập tại Meta) cùng nhóm tác giả từ Meta Superintelligence Labs; công bố dưới dạng preprint trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

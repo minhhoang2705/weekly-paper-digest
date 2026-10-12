@@ -1,0 +1,54 @@
+{
+ "id": "arxiv:2610.07506",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Bài báo chuyển dịch xuất sắc bài toán trợ lý giọng nói từ đối thoại 1-1 bị động sang chủ động can thiệp trong hội thoại nhóm nhiều người dựa trên việc phát hiện epistemic breakdown từ văn bản nền tảng.",
+  "credibility": "Nhóm tác giả đến từ các trường đại học uy tín (Paul G. Allen School - University of Washington và University of Tokyo) với các nghiên cứu sâu về speech và tương tác người-máy.",
+  "technical": "Thiết kế hệ thống thời gian thực toàn diện, tích hợp chặt chẽ từ ASR/VAD/TTS streaming, mô hình MoE nhỏ gọn cho đến bộ lọc tất định (gate, persistence, self-repair) và quản lý lượt thoại.",
+  "impact": "Đưa ra một hướng tiếp cận mẫu mực và bộ benchmark CHI-180-proactive cụ thể, giải quyết bài toán cốt lõi về thời điểm và phương thức can thiệp của voice agent trong hội nghị trực tuyến.",
+  "evidence": "Thực nghiệm cực kỳ vững chắc với đầy đủ benchmark mô hình (độ trễ, độ chính xác, trích dẫn), nghiên cứu bóc tách ablation rõ ràng và thử nghiệm trực tiếp trên 23 người dùng với dữ liệu định lượng và định tính cụ thể."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu giới thiệu Jarvis, trợ lý giọng nói chủ động (proactive speech agent) hoạt động thời gian thực trong các cuộc hội thoại nhiều người (multi-party). Được nạp trước tài liệu cơ sở (shared document), Jarvis theo dõi cuộc trò chuyện, tự động can thiệp bằng giọng nói và trích dẫn số trang/đoạn trích để giải đáp thắc mắc hoặc sửa sai sót về thông tin khi các thành viên không tự đính chính sau một vài lượt thoại.",
+  "problem": "Các trợ lý giọng nói hiện nay chủ yếu mang tính phản hồi thụ động (chỉ nói khi được gọi tên như 'Hey Alexa') và hoạt động theo hình thức đối thoại 1-1 (dyadic). Khi tham gia vào hội thoại nhóm nhiều người, các hệ thống gặp phải các rào cản: không xác định được khi nào nên can thiệp và nội dung cần nói (RQ1), làm thế nào để giành lượt thoại (take/hold the floor) mà không làm gián đoạn người khác (RQ2), và thiếu bài toán cũng như bộ benchmark chuẩn xác để đo lường tính chủ động một cách khách quan thay vì dựa trên cảm tính xã hội (RQ3).",
+  "method": "Jarvis hoạt động theo pipeline thời gian thực gồm 3 mô-đun chính:\n1. **Speech Processing Module**: Thu nhận luồng âm thanh riêng biệt từ từng người tham gia qua Zoom RTMS (16-kHz PCM16, khung 20 ms). Chạy VAD song song (Silero VAD) để phát hiện trạng thái tiếng nói; wake-word detector 2 giai đoạn (openWakeWord kết hợp CNN-GRU 1,2M tham số); ASR streaming thời gian thực trên từng người dùng mô hình `nvidia/nemotron-speech-streaming-en-0.6b` (độ trễ phát hiện kết thúc lượt thoại trung vị 224 ms); TTS thời gian thực sử dụng `kyutai/tts-1.6b-en_fr` và Mimi codec (độ trễ phát âm thanh 0,70–0,95 s).\n2. **Proactive Backbone**: Tận dụng một mô hình ngôn ngữ mã nguồn mở nhỏ (`Qwen3.6-35B-A3B` với 3B tham số kích hoạt) chạy qua một bộ khung điều khiển tất định (deterministic harness). Tài liệu được chia thành các câu đánh số $[S0], [S1], \\dots$. Mỗi lượt thoại, mô hình **Monitor** phân loại trạng thái hội thoại vào 6 nhóm (incorrect_info, missing_info, misattribution, on_track, off_topic, unanswerable), trích xuất mệnh đề (claim) và ID câu tham chiếu. Song song đó, **Self-Repair Check** kiểm tra xem người tham gia đã tự sửa lỗi chưa thông qua kiểm tra logic tất định (yêu cầu ít nhất 60% token nội dung khớp trong 3 lượt gần nhất). Bộ **Claim Ledger and Gate** theo dõi chuỗi tồn tại của vấn đề: chỉ kích hoạt khi bộ đếm đạt ngưỡng kiên nhẫn $\\tau = 2$, chưa được người dùng tự sửa, không bị cooldown ($\\rho = 6$) và chưa được nói trước đó. Khi mở cổng, mô hình **Grounded Generation** sinh câu trả lời dựa trên ID câu trích dẫn; nếu không thể gán vào câu trích dẫn hợp lệ, mô hình sẽ từ chối can thiệp.\n3. **Interaction Module**: Quản lý lượt thoại dựa trên máy trạng thái. Chờ khoảng lặng VAD $\\ge 2,0$ s với RMS $< 0,004$ trong 350 ms mới phát âm thanh can thiệp. Xử lý chen ngang (barge-in): 0,5 s tiếng nói liên tục của người dùng sẽ ngắt agent ngay lập tức; nếu ngắt trước 2 s thì phát lại toàn bộ, 2–5 s thì tiếp tục từ câu bị cắt, trên 5 s thì hủy bỏ phần còn lại. Cung cấp chế độ **Hand-Raising** (giơ tay trên Zoom, chờ câu lệnh 'Go ahead, agent' tối đa 60 s mới nói) và hiển thị bằng chứng trực quan trên giao diện xem PDF chia sẻ.",
+  "setup": "Tác giả xây dựng bộ dữ liệu đánh giá tổng hợp **CHI-180-proactive** gồm 180 bài báo CHI (2008–2025) thuộc 18 tiểu ban, tổng cộng 50.400 lượt thoại và 4.320 sự kiện (events: gap, wrong, self-correction, resolved question, unanswerable). Thực hiện benchmark QA đối chiếu với QASPER và COVID-QA. Thử nghiệm phần cứng chạy trên một node trang bị 2 GPU Nvidia L40 với vLLM. Nghiên cứu thực tế (live user study) được tiến hành trên Zoom với 23 người tham gia (14 phiên thảo luận, 49,5 phút/phiên trung vị), tích hợp cả lỗi cài cắm (planted) và lỗi tự phát (spontaneous). Đánh giá chất lượng can thiệp tự động qua LLM-judge (Claude Sonnet 5) có độ tương đồng $>95\\%$ với đánh giá của con người.",
+  "results": [
+   "Trên benchmark tài liệu QA (QASPER, COVID-QA, CHI-180), Qwen3.6-35B-A3B đạt độ chính xác Strict lần lượt là .864, .917, .926; Strict+Partial lần lượt là .974, .979, .977; độ hợp lệ trích dẫn đạt .913–.929; TTFT đạt 368–443 ms và Total Latency đạt 1.101–1.192 ms.",
+   "Ở bài test nhường lượt thoại khi bị cắt lời (barge-in), Jarvis dừng phát âm thanh trong 51/54 lượt thử (94,4%, 95% CI 84,9–98,1%), trong khi baseline không nhường lời đạt 0/54 (0,0%); độ trễ nhường lượt trung vị là 486 ms (khoảng 465–521 ms).",
+   "Trên tập CHI-180-proactive, Jarvis can thiệp 90,6% số sự kiện khoảng trống thông tin (gap, N=1.800) và 76,9% số lỗi sai (wrong, N=720); khi can thiệp, thông tin đưa ra đúng hoặc đúng một phần đạt 97,0% (gap) và 95,3% (wrong).",
+   "Jarvis giữ im lặng trong 97,4% trường hợp người tham gia tự giải quyết vấn đề (self-correction đạt 96,8% im lặng; resolved question đạt 97,4% im lặng). Khi can thiệp, 98% trường hợp diễn ra trong vòng 2–3 lượt thoại sau khi sự cố xuất hiện.",
+   "Ablation study: Khi gỡ bỏ cơ chế trì hoãn (deference gate và self-repair check), tỷ lệ im lặng giảm sâu xuống 16% và Jarvis nói chen ngang trước khi người tham gia kịp tự sửa lỗi trong 80% trường hợp.",
+   "Trong thử nghiệm thực tế với 23 người dùng (164 quyết định can thiệp, 134 lượt phát âm thanh), 85% quyết định can thiệp xuất hiện trong vòng 2 lượt thoại; 148/164 (90%) can thiệp chính xác hoàn toàn và 15/164 đúng một phần (chỉ 1 trường hợp sai); trích dẫn trang và quote khớp bằng chứng trong 84/87 trường hợp.",
+   "Tỉ lệ giải quyết vấn đề trong thực tế: Jarvis và người tham gia đã cùng giải quyết 74% lỗi cài sẵn (52/84 do agent), 72% lỗi tự phát (19/32 do agent), và 83% câu hỏi/khoảng trống thông tin (84/107 do agent).",
+   "21/23 người tham gia đánh giá rất cao việc hiển thị nguồn tài liệu trên màn hình (điểm tin tưởng tăng từ 2,48 lên 4,74 trên thang 5 điểm; điểm kiểm tra nguồn tăng từ 2,26 lên 4,65)."
+  ],
+  "limitations": "Mô hình hoạt động theo dạng 'closed-book', chỉ giải đáp được thông tin nằm trong văn bản đã nạp sẵn, không thể truy vấn công cụ bên ngoài hay kiến thức tham số rộng hơn. Các lỗi từ ASR (sai tên riêng, số liệu) dễ làm trật nhịp nhận diện; việc diễn đạt lại mệnh đề khiến embedding sai khác có thể vô tình reset bộ đếm kiên nhẫn dẫn đến bỏ lỡ lượt can thiệp. Hệ thống hiện chỉ hỗ trợ tiếng Anh và phòng họp trực tuyến có luồng âm thanh tách biệt từng người (chưa xử lý được phòng họp hội trường chung micro). Việc liên tục bị AI sửa lỗi đôi khi gây cảm giác ngại ngùng/bối rối về mặt xã hội cho người tham gia.",
+  "takeaways": "Để xây dựng agent giọng nói chủ động trong hội thoại nhóm, cần chuyển dịch từ mô hình xã hội tự do sang phát hiện sự cố tri thức (epistemic breakdowns) có đối chiếu với văn bản nền tảng. Thay vì dùng một LLM duy nhất tự quyết định mọi việc, việc bọc mô hình nhỏ gọn (MoE 35B/3B active) trong một harness gồm các bộ lọc tất định (deterministic gate, persistence count, self-repair check) kết hợp grounding cấp độ câu và VAD floor-control là chiến lược tối ưu giúp hệ thống vừa phản hồi thời gian thực, vừa tránh nói chen ngang vô duyên.",
+  "strengths": [
+   "Kiến trúc harness tất định rất thực dụng",
+   "Độ trễ thời gian thực tối ưu tốt",
+   "Cơ chế tự nhường lời (barge-in) nhanh nhạy",
+   "Bộ benchmark CHI-180-proactive khách quan, đo lường được",
+   "Đánh giá người dùng thực tế chi tiết"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ dạng closed-book một tài liệu",
+   "Chỉ hỗ trợ tiếng Anh phòng họp tách kênh",
+   "Nhạy cảm với lỗi chính tả từ ASR",
+   "Ngưỡng đếm kiên nhẫn cài đặt thủ công"
+  ],
+  "context": "Seunghyun Oh, Hirotaka Hiraki, Shuyue Stella Li, Yulia Tsvetkov, Shyamnath Gollakota (Đại học Washington & Đại học Tokyo), đăng tải trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

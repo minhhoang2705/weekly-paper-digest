@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RAWD-TTS: Ratio-Free Reward Alignment for Discrete-Diffusion Voice Cloning · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -86,7 +88,7 @@
         <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
       </div>
       <div class="card-body prose">
-<p>Zero-shot text-to-speech synthesizes new utterances in a speaker&#39;s voice from a short reference recording. Voice cloning requires accurate content and preserved speaker identity, but supervised acoustic-token prediction does not directly optimize these waveform-level properties. Reward-based post-training addresses this mismatch, but in discrete diffusion, token choices and reveal positions jointly define the sampling trajectory, complicating alignment. We introduce RAWD-TTS (Ratio-free Advantage-Weighted Denoising), which scores decoded samples with recognition and speaker rewards and uses group-relative advantages to weight masked-token reconstruction of those samples, without reverse-trajectory likelihoods or target audio. On 500 Russian CV3-Eval voice-cloning prompts, joint alignment reduces word error rate from 3.18% to 2.42% at the reward-selected checkpoint (24.0% relative) and to 2.58% at the final checkpoint (19.0%), while WavLM speaker cosine rises from 0.733 to 0.748 and 0.755. Controlled experiments characterize recognition-identity trade-offs and the effects of corruption count, group composition, and weighting.</p>      </div>
+<p>Zero-shot text-to-speech synthesizes new utterances in a speaker's voice from a short reference recording. Voice cloning requires accurate content and preserved speaker identity, but supervised acoustic-token prediction does not directly optimize these waveform-level properties. Reward-based post-training addresses this mismatch, but in discrete diffusion, token choices and reveal positions jointly define the sampling trajectory, complicating alignment. We introduce RAWD-TTS (Ratio-free Advantage-Weighted Denoising), which scores decoded samples with recognition and speaker rewards and uses group-relative advantages to weight masked-token reconstruction of those samples, without reverse-trajectory likelihoods or target audio. On 500 Russian CV3-Eval voice-cloning prompts, joint alignment reduces word error rate from 3.18% to 2.42% at the reward-selected checkpoint (24.0% relative) and to 2.58% at the final checkpoint (19.0%), while WavLM speaker cosine rises from 0.733 to 0.748 and 0.755. Controlled experiments characterize recognition-identity trade-offs and the effects of corruption count, group composition, and weighting.</p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">
@@ -112,16 +114,16 @@
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
               <div class="prose"><p>RAWD-TTS mở rộng nguyên lý advantage-weighted denoising từ các mô hình diffusion ngôn ngữ (wd1, AWM) sang mô hình TTS đa codebook điều kiện:</p>
 <ul>
-<li><strong>Rollout và Terminal Rewards</strong>: Với mỗi prompt $q = (y, a^{\text{ref}}, y^{\text{ref}})$, mô hình sinh ra $G$ chuỗi acoustic tokens ngẫu nhiên $x_0 \in \mathcal{V}^{C \times L}$ và giải mã ra waveform qua frozen codec. Phần thưởng kết hợp gồm $r^{\text{asr}} = \exp[-2.5 \text{WER}]$ và $r^{\text{spk}} = (1 + \cos(e(a), e(a^{\text{ref}}))) / 2$.</li>
-<li><strong>Group-relative Advantages</strong>: Tính advantage chuẩn hóa trong từng nhóm prompt $A_{bi} = (r_{bi} - \bar{r}<em>b) / \sqrt{\frac{1}{G-1} \sum (r</em>{bi} - \bar{r}_b)^2 + \epsilon}$ nhằm loại bỏ baseline của prompt.</li>
-<li><strong>Final-sample Denoising Surrogate</strong>: Detach token đầu ra $x_0$ và áp dụng $K$ lần forward corruption (masking). Mỗi lần corrupt dùng tỷ lệ masking $\rho_{bk} \sim \mathcal{U}(0, 1)$ dùng chung cho cả group (common random numbers). Hàm loss tái tạo token $\ell_{bik}(\theta)$ được tính bằng cross-entropy trung bình trên các vị trí bị che trong từng codebook rồi kết hợp qua các codebooks (tránh thiên vị câu dài).</li>
-<li><strong>Loss cập nhật</strong>: Cập nhật policy qua $\mathcal{L}(\theta) = \frac{1}{BGK} \sum_{b,i,k} \text{stopgrad}(A_{bi}) \ell_{bik}(\theta)$ bằng AdamW mà không cần KL divergence regularization hay supervised anchor loss.</li>
+<li><strong>Rollout và Terminal Rewards</strong>: Với mỗi prompt <span class="math inline">q = (y, a^{\text{ref}}, y^{\text{ref}})</span>, mô hình sinh ra <span class="math inline">G</span> chuỗi acoustic tokens ngẫu nhiên <span class="math inline">x_0 \in \mathcal{V}^{C \times L}</span> và giải mã ra waveform qua frozen codec. Phần thưởng kết hợp gồm <span class="math inline">r^{\text{asr}} = \exp[-2.5 \text{WER}]</span> và <span class="math inline">r^{\text{spk}} = (1 + \cos(e(a), e(a^{\text{ref}}))) / 2</span>.</li>
+<li><strong>Group-relative Advantages</strong>: Tính advantage chuẩn hóa trong từng nhóm prompt <span class="math inline">A_{bi} = (r_{bi} - \bar{r}_b) / \sqrt{\frac{1}{G-1} \sum (r_{bi} - \bar{r}_b)^2 + \epsilon}</span> nhằm loại bỏ baseline của prompt.</li>
+<li><strong>Final-sample Denoising Surrogate</strong>: Detach token đầu ra <span class="math inline">x_0</span> và áp dụng <span class="math inline">K</span> lần forward corruption (masking). Mỗi lần corrupt dùng tỷ lệ masking <span class="math inline">\rho_{bk} \sim \mathcal{U}(0, 1)</span> dùng chung cho cả group (common random numbers). Hàm loss tái tạo token <span class="math inline">\ell_{bik}(\theta)</span> được tính bằng cross-entropy trung bình trên các vị trí bị che trong từng codebook rồi kết hợp qua các codebooks (tránh thiên vị câu dài).</li>
+<li><strong>Loss cập nhật</strong>: Cập nhật policy qua <span class="math inline">\mathcal{L}(\theta) = \frac{1}{BGK} \sum_{b,i,k} \text{stopgrad}(A_{bi}) \ell_{bik}(\theta)</span> bằng AdamW mà không cần KL divergence regularization hay supervised anchor loss.</li>
 </ul>
 </div>
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
-              <div class="prose"><p>Huấn luyện trên 8.000 prompt voice-cloning tiếng Nga trích từ Balalaika YouTube dataset (10,96 giờ audio, thời lượng trung bình 4,93s), văn bản đích 20–120 ký tự (không dùng target audio). Backbone là OmniVoice (0,6B, dự đoán 8 Higgs-audio codebooks), thích ứng qua LoRA rank 16, alpha 32. Hyperparameters mặc định: $B=4, G=8, K=3$ (hoặc $K=5$), learning rate $10^{-5}$ qua 2.000 updates trên 1 GPU NVIDIA RTX 6000 Ada (K=5 tốn 9,25 GPU-hours). Đánh giá trên 500 prompts tiếng Nga của CV3-Eval. Metrics: Whisper-large-v3 WER, WavLM-ECAPA cosine (cùng họ với reward huấn luyện); kiểm định độc lập bằng Qwen3-ASR-1.7B WER, ERes2Net cosine và DistilMOS (WavLM backbone).</p>
+              <div class="prose"><p>Huấn luyện trên 8.000 prompt voice-cloning tiếng Nga trích từ Balalaika YouTube dataset (10,96 giờ audio, thời lượng trung bình 4,93s), văn bản đích 20–120 ký tự (không dùng target audio). Backbone là OmniVoice (0,6B, dự đoán 8 Higgs-audio codebooks), thích ứng qua LoRA rank 16, alpha 32. Hyperparameters mặc định: <span class="math inline">B=4, G=8, K=3</span> (hoặc <span class="math inline">K=5</span>), learning rate <span class="math inline">10^{-5}</span> qua 2.000 updates trên 1 GPU NVIDIA RTX 6000 Ada (K=5 tốn 9,25 GPU-hours). Đánh giá trên 500 prompts tiếng Nga của CV3-Eval. Metrics: Whisper-large-v3 WER, WavLM-ECAPA cosine (cùng họ với reward huấn luyện); kiểm định độc lập bằng Qwen3-ASR-1.7B WER, ERes2Net cosine và DistilMOS (WavLM backbone).</p>
 </div>
             </div>
             <div class="analysis-section">

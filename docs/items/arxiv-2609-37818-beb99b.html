@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Thinking in Depth, Speaking Directly: Recurrent Latent Reasoning for Paralinguistically Grounded Spoken Dialogue · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -112,12 +114,12 @@
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
               <div class="prose"><p>LoopSLM chuyển việc lập kế hoạch phản hồi từ trục chuỗi (sequence axis) sang chiều sâu lặp lại (recurrent decoder depth):</p>
 <ul>
-<li><strong>Kiến trúc Decoder</strong>: Xây dựng trên Qwen2.5-Omni-7B Thinker (28 layer). Decoder được chia thành: Prelude (L1–8, đóng băng), Loop (L9–11, tham số chia sẻ $\theta_L$), Transition (L12–14, đóng băng), và Coda (L15–28, $\theta_C$). Việc lặp L9–11 giúp giữ thông tin ngữ âm tốt hơn so với các tầng muộn (L15–17) hay tầng sớm (L3–5 làm giảm độ chính xác phiên âm).</li>
-<li><strong>ReCue (Re-anchoring to acoustic Cues)</strong>: Cung cấp bằng chứng âm thanh gốc ở mỗi lượt lặp $r$ thông qua bộ nhớ đa tỷ lệ lấy từ 4 tầng của audio encoder đóng băng ($s \in {8, 16, 24, 32}$) bằng 16 truy vấn học được ($Q$). Mỗi lượt $r$, ReCue thực hiện cross-attention có trọng số kết hợp $\alpha_{r,s}$, vector nhúng vòng lặp $e_r$, và điều biến scale-only $\Gamma_r$ lên pre-norm của Loop.</li>
+<li><strong>Kiến trúc Decoder</strong>: Xây dựng trên Qwen2.5-Omni-7B Thinker (28 layer). Decoder được chia thành: Prelude (L1–8, đóng băng), Loop (L9–11, tham số chia sẻ <span class="math inline">\theta_L</span>), Transition (L12–14, đóng băng), và Coda (L15–28, <span class="math inline">\theta_C</span>). Việc lặp L9–11 giúp giữ thông tin ngữ âm tốt hơn so với các tầng muộn (L15–17) hay tầng sớm (L3–5 làm giảm độ chính xác phiên âm).</li>
+<li><strong>ReCue (Re-anchoring to acoustic Cues)</strong>: Cung cấp bằng chứng âm thanh gốc ở mỗi lượt lặp <span class="math inline">r</span> thông qua bộ nhớ đa tỷ lệ lấy từ 4 tầng của audio encoder đóng băng (<span class="math inline">s \in \{8, 16, 24, 32\}</span>) bằng 16 truy vấn học được (<span class="math inline">Q</span>). Mỗi lượt <span class="math inline">r</span>, ReCue thực hiện cross-attention có trọng số kết hợp <span class="math inline">\alpha_{r,s}</span>, vector nhúng vòng lặp <span class="math inline">e_r</span>, và điều biến scale-only <span class="math inline">\Gamma_r</span> lên pre-norm của Loop.</li>
 <li><strong>Two-stage CoT-to-response training</strong>:
 <ul>
-<li><em>Stage 1</em>: Tối ưu hóa cross-entropy trên chuỗi speech-grounded CoT trace $z$, chỉ cập nhật Loop và ReCue (Coda đóng băng) để ép việc suy luận âm học vào khối lặp.</li>
-<li><em>Stage 2</em>: Cập nhật Coda để ánh xạ trạng thái ẩn đã tinh chế trực tiếp sang câu trả lời $y$ (không có CoT ở đầu ra), đồng thời đóng băng Loop và ReCue.</li>
+<li><em>Stage 1</em>: Tối ưu hóa cross-entropy trên chuỗi speech-grounded CoT trace <span class="math inline">z</span>, chỉ cập nhật Loop và ReCue (Coda đóng băng) để ép việc suy luận âm học vào khối lặp.</li>
+<li><em>Stage 2</em>: Cập nhật Coda để ánh xạ trạng thái ẩn đã tinh chế trực tiếp sang câu trả lời <span class="math inline">y</span> (không có CoT ở đầu ra), đồng thời đóng băng Loop và ReCue.</li>
 </ul>
 </li>
 </ul>

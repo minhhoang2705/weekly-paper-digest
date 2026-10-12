@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beyond Token Revision: Investigating Mask-and-Replace Diffusion for Zero-Shot Text-to-Speech · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Beyond Token Revision: Investigating Mask-and-Replace Diffusion for Zero-Shot Text-to-Speech</h1>
+    <div class="meta">
+      <span>published Oct 7, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">TTS</span>        <span class="authors">Hounsu Kim, Joonyong Park, Yuki Saito, Satoru Fukayama, Juhan Nam</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.09448" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Unlike autoregressive models, discrete diffusion-based models for zero-shot text-to-speech generate speech tokens in parallel and can revisit earlier predictions. Mask-and-replace training extends mask-only training by randomly replacing some tokens, and its gains are commonly attributed to self-correction, the ability to revise previously generated tokens. However, exposure to randomly perturbed context during training may itself improve generation, raising the question of whether these gains require inference-time token revision. To investigate this question, we use DeMaR, which combines mask-and-replace training with confidence-ranked mask-only sampling while preserving the total training corruption probability. Trained from scratch on LibriTTS, DeMaR achieves lower word error rates (WER) than autoregressive and mask-only diffusion baselines using the same speech tokenizer. This advantage persists when each token remains unchanged after first being unmasked. Matched training conditions on two heterogeneous speech tokenizers show that both noisy-context augmentation and replacement supervision improve WER under this restriction. These findings demonstrate training-side benefits of replacement beyond enabling inference-time token revision.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 12, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Nghiên cứu làm sáng tỏ cơ chế hoạt động của mask-and-replace trong discrete diffusion cho zero-shot TTS qua phương pháp DeMaR. Kết quả chỉ ra rằng lợi ích giảm WER của mask-and-replace đến từ việc tăng cường ngữ cảnh nhiễu (noisy-context augmentation) và giám sát tái tạo trong lúc huấn luyện, chứ không phụ thuộc vào khả năng sửa đổi token tại thời điểm suy luận (inference-time revision).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình discrete diffusion (DLM) cho zero-shot TTS thường huấn luyện theo cơ chế mask-and-replace (vừa che vừa thay thế ngẫu nhiên token). Giới nghiên cứu thường quy lợi ích của phương pháp này cho khả năng tự sửa lỗi (self-correction/token revision) ở giai đoạn inference. Tuy nhiên, chưa rõ liệu lợi ích này có thực sự cần đến việc sửa token lúc suy luận hay chỉ đơn thuần đến từ việc mô hình học được biểu diễn tốt hơn nhờ ngữ cảnh bị nhiễu trong lúc huấn luyện.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Tác giả đề xuất và phân tích DeMaR (decoupled mask-and-replace), kết hợp huấn luyện mask-and-replace với quy trình lấy mẫu chỉ dùng mask dựa trên độ tin cậy (confidence-ranked mask-only sampling):</p>
+<ul>
+<li><strong>Training corruption &amp; objective:</strong> Tại thời điểm diffusion <span class="math inline">t</span>, token <span class="math inline">x_0</span> bị biến đổi độc lập theo <span class="math inline">q(x_t \mid x_0) = a_t \delta_{x_0} + m_t \delta_{\text{MASK}} + r_t \mathcal{U}(\mathcal{V})</span> với <span class="math inline">(a_t, m_t, r_t) = \frac{(1-t, t, h(t))}{1+h(t)}</span> và <span class="math inline">h(t) = \frac{1}{2}\sqrt{t(1-t)}</span>. Baseline Mo-DLM (mask-only) nhận xác suất che bằng tổng <span class="math inline">\rho_t = m_t + r_t</span>. Hàm mất mát là weighted cross-entropy với trọng số <span class="math inline">w_i = 1</span> ở vị trí bị mask/thay thế và <span class="math inline">0.1</span> ở vị trí khác.</li>
+<li><strong>Decoupled sampling (DS):</strong> Trong lúc suy luận, DeMaR chuyển toàn bộ ngân sách biến đổi <span class="math inline">\rho_t</span> sang chỉ tạo mask, không thay thế token ngẫu nhiên.</li>
+<li><strong>Kiểm soát cơ chế sửa lỗi:</strong> So sánh giữa chính sách <em>Revisiting</em> mặc định (cho phép sửa đổi token-to-token T2T hoặc giáng cấp token-to-mask T2M) và <em>Commit-only</em> (token khi đã unmask sẽ bị khóa cố định, cấm mọi hành vi sửa đổi).</li>
+<li><strong>Phân tách Augmentation và Supervision:</strong> Thiết lập 3 điều kiện huấn luyện matched: (1) <em>No replacement</em> (vị trí <span class="math inline">R</span> giữ nguyên và không tính loss), (2) <em>Replacement, no loss</em> (vị trí <span class="math inline">R</span> bị thay thế ngẫu nhiên nhưng không gán loss), và (3) <em>Replacement + loss</em> (DeMaR - vừa thay thế vừa tính reconstruction loss).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Huấn luyện từ đầu (from scratch) trên 585 giờ LibriTTS trên 2 card đồ họa NVIDIA RTX 4090 (AdamW, lr <span class="math inline">4 \times 10^{-4}</span>). Cấu trúc transformer gồm 12 layers, hidden dimension 768, 12 attention heads (84.95M parameters không tính embedding từ vựng). Đánh giá trên 2 speech tokenizer khác biệt: CosyVoice3 (fixed-rate, <span class="math inline">K=6,561</span>, 25 Hz) và FlexiCodec (variable-rate kết hợp stream content và span, <span class="math inline">K=32,768</span>, <span class="math inline">\approx 8.3</span> Hz). Tinh chỉnh siêu tham số decoding (temperature, top-p, repetition penalty, confidence metric) bằng Gaussian-process Bayesian optimization (GP-EI). DLM sử dụng 32 denoiser calls (NFE = 32) với độ dài token mục tiêu dự đoán từ OmniVoice. Đánh giá trên 4,835 câu LibriTTS test-clean qua HuBERT-Large CTC (WER), UTMOS22-strong (độ tự nhiên) và WavLM-Large (SIM - độ tương đồng người nói).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên CosyVoice3, DeMaR đạt WER 4.95% (commit-only 5.23%), vượt trội Mo-DLM (6.05%, commit-only 5.97%) và AR-LM (12.01%); UTMOS đạt 4.2760 và SIM đạt 0.7173.</li>
+<li>Trên FlexiCodec, DeMaR đạt WER 4.89% (commit-only 5.03%), thấp hơn Mo-DLM (5.39%, commit-only 5.38%) và AR-LM (7.25%); UTMOS đạt 3.8820 và SIM đạt 0.6938.</li>
+<li>Chuyển từ Revisiting sang Commit-only chỉ làm tăng WER của DeMaR thêm 0.29 điểm phần trăm ở CosyVoice3 và 0.14 điểm phần trăm ở FlexiCodec, vẫn duy trì khoảng cách vượt trội so với Mo-DLM.</li>
+<li>Thử nghiệm bóc tách trên 3 seed (CosyVoice3, trung bình ± sd): No replacement đạt 6.91 ± 0.24% WER; thêm nhiễu không giám sát (Rep., no loss) giảm WER xuống 5.61 ± 0.58%; thêm giám sát thay thế (Rep. + loss) giảm tiếp xuống 5.02 ± 0.41%.</li>
+<li>Thử nghiệm bóc tách trên 3 seed (FlexiCodec, trung bình ± sd): No replacement đạt 5.75 ± 0.31% WER; Rep., no loss giảm xuống 5.50 ± 0.31%; Rep. + loss giảm tiếp xuống 4.98 ± 0.30%.</li>
+<li>So sánh chi tiết các đường sửa lỗi trên CosyVoice3 seed 1 với DeMaR: Commit-only (5.07%), T2T-only (5.02%), T2M-only (5.08%), Revisiting (5.08%) cho thấy sự chênh lệch không đáng kể (chỉ trong khoảng 5.02–5.08%).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Mô hình mới chỉ được huấn luyện ở quy mô nhỏ (84.95M tham số) trên tập dữ liệu sạch 585 giờ LibriTTS và kiểm thử trên test-clean; chưa đánh giá trên dữ liệu in-the-wild quy mô lớn. Thử nghiệm bóc tách chưa phân tách triệt để giữa việc tái tạo chính token bị thay thế với tác động của việc gia tăng tổng số vị trí được giám sát trong câu. Ở CosyVoice3 seed 2, việc thêm giám sát thay thế làm tăng nhẹ WER (0.06% ở revisiting và 0.24% ở commit-only).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Đối với các kỹ sư xây dựng hệ thống TTS bằng discrete diffusion, không nhất thiết phải thiết kế các bộ giải mã phức tạp cho phép sửa token ở inference (như T2T hay T2M) vì chiến lược commit-only đơn giản vẫn giữ trọn vẹn hiệu năng. Thay vào đó, nên tập trung vào mask-and-replace ở pha training như một kỹ thuật data augmentation mạnh mẽ để cải thiện tính bền vững của ngữ cảnh.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">60.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,82.8 230.0,115.26 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="82.8" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 3/5 — Bài báo đề xuất góc nhìn mới chất vấn niềm tin phổ biến về self-correction ở inference, đồng thời chuyển giao thành công kỹ thuật tách training-sampling corruption từ piano transcription sang speech diffusion.</title>Novelty <tspan class="radar-value">3</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Quy trình đối sánh matched conditions chuẩn xác, phân lập được T2T, T2M và Commit-only, đồng thời dùng Bayesian optimization để quét decoding parameters công bằng.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Dữ liệu thực nghiệm thuyết phục với đầy đủ số liệu WER, UTMOS, SIM, chạy đa hạt giống (3 seeds) và kiểm chứng độc lập trên cả hai speech tokenizer có cấu trúc rất khác nhau.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Mang lại bài học thực tế rõ ràng giúp đơn giản hóa pipeline suy luận của speech discrete diffusion, nhưng tác động ở quy mô sản phẩm lớn vẫn cần kiểm chứng thêm ngoài 585 giờ huấn luyện.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Nghiên cứu đến từ các tổ chức uy tín (KAIST, UTokyo, AIST), quy trình nghiên cứu được mô tả chi tiết, dù tài liệu hiện ở dạng bản thảo preprint.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">3/5</span></dt><dd>Bài báo đề xuất góc nhìn mới chất vấn niềm tin phổ biến về self-correction ở inference, đồng thời chuyển giao thành công kỹ thuật tách training-sampling corruption từ piano transcription sang speech diffusion.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Nghiên cứu đến từ các tổ chức uy tín (KAIST, UTokyo, AIST), quy trình nghiên cứu được mô tả chi tiết, dù tài liệu hiện ở dạng bản thảo preprint.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Quy trình đối sánh matched conditions chuẩn xác, phân lập được T2T, T2M và Commit-only, đồng thời dùng Bayesian optimization để quét decoding parameters công bằng.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Mang lại bài học thực tế rõ ràng giúp đơn giản hóa pipeline suy luận của speech discrete diffusion, nhưng tác động ở quy mô sản phẩm lớn vẫn cần kiểm chứng thêm ngoài 585 giờ huấn luyện.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Dữ liệu thực nghiệm thuyết phục với đầy đủ số liệu WER, UTMOS, SIM, chạy đa hạt giống (3 seeds) và kiểm chứng độc lập trên cả hai speech tokenizer có cấu trúc rất khác nhau.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Bác bỏ giả định phổ biến về cơ chế self-correction · Thiết kế thử nghiệm bóc tách matched rất chặt chẽ · Kiểm chứng nhất quán trên hai tokenizer có kiến trúc khác biệt · Tối ưu siêu tham số decoding công bằng bằng Bayesian Optimization</p>
+          <p><span class="label">Weaknesses</span> · Quy mô mô hình và dữ liệu còn hạn chế (LibriTTS 585h) · Chưa tách riêng số lượng vị trí giám sát · Hiệu quả giám sát thay thế chưa đồng đều tuyệt đối (seed 2 CosyVoice3)</p>
+          <p><span class="label">Context</span> · Nghiên cứu thực hiện bởi nhóm tác giả từ KAIST (Hàn Quốc), Đại học Tokyo và Viện AIST (Nhật Bản); công bố trên arXiv (arXiv:2610.09448v1).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

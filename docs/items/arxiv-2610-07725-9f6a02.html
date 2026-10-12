@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PERSIST: Who-What-When Memory Across Sessions for Full-Duplex Spoken Dialogue · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">PERSIST: Who-What-When Memory Across Sessions for Full-Duplex Spoken Dialogue</h1>
+    <div class="meta">
+      <span>published Oct 6, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Achira Lin, Siyuan Hou, Wenyi Yu, Xinnian Zhao, Haoyu Niu, Wang Geng, Longshuai Xiao, Shihai Xiao, Mangsuo Zhao, Chao Zhang</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.07725" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Modern voice assistants may be shared by multiple users and should be able to answer questions about earlier conversations such as &quot;When did I originally plan to leave?&quot; or adapt their behavior to individual users based on past interactions. This requires more than retrieving a topically similar passage: the assistant must identify the current speaker, recover the relevant past state, and distinguish it from later revisions. We present PERSIST, a persistent memory system for multi-session, multi-speaker spoken dialogue that explicitly models Who, What, and When. PERSIST structures cross-session histories into readable event records and retrieves them with a 3W joint scoring mechanism that combines semantic content, acoustic speaker identity, and temporal state. For real-time full-duplex interaction, PERSIST further reuses intermediate representations from the dialogue backbone, avoiding query-audio re-encoding and reducing retrieval latency from 578.42 ms to 7.03 ms. We also introduce SpokenTrace, a diagnostic benchmark that factorizes evaluation along memory tasks and speaker-query types, exposing failures in recall, speaker attribution, and temporal-state tracking. On SpokenTrace, PERSIST achieves 85.08% end-to-end task accuracy and improves all-support EM@3 from 49.01% with BGE-large to 82.10%.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 12, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>PERSIST là kiến trúc bộ nhớ dài hạn đa phiên (cross-session), đa người nói dành cho mô hình hội thoại tiếng nói song công hoàn toàn (full-duplex spoken dialogue), mô hình hóa tường minh ba yếu tố Who (người nói), What (nội dung ngữ nghĩa) và When (trạng thái thời gian). Hệ thống cho phép tái sử dụng biểu diễn ẩn từ backbone để triệt tiêu việc mã hóa lại âm thanh truy vấn, giảm độ trễ truy xuất từ 578.42 ms xuống còn 7.03 ms trên NPU Ascend 910B3.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các trợ lý giọng nói dùng chung giữa nhiều người dùng thường thất bại khi trả lời các truy vấn mang tính hồi cứu hoặc theo dõi trạng thái thay đổi theo thời gian (ví dụ: 'Ban đầu tôi dự định rời đi khi nào?'). Các phương pháp hiện tại chỉ dựa vào truy xuất ngữ nghĩa (semantic retrieval) sẽ nhầm lẫn giữa các người nói khác nhau, hoặc cơ chế cập nhật sự thật có cấu trúc (fact-updating) sẽ ghi đè và làm mất các trạng thái cũ khi có cập nhật mới.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>PERSIST hoạt động dựa trên hai tiến trình chính: ghi nhớ (writing) và truy xuất (retrieval) theo cơ chế khớp 3W (Who-What-When):</p>
+<ul>
+<li><strong>Ghi sự kiện vào bộ nhớ (Memory writer)</strong>: Chuyển đổi luồng tiếng nói thành các bản ghi dạng text (caption) kèm nhãn thời gian và người nói. Có hai biến thể: <em>Backbone-native</em> (tách nhánh từ decoder layer 8 của backbone đối thoại SALMONN-omni, sao chép 24 layer còn lại và huấn luyện với LoRA riêng biệt, tái sử dụng đặc trưng âm thanh mà không cần ASR encoder độc lập) và <em>External</em> (sử dụng VibeVoice-ASR bên ngoài).</li>
+<li><strong>Nhận diện người nói (Speaker grounding)</strong>: Trích xuất embedding 4,096 chiều bằng cách kết hợp ẩn trạng thái từ các layer 5, 7, 8 của speech encoder đóng băng thông qua learned layer mixing và attentive statistics pooling, sau đó gán cụm trực tuyến (running centroid).</li>
+<li><strong>Kích hoạt truy xuất (Retrieval trigger)</strong>: Backbone sinh token đặc biệt <code>&lt;retrieve&gt;</code> khi ngữ cảnh hiện tại không đủ thông tin, dựa theo cơ chế Self-RAG.</li>
+<li><strong>Biểu diễn truy xuất 3W (3W Joint Scoring)</strong>: Mỗi vector truy vấn và khóa bộ nhớ gồm 1,152 chiều (1,024 chiều ngữ nghĩa/speaker + 128 chiều thời gian). Phần ngữ nghĩa kết hợp speaker embedding <span class="math inline">e^{\text{spk}}</span> với content hidden states thông qua attention pooler <span class="math inline">P_{\text{sem}}</span> và chuẩn hóa L2: <span class="math inline">\mathbf{q}_{\text{sem}} = \text{norm}(P_{\text{sem}}(\tilde{\mathbf{H}}_q))</span>, <span class="math inline">\mathbf{k}_{i,\text{sem}} = \text{norm}(P_{\text{sem}}(\tilde{\mathbf{H}}_i))</span>. Phần thời gian mã hóa bất đối xứng qua <span class="math inline">P_{\text{time}}</span> và hàm chiếu <span class="math inline">\phi(x) = x / (1 + \|x\|_2)</span> áp dụng lên session/relative time. Điểm số là <span class="math inline">r_i = \mathbf{q}_{\text{sem}}^\top \mathbf{k}_{i,\text{sem}} + \mathbf{q}_{\text{time}}^\top \mathbf{k}_{i,\text{time}}</span>.</li>
+<li><strong>Huấn luyện Native Writer &amp; Retriever</strong>: Writer được tiền huấn luyện ASR trên GigaSpeech và CommonVoice (101,229 mẫu), SFT hội thoại (219,628 cuộc hội thoại), sau đó tối ưu bằng GRPO với phần thưởng phiên âm (<span class="math inline">r_{\text{text}}</span>), định dạng (<span class="math inline">r_{\text{format}}</span>), và IoU thời gian (<span class="math inline">r_{\text{time}}</span>). Retriever trải qua Giai đoạn 1 (audio-to-text trên MS MARCO, QReCC, TopiOCQA với giọng CosyVoice) và Giai đoạn 2 (thích ứng trên SpokenTrace với contrastive loss và hard negatives).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá trên benchmark mới SpokenTrace gồm 1,200 tập (episodes) đánh giá (tổng cộng bộ dữ liệu gồm 9,119 tập train, 1,013 val, 1,200 test), bao gồm 8 tác vụ bộ nhớ và 4 loại truy vấn người nói (mỗi loại 300 câu). Giọng nói được tổng hợp bằng CosyVoice2 từ LibriSpeech. Baseline truy xuất gồm BM25 và BGE-large-en-v1.5. Đánh giá end-to-end dùng LLM judge (GPT-4.1-mini) với metric độ chính xác nghiêm ngặt (Strict Accuracy). Phần cứng đo độ trễ: Ascend 910B3 NPU (32 CPU threads).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Về độ chính xác trả lời E2E (Strict Accuracy): PERSIST-EXTERNAL đạt 85.08%, vượt trội so với BM25 (61.67%) và BGE-large (58.50%) dùng chung bản phiên âm; PERSIST-NATIVE đạt 71.75%, trong khi điều kiện Empty (không có bộ nhớ lịch sử) chỉ đạt 19.00% (và 1.29% trên 5 tác vụ phụ thuộc lịch sử ngoài temporal localization).</li>
+<li>Về truy xuất bộ nhớ (All-support EM@3): PERSIST đạt 82.10%, so với BM25 đạt 54.16% và BGE-large-en-v1.5 đạt 49.01%. Khi tắt điểm thời gian (PERSIST w/o temporal score), EM@3 giảm xuống 80.20% và R@1 giảm từ 66.14% xuống 62.84%.</li>
+<li>Về tác vụ theo dõi trạng thái: Trên Historical State, PERSIST đạt R@1 là 80.20% (so với BGE 28.43%, BM25 36.55%, không temporal 73.10%). Trên Change Comparison, PERSIST đạt EM@3 64.04% (so với BGE 17.73%, BM25 24.63%).</li>
+<li>Về độ nhạy người nói (Speaker-aware retrieval): Trên nhóm Self-to-Fact, PERSIST đạt EM@3 79.66% so với BGE 17.24% và BM25 25.52%. Trong bài kiểm tra phản thực tế (counterfactual test), PERSIST ưu tiên bản ghi có người nói đúng đạt 96.47%.</li>
+<li>Về độ trễ truy xuất trong full-duplex: PERSIST (native, buffered) đạt độ trễ trung bình 7.03 ms cho 4,331 ứng viên, giảm 98.8% so với việc tính toán lại từ dạng sóng WAV (578.42 ms), nhanh hơn BM25 (15.26 ms) và BGE-large (27.94 ms).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Chất lượng phiên âm của Native Writer còn khoảng cách lớn so với mô hình chuyên dụng ASR (multi-speaker cpWER đạt 41.6% so với VibeVoice-ASR đạt 6.8%), dẫn đến độ chính xác E2E của bản Native thấp hơn External khoảng 13.33%. Dữ liệu âm thanh trong benchmark hoàn toàn được tổng hợp nhân tạo (synthetic speech qua CosyVoice2) thay vì hội thoại người thật trong môi trường thực tế.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Để xây dựng voice assistant đa người nói trong thời gian thực, không nên dựa hoàn toàn vào text retrieval hoặc ghi đè trạng thái. Việc tích hợp nhận diện danh tính âm thanh (acoustic speaker identity) và vector thời gian vào embedding truy xuất, đồng thời tái sử dụng KV/hidden state từ chính backbone hội thoại là thiết kế mẫu mực để duy trì độ trễ cực thấp (&lt;10 ms).</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">75.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#5 (tied) in 2026-W42</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Bài báo đề xuất cơ chế truy xuất 3W kết hợp định danh người nói bằng âm thanh và chiều thời gian, đồng thời thiết kế pipeline đệm biểu diễn trong full-duplex spoken LLM rất sáng tạo.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Kiến trúc hệ thống hoàn chỉnh từ ASR LoRA phân nhánh, speaker head, công thức chấm điểm 3W bất đối xứng đến tối ưu huấn luyện qua GRPO.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Cung cấp đầy đủ kết quả thực nghiệm định lượng, kiểm tra phản thực tế (counterfactuals), phân tích bóc tách (ablations) cho từng thành phần và đo đạc độ trễ trên phần cứng chuyên dụng.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Giải quyết điểm nghẽn then chốt về bộ nhớ dài hạn đa người nói và độ trễ phản hồi trong các trợ lý giọng nói full-duplex thế hệ mới.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Nghiên cứu đến từ nhóm tác giả uy tín tại Đại học Thanh Hoa và Huawei Technologies, tài liệu có phương pháp luận và chi tiết kỹ thuật rõ ràng.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Bài báo đề xuất cơ chế truy xuất 3W kết hợp định danh người nói bằng âm thanh và chiều thời gian, đồng thời thiết kế pipeline đệm biểu diễn trong full-duplex spoken LLM rất sáng tạo.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Nghiên cứu đến từ nhóm tác giả uy tín tại Đại học Thanh Hoa và Huawei Technologies, tài liệu có phương pháp luận và chi tiết kỹ thuật rõ ràng.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Kiến trúc hệ thống hoàn chỉnh từ ASR LoRA phân nhánh, speaker head, công thức chấm điểm 3W bất đối xứng đến tối ưu huấn luyện qua GRPO.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Giải quyết điểm nghẽn then chốt về bộ nhớ dài hạn đa người nói và độ trễ phản hồi trong các trợ lý giọng nói full-duplex thế hệ mới.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Cung cấp đầy đủ kết quả thực nghiệm định lượng, kiểm tra phản thực tế (counterfactuals), phân tích bóc tách (ablations) cho từng thành phần và đo đạc độ trễ trên phần cứng chuyên dụng.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Mô hình hóa tường minh 3W (Who-What-When) · Giảm độ trễ truy xuất xuống 7.03 ms · Benchmark SpokenTrace thiết kế đa chiều chặt chẽ · Vượt trội baselines BGE và BM25 rõ rệt</p>
+          <p><span class="label">Weaknesses</span> · Native ASR writer có cpWER còn cao (41.6%) · Dữ liệu kiểm thử dùng giọng tổng hợp CosyVoice2 · Phụ thuộc đánh giá E2E qua LLM judge</p>
+          <p><span class="label">Context</span> · Nghiên cứu chung giữa Đại học Thanh Hoa (Tsinghua University) và Huawei Technologies Ltd., công bố trên arXiv (arXiv:2610.07725v1, tháng 10/2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DuplexCadence: Exact State and Execution from a Speech Model&#39;s Declared Timelines · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -66,7 +68,7 @@
 
 <header class="page-header">
   <div class="page-heading">
-    <h1 class="title">DuplexCadence: Exact State and Execution from a Speech Model&#39;s Declared Timelines</h1>
+    <h1 class="title">DuplexCadence: Exact State and Execution from a Speech Model's Declared Timelines</h1>
     <div class="meta">
       <span>published Sep 28, 2026</span><span aria-hidden="true">·</span>
 
@@ -86,7 +88,7 @@
         <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
       </div>
       <div class="card-body prose">
-<p>Full-duplex speech models support streaming interaction that listens and speaks at the same time. Serving them is governed by a strict, repeating deadline: conversation advances on a one-second cadence, and every second of input must be turned into a second of speech before the next second arrives. Because stages within a session run in strict sequence, per-invocation overhead cannot be batched away. Profiling reveals that the autoregressive stages of a duplex second already fit within the period, whereas the token-to-audio synthesis tail is what causes overruns. This tail stage suffers from orchestration slack where the GPU is left waiting as thousands of tiny, regular operations are issued one by one, while also wasting substantial memory by over-provisioning state at static implementation constants. Existing remedies, such as graph recording and demand-sized allocation, fail because streaming state dynamics violate their prerequisites. The root cause is that the runtime lacks the model&#39;s native clocks: the per-region counters that govern advancement rates and retention policies. We propose DuplexCadence, which explicitly declares native clocks to the runtime and derives two mutually enabling rules: demand-sized state allocation at a stable address, and exact-shape graph replay without padding. The former eliminates idle memory and stabilizes tensor pointers, while the latter removes orchestration slack without padding overhead. Evaluated on four released models across three decoder architectures with bit-for-bit identical output, DuplexCadence reaches $2.85\times$ the stock runtime&#39;s speed at $38.8\%$ lower peak memory. On the live duplex path, mean SPEAK time falls from $14\%$ over the one-second cadence to $2\%$ under it, enabling models to reliably keep up with interactive speech while markedly expanding multi-</p>      </div>
+<p>Full-duplex speech models support streaming interaction that listens and speaks at the same time. Serving them is governed by a strict, repeating deadline: conversation advances on a one-second cadence, and every second of input must be turned into a second of speech before the next second arrives. Because stages within a session run in strict sequence, per-invocation overhead cannot be batched away. Profiling reveals that the autoregressive stages of a duplex second already fit within the period, whereas the token-to-audio synthesis tail is what causes overruns. This tail stage suffers from orchestration slack where the GPU is left waiting as thousands of tiny, regular operations are issued one by one, while also wasting substantial memory by over-provisioning state at static implementation constants. Existing remedies, such as graph recording and demand-sized allocation, fail because streaming state dynamics violate their prerequisites. The root cause is that the runtime lacks the model's native clocks: the per-region counters that govern advancement rates and retention policies. We propose DuplexCadence, which explicitly declares native clocks to the runtime and derives two mutually enabling rules: demand-sized state allocation at a stable address, and exact-shape graph replay without padding. The former eliminates idle memory and stabilizes tensor pointers, while the latter removes orchestration slack without padding overhead. Evaluated on four released models across three decoder architectures with bit-for-bit identical output, DuplexCadence reaches <span class="math inline">2.85\times</span> the stock runtime's speed at <span class="math inline">38.8\%</span> lower peak memory. On the live duplex path, mean SPEAK time falls from <span class="math inline">14\%</span> over the one-second cadence to <span class="math inline">2\%</span> under it, enabling models to reliably keep up with interactive speech while markedly expanding multi-</p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">
@@ -112,8 +114,8 @@
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
               <div class="prose"><p>DuplexCadence đề xuất hợp đồng native-clock (declarative native-clock contract), mô hình hóa trạng thái thành bộ (clock, growth map, lifetime, mutability, retention policy, placement), dẫn xuất hai cơ chế tương hỗ:</p>
 <ol>
-<li><strong>State Rule (Demand Sizing &amp; Stable Carry)</strong>: Cấp phát bộ nhớ chính xác theo giới hạn liveness lý thuyết ($A^\dagger = A$), co workspace từ $16 \times 1000$ xuống $10 \times 458$ frame; thiết lập vùng đệm carry cố định địa chỉ bộ nhớ (<code>ptr(C)</code> không đổi suốt vòng đời stream) và cập nhật retention qua cơ chế in-place writeback.</li>
-<li><strong>Compute Rule (Exact-Shape Replay)</strong>: Liệt kê trước toàn bộ kích thước tensor khả dĩ thành danh mục đóng $\mathcal{K}(o)$ (với bộ giải mã flow chỉ gồm $K=3$ shape class) và ghi nhận CUDA Graphs cho từng shape chính xác không dùng padding (tránh sai số dấu phẩy động). Bộ điều khiển áp dụng fail-closed admission: kiểm tra signature, xác thực con trỏ zero-copy aliasing, và phân loại hiệu ứng ngẫu nhiên (chấp nhận bộ sinh số ngẫu nhiên Philox trên device của vocoder HiFT nhờ lưu/khôi phục snapshot RNG).
+<li><strong>State Rule (Demand Sizing &amp; Stable Carry)</strong>: Cấp phát bộ nhớ chính xác theo giới hạn liveness lý thuyết (<span class="math inline">A^\dagger = A</span>), co workspace từ <span class="math inline">16 \times 1000</span> xuống <span class="math inline">10 \times 458</span> frame; thiết lập vùng đệm carry cố định địa chỉ bộ nhớ (<code>ptr(C)</code> không đổi suốt vòng đời stream) và cập nhật retention qua cơ chế in-place writeback.</li>
+<li><strong>Compute Rule (Exact-Shape Replay)</strong>: Liệt kê trước toàn bộ kích thước tensor khả dĩ thành danh mục đóng <span class="math inline">\mathcal{K}(o)</span> (với bộ giải mã flow chỉ gồm <span class="math inline">K=3</span> shape class) và ghi nhận CUDA Graphs cho từng shape chính xác không dùng padding (tránh sai số dấu phẩy động). Bộ điều khiển áp dụng fail-closed admission: kiểm tra signature, xác thực con trỏ zero-copy aliasing, và phân loại hiệu ứng ngẫu nhiên (chấp nhận bộ sinh số ngẫu nhiên Philox trên device của vocoder HiFT nhờ lưu/khôi phục snapshot RNG).
 Hai quy tắc bổ trợ lẫn nhau: thu nhỏ bộ nhớ cho phép CUDA Graph đóng băng trạng thái nhỏ gọn, trong khi CUDA Graph loại bỏ triệt để overhead khởi tạo kernel.</li>
 </ol>
 </div>
@@ -136,7 +138,7 @@ Hai quy tắc bổ trợ lẫn nhau: thu nhỏ bộ nhớ cho phép CUDA Graph �
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
-              <div class="prose"><p>Phạm vi lossless bị giới hạn bởi độ rộng danh mục (catalog width $K_r$): các giai đoạn autoregressive bước đơn (như LLM backbone với $K_r = 2001$) nằm ngoài phạm vi capture khả thi nếu không padding; các bước prompt-priming không dùng cache và trôi con trỏ ở biên lượt thoại phải rơi về eager fallback; harness multi-session mới chỉ khảo sát time-multiplexing đơn tiến trình trong cửa sổ 2s.</p>
+              <div class="prose"><p>Phạm vi lossless bị giới hạn bởi độ rộng danh mục (catalog width <span class="math inline">K_r</span>): các giai đoạn autoregressive bước đơn (như LLM backbone với <span class="math inline">K_r = 2001</span>) nằm ngoài phạm vi capture khả thi nếu không padding; các bước prompt-priming không dùng cache và trôi con trỏ ở biên lượt thoại phải rơi về eager fallback; harness multi-session mới chỉ khảo sát time-multiplexing đơn tiến trình trong cửa sổ 2s.</p>
 </div>
             </div>
             <div class="analysis-section is-secondary">

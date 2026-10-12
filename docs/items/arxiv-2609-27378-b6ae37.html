@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Psychoacoustically Aligned Latent Smoothing for Adversarial Robustness of Full-Duplex Speech-to-Speech Dialogue Models · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -112,33 +114,33 @@
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
               <div class="prose"><p>PALS can thiệp vào tầng thắt cổ chai RVQ (Residual Vector Quantization) của codec thông qua hai chế độ: PALS-Train (triển khai thực tế) và PALS-Certify (đánh giá chứng thực lý thuyết).</p>
 <ul>
-<li><strong>Latent Smoothing bất đẳng hướng:</strong> Trước bước lượng tử hóa RVQ, latent frame được cộng nhiễu Gaussian bất đẳng hướng $\mathcal{N}(0, \sigma^2 \Sigma(z_t))$, trong đó ma trận hiệp phương sai $\Sigma(z_t)$ được tính từ độ phân tán phần dư của codebook nội bộ tại cell tương ứng, sau đó lượng tử hóa lại qua straight-through estimator.</li>
-<li><strong>Input Noise Dual:</strong> Bổ sung nhiễu miền sóng âm $\nu$ có phổ khớp với ngưỡng che âm học MPEG-1 (được chứng minh là phân phối entropy cực đại dưới ràng buộc công suất ngưỡng) với hệ số tỷ lệ $\eta(\sigma) = \kappa \sigma$.</li>
-<li><strong>Hàm mất mát:</strong> Kết hợp cross-entropy chuẩn sau huấn luyện với hàm phạt KL consistency kiểu TRADES (hệ số $\beta = 4$) giữa phân phối đầu ra của clean latent và augmented latent, chỉ điều khiển bằng một tham số $\sigma$ duy nhất (chọn $\sigma = 0.25$).</li>
-<li><strong>Chứng thực lý thuyết (PALS-Certify):</strong> Sử dụng randomized smoothing với hiệp phương sai cố định và $n = 1{,}000$ mẫu Monte Carlo để chứng thực bán kính hình elip (Mahalanobis) trong không gian latent.</li>
+<li><strong>Latent Smoothing bất đẳng hướng:</strong> Trước bước lượng tử hóa RVQ, latent frame được cộng nhiễu Gaussian bất đẳng hướng <span class="math inline">\mathcal{N}(0, \sigma^2 \Sigma(z_t))</span>, trong đó ma trận hiệp phương sai <span class="math inline">\Sigma(z_t)</span> được tính từ độ phân tán phần dư của codebook nội bộ tại cell tương ứng, sau đó lượng tử hóa lại qua straight-through estimator.</li>
+<li><strong>Input Noise Dual:</strong> Bổ sung nhiễu miền sóng âm <span class="math inline">\nu</span> có phổ khớp với ngưỡng che âm học MPEG-1 (được chứng minh là phân phối entropy cực đại dưới ràng buộc công suất ngưỡng) với hệ số tỷ lệ <span class="math inline">\eta(\sigma) = \kappa \sigma</span>.</li>
+<li><strong>Hàm mất mát:</strong> Kết hợp cross-entropy chuẩn sau huấn luyện với hàm phạt KL consistency kiểu TRADES (hệ số <span class="math inline">\beta = 4</span>) giữa phân phối đầu ra của clean latent và augmented latent, chỉ điều khiển bằng một tham số <span class="math inline">\sigma</span> duy nhất (chọn <span class="math inline">\sigma = 0.25</span>).</li>
+<li><strong>Chứng thực lý thuyết (PALS-Certify):</strong> Sử dụng randomized smoothing với hiệp phương sai cố định và <span class="math inline">n = 1{,}000</span> mẫu Monte Carlo để chứng thực bán kính hình elip (Mahalanobis) trong không gian latent.</li>
 </ul>
 </div>
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
-              <div class="prose"><p>Mô hình phòng thủ là biến thể Moshi (7B temporal transformer + depth transformer, Mimi-style codec 12.5 Hz với 8 codebook kích thước 2048, $d = 512$). Post-training trên 3,118 giờ tiếng Anh hội thoại hai kênh (otoSpeech, SSSD, CANDOR, Seamless Interaction, AMI) trên 32 GPU H100 trong ~5 ngày. Đánh giá tấn công white-box lặp 1,000 bước Adam với 5 lần khởi tạo lại ở các ngân sách $\Delta \in {-20, -15, -10, -5, 0}$ dB, mô phỏng over-the-air (OTA) qua 120 phòng giả lập Pyroomacoustics kèm nhiễu MUSAN babble. Đánh giá chất lượng và hội thoại bằng UTMOS, DNSMOS, Whisper large-v3 WER, và Turn-taking F1 (Full-Duplex-Bench).</p>
+              <div class="prose"><p>Mô hình phòng thủ là biến thể Moshi (7B temporal transformer + depth transformer, Mimi-style codec 12.5 Hz với 8 codebook kích thước 2048, <span class="math inline">d = 512</span>). Post-training trên 3,118 giờ tiếng Anh hội thoại hai kênh (otoSpeech, SSSD, CANDOR, Seamless Interaction, AMI) trên 32 GPU H100 trong ~5 ngày. Đánh giá tấn công white-box lặp 1,000 bước Adam với 5 lần khởi tạo lại ở các ngân sách <span class="math inline">\Delta \in \{-20, -15, -10, -5, 0\}</span> dB, mô phỏng over-the-air (OTA) qua 120 phòng giả lập Pyroomacoustics kèm nhiễu MUSAN babble. Đánh giá chất lượng và hội thoại bằng UTMOS, DNSMOS, Whisper large-v3 WER, và Turn-taking F1 (Full-Duplex-Bench).</p>
 </div>
             </div>
             <div class="analysis-section">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
               <div class="prose"><ul>
-<li>Tại ngân sách tối đa $\Delta = 0$ dB, PALS-Train giảm tỷ lệ tấn công Semantic Hijack từ 91.7 ± 1.7% (undefended) xuống còn 8.3 ± 1.7%, vượt trội so với PGD-AT (19.4 ± 2.5%) và Input Smoothing (28.9 ± 2.8%).</li>
+<li>Tại ngân sách tối đa <span class="math inline">\Delta = 0</span> dB, PALS-Train giảm tỷ lệ tấn công Semantic Hijack từ 91.7 ± 1.7% (undefended) xuống còn 8.3 ± 1.7%, vượt trội so với PGD-AT (19.4 ± 2.5%) và Input Smoothing (28.9 ± 2.8%).</li>
 <li>Tỷ lệ tấn công Mute giảm từ 88.4 ± 2.0% xuống 11.2 ± 1.9% (được đánh giá hoàn toàn tự động qua tỷ lệ voice activity &lt; 5% trong 10 giây).</li>
 <li>Tỷ lệ Policy Jailbreak trên tập AdvBench giảm từ 76.2 ± 3.7% xuống 9.1 ± 2.5%.</li>
 <li>Tỷ lệ tấn công Hijack Over-The-Air (OTA) giảm từ 46.3 ± 3.1% xuống 4.7 ± 1.3%.</li>
 <li>Về chất lượng sạch: UTMOS chỉ giảm 0.09 điểm (từ 3.91 xuống 3.82, tức giảm 2.3% tương đối), WER tăng nhẹ từ 7.4% lên 7.7%, và Turn-Taking F1 hầu như không đổi (0.71 so với 0.70).</li>
-<li>Chứng thực toán học: PALS-Certify chứng thực độ chính xác ngữ nghĩa đạt 47.0% ở bán kính latent $\ell_2 = 0.5$ (trần giao thức là 0.616 tại $\sigma = 0.25$), trong khi input smoothing chỉ chứng thực được 31.5%.</li>
+<li>Chứng thực toán học: PALS-Certify chứng thực độ chính xác ngữ nghĩa đạt 47.0% ở bán kính latent <span class="math inline">\ell_2 = 0.5</span> (trần giao thức là 0.616 tại <span class="math inline">\sigma = 0.25</span>), trong khi input smoothing chỉ chứng thực được 31.5%.</li>
 </ul>
 </div>
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
-              <div class="prose"><p>Chứng thực toán học của PALS-Certify chỉ đảm bảo chắc chắn trong không gian latent ở bán kính nhỏ (tương đương đầu vào $\Delta \approx -26$ dB, thấp hơn nhiều so với mức tấn công thực tế $0$ dB); phép kéo ngược (pullback) về không gian sóng âm dựa trên xấp xỉ hằng số Lipschitz cục bộ chưa được ràng buộc về mặt kiến trúc; dữ liệu huấn luyện và kiểm thử mới chỉ giới hạn trên hội thoại dyadic tiếng Anh.</p>
+              <div class="prose"><p>Chứng thực toán học của PALS-Certify chỉ đảm bảo chắc chắn trong không gian latent ở bán kính nhỏ (tương đương đầu vào <span class="math inline">\Delta \approx -26</span> dB, thấp hơn nhiều so với mức tấn công thực tế <span class="math inline">0</span> dB); phép kéo ngược (pullback) về không gian sóng âm dựa trên xấp xỉ hằng số Lipschitz cục bộ chưa được ràng buộc về mặt kiến trúc; dữ liệu huấn luyện và kiểm thử mới chỉ giới hạn trên hội thoại dyadic tiếng Anh.</p>
 </div>
             </div>
             <div class="analysis-section is-secondary">

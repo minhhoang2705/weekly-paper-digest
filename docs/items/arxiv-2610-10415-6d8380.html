@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Steerspeech: Activation Steering For Emotion Control In Generated Speech · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Steerspeech: Activation Steering For Emotion Control In Generated Speech</h1>
+    <div class="meta">
+      <span>published Oct 7, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">TTS</span>        <span class="authors">Afsara Benazir, Darius Pétermann, Felix Xiaozhu Lin, Salar Rahili</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.10415" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Pretrained text-to-speech (TTS) models can generate expressive speech, but reliable inference-time emotion control remains challenging: prompts and reference audio offer coarse, inconsistent control, whereas specialized conditioning and model adaptation require costly training. We present SteerSpeech, a lightweight activation-steering framework that controls emotion by injecting steering vectors into hidden activations. For each target emotion we train a lightweight low-rank transform, using a multi-expert objective that encourages monotonic emotion control while preserving speaker identity and linguistic content, constraining steering drift, and keeping the TTS backbone frozen. To optimize through discrete speech tokens, we introduce a two-pass generation-and-replay pipeline using a straight-through estimator to backpropagate expert supervision through sampled tokens. At inference, a target-emotion steering direction is optimized with its respective transform and injected into the base TTS model. Objective and subjective evaluations with Qwen3-TTS across seen, unseen, and accented speakers show stronger continuous emotion control with limited speaker and content degradation. SteerSpeech achieves 1.08x-7.12x baseline target-emotion scores and for a representative emotion subjectively, it receives 78.1%-96.8% intensity preference and 1.43x-1.46x speaker-identity preservation at high steering strengths.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 12, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>SteerSpeech là một framework activation-steering gọn nhẹ giúp điều khiển cảm xúc liên tục và đơn điệu khi inference trên mô hình TTS mà không cần tinh chỉnh mô hình nền tảng. Phương pháp huấn luyện một phép biến đổi low-rank (chỉ ~33K tham số mỗi cảm xúc) bằng objective đa chuyên gia với quy trình two-pass generation-and-replay sử dụng straight-through estimator để lan truyền gradient qua các discrete speech tokens. Kết quả trên Qwen3-TTS-0.6B cho thấy mô hình đạt điểm số cảm xúc mục tiêu gấp 1.08×–7.12× so với baseline và bảo toàn danh tính người nói tốt hơn đáng kể ở cường độ điều khiển cao.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Việc điều khiển cảm xúc trong các mô hình TTS tiền huấn luyện khi inference rất khó khăn: dùng prompt hay reference audio chỉ đem lại khả năng kiểm soát thô và thiếu nhất quán, trong khi thích ứng mô hình hoặc thêm encoder chuyên biệt đòi hỏi chi phí tính toán lớn và lượng dữ liệu gán nhãn đáng kể. Tiếp cận activation steering thông thường (như trừ mean activation) thường yếu, không ổn định, làm thay đổi danh tính người nói (speaker drift), làm hỏng nội dung ngôn ngữ và khó kiểm soát cường độ liên tục/đơn điệu.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>SteerSpeech giữ đóng băng toàn bộ backbone TTS (Qwen3-TTS-0.6B) và chỉ học một phép biến đổi low-rank <span class="math inline">T_\theta</span> cho mỗi cảm xúc mục tiêu:\n1. <strong>Kiến trúc transform low-rank:</strong> Chuẩn hóa vector tương phản cảm xúc thô <span class="math inline">\bar{v}_e = v_e / \|v_e\|_2</span>, sau đó áp dụng phép hiệu chỉnh affine rank-<span class="math inline">r</span> (<span class="math inline">r=16, d=1024</span>, gồm 33,793 tham số): <span class="math inline">q = \bar{v}_e + U(D\bar{v}_e) + b</span>, với <span class="math inline">D \in \mathbb{R}^{r \times d}</span> khởi tạo trực giao ngẫu nhiên, <span class="math inline">U \in \mathbb{R}^{d \times r}</span> và <span class="math inline">b \in \mathbb{R}^d</span> khởi tạo bằng 0. Độ lớn được co giãn có giới hạn <span class="math inline">\pm 20\%</span> quanh giá trị trung vị <span class="math inline">s_0</span>: <span class="math inline">s = s_0(1 + \beta \tanh \eta)</span> với <span class="math inline">\beta = 0.2</span>, cho ra <span class="math inline">v_e^\star = T_\theta(v_e) = s (q / \|q\|_2)</span>. Vector <span class="math inline">\alpha v_e^\star</span> được cộng vào hidden state tại layer <span class="math inline">l=15</span>, sau đó hidden state được phục hồi lại norm ban đầu.\n2. <strong>Quy trình tối ưu Two-Pass:</strong> Ở Pass 1, mô hình inject steering vector và autoregressive sample chuỗi discrete codec token. Ở Pass 2, replay lại chuỗi với teacher forcing và Straight-Through Estimator (STE) để lan truyền đạo hàm qua biểu diễn liên tục xuống differentiable decoder và cập nhật <span class="math inline">T_\theta</span>.\n3. <strong>Hàm mục tiêu đa chuyên gia (Multi-expert Loss):</strong> Gồm <span class="math inline">L_{\text{update}} = L_{\text{emotion}} + 32 L_{\text{speaker}} + 0.2 L_{\text{ASR}} + L_{\text{reg}}</span>. Trong đó <span class="math inline">L_{\text{emotion}} = L_{\text{mono}} - \lambda \log p_e(\alpha_{\max})</span> với <span class="math inline">L_{\text{mono}}</span> là hinge loss phạt các bước tăng không đơn điệu trên tập tỉ lệ <span class="math inline">\alpha_j \in \{0.3, 0.4, \dots, 1.0\}</span>; <span class="math inline">L_{\text{speaker}} = |s_T - s_U|</span> đo độ lệch tương đồng speaker embedding (dùng WavLM) giữa mẫu unsteered và steered so với reference speech; <span class="math inline">L_{\text{ASR}}</span> phạt negative log-likelihood của Whisper; và <span class="math inline">L_{\text{reg}} = 0.01 [1 - \cos(q, \bar{v}_e)] + 0.01 \eta^2</span>.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá trên tập tiếng Anh của Emotional Speech Dataset (ESD) gồm 10 native speakers (350 câu/speaker, 16 kHz), chia thành 'seen' (câu chưa gặp từ speaker trong tập huấn luyện), 'unseen' (2 speaker được giữ lại) và 'accented' (khảo sát cross-corpus trên 4 Mandarin speaker từ L2-ARCTIC). Backbone TTS là Qwen3-TTS-0.6B (can thiệp tại layer 15, temperature 0.9, top-k=50, top-p=1.0). Huấn luyện bằng AdamW (batch size 32, lr <span class="math inline">10^{-3}</span>, weight decay <span class="math inline">10^{-4}</span>, 5% warmup cosine decay). Các chuyên gia huấn luyện: emotion2vec, WavLM, Whisper. Các module đánh giá khách quan: XLSR-53 emotion classifier, ECAPA-TDNN, wav2vec 2.0 (WER), UTMOS. So sánh với Emotion reference baseline và Naive difference-of-means baseline.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Điểm số cảm xúc (Emo. / Top-1 accuracy pooled) trên cả 3 cảm xúc: SteerSpeech đạt 0.835 / 0.945 (Angry), 0.524 / 0.740 (Happy), 0.235 / 0.255 (Sad), vượt trội so với Naive baseline (0.651 / 0.755 Angry, 0.487 / 0.615 Happy, 0.126 / 0.100 Sad) và Emotion reference (0.617 / 0.775 Angry, 0.333 / 0.394 Happy, 0.033 / 0.019 Sad).</li>
+<li>Về chất lượng tự nhiên (UTMOS pooled): SteerSpeech đạt 3.149 (Angry), 3.347 (Happy), 3.555 (Sad), cao hơn Naive baseline (2.540 Angry, 2.999 Happy, 3.452 Sad) từ 0.103 đến 0.609 điểm.</li>
+<li>Speaker drift (độ lệch người nói pooled): SteerSpeech trên Angry đạt 0.195 (thấp hơn Naive là 0.233), Happy đạt 0.258 (Naive: 0.247), Sad đạt 0.183 (Naive: 0.156).</li>
+<li>Đánh giá chủ quan A/B preference (Survey 1 ở <span class="math inline">\alpha=1.0</span>): SteerSpeech áp đảo Naive về emotion preference với 78.1% vs 21.9% (speaker-ID preference: 41.2% vs 58.8%, naturalness: 47.7% vs 52.3%); so với Emotion reference, SteerSpeech đạt 96.8% vs 3.2% emotion preference.</li>
+<li>Đánh giá chủ quan theo cường độ (Survey 2 - Angry): Ở dải cường độ cao, SteerSpeech bảo toàn speaker-ID vượt trội so với Naive: ở chuyển đổi <span class="math inline">\alpha=0.7 \rightarrow 0.9</span> đạt 66.7% vs 46.6% (+20.1 pp), ở <span class="math inline">\alpha=0.9 \rightarrow 1.0</span> đạt 69.2% vs 47.4% (+21.8 pp), đồng thời gia tăng nhận thức giận dữ (Anger increase) áp đảo (+42.0 pp và +22.1 pp).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Hiệu quả kiểm soát phụ thuộc vào bản chất cảm xúc: các cảm xúc có high-arousal như Angry đạt hiệu quả rất cao, trong khi Sadness và Happiness đạt điểm số thấp hơn nhiều (Sad chỉ đạt emotion score 0.235). Ngoài ra, nghiên cứu mới chỉ thử nghiệm trên một backbone TTS duy nhất (Qwen3-TTS-0.6B) và đánh giá chi tiết chủ quan chủ yếu tập trung vào cảm xúc Angry.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Activation steering có thể biến đổi thành một công cụ điều khiển cảm xúc mượt mà, liên tục mà không cần can thiệp tham số backbone TTS nếu được bổ sung một tầng transform low-rank nhỏ gọn kết hợp ràng buộc đa mục tiêu (speaker + ASR + monotonic emotion). Cơ chế replay hai lượt với STE là giải pháp khả thi để lan truyền đạo hàm qua discrete speech tokens về các tầng biểu diễn ẩn.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">70.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Bài báo đề xuất phương pháp mới kết hợp low-rank residual transform trên activation vector với hàm mục tiêu đa chuyên gia giám sát tính đơn điệu, giải quyết nút thắt gradient qua discrete speech codec bằng quy trình two-pass replay kết hợp straight-through estimator.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật sâu sắc từ việc mô hình hóa rank-r correction có ràng buộc độ lớn $\beta=0.2$, giải pháp hai lượt giải mã vượt qua rào cản rời rạc hóa của audio codec, đến bộ loss cân bằng giữa monotonic emotion, speaker verification và ASR.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Báo cáo đầy đủ kết quả định lượng khách quan (được đánh giá bằng các model độc lập so với quá trình train) và chủ quan qua 2 blinded listening tests với 55 người nghe, kèm phân tích ablation study chi tiết cho từng thành phần loss và ma trận biến đổi.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Cung cấp một giải pháp plug-and-play rất thực tiễn cho việc điều khiển cảm xúc trong speech generation mà không cần fine-tune backbone, tuy nhiên chưa phát hành open-source code/weights và mới chỉ thử nghiệm trên một họ mô hình TTS.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Nghiên cứu đến từ nhóm tác giả thuộc Netflix và University of Virginia, mô tả phương pháp và quy trình huấn luyện minh bạch, thực hiện thẩm định chặt chẽ bằng cả chuyên gia nội bộ lẫn mô hình độc lập và listening tests.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Bài báo đề xuất phương pháp mới kết hợp low-rank residual transform trên activation vector với hàm mục tiêu đa chuyên gia giám sát tính đơn điệu, giải quyết nút thắt gradient qua discrete speech codec bằng quy trình two-pass replay kết hợp straight-through estimator.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Nghiên cứu đến từ nhóm tác giả thuộc Netflix và University of Virginia, mô tả phương pháp và quy trình huấn luyện minh bạch, thực hiện thẩm định chặt chẽ bằng cả chuyên gia nội bộ lẫn mô hình độc lập và listening tests.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật sâu sắc từ việc mô hình hóa rank-r correction có ràng buộc độ lớn <span class="math inline">\beta=0.2</span>, giải pháp hai lượt giải mã vượt qua rào cản rời rạc hóa của audio codec, đến bộ loss cân bằng giữa monotonic emotion, speaker verification và ASR.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Cung cấp một giải pháp plug-and-play rất thực tiễn cho việc điều khiển cảm xúc trong speech generation mà không cần fine-tune backbone, tuy nhiên chưa phát hành open-source code/weights và mới chỉ thử nghiệm trên một họ mô hình TTS.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Báo cáo đầy đủ kết quả định lượng khách quan (được đánh giá bằng các model độc lập so với quá trình train) và chủ quan qua 2 blinded listening tests với 55 người nghe, kèm phân tích ablation study chi tiết cho từng thành phần loss và ma trận biến đổi.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Chi phí tham số cực nhẹ (~33K params/cảm xúc) · Bảo tồn frozen backbone TTS hoàn toàn · Kiểm soát cường độ cảm xúc tăng đơn điệu · Bảo toàn speaker identity vượt trội ở alpha cao · Tổng quát hóa tốt trên unseen và accented speakers</p>
+          <p><span class="label">Weaknesses</span> · Hiệu quả kiểm soát cảm xúc Sad còn yếu · Mới kiểm chứng trên một backbone TTS · Đánh giá chủ quan sâu chỉ làm trên Angry</p>
+          <p><span class="label">Context</span> · Afsara Benazir (University of Virginia, thực tập tại Netflix), Darius Pétermann, Salar Rahili (Netflix, Inc.), Felix Xiaozhu Lin (University of Virginia); công bố trên arXiv tháng 10/2026.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

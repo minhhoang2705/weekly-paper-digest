@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.07641",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tính toán đón đầu (anticipatory computation) trong lúc nhận dạng giọng nói không mới, nhưng việc kết hợp phân tách mệnh đề streaming ASR với bộ nhớ đệm suy đoán và direct injection cho LLM on-device được thiết kế rất chặt chẽ.",
+  "credibility": "Tác phẩm đến từ nhóm nghiên cứu Qualcomm AI Research và KAIST AI, công bố chi tiết về phần cứng và ngăn xếp phần mềm thương mại.",
+  "technical": "Kiến trúc hệ thống on-device chi tiết, tối ưu hóa phối hợp CPU-NPU rõ ràng và có cơ chế xử lý dự phòng (fallback/cache verification) logic.",
+  "impact": "Cung cấp một mẫu thiết kế tham khảo thực tế cho các kỹ sư xây dựng trợ lý giọng nói on-device tích hợp function calling nhưng tín hiệu đón nhận cộng đồng hiện ở mức vừa phải (15 upvotes).",
+  "evidence": "Thực nghiệm đo đạc độ trễ trực tiếp trên phần cứng thật Samsung Galaxy S26 Ultra với đầy đủ ablation study và kiểm thử độ bền (adversarial/hard negatives)."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu đề xuất phương pháp speculative tool execution cho các cascaded voice agents trên thiết bị di động (on-device) nhằm ẩn độ trễ gọi công cụ bên ngoài bằng cách thực thi song song trong khi người dùng vẫn đang nói. Một bộ dự đoán dựa trên luật phân tích các giả thuyết ASR streaming bán phần để gọi trước API tìm kiếm, lưu kết quả vào cache và tiêm trực tiếp vào prompt của on-device LLM, giúp giảm thời gian phản hồi p50 từ 5.79 s xuống 4.60 s.",
+  "problem": "Trong các hệ thống cascaded voice agent (ASR -> LLM -> TTS), quy trình gọi công cụ (tool calling) truyền thống được tuần tự hóa: hệ thống phải đợi người dùng dứt lời, ASR chốt bản gỡ băng, LLM suy luận ra yêu cầu gọi công cụ rồi mới kích hoạt công cụ (như web search qua mạng). Việc này tạo ra độ trễ đầu cuối (end-to-end latency) rất lớn, dễ nhận thấy bởi người dùng và phụ thuộc vào kết nối mạng không ổn định.",
+  "method": "Hệ thống triển khai pipeline speculative execution gồm các thành phần chính:\n- **Tool Call Predictor dựa trên luật**: Giám sát dòng từ streaming ASR theo thời gian thực. Kích hoạt dự đoán sau khi quan sát tối thiểu $N_{\\min} = 6$ từ, sau mỗi $\\Delta N = 5$ từ bổ sung, hoặc khi phát hiện khoảng lặng $\\tau_{\\text{pause}} = 300\\text{ ms}$. Giả thuyết ASR được phân chia thành các mệnh đề không trùng lặp dựa vào dấu câu hoặc liên từ liên kết (*and, but, also, then, while*). Mỗi mệnh đề được gán độc lập vào một trong 12 danh mục tìm kiếm thông tin thô để tạo tuple dự đoán gọi công cụ (ví dụ: `searchWeb`).\n- **Speculative Results Cache & Direct Injection**: Kết quả trả về từ công cụ (như EXA Search API) được lưu vào cache. Khi ASR hoàn tất ($t_{\\text{ASR}}$), các kết quả đã hoàn thành được tiêm thẳng vào prompt của LLM trước khi giải mã. Điều này cũng đóng vai trò như in-context learning giúp mô hình nhỏ sinh phản hồi chính xác hơn.\n- **Verified Fallback & Standard Fallback**: Nếu LLM vẫn phát sinh tool call sau khi ASR chốt (xảy ra trong 13% trường hợp thử nghiệm), hệ thống kiểm tra cache tại thời điểm $t_{\\text{verify}}$ để tái sử dụng ngay lập tức mà không gọi mạng lại. Nếu không có cache khớp, hệ thống gọi tool tuần tự như thông thường.",
+  "setup": "Đánh giá trực tiếp trên phần cứng thương mại Samsung Galaxy S26 Ultra (SM-S948N, Snapdragon Elite Gen 5):\n- **ASR & TTS**: Mô hình streaming Conformer ASR và mô hình TTS chạy trên CPU.\n- **LLM**: Llama-3.2-3B Instruct (QAIRT bundle) lượng tử hóa W4A16 chạy trên NPU thông qua Qualcomm QNN stack.\n- **Tools**: CPU điều phối HTTP dispatch đến remote web-search API của EXA.\n- **Tập dữ liệu đánh giá**: Gồm 146 mẫu tiếng Anh (~1.5 giờ âm thanh, tổng thời gian chạy thử nghiệm ~3 giờ), trong đó có 100 câu đơn/đa tìm kiếm, lịch và báo thức; 22 mẫu *hard-negative* (chứa từ khóa tìm kiếm nhưng không cần tool); 24 mẫu *adversarial* (chứa sửa lời, rút lại ý, thay đổi chủ đề). Âm thanh được tổng hợp qua Gemini-2.5-Flash-Preview-TTS và stream vào thiết bị theo thời gian thực.\n- **Chỉ số**: Time-to-first-audio (TTFA, đo từ cuối giọng nói đến âm thanh TTS đầu tiên), F1 gọi tool, tỷ lệ Ready của cache, số cuộc gọi lãng phí (Wasted calls), False read.",
+  "results": [
+   "Hệ số TTFA p50 giảm từ 5.79 s (cascaded baseline) xuống 4.60 s; TTFA p99 giảm từ 19.76 s xuống 15.10 s; TTFA Mean ± Std giảm từ 6.69 ± 3.49 s xuống 5.99 ± 2.81 s.",
+   "Độ trễ từ khi hoàn thành ASR đến First Tool call (FT p99) giảm mạnh từ 22.44 s xuống 11.71 s.",
+   "F1 score lựa chọn tool tổng thể tăng từ 44.8% lên 60.6% nhờ cơ chế direct cache injection cung cấp thêm ngữ cảnh cho LLM 3B.",
+   "Trong thử nghiệm trường hợp truy vấn dài 15 giây cần 10 giây tìm kiếm, phương pháp giảm TTFA từ 17 giây xuống còn 8 giây.",
+   "Ablation study (Bảng 2): Cấu hình Direct injection + verified fallback đạt p50 4.60 s, p95 11.39 s, Mean ± Std 5.99 ± 2.81 s, F1 60.6%, Ready 47.7% và chỉ có 5 wasted calls (so với speculative prefetch only bị 47 wasted calls và Ready 0.0%).",
+   "Khả năng chống nhiễu (Bảng 3): Trên tập hard negatives (n=22), tỷ lệ False read là 9.1% và chỉ 2 cuộc gọi wasted. Trên tập adversarial (n=24), hệ thống giữ F1 90.2%, False read 12.3% với 21 wasted calls.",
+   "So sánh router (Bảng 4): Rule full utterance đạt F1 39.4% (Exact count 50.0%), trong khi LLM full utterance đạt F1 59.9% (Exact count 83.0%) nhưng LLM router đòi hỏi chi phí suy luận lớn và cạnh tranh tài nguyên NPU."
+  ],
+  "limitations": "Tập đánh giá tự tạo với quy mô còn nhỏ (146 câu) và giọng đọc tổng hợp bằng TTS thay vì giọng người thật tự nhiên. Cơ chế suy đoán hiện chỉ áp dụng an toàn cho các read-only tool (như tìm kiếm web), chưa thể áp dụng cho các write tool (như tạo lịch, đặt báo thức) để tránh tác dụng phụ không mong muốn. Trình dự đoán dựa trên luật có giới hạn ngữ cảnh (chỉ phân loại 12 category thô).",
+  "takeaways": "Khai thác thời gian đang nói trong streaming ASR để dự đoán và thực thi trước các tác vụ mạng/công cụ tốn thời gian là giải pháp thực tế giúp giấu độ trễ trên thiết bị biên. Việc tiêm thẳng kết quả vào prompt (direct injection) không chỉ tiết kiệm thời gian chờ phản hồi từ tool mà còn cải thiện độ chính xác tool calling của các mô hình LLM nhỏ gọn (3B) thông qua in-context learning.",
+  "strengths": [
+   "Thực thi trực tiếp trên thiết bị di động thật",
+   "Giảm mạnh độ trễ ngoại lai p99",
+   "Cải thiện F1 gọi tool cho LLM nhỏ",
+   "Thiết kế fallback an toàn, không rủi ro ghi dữ liệu"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ công cụ chỉ đọc (read-only)",
+   "Bộ dữ liệu thử nghiệm nhỏ, dùng audio tổng hợp",
+   "Phụ thuộc tập luật 12 phân loại cố định"
+  ],
+  "context": "Nghiên cứu của nhóm tác giả từ Qualcomm AI Research và KAIST AI, được công bố dưới dạng preprint arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

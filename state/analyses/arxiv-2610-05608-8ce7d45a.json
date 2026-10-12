@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.05608",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Mô hình tích hợp khéo léo kiến trúc dual-stream CrossDiT với continuous pretraining, cơ chế gradient surgery thích ứng cho RL đa phương thức và chưng cất 2 giai đoạn ($\\pi$-Flow + Sim-LADD) cùng pipeline latent super-resolution.",
+  "credibility": "Đến từ nhóm phát triển Kandinsky với bề dày nghiên cứu mô hình sinh, báo cáo chi tiết thông số kỹ thuật, dữ liệu huấn luyện và đã phát hành mã nguồn mở dưới giấy phép MIT.",
+  "technical": "Kỹ thuật chuyên sâu và toàn diện từ kiến trúc mô hình, lọc dữ liệu đa tầng, gradient surgery trong RL, chưng cất quỹ đạo kèm đối kháng, đến tối ưu hóa suy luận với block offloading và biên dịch cục bộ.",
+  "impact": "Là một trong những foundation model sinh video kèm âm thanh/khẩu hình quy mô lớn (29B) đầu tiên được mở hoàn toàn mã nguồn và trọng số, tạo tiền đề lớn cho cộng đồng nghiên cứu đa phương thức.",
+  "evidence": "Báo cáo cung cấp đầy đủ thực nghiệm định lượng trên benchmark chuẩn VABench, kiểm tra ý nghĩa thống kê WER, human evaluation đa tiêu chí với nhiều đối thủ cạnh tranh và nghiên cứu cắt giảm (ablation) chi tiết."
+ },
+ "summary": {
+  "tldr": "Kandinsky 6.0 Video là bộ foundation model khuếch tán đa phương thức (gồm bản Lite 3B và Pro 29B) cho tác vụ sinh video kèm âm thanh đồng bộ 44 kHz và hát/nói khớp khẩu hình (lip-sync) trong 5 giây ở chế độ T2AV và I2AV. Mô hình kết hợp kiến trúc dual-stream CrossDiT, quy trình continuous pretraining, SFT 11 miền kết hợp model soup, hậu huấn luyện RL dựa trên OmniNFT và chưng cất 2 giai đoạn ($\\pi$-Flow + Sim-LADD) xuống còn 10 bước tính toán.",
+  "problem": "Sinh video kèm âm thanh đồng bộ (T2AV) phức tạp hơn nhiều so với sinh đơn phương thức vì đòi hỏi sự nhất quán về ngữ nghĩa, thời gian và cảm xúc, đặc biệt là khớp khẩu hình nhân vật. Các hệ thống thương mại hàng đầu như Sora 2, Veo 3.1, Wan 2.6 đều đóng mã nguồn; trong khi đó, các mô hình mã nguồn mở hiện tại vẫn bị hạn chế về độ phân giải, thời lượng clip và độ chính xác đồng bộ âm thanh - hình ảnh.",
+  "method": "Mô hình cốt lõi dùng kiến trúc dual-stream CrossDiT bất đối xứng: stream video (kế thừa từ Kandinsky 5.0, dùng Hunyuan VAE) và stream âm thanh (khởi tạo ngẫu nhiên, dùng MMAudio autoencoder 44 kHz), liên kết bằng các lớp bidirectional cross-attention qua từng block. Text được mã hóa bởi Qwen2.5-VL-7B-Instruct và CLIP ViT-L/14. Vị trí được mã hóa bằng RoPE (video chuẩn hóa theo 24 fps). Quy trình gồm 4 giai đoạn chính:\n1. **Continuous Pre-training**: Huấn luyện luồng âm thanh riêng (T2A), tiếp tục song song luồng video (T2V), sau đó ghép nối cross-attention và huấn luyện chung T2AV/I2AV với chế độ `independent_time` (mức nhiễu sampled độc lập giữa âm thanh và video) cùng Token Role Embeddings (TRE).\n2. **Supervised Fine-Tuning (SFT)**: Huấn luyện độc lập trên 11 miền nội dung; Giai đoạn 1 nâng cao chất lượng thị giác, Giai đoạn 2 tối ưu đồng bộ với loss trọng số gồm video loss (0.85), audio loss (0.15) và face loss trên vùng mặt (1.0). Sau đó trộn trọng số đồng đều bằng model soup.\n3. **Reinforcement Learning (OmniNFT adaptation)**: Sử dụng nhóm GRPO ($G=4$ cho Pro, $G=8$ cho Lite) với LoRA (rank 64, $\\alpha=64$). Hàm reward gồm 8 mục tiêu: video (HPSv3, VideoAlign), audio (AudioBox Aesthetics, CLAP, Whisper-ASR), và sync (AV-desync, AV-align, LatentSync-gated với điểm StableSyncNet nhân điểm nhận dạng chữ Whisper). Áp dụng layer-wise gradient surgery trên KV của V2A cross-attention và region-wise loss reweighting từ attention map của A2V.\n4. **Chưng cất (Distillation)**: Nén quỹ đạo qua $\\pi$-Flow (on-policy imitation learning) xuống 10 NFE, sau đó tinh chỉnh đối kháng qua Sim-LADD với gradient truyền ngược qua 5 bước solver cuối (DRaFT-$K$).\n5. **Mô hình Super-Resolution**: Sử dụng không gian latent K-VAE (64 kênh), gồm Latent Upscaler (LU) nâng kích thước trực tiếp trong latent space và SR-DiT (1.41B params, NABLA attention, chưng cất qua $\\pi$-Flow DX còn 2 NFE) để nâng video SD lên Full-HD (1920x1080).",
+  "setup": "Huấn luyện trên tập dữ liệu quy mô lớn gồm 50M T2I, 20M T2V, 40M T2A, 7M T2AV, 116K I2AV, tập SFT (4,663 clip Stage 1 và 7,686 clip Stage 2), 2,984 clip RL và tập Russian Cultural Code (1.2M ảnh, 530K video). Hỗ trợ tiếng Anh và tiếng Nga. Đánh giá tự động trên benchmark VABench và tính WER bằng Qwen3-ASR-1.7B (speech subset VABench) hoặc Whisper-large-v3. Tối ưu phần cứng tiêu dùng bằng block offloading (chỉ giữ 2 transformer blocks trên GPU), MagCache (bỏ qua bước lấy mẫu) và SageAttention2++, cho phép chạy trên card RTX 16 GB, 24 GB và 32 GB.",
+  "results": [
+   "Trên VABench, Kandinsky 6.0 Video Pro vượt LTX 2.5 ở đa số tiêu chí: speech_qn (1.496 vs 1.427), lipsync (2.072 vs 1.567), desync (0.396 vs 0.521, thấp hơn là tốt hơn), audio_aes (3.345 vs 3.307), visual_realism (4.485 vs 4.366), tv_align (0.229 vs 0.185), av_align (0.268 vs 0.258). LTX 2.5 nhỉnh hơn ở alignment (4.527 vs 4.329) và WER (0.099 vs 0.117).",
+   "Kandinsky 6.0 Video Lite đạt điểm cao ở VABench: ta_align (0.374), audio_realism (3.900), visual_qa (0.691), audio_qa (0.697).",
+   "RL post-training giảm mạnh WER (đo bằng Whisper-large-v3) trên benchmark test tiếng nói (64 prompt, 3 seed): Pro giảm từ 0.235 (SFT) xuống 0.124 (giảm 47% tương đối, p < 0.001); Lite giảm từ 0.179 xuống 0.127 (p = 0.002). Trên tập Harvard sentences (100 prompt), Pro WER giảm từ 0.251 xuống 0.180 (p = 0.001).",
+   "Đánh giá người dùng (human SBS): Kandinsky 6.0 Video Pro vượt trội rõ rệt bản tiền nhiệm Kandinsky 5.0 Video Pro ở cả T2V và I2V; thắng thế LTX 2.5 ở chất lượng hình ảnh và chất lượng giọng nói (speech quality); cạnh tranh tốt với Kling 2.6 và Veo 3.1 Fast; vượt trội Seedance 2.0 ở chất lượng giọng nói dù kém hơn ở visual fidelity; chịu lép vế trước MiniMax H3 ở hầu hết các khía cạnh thị giác nhưng vẫn cạnh tranh ở lip-sync và đồng bộ âm thanh.",
+   "Thời gian sinh clip 5s ở cấu hình Pro SD: 356s trên H100, 754s trên RTX 5090 và 936s trên RTX 4090 (với MagCache và block offload)."
+  ],
+  "limitations": "Thời lượng video giới hạn ở mức 5 giây. Độ phân giải sinh gốc chỉ ở mức SD, phụ thuộc vào module super-resolution riêng để đạt Full-HD. Vẫn còn khoảng cách về chất lượng thị giác tổng thể và độ chi tiết âm thanh so với các mô hình thương mại đóng hàng đầu như MiniMax H3. Chạy inference trên GPU tiêu dùng còn chậm do cơ chế block offloading.",
+  "takeaways": "Cung cấp một pipeline hoàn chỉnh và mã nguồn mở (giấy phép MIT) cho việc sinh video kèm âm thanh đồng bộ: kiến trúc dual-stream kết hợp cross-attention, công thức RL thích ứng với gradient surgery tránh phá vỡ modal âm thanh, và quy trình chưng cất 10 NFE. Kỹ thuật block offloading và MagCache là tham chiếu tốt để triển khai foundation model 29B tham số trên GPU tiêu dùng 16-24 GB VRAM.",
+  "strengths": [
+   "Mở mã nguồn, trọng số và diffusers theo MIT",
+   "Đồng bộ âm thanh - khẩu hình (lip-sync) rất tốt",
+   "Hệ thống hậu huấn luyện RL và distillation bài bản",
+   "Hỗ trợ chạy trên GPU tiêu dùng 16-32GB"
+  ],
+  "weaknesses": [
+   "Độ dài clip bị giới hạn trong 5 giây",
+   "Sinh gốc ở mức SD, phải dựa vào SR",
+   "Thời gian suy luận tương đối chậm trên consumer GPU",
+   "Vẫn xếp sau mô hình thương mại về visual fidelity"
+  ],
+  "context": "Nhóm nghiên cứu Team Kandinsky (Julia Agafonova và cộng sự), công bố báo cáo kỹ thuật vào tháng 10/2026 kèm mã nguồn và trọng số mở."
+ },
+ "fulltext_source": "arXiv HTML",
+ "fulltext": true,
+ "analyzed_week": "2026-W42"
+}

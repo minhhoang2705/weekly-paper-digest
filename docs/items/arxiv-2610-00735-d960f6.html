@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Articulatory Source-Filter TTS: Physically Grounded Control through Vocal Tract Kinematics · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -115,9 +117,9 @@
 <li><strong>Giai đoạn 1 (AAI Backend)</strong>: Sử dụng mô hình AAI nền tảng Transformer (7.3M tham số) trích xuất biểu diễn âm thanh từ 3 tầng (layer 6, 24, 36) của mô hình đa ngữ MMS-1B (frame rate 50 Hz, upsample frame duplication lên 100 Hz). Mô hình được huấn luyện trên 6 tập dữ liệu EMA (35h 55m) bằng hàm mất mát MSE kết hợp Pearson Correlation Coefficient (PCC), sau đó gán nhãn giả quỹ đạo 12 kênh chuyển động học (x, y của 6 cơ quan: Upper Lip, Lower Lip, Jaw, Tongue Tip, Tongue Body, Tongue Dorsum) cho tập train-clean-460 của LibriTTS.</li>
 <li><strong>Giai đoạn 2 (TTS Architecture - 33M tham số)</strong>: Văn bản mã hóa qua Phoneme Encoder được chiếu thành 3 luồng độc lập: Articulatory Embedding Predictor (AEP), Source Embedding Predictor (SEP), và Average Spectrogram Projection (ASP). ASP sử dụng Monotonic Alignment Search (MAS) để xác định thời lượng và huấn luyện Duration Predictor.
 <ul>
-<li><em>Nhánh nguồn (Source)</em>: SEP điều khiển Pitch and Energy Predictor (PEP) dự đoán $F_0$ và Energy. Source log-Mel Predictor (SLP) nhận $F_0$, Energy, ASP và speaker embedding để tạo log-Mel phổ nguồn thô $\hat{M}<em>{src}$. Module OT-CFM (1D U-Net, 10 bước Euler ODE) nhận phần dư $M</em>{src}^{res} = M - \hat{M}<em>{flt}$ để tinh chỉnh độ chi tiết của phổ kích thích nguồn thành $\hat{M}</em>{src}^{res}$.</li>
-<li><em>Nhánh lọc (Filter)</em>: AEP điều khiển Articulatory Trajectory Predictor (ATP) dự đoán quỹ đạo động học $\hat{A}$ (được giám sát bằng nhãn AAI). Filter log-Mel Predictor (FLP) nhận $\hat{A}$, ASP và speaker embedding (hoàn toàn không nhận $F_0$ và Energy) để dự đoán phổ bộ lọc $\hat{M}_{flt}$.</li>
-<li><em>Hợp nhất</em>: Phổ âm thanh tổng hợp $\hat{M}<em>{audio} = \hat{M}</em>{src}^{res} + \hat{M}_{flt}$ và được đưa qua pre-trained HiFi-GAN vocoder để tái tạo sóng âm.</li>
+<li><em>Nhánh nguồn (Source)</em>: SEP điều khiển Pitch and Energy Predictor (PEP) dự đoán <span class="math inline">F_0</span> và Energy. Source log-Mel Predictor (SLP) nhận <span class="math inline">F_0</span>, Energy, ASP và speaker embedding để tạo log-Mel phổ nguồn thô <span class="math inline">\hat{M}_{src}</span>. Module OT-CFM (1D U-Net, 10 bước Euler ODE) nhận phần dư <span class="math inline">M_{src}^{res} = M - \hat{M}_{flt}</span> để tinh chỉnh độ chi tiết của phổ kích thích nguồn thành <span class="math inline">\hat{M}_{src}^{res}</span>.</li>
+<li><em>Nhánh lọc (Filter)</em>: AEP điều khiển Articulatory Trajectory Predictor (ATP) dự đoán quỹ đạo động học <span class="math inline">\hat{A}</span> (được giám sát bằng nhãn AAI). Filter log-Mel Predictor (FLP) nhận <span class="math inline">\hat{A}</span>, ASP và speaker embedding (hoàn toàn không nhận <span class="math inline">F_0</span> và Energy) để dự đoán phổ bộ lọc <span class="math inline">\hat{M}_{flt}</span>.</li>
+<li><em>Hợp nhất</em>: Phổ âm thanh tổng hợp <span class="math inline">\hat{M}_{audio} = \hat{M}_{src}^{res} + \hat{M}_{flt}</span> và được đưa qua pre-trained HiFi-GAN vocoder để tái tạo sóng âm.</li>
 </ul>
 </li>
 </ul>

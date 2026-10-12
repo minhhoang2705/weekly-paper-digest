@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conversational Voice Aesthetic Model with Reinforcement Learning from Human Listeners · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Conversational Voice Aesthetic Model with Reinforcement Learning from Human Listeners</h1>
+    <div class="meta">
+      <span>published Oct 7, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Speech LLM</span>        <span class="authors">Xilin Jiang, Shun Zhang, Tejas Jayashankar, Yinghao Aaron Li, Osama Hanna</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.10868" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>We introduce Conversational Voice Aesthetic Model, a speech large language model for describing the voice aesthetics of real or synthetic speech responses in natural conversational contexts. Given a context and a response speech, CVAM describes salient moments that characterize the voice and predicts nine categorical attributes spanning gender, pitch, pacing, emotion, and delivery. The key challenge lies in perceptual fields such as emotion and delivery, which are inherently subjective and lack definitive ground truth. Therefore, we collect ~10 human annotations for each of 3k real and synthetic responses derived from the CANDOR corpus. CVAM is supervised finetuned on synthesized aesthetic descriptions and labels, then optimized with Group Relative Policy Optimization on human judgments. Experiments show that CVAM better agrees with human listeners than Gemini 3.1 Pro and open-source speech LLMs, and outperforms single-human-vs.-rest agreement. Together, we demonstrate the importance of grounding voice aesthetics in human perception and propose a principled framework for human alignment.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 12, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>CVAM (Conversational Voice Aesthetic Model) là speech LLM 7B (dựa trên Qwen2.5-Omni) dùng để đánh giá và mô tả thẩm mỹ giọng nói trong ngữ cảnh hội thoại hai chiều cho cả giọng thật lẫn giọng tổng hợp. Bằng quy trình hậu huấn luyện hai giai đoạn gồm SFT trên 30k mẫu nhãn tổng hợp và GRPO căn chỉnh theo phân phối bình chọn của người nghe (~10 lượt đánh giá/mẫu trên CANDOR), CVAM đạt độ tương đồng với con người vượt trội so với Gemini 3.1 Pro và thỏa thuận giữa người với người (single-human-vs-rest).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các thang đo chất lượng âm thanh truyền thống (PESQ, POLQA, UTMOS) và các speech LLM gần đây thường đánh giá từng phát ngôn riêng lẻ, thiếu ngữ cảnh hội thoại vốn quyết định các thuộc tính như cảm xúc và phong cách truyền đạt (delivery). Thêm vào đó, các khía cạnh nhận thức mang tính chủ quan cao, không có ground truth tuyệt đối; việc huấn luyện chỉ dựa trên nhãn đa số (majority vote) hay ý kiến một người làm mất đi tính đa dạng phân phối phán đoán của con người.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>CVAM xây dựng trên nền Qwen2.5-Omni 7B, nhận đầu vào là audio ngữ cảnh và audio phản hồi (3–30 giây), xuất ra JSON gồm 4 trường thẩm mỹ (pitch, pacing, emotion, delivery) kèm speaker gender với các mô tả viện dẫn bằng chứng và 9 nhãn phân loại:</p>
+<ul>
+<li><strong>Dữ liệu:</strong> Lấy từ CANDOR corpus, lọc chủ đề nhạy cảm bằng Qwen3-32B, nhân 3 tập dữ liệu bằng Qwen3-TTS (1 bản thật, 1 bản voice clone, 1 bản voice design với thuộc tính đa dạng do Qwen3-Omni gợi ý).</li>
+<li><strong>Công cụ đo đạc khách quan:</strong> Trích xuất <span class="math inline">F_0</span> bằng Praat, căn chỉnh âm vị bằng faster-whisper-large-v3 và NeMo Forced Aligner để tính cao độ và nhịp độ (cung cấp tool measures và evidence log cho mô hình).</li>
+<li><strong>Hai giai đoạn huấn luyện (LoRA rank 32, <span class="math inline">\alpha=64</span>):</strong>
+<ol>
+<li><em>SFT:</em> Huấn luyện trên 30k mẫu gán nhãn tổng hợp bởi Gemini 3.1 Pro (1 epoch, lr <span class="math inline">10^{-4}</span> trên <span class="math inline">2 \times 8</span> A100s).</li>
+<li><em>RL qua GRPO:</em> Tối ưu trên 1.5k mẫu gán nhãn người thật (lr <span class="math inline">10^{-5}</span> trên <span class="math inline">4 \times 8</span> A100s, <span class="math inline">G=16</span> rollouts, <span class="math inline">\beta=0.04</span> phạt KL so với policy SFT). Phần thưởng cho 4 trường nhận thức sử dụng hàm đo khoảng cách phân phối cục bộ <span class="math inline">r_i = \phi(p(c_i), \tilde{q}_{-i}(c_i))</span> (với Laplace smoothing <span class="math inline">\lambda=1</span>), trong đó biến thể lấy cảm hứng từ forward-KL <span class="math inline">\phi(p, q) = \min(p/q, \kappa)</span> với trần thưởng <span class="math inline">\kappa=5</span> giúp mô hình phản ánh đúng phân phối bình chọn thay vì chỉ củng cố nhãn đa số.</li>
+</ol>
+</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá trên tập kiểm thử gồm 1.5k lượt thoại hội thoại (0.5k real, 0.5k voice-cloned, 0.5k voice-designed) từ CANDOR với trung bình 9.78 lượt đánh giá của con người trên mỗi phản hồi. So sánh với các mô hình nền tảng speech LLM: Qwen2.5-Omni, Qwen3-Omni, Step-Audio-2 mini, Gemma-4-12B, Gemini 3.1 Pro (có và không có tool measures), cùng mức thỏa thuận giữa từng cá nhân với số đông (Single Human vs. Rest). Tiêu chí đánh giá gồm Accuracy và Macro-F1 đối với nhãn đa số bầu chọn của con người.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên trung bình 4 trường nhận thức (Table 1), CVAM (SFT + GRPO forward-KL) đạt Accuracy 69.6% và Macro-F1 50.1%, vượt trội so với Gemini 3.1 Pro (Acc 60.2%, F1 44.2%) và mức thỏa thuận người đơn lẻ Single Human vs. Rest (Acc 60.8%, F1 43.5%).</li>
+<li>So với mô hình gốc Qwen2.5-Omni (Acc 55.1%, F1 31.1%), CVAM (SFT + GRPO KL) tăng vọt 14.5% Accuracy và 19.0% Macro-F1 trên các trường nhận thức.</li>
+<li>Ở bài toán so sánh các biến thể hàm thưởng GRPO (Table 3), hàm thưởng theo tỷ lệ phiếu bầu (Fraction of shared labels) tối ưu Accuracy cao nhất đạt 77.8% (F1 47.6%), trong khi hàm thưởng forward-KL đạt Macro-F1 cao nhất đạt 50.1% (Acc 69.6%), khẳng định sự đánh đổi giữa việc khớp nhãn đa số và bao phủ các lớp hiếm.</li>
+<li>Phân rã theo loại phát ngôn (Table 4), CVAM đạt F1 cao nhất trên dữ liệu Voice-Designed (50.1% F1) do nhãn cân bằng hơn, tiếp theo là Voice-Cloned (49.8% F1, đạt Emotion F1 cao nhất 68.7%), và thấp nhất trên Real speech (44.3% F1, Acc 69.4%) do tính phức tạp tự nhiên của lời nói tự phát.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Huấn luyện và gán nhãn người thật mới chỉ dừng lại ở quy mô nhỏ (1.5k lượt thoại huấn luyện và 1.5k kiểm thử); chỉ đánh giá tiếng Anh trên tập CANDOR; các lớp cảm xúc hiếm gặp và biểu đạt tự phát ngoài đời thực (spontaneous speech) vẫn còn nhiều nhầm lẫn đáng kể theo ma trận nhầm lẫn.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>SFT trên dữ liệu tổng hợp đóng vai trò warmup cấu trúc output cực kỳ hiệu quả, nhưng RL (như GRPO) với hàm thưởng căn chỉnh theo phân phối phiếu bầu của con người mới là chìa khóa để giải quyết tính chủ quan trong đánh giá giọng nói, mở ra hướng ứng dụng làm reward model cho TTS hội thoại.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">71.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#9 (tied) in 2026-W42</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đề xuất bài toán voice aesthetic có ngữ cảnh hội thoại và áp dụng GRPO dựa trên hàm khoảng cách phân phối phiếu bầu của người nghe thay vì tối ưu nhãn đa số điểm đơn.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật chi tiết từ tiền xử lý acoustic tools, thiết kế prompt tạo synthetic descriptions, đến công thức đạo hàm hàm khoảng cách phân phối để định hình hàm thưởng GRPO.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Thực nghiệm đối chuẩn chặt chẽ với nhiều speech LLM hàng đầu (Gemini 3.1 Pro, Qwen-Omni), có phân tích ablation chi tiết giữa các dạng hàm thưởng và so sánh với human-level agreement.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Cung cấp nền tảng và phương pháp luận quan trọng để làm reward model hoặc judge model căn chỉnh các voice agent và hệ thống Speech-to-Speech thế hệ mới.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Nghiên cứu đến từ Meta Superintelligence Labs và Columbia University với phương pháp luận và dữ liệu minh bạch, dù hiện tại là bản thảo arXiv chưa qua bình duyệt xuất bản chính thức.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đề xuất bài toán voice aesthetic có ngữ cảnh hội thoại và áp dụng GRPO dựa trên hàm khoảng cách phân phối phiếu bầu của người nghe thay vì tối ưu nhãn đa số điểm đơn.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Nghiên cứu đến từ Meta Superintelligence Labs và Columbia University với phương pháp luận và dữ liệu minh bạch, dù hiện tại là bản thảo arXiv chưa qua bình duyệt xuất bản chính thức.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật chi tiết từ tiền xử lý acoustic tools, thiết kế prompt tạo synthetic descriptions, đến công thức đạo hàm hàm khoảng cách phân phối để định hình hàm thưởng GRPO.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Cung cấp nền tảng và phương pháp luận quan trọng để làm reward model hoặc judge model căn chỉnh các voice agent và hệ thống Speech-to-Speech thế hệ mới.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Thực nghiệm đối chuẩn chặt chẽ với nhiều speech LLM hàng đầu (Gemini 3.1 Pro, Qwen-Omni), có phân tích ablation chi tiết giữa các dạng hàm thưởng và so sánh với human-level agreement.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Đánh giá giọng nói kèm ngữ cảnh hội thoại · GRPO căn chỉnh theo phân phối phiếu bầu · Vượt qua thỏa thuận giữa người với người · Đánh giá công bằng cả giọng thật và AI</p>
+          <p><span class="label">Weaknesses</span> · Quy mô nhãn người còn hạn chế (1.5k) · Chỉ thử nghiệm trên tiếng Anh CANDOR · Nhận diện cảm xúc hiếm vẫn còn thấp</p>
+          <p><span class="label">Context</span> · Nghiên cứu được thực hiện bởi Xilin Jiang (Columbia University, thực tập tại Meta) cùng nhóm tác giả từ Meta Superintelligence Labs; công bố dưới dạng preprint trên arXiv (tháng 10/2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Distill Locally, Schedule Globally: Flow Maps for Few-Step Text-to-Speech · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -112,9 +114,9 @@
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
               <div class="prose"><p>LFMD gồm 3 thành phần cốt lõi:</p>
 <ul>
-<li><strong>Local Flow-Map Distillation (LFMD):</strong> Áp dụng đồng nhất thức vi phân thời điểm khởi hành (departure-time flow-map identity) $\bar{u}_T = v_T + (s-t) \frac{d\bar{u}<em>T}{dt}$ vào TTS có điều kiện. Target được xây dựng cục bộ chỉ từ vận tốc teacher $v_T$ tại trạng thái xuất phát $x_t$ mà không cần rollout ODE qua $[t, s]$. Đạo hàm tổng $\dot{u}$ được tính qua forward-mode JVP dọc theo $(v_T, 1)$. Bằng cách tắt reverse-mode graph ở nhánh JVP và teacher, bộ nhớ huấn luyện đỉnh giảm khoảng 6 lần trong PyTorch. Quá trình học được ổn định nhờ curriculum tăng dần độ dài khoảng $\Delta = s-t$ ($h_k$), hệ số hiệu chỉnh đạo hàm $\beta_k$ tăng lên 0.95, và hàm phạt neo vận tốc teacher ở khoảng ngắn $\lambda_a \alpha(\Delta) |u</em>\theta - v_T|_M^2$.</li>
-<li><strong>Teacher-Derived Step Scheduling (TD-DP):</strong> Lập lịch suy diễn qua quy hoạch động trên một đồ thị chi phí tích lũy chung kết hợp: (1) chi phí nhất quán teacher cục bộ $C_T$ (dùng chính JVP để đo đạo hàm dọc theo trường teacher) và (2) chi phí nhất quán hợp thành $C_C$ (kiểm tra tính chất nửa nhóm qua việc gộp ánh xạ tại điểm giữa logit-time). Một đồ thị chi phí tính toán một lần có thể tái sử dụng cho mọi ngân sách NFE mà không cần mô hình đánh giá âm thanh bên ngoài.</li>
-<li><strong>Temporal Self-Distillation cho 1-NFE:</strong> Dùng mô hình LFMD 4 bước (đã đóng băng) làm mục tiêu tự chưng cất cho các mô hình 1-3 NFE. Để giải quyết sai lệch căn chỉnh thời gian cục bộ giữa multistep target và 1-step prediction, phương pháp sử dụng hàm mất mát phân kỳ soft-DTW có giới hạn biên độ (band-constrained, $b=4, \gamma=0.1$) kết hợp self-comparison correction, đồng thời bổ sung hai số hạng chuẩn hóa MSE toàn độ phân giải ($0.1 |S-Y|_M^2$) và neo chống trôi nguồn ($0.1 |S-S_0|_M^2$).</li>
+<li><strong>Local Flow-Map Distillation (LFMD):</strong> Áp dụng đồng nhất thức vi phân thời điểm khởi hành (departure-time flow-map identity) <span class="math inline">\bar{u}_T = v_T + (s-t) \frac{d\bar{u}_T}{dt}</span> vào TTS có điều kiện. Target được xây dựng cục bộ chỉ từ vận tốc teacher <span class="math inline">v_T</span> tại trạng thái xuất phát <span class="math inline">x_t</span> mà không cần rollout ODE qua <span class="math inline">[t, s]</span>. Đạo hàm tổng <span class="math inline">\dot{u}</span> được tính qua forward-mode JVP dọc theo <span class="math inline">(v_T, 1)</span>. Bằng cách tắt reverse-mode graph ở nhánh JVP và teacher, bộ nhớ huấn luyện đỉnh giảm khoảng 6 lần trong PyTorch. Quá trình học được ổn định nhờ curriculum tăng dần độ dài khoảng <span class="math inline">\Delta = s-t</span> (<span class="math inline">h_k</span>), hệ số hiệu chỉnh đạo hàm <span class="math inline">\beta_k</span> tăng lên 0.95, và hàm phạt neo vận tốc teacher ở khoảng ngắn <span class="math inline">\lambda_a \alpha(\Delta) \|u_\theta - v_T\|_M^2</span>.</li>
+<li><strong>Teacher-Derived Step Scheduling (TD-DP):</strong> Lập lịch suy diễn qua quy hoạch động trên một đồ thị chi phí tích lũy chung kết hợp: (1) chi phí nhất quán teacher cục bộ <span class="math inline">C_T</span> (dùng chính JVP để đo đạo hàm dọc theo trường teacher) và (2) chi phí nhất quán hợp thành <span class="math inline">C_C</span> (kiểm tra tính chất nửa nhóm qua việc gộp ánh xạ tại điểm giữa logit-time). Một đồ thị chi phí tính toán một lần có thể tái sử dụng cho mọi ngân sách NFE mà không cần mô hình đánh giá âm thanh bên ngoài.</li>
+<li><strong>Temporal Self-Distillation cho 1-NFE:</strong> Dùng mô hình LFMD 4 bước (đã đóng băng) làm mục tiêu tự chưng cất cho các mô hình 1-3 NFE. Để giải quyết sai lệch căn chỉnh thời gian cục bộ giữa multistep target và 1-step prediction, phương pháp sử dụng hàm mất mát phân kỳ soft-DTW có giới hạn biên độ (band-constrained, <span class="math inline">b=4, \gamma=0.1</span>) kết hợp self-comparison correction, đồng thời bổ sung hai số hạng chuẩn hóa MSE toàn độ phân giải (<span class="math inline">0.1 \|S-Y\|_M^2</span>) và neo chống trôi nguồn (<span class="math inline">0.1 \|S-S_0\|_M^2</span>).</li>
 </ul>
 </div>
             </div>

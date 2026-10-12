@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HuskerMinion/techo5-dot · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -68,7 +70,7 @@
   <div class="page-heading">
     <h1 class="title">HuskerMinion/techo5-dot</h1>
     <div class="meta">
-      <span title="Listed by GitHub inside the crawl window">found Oct 5, 2026</span><span aria-hidden="true">·</span>
+      <span title="Listed by GitHub inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
 <span title="Original publication / creation date">published Sep 16, 2026</span><span aria-hidden="true">·</span>
 
       <span class="pill">Repo</span>
@@ -89,7 +91,7 @@
       <div class="card-body prose">
 <p>Linux firmware for the Echo Dot (2nd gen): no Fire OS, no Alexa. A local Home Assistant voice satellite with all seven mics, Bluetooth speaker mode, signed A/B updates and SSH.
 
-README: TECHO5 Dot The 2016 Echo Dot, minus Amazon&#39;s cloud. Linux inside, Home Assistant in charge. What changed · Stock vs TECHO5 Dot · Install · Credits · TECHO5 for the Echo Show 5 --- TECHO5 Dot replaces Fire OS on the Amazon Echo Dot 2nd generation (codename biscuit) with a small Alpine Linux image and one daemon. The Dot becomes a Home Assistant voice satellite: it hears the wake word on the device, talks to Home Assistant over its encrypted native API, and sends nothing to Amazon. It still uses the internet for what you&#39;d expect: checking this repo for signed updates and setting its clock. | 🐧 Real Linux, no Fire OS | Linux boots from the recovery partition and no Android process runs, not even for Wi-Fi. | | 🚫 No Alexa, no Amazon account | Your voice goes to your Home Assistant, over its encrypted API, and nowhere else. | | 🎙️ All seven microphones | Averaged, with echo cancellation, and a wake word heard on the device. | | 🔊 A Bluetooth speaker again | Pair a phone, or send the Dot&#39;s audio to a speaker; a Home Assistant Bluetooth proxy on top. | | 📞 A speakerphone again | Calls through your own SIP provider, placed by voice or from Home Assistant, answered with the action button; a help call that alerts your phones and dials people in turn. | | 🔐 Locked down | A firewall that lets in only Home Assistant, mDNS, SSH, Sendspin, the setup page, and on Wi-Fi AirPlay and Spotify Connect while they are on; SSH is keys-only and starts off, and the setup page answers only while it is open. | | 🔄 Signed updates with rollback | ed25519-signed releases install into a spare slot and roll back on their own if they don&#39;t come up healthy. | Built on EchoLocal by Yuri Gelfand (MIT), which first made the Echo Dot 2 an ESPHome-native Home Assistant satellite with one Go daemon on Fire OS. TECHO5 Dot&#39;s daemon is that daemon, by way of TECHO5&#39;s echod (EchoLocal&#39;s code vendored and developed further), and much of it is still EchoLocal&#39;s. What this project adds is Linux in place of Fire</p>      </div>
+README: TECHO5 Dot The 2016 Echo Dot, minus Amazon's cloud. Linux inside, Home Assistant in charge. What changed · Stock vs TECHO5 Dot · Install · Credits · TECHO5 for the Echo Show 5 --- TECHO5 Dot replaces Fire OS on the Amazon Echo Dot 2nd generation (codename biscuit) with a small Alpine Linux image and one daemon. The Dot becomes a Home Assistant voice satellite: it hears the wake word on the device, talks to Home Assistant over its encrypted native API, and sends nothing to Amazon. It still uses the internet for what you'd expect: checking this repo for signed updates and setting its clock. | 🐧 Real Linux, no Fire OS | Linux boots from the recovery partition and no Android process runs, not even for Wi-Fi. | | 🚫 No Alexa, no Amazon account | Your voice goes to your Home Assistant, over its encrypted API, and nowhere else. | | 🎙️ All seven microphones | Averaged, with echo cancellation, and a wake word heard on the device. | | 🔊 A Bluetooth speaker again | Pair a phone, or send the Dot's audio to a speaker; a Home Assistant Bluetooth proxy on top. | | 📞 A speakerphone again | Calls through your own SIP provider, placed by voice or from Home Assistant, answered with the action button; a help call that alerts your phones and dials people in turn. | | 🔐 Locked down | A firewall that lets in only Home Assistant, mDNS, SSH, Sendspin, the setup page, and on Wi-Fi AirPlay and Spotify Connect while they are on; SSH is keys-only and starts off, and the setup page answers only while it is open. | | 🔄 Signed updates with rollback | ed25519-signed releases install into a spare slot and roll back on their own if they don't come up healthy. | Built on EchoLocal by Yuri Gelfand (MIT), which first made the Echo Dot 2 an ESPHome-native Home Assistant satellite with one Go daemon on Fire OS. TECHO5 Dot's daemon is that daemon, by way of TECHO5's echod (EchoLocal's code vendored and developed further), and much of it is still EchoLocal's. What this project adds is Linux in place of Fire</p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">

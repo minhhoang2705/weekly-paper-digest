@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ParaCalib: Semantically Calibrated Paralinguistic Modeling for Depression Detection · Research Monitor</title>
   <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
   <script src="../assets/app.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W41</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -113,8 +115,8 @@
               <div class="prose"><p>ParaCalib bao gồm ba giai đoạn xử lý:</p>
 <ul>
 <li><strong>Utterance-level ALM Captioning:</strong> Sử dụng mô hình đóng băng <code>Qwen3-Omni-30B-A3B-Captioner</code> để chuyển đổi đoạn âm thanh phát ngôn thành mô tả bằng ngôn ngữ tự nhiên về nội dung lời nói kèm hành vi giọng điệu (pitch variability, speaking rate, rhythm, pause pattern, vocal energy, voice quality).</li>
-<li><strong>SC-Para Extraction:</strong> Dùng mô hình đóng băng <code>DeepSeek-R1-Distill-Qwen-32B</code> đóng vai trò Paralinguistic State Extractor (PSE) để ánh xạ văn bản mô tả thành vector có cấu trúc cố định 7 chiều ($x_i \in \mathbb{R}^7$), gồm 5 chiều trạng thái rời rạc (pitch variability, speaking rate, rhythm regularity, pause pattern, vocal energy; mỗi chiều nhận giá trị 0, 1 hoặc 2) và 2 chiều toàn diện (điểm bằng chứng cận ngôn ngữ liên quan trầm cảm [0, 1] và điểm độ tin cậy [0, 1]). Phát ngôn chứa trạng thái 'unknown' sẽ bị lọc bỏ.</li>
-<li><strong>Attention-based MIL Classification:</strong> Biểu diễn mỗi người tham gia thành một bag chứa các vector SC-Para hợp lệ. Một mạng additive attention học trọng số gán cho từng phát ngôn để tạo biểu diễn người tham gia ($z_b = \sum \alpha_{b,i} x_{b,i}$), sau đó đưa qua mạng MLP 2 tầng (64, 32 node) với BatchNorm, ReLU và Dropout (0.3) để dự đoán nhãn nhị phân. Toàn bộ ALM và PSE được giữ đông cứng, chỉ tối ưu bộ phân loại MIL bằng hàm weighted binary cross-entropy.</li>
+<li><strong>SC-Para Extraction:</strong> Dùng mô hình đóng băng <code>DeepSeek-R1-Distill-Qwen-32B</code> đóng vai trò Paralinguistic State Extractor (PSE) để ánh xạ văn bản mô tả thành vector có cấu trúc cố định 7 chiều (<span class="math inline">x_i \in \mathbb{R}^7</span>), gồm 5 chiều trạng thái rời rạc (pitch variability, speaking rate, rhythm regularity, pause pattern, vocal energy; mỗi chiều nhận giá trị 0, 1 hoặc 2) và 2 chiều toàn diện (điểm bằng chứng cận ngôn ngữ liên quan trầm cảm [0, 1] và điểm độ tin cậy [0, 1]). Phát ngôn chứa trạng thái 'unknown' sẽ bị lọc bỏ.</li>
+<li><strong>Attention-based MIL Classification:</strong> Biểu diễn mỗi người tham gia thành một bag chứa các vector SC-Para hợp lệ. Một mạng additive attention học trọng số gán cho từng phát ngôn để tạo biểu diễn người tham gia (<span class="math inline">z_b = \sum \alpha_{b,i} x_{b,i}</span>), sau đó đưa qua mạng MLP 2 tầng (64, 32 node) với BatchNorm, ReLU và Dropout (0.3) để dự đoán nhãn nhị phân. Toàn bộ ALM và PSE được giữ đông cứng, chỉ tối ưu bộ phân loại MIL bằng hàm weighted binary cross-entropy.</li>
 </ul>
 </div>
             </div>
@@ -122,8 +124,8 @@
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
               <div class="prose"><p>Đánh giá trên 2 tập dữ liệu benchmark:</p>
 <ul>
-<li><strong>DAIC-WOZ:</strong> 189 người tham gia tiếng Anh (57 nhãn trầm cảm, 132 nhãn đối chứng) theo ngưỡng PHQ-8 $\ge 10$; đánh giá trên phân chia Train/Dev/Test chính thức, lặp lại qua 5 random seeds.</li>
-<li><strong>MODMA:</strong> 52 người tham gia tiếng Trung (22 nhãn trầm cảm, 30 nhãn đối chứng) theo ngưỡng PHQ-9 $\ge 10$; đánh giá bằng 5-fold cross-validation ở cấp độ người tham gia, mỗi fold lặp lại 5 seeds.</li>
+<li><strong>DAIC-WOZ:</strong> 189 người tham gia tiếng Anh (57 nhãn trầm cảm, 132 nhãn đối chứng) theo ngưỡng PHQ-8 <span class="math inline">\ge 10</span>; đánh giá trên phân chia Train/Dev/Test chính thức, lặp lại qua 5 random seeds.</li>
+<li><strong>MODMA:</strong> 52 người tham gia tiếng Trung (22 nhãn trầm cảm, 30 nhãn đối chứng) theo ngưỡng PHQ-9 <span class="math inline">\ge 10</span>; đánh giá bằng 5-fold cross-validation ở cấp độ người tham gia, mỗi fold lặp lại 5 seeds.</li>
 <li><strong>Phần cứng &amp; Thiết lập:</strong> Chạy trên 1 GPU NVIDIA RTX 6000; mô hình captioner và PSE chạy cục bộ qua vLLM ở định dạng bfloat16. So sánh với các baseline: DepAudioNet, NUSD, Wu et al.-style (WavLM), SpeechFormer, HAREN-CTC, LLDs (eGeMAPSv02 88 functionals), SSL features (wav2vec 2.0, HuBERT, WavLM), và biểu diễn trực tiếp từ Transcript / Caption Embedding (all-MiniLM-L6-v2).</li>
 </ul>
 </div>
@@ -142,7 +144,7 @@
             </div>
             <div class="analysis-section is-secondary">
               <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
-              <div class="prose"><p>Chi phí tính toán trích xuất đặc trưng lớn (cần 3.0 s/phát ngôn, 19.3 giờ GPU và 87.5 GiB VRAM đỉnh trên DAIC-WOZ, chậm hơn nhiều so với SSL 0.019–0.027 s/phát ngôn); nhạy cảm với nhiễu âm thanh môi trường (nhiễu MUSAN ở 5 dB SNR làm giảm Macro-F1 từ 71.9% xuống 62.6%); mô hình chỉ dự đoán nhãn dựa trên ngưỡng câu hỏi sàng lọc (PHQ-8/PHQ-9 $\ge 10$) chứ không thay thế chẩn đoán lâm sàng độc lập; chưa đánh giá tổng quát hóa xuyên ngôn ngữ hay xuyên tập dữ liệu.</p>
+              <div class="prose"><p>Chi phí tính toán trích xuất đặc trưng lớn (cần 3.0 s/phát ngôn, 19.3 giờ GPU và 87.5 GiB VRAM đỉnh trên DAIC-WOZ, chậm hơn nhiều so với SSL 0.019–0.027 s/phát ngôn); nhạy cảm với nhiễu âm thanh môi trường (nhiễu MUSAN ở 5 dB SNR làm giảm Macro-F1 từ 71.9% xuống 62.6%); mô hình chỉ dự đoán nhãn dựa trên ngưỡng câu hỏi sàng lọc (PHQ-8/PHQ-9 <span class="math inline">\ge 10</span>) chứ không thay thế chẩn đoán lâm sàng độc lập; chưa đánh giá tổng quát hóa xuyên ngôn ngữ hay xuyên tập dữ liệu.</p>
 </div>
             </div>
             <div class="analysis-section is-secondary">

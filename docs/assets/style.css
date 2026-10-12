@@ -109,6 +109,7 @@ a.nav-item:hover { background: var(--bg-hover); color: var(--text-primary); }
 .prose ul, .prose ol { margin: 0 0 12px; padding-left: 22px; }
 .prose li + li { margin-top: 6px; }
 .prose strong { color: var(--text-primary); }
+.prose .math.block { margin: 0 0 12px; overflow-x: auto; overflow-y: hidden; }
 .empty-state { display: flex; align-items: flex-start; gap: 14px; color: var(--text-muted); }
 .empty-state p { margin: 0; line-height: 1.6; }
 

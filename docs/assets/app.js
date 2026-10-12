@@ -10,6 +10,14 @@
   document.querySelector("[data-nav-close]")?.addEventListener("click", () => setNav(false));
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") setNav(false); });
 
+  // Math: the markdown filter emits `.math.inline` / `.math.block` holding raw TeX. KaTeX only loads on
+  // pages that need it; without it (or on a TeX error) the raw source stays visible.
+  if (window.katex) {
+    for (const el of document.querySelectorAll(".math.inline, .math.block")) {
+      katex.render(el.textContent.trim(), el, { displayMode: el.classList.contains("block"), throwOnError: false });
+    }
+  }
+
   // Auto Analysis: collapsed to key idea / methodology / results, "Full analysis" expands.
   const analysisToggle = document.querySelector("[data-analysis-toggle]");
   const analysis = document.getElementById("analysis-body");
