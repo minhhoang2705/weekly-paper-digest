@@ -1,0 +1,52 @@
+{
+ "id": "gh:pedromarinhodev/comfyui-drama3",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Dự án không tạo ra kiến trúc mô hình mới mà thiết kế giải pháp kỹ thuật hệ thống (custom NVRTC CUDA kernels, RAM-VRAM caching, CUDA graphs) để offload và chạy mô hình MoE TTS có sẵn trên phần cứng hạn chế.",
+  "credibility": "Kho lưu trữ mã nguồn mở cá nhân của tác giả độc lập, cung cấp đầy đủ workflow và so sánh chi tiết với mã nguồn chính thức của Fish Audio và Qwen.",
+  "technical": "Kỹ thuật tối ưu hóa bộ nhớ và thực thi chuyên sâu: streaming expert qua PCIe, phân bổ song song CPU-GPU cho int8 miss, áp dụng CUDA graphs và quản lý vòng đời bộ nhớ VRAM cho codec.",
+  "impact": "Đưa khả năng sinh giọng nói 35B chất lượng cao tiếp cận cộng đồng người dùng ComfyUI với phần cứng tiêu dùng phổ thông (81 stars, 10 forks).",
+  "evidence": "Cung cấp số liệu benchmark độ trễ frame chi tiết trước/sau cập nhật trên nhiều dòng card, dung lượng cache, dung lượng VRAM thực tế và đo đạc độ lệch KL/độ chính xác so với mô hình gốc."
+ },
+ "summary": {
+  "tldr": "ComfyUI-Drama3 là bộ custom node cho ComfyUI cho phép chạy mô hình text-to-speech 35B MoE Fish Audio Drama 3 trên GPU NVIDIA từ 8 GB VRAM. Dự án kết hợp kỹ thuật offload expert ra RAM hệ thống, bộ nhớ đệm VRAM linh hoạt cùng custom CUDA kernel và tích hợp sẵn Qwen3-ASR để clone giọng nói với tốc độ nhanh hơn thời gian thực.",
+  "problem": "Mô hình Fish Audio Drama 3 có kích thước rất lớn (35B tham số, file trọng số FP8 lên tới 38.6 GB), đòi hỏi lượng VRAM vượt xa dung lượng của các dòng GPU phổ thông tiêu dùng (8–24 GB). Việc suy luận mô hình TTS MoE quy mô lớn này thường yêu cầu phần cứng cấp máy chủ hoặc phải chịu độ trễ cực cao do thắt nút cổ chai băng thông truyền dữ liệu giữa RAM và GPU.",
+  "method": "Kiến trúc Drama 3 thuộc dạng Mixture-of-Experts kiểu Qwen3.5 với 40 layer, mỗi layer gồm 256 routed experts (chỉ 8 expert được kích hoạt mỗi frame), DeltaNet hoặc attention, shared expert và 13-layer codebook decoder:\n- **Phân bổ bộ nhớ**: Toàn bộ phần non-expert (~6 GB) nằm cố định trên VRAM; 32 GB routed experts được giữ trên pinned system RAM. VRAM còn trống được dùng làm bộ đệm cache cho các expert hay sử dụng nhất (đạt tỷ lệ cache hit 83% với cache 15 GB).\n- **Custom CUDA Kernels & CUDA Graphs**: Tự biên dịch tại runtime qua PyTorch NVRTC mà không cần cài thêm package. Kernel kiểm tra expert trên VRAM cache; nếu trúng sẽ tính toán tại chỗ, nếu trượt (miss) sẽ đọc trực tiếp từ RAM qua PCIe và điền vào cache. Toàn bộ các layer và codebook decoder được replay bằng CUDA graphs do quá trình tính toán không bị block bởi CPU.\n- **CPU-GPU Hybrid Compute (với int8 experts)**: Khi cache miss trên bản int8, CPU xử lý tính toán một phần expert song song với GPU và sao chép các expert dùng nhiều vào cache giữa các frame.\n- **Tối ưu hóa Codec và ASR**: Audio codec (1.6 GB) chỉ chạy trước và sau bước generation nên không chiếm VRAM đồng thời; tích hợp sẵn Qwen3-ASR (1.7B/0.6B) và Qwen3-ForcedAligner (0.6B) để tự động transcribe mẫu audio và căn chỉnh thời gian từ.",
+  "setup": "Yêu cầu hệ thống: ComfyUI v0.40+, GPU NVIDIA với tối thiểu 8 GB VRAM, RAM hệ thống từ ~32 GB (với W4A8) đến ~48 GB (với FP8), CPU đa nhân, dung lượng đĩa tối thiểu 26 GB (trên NVMe). Không yêu cầu cài thêm gói pip ngoài các thư viện chuẩn của ComfyUI. Hỗ trợ 30 ngôn ngữ (qua Qwen3-ASR). Hỗ trợ tối đa 16 speaker trong cùng một kịch bản thoại với các cú pháp điều khiển inline tags (`[sighs]`, `[whispers]`, style prefix, director's notes).",
+  "results": [
+   "Tốc độ sinh âm thanh: Drama 3 tạo ra 21.5 audio frame/s (ngưỡng real-time là 46 ms/frame).",
+   "Trên RTX 4090 (16 GB cache): Bản W4A8 giảm từ 56.9 ms/frame xuống 11.7 ms/frame (câu thoại 9 s giảm từ 13.6 s xuống 3.9 s); bản int8 giảm từ 67.0 ms xuống 20.2 ms/frame (câu thoại 9 s từ 16.4 s xuống 6.1 s) với peak VRAM 21.8 GB.",
+   "Trên RTX 3090 (16 GB cache): Bản FP8 giảm từ 67.6 ms xuống 24.8 ms/frame (9 s line từ 16.6 s xuống 7.7 s); bản int8 giảm từ 68.8 ms xuống 23.2 ms/frame (9 s line từ 16.7 s xuống 6.7 s).",
+   "Trên cấu hình giới hạn 8 GB VRAM (RTX 3090): Bản int8 tự động điều chỉnh đạt 45.8 ms/frame (nhanh hơn real-time, câu 9 s mất 9.9 s, peak VRAM 6.7 GB); bản FP8 đạt 97.3 ms/frame (câu 9 s mất 20.7 s).",
+   "Cấu hình 2 GPU (RTX 3090 + RTX 4090, experts đặt toàn bộ trong VRAM): Bản FP8 đạt 12.9 ms/frame (câu 9 s chỉ mất 2.9 s, peak VRAM 18.7 GB + 18.5 GB).",
+   "Độ khớp với mã nguồn gốc Fish Audio: Phân phối token chính lệch KL từ 0.004–0.007 nats, top token trùng khớp 93–94%; codec tái tạo chính xác 99.94% acoustic codes.",
+   "Qwen3-ASR transcribing: Clip 6.6 s mất ~2 s với model 1.7B và ~1 s với model 0.6B trên RTX 3090. Forced Aligner 0.6B lệch thời gian so với aligner gốc của Qwen dưới 0.16 s trên đoạn 40 s (121/131 từ khớp tuyệt đối)."
+  ],
+  "limitations": "Bản lượng tử hóa W4A8 dễ gặp hiện tượng bị câm tiếng (fall silent) với các đoạn voice clip thật; cài đặt `top_k=30` dẫn đến mất tiếng tại các khoảng dừng (11/40 lần thử của Fish Audio và 2/4 lần thử trong repo); yêu cầu lượng RAM hệ thống lớn (32–48 GB); chưa hỗ trợ gửi take âm thanh trước đó vào prompt cho các chỉ dẫn dạng so sánh (\"softer than before\"); nếu không gán giọng riêng cho từng speaker trong hội thoại, hiện tượng lẫn giọng (voice bleed) có thể xảy ra (6/16 câu sau chunk đầu bị lẫn giọng).",
+  "takeaways": "Cung cấp một giải pháp kỹ thuật mẫu mực về MoE offloading trên consumer GPU: kết hợp pinned RAM streaming, custom NVRTC CUDA kernels, CPU assist khi trượt cache và CUDA graphs giúp chạy mô hình TTS 35B trên card 8 GB với tốc độ real-time mà không cần cài đặt môi trường phức tạp.",
+  "strengths": [
+   "Chạy mô hình 35B trên GPU 8 GB",
+   "Streaming RAM-VRAM và CUDA graph đạt real-time",
+   "Tích hợp ASR và forced aligner tiện lợi",
+   "Độ sai lệch số học cực thấp so với gốc",
+   "Không yêu cầu cài thêm dependency ngoài ComfyUI"
+  ],
+  "weaknesses": [
+   "Đòi hỏi dung lượng RAM hệ thống cao",
+   "Bản W4A8 dễ gặp lỗi câm tiếng",
+   "Nguy cơ lẫn giọng khi hội thoại thiếu prompt"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi PedroMarinhoDev trên GitHub, hiện thực hóa việc chạy mô hình Fish Audio Drama 3 và Qwen3-ASR dưới dạng các node trong ComfyUI."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

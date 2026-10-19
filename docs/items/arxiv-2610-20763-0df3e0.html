@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reference-Guided Turn-Taking Style Transfer for Full-Duplex Spoken Language Models · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W43</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Reference-Guided Turn-Taking Style Transfer for Full-Duplex Spoken Language Models</h1>
+    <div class="meta">
+      <span>published Oct 14, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Yuxuan Chen, Yang Xiao, Jack Sun, Chak Sun, Brick Li, Sam</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.20763" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Full-duplex spoken language models decide at every frame whether to take the floor, defining a conversational personality -- yet each set of weights encodes exactly one, which human speakers bracket rather than share. Existing controls mostly act from outside; none identifies the quantity that sets how much the model speaks. We identify it: a single late-layer residual-stream direction, the initiative vector, extracted from the model's own conversations without training or annotation. The same direction reads the decision, anticipating onsets up to 800 ms ahead, and shifts it: scaled during generation, it moves speech ratio from 6-12% to 42-61% (no steering: 21-30%), consistently across conversations, weights, and corpora. A short reference recording suffices to transfer a speaker's turn-taking style to the model, and the transfer is reference-specific: swapping in another speaker's reference worsens the match in 93-98% of cases, whereas the best uniform dose is indistinguishable from no steering. Turn-taking style is not frozen into the weights but a direction that can be read, shifted, and calibrated per person. Audio examples are available at https://elpsykongloo.github.io/initiative-vector/.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 19, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Nghiên cứu phát hiện ra 'initiative vector' — một vector chỉ hướng duy nhất trong residual stream ở tầng sâu (L30) của full-duplex spoken language models, quyết định xu hướng giành quyền nói (turn-taking). Bằng cách can thiệp kích hoạt (activation steering) theo vector này, mô hình có thể điều chỉnh tỷ lệ nói từ 6–12% lên 42–61% mà không cần huấn luyện lại hay gán nhãn dữ liệu. Chỉ cần một đoạn audio tham chiếu 5 phút của người dùng, hệ thống có thể chuyển giao (transfer) phong cách turn-taking cá nhân hóa một cách chính xác.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình ngôn ngữ tiếng nói full-duplex đưa ra quyết định giành quyền nói (take the floor) ở từng frame 80-ms, từ đó định hình một phong cách hội thoại cố định trong trọng số (e.g., quá vồ vập hoặc quá thụ động). Tuy nhiên, mỗi người dùng lại có thói quen hội thoại khác nhau; việc áp dụng một mức điều chỉnh đồng nhất (uniform correction) không hiệu quả vì người dùng nằm rải rác ở hai phía của mức mặc định. Các phương pháp huấn luyện lại hoặc dùng prompt/instruction không ổn định (chỉ tuân thủ 64.4% trên Instruct-FD) và tốn kém chi phí.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Tác giả trích xuất 'initiative vector' <span class="math inline">u</span> từ chính hội thoại của mô hình mà không cần gán nhãn: xét các frame khi mô hình đang im lặng, phân lớp thành frame có phát ngôn trong vòng 800 ms tới (<span class="math inline">\mu_+</span>) và frame tiếp tục im lặng (<span class="math inline">\mu_-</span>), sau đó tính <span class="math inline">u = (\mu_+ - \mu_-) / \\|\mu_+ - \mu_-\\|</span>.</p>
+<ul>
+<li><strong>Đọc và can thiệp (Read &amp; Write)</strong>: Đọc xu hướng nói qua phép chiếu <span class="math inline">\langle h_t, u \rangle</span> tại layer L30 (block thứ 30/32). Can thiệp trong quá trình sinh theo công thức <span class="math inline">h_t \leftarrow h_t + \alpha s u</span>, trong đó <span class="math inline">s</span> là độ lệch listen-to-speak swing (khoảng cách giữa trung bình khi mô hình nói và khi chỉ đối phương nói) để chuẩn hóa liều lượng <span class="math inline">\alpha</span> qua các checkpoint khác nhau.</li>
+<li><strong>Depth profile</strong>: Phân tích AUC qua 32 tầng cho thấy trạng thái đang nói có thể giải mã ngay từ L0 (~0.99), tín hiệu nhường lời (yielding) đạt đỉnh ở giữa mạng (L19–L26) rồi giảm, trong khi quyết định giành quyền nói (taking the floor) đạt đỉnh ở các tầng sâu nhất (L31).</li>
+<li><strong>Reference-guided transfer</strong>: Đặc trưng của người nói được tóm tắt qua 3 chỉ số từ đoạn thu âm 5 phút: speech ratio, overlap onsets per minute, và response probability. Liều lượng <span class="math inline">\alpha</span> tối ưu được chọn để tối thiểu hóa khoảng cách chuẩn hóa Euclidean <span class="math inline">d(b, r)</span> trên tập dev (chỉ cần tính toán trước một lần trên mô hình, người nói mới được hiệu chỉnh hoàn toàn offline từ audio).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Thử nghiệm trên 3 bộ trọng số full-duplex dựa trên kiến trúc Moshi (frame 80 ms): Moshika (base), Moshika-RL, và PersonaPlex. Dữ liệu hội thoại gồm 500 đoạn Seamless Interaction (64s) và kiểm chứng chuyển giao sang 500 đoạn CANDOR (không refit). Đoạn audio tham chiếu lấy từ 568 người nói trong Seamless Interaction (dùng Silero VAD để trích xuất chỉ số). Baseline gồm có: mô hình gốc (no steering), mô hình với uniform dose tốt nhất, và logistic regression timing baseline (dựa trên lịch sử im lặng/nói của cả 2 bên). Đánh giá bằng AUC dự đoán onset, speech ratio, và khoảng cách chuẩn hóa <span class="math inline">d(b, r)</span>.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Khả năng dự đoán trước lượt nói (Readout AUC): Vector L30 phân tách frame sắp nói (trong vòng 800 ms) với frame im lặng đạt AUC 0.818 (Moshika), 0.830 (Moshika-RL) và 0.898 (PersonaPlex), vượt trội so với timing baseline (0.703, 0.646, 0.725) với mức tăng AUC lần lượt +0.115, +0.185 và +0.172.</li>
+<li>Khả năng kiểm soát linh hoạt (Steering speech ratio): Thay đổi liều lượng từ <span class="math inline">-2a</span> đến <span class="math inline">+2a</span> làm dịch chuyển speech ratio đơn điệu từ 6–12% lên 42–61% (mặc định không can thiệp là 21–30%). Tăng từ <span class="math inline">-a</span> lên <span class="math inline">+a</span> tăng speech ratio lần lượt 20.1, 27.4 và 14.1 điểm % (tác động tăng trên 480, 497 và 408/500 hội thoại).</li>
+<li>Khả năng tổng quát hóa không cần refit: Áp dụng cùng vector và scale sang corpus CANDOR giúp tăng speech ratio tương ứng +20.3, +33.9 và +6.8 điểm %.</li>
+<li>Độ chính xác cá nhân hóa (Style transfer): Liều lượng riêng cho từng người vượt uniform dose tốt nhất 0.129, 0.208 và 0.164 độ lệch chuẩn tham chiếu (SD), đạt 93.1–99.5% mức trần tối ưu (hindsight best dose). Đổi liều lượng của người khác vào làm giảm độ tương thích ở 92.7%, 98.0% và 95.6% trường hợp.</li>
+<li>Tương quan liều lượng giữa các mô hình: Liều lượng chọn cho cùng một người nói trên các checkpoint khác nhau có hệ số tương quan Spearman cao: 0.81 (Moshika vs Moshika-RL), 0.77 (Moshika vs PersonaPlex) và 0.70 (RL vs PersonaPlex).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Chỉ mới kiểm nghiệm trên các biến thể cùng chia sẻ kiến trúc Moshi (32-block temporal transformer, frame 80-ms). Phong cách turn-taking được đơn giản hóa vào 3 chỉ số trích xuất qua VAD (speech ratio, overlap onsets, response probability), chưa đánh giá các yếu tố ngữ nghĩa hay ngữ điệu tinh tế của việc ngắt lời/nhường lời. Đòi hỏi audio tham chiếu dài khoảng 5 phút để trích xuất đặc trưng ổn định.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Quyết định giành quyền nói trong full-duplex SLM được biểu diễn tuyến tính và tính toán chủ yếu ở các tầng cuối (L30-L31). Kỹ sư có thể điều chỉnh và cá nhân hóa turn-taking động tại thời điểm suy luận (inference-time activation steering) mà không cần huấn luyện lại, fine-tuning tốn kém, hay prompt cồng kềnh.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">71.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#9 (tied) in 2026-W43</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Phát hiện mới lạ về sự tồn tại của một chiều tuyến tính đơn lẻ (initiative vector) điều khiển hành vi turn-taking ở tầng sâu của full-duplex spoken LM và chứng minh khả năng chuyển giao phong cách dựa trên đoạn thu âm tham chiếu mà không cần retrain.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Phân tích nội tại mạng sâu sắc (depth profiling qua 32 tầng), cơ chế chuẩn hóa biên độ dao động (swing normalization) chặt chẽ và thiết kế thực nghiệm suy luận can thiệp rất bài bản.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Thực nghiệm kỹ lưỡng trên 3 bộ trọng số, 500 hội thoại kiểm thử, đánh giá đối chứng với random vector, kiểm chứng tổng quát hóa chéo tập dữ liệu (CANDOR) và kiểm định bootstrap 95% tin cậy.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Mở ra giải pháp thực tiễn cao cho việc tùy biến và cá nhân hóa phong cách giao tiếp của trợ lý giọng nói full-duplex theo thời gian thực mà không phát sinh chi phí huấn luyện lại.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Bản preprint arXiv từ nhóm tác giả thuộc CUHK Shenzhen, Melbourne và Lulula; có demo âm thanh công khai nhưng chưa qua bình duyệt tại hội nghị chuyên ngành.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Phát hiện mới lạ về sự tồn tại của một chiều tuyến tính đơn lẻ (initiative vector) điều khiển hành vi turn-taking ở tầng sâu của full-duplex spoken LM và chứng minh khả năng chuyển giao phong cách dựa trên đoạn thu âm tham chiếu mà không cần retrain.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Bản preprint arXiv từ nhóm tác giả thuộc CUHK Shenzhen, Melbourne và Lulula; có demo âm thanh công khai nhưng chưa qua bình duyệt tại hội nghị chuyên ngành.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Phân tích nội tại mạng sâu sắc (depth profiling qua 32 tầng), cơ chế chuẩn hóa biên độ dao động (swing normalization) chặt chẽ và thiết kế thực nghiệm suy luận can thiệp rất bài bản.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Mở ra giải pháp thực tiễn cao cho việc tùy biến và cá nhân hóa phong cách giao tiếp của trợ lý giọng nói full-duplex theo thời gian thực mà không phát sinh chi phí huấn luyện lại.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Thực nghiệm kỹ lưỡng trên 3 bộ trọng số, 500 hội thoại kiểm thử, đánh giá đối chứng với random vector, kiểm chứng tổng quát hóa chéo tập dữ liệu (CANDOR) và kiểm định bootstrap 95% tin cậy.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Trích xuất vector hoàn toàn tự động không cần nhãn · Can thiệp tuyến tính đơn giản tại inference · Định vị rõ ràng ranh giới tính toán theo độ sâu tầng · Cá nhân hóa hiệu quả chỉ với 5 phút audio · Tổng quát tốt trên dữ liệu ngoài phân phối (CANDOR)</p>
+          <p><span class="label">Weaknesses</span> · Chỉ thử nghiệm trên họ kiến trúc Moshi · Mới dựa trên 3 chỉ số VAD cơ bản · Cần 5 phút audio tham chiếu người dùng</p>
+          <p><span class="label">Context</span> · Yuxuan Chen (CUHK Shenzhen), Yang Xiao (Univ of Melbourne), Jack Sun, Chak Sun, Brick Li, Sam (Lulula); công bố dưới dạng preprint trên arXiv (arXiv:2610.20763).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{
+ "id": "gh:christos-antono/npctalk",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án kết hợp khéo léo các công nghệ sẵn có (Fish Audio, Cerebras, Nemotron, SGLang-Omni) vào kiến trúc Agent Skills phục vụ mod game, nhưng không tạo ra mô hình mới.",
+  "credibility": "Kho mã nguồn mở công khai, tài liệu hóa minh bạch quy trình, có quy tắc an toàn và kiểm tra tính nhất quán kết quả đo lường rõ ràng.",
+  "technical": "Hiện thực tốt pipeline streaming âm thanh thời gian thực, quản lý serverless GPU trên Modal và trừu tượng hóa 4 hook game hiệu quả.",
+  "impact": "Mức độ quan tâm cộng đồng ở mức khá (167 stars, 11 forks), hữu ích làm mẫu tham khảo cho các nhà phát triển game và kỹ sư speech/agent.",
+  "evidence": "Báo cáo số liệu độ trễ cụ thể và đo lường khách quan speaker similarity lẫn WER so sánh với ElevenLabs, dù tập test còn nhỏ."
+ },
+ "summary": {
+  "tldr": "NPCTalk là một bộ công cụ và Agent Skills mã nguồn mở cho phép tích hợp giọng nói nhân vật NPC trong trò chơi theo thời gian thực bằng Fish Audio (Drama 3 hoặc S2 Pro). Dự án kết nối voice activity detection, speech-to-text, LLM trên Cerebras và voice server tự host trên Modal/fal để NPC có thể phản hồi và thực hiện hành động trong khoảng 1.2-2.2 giây.",
+  "problem": "Việc biến NPC trong game thành các thực thể tương tác đàm thoại tự nhiên thường phức tạp, đòi hỏi phải ghép nối nhiều thành phần rời rạc (ASR, LLM sinh lời thoại, TTS voice cloning độ trễ thấp, animation/action hooks) và khó tái sử dụng giữa các tựa game khác nhau.",
+  "method": "Hệ thống xây dựng theo mô hình Agent Skills dành cho các AI coding agent (Claude Code, Cursor, Codex, OpenCode):\\n- **Speech Pipeline**: Nhận diện giọng nói người chơi qua open mic (có VAD) hoặc push-to-talk, xử lý STT bằng NVIDIA Nemotron ASR qua fal.\\n- **Dialogue & Action**: LLM tương thích OpenAI lưu trữ trên Cerebras tạo lời thoại in-character cùng delivery tags (như `[laughing]`, `[crying]`), kết hợp TypeSafe Jev để ánh xạ chỉ thị lời nói thành hành động/animation cụ thể của NPC.\\n- **Voice Server**: Tự host Fish Audio Drama 3 hoặc S2 Pro sử dụng SGLang-Omni trên GPU Modal H100 (hoặc qua fal WebSocket) phục vụ streaming audio.\\n- **Game Hooks**: Mô-đun hóa thành 4 hook cốt lõi (xác định đối tượng đối thoại, scene facts, phát âm thanh tại tọa độ NPC, thực thi action), đã hiện thực mẫu trên GTA V bằng Script Hook V và NAudio.",
+  "setup": "Yêu cầu Python 3.10+, `uv`, ffmpeg; bản demo GTA V yêu cầu Windows, .NET SDK (8+) và bản game GTA V. Sử dụng API/GPU từ Modal (H100), fal (NVIDIA Nemotron ASR), Cerebras (LLM) và TypeSafe. Hỗ trợ CLI `npctalk` để quản lý voice server, kiểm tra độ trễ và xử lý dữ liệu giọng.",
+  "results": [
+   "Độ trễ toàn chu trình từ khi dứt câu đến khi phát âm thanh: 1.2-2.2 giây (push-to-talk); chế độ open mic cộng thêm 0.7 giây chờ VAD.",
+   "Thử nghiệm trên nhân vật Lamar (10 câu test, đo speaker similarity đối chiếu 60 clip thật): ElevenLabs instant clone đạt Voice match 0.612, WER 10.5%.",
+   "Fish Audio Drama 3 (mặc định): Voice match 0.643, WER 7.1%.",
+   "Fish Audio Drama 3 (tuned sampling, 1 take): Voice match 0.660, WER 7.9%.",
+   "Fish Audio Drama 3 (best-of-8 takes, checked): Voice match 0.704, WER 8.6%.",
+   "Fish Audio S2 Pro (best reference clip): Voice match 0.707, WER 5.6%.",
+   "Fish Audio S2 Pro (fine-tuned trên nhân vật): Voice match 0.785, WER 7.5%."
+  ],
+  "limitations": "Chỉ hoạt động trên chế độ single-player hoặc server riêng để tránh vi phạm anti-cheat. Cần nhiều API trả phí bên thứ ba (Modal, fal, Cerebras, TypeSafe). Đánh giá định lượng voice match mới chỉ thực hiện trên duy nhất một nhân vật (Lamar) với 10 câu thoại kiểm thử.",
+  "takeaways": "NPCTalk cung cấp một blueprint hoàn chỉnh về kiến trúc pipeline giọng nói hai chiều độ trễ thấp (~1.5s) cho game, chứng minh tính khả thi của việc dùng open-weights TTS (Fish Audio Drama 3/S2 Pro) tự host thay thế các dịch vụ closed-source thương mại.",
+  "strengths": [
+   "Độ trễ thấp (1.2-2.2s end-to-end)",
+   "Đóng gói dạng Agent Skills linh hoạt",
+   "Đánh giá voice match có số liệu cụ thể",
+   "Kiến trúc game hooks tách rời engine"
+  ],
+  "weaknesses": [
+   "Đánh giá giới hạn trên 1 nhân vật",
+   "Phụ thuộc nhiều dịch vụ cloud trả phí",
+   "Chỉ hỗ trợ game single-player không anti-cheat"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi tác giả christos-antono thuộc tổ chức Universal Modder, công bố trên GitHub với 167 stars."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

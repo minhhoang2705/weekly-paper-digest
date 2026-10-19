@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prime-EVC: One-Step Expressive Emotional Voice Conversion via Emotion-Primed Flow Matching · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W43</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Prime-EVC: One-Step Expressive Emotional Voice Conversion via Emotion-Primed Flow Matching</h1>
+    <div class="meta">
+      <span>published Oct 12, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">TTS</span>        <span class="authors">Yu Pan, Xiaojuan Cai, Liang Zhang, Yang Hou, Tianjiao Zhang, Yuguang Yang, Jixun Yao, Hiroshi Koide, Lei Ma, Jianjun Zhao</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.16036" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Recent diffusion- and conditional flow matching (CFM)-based emotional voice conversion (EVC) systems achieve strong conversion quality. However, they typically rely on multiple sampling steps, because the conditioning specifies which emotion to impose while its acoustic realization is left to the sampler. In this paper, we propose Prime-EVC, a one-step expressive EVC architecture based on emotion-primed flow matching. Our key idea is to reallocate the emotional conversion between the conditioning and the sampler: a FiLM-fused speaker-emotion style, an emotional variance adaptor, and direct emotion and spectro-temporal supervision assemble an emotion-rich conditioning upstream, rendering the residual conversion left to the CFM decoder attainable within one Euler step. Experiments on the ESD corpus demonstrate that single-step Prime-EVC surpasses five representative EVC systems on every quality metric and exceeds 4- and 100-step DurFlex-EVC in subjective naturalness and emotion while running 3.4--50 times faster than both.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 19, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Prime-EVC là kiến trúc chuyển đổi giọng nói cảm xúc (EVC) một bước (1 Euler step) dựa trên conditional flow matching (CFM). Bằng cách chuyển toàn bộ việc mô hình hóa cảm xúc sang tầng conditioning được giám sát trực tiếp, mô hình đạt chất lượng cảm xúc và độ tự nhiên cao vượt trội so với các hệ thống EVC đa bước mà tốc độ nhanh hơn từ 3.4 đến 50 lần.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các hệ thống EVC sử dụng diffusion hoặc conditional flow matching trước đây đòi hỏi nhiều bước lấy mẫu (sampling steps) lặp đi lặp lại do tầng conditioning chỉ chỉ định cảm xúc ở mức trừu tượng, còn việc hiện thực hóa các biến thiên âm học chi tiết lại phụ thuộc vào bộ sampler. Trong trường hợp 1 bước ODE xác định, bộ giải bị làm mượt về giá trị trung bình có điều kiện (conditional mean), dẫn đến giọng nói mất đi tính biểu cảm nếu tầng conditioning không đủ giàu thông tin.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Prime-EVC áp dụng đường ống encode–condition–render:</p>
+<ol>
+<li><strong>Encode</strong>: Tách nội dung không phụ thuộc người nói/cảm xúc thông qua HuBERT encoder đông băng và module dự đoán thời lượng (duration predictor) kế thừa từ DurFlex-EVC (tập từ vựng 200 đơn vị).</li>
+<li><strong>Style-Aware Emotion Conditioning</strong>: Kết hợp speaker embedding <span class="math inline">s</span> với learnable 5-class emotion lookup <span class="math inline">e</span> thông qua FiLM: <span class="math inline">c = \gamma(e) \odot s + \beta(e)</span>. Huấn luyện áp dụng scale ngẫu nhiên <span class="math inline">\alpha \sim U(0.2, 1.2)</span> lên embedding cảm xúc trước khi fuse để regularize dải cường độ cảm xúc; inference cố định <span class="math inline">\alpha=1</span>.</li>
+<li><strong>Emotional Variance Adaptor (EVA)</strong>: Dự đoán log-pitch <span class="math inline">\hat{p}</span> và năng lượng <span class="math inline">\hat{n}</span> theo từng khung hình từ <span class="math inline">z_{\text{frame}}</span> có điều kiện theo <span class="math inline">c</span>. Biểu diễn được cộng thêm embedding 1-D <span class="math inline">E_p(p^*)</span> và <span class="math inline">E_n(n^*)</span> (dùng ground-truth khi train, self-predicted khi inference), sau đó qua một tầng tuyến tính để tạo conditioning căn chỉnh mel 80 chiều <span class="math inline">\mu</span>.</li>
+<li><strong>Conditioning-Level Supervision</strong>: Trực tiếp giám sát <span class="math inline">\mu</span> bằng bộ phân loại cảm xúc <span class="math inline">g_\phi</span> qua cross-entropy loss <span class="math inline">\mathcal{L}_{\text{emo}}</span> trên <span class="math inline">\bar{\mu}</span>, cùng với spectro-temporal loss <span class="math inline">\mathcal{L}_{\text{stft}} = \mathcal{L}_{\text{sc}}(\mu, x_1) + \mathcal{L}_{\text{mag}}(\mu, x_1)</span> khớp phổ điều chế (modulation spectrum) qua Hann window từng kênh mel để tránh over-smoothing.</li>
+<li><strong>Render (DiT-based OT-CFM)</strong>: Decoder gồm 12 layer DiT (dim 512, 8 heads, MLP ratio 4), nhận đầu vào là mel nội suy <span class="math inline">x_t</span> ghép nối với <span class="math inline">\mu</span> theo trục đặc trưng, tiêm <span class="math inline">t</span> và <span class="math inline">c</span> qua adaptive layer normalization, tối ưu bằng OT-CFM loss (với <span class="math inline">\sigma_{\min}=10^{-6}</span>). Mel đầu ra được tổng hợp thành sóng bằng BigVGAN retrained.</li>
+</ol>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá trên tập tiếng Anh của ESD (5 cảm xúc: Neutral, Angry, Happy, Sad, Surprise), 16 kHz audio, mỗi câu test chuyển đổi sang 4 cảm xúc còn lại (tổng cộng 6000 lượt chuyển đổi). Huấn luyện trên 1 GPU NVIDIA A6000, batch size 16 trong 500K bước với AdamW (lr <span class="math inline">1 \times 10^{-4}</span>). So sánh với 5 baseline được retrain chính thức: StarGAN-EVC, Seq2seq-EVC, Emovox, Textless-EVC, và DurFlex-EVC (với NFE = 1, 4, 100). Đánh giá chủ quan qua nMOS và eMOS (16 người nghe). Đánh giá khách quan: UTMOS, CER/WER (Whisper-large-v3), EECS (emotion2vec), SECS (Resemblyzer), và RTF (đo trên A6000 kèm BigVGAN vocoder).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Prime-EVC (NFE=1) đạt nMOS 3.77 ±0.03 và eMOS 3.90 ±0.04, vượt qua DurFlex (NFE=100) (nMOS 3.69 ±0.04, eMOS 3.83 ±0.03) và DurFlex (NFE=4) (nMOS 3.63 ±0.05, eMOS 3.79 ±0.05).</li>
+<li>Về chất lượng khách quan, Prime-EVC (NFE=1) vượt trội mọi baseline: UTMOS đạt 3.37 (so với DurFlex-100 là 3.21, Textless-EVC là 2.84), CER đạt 4.40% (so với DurFlex-100 là 5.65%), WER đạt 9.61% (so với DurFlex-100 là 11.95%).</li>
+<li>Về độ tương đồng cảm xúc và người nói, Prime-EVC (NFE=1) đạt EECS 0.87 (DurFlex-100 đạt 0.86, DurFlex-1 đạt 0.32) và SECS 0.80 (DurFlex-100 đạt 0.76, DurFlex-1 đạt 0.47, GT vocoded đạt 0.84).</li>
+<li>Về tốc độ suy luận, Prime-EVC (NFE=1) đạt RTF 0.038, nhanh hơn 3.47 lần so với DurFlex NFE=4 (RTF 0.132) và nhanh hơn 50.4 lần so với DurFlex NFE=100 (RTF 1.917).</li>
+<li>Ablation study cho thấy module EVA mang tính quyết định: bỏ EVA khiến EECS sụt giảm mạnh từ 0.87 xuống 0.46 và UTMOS giảm từ 3.37 xuống 2.89.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Chỉ thử nghiệm trên tập dữ liệu ESD với 10 người nói đã biết (speaker embedding là learnable lookup trên 10 speaker) và 5 lớp cảm xúc cố định; chưa đánh giá zero-shot voice conversion cho unseen speakers hoặc open-vocabulary emotion prompt.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Trong các mô hình sinh dựa trên flow matching / diffusion cho para-linguistic conversion, ngân sách lấy mẫu (NFE) chủ yếu mua độ trung thực tín hiệu (signal fidelity) chứ không tạo ra cảm xúc. Thay vì cố gắng chưng cất bộ lấy mẫu phức tạp, việc mô hình hóa trực tiếp prosody (F0, energy) và đưa thông tin cảm xúc vào conditioning cho phép giải bài toán EVC chỉ trong đúng 1 bước Euler với chất lượng vượt trội.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">66.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Ý tưởng tái phân bổ trách nhiệm chuyển đổi cảm xúc từ sampler sang conditioning giàu giám sát (FiLM, EVA, loss phổ điều chế) để đạt one-step flow matching cho EVC là một góc nhìn mới và hiệu quả.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kiến trúc chặt chẽ với sự kết hợp hài hòa giữa HuBERT content, FiLM conditioning, FastSpeech-style EVA, STFT modulation loss và DiT-based OT-CFM decoder.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Thực nghiệm kỹ lưỡng với đầy đủ thang đo chủ quan (nMOS, eMOS), khách quan (UTMOS, CER/WER, EECS, SECS, RTF), so sánh với 5 baseline mạnh và ablation study giải thích rõ ràng vai trò từng thành phần.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Giải pháp giúp triển khai EVC thời gian thực với RTF rất thấp (0.038), hữu ích cho các ứng dụng tương tác giọng nói trực tiếp, dù hiện tại còn bó hẹp ở bài toán closed-set speaker/emotion.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Bản preprint arXiv từ các tác giả thuộc Kyushu University, Tencent Hunyuan và UTokyo, có mã nguồn mở trên GitHub và trang demo âm thanh.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Ý tưởng tái phân bổ trách nhiệm chuyển đổi cảm xúc từ sampler sang conditioning giàu giám sát (FiLM, EVA, loss phổ điều chế) để đạt one-step flow matching cho EVC là một góc nhìn mới và hiệu quả.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Bản preprint arXiv từ các tác giả thuộc Kyushu University, Tencent Hunyuan và UTokyo, có mã nguồn mở trên GitHub và trang demo âm thanh.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kiến trúc chặt chẽ với sự kết hợp hài hòa giữa HuBERT content, FiLM conditioning, FastSpeech-style EVA, STFT modulation loss và DiT-based OT-CFM decoder.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Giải pháp giúp triển khai EVC thời gian thực với RTF rất thấp (0.038), hữu ích cho các ứng dụng tương tác giọng nói trực tiếp, dù hiện tại còn bó hẹp ở bài toán closed-set speaker/emotion.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Thực nghiệm kỹ lưỡng với đầy đủ thang đo chủ quan (nMOS, eMOS), khách quan (UTMOS, CER/WER, EECS, SECS, RTF), so sánh với 5 baseline mạnh và ablation study giải thích rõ ràng vai trò từng thành phần.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Suy luận 1 bước Euler đạt RTF ấn tượng (0.038) · Vượt trội baselines đa bước cả chủ quan lẫn khách quan · Thiết kế conditioning có giám sát trực tiếp F0/energy/spectrum · Mô hình nhỏ gọn (~98M thông số so với 159M)</p>
+          <p><span class="label">Weaknesses</span> · Chỉ giới hạn 10 người nói cố định trong ESD · Chưa hỗ trợ zero-shot cho speaker mới · Chưa mở rộng sang cảm xúc bằng ngôn ngữ tự nhiên</p>
+          <p><span class="label">Context</span> · Yu Pan và nhóm cộng sự từ Kyushu University, Donghua University, Tencent Hunyuan, NII và The University of Tokyo; bài báo đăng trên arXiv (arXiv:2610.16036v1, cs.SD, tháng 10 năm 2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

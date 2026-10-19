@@ -1,0 +1,47 @@
+{
+ "id": "hf-model:fishaudio/drama-3",
+ "topic": "TTS",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Ứng dụng MoE 35B/3B active kết hợp hybrid attention, Codebook-MTP causal audio decoder và cơ chế chỉnh sửa bằng continuation trên VQ tokens rất mới trong mảng TTS.",
+  "credibility": "Đến từ tổ chức uy tín Fish Audio, tích hợp chính thức cùng framework phục vụ lớn SGLang-Omni và vLLM-Omni, kèm mã nguồn và technical report.",
+  "technical": "Thiết kế kỹ thuật sâu với định dạng FP8 MoE, giải mã 10 codebooks causally, tối ưu pipeline placement giữa LLM engine và vocoder.",
+  "impact": "Mức độ quan tâm cao với 694 HF likes, 9,620 downloads, giải quyết trực tiếp bài toán streaming độ trễ thấp và kịch bản đa nhân vật trong thực tế.",
+  "evidence": "Cung cấp benchmark serving và latency/throughput rất chi tiết trên H200, nhưng hoàn toàn thiếu các số liệu định lượng về chất lượng tổng hợp âm thanh như MOS hay WER."
+ },
+ "summary": {
+  "tldr": "Fish Audio Drama 3 là mô hình text-to-speech thế hệ mới với 35B tham số (3B active mỗi token) dựa trên kiến trúc MoE và hybrid attention, thiết kế chuyên biệt cho hội thoại nhiều nhân vật và nội dung dài. Mô hình hỗ trợ voice cloning, điều khiển bằng ngôn ngữ tự nhiên, gắn thẻ cảm xúc/hành vi và chỉnh sửa âm thanh qua cơ chế continuation, hỗ trợ triển khai tối ưu trên SGLang-Omni và vLLM-Omni.",
+  "problem": "Tạo giọng nói đa nhân vật (multi-character scenes) và định dạng dài đòi hỏi khả năng xử lý ngữ cảnh lớn, kiểm soát đồng thời nhiều nhân vật, độ trễ sinh thấp cho streaming và năng lực chỉnh sửa âm thanh linh hoạt mà không làm giảm tính tự nhiên.",
+  "method": "Drama 3 sử dụng cấu trúc gồm:\n- **Backbone**: MoE text backbone với tổng cộng 35B tham số, kích hoạt 3B tham số/token kết hợp hybrid attention (full attention + linear attention). Trọng số MoE experts ở định dạng FP8, các trọng số còn lại ở định dạng bf16.\n- **Audio Decoder**: Codebook-MTP causal audio decoder giải mã 10 codebook tuần tự trên toàn bộ chuỗi.\n- **Kiểm soát đa nhân vật & Ngữ cảnh**: Hỗ trợ tối đa 16 nhân vật trong một văn bản thông qua speaker tags từ `<|speaker:0|>` đến `<|speaker:15|>`. Văn bản dài được tự động chia nhỏ (chunked) và stream theo từng chunk.\n- **Point tags & Audio Editing**: Cho phép nhúng thẻ hành vi/cảm xúc (ví dụ `[sighs]`, `[laughs]`) trực tiếp vào văn bản; chỉnh sửa âm thanh (editing as continuation) bằng cách truyền các chuỗi VQ tokens từ các lượt phát biểu trước (`previous_takes`) tương tự cách sinh tiếp của mô hình ngôn ngữ.",
+  "setup": "Đánh giá hiệu năng production serving thực hiện trên GPU NVIDIA H200 với các streaming request trên Seed-TTS English prompts. Thiết lập sinh: tham chiếu `en0` (clip 3.9 s trích từ `common_voice_en_10119832.wav`), `temperature` 1.0, `top_p` 0.9, `top_k` 30, `max_new_tokens` 500. Hỗ trợ đa ngôn ngữ (hơn 80 ngôn ngữ bao gồm en, zh, ja, ko, vi,...). Triển khai qua `sgl-omni` hoặc `vllm-omni`.",
+  "results": [
+   "Độ trễ phát âm đầu tiên (TTFA) ở Concurrency 1 trên một GPU H200 đạt TTFA p50 là 88.9 ms, TTFA p95 là 90.8 ms, RTF trung bình là 0.131 và thông lượng đạt 166.7 frames/s.",
+   "Hiệu năng tải cao trên một GPU H200: Tại Concurrency 16, RTF trung bình là 0.373 (nhanh hơn tốc độ phát khoảng 2.7x), TTFA p50 là 210.1 ms; tại Concurrency 64, RTF trung bình đạt 0.801 và thông lượng đạt 1,687.3 frames/s.",
+   "Tách vocoder sang GPU thứ hai ở tải lớn (Concurrency 256): Tăng thông lượng khoảng 72% (từ 2,422 lên 4,160 frames/s) và giảm TTFA median khoảng 37% (TTFA p50 giảm từ 3,403 ms xuống 2,146 ms; TTFA p95 giảm từ 4,255 ms xuống 2,469 ms)."
+  ],
+  "limitations": "Tài liệu không cung cấp các chỉ số đánh giá chất lượng âm thanh chuẩn (như WER, MOS, độ tương đồng người nói SIM), không nêu chi tiết tập dữ liệu huấn luyện và quy trình huấn luyện vocoder.",
+  "takeaways": "Drama 3 là lựa chọn hàng đầu cho hệ thống TTS streaming tải cao hoặc kịch bản đa nhân vật phức tạp. Khi triển khai production ở mức tải trên 128-256 luồng đồng thời, kỹ sư nên tách vocoder sang GPU riêng biệt trên SGLang-Omni để tránh nghẽn hàng đợi âm thanh.",
+  "strengths": [
+   "Kiến trúc MoE 35B FP8/bf16 hiệu quả cao",
+   "TTFA dưới 100 ms ở concurrency thấp",
+   "Hỗ trợ 16 speaker tags cùng lúc",
+   "Tích hợp sẵn vLLM-Omni và SGLang-Omni"
+  ],
+  "weaknesses": [
+   "Thiếu số liệu đánh giá chất lượng âm thanh (MOS/WER)",
+   "Không công bố chi tiết dữ liệu huấn luyện",
+   "Giấy phép giới hạn (Fish Audio Community License)"
+  ],
+  "context": "Mô hình do Fish Audio phát hành mã nguồn mở/trọng số trên Hugging Face, đi kèm preprint arXiv:2610.18010 và hỗ trợ triển khai từ SGLang-Omni và vLLM-Omni."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

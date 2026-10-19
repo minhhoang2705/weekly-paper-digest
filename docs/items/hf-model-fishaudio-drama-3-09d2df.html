@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>fishaudio/drama-3 · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W43</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">fishaudio/drama-3</h1>
+    <div class="meta">
+      <span title="Listed by HF Models inside the crawl window">found Oct 19, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 1, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Model</span>
+<span class="pill">HF Models</span><span class="pill pill-accent">TTS</span>        <span class="authors">fishaudio</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://huggingface.co/fishaudio/drama-3" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">model card excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>Fish Audio Drama 3. Fish Audio Drama 3 is Fish Audio's new-generation text-to-speech model, built for multi-character scenes and long-form content. It supports multi-speaker generation, voice cloning and natural-language control. - 35B parameters, 3B active per token: MoE text backbone with hybrid (full + linear) attention - Codebook-MTP audio decoder: 10 codebooks decoded causally over the whole sequence - FP8 MoE experts with the remaining weights in bf16 - Speaker tags … — one text can carry up to 16 characters - Long text is chunked automatically and can be streamed per chunk Launch with SGLang Omni. Drama 3 runs on SGLang-Omni from launch day. For installation, deployment, and streaming API examples, see the Drama 3 Cookbook. Launch with vLLM-Omni. Drama 3 is supported in vLLM-Omni. For installation, deployment, and API examples, see the Drama 3 vLLM-Omni Recipe. Example Usage. The reference clip the samples below clone, unmodified: The reference, en0 — a 3.9 s clip, the same common_voice_en_10119832.wav the cloning example above uses, with the transcript We asked over twenty different people, and they all said it was his.: Point tags. A plain /v1/tts request: one reference (en0), no history, and the tags written into the text at the position where the event should land. Editing as continuation. Just send the previous VQ tokens and sent it as normal language models do. A second edit chained onto the result of the first: K5 chains a second edit: by noon becomes by five, with both earlier takes in the context. Production Serving. All numbers below were measured on NVIDIA H200 GPUs with streaming requests on Seed-TTS English prompts. Each request clones a voice from one pre-encoded reference (vq_codes with its transcript) and uses temperature 1.0, top_p 0.9, top_k 30 and max_new_tokens 500. Throughput counts generated acoustic frames per second. TTFA is the time to first audio. RTF is the time from sending a request to its last audio chunk, divided by the duration</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 19, 2026 · model card</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Fish Audio Drama 3 là mô hình text-to-speech thế hệ mới với 35B tham số (3B active mỗi token) dựa trên kiến trúc MoE và hybrid attention, thiết kế chuyên biệt cho hội thoại nhiều nhân vật và nội dung dài. Mô hình hỗ trợ voice cloning, điều khiển bằng ngôn ngữ tự nhiên, gắn thẻ cảm xúc/hành vi và chỉnh sửa âm thanh qua cơ chế continuation, hỗ trợ triển khai tối ưu trên SGLang-Omni và vLLM-Omni.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Tạo giọng nói đa nhân vật (multi-character scenes) và định dạng dài đòi hỏi khả năng xử lý ngữ cảnh lớn, kiểm soát đồng thời nhiều nhân vật, độ trễ sinh thấp cho streaming và năng lực chỉnh sửa âm thanh linh hoạt mà không làm giảm tính tự nhiên.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Drama 3 sử dụng cấu trúc gồm:</p>
+<ul>
+<li><strong>Backbone</strong>: MoE text backbone với tổng cộng 35B tham số, kích hoạt 3B tham số/token kết hợp hybrid attention (full attention + linear attention). Trọng số MoE experts ở định dạng FP8, các trọng số còn lại ở định dạng bf16.</li>
+<li><strong>Audio Decoder</strong>: Codebook-MTP causal audio decoder giải mã 10 codebook tuần tự trên toàn bộ chuỗi.</li>
+<li><strong>Kiểm soát đa nhân vật &amp; Ngữ cảnh</strong>: Hỗ trợ tối đa 16 nhân vật trong một văn bản thông qua speaker tags từ <code>&lt;|speaker:0|&gt;</code> đến <code>&lt;|speaker:15|&gt;</code>. Văn bản dài được tự động chia nhỏ (chunked) và stream theo từng chunk.</li>
+<li><strong>Point tags &amp; Audio Editing</strong>: Cho phép nhúng thẻ hành vi/cảm xúc (ví dụ <code>[sighs]</code>, <code>[laughs]</code>) trực tiếp vào văn bản; chỉnh sửa âm thanh (editing as continuation) bằng cách truyền các chuỗi VQ tokens từ các lượt phát biểu trước (<code>previous_takes</code>) tương tự cách sinh tiếp của mô hình ngôn ngữ.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá hiệu năng production serving thực hiện trên GPU NVIDIA H200 với các streaming request trên Seed-TTS English prompts. Thiết lập sinh: tham chiếu <code>en0</code> (clip 3.9 s trích từ <code>common_voice_en_10119832.wav</code>), <code>temperature</code> 1.0, <code>top_p</code> 0.9, <code>top_k</code> 30, <code>max_new_tokens</code> 500. Hỗ trợ đa ngôn ngữ (hơn 80 ngôn ngữ bao gồm en, zh, ja, ko, vi,...). Triển khai qua <code>sgl-omni</code> hoặc <code>vllm-omni</code>.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Độ trễ phát âm đầu tiên (TTFA) ở Concurrency 1 trên một GPU H200 đạt TTFA p50 là 88.9 ms, TTFA p95 là 90.8 ms, RTF trung bình là 0.131 và thông lượng đạt 166.7 frames/s.</li>
+<li>Hiệu năng tải cao trên một GPU H200: Tại Concurrency 16, RTF trung bình là 0.373 (nhanh hơn tốc độ phát khoảng 2.7x), TTFA p50 là 210.1 ms; tại Concurrency 64, RTF trung bình đạt 0.801 và thông lượng đạt 1,687.3 frames/s.</li>
+<li>Tách vocoder sang GPU thứ hai ở tải lớn (Concurrency 256): Tăng thông lượng khoảng 72% (từ 2,422 lên 4,160 frames/s) và giảm TTFA median khoảng 37% (TTFA p50 giảm từ 3,403 ms xuống 2,146 ms; TTFA p95 giảm từ 4,255 ms xuống 2,469 ms).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Tài liệu không cung cấp các chỉ số đánh giá chất lượng âm thanh chuẩn (như WER, MOS, độ tương đồng người nói SIM), không nêu chi tiết tập dữ liệu huấn luyện và quy trình huấn luyện vocoder.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Drama 3 là lựa chọn hàng đầu cho hệ thống TTS streaming tải cao hoặc kịch bản đa nhân vật phức tạp. Khi triển khai production ở mức tải trên 128-256 luồng đồng thời, kỹ sư nên tách vocoder sang GPU riêng biệt trên SGLang-Omni để tránh nghẽn hàng đợi âm thanh.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">70.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 192.45,182.66 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="192.45" cy="182.66" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Ứng dụng MoE 35B/3B active kết hợp hybrid attention, Codebook-MTP causal audio decoder và cơ chế chỉnh sửa bằng continuation trên VQ tokens rất mới trong mảng TTS.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật sâu với định dạng FP8 MoE, giải mã 10 codebooks causally, tối ưu pipeline placement giữa LLM engine và vocoder.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 3/5 — Cung cấp benchmark serving và latency/throughput rất chi tiết trên H200, nhưng hoàn toàn thiếu các số liệu định lượng về chất lượng tổng hợp âm thanh như MOS hay WER.</title>Evidence <tspan class="radar-value">3</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Mức độ quan tâm cao với 694 HF likes, 9,620 downloads, giải quyết trực tiếp bài toán streaming độ trễ thấp và kịch bản đa nhân vật trong thực tế.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Đến từ tổ chức uy tín Fish Audio, tích hợp chính thức cùng framework phục vụ lớn SGLang-Omni và vLLM-Omni, kèm mã nguồn và technical report.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Ứng dụng MoE 35B/3B active kết hợp hybrid attention, Codebook-MTP causal audio decoder và cơ chế chỉnh sửa bằng continuation trên VQ tokens rất mới trong mảng TTS.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Đến từ tổ chức uy tín Fish Audio, tích hợp chính thức cùng framework phục vụ lớn SGLang-Omni và vLLM-Omni, kèm mã nguồn và technical report.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật sâu với định dạng FP8 MoE, giải mã 10 codebooks causally, tối ưu pipeline placement giữa LLM engine và vocoder.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Mức độ quan tâm cao với 694 HF likes, 9,620 downloads, giải quyết trực tiếp bài toán streaming độ trễ thấp và kịch bản đa nhân vật trong thực tế.</dd></div>
+          <div><dt>Evidence <span class="muted">3/5</span></dt><dd>Cung cấp benchmark serving và latency/throughput rất chi tiết trên H200, nhưng hoàn toàn thiếu các số liệu định lượng về chất lượng tổng hợp âm thanh như MOS hay WER.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kiến trúc MoE 35B FP8/bf16 hiệu quả cao · TTFA dưới 100 ms ở concurrency thấp · Hỗ trợ 16 speaker tags cùng lúc · Tích hợp sẵn vLLM-Omni và SGLang-Omni</p>
+          <p><span class="label">Weaknesses</span> · Thiếu số liệu đánh giá chất lượng âm thanh (MOS/WER) · Không công bố chi tiết dữ liệu huấn luyện · Giấy phép giới hạn (Fish Audio Community License)</p>
+          <p><span class="label">Context</span> · Mô hình do Fish Audio phát hành mã nguồn mở/trọng số trên Hugging Face, đi kèm preprint arXiv:2610.18010 và hỗ trợ triển khai từ SGLang-Omni và vLLM-Omni.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

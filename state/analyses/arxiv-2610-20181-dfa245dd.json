@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.20181",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo đề xuất phương pháp đầu tiên ứng dụng Flow-GRPO trên không gian mel liên tục để tối ưu trực tiếp độ rõ (intelligibility) theo phản xạ Lombard thông qua phần thưởng ASR và FiLM conditioning.",
+  "credibility": "Nghiên cứu đến từ phòng thí nghiệm âm học uy tín (Institute of Acoustics, CAS) với trang demo trực quan, tuy nhiên hiện tại là bản arXiv preprint chưa qua bình duyệt chính thức tại hội nghị/tạp chí.",
+  "technical": "Thiết kế hệ thống rất chặt chẽ, kết hợp giải pháp SDE Euler-Maruyama để rollout chính sách ngẫu nhiên trong continuous flow, cân bằng phần thưởng ASR và speaker similarity, cùng các phân tích âm học formants/tilt chi tiết.",
+  "impact": "Giải quyết bài toán thực tế quan trọng cho conversational agents trong môi trường ồn với chi phí tính toán thấp (RTF 0.27), tuy nhiên chưa công bố mã nguồn mở để cộng đồng tái lập ngay.",
+  "evidence": "Thực nghiệm chi tiết trên nhiều dải SNR (-9 dB đến 6 dB), 4 loại nhiễu, kiểm định thống kê bootstrap 95% CI, kiểm thử nghe mù chủ quan ITU-T P.807 và ablation study đầy đủ cho từng siêu tham số."
+ },
+ "summary": {
+  "tldr": "NIL-TTS là một framework TTS thích ứng với môi trường nhiễu (Lombard effect) dựa trên mô hình flow-matching và thuật toán tăng cường Flow-GRPO. Thay vì chỉ bắt chước dữ liệu Lombard một cách thụ động, hệ thống tối ưu trực tiếp độ rõ của giọng nói (intelligibility) thông qua phần thưởng từ ASR trong điều kiện nhiễu môi trường động.",
+  "problem": "Các trợ lý đàm thoại giọng nói (VCAs) triển khai trong thực tế thường suy giảm độ rõ nghiêm trọng do môi trường ồn ào vì thiếu phản xạ Lombard tự nhiên của con người. Các phương pháp mô hình hóa Lombard trước đây chủ yếu dựa vào supervised fine-tuning trên các tập dữ liệu nhỏ hẹp, điều chỉnh âm lượng theo heuristic SNR hoặc can thiệp embedding phong cách tĩnh; các cách tiếp cận này chỉ tối ưu mô phỏng âm học ($L_2$ loss) chứ không tối ưu trực tiếp độ rõ thực tế (intelligibility) và không thích ứng động với biến đổi môi trường.",
+  "method": "NIL-TTS xây dựng dựa trên kiến trúc nền tảng F5-TTS (Diffusion Transformer - DiT gồm 22 lớp, $d_{model} = 1024$, 16 attention heads, ConvNeXt V2 text encoder). Phương pháp gồm hai cơ chế nòng cốt:\n- **Nhánh cảm nhận môi trường qua FiLM**: Waveform nhiễu chuẩn hóa được mã hóa qua pre-trained DAC encoder (44.1 kHz) thành embedding 1024 chiều, sau đó lấy trung bình thời gian ($AvgPool$), kết hợp với biểu diễn SNR 128 chiều (từ MLP) để tạo thành vector ngữ cảnh môi trường toàn cục $c_{env} = \\text{MLP}_{proj}([AvgPool(E_{noise}) \\parallel E_{snr}])$. Vector này được đưa vào các khối DiT sâu ($i > 2$) thông qua cơ chế FiLM (Feature-wise Linear Modulation) để điều biến trạng thái ẩn $\\tilde{h}_i = h_i \\odot \\gamma_i + \\beta_i$.\n- **Quy trình huấn luyện hai giai đoạn**:\n  1. *Supervised Fine-Tuning (SFT)*: Đóng băng backbone DiT, chỉ huấn luyện các module FiLM trên các cặp dữ liệu tiếng nói thường và Lombard (EMALG và LombardGrid) cùng nhiễu DEMAND, SNR lấy mẫu từ -7.0 dB đến 5.0 dB trong 680,000 steps trên 2 GPU NVIDIA A40.\n  2. *Flow-GRPO Post-Training*: Mở khóa toàn bộ mô hình, chuyển đổi ODE xác định sang phương trình vi phân ngẫu nhiên SDE dạng $dx_t = \\left[v_t(x_t) + \\frac{\\sigma_t^2}{2t}(x_t + (1-t)v_t(x_t))\\right]dt + \\sigma_t d\\omega$ (với $\\sigma_t = a\\sqrt{t/(1-t)}$, $a=0.4$) để lấy mẫu khám phá $G=24$ quỹ đạo rollout cho mỗi prompt qua Euler-Maruyama (32 NFE). Hàm thưởng gồm $R = \\lambda_{acc} R_{acc} + \\lambda_{spk} R_{spk}$ (với $\\lambda_{acc}=6.0$, $\\lambda_{spk}=1.0$), trong đó $R_{acc} = 1 - \\text{WER}$ tính từ mô hình ASR SenseVoice-Small trên mẫu phát sinh trộn với nhiễu, và $R_{spk}$ là cosine similarity trích xuất từ WeSpeaker. Huấn luyện tối ưu hóa Group Relative Policy Optimization không dùng KL penalty ($\\beta=0.0$).",
+  "setup": "Dữ liệu huấn luyện: SFT dùng EMALG (10,200 câu Mandarin, 34 người nói) và LombardGrid (5,400 câu English, 54 người nói) trộn nhiễu DEMAND; Flow-GRPO dùng WenetSpeech4TTS-Premium (945 giờ Mandarin, DNSMOS > 4.0) trộn 181 giờ nhiễu DNS Challenge ICASSP 2021 (150 lớp). Đánh giá zero-shot trên tập kiểm thử Seed-TTS (2,020 câu tiếng Trung DiDiSpeech, 1,088 câu tiếng Anh Common Voice) trộn với 4 loại nhiễu NoiseX-92 (Babble, Factory, Pink, White) ở 6 mức SNR (6, 3, 0, -3, -6, -9 dB). Baseline gồm vanilla F5-TTS, F5-TTS + SS, F5-TTS + SSDRC, MetaVoice-1B Lomb, F5-TTS-Style (Base và Lomb), phiên bản cắt giảm RL-only và SFT-only. Đo đạc độ trễ inference (RTF) trên GPU NVIDIA RTX 3090.",
+  "results": [
+   "Tại mức nhiễu nghiêm trọng -6 dB SNR trên Seed-TTS test-zh (trung bình qua 4 loại nhiễu): NIL-TTS đạt WER 0.224 [95% CI: 0.219, 0.228] và ESTOI 0.298 [0.297, 0.299], vượt trội đáng kể so với F5-TTS gốc (WER 0.378, ESTOI 0.246), SFT-only (WER 0.289, ESTOI 0.279) và RL-only (WER 0.323, ESTOI 0.254).",
+   "Trên tập zero-shot cross-lingual Seed-TTS test-en tại -6 dB SNR: NIL-TTS giảm WER xuống 0.434 [0.423, 0.445] và đạt ESTOI 0.285 [0.284, 0.287], so với baseline F5-TTS đạt WER 0.568 và ESTOI 0.247 dù Flow-GRPO chỉ được post-train hoàn toàn trên dữ liệu tiếng Trung.",
+   "Trong thử nghiệm nghe chủ quan (ITU-T P.807, nhiễu Babble, 12 người nghe, 360 clip): Tại -6 dB SNR, độ chính xác nhận dạng từ người nghe đối với NIL-TTS đạt 0.598, cao hơn vượt trội so với baseline (0.367, p < 0.001), RL-only (0.407, p < 0.001) và SFT-only (0.524, p = 0.027).",
+   "Trong điều kiện không có nhiễu (clean): NIL-TTS duy trì chất lượng tốt với WER 1.71% / UTMOS 3.15 trên test-zh (so với F5-TTS là 1.78% / 2.93) và WER 1.50% / UTMOS 3.85 trên test-en (so với F5-TTS là 1.62% / 3.68), độ tương đồng người nói (SIM) giảm nhẹ từ 0.76 xuống 0.75 (zh) và 0.68 xuống 0.67 (en).",
+   "Hiệu quả tính toán: NIL-TTS có 382M tham số và RTF đạt 0.27 (trên RTX 3090), chỉ tăng nhẹ 0.01 RTF so với F5-TTS baseline (336M tham số, RTF 0.26) và vượt trội so với MetaVoice-1B Lomb (1.2B tham số, RTF 3.04)."
+  ],
+  "limitations": "Mô hình chỉ được post-train bằng RL trên tiếng Trung (mặc dù có năng lực transfer sang tiếng Anh). Thử nghiệm nhiễu chỉ dừng lại ở phép cộng nhiễu tổng hợp (additive noise trong benchmark) mà chưa kiểm thử trực tiếp trong môi trường âm học tương tác phòng thực tế với micro thu hồi feedback hai chiều. Độ tương đồng người nói SIM có sự suy giảm nhẹ (0.01) do đặc trưng âm học thay đổi khi phát âm rõ hơn.",
+  "takeaways": "Sử dụng trực tiếp tín hiệu thưởng nhận dạng ASR qua RL trong continuous flow-matching (Flow-GRPO) hiệu quả hơn hẳn so với việc cố gắng tối ưu L2 spectrogram đối với dữ liệu Lombard hạn chế. Kỹ thuật đưa nhánh FiLM điều biến ở các tầng sâu DiT kết hợp rollout ngẫu nhiên bằng SDE mang lại sự cân bằng lý tưởng giữa khả năng thích ứng nhiễu và độ trễ tính toán thực tế.",
+  "strengths": [
+   "Tối ưu trực tiếp độ rõ speech intelligibility",
+   "Thích ứng nhiễu tự động theo SNR",
+   "Tốc độ sinh nhanh với RTF 0.27",
+   "Chuyển giao zero-shot đa ngôn ngữ tốt",
+   "Đánh giá toàn diện cả khách quan và chủ quan"
+  ],
+  "weaknesses": [
+   "RL post-training chỉ chạy trên tiếng Trung",
+   "Chỉ đánh giá trên nhiễu cộng mô phỏng",
+   "Chưa mở nguồn code hoặc checkpoint chính thức"
+  ],
+  "context": "Nghiên cứu từ nhóm tác giả Zhaoyang Wang, Dingding Yao, Chengzhong Wang và Junfeng Li thuộc Viện Âm học (IOA), Viện Hàn lâm Khoa học Trung Quốc (CAS) và Đại học UCAS; xuất bản dưới dạng arXiv preprint (arXiv:2610.20181)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

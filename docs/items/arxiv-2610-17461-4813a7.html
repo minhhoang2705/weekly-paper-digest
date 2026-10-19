@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Distilling Text LMs into Speech-to-Speech LMs by Matching Internal Text Predictions · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W43</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Distilling Text LMs into Speech-to-Speech LMs by Matching Internal Text Predictions</h1>
+    <div class="meta">
+      <span>published Oct 12, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Speech LLM</span>        <span class="authors">Ju-Chieh Chou, Jiawei Zhou, Karen Livescu</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.17461" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Text language models (LMs) acquire broad linguistic and factual capabilities through large-scale pretraining, while comparable capabilities remain difficult to learn from speech alone. Recent work has shown that knowledge distillation from pretrained text LMs offers a promising way to transfer their linguistic and factual capabilities to speech models. However, existing distillation approaches have largely focused on speech-input, text-output models. This idea has yet to be explored for {\it speech-to-speech} models, which operate on both speech input and speech output. In this work we introduce a speech-to-speech pretraining method that creates an internal text interface for knowledge transfer while preserving the speech-only input and output. The model first consumes speech context without its transcription, switches to text prediction, and then uses the predicted text to lead future speech generation word by word. It also provides an interface for knowledge distillation: the internal text predictions can be directly distilled from the base text LM. To the best of our knowledge, this is the first application of text LM distillation to a speech-to-speech LM. Under matched training conditions, the proposed sequence construction substantially improves the generative perplexity of spoken continuations over speech-only and interleaved speech-text models, approaching the performance of a text-leading inner-monologue model with external ASR prompt transcription. More importantly, distillation improves factual performance under both text and speech evaluation, indicating better retention of knowledge from the base text language model.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 19, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Nghiên cứu đề xuất Text-Guided Speech LM (TGSLM), phương pháp tiền huấn luyện speech-to-speech tạo giao diện văn bản nội bộ dạng từ-nối-từ (word-by-word) mà không yêu cầu văn bản prompt ở đầu vào hay đầu ra khi suy luận. Cấu trúc này cho phép chưng cất tri thức (knowledge distillation) trực tiếp từ mô hình ngôn ngữ văn bản gốc vào các dự đoán text trung gian, giúp cải thiện vượt bậc chất lượng ngôn ngữ và duy trì kiến thức thực tế (factual knowledge).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình ngôn ngữ thuần tiếng nói (speech-only SLMs) học tri thức ngôn ngữ và dữ kiện thực tế rất chậm so với mô hình văn bản dưới cùng ngân sách tính toán. Trong khi đó, các kỹ thuật chưng cất từ text LM trước đây chủ yếu áp dụng cho mô hình speech-in/text-out hoặc dựa trên RL/DPO ở mức câu tạo ra nhiều hạn chế, còn mô hình inner-monologue thường đòi hỏi phải có bản gỡ băng (ASR transcript) của prompt tiếng nói tại thời điểm suy luận.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>TGSLM phân tách việc sinh tiếng nói tiếp nối thành việc dự đoán nội dung ngôn ngữ dưới dạng text trước, sau đó mới sinh phân đoạn âm thanh tương ứng từng từ một. Cụ thể:</p>
+<ul>
+<li><strong>Chuỗi dữ liệu huấn luyện:</strong> Lấy căn chỉnh từ-tiếng nói bằng Whisper aligner, chèn token <code>&lt;switch&gt;</code> ngẫu nhiên tại một ranh giới từ. Trước <code>&lt;switch&gt;</code>, mô hình nhận ngữ cảnh tiếng nói thuần túy (không tính loss). Sau <code>&lt;switch&gt;</code>, chuỗi chuyển đổi tuần tự: <span class="math inline">S_{\text{context}} \to \text{&lt;switch&gt;} \to T_1 \to S_1 \to T_2 \to S_2 \dots</span>, kết thúc mỗi từ bằng <code>&lt;t-eow&gt;</code> và <code>&lt;s-eow&gt;</code>.</li>
+<li><strong>Mục tiêu sinh tiếng nói:</strong> Dựa trên Flow-SLM với Mimi tokenizer, tầng Transformer dự đoán <span class="math inline">k = 4</span> semantic tokens rời rạc (từ Mimi RVQ codebook đầu tiên) thông qua loss <span class="math inline">\mathcal{L}_{\text{discrete}}</span>, kết hợp với đầu Conditional Flow-Matching (CFM) theo tham số hóa <span class="math inline">x</span>-prediction để sinh đặc trưng liên tục qua loss <span class="math inline">\mathcal{L}_{\text{CFM}}</span>: <span class="math inline">\mathcal{L}_{\text{speech}} = \mathcal{L}_{\text{discrete}} + \mathcal{L}_{\text{CFM}}</span>.</li>
+<li><strong>Chưng cất tri thức (Knowledge Distillation):</strong> Tại các vị trí token text, mô hình sinh viên (nhận ngữ cảnh tiếng nói và lịch sử text-speech) được chưng cất phân phối từ frozen text backbone teacher (nhận chuỗi text ground-truth) bằng loss forward KL divergence: <span class="math inline">\mathcal{L}_{\text{KD}} = \mathbb{E}\left[\frac{1}{T}\sum_{t=1}^T D_{\text{KL}}(p_{\text{teacher}}(y_t \mid c^{\text{text}}_{&lt;t}) \parallel p_\theta(y_t \mid c^{\text{st}}_{&lt;t}))\right]</span>.</li>
+<li><strong>Huấn luyện và chống quên:</strong> Tổng loss là <span class="math inline">\mathcal{L} = (1-\lambda)\mathcal{L}_{\text{text}} + \lambda \mathcal{L}_{\text{KD}} + \mathcal{L}_{\text{speech}}</span>, kết hợp xen kẽ text replay từ FineWeb (tần suất 0.2) để tránh suy thoái năng lực văn bản.</li>
+<li><strong>Suy luận:</strong> Prompt vào hoàn toàn bằng âm thanh, gắn <code>&lt;switch&gt;</code> để kích hoạt luồng xen kẽ online bằng chuẩn tham lam (greedy) xác định ranh giới từ qua <code>&lt;t-eow&gt;</code> và <code>&lt;s-eow&gt;</code>.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Khởi tạo từ pretrained Qwen3 base LM (Qwen3-0.6B cho TGSLM 0.8B và Qwen3-1.7B cho TGSLM-Large 1.9B). Huấn luyện trên Emilia tiếng Anh (21.3k giờ cho bản 0.8B; 135k giờ kết hợp Emilia-YODAS cho TGSLM-Large-distill) dùng 4 GPU với optimizer AdamW 8-bit và precision BF16. Đánh giá khả năng ngôn ngữ qua generative perplexity (genPPL, transcribe bằng Whisper small.en và chấm điểm bằng OLMo-3 7B), tính lặp từ qua bigram auto-BLEU, chất lượng âm học bằng UTMOS-v2, độ tương đồng người nói bằng WavLM-large-TDNN. Đánh giá factual qua Known-1000 (Pass@1, Pass@5), StoryCloze (spoken và text), và độ nhạy cảm xúc qua tập Gemini-Emo (96 triplets cảm xúc phân loại bằng emotion2vec-plus-large).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên tập test Emilia, TGSLM (0.8B, 21.3k h) giảm genPPL từ 151.7 (Speech-only baseline) và 164.1 (Interleaved baseline) xuống còn 58.9, đạt mức tương đương mô hình text-leading có Whisper transcript (57.1) mà không cần bước ASR prompt.</li>
+<li>Áp dụng distillation (<span class="math inline">\lambda = 0.25</span>) và text replay đưa genPPL tiếp tục hạ xuống 51.0 (TGSLM 0.8B) và đạt 45.0 trên TGSLM-Large-distill (1.9B, 135k h), trong khi bigram auto-BLEU duy trì ổn định (3.9 - 4.9 so với 4.3 của baseline).</li>
+<li>Trên benchmark Known-1000, Pass@5 tăng mạnh từ 1.7% (Speech-only) lên 6.7% (TGSLM), 12.5% (TGSLM + replay) và 22.4% (TGSLM-distill <span class="math inline">\lambda = 0.5</span>). Bản phóng to TGSLM-Large-distill đạt 37.9% Pass@5 (Pass@1 đạt 16.8%), vượt qua SpiritLM Base 7B (Pass@5: 23.5% S-&gt;S, 31.8% S-&gt;T) dù kích thước mô hình và dữ liệu ít hơn nhiều.</li>
+<li>Distillation đồng thời bảo toàn năng lực text gốc: độ chính xác trên StoryCloze văn bản (tSC) tăng từ 65.2% (TGSLM gốc) lên 80.0% (TGSLM-distill <span class="math inline">\lambda = 0.75</span>), và trên spoken StoryCloze (sSC) tăng từ 53.7% lên 58.3%.</li>
+<li>Về độ nhạy cảm xúc trên Gemini-Emo, TGSLM-distill (<span class="math inline">\lambda = 0.5</span>) đạt Macro accuracy 57.4% so với 55.9% của Speech-only baseline và 57.7% của TGSLM thuần, cho thấy việc ép phân phối text không làm suy giảm khả năng bắt nhịp cảm xúc cận ngôn ngữ (paralinguistic cues).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Phụ thuộc vào công cụ gióng hàng từ-âm thanh (Whisper alignment) chất lượng cao trong pha tiền huấn luyện để cắt lát dữ liệu; chưa thử nghiệm loại bỏ ranh giới mức từ (như mức câu). Chỉ tập trung vào giai đoạn pretraining mà chưa kiểm chứng hiệu quả khi post-training (instruction tuning, đàm thoại song công full-duplex). Chỉ số âm học (UTMOS-v2 và speaker similarity) ở cấu hình nhỏ bị giảm nhẹ so với speech-only baseline.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Để đưa năng lực suy luận và tri thức phong phú của text LLM vào mô hình speech-to-speech, việc tổ chức chuỗi tự sinh trung gian 'text đi trước speech tương ứng' theo từng từ kết hợp chưng cất KL phân kỳ là giải pháp vượt trội so với mô hình interleaved hay pure-speech, mà vẫn giữ được tính thuận tiện là nhận/phát hoàn toàn bằng tiếng nói tại inference.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">75.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#6 (tied) in 2026-W43</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đây là công trình đầu tiên áp dụng distillation trực tiếp từ Text LM vào mô hình Speech-to-Speech LM bằng cách kiến tạo giao diện text trung gian nội bộ theo từng từ mà không cần gỡ băng prompt lúc suy luận.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Phương pháp thiết kế kiến trúc và hàm mục tiêu kết hợp (Discrete CE + CFM x-prediction + KL distillation + text replay) rất chặt chẽ, giải quyết triệt để vấn đề mất mát tri thức và độ trễ modality.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Kết quả thực nghiệm toàn diện với đầy đủ ablation về distillation weight, text replay, so sánh đối đầu với các baseline mạnh (SpiritLM, SLAM, Llama-Mimi) trên cả genPPL, StoryCloze, Known-1000 và Gemini-Emo.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Cung cấp một giải pháp bản lề cho cộng đồng nghiên cứu Spoken LM để chuyển giao hiệu quả năng lực suy luận của các mô hình ngôn ngữ lớn sang mô hình thuần tiếng nói mà không làm biến dạng pipeline suy luận.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Nhóm tác giả uy tín chuyên sâu về Speech LMs (Livescu Lab, TTI-Chicago) với các công trình nền tảng về Flow-SLM, thiết lập quy trình thực nghiệm minh bạch, có phụ lục chi tiết và AI statement rõ ràng.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đây là công trình đầu tiên áp dụng distillation trực tiếp từ Text LM vào mô hình Speech-to-Speech LM bằng cách kiến tạo giao diện text trung gian nội bộ theo từng từ mà không cần gỡ băng prompt lúc suy luận.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Nhóm tác giả uy tín chuyên sâu về Speech LMs (Livescu Lab, TTI-Chicago) với các công trình nền tảng về Flow-SLM, thiết lập quy trình thực nghiệm minh bạch, có phụ lục chi tiết và AI statement rõ ràng.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Phương pháp thiết kế kiến trúc và hàm mục tiêu kết hợp (Discrete CE + CFM x-prediction + KL distillation + text replay) rất chặt chẽ, giải quyết triệt để vấn đề mất mát tri thức và độ trễ modality.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Cung cấp một giải pháp bản lề cho cộng đồng nghiên cứu Spoken LM để chuyển giao hiệu quả năng lực suy luận của các mô hình ngôn ngữ lớn sang mô hình thuần tiếng nói mà không làm biến dạng pipeline suy luận.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Kết quả thực nghiệm toàn diện với đầy đủ ablation về distillation weight, text replay, so sánh đối đầu với các baseline mạnh (SpiritLM, SLAM, Llama-Mimi) trên cả genPPL, StoryCloze, Known-1000 và Gemini-Emo.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Thiết kế chuỗi text-guided word-by-word thông minh · Suy luận tiếng nói trực tiếp không cần ASR · Giảm mạnh genPPL tiếp cận text-leading oracle · Duy trì tri thức dữ kiện thực tế vượt trội · Bảo toàn tốt độ nhạy cảm xúc paralinguistic</p>
+          <p><span class="label">Weaknesses</span> · Phụ thuộc ranh giới căn chỉnh từ Whisper · UTMOS và speaker similarity giảm nhẹ ở bản nhỏ · Chưa đánh giá post-training hoặc dialogue</p>
+          <p><span class="label">Context</span> · Nghiên cứu từ TTI-Chicago và Stony Brook University (tác giả Ju-Chieh Chou, Jiawei Zhou, Karen Livescu), công bố trên arXiv (arXiv:2610.17461).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

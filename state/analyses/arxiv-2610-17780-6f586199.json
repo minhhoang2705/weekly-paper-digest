@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.17780",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 5,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Bài báo đề xuất mô hình full-duplex đầu tiên kết hợp discrete diffusion language model cho nội dung với streaming AR policy cho kiểm soát lượt nói, phá vỡ giới hạn frame-rate cố định của các hệ thống AR trước đây.",
+  "credibility": "Nghiên cứu đến từ nhóm tác giả giàu kinh nghiệm của NVIDIA Speech & Language AI, công bố chi tiết về tham số, quy trình huấn luyện 3 giai đoạn và công thức toán học.",
+  "technical": "Thiết kế kỹ thuật xuất sắc và chi tiết: kết hợp causal LoRA encoder, text-anchored distillation, anchored first-n decoding, cùng runtime CUDA torch-free tối ưu FP8/NVFP4.",
+  "impact": "Mở ra một hướng đi mới cho voice agent thế hệ tiếp theo có khả năng suy luận sâu (thinking) song song với duy trì đàm thoại full-duplex thời gian thực tốc độ cao.",
+  "evidence": "Bằng chứng thực nghiệm toàn diện trên VoiceBench, Full-Duplex-Bench v1/v3, đo đạc TPF/TPS chi tiết trên 3 phần cứng GPU khác nhau cùng loạt bài ablation study chặt chẽ."
+ },
+ "summary": {
+  "tldr": "Diffuplex là mô hình ngôn ngữ tiếng nói full-duplex kết hợp giữa policy tương tác autoregressive (AR) và bộ sinh phản hồi bằng discrete diffusion language model (DLM). Kiến trúc này tách rời bài toán xác định thời điểm nói (when to say) khỏi nội dung cần nói (what to say), đạt tốc độ sinh trung bình 1872 tokens/giây trên một GPU GB300 và vượt các mô hình full-duplex AR mã nguồn mở hơn 20 điểm trên VoiceBench.",
+  "problem": "Các mô hình full-duplex AR hiện nay gộp cả tương tác đàm thoại và sinh ngữ nghĩa vào một luồng AR đơn chiều theo khung thời gian vật lý cố định (ví dụ 80 ms ở Moshi). Điều này dẫn tới hai hạn chế lớn: xung đột gradient (Conflicting Objectives) giữa căn chỉnh thời gian mức thấp và sinh ngữ nghĩa trừu tượng, cùng với việc ràng buộc tốc độ xử lý ngữ nghĩa theo frame rate âm thanh (Temporal Frame-Rate Binding), tước đi khả năng phân bổ tính toán suy luận co giãn (như Chain-of-Thought).",
+  "method": "Diffuplex triển khai cơ chế tính toán hai trục tách biệt trên cùng một backbone chung (DiffusionGemma-26B-A4B-it):\n- **Trục thời gian tương tác (AR policy - when to say):** Xử lý luồng âm thanh đầu vào liên tục chia thành các chunk 80 ms, sử dụng Parakeet speech encoder kết hợp LoRA causal (cửa sổ 10 giây trailing không lookahead) để dự đoán 4 trạng thái tương tác: `<listen>`, `<speak>`, `<bos>`, `<eos>` qua hàm mất mát weighted cross-entropy. Trục AR và trục diffusion duy trì KV cache riêng biệt.\n- **Trục sinh ngữ nghĩa (Discrete Diffusion - what to say):** Khi AR phát hiện `<bos>`, các đặc trưng tiếng nói được đưa qua causal pass để khởi tạo KV cache cho DLM. Mô hình sinh và tinh chỉnh phản hồi song song trên từng canvas 256 token qua entropy-bounded sampler (ngưỡng entropy bound $\\beta=0.1$, tối đa $N=48$ lượt denoise).\n- **Chiến lược giải mã Anchored First-$n$:** Khóa sớm $n=8$ token đầu tiên sau tối đa $K$ lượt denoise (mặc định $K=4$) dựa trên điều kiện entropy $H(p_i^{(j)}) < \\tau$ (với $\\tau=0.05$) hoặc $j=K$. Vị trí 0 lấy từ argmax của AR readout ở bước prefill. Prefix này lập tức được gửi sang bộ tổng hợp tiếng nói CosyVoice 3 để phát âm thanh trong khi phần canvas còn lại tiếp tục denoise.\n- **Quy trình huấn luyện 3 giai đoạn:**\n  1. *Stage 1 (Modality Alignment):* Stage 1a warm-up projection layer trên 960 giờ LibriSpeech; Stage 1b unfreeze speech encoder huấn luyện trên hỗn hợp 32 nguồn tiếng Anh ASR (~2.06M mẫu từ Granary, LibriSpeech, nội bộ) với auxiliary AR loss.\n  2. *Stage 2 (Spoken Instruction-Following):* Huấn luyện 600K mẫu Nemotron-Omni SFT kèm 5% ASR replay (70% không có thẻ `<think>`). Áp dụng kỹ thuật Text-Anchored Distillation (chưng cất phân phối output từ teacher DLM dạng văn bản đóng băng sang student với trọng số loss KL là 3.0 cho canvas và 1.0 cho AR readout).\n  3. *Stage 3 (Full-Duplex Interaction Modeling):* Đóng băng bộ sinh phản hồi, huấn luyện interaction head và LoRA causal trên 120 giờ synthetic data, 70 giờ hội thoại nội bộ (và biến thể thêm Fisher corpus).",
+  "setup": "Đánh giá khả năng hiểu tiếng nói trên VoiceBench (9 tập con: AlpacaEval, CommonEval, WildVoice, SDQA, MMSU, OpenBookQA, BBH, IFEval, AdvBench); đánh giá tương tác thời gian thực trên Full-Duplex-Bench v1 và v3 (turn-taking, user interruption, pause handling); đo hiệu năng giải mã (TPF, TPS) trên spoken AlpacaEval ở batch 1 (GB300 cho FP8/NVFP4, H100, RTX 6000 cho BF16). Baseline gồm các mô hình AR turn-based (GPT-4o-Audio, Qwen3-Omni-Thinking, LFG-3, BR-Voice), diffusion turn-based (DIFFA-2), và full-duplex AR (Moshi, Freeze-Omni, PersonaPlex, Nemotron-VC, Lychee-FD). Bộ tổng hợp tiếng nói được sử dụng là CosyVoice 3.",
+  "results": [
+   "Về tốc độ giải mã trên GPU NVIDIA GB300 (spoken AlpacaEval, batch 1): Diffuplex đạt 13.0 tokens finalized per forward pass (TPF) và tốc độ trung bình 1872 tokens/s (TPS) với 4B active parameters, vượt trội hoàn toàn so với Nemotron-3 Omni (1.0 TPF, 394 TPS, 3B params) và Qwen3-Omni-Thinking (1.0 TPF, 300 TPS, 3B params).",
+   "Về điểm VoiceBench: Ở cấu hình full-duplex Stage 3 ($K=4$, non-thinking), Diffuplex đạt điểm Overall 82.3, vượt mô hình full-duplex AR mạnh nhất trong bảng là Nemotron-3 VoiceChat (58.1) tới 24.2 điểm, Freeze-Omni (55.2) và Moshi (29.5).",
+   "Khi bật chế độ thinking (Stage 2 turn-based), Diffuplex đạt 86.9 điểm VoiceBench overall (so với 84.1 khi tắt thinking), trong đó cải thiện lớn nhất ở IFEval (+7.2), MMSU (+5.6), BBH (+5.0) và OBQA (+4.4).",
+   "Trên Full-Duplex-Bench: Biến thể huấn luyện với dữ liệu Fisher đạt turn-taking latency 0.396s, interruption latency 0.239s (TOR-v1 0.933, TOR-v3 0.980); biến thể w/o Fisher đạt TOR-v1 1.000, TOR-v3 0.990 với turn-taking latency 0.536s và xử lý ngắt nghỉ (pause handling) tốt hơn (0.380 Synthetic, 0.431 Candor).",
+   "Độ trễ phát âm thanh đầu tiên (first-audio latency trên RTX 6000 BF16, chưa tính trễ quyết định AR Stage 3): với $K=4$, 8 token đầu được chốt trung bình sau 3.8 pass (127 ms cho LM prefix), tổng trễ post-trigger + TTS đạt trung bình 296 ms (VoiceBench 82.3), so với K=2 đạt 251 ms (VoiceBench 80.5) và No cap đạt 497 ms (VoiceBench 84.0)."
+  ],
+  "limitations": "Tài liệu ghi nhận: (1) Việc tối ưu độ trễ thấp khi thêm dữ liệu Fisher làm giảm khả năng pause handling (dễ nhầm ngập ngừng ngắt quãng của người dùng thành kết thúc lượt nói); (2) Cơ chế multi-token-prediction (MTP) chưa được tích hợp trực tiếp để thay thế early prefix; (3) Điểm VoiceBench ở Stage 3 full-duplex bị giảm 1.8 điểm so với Stage 2 do việc chốt prefix sớm và chuyển sang streaming turn decisions; (4) Chỉ đánh giá chi tiết tiếng Anh, khả năng đa ngôn ngữ không được đề cập sâu.",
+  "takeaways": "Việc tách biệt cơ chế kiểm soát lượt thoại (AR streaming policy) và cơ chế sinh nội dung (discrete diffusion) giải quyết triệt để sự đánh đổi giữa độ trễ tương tác và năng lực tư duy ngôn ngữ. Kỹ thuật Anchored First-n Decoding cho phép streaming pipeline speech-to-speech kết hợp trực tiếp với bất kỳ TTS không streaming nào mà vẫn giữ độ trễ dưới 300 ms.",
+  "strengths": [
+   "Tốc độ giải mã cực nhanh 1872 tokens/giây",
+   "Tách rời when-to-say và what-to-say",
+   "Vượt baseline full-duplex AR 24.2 điểm VoiceBench",
+   "Anchored prefix cho phép tích hợp modular TTS",
+   "Chuyển giao hiệu quả qua text-anchored distillation"
+  ],
+  "weaknesses": [
+   "Trade-off giữa độ trễ và pause handling",
+   "Giảm nhẹ điểm khi ép chốt prefix sớm",
+   "Chưa tích hợp MTP cho early prefix"
+  ],
+  "context": "Nhóm tác giả gồm Chen Chen, Pin-Jui Ku, Ankita Pasad, Ante Jukić, Zhehuai Chen, Boris Ginsburg thuộc NVIDIA; công bố dưới dạng preprint arXiv (arXiv:2610.17780v1)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

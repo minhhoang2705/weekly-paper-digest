@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2610.19774",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo tiên phong định nghĩa bài toán Long-Prompt Zero-Shot TTS và đề xuất kiến trúc nén kết hợp retrieval theo ngữ cảnh văn bản để mô hình hóa prosody mà không làm thay đổi trọng số mô hình.",
+  "credibility": "Tài liệu là bản tiền ấn phẩm arXiv từ nhóm nghiên cứu uy tín (CUHK-Shenzhen, Amphion), cam kết phát hành benchmark và mã nguồn khi được chấp nhận.",
+  "technical": "Thiết kế kỹ thuật chặt chẽ với contrastive ranking loss cùng người nói, gated cross-attention, on-policy distillation và phân tích kiểm định giả thuyết thống kê cho text-prosody matching.",
+  "impact": "Mở ra hướng đi mới thay thế việc fine-tuning tốn kém bằng long-prompt in-context learning trong TTS, đồng thời cung cấp bộ metric đánh giá prosody chi tiết cho cộng đồng.",
+  "evidence": "Thực nghiệm phong phú trên 37 người nói song ngữ với 9 chỉ số khách quan và đánh giá chủ quan P-MOS, kèm đường cong phân tích độ dài prompt chi tiết."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu định nghĩa bài toán Long-Prompt Zero-Shot TTS nhằm tái tạo prosody đặc trưng của người nói từ prompt dài (lên đến hàng chục phút) mà không cần fine-tuning trọng số mô hình. Tác giả giới thiệu benchmark song ngữ LP-TTS-Bench (37 người nói) kèm bộ tiêu chuẩn đánh giá prosody đa chiều, đồng thời phát triển mô hình tham chiếu LPTTS nén prompt dài thành 32 vector prosody thông qua hierarchical encoder và on-policy distillation.",
+  "problem": "Các hệ thống zero-shot TTS hiện nay chủ yếu điều kiện hóa trên speech prompt ngắn (vài giây), đủ để sao chép âm sắc (timbre) do tính ổn định của timbre, nhưng chỉ thể hiện một cách hiện thực hóa cục bộ thay vì các thói quen/mô thức prosody lặp lại (tốc độ nói, ngắt nghỉ, nhấn nhá, ngữ điệu). Phương pháp fine-tuning người nói (speaker adaptation) đòi hỏi huấn luyện thêm và quản lý nhiều checkpoint riêng biệt.",
+  "method": "Hệ thống LPTTS xây dựng trên backbone Qwen3TTS-Base và gồm các thành phần:\n- **Long-Prompt Encoder**: Nhận đặc trưng từ toàn bộ 16 RVQ codebooks của speech tokenizer. Prompt dài được chia thành các đoạn $\\le 30$s, nén qua Windowed Cross-Attention và Attention Pooling thành 32 vector cố định (không phụ thuộc độ dài prompt): gồm 8 global tokens (mô hình hóa prosody tổng thể) và 24 local tokens (truy xuất dựa trên query là target-text và key là ngữ nghĩa từ RVQ-1 codebook). Âm sắc vẫn do speaker encoder gốc của Qwen3TTS đảm nhiệm.\n- **Gated Cross-Attention (GCA)**: Ghép 32 vector thành $Z$, chèn vào Qwen3 LM tại các lớp 16, 20, 24, 26 với công thức: $H^{(\\ell)} \\leftarrow H^{(\\ell)} + \\gamma_\\ell \\text{CrossAttn}_\\ell(H^{(\\ell)}, Z, Z)$, khởi tạo learnable gate $\\gamma_\\ell = 0.01$.\n- **Encoder Training**: Huấn luyện trên dữ liệu prompt ngắn (<30s, 30%) và prompt dài (1-30 phút, 70%). Bổ sung same-speaker contrastive ranking loss cho 40% batch dài: $\\mathcal{L}_{\\text{rank}} = \\max(0, 0.05 + \\mathcal{L}^+ - \\mathcal{L}^-)$, hàm mất mát tổng là $\\mathcal{L} = \\mathcal{L}_{\\text{CE}} + 0.2\\mathcal{L}_{\\text{rank}}$, huấn luyện Encoder, GCA và LoRA tại 16 lớp của LM.\n- **On-Policy Distillation (OPD)**: Học sinh khởi tạo từ encoder checkpoint tối thiểu hóa Jensen-Shannon divergence bước kế tiếp trên trajectory tự sinh từ giáo viên (được fine-tune trên ~20h dữ liệu của 1 người nói truyền cảm); chỉ cập nhật Long-Prompt Encoder và GCA, đóng băng LM và LoRA.",
+  "setup": "- **LP-TTS-Bench**: Gồm 37 người nói (17 tiếng Trung, 20 tiếng Anh), 63.95 giờ prompt, 3,559 câu validation, 2,728 câu test (57–80 câu/người, độ dài >5s). Dữ liệu tách biệt hoàn toàn khỏi tập train.\n- **Dữ liệu huấn luyện**: ~50K giờ ghi âm tiếng Trung/Anh speaker-paired in-the-wild (prompt từ 30s đến 30 phút); OPD dùng 1 người nói game-voice expressive (~20h).\n- **Baselines**: Qwen3TTS-Base (dùng prompt 10s), Qwen3TTS-SFT (37 checkpoints riêng biệt, fine-tune 5 epochs/speaker), LPTTS-Base (chưa qua OPD, prompt 10 phút), và LPTTS (sau OPD, prompt 10 phút).\n- **Hệ thống chỉ số đánh giá**: Intelligibility (WER/CER dùng Qwen3-ASR), Speaker similarity (SIM-O cosine trên ERes2Net), Timing (Speech Rate Distance - SRD, Pause Distance - PD với threshold $\\tau=0.15$s), Prominence (Prominence Contour Correlation - PCC), Intonation (Intonation Correlation - IC, Pitch Range Distance - PRD), Model-based prosody (MPM-SIM, AutoPCP scale 1-4), và Subjective (P-MOS scale 1-5, 3 người nghe/ngôn ngữ cho 100 mẫu).",
+  "results": [
+   "Tiếng Trung: LPTTS đạt WER/CER 1.03%, SIM-O 0.57, SRD 0.137, PD 0.067, PCC 0.410, IC 0.474, PRD 4.532, MPM-SIM 0.734, AutoPCP 3.148, P-MOS 3.529 so với Qwen3TTS-Base (CER 0.73%, SIM-O 0.56, SRD 0.155, PD 0.074, PCC 0.389, IC 0.437, PRD 5.017, MPM-SIM 0.721, AutoPCP 3.128, P-MOS 2.941) và Qwen3TTS-SFT (CER 1.78%, SIM-O 0.57, SRD 0.139, PD 0.065, PCC 0.395, IC 0.463, PRD 4.764, MPM-SIM 0.733, AutoPCP 3.216, P-MOS 3.471).",
+   "Tiếng Anh: LPTTS đạt WER 1.64%, SIM-O 0.78, SRD 0.112, PD 0.061, PCC 0.514, IC 0.335, PRD 3.279, MPM-SIM 0.681, AutoPCP 3.452, P-MOS 3.533 so với Qwen3TTS-Base (WER 1.32%, SIM-O 0.77, SRD 0.124, PD 0.076, PCC 0.516, IC 0.303, PRD 3.668, MPM-SIM 0.659, AutoPCP 3.368, P-MOS 3.133) và Qwen3TTS-SFT (WER 1.93%, SIM-O 0.78, SRD 0.111, PD 0.069, PCC 0.527, IC 0.318, PRD 3.345, MPM-SIM 0.677, AutoPCP 3.443, P-MOS 3.267).",
+   "So sánh giữa LPTTS và Qwen3TTS-SFT: LPTTS (zero-shot, 1 mô hình duy nhất) vượt qua Qwen3TTS-SFT (37 mô hình fine-tuned riêng) trên 6/8 chỉ số prosody ở mỗi ngôn ngữ, đạt WER/CER tốt hơn và P-MOS cao nhất (Chinese: 3.529 vs 3.471; English: 3.533 vs 3.267).",
+   "Ảnh hưởng độ dài prompt: Các chỉ số prosody (SRD, PD, PCC, IC, PRD, MPM-SIM) cải thiện khi prompt tăng từ 30 giây đến 10 phút, đạt tối ưu ở khoảng 10 phút và có xu hướng bão hòa hoặc dao động không đơn điệu khi tăng tiếp lên 30 phút; SIM-O duy trì ổn định.",
+   "Tương quan text-prosody: Các câu tương đồng về mặt văn bản có khoảng cách prosody gần hơn câu ngẫu nhiên với chênh lệch âm có ý nghĩa thống kê ($p < 0.001$): Pitch $\\Delta = -0.054$, Energy $\\Delta = -0.047$, Timing/pause $\\Delta = -0.065$, Overall $\\Delta = -0.059$ (tỷ lệ gần hơn đạt 62.6%)."
+  ],
+  "limitations": "Hiệu quả cải thiện prosody không tăng đơn điệu và bão hòa sau khoảng 10 phút prompt; độ rõ ràng (WER/CER) của LPTTS vẫn kém hơn một chút so với Qwen3TTS-Base ban đầu (mặc dù tốt hơn SFT); bài báo chưa công bố chi tiết về độ trễ suy luận (latency) khi xử lý prompt 10-30 phút.",
+  "takeaways": "Prompt dài (lý tưởng khoảng 10 phút) có thể thay thế hiệu quả speaker-specific fine-tuning trong việc học phong cách diễn cảm và nhịp điệu nói của người cụ thể. Cơ chế truy xuất prosody cục bộ dựa trên ngữ cảnh văn bản (text-conditioned retrieval) là hướng tiếp cận có căn cứ thực nghiệm rõ ràng để tăng độ chân thực ngữ điệu.",
+  "strengths": [
+   "Bộ benchmark LP-TTS-Bench đánh giá prosody đa chiều rất toàn diện",
+   "Đạt chất lượng prosody vượt qua cả fine-tuning chuyên biệt",
+   "Kiến trúc nén prompt dài thành số token cố định thông minh",
+   "Phân tích thực nghiệm sâu sắc về độ dài prompt và quan hệ text-prosody"
+  ],
+  "weaknesses": [
+   "Lợi ích bão hòa sau 10 phút prompt",
+   "WER/CER suy giảm nhẹ so với baseline prompt ngắn",
+   "Chưa phân tích độ trễ và chi phí tính toán inference"
+  ],
+  "context": "Nhóm nghiên cứu Dekun Chen, Renjie Xu, Yingda Shen, Qinke Ni, Zhizheng Wu thuộc The Chinese University of Hong Kong, Shenzhen và Amphion Technology Co., Ltd. Đăng tải trên arXiv:2610.19774v1."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

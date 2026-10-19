@@ -1,0 +1,53 @@
+{
+ "id": "gh:honwee/mynah",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Dự án là sự tích hợp kỹ thuật xuất sắc giữa các thành phần đã có (FlashHead, MuseTalk, SenseVoice, WebRTC, Go), điểm mới đáng chú ý là Instinct layer điều khiển cử chỉ đi kèm quy trình pacing đồng bộ.",
+  "credibility": "Kho mã nguồn mở cá nhân của tác giả honwee với 195 stars và 77 forks trên GitHub, đi kèm mã nguồn đầy đủ, tài liệu chi tiết và phân định bản quyền rõ ràng.",
+  "technical": "Kiến trúc kỹ thuật được thiết kế sâu sắc với lõi Go xử lý WebRTC/RTP/pacing, phân tách các worker qua gRPC streaming contract và cơ chế state machine xử lý turn-taking chính xác.",
+  "impact": "Dự án có tiềm năng ứng dụng cao cho các doanh nghiệp cần kiosk/digital human tự host, tuy nhiên mức độ phổ biến hiện tại ở mức trung bình (195 stars).",
+  "evidence": "Tài liệu cung cấp chi tiết các mốc đo lường độ trễ từ turn-end đến audio/video, mức tiêu thụ VRAM trên phần cứng cụ thể (RTX 4090) cùng mã nguồn công khai."
+ },
+ "summary": {
+  "tldr": "Mynah là hệ thống digital human mã nguồn mở tự host (self-hosted) cho phép hội thoại giọng nói hai chiều thời gian thực qua WebRTC. Hệ thống kết hợp lõi Go (`cored`) điều phối streaming/pacing với các Python worker chạy qua gRPC cho avatar (FlashHead, MuseTalk, wav2lipLS), ASR và turn-detection, cùng control plane hỗ trợ RAG và quản lý channel.",
+  "problem": "Việc triển khai trợ lý ảo video (digital human) tương tác thời gian thực thường gặp rào cản lớn về độ trễ hội thoại, bản quyền thương mại của các mô hình lip-sync (như Wav2Lip gốc), yêu cầu phần cứng phức tạp và thiếu một kiến trúc hoàn chỉnh tích hợp sẵn giao diện quản trị, kênh phân phối và khả năng ngắt lời (barge-in).",
+  "method": "Hệ thống xây dựng theo mô hình phân tầng module hóa:\n- **Lõi thời gian thực (`cored`)**: Viết bằng Go, đảm nhận quản lý phiên WebRTC (hỗ trợ VP8/H.264 và Opus), FSM quản lý turn-taking, điều phối nhịp frame (pacing) và xử lý ngắt lời (barge-in).\n- **Python Workers qua gRPC**: Kết nối streaming hai chiều với các worker tách biệt gồm `AvatarEngine` (FlashHead Apache-2.0 render toàn bộ đầu ghép vào canvas 720×1280, MuseTalk 1.5, hoặc wav2lipLS nhẹ tự train), `AsrEngine` (SenseVoice phát hiện VAD và bóc tách transcript), và `TurnDetector` (mô hình âm thanh Smart Turn v3.2 phân loại EOT).\n- **Instinct Layer**: Tầng nhận thức phản xạ (System One) chọn biểu cảm/cử chỉ (shy, laugh, shake, wink) dựa trên mô hình nhận thức Jev hoặc bộ rules cục bộ ngay khi brain đang sinh nội dung.\n- **Brain & TTS**: Hỗ trợ chuẩn OpenAI-compatible HTTP để tích hợp LLM (Ollama/vLLM) và TTS (mặc định EdgeTTS chạy CPU không tốn GPU, hoặc Qwen3-TTS phục vụ voice cloning), cùng Qwen Realtime và Pipecat pipelines.\n- **Control Plane & RAG**: Tích hợp PostgreSQL/pgvector phục vụ RAG có reranking, quản lý quota đồng thời và phân quyền truy cập channel.",
+  "setup": "Yêu cầu Docker 25+, Docker Compose v2, NVIDIA Container Toolkit (CDI) hoặc triển khai phân tán không cần GPU trên máy host (cored trên CPU, worker trên remote GPU). Yêu cầu VRAM trên RTX 4090: profile nhẹ nhất (wav2lipLS + ASR) tốn ~3.5 GB (chạy được trên GPU 6 GB); FlashHead tốn ~6.6 GB (resident 6.4 GB); MuseTalk 1.5 tốn ~7.7 GB (resident 7.6 GB). Hỗ trợ cài đặt nhanh qua script wizard `deploy/setup/helper.py` tại cổng 9500 hoặc Docker Compose.",
+  "results": [
+   "Độ trễ từ khi dứt lời đến âm thanh phản hồi đầu tiên từ cloud brain (Qwen realtime): 1–170 ms",
+   "Độ trễ từ khi dứt lời đến frame video lip-sync đầu tiên: MuseTalk 1.5 (512) đạt 0.40–0.72 s; FlashHead half-body (720×1280) đạt 0.86–1.15 s",
+   "Thời gian tính toán tại engine avatar (từ lúc nhận audio đến frame đầu tiên): MuseTalk 1.5 đạt 0.32–0.55 s (0.24–0.48 s); FlashHead đạt 0.79–0.90 s (0.62–0.76 s) với tốc độ chạy tham chiếu 1.56× realtime trên RTX 4090",
+   "Local brain (LLM + EdgeTTS): thời gian từ request đến âm thanh đầu tiên là 0.37–0.52 s, đến frame đầu tiên là 0.73–1.07 s",
+   "Thời gian ra quyết định cử chỉ của Instinct layer: Jev qua proxy đạt 0.4–0.85 s; fallback rules đạt 0 ms",
+   "Thời gian phục hồi mất gói tin video (PLI request đến keyframe): ≤ 0.5 s",
+   "Mức chiếm dụng VRAM worker ở trạng thái tĩnh: FlashHead chiếm 6.4 GB, MuseTalk 1.5 chiếm 7.6 GB"
+  ],
+  "limitations": "Mỗi avatar worker hiện tại chỉ phục vụ được 1 phiên trực tiếp duy nhất tại một thời điểm (offer thứ hai đồng thời sẽ báo 'engine busy'); chưa tích hợp sẵn bộ multi-worker scheduling tự động trong core (phải tự định tuyến bên ngoài). Chưa phát hành dưới dạng thư viện Go module (`go get`).",
+  "takeaways": "Cung cấp một kiến trúc mẫu chuẩn chỉnh cho hệ thống Voice-to-Video Agent thời gian thực, giải quyết triệt để vấn đề pháp lý thương mại (bỏ Wav2Lip phi thương mại, dùng FlashHead Apache-2.0 và MuseTalk MIT) và tối ưu hóa tài nguyên bằng cách kết hợp Go cho WebRTC pacing và Python cho suy luận mô hình.",
+  "strengths": [
+   "Kiến trúc phân tầng sạch (Go core + gRPC workers)",
+   "Độ trễ phản hồi thấp (dưới 1 giây)",
+   "Mô hình mặc định thân thiện thương mại (Apache-2.0/MIT)",
+   "Tích hợp sẵn WebRTC, barge-in và RAG console",
+   "Instinct layer sinh biểu cảm và cử chỉ tự nhiên"
+  ],
+  "weaknesses": [
+   "Một worker chỉ phục vụ 1 session đồng thời",
+   "Chưa có multi-worker load balancing tích hợp sẵn",
+   "Yêu cầu GPU mạnh (RTX 4090 cho FlashHead)",
+   "Chưa đóng gói thành thư viện Go import được"
+  ],
+  "context": "Dự án mã nguồn mở do tác giả honwee phát triển và công bố trên GitHub theo giấy phép Apache-2.0."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

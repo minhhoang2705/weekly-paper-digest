@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PEDBench: Can Speech Models Detect Phonetic Errors? · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W43</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">PEDBench: Can Speech Models Detect Phonetic Errors?</h1>
+    <div class="meta">
+      <span>published Oct 14, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Speech Understanding</span>        <span class="authors">Zhonghao Shi, Zackary Rackauckas, Jasmine Yip, Savannah Halpern, Simon Campos, Lauren Brace, Emma Yang, Tiantian Feng, Xuan Shi, Shrikanth Narayanan, Teresa Satterfield, Ying Xu</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.20830" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Phonetic error detection (PED) aims to identify phoneme-level substitutions, deletions, and insertions and is essential for educational and clinical speech assessment and intervention. Despite recent advances in speech models for phoneme recognition, their ability to reliably detect fine-grained phonetic errors remains unclear because of a lack of high-quality evaluation data. To address this gap, we introduce PEDBench, the first PED benchmark spanning a continuum from natural to controlled speech. It comprises real-world recordings of spoken errors made by children (N=334), scripted error productions by human actors (N=1,188), and synthetic error productions generated using phone-conditioned text-to-speech (N=1,083). All phonetic annotations were transcribed and verified by two phonetically trained annotators. Our evaluation of 13 state-of-the-art speech models shows that they fail to reliably detect phonetic errors, even under controlled conditions with acted and synthetic speech, where acoustic variability is reduced. The models also exhibit low precision, frequently misclassifying correctly pronounced phonemes as errors. Our speech-language models, fine-tuned on synthetic data, outperform commercial and open-source baselines on word-level PED, although a sim-to-real domain gap remains. We plan to publicly release our code and recipes, along with our acted and synthetic datasets, to support the development of more accurate PED systems.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 19, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>PEDBench là benchmark chuẩn hóa đầu tiên đánh giá toàn diện khả năng phát hiện lỗi ngữ âm (Phonetic Error Detection - PED) của 13 mô hình tiếng nói SOTA (gồm PR models, specialized PED API và SLMs). Kết quả chỉ ra các mô hình hiện nay đều thất bại trong việc phát hiện lỗi ngữ âm một cách đáng tin cậy kể cả trong điều kiện giả lập/đóng kịch có độ biến thiên âm học thấp, chủ yếu do tỷ lệ false rejection cao.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Phát hiện lỗi phát âm ở mức âm vị (PED) là nền tảng cho giáo dục xóa mù chữ và bệnh học ngôn ngữ lâm sàng. Tuy nhiên, việc đánh giá các mô hình SOTA gặp 3 rào cản lớn: (1) nhãn ground-truth trong các bộ dữ liệu công khai (như L2-ARCTIC, CMU-Kids) thiếu nhất quán do ranh giới âm vị mơ hồ; (2) thiếu đánh giá hệ thống trên các mô hình nhận dạng âm vị (PR) và mô hình ngôn ngữ tiếng nói (SLM) hiện đại; (3) các độ đo thông thường (PER, PFER hay precision/recall chuẩn của MDD) không phản ánh đúng năng lực chẩn đoán vì gán đúng cho cả khi mô hình nhận diện sai âm vị bị thay thế.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Nghiên cứu đề xuất benchmark PEDBench với 3 bộ dữ liệu mới phủ từ tự nhiên đến kiểm soát cao: (1) Authentic Child Speech (N=334 utterances từ 147 trẻ, lọc từ 3.574 mẫu mà 2 chuyên gia ngữ âm độc lập đồng thuận 100%); (2) Acted Adult Speech (N=1.188 utterances kịch bản từ 3 diễn viên có chuyên môn ngữ âm); (3) Synthetic Speech (N=1.083 utterances đơn vị từ/câu/đoạn văn sinh từ Amazon Polly TTS điều khiển bằng SSML <code>&lt;phoneme&gt;</code>, rà soát qua 2 vòng chuyên gia). Quy trình đánh giá chuẩn hóa tất cả đầu ra mô hình về bảng 39 âm vị CMU-39 (biểu diễn dạng IPA) và căn chỉnh theo khung hierarchical MDD alignment. Đề xuất nhóm độ đo Diagnosis-Weighted (DW): <span class="math inline">Precision_{DW} = \frac{CD}{TR + FR}</span>, <span class="math inline">Recall_{DW} = \frac{CD}{TR + FA}</span>, <span class="math inline">F1_{DW} = \frac{2 \cdot CD}{2 \cdot TR + FR + FA}</span> (chỉ tính công nhận khi Correct Diagnosis <span class="math inline">CD</span> khớp chính xác âm vị phát ra, thay vì True Rejection <span class="math inline">TR</span>). Ngoài ra, nhóm tác giả thực hiện LoRA fine-tuning trên Qwen2.5-Omni-7B và Audio Flamingo 3 (10.1M tham số thích ứng trên các ma trận <span class="math inline">q,k,v,o</span>) bằng dữ liệu nhân tạo (SW và SC) kết hợp TIMIT.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá 13 mô hình: 8 mô hình PR chuyên dụng (W2V2P-LV60, W2V2P-XLSR53, MultiIPA, ZIPA-CTC, ZIPA-CTC-NS, HuPER, PhoneticXeus, BabAR), 1 dịch vụ thương mại chuyên dụng (Azure Speech Pronunciation Assessment API), 2 SLM đóng (Gemini-3.8-Flash, GPT-Audio-1.5) và 2 SLM mở (Qwen2.5-Omni-7B, Audio Flamingo 3). Đánh giá trên 2 tập công khai (L2-ARCTIC-Perceived N=3.599, CMU-Kids N=5.180) và 3 tập mới. Huấn luyện LoRA trên 1 GPU dạng bf16, optimizer AdamW (lr <span class="math inline">2 \times 10^{-4}</span>, weight decay 0.01), batch size 16, 6 epochs, dừng theo dev PER thấp nhất.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên L2-ARCTIC, mô hình tốt nhất chỉ đạt F1 34.32 (Qwen2.5-Omni-7B fine-tuned trên TIMIT) và trên CMU-Kids đạt F1 54.55 (ZIPA-CTC-NS), dù ZIPA-CTC-NS có PFER rất thấp là 7.86.</li>
+<li>Gán nhãn lại độc lập 100 câu ngẫu nhiên bởi chuyên gia người cho thấy F1 chỉ đạt 42.25 trên L2-ARCTIC và 66.22 trên CMU-Kids so với nhãn gốc, chứng minh sự thiếu nhất quán nghiêm trọng của dữ liệu công khai.</li>
+<li>Trên Child Speech mới (được kiểm chứng độc lập), các baseline hàng đầu thất bại: PR tốt nhất là BabAR (F1 59.51), Azure Speech (F1 49.96), SLM tốt nhất là Gemini-3.8-Flash (F1 58.26). SLM fine-tune của nhóm tác giả (Audio Flamingo 3 + TIMIT+SC) dẫn đầu với F1 63.82 (Precision 55.61, Recall 74.87).</li>
+<li>Trên Acted Speech, Qwen2.5-Omni-7B fine-tune (TIMIT+SW) đạt F1 90.06 (Precision 86.75, Recall 93.62), vượt trội hơn GPT-Audio-1.5 (F1 76.17), Azure Speech (F1 75.98) và ZIPA-CTC (F1 74.79).</li>
+<li>Trên Synthetic Speech, hiệu năng suy giảm nghiêm trọng theo độ dài ngữ cảnh âm thanh: ở cấp độ Word đạt cao nhất F1 74.32 (Azure Speech), giảm xuống F1 39.27 ở cấp Sentence (Azure Speech) và sụt mạnh còn F1 14.22 ở cấp Passage (ZIPA-CTC).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Benchmark giới hạn ở tiếng Anh dựa trên bảng âm vị CMU-39; chỉ xử lý âm thanh đơn phương thức (audio-only, chưa tích hợp khẩu hình visual); dữ liệu trẻ em thực tế không thể công khai do ràng buộc IRB/consent; dữ liệu nhân tạo từ TTS vẫn đòi hỏi con người lọc bỏ mẫu lỗi sinh sai; tồn tại khoảng cách miền rõ rệt giữa sim-to-real và adult-to-child.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>PFER/PER thấp không đồng nghĩa với khả năng bắt lỗi phát âm tốt do lỗi ngữ âm rất thưa thớt; các mô hình hiện tại bị thiên lệch gán nhãn sai (false rejection cao). Việc dùng TTS điều khiển bằng SSML <code>&lt;phoneme&gt;</code> để tổng hợp dữ liệu lỗi hiếm kết hợp LoRA fine-tuning trên SLM là hướng đi mở rộng dữ liệu hiệu quả, nhưng cần giải quyết triệt để bài toán suy giảm hiệu năng khi độ dài âm thanh tăng và khoảng cách sim-to-real.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">75.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#6 (tied) in 2026-W43</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đây là benchmark đầu tiên bao quát phổ từ ngữ âm tự nhiên đến kiểm soát có kịch bản và nhân tạo cho bài toán PED, đi kèm độ đo cải tiến khắt khe Diagnosis-Weighted.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Quy trình căn chỉnh MDD, ánh xạ âm vị chuẩn hóa CMU-39, cùng pipeline huấn luyện LoRA SLM trên dữ liệu TTS được thiết kế chi tiết, rõ ràng và có tính tái lập cao.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Số liệu thực nghiệm rất đầy đủ trên 13 mô hình, bao quát cả dữ liệu công khai lẫn 3 tập tự thu, kèm phân tích ma trận nhầm lẫn âm vị chi tiết.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Chỉ ra các điểm mù lớn của các mô hình nhận dạng âm vị hiện tại khi triển khai thực tế trong giáo dục và lâm sàng, đồng thời cung cấp bộ dữ liệu kiểm thử kiểm soát có giá trị cao.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Nghiên cứu đến từ các trường đại học hàng đầu (Harvard, USC, Michigan, Columbia) với sự tham gia của các chuyên gia ngữ âm và SLP có chuyên môn cao.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đây là benchmark đầu tiên bao quát phổ từ ngữ âm tự nhiên đến kiểm soát có kịch bản và nhân tạo cho bài toán PED, đi kèm độ đo cải tiến khắt khe Diagnosis-Weighted.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Nghiên cứu đến từ các trường đại học hàng đầu (Harvard, USC, Michigan, Columbia) với sự tham gia của các chuyên gia ngữ âm và SLP có chuyên môn cao.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Quy trình căn chỉnh MDD, ánh xạ âm vị chuẩn hóa CMU-39, cùng pipeline huấn luyện LoRA SLM trên dữ liệu TTS được thiết kế chi tiết, rõ ràng và có tính tái lập cao.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Chỉ ra các điểm mù lớn của các mô hình nhận dạng âm vị hiện tại khi triển khai thực tế trong giáo dục và lâm sàng, đồng thời cung cấp bộ dữ liệu kiểm thử kiểm soát có giá trị cao.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Số liệu thực nghiệm rất đầy đủ trên 13 mô hình, bao quát cả dữ liệu công khai lẫn 3 tập tự thu, kèm phân tích ma trận nhầm lẫn âm vị chi tiết.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Thiết kế benchmark chuẩn hóa và chặt chẽ · Độ đo Diagnosis-Weighted phản ánh sát thực tế · Quy trình kiểm chứng nhãn hai vòng nghiêm ngặt · Đánh giá rộng trên 13 mô hình SOTA</p>
+          <p><span class="label">Weaknesses</span> · Chỉ hỗ trợ tiếng Anh (CMU-39) · Tập dữ liệu trẻ em không thể mở mã nguồn · TTS sinh lỗi vẫn cần lọc thủ công · Chưa đánh giá đa phương thức audio-visual</p>
+          <p><span class="label">Context</span> · Nhóm nghiên cứu từ Đại học Harvard, USC, Đại học Michigan và Đại học Columbia; công bố trên arXiv tháng 10/2026.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

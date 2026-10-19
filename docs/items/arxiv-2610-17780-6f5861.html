@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Full-duplex Spoken Language Modeling with Discrete Diffusion · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W43</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Full-duplex Spoken Language Modeling with Discrete Diffusion</h1>
+    <div class="meta">
+      <span>published Oct 13, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Chen Chen, Pin-Jui Ku, Ankita Pasad, Ante Jukić, Zhehuai Chen, Boris Ginsburg</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.17780" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>We introduce Diffuplex, a full-duplex spoken language model based on discrete diffusion that achieves an unprecedented balance between linguistic intelligence and response efficiency. With thinking mode, Diffuplex delivers 13.0 tokens per forward pass, reaching an average of 1872 tokens per second and substantially surpassing the frontier autoregressive (AR) models in decoding speed. Without thinking, Diffuplex matches the first-audio latency of existing full-duplex models while achieving markedly stronger linguistic intelligence. This capability is enabled by separating when to say from what to say at the training level, rather than compressing both into a single autoregressive timeline. During inference, Diffuplex continuously tracks the user speech through an AR interaction policy, while independently generating and refining response content through parallel diffusion. Consequently, semantic computation is no longer bounded by the perception audio frame rate, allowing intelligence and responsiveness to improve simultaneously. Taken together, these results establish a new paradigm for spoken agents that can sustain real-time dialogue while devoting parallel computation to intelligent response generation. Training code and checkpoints will be avaliable soon.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 19, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Diffuplex là mô hình ngôn ngữ tiếng nói full-duplex kết hợp giữa policy tương tác autoregressive (AR) và bộ sinh phản hồi bằng discrete diffusion language model (DLM). Kiến trúc này tách rời bài toán xác định thời điểm nói (when to say) khỏi nội dung cần nói (what to say), đạt tốc độ sinh trung bình 1872 tokens/giây trên một GPU GB300 và vượt các mô hình full-duplex AR mã nguồn mở hơn 20 điểm trên VoiceBench.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình full-duplex AR hiện nay gộp cả tương tác đàm thoại và sinh ngữ nghĩa vào một luồng AR đơn chiều theo khung thời gian vật lý cố định (ví dụ 80 ms ở Moshi). Điều này dẫn tới hai hạn chế lớn: xung đột gradient (Conflicting Objectives) giữa căn chỉnh thời gian mức thấp và sinh ngữ nghĩa trừu tượng, cùng với việc ràng buộc tốc độ xử lý ngữ nghĩa theo frame rate âm thanh (Temporal Frame-Rate Binding), tước đi khả năng phân bổ tính toán suy luận co giãn (như Chain-of-Thought).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Diffuplex triển khai cơ chế tính toán hai trục tách biệt trên cùng một backbone chung (DiffusionGemma-26B-A4B-it):</p>
+<ul>
+<li><strong>Trục thời gian tương tác (AR policy - when to say):</strong> Xử lý luồng âm thanh đầu vào liên tục chia thành các chunk 80 ms, sử dụng Parakeet speech encoder kết hợp LoRA causal (cửa sổ 10 giây trailing không lookahead) để dự đoán 4 trạng thái tương tác: <code>&lt;listen&gt;</code>, <code>&lt;speak&gt;</code>, <code>&lt;bos&gt;</code>, <code>&lt;eos&gt;</code> qua hàm mất mát weighted cross-entropy. Trục AR và trục diffusion duy trì KV cache riêng biệt.</li>
+<li><strong>Trục sinh ngữ nghĩa (Discrete Diffusion - what to say):</strong> Khi AR phát hiện <code>&lt;bos&gt;</code>, các đặc trưng tiếng nói được đưa qua causal pass để khởi tạo KV cache cho DLM. Mô hình sinh và tinh chỉnh phản hồi song song trên từng canvas 256 token qua entropy-bounded sampler (ngưỡng entropy bound <span class="math inline">\beta=0.1</span>, tối đa <span class="math inline">N=48</span> lượt denoise).</li>
+<li><strong>Chiến lược giải mã Anchored First-<span class="math inline">n</span>:</strong> Khóa sớm <span class="math inline">n=8</span> token đầu tiên sau tối đa <span class="math inline">K</span> lượt denoise (mặc định <span class="math inline">K=4</span>) dựa trên điều kiện entropy <span class="math inline">H(p_i^{(j)}) &lt; \tau</span> (với <span class="math inline">\tau=0.05</span>) hoặc <span class="math inline">j=K</span>. Vị trí 0 lấy từ argmax của AR readout ở bước prefill. Prefix này lập tức được gửi sang bộ tổng hợp tiếng nói CosyVoice 3 để phát âm thanh trong khi phần canvas còn lại tiếp tục denoise.</li>
+<li><strong>Quy trình huấn luyện 3 giai đoạn:</strong>
+<ol>
+<li><em>Stage 1 (Modality Alignment):</em> Stage 1a warm-up projection layer trên 960 giờ LibriSpeech; Stage 1b unfreeze speech encoder huấn luyện trên hỗn hợp 32 nguồn tiếng Anh ASR (~2.06M mẫu từ Granary, LibriSpeech, nội bộ) với auxiliary AR loss.</li>
+<li><em>Stage 2 (Spoken Instruction-Following):</em> Huấn luyện 600K mẫu Nemotron-Omni SFT kèm 5% ASR replay (70% không có thẻ <code>&lt;think&gt;</code>). Áp dụng kỹ thuật Text-Anchored Distillation (chưng cất phân phối output từ teacher DLM dạng văn bản đóng băng sang student với trọng số loss KL là 3.0 cho canvas và 1.0 cho AR readout).</li>
+<li><em>Stage 3 (Full-Duplex Interaction Modeling):</em> Đóng băng bộ sinh phản hồi, huấn luyện interaction head và LoRA causal trên 120 giờ synthetic data, 70 giờ hội thoại nội bộ (và biến thể thêm Fisher corpus).</li>
+</ol>
+</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá khả năng hiểu tiếng nói trên VoiceBench (9 tập con: AlpacaEval, CommonEval, WildVoice, SDQA, MMSU, OpenBookQA, BBH, IFEval, AdvBench); đánh giá tương tác thời gian thực trên Full-Duplex-Bench v1 và v3 (turn-taking, user interruption, pause handling); đo hiệu năng giải mã (TPF, TPS) trên spoken AlpacaEval ở batch 1 (GB300 cho FP8/NVFP4, H100, RTX 6000 cho BF16). Baseline gồm các mô hình AR turn-based (GPT-4o-Audio, Qwen3-Omni-Thinking, LFG-3, BR-Voice), diffusion turn-based (DIFFA-2), và full-duplex AR (Moshi, Freeze-Omni, PersonaPlex, Nemotron-VC, Lychee-FD). Bộ tổng hợp tiếng nói được sử dụng là CosyVoice 3.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Về tốc độ giải mã trên GPU NVIDIA GB300 (spoken AlpacaEval, batch 1): Diffuplex đạt 13.0 tokens finalized per forward pass (TPF) và tốc độ trung bình 1872 tokens/s (TPS) với 4B active parameters, vượt trội hoàn toàn so với Nemotron-3 Omni (1.0 TPF, 394 TPS, 3B params) và Qwen3-Omni-Thinking (1.0 TPF, 300 TPS, 3B params).</li>
+<li>Về điểm VoiceBench: Ở cấu hình full-duplex Stage 3 (<span class="math inline">K=4</span>, non-thinking), Diffuplex đạt điểm Overall 82.3, vượt mô hình full-duplex AR mạnh nhất trong bảng là Nemotron-3 VoiceChat (58.1) tới 24.2 điểm, Freeze-Omni (55.2) và Moshi (29.5).</li>
+<li>Khi bật chế độ thinking (Stage 2 turn-based), Diffuplex đạt 86.9 điểm VoiceBench overall (so với 84.1 khi tắt thinking), trong đó cải thiện lớn nhất ở IFEval (+7.2), MMSU (+5.6), BBH (+5.0) và OBQA (+4.4).</li>
+<li>Trên Full-Duplex-Bench: Biến thể huấn luyện với dữ liệu Fisher đạt turn-taking latency 0.396s, interruption latency 0.239s (TOR-v1 0.933, TOR-v3 0.980); biến thể w/o Fisher đạt TOR-v1 1.000, TOR-v3 0.990 với turn-taking latency 0.536s và xử lý ngắt nghỉ (pause handling) tốt hơn (0.380 Synthetic, 0.431 Candor).</li>
+<li>Độ trễ phát âm thanh đầu tiên (first-audio latency trên RTX 6000 BF16, chưa tính trễ quyết định AR Stage 3): với <span class="math inline">K=4</span>, 8 token đầu được chốt trung bình sau 3.8 pass (127 ms cho LM prefix), tổng trễ post-trigger + TTS đạt trung bình 296 ms (VoiceBench 82.3), so với K=2 đạt 251 ms (VoiceBench 80.5) và No cap đạt 497 ms (VoiceBench 84.0).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Tài liệu ghi nhận: (1) Việc tối ưu độ trễ thấp khi thêm dữ liệu Fisher làm giảm khả năng pause handling (dễ nhầm ngập ngừng ngắt quãng của người dùng thành kết thúc lượt nói); (2) Cơ chế multi-token-prediction (MTP) chưa được tích hợp trực tiếp để thay thế early prefix; (3) Điểm VoiceBench ở Stage 3 full-duplex bị giảm 1.8 điểm so với Stage 2 do việc chốt prefix sớm và chuyển sang streaming turn decisions; (4) Chỉ đánh giá chi tiết tiếng Anh, khả năng đa ngôn ngữ không được đề cập sâu.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Việc tách biệt cơ chế kiểm soát lượt thoại (AR streaming policy) và cơ chế sinh nội dung (discrete diffusion) giải quyết triệt để sự đánh đổi giữa độ trễ tương tác và năng lực tư duy ngôn ngữ. Kỹ thuật Anchored First-n Decoding cho phép streaming pipeline speech-to-speech kết hợp trực tiếp với bất kỳ TTS không streaming nào mà vẫn giữ độ trễ dưới 300 ms.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">91.3<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#1 (tied) in 2026-W43</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,46.0 247.5,109.57 214.08,212.43 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="46.0" r="3.5"/><circle class="radar-dot" cx="247.5" cy="109.57" r="3.5"/><circle class="radar-dot" cx="214.08" cy="212.43" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 5/5 — Bài báo đề xuất mô hình full-duplex đầu tiên kết hợp discrete diffusion language model cho nội dung với streaming AR policy cho kiểm soát lượt nói, phá vỡ giới hạn frame-rate cố định của các hệ thống AR trước đây.</title>Novelty <tspan class="radar-value">5</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 5/5 — Thiết kế kỹ thuật xuất sắc và chi tiết: kết hợp causal LoRA encoder, text-anchored distillation, anchored first-n decoding, cùng runtime CUDA torch-free tối ưu FP8/NVFP4.</title>Technical <tspan class="radar-value">5</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 5/5 — Bằng chứng thực nghiệm toàn diện trên VoiceBench, Full-Duplex-Bench v1/v3, đo đạc TPF/TPS chi tiết trên 3 phần cứng GPU khác nhau cùng loạt bài ablation study chặt chẽ.</title>Evidence <tspan class="radar-value">5</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Mở ra một hướng đi mới cho voice agent thế hệ tiếp theo có khả năng suy luận sâu (thinking) song song với duy trì đàm thoại full-duplex thời gian thực tốc độ cao.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Nghiên cứu đến từ nhóm tác giả giàu kinh nghiệm của NVIDIA Speech &amp; Language AI, công bố chi tiết về tham số, quy trình huấn luyện 3 giai đoạn và công thức toán học.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">5/5</span></dt><dd>Bài báo đề xuất mô hình full-duplex đầu tiên kết hợp discrete diffusion language model cho nội dung với streaming AR policy cho kiểm soát lượt nói, phá vỡ giới hạn frame-rate cố định của các hệ thống AR trước đây.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Nghiên cứu đến từ nhóm tác giả giàu kinh nghiệm của NVIDIA Speech &amp; Language AI, công bố chi tiết về tham số, quy trình huấn luyện 3 giai đoạn và công thức toán học.</dd></div>
+          <div><dt>Technical <span class="muted">5/5</span></dt><dd>Thiết kế kỹ thuật xuất sắc và chi tiết: kết hợp causal LoRA encoder, text-anchored distillation, anchored first-n decoding, cùng runtime CUDA torch-free tối ưu FP8/NVFP4.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Mở ra một hướng đi mới cho voice agent thế hệ tiếp theo có khả năng suy luận sâu (thinking) song song với duy trì đàm thoại full-duplex thời gian thực tốc độ cao.</dd></div>
+          <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Bằng chứng thực nghiệm toàn diện trên VoiceBench, Full-Duplex-Bench v1/v3, đo đạc TPF/TPS chi tiết trên 3 phần cứng GPU khác nhau cùng loạt bài ablation study chặt chẽ.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Tốc độ giải mã cực nhanh 1872 tokens/giây · Tách rời when-to-say và what-to-say · Vượt baseline full-duplex AR 24.2 điểm VoiceBench · Anchored prefix cho phép tích hợp modular TTS · Chuyển giao hiệu quả qua text-anchored distillation</p>
+          <p><span class="label">Weaknesses</span> · Trade-off giữa độ trễ và pause handling · Giảm nhẹ điểm khi ép chốt prefix sớm · Chưa tích hợp MTP cho early prefix</p>
+          <p><span class="label">Context</span> · Nhóm tác giả gồm Chen Chen, Pin-Jui Ku, Ankita Pasad, Ante Jukić, Zhehuai Chen, Boris Ginsburg thuộc NVIDIA; công bố dưới dạng preprint arXiv (arXiv:2610.17780v1).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

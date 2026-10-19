@@ -1,0 +1,47 @@
+{
+ "id": "gh:adolanium/hermes-gadget-sdk",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Dự án kết hợp tốt giữa phần cứng IoT push-to-talk, desktop simulator và LLM agent plugin, dù mô hình voice gadget client-server không phải là phát minh mới.",
+  "credibility": "Đây là kho mã nguồn mở độc lập của cá nhân/cộng đồng, không có bài báo bình duyệt nhưng mã nguồn có quy trình CI, test suite và tài liệu bài bản.",
+  "technical": "Kiến trúc kỹ thuật tốt với lõi C++17 chia sẻ giữa simulator và firmware, hỗ trợ WebUSB installer, cấu hình Wi-Fi captive và OTA có rollback.",
+  "impact": "Dự án thu hút 408 stars và 64 forks, cung cấp một thiết bị đầu cuối thực tế giá trị cho người dùng hệ sinh thái Hermes Agent.",
+  "evidence": "Tài liệu tập trung vào hướng dẫn cài đặt và triển khai hệ thống, hoàn toàn không có số liệu thực nghiệm đo đạc độ trễ, tài nguyên hoặc kiểm thử âm thanh định lượng."
+ },
+ "summary": {
+  "tldr": "Hermes Gadget SDK là bộ công cụ và firmware mã nguồn mở (C++17) dùng để chế tạo thiết bị phần cứng thoại (push-to-talk) kết nối với Hermes Agent. Dự án hỗ trợ vi điều khiển ESP32-S3, Raspberry Pi và trình giả lập desktop, cho phép người dùng giao tiếp giọng nói và biến các linh kiện phần cứng thành công cụ của agent.",
+  "problem": "Việc đưa các AI agent mã nguồn mở (như Hermes Agent) ra môi trường phần cứng vật lý nhỏ gọn (embedded/IoT) thường gặp rào cản về giao tiếp thoại push-to-talk, quản lý hiển thị trạng thái tương tác trực quan và khả năng ánh xạ các cảm biến/linh kiện ngoại vi thành tool của agent.",
+  "method": "Hệ thống bao gồm:\n- **Lõi C++17 dùng chung**: Một mã nguồn portable C++17 được chia sẻ đồng nhất giữa firmware nhúng và trình giả lập desktop.\n- **Tương tác thoại Push-to-Talk**: Nhấn giữ nút TALK để nói, nhả nút để gửi âm thanh đến máy chủ Hermes Agent và nhận câu trả lời qua giọng nói (cần cấu hình STT và TTS phía Hermes).\n- **Hiển thị trạng thái giao diện**: Màn hình thiết bị chuyển đổi trực quan qua 4 trạng thái: *Ready*, *Listening*, *Thinking*, và *Speaking*, đồng thời hỗ trợ nhận thẻ nội dung (cards) và câu hỏi xác nhận từ agent.\n- **Tích hợp ngoại vi thành Tool**: Cho phép agent điều khiển LED, đọc cảm biến và kích hoạt các tác vụ phần cứng thông qua giao thức WebSocket và Gadget plugin.\n- **Cập nhật & Cài đặt**: Hỗ trợ cài đặt firmware qua USB bằng giao diện web trình duyệt (Chrome/Edge), cấu hình Wi-Fi 2.4 GHz qua SoftAP bằng điện thoại, và cập nhật OTA qua lệnh `hermes gadget update` có cơ chế tự động rollback nếu không kết nối được với Hermes.",
+  "setup": "Phần cứng: Hỗ trợ vi điều khiển ESP32-S3, Raspberry Pi 4/5, hoặc chạy giả lập trên máy tính. Phần mềm yêu cầu: Python 3.10+, CMake 3.16+, trình biên dịch C++17, kết nối Wi-Fi 2.4 GHz, cùng máy chủ Hermes Agent kèm Gadget plugin (hoặc devserver cục bộ để chạy kịch bản demo scripted).",
+  "results": [
+   "Không được nêu trong tài liệu (tài liệu không cung cấp các con số đánh giá định lượng về latency âm thanh, bộ nhớ RAM/flash chiếm dụng, hay độ chính xác nhận dạng)",
+   "Số liệu cộng đồng mã nguồn mở: đạt 408 stars và 64 forks trên GitHub tại thời điểm ghi nhận"
+  ],
+  "limitations": "Không hỗ trợ kích hoạt bằng giọng nói (wake-word activation is not included). Bản thân thiết bị không tự chạy suy luận LLM hay STT/TTS mà hoàn toàn phụ thuộc vào máy chủ Hermes bên ngoài. Các bản port phần cứng mới vẫn bị coi là thử nghiệm (experimental) cho đến khi có báo cáo physical verification cụ thể.",
+  "takeaways": "Cung cấp một kiến trúc tham chiếu hoàn chỉnh cho kỹ sư speech/IoT muốn đưa voice agent lên phần cứng giá rẻ (ESP32-S3), đặc biệt hữu ích nhờ trình giả lập desktop C++17 cho phép phát triển và kiểm thử giao thức/UI mà không cần bo mạch vật lý.",
+  "strengths": [
+   "Lõi C++17 đa nền tảng",
+   "Trình giả lập desktop tiện lợi",
+   "Hỗ trợ OTA tự rollback",
+   "Cài đặt dễ qua browser installer",
+   "Biến ngoại vi thành agent tools"
+  ],
+  "weaknesses": [
+   "Không hỗ trợ wake-word",
+   "Thiếu benchmark độ trễ định lượng",
+   "Cổng phần cứng còn thử nghiệm"
+  ],
+  "context": "Dự án mã nguồn mở cộng đồng độc lập do Adolanium phát triển trên GitHub, không có liên kết chính thức hay tài trợ từ Nous Research."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

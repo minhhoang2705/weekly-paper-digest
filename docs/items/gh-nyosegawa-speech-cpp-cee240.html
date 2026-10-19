@@ -58,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W42</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W43</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -70,7 +70,7 @@
   <div class="page-heading">
     <h1 class="title">nyosegawa/speech.cpp</h1>
     <div class="meta">
-      <span title="Listed by GitHub inside the crawl window">found Oct 12, 2026</span><span aria-hidden="true">·</span>
+      <span title="Listed by GitHub inside the crawl window">found Oct 19, 2026</span><span aria-hidden="true">·</span>
 <span title="Original publication / creation date">published Sep 29, 2026</span><span aria-hidden="true">·</span>
 
       <span class="pill">Repo</span>
@@ -91,13 +91,13 @@
       <div class="card-body prose">
 <p>Speech synthesis, speech recognition and voice activity detection for voice conversation, in C++ on ggml: Qwen3-TTS, Irodori-TTS, Qwen3-ASR, ReazonSpeech, parakeet and Silero VAD on Metal, Vulkan and the CPU, with an OpenAI-compatible server and live transcription.
 
-README: Speech synthesis, speech recognition and voice activity detection for voice conversation, in C++ on ggml Models · Install · Quick start · Documentation · C API English · 日本語 speech.cpp is one command, speech, and one shared library, libspeech, behind one C API, on the CPU, Metal and Vulkan through ggml. The command speaks text, writes the text of recordings, finds where someone speaks in them, transcribes the microphone as someone speaks (speech asr --live), serves OpenAI's audio API and its Realtime transcription over HTTP, and runs a worker process for any program that keeps models loaded between requests, ASIST among them. The first audio in a quarter of a second or less. On an Apple M5, Qwen3-TTS 0.6B sends its first audio 0.04 s after the text and Irodori-TTS 0.25 s after it, and the rest follows while it plays. One executable, nothing else to install. No Python and no CUDA: speech fetches each model by name, one GGUF file with its codec, and runs it on Metal, Vulkan or the CPU. OpenAI's API on your own computer. speech serve answers OpenAI's audio API and its Realtime transcription, so an OpenAI client works by changing its base URL. Checked against the official implementations. Every stage of every model is compared with the model's official implementation, from the same inputs. The page of speech serve --open : pick a model of the catalog, fetch it and try it. Transcribe writes a file or a recording, a region at a time where someone speaks. Live writes the microphone as you speak; the grey text is the utterance still being said. Models. | Task | Name | Languages | Good at | | Synthesis | qwen3-tts-0.6b, qwen3-tts-1.7b | de en es fr it ja ko pt ru zh | nine named speakers; audio that streams from its first frame of 0.08 s; the 1.7B model follows an instruction of how to speak | | Synthesis | irodori-tts-mf, irodori-tts | ja | Japanese in the voice of a reference recording, or in a voice described in words | | Recognition | qwen3-asr-0.6b, qwen3-asr-1.7b | 30</p>      </div>
+README: Speech synthesis, speech recognition and voice activity detection for voice conversation, in C++ on ggml Models · Install · Quick start · Documentation · C API English · 日本語 speech.cpp is one command, speech, and one shared library, libspeech, behind one C API, on the CPU, Metal and Vulkan through ggml. The command speaks text, writes the text of recordings, finds where someone speaks in them, transcribes the microphone as someone speaks (speech asr --live), serves OpenAI's audio API and its Realtime transcription over HTTP, and runs a worker process for any program that keeps models loaded between requests, ASIST among them. A time to first audio of a quarter of a second or less. On an Apple M5, Qwen3-TTS 0.6B sends its first audio 0.029 s after the text and Irodori-TTS v4.1-Small-MF 0.16 s after it, and the rest follows while it plays. One executable, nothing else to install. No Python and no CUDA: speech fetches each model by name, one GGUF file with its codec, and runs it on Metal, Vulkan or the CPU. OpenAI's API on your own computer. speech serve answers OpenAI's audio API and its Realtime transcription, so an OpenAI client works by changing its base URL. Checked against the official implementations. Every stage of every model is compared with the model's official implementation, from the same inputs. The page of speech serve --open : pick a model of the catalog, fetch it and try it. Transcribe writes a file or a recording, a region at a time where someone speaks. Live writes the microphone as you speak; the grey text is the utterance still being said. Models. | Task | Name | Languages | Good at | | Synthesis | qwen3-tts-0.6b, qwen3-tts-1.7b | de en es fr it ja ko pt ru zh | nine named speakers; audio that streams from its first frame of 0.08 s; the 1.7B model follows an instruction of how to speak | | Synthesis | irodori-tts-mf, irodori-tts, irodori-tts-large | ja | Japanese in the voice of a reference recording, or in a voice described in words; the large mod</p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">
       <div class="card-header">
         <h2 class="label" id="analysis-h">Auto Analysis</h2>
-          <span class="sublabel">analyzed Oct 12, 2026 · README</span>
+          <span class="sublabel">analysis reused from 2026-W42 · README</span>
           <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
             <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
           </button>

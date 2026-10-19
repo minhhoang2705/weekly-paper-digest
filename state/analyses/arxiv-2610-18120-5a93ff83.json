@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.18120",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình kết hợp sáng tạo giữa bộ tổng hợp pole-zero khả vi, cơ chế stick-breaking ràng buộc thứ tự formant, và các hàm mất mát proxy (spectral contrast, periodic fraction, residual F0 pseudo-labels) để huấn luyện self-supervised từ raw audio.",
+  "credibility": "Bài báo dạng bản thảo gửi IEEE từ nhóm nghiên cứu tại IIT Hyderabad, trình bày chi tiết và minh bạch công thức, nhưng hiện tại vẫn là preprint trên arXiv chưa công bố chính thức.",
+  "technical": "Thiết kế kỹ thuật rất sâu và mạch lạc từ multi-resolution encoder, công thức closed-form cho harmonic comb, giải thuật stick-breaking soft-bound, đến cơ chế tinh chỉnh pseudo-label F0 qua residual.",
+  "impact": "Tác động có ý nghĩa lớn đối với nghiên cứu ngữ âm học, phân tích lâm sàng tiếng nói và speech synthesis có thể diễn giải, dù khả năng áp dụng đại trà vào mô hình nền tảng ASR/TTS hiện đại còn cần thêm thời gian tích hợp.",
+  "evidence": "Kết quả thực nghiệm rất thuyết phục với benchmark hand-corrected (VTR-FORMANTS), kiểm tra out-of-domain đối chiếu laryngograph (PTDB-TUG), phân tích lý thuyết ngữ âm theo từng phone class và ablation study chi tiết."
+ },
+ "summary": {
+  "tldr": "SoFilNet là mô hình source-filter khả vi tự giám sát (self-supervised), ước lượng trực tiếp các tham số vật lý của quá trình tạo tiếng nói từ raw waveform mà không cần nhãn F0 hay formant. Bằng cách kết hợp bộ tổng hợp khả vi với các hàm mất mát khắc phục điểm mù của per-bin spectral loss, mô hình đạt độ chính xác tracking formant và F0 vượt trội so với cả các mô hình có giám sát.",
+  "problem": "Các mô hình deep learning cho tiếng nói thường dựa vào biểu diễn ẩn (latent features) không mang ý nghĩa vật lý về cấu âm (articulation) hay phát âm (phonation). Việc tách và ước lượng đồng thời nguồn thanh (source) và bộ lọc thanh quản (filter) từ tín hiệu âm thanh gặp khó khăn do chúng bị đan kết chặt chẽ (entangled); hơn nữa, các hàm mất mát so sánh phổ theo từng bin tần số (per-bin spectral loss) có xu hướng làm mờ phổ, gây lỗi phạt nặng khi F0 lệch nhẹ, đánh giá thấp độ bất định kỳ (aperiodicity) và làm bè rộng các đỉnh formant.",
+  "method": "SoFilNet dự đoán 28 tham số vật lý cho mỗi khung 10 ms: nguồn $\\lambda_g$ gồm $F0 \\in [60, 400]$ Hz, nhãn vô thanh/hữu thanh $u \\in \\{0, 1\\}$, độ aperiodicity trên 5 băng tần ($a_1, \\dots, a_5$); bộ lọc $\\lambda_v$ gồm 4 formant có thứ tự ($M_F=4$), 2 cực phổ cao ($M_H=2$), 2 cực phụ mở rộng ($M_E=2$), 2 điểm không triệt tiêu ($N=2$ antiresonance zeros trong dải 250–4000 Hz); cùng hệ số khuếch đại $\\gamma$.\n- **Multi-Resolution Encoder**: Gồm 4 nhánh CNN song song với receptive field từ 13 ms đến 53 ms (kernel 5, 9, 13, 17) có chung frame rate 10 ms, được tích hợp qua 2 softmax gate độc lập cho source và filter decoders.\n- **Decoders & Bounded Structure**: Source decoder dùng BiGRU dự đoán $F0$, voicing và aperiodicity. Filter decoder dùng BiGRU và áp dụng kỹ thuật *stick-breaking recursion* với soft bounding $6\\tanh(x/6)$ để đảm bảo thứ tự nghiêm ngặt $F_1 < F_2 < F_3 < F_4$.\n- **Differentiable Synthesis**: Tổng hợp lược sóng hài (harmonic comb) dạng closed-form độc lập với số sóng hài $K$, kết hợp nhiễu Gaussian trắng theo trọng số $a(\\omega)$, sau đó đi qua bộ lọc tỉ số cực-không (pole-zero cascade) $|V(j\\omega)|^2$.\n- **Loss Functions**: Khắc phục điểm mù per-bin bằng (1) pseudo-label $F0$ và voicing từ autocorrelation của tín hiệu gốc và được tinh chỉnh dần qua residual sau khi lọc nghịch đảo (inverse filtering); (2) band periodic-fraction loss $\\mathcal{L}_{\\text{pf}}$ giám sát aperiodicity; (3) spectral-contrast loss $\\mathcal{L}_{\\text{ct}}$ và envelope-extrema loss $\\mathcal{L}_{\\text{ex}}$ giữ độ sắc nhọn cho formant; cùng các mất mát miền thời gian (waveform $L_1$, correlation) và cân bằng gate encoder.",
+  "setup": "Mô hình được huấn luyện hoàn toàn tự giám sát trên tập TIMIT train (4620 câu, 462 người nói) với 1000 epoch trên các đoạn 2 giây, batch size 16, optimizer Adam (lr $2 \\times 10^{-4}$ giảm cosin về 1%), có white noise augmentation ở đầu vào mạng. Đánh giá formant trên VTR-FORMANTS (192 câu test tách biệt từ TIMIT test set) theo RMSE (toàn bộ speech) và MAE (chỉ nguyên âm). Đánh giá pitch out-of-domain trên PTDB-TUG (20 người nói, tham chiếu laryngograph) qua các chỉ số FFE, GPE, VDE, RPA, RCA.",
+  "results": [
+   "Trên VTR-FORMANTS (toàn bộ khung speech), SoFilNet đạt RMSE trung bình 158 Hz (F1: 136 Hz, F2: 156 Hz, F3: 183 Hz), thấp hơn cả mô hình có giám sát DF-RNN (163 Hz), DF-RCNN (173 Hz), mô hình không giám sát FormantNet (173 Hz), KARMA (220 Hz) và Praat (236 Hz).",
+   "Trên VTR-FORMANTS (vowel frames), SoFilNet đạt MAE trung bình 67.0 Hz (F1: 53 Hz, F2: 59 Hz, F3: 88 Hz), vượt FormantNet (76.3 Hz), DF-RCNN (77.7 Hz) và Praat (77.2 Hz).",
+   "Trên tập test unseen PTDB-TUG, SoFilNet đạt F0 Frame Error (FFE) 5.06%, ngang ngửa giải thuật classical RAPT (5.07% - thuật toán tạo ra nhãn tham chiếu) và thấp hơn rõ rệt so với mô hình có giám sát CREPE (6.70%), self-supervised PESTO (6.13%) và SPICE (13.48%).",
+   "Độ tái tạo tín hiệu từ 28 tham số đạt wideband PESQ là 2.12 và STOI đạt 0.903 (thể hiện độ rõ nghĩa rất cao dù số chiều tham số thấp). Khi kết hợp magnitude ước lượng với phase gốc, PESQ đạt 3.02.",
+   "Ablation loại bỏ các điểm không (zeros) làm RMSE formant vọt từ 158.3 Hz lên 245.2 Hz (lỗi F3 tăng gấp đôi từ 183.1 Hz lên 363.0 Hz); bỏ pitch pseudo-labels làm RPA rớt từ 84.4% xuống 66.8% và lỗi FFE tăng lên 7.60%."
+  ],
+  "limitations": "Mô hình hoạt động trên miền tần số (magnitude STFT) với giả định tín hiệu tĩnh trong khung 25 ms, chưa mô hình hóa các biến cố xung thanh môn theo thời gian thực (glottal closure instants - GCI, mô hình luồng khí LF, jitter, shimmer); chưa mô hình hóa tương tác giữa nguồn và thanh đạo (source-tract interaction); số lượng cực/không điểm cố định; đánh giá mới chỉ giới hạn trên tiếng nói người lớn đọc chuẩn trong điều kiện phòng thu (TIMIT, PTDB-TUG), chưa kiểm nghiệm trên giọng bệnh lý, giọng trẻ em hoặc môi trường nhiều nhiễu thực tế.",
+  "takeaways": "Chứng minh rằng việc tích hợp kiến trúc source-filter vật lý chặt chẽ (đặc biệt là pole-zero filter và stick-breaking formant ordering) kết hợp với các mục tiêu huấn luyện bù trừ (autocorrelation residual refinement, periodic fraction, spectral contrast) cho phép học các tham số phát âm có khả năng diễn giải sâu sắc mà không cần bất kỳ nhãn thủ công nào, mở ra tiềm năng lớn cho phân tích ngữ âm học, giọng bệnh lý và điều khiển tổng hợp tiếng nói.",
+  "strengths": [
+   "Hoàn toàn self-supervised, không cần nhãn",
+   "Ước lượng formant vượt cả mô hình supervised",
+   "F0 tracking tổng quát hóa cực tốt trên unseen corpus",
+   "Các tham số học được khớp chuẩn lý thuyết ngữ âm",
+   "Kiến trúc pole-zero khả vi giải quyết tốt âm mũi"
+  ],
+  "weaknesses": [
+   "Chưa mô hình hóa glottal pulse miền thời gian",
+   "Giả định nguồn và bộ lọc độc lập",
+   "Chưa đánh giá trên tiếng nói bệnh lý hay thực tế ồn"
+  ],
+  "context": "Nani Meka, Raghavan Ramesh và Sri Rama Murty Kodukula thuộc Speech Information Processing Lab, Department of Electrical Engineering, Indian Institute of Technology Hyderabad (Ấn Độ); bài báo đăng trên arXiv (arXiv:2610.18120) và đã nộp tới IEEE."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

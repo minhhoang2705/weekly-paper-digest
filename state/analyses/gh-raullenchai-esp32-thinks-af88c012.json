@@ -1,0 +1,49 @@
+{
+ "id": "gh:raullenchai/esp32-thinks",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án khéo léo kết hợp các khối công nghệ có sẵn (WakeNet10, ESP-IDF, OpenAI APIs, Meta muse SDK) thành một kiến trúc firmware hoàn chỉnh cho voice agent trên ESP32.",
+  "credibility": "Kho mã nguồn cá nhân trên GitHub với tài liệu hướng dẫn rõ ràng, mã nguồn và script đầy đủ, dù không phải là công bố nghiên cứu qua bình duyệt.",
+  "technical": "Thiết kế kỹ thuật nhúng tốt: xử lý TLS pre-warm, session resumption, nén ADPCM, tách câu streaming đa ngôn ngữ CJK và cơ chế stall coroner bảo vệ hệ thống.",
+  "impact": "Dự án nhận được 222 GitHub stars và là tài liệu tham khảo hữu ích cho cộng đồng phần cứng mã nguồn mở muốn tự làm smart speaker với ESP32-S3.",
+  "evidence": "Tài liệu cung cấp số liệu đo đạc thời gian xử lý thực tế trên thiết bị cho nhiều ngôn ngữ và kích thước phản hồi, đồng thời thừa nhận rõ các giới hạn đo lường."
+ },
+ "summary": {
+  "tldr": "esp32-thinks là dự án mã nguồn mở biến thiết bị ESP32-S3 (Seeed SenseCAP Watcher) thành trợ lý giọng nói độc lập, cho phép tùy biến linh hoạt ba thành phần STT, LLM chat và TTS qua các API tương thích OpenAI. Hệ thống hỗ trợ kích hoạt bằng wake word on-chip (\"Hi, ESP\"), streaming phản hồi theo từng câu (sentence-by-sentence) và quản lý kết nối TLS tối ưu nhằm giảm độ trễ phản hồi âm thanh.",
+  "problem": "Các trợ lý giọng nói trên thiết bị phần cứng thương mại thường khóa chặt người dùng vào hệ sinh thái của một nhà cung cấp (vendor lock-in) từ mô hình, chi phí đến quyền riêng tư âm thanh. Việc chạy toàn bộ mô hình lớn trực tiếp trên vi điều khiển (MCU) là bất khả thi, trong khi việc tích hợp linh hoạt các backend AI đám mây/nội bộ lên firmware nhúng gặp nhiều trở ngại về độ trễ kết nối, xử lý streaming và giới hạn tài nguyên.",
+  "method": "Hệ thống xây dựng dưới dạng bản vá (`patches/muse-brain.patch`) trên nền tảng `muse-gadget-sdk` của Meta cho ESP32-S3 (ESP-IDF v6.0.1):\n- **Độc lập 3 endpoint**: Tách biệt STT (`/audio/transcriptions`), Chat (`/chat/completions` qua SSE) và TTS (`/audio/speech`). Người dùng có thể trỏ từng tác vụ tới các nhà cung cấp khác nhau (preset OpenAI, QuickSilver, hoặc custom).\n- **Wake word & VAD**: Chạy mô hình esp-sr WakeNet10 (`wn10_hiesp`) trực tiếp trên chip qua phân vùng flash `model`. Vòng lặp ghi âm có bộ đệm pre-roll 1 giây và tự ngắt bằng VAD (~1.4 giây im lặng) hoặc nhả núm xoay (PTT knob).\n- **Tối ưu truyền nhận & nén dữ liệu**: Hỗ trợ nén âm thanh IMA ADPCM WAV (giảm 1/4 kích thước upload lên STT). Kết nối TLS được thiết lập trước (pre-warm) sau khi có Wi-Fi, thăm dò định kỳ bằng HEAD probe mỗi 180 giây khi rảnh, và tái sử dụng phiên qua TLS 1.3 session tickets. Phản hồi ngắn ($\\le$ 128 UTF-8 bytes) tái sử dụng trực tiếp kết nối chat cho TTS.\n- **Streaming TTS & Pipeline âm thanh**: Bộ phân tích cú pháp cắt luồng SSE chat theo ranh giới câu (hỗ trợ ASCII và ký tự CJK như `。！？`). Từng câu được gửi ngay lập tức tới TTS để lấy MP3, giải mã bằng `minimp3` và phát nối tiếp qua I2S (codec ES8311) trong khi LLM vẫn đang sinh từ tiếp theo.\n- **Cơ chế phục hồi & Barge-in**: Hỗ trợ ngắt lời (barge-in) bằng cách bấm núm xoay để hủy request đang bay và dừng phát; có silence guard loại bỏ đoạn ghi âm quá nhỏ; stall coroner giám sát I2S/LCD với hạn chót 20 giây để reboot khi bị treo DMA.",
+  "setup": "Phần cứng mục tiêu là Seeed SenseCAP Watcher W1-B (ESP32-S3, màn hình tròn LCD 1.45\" 412×412, codec loa ES8311, mic ES7243E, núm xoay PTT). Phần mềm yêu cầu ESP-IDF v6.0.1 trên Linux hoặc macOS, bản SDK `muse-gadget-sdk` tại commit `812c46f`. Cấu hình thông qua file `provider_config.h` do script `apply.sh` sinh ra. Flash firmware qua cổng serial USB (CH342) ở tốc độ kiểm soát 115200 baud.",
+  "results": [
+   "Thời lượng SDK turn (kiểm tra trước phát hành với QuickSilver preset: qwen3.7-flash, whisper-large-v3-turbo, chatterbox-turbo/qwen3-tts): Tiếng Anh đạt 3.9 s; Tiếng Trung đạt 8.7 s; Tiếng Hàn (lịch sử hội thoại mới) đạt 3.2 s.",
+   "Đo đạc trên firmware nạp thực tế (typed timings bao gồm chat, fetch TTS và giải mã; audio được xả qua console mà không phát ra loa): câu trả lời tiếng Anh 29 từ mất 7.1 s; câu tiếng Trung 72 ký tự (chứa 66 ký tự Hán) mất 15.1 s; câu tiếng Hàn 76 ký tự mất 10.3 s.",
+   "Thời gian phản hồi câu chào hỏi (greeting) đạt 1.7 s; câu hỏi ngay sau khi kích hoạt wake word đạt 1.9 s."
+  ],
+  "limitations": "API keys được biên dịch trực tiếp vào firmware (chỉ phù hợp với hobby project, chưa an toàn cho thiết bị thương mại phân phối rộng rãi). Chưa hỗ trợ bộ lọc triệt tiếng vọng (AEC) cho wake word, dẫn đến nguy cơ loa tự kích hoạt mic khi đang phát. Tốc độ nạp firmware bị giới hạn do chip cầu nạp CH342 dễ rớt gói ở baudrate cao. Các số liệu đo đạc qua console chưa phản ánh trọn vẹn độ trễ từ lúc dứt lời nói đến âm thanh đầu tiên phát ra loa (voice-to-first-sound).",
+  "takeaways": "Một kiến trúc tham khảo rất thực tế cho kỹ sư IoT/nhúng muốn xây dựng trợ lý AI trên MCU ESP32-S3: chia nhỏ pipeline thành STT-LLM-TTS độc lập, tận dụng SSE streaming kết hợp tách câu để pipeline hóa TTS, nén ADPCM giảm băng thông upload và tối ưu hóa TLS session ticket giúp giảm thiểu độ trễ mạng trên thiết bị biên.",
+  "strengths": [
+   "Kiến trúc 3 endpoint độc lập không phụ thuộc vendor",
+   "Streaming TTS theo từng câu giảm độ trễ",
+   "Wake word on-chip kết hợp VAD và barge-in",
+   "Tối ưu TLS pre-warm và session tickets",
+   "Hỗ trợ nén IMA ADPCM giảm 1/4 upload STT"
+  ],
+  "weaknesses": [
+   "Lưu API keys cứng trong firmware",
+   "Chưa có AEC chống tự kích hoạt wake word",
+   "Độ trễ turn hoàn chỉnh còn cao với câu dài",
+   "Lỗi DMA đôi khi gây treo cần reboot"
+  ],
+  "context": "Dự án nguồn mở của tác giả raullenchai trên GitHub, phát triển dựa trên bản vá cho `muse-gadget-sdk` của Meta dành cho phần cứng Seeed SenseCAP Watcher."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

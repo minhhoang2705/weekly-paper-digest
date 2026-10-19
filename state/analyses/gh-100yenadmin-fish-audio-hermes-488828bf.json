@@ -1,0 +1,48 @@
+{
+ "id": "gh:100yenadmin/fish-audio-hermes",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 4,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án là một plugin tích hợp API/SDK và giao diện người dùng cho hệ thống agent có sẵn, không đóng góp kiến trúc hay thuật ngữ mô hình học máy mới.",
+  "credibility": "Plugin chính thức được phối hợp phát triển bởi Electric Sheep và đội ngũ Fish Audio, được đưa vào danh mục catalog chính thức của NousResearch Hermes Agent.",
+  "technical": "Triển khai kỹ thuật hệ thống tương đối bài bản với streaming PCM 24 kHz, VAD lọc khoảng lặng, xử lý ngắt kết nối WebSocket và cơ chế phân quyền bảo mật file/API key.",
+  "impact": "Mức độ phổ biến còn ở quy mô ngách trong cộng đồng Hermes Agent với 116 stars và 1 fork trên GitHub.",
+  "evidence": "Tài liệu cung cấp các đo đạc cụ thể về độ trễ streaming p50, thời gian tổng hợp file và WER/CER nhưng số lượng mẫu thử nghiệm rất hạn chế (N=3) và thiếu so sánh với các baseline khác."
+ },
+ "summary": {
+  "tldr": "Đây là plugin chính thức tích hợp Fish Audio vào Hermes Agent (NousResearch), cung cấp giải pháp thoại toàn diện gồm TTS biểu cảm với hơn 80 ngôn ngữ, voice cloning/design và STT trực tiếp. Hệ thống hỗ trợ streaming độ trễ thấp và tích hợp sâu từ giao diện dòng lệnh (CLI/TUI) đến Hermes Desktop.",
+  "problem": "Hermes Agent cần một hệ thống xử lý giọng nói hoàn chỉnh, độ trễ thấp cho cả chiều nghe và nói, hỗ trợ streaming trực tiếp theo thời gian thực và quản lý giọng nói linh hoạt (thư viện cộng đồng, sao chép giọng nói) trên cả CLI lẫn giao diện đồ họa Desktop.",
+  "method": "Plugin hoạt động như provider TTS và STT cho Hermes Agent thông qua API của Fish Audio (`api.fish.audio`):\n- **TTS Streaming**: Sử dụng các model Fish Audio S2 (`s2.1-pro`, `s2-pro`, `s1`) và Drama 3 (`drama-3`). Với Hermes 0.21.6+, plugin stream dữ liệu âm thanh 24 kHz PCM từ endpoint `POST /v1/tts` theo từng câu đến CLI, TUI và Desktop read-aloud.\n- **Live Dictation (STT)**: Kết nối qua WebSocket realtime tương thích ElevenLabs (`wss://api.fish.audio/compat/elevenlabs/v1/speech-to-text/realtime`). Hệ thống chỉ commit phrase khi phát hiện tối thiểu 300 ms âm thanh vượt ngưỡng `voice.silence_threshold` (100 ms đối với từ cuối), và tự động fallback sang cơ chế transcription file nếu phiên streaming đứt đoạn.\n- **Model Tools & Plugin Skills**: Cung cấp bộ công cụ gọi hàm cho agent gồm `fish_speak` (tổng hợp đa giọng đọc kèm word timings, phụ đề SRT/WebVTT), `fish_voices` (tìm kiếm, tạo giọng qua prompt mô tả hoặc clone từ 1–3 file mẫu $\\le$ 10 MB), và `fish_transcribe` (nhận diện kèm diarization và mốc thời gian).\n- **Kiến trúc Desktop**: Tách làm hai phần đóng gói chung: routes trên agent gateway và giao diện Voices page nhúng trong Hermes Desktop hỗ trợ 9 ngôn ngữ hiển thị.",
+  "setup": "Yêu cầu Hermes Agent 0.21.5 trở lên (yêu cầu 0.21.6+ cho streaming và live dictation), Python 3.11+, hệ điều hành macOS hoặc Linux (Windows chưa kiểm thử). Cài đặt qua lệnh `hermes plugins install fish-audio --enable` và thiết lập API key với `hermes fish login`. Hỗ trợ 80+ ngôn ngữ tổng hợp giọng nói và 9 ngôn ngữ giao diện Desktop (en, zh, zh-hant, ja, ar, ru, fr, de, es).",
+  "results": [
+   "Đo lường thời gian nhận byte âm thanh đầu tiên (HTTP streaming time to first audio, N=3, p50 thực hiện từ Tokyo trên v1.3.2): 0.293 s trên s2.1-pro, 0.266 s trên s2-pro và 0.244 s trên s1.",
+   "Độ trễ nhận byte âm thanh đầu tiên tổng thể: Fish HTTP API p50 đạt 243 ms (khoảng 238–356 ms qua 3 mẫu), CLI voice mode đạt 373–381 ms, Desktop speak-stream handler (in-process) đạt 310 ms.",
+   "Thời gian tổng hợp nguyên file MP3 độ dài 310 ký tự: mất 3.605 s trên s2.1-pro và 2.209 s trên s2-pro.",
+   "Độ chính xác STT của transcribe-1-pro trên synthetic speech corpus sạch: Word Error Rate (WER) tiếng Anh đạt 1.8%, Character Error Rate (CER) tiếng Nhật và tiếng Trung đạt 0."
+  ],
+  "limitations": "Live dictation chỉ hiển thị theo từng phrase đã commit chứ không xuất hiện interim text từng từ; live dictation không khả dụng với remote self-hosted base_url hoặc dưới chế độ cô lập host plugin (`plugins.isolation: host`). Text normaliser của Hermes core làm biến dạng thẻ markup `<|speaker:N|>` và thẻ Drama 3 trên luồng `text_to_speech` mặc định nên buộc phải dùng tool `fish_speak`. Nền tảng Windows chưa được kiểm thử.",
+  "takeaways": "Dự án là một mẫu tích hợp chuẩn chỉnh cho kỹ sư muốn đưa mô hình speech-to-speech/voice agent từ dịch vụ cloud vào kiến trúc agent mã nguồn mở, kết hợp khéo léo giữa streaming VAD, cơ chế phê duyệt an toàn (approval gate) và giao diện người dùng desktop.",
+  "strengths": [
+   "Tích hợp toàn diện CLI, TUI và Desktop",
+   "Độ trễ streaming audio bước đầu thấp",
+   "Bộ công cụ phong phú kèm voice cloning",
+   "Xử lý VAD tối ưu chi phí billing"
+  ],
+  "weaknesses": [
+   "Phụ thuộc dịch vụ trả phí Fish Audio",
+   "Chưa hỗ trợ interim text từng từ",
+   "Chưa được kiểm thử trên nền tảng Windows"
+  ],
+  "context": "Kho mã nguồn mở (Apache-2.0) do Electric Sheep (100yenadmin) phát triển và bảo trì cùng đội ngũ Fish Audio (Hanabi AI Inc.) dành cho Hermes Agent (Nous Research)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2610.21150",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Ý tưởng kết hợp block-isolating attention mask để trả lời song song nhiều câu hỏi trắc nghiệm về turn-taking trong một pass của speech LLM rất mới mẻ và thanh lịch.",
+  "credibility": "Bài báo là technical report độc lập từ Đại học Melbourne, có kèm mã nguồn, trọng số mở và demo tương tác nhưng chưa qua bình duyệt tại hội nghị.",
+  "technical": "Thiết kế kỹ thuật chuẩn xác về toán học (chứng minh tương đương độc lập từng câu hỏi), thiết kế hệ thống tối ưu với CUDA graphs và policy xử lý 2 kênh rõ ràng.",
+  "impact": "Giải quyết trực tiếp nút thắt quan trọng của voice agent cascades; plugin có sẵn cho LiveKit và Pipecat giúp cộng đồng kỹ sư speech dễ dàng ứng dụng ngay.",
+  "evidence": "Thực nghiệm đa dạng và chi tiết: so sánh trên eot-bench 14 ngôn ngữ, TurnBench test leaderboard, ablation từng thành phần dữ liệu, benchmark độ trễ thực tế và replay trên 2 framework lớn."
+ },
+ "summary": {
+  "tldr": "VoxTurn là một mô hình speech LLM mở kích thước 0.8B được thiết kế để xử lý bài toán end-of-turn (EOT) và các quyết định turn-taking trong voice agent. Bằng cách định dạng các quyết định thành câu hỏi trắc nghiệm và sử dụng cơ chế block-isolating attention mask, mô hình có thể trả lời nhiều câu hỏi song song chỉ trong một lượt forward pass với độ trễ 8.3 ms per decision.",
+  "problem": "Các detector EOT mã nguồn mở hiện tại tụt hậu đáng kể so với các hệ thống thương mại (đặc biệt ngoài tiếng Anh, tỷ lệ cắt ngang lời nói false cut-off trung bình 14 ngôn ngữ trên eot-bench là $\\ge 28\\%$) do chủ yếu huấn luyện trên các đoạn câu bị cắt sẵn (segmented utterances) thay vì khoảng lặng thực tế trong hội thoại. Ngoài ra, voice agent cần nhiều quyết định liên quan (liệu người dùng sắp nói tiếp, có phải ngắt lời hay backchannel, âm thanh có phải tiếng người nói không), khiến việc gọi nhiều mô hình hoặc chạy nhiều pass làm tăng mạnh độ trễ.",
+  "method": "VoxTurn sử dụng backbone Qwen3-ASR-0.6B gồm AuT audio encoder (được đóng băng, trích xuất 13 tokens/s từ 128-bin log-mel features) và Qwen3-0.6B language model được gắn LoRA (rank 16, $\\alpha = 32$). \n- **Định dạng Multiple-choice:** Mô hình nhận 8 s audio (kèm transcript/text tùy chọn và speaker marker), sau đó ghép các câu hỏi trắc nghiệm (5 câu hỏi: `eot`, `resume`, `state4`, `intent`, `invalid`). Một linear head $w$ chấm điểm hidden state $h_{q,o}$ tại token cuối của từng lựa chọn: $p(o \\mid q) = \\text{softmax}_o(w^\\top h_{q,o})$. Chỉ huấn luyện projector, LoRA và linear head (tổng cộng 11.8M tham số).\n- **One-pass multi-question inference:** Sử dụng block-isolating attention mask: $M_{ij} = \\mathbf{1}[j \\le i] \\cdot \\mathbf{1}[j \\le P \\lor \\text{blk}(i) = \\text{blk}(j)]$, gán position ID cho từng block câu hỏi $B_k$ bắt đầu từ $P$. Các token câu hỏi chỉ chú ý đến prefix chung (khoảng 120 tokens) và chính block đó, đảm bảo kết quả toán học tương đương hoàn toàn việc chạy từng pass độc lập (độ lệch sai số tối đa $1.5 \\times 10^{-5}$ ở fp32).\n- **Dữ liệu và huấn luyện:** Huấn luyện trên khoảng lặng hội thoại thực tế (SpokenWOZ, Seamless Interaction, MagicData-RAMC) kết hợp câu đơn (Smart Turn, Easy Turn). Điểm quyết định được lấy mẫu ngẫu nhiên đồng đều trong $\\min(d, 1.5\\text{ s})$ của khoảng lặng. Objective kết hợp CE main task, CE auxiliary (gán nhãn tự động từ timing khoảng lặng như `resume` và `invalid`), cùng loss đối xứng KL divergence giữa hai cách diễn đạt khác nhau của cùng một câu hỏi ($\\lambda_{\\text{aux}} = \\lambda_{\\text{cons}} = 0.5$).\n- **Triển khai:** Tích hợp re-querying mỗi 0.25 s trong suốt khoảng lặng thay vì chỉ kiểm tra một lần.",
+  "setup": "Huấn luyện trên 300k mẫu với batch 128, AdamW ($lr = 2 \\times 10^{-4}$), bf16 autocast trong 78 phút trên 1 GPU NVIDIA L40S. Đánh giá trên eot-bench (14 ngôn ngữ, tính false cut-off tại mức ngân sách trễ 300 ms và 600 ms, độ trễ tại 5% và 10% cut-off, AUC ở 200 ms), TurnBench (test set 30 giờ hội thoại 2 kênh cho EOT và Interruption), Easy Turn test set, TEN test set, OpenSLR 99 và framework replay thực tế trên Pipecat và LiveKit Agents (150 lượt hội thoại tiếng Anh).",
+  "results": [
+   "Trên eot-bench tiếng Anh ở budget 300 ms: VoxTurn v1 đạt 11.5% false cut-offs, vượt trội Baton (12.3%) và Deepgram Flux (12.9%), chỉ xếp sau LiveKit v1 (9.9%) và turn-1 (10.6%).",
+   "Trên eot-bench trung bình 14 ngôn ngữ ở budget 300 ms: VoxTurn v1 đạt 19.9%, thấp nhất trong tất cả các mô hình mở (so với LiveKit v1-mini là 28.4%, ultraVAD là 37.4%, Smart Turn v3.2 là 39.7%, VAP là 50.6%).",
+   "Tại ngưỡng fixed 5% cut-offs: VoxTurn đạt độ trễ trung bình 669 ms ở tiếng Anh (nhanh hơn ~400 ms so với Smart Turn v3.2 ở 1051 ms và LiveKit v1-mini ở 1071 ms); nhanh hơn tất cả mô hình mở trên cả 14 ngôn ngữ.",
+   "Tốc độ suy luận: 1 quyết định tốn 8.3 ms (chiếm 1.9 GB VRAM); trả lời 4 câu hỏi trong 1 pass tốn 9.0 ms thay vì 33.2 ms khi chạy 4 pass riêng biệt (tăng tốc 3.7x).",
+   "Xếp hạng TurnBench (zero-shot, không fine-tune dữ liệu TurnBench): Xếp hạng #5/24 về EOT (Recall 0.924, FPR 0.076, median latency 557 ms) và #6/23 về INT (Recall 0.951, median latency 332 ms - nhanh nhất trong top 6 INT).",
+   "Thử nghiệm replay trên Pipecat: VoxTurn giảm tỷ lệ ngắt lời sai xuống 16.7% (so với 45.3% của default Smart Turn v3) và phản hồi sau 0.36 s (so với 1.32 s). Trên LiveKit Agents: giảm tỷ lệ cut-off xuống 9.3% (so với 18.0% của v1-mini local) và phản hồi sau 0.47 s (so với 0.73 s)."
+  ],
+  "limitations": "Cơ chế block-isolating attention chỉ áp dụng được cho kiến trúc full-attention, không dùng được cho linear-attention hoặc recurrent layers. Dữ liệu conversational pause mới chỉ có cho tiếng Anh và tiếng Trung; hiệu năng ở một vài ngôn ngữ như Hindi vẫn còn cao (37.5% cut-offs).",
+  "takeaways": "Dữ liệu huấn luyện trên khoảng lặng thực tế (conversational pauses) với nhãn phụ thuộc vào timing đóng vai trò quan trọng nhất trong việc giảm false cut-off. Kỹ thuật one-pass multiple-choice kết hợp re-querying mỗi 250 ms là giải pháp tối ưu cho voice-agent production để vừa đa nhiệm vừa giữ latency cực thấp mà không cần inference text autoregressive.",
+  "strengths": [
+   "Kiến trúc one-pass suy luận nhiều câu hỏi cực nhanh",
+   "Chi phí huấn luyện siêu nhẹ (78 phút trên 1 L40S)",
+   "Kết quả eot-bench vượt toàn bộ open baselines",
+   "Tích hợp thực tế mượt mà vào Pipecat và LiveKit"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ kiến trúc full-attention",
+   "Dữ liệu pause thực tế mới có Anh và Trung"
+  ],
+  "context": "Yang Xiao (The University of Melbourne), Technical Report arXiv tháng 10/2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

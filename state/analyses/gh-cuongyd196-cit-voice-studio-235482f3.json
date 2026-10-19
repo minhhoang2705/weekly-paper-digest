@@ -1,0 +1,48 @@
+{
+ "id": "gh:cuongyd196/cit-voice-studio",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 3,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Dự án không đề xuất kiến trúc mô hình TTS mới mà chủ yếu tái sử dụng VieNeu-TTS và Supertonic 3, đóng góp mới nằm ở kỹ thuật đóng gói ứng dụng desktop và thuật toán tự căn chỉnh phụ đề SRT.",
+  "credibility": "Đây là sản phẩm cá nhân tự phát hành trên GitHub Releases mà không có quy trình bình duyệt học thuật, mã nguồn ứng dụng không được mở công khai dù gắn nhãn Apache 2.0.",
+  "technical": "Kỹ thuật hệ thống hoàn thiện tốt với cơ chế streaming ghi file chống tràn RAM, xử lý phụ đề co giãn tốc độ đọc tự động, mô hình định dạng INT8 trên CPU và tích hợp máy chủ local API.",
+  "impact": "Có mức độ quan tâm tốt trong cộng đồng người dùng Việt Nam (94 stars, 39 forks) và rất hữu ích cho các tác vụ lồng tiếng, làm video tự động chạy local mà không tốn chi phí đám mây.",
+  "evidence": "Tài liệu chỉ cung cấp một số số liệu đo thời gian xử lý thực tế trên CPU Intel i7-8650U và dung lượng RAM/đĩa, hoàn toàn không có benchmark đối sánh chuẩn hóa hay thẩm định MOS về chất lượng giọng đọc."
+ },
+ "summary": {
+  "tldr": "CIT Voice Studio là một ứng dụng desktop đa nền tảng (Windows, Linux, macOS) chạy offline cục bộ để chuyển văn bản tiếng Việt và 31 ngôn ngữ khác thành giọng nói. Phần mềm đóng gói và tối ưu triển khai hai mô hình mã nguồn mở VieNeu-TTS (cho tiếng Việt) và Supertonic 3 (cho đa ngôn ngữ), tích hợp sẵn giao diện người dùng, cơ chế điều khiển thẻ cảm xúc, lồng tiếng phụ đề tự động và REST API nội bộ.",
+  "problem": "Nhu cầu tạo giọng đọc AI tiếng Việt chất lượng cao chạy offline hoàn toàn trên máy tính cá nhân mà không đòi hỏi GPU mạnh, không gửi dữ liệu ra bên ngoài, đồng thời giải quyết các bài toán biên tập thực tế như lồng tiếng khớp mốc phụ đề SRT/VTT, kiểm soát lỗi đọc tên riêng/từ viết tắt và an toàn trong nhân bản giọng nói.",
+  "method": "CIT Voice Studio là tầng ứng dụng hoàn chỉnh kết hợp giao diện đồ họa và máy chủ API cục bộ: (1) Mô hình nền tảng: Tích hợp sẵn `VieNeu-TTS` (mặc định bản `v3 Turbo INT8` 48 kHz cho CPU, tuỳ chọn bản GPU NVIDIA hoặc `v3 Nano` 24 kHz) và bổ sung mô hình `Supertonic 3` (~400 MB) của Supertone Inc. cho 31 ngôn ngữ ngoại quốc. (2) Cơ chế ghi streaming: Ghi dữ liệu âm thanh trực tiếp xuống ổ đĩa, giúp xử lý các văn bản cực dài (thử nghiệm ~84.000 ký tự ~2 giờ audio) mà bộ nhớ RAM chỉ duy trì quanh mức ~1 GB. (3) Thuật toán khớp mốc phụ đề SRT: Đọc từng câu theo timestamp; tự động đẩy tốc độ đọc lên tối đa 1.5x nếu câu quá dài, lấn vào khoảng lặng hoặc dời câu kế tiếp kèm xuất lại file SRT đã điều chỉnh thời gian để không làm mất từ. (4) An toàn nhân bản giọng nói: Chỉ cho phép voice cloning từ micro bằng cách bắt buộc người dùng đọc trực tiếp đoạn văn bản đồng ý trong khoảng 8 giây và kiểm tra trên máy, chặn tính năng nhân bản từ file audio sẵn có. (5) Điều khiển ngữ âm: Hệ thống thẻ cảm xúc (`[cười]`, `[thở dài]`, `<laugh>`, `<sigh>`), thẻ nghỉ thời gian chính xác (`[nghỉ 2s]`), cùng từ điển quy tắc thay thế phát âm trước khi đưa vào synthesis pipeline.",
+  "setup": "Hỗ trợ Windows 10/11 64-bit (yêu cầu Microsoft Edge WebView2), Linux 64-bit (.deb trên cổng 8001 qua trình duyệt), macOS 14+ (chip Apple arm64) và macOS 13+ (Intel x86_64). Yêu cầu tối thiểu CPU 4 nhân, 8 GB RAM, 3 GB trống ổ đĩa; khuyến nghị CPU 6 nhân+, 16 GB RAM. Hỗ trợ API server qua cổng `http://127.0.0.1:8001` với các endpoint `/health`, `/voices`, `/stream`, `/api/tts/generate`, `/api/tts/generate-with-subtitles`, `/api/tts/conversation`, bảo mật bằng `X-API-Key` khi mở trong mạng LAN.",
+  "results": [
+   "Tốc độ sinh âm thanh trên CPU máy Intel Core i7 thế hệ 8 (i7-8650U, 4 nhân, năm 2017) với mô hình mặc định Turbo INT8: 1 phút audio mất khoảng 30 giây để tạo (tương đương 10 phút audio mất khoảng 5 phút).",
+   "Tiết kiệm bộ nhớ ở bản 1.0.1+: Tạo văn bản dài ~84.000 ký tự (~2 giờ audio) chỉ tốn khoảng 1 GB RAM nhờ ghi dần dữ liệu ra đĩa (ước tính 1 giờ WAV chiếm ~330 MB).",
+   "Tốc độ mô hình Nano: Dù nhỏ hơn (~400 MB, 24 kHz), ở thiết lập mặc định trên cùng CPU Core i7-8650U lại chạy chậm gần gấp đôi so với v3 Turbo INT8."
+  ],
+  "limitations": "Ứng dụng đóng gói dạng closed-source (chỉ phát hành binary bộ cài, mã nguồn app không công khai dù ghi nhãn Apache-2.0 dựa trên VieNeu-TTS). Không cung cấp đánh giá định lượng chuẩn hóa (không có MOS, WER hay RTF chi tiết). Bản GPU đòi hỏi tải thêm gói PyTorch/CUDA nặng và cần trống tối thiểu 12 GB. Không hỗ trợ GPU trên macOS.",
+  "takeaways": "Dự án là ví dụ điển hình về kỹ thuật đóng gói (productization) mô hình TTS mã nguồn mở thành ứng dụng tiêu dùng dễ tiếp cận: tối ưu INT8 chạy tốt trên CPU máy văn phòng, giải quyết bài toán tràn RAM bằng disk streaming, và thiết kế sẵn API cho phép các script bên ngoài hoặc AI agent gọi tổng hợp giọng nói trực tiếp tại local.",
+  "strengths": [
+   "Chạy hoàn toàn offline, bảo mật tuyệt đối dữ liệu",
+   "Tối ưu INT8 mượt mà trên CPU văn phòng",
+   "Cơ chế streaming tránh tràn RAM khi tạo audio dài",
+   "Tích hợp tự động căn chỉnh thời gian phụ đề SRT",
+   "Cung cấp REST API nội bộ hỗ trợ streaming"
+  ],
+  "weaknesses": [
+   "Mã nguồn ứng dụng đóng, chỉ chia sẻ file cài đặt",
+   "Thiếu đánh giá định lượng học thuật (MOS, WER)",
+   "Bộ cài GPU yêu cầu tải bổ sung trên 12 GB"
+  ],
+  "context": "Phát triển bởi lập trình viên độc lập Cường IT (Cuongyd196), đóng gói mã nguồn mở từ dự án VieNeu-TTS (Phạm Nguyễn Ngọc Bảo) và Supertonic 3 (Supertone Inc.)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

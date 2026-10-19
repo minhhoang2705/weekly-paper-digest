@@ -1,0 +1,48 @@
+{
+ "id": "arxiv:2610.02638",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng ép quyết định giọng nói thành single-token logit distribution không cần decode kết hợp chỉ ra lỗ hổng của transcript distillation đối với paralinguistics là rất mới và độc đáo.",
+  "credibility": "Bài báo là bản preprint arXiv (mã số 2610.02638) từ startup kết hợp các trường đại học, có cung cấp mã nguồn nhưng chưa qua bình duyệt tại hội nghị chuyên ngành.",
+  "technical": "Thiết kế kỹ thuật vững chắc với phân tích layer-wise linear probe, cơ chế block-diagonal 4-D attention mask cho prefix sharing và công thức mixed-objective rành mạch.",
+  "impact": "Cung cấp giải pháp thực tế giải quyết nút thắt cổ chai độ trễ của voice agent thương mại, tuy nhiên các chỉ số tiếp nhận ban đầu trên HF/GitHub còn khiêm tốn (1 upvote, 28 stars).",
+  "evidence": "Thực nghiệm đo đạc chi tiết về latency trên phần cứng H200 thật, so sánh trực tiếp với vLLM JSON cascade, cung cấp ablation study rõ ràng giữa distillation và answer CE."
+ },
+ "summary": {
+  "tldr": "DuplexJev loại bỏ hoàn toàn bước autoregressive text decoding để thực hiện các quyết định hội thoại full-duplex bằng cách đọc phân phối xác suất single-token của các lựa chọn đóng trực tiếp qua một connector kết nối frozen ASR encoder với frozen LLM. Bằng cách thay thế transcript distillation bằng answer-token cross-entropy supervision, mô hình giúp LLM trích xuất được các thông tin paralinguistics (như giới tính và cảm xúc người nói) vốn bị mất trong văn bản thông thường, đạt độ trễ trả lời 80 quyết định chỉ trong ~0.1 s trên node 8×H200.",
+  "problem": "Các tác nhân giọng nói full-duplex liên tục phải đưa ra các quyết định đóng, ngắn (turn completion, barge-in, backchannel, chọn filler, speaker ID). Các hệ thống hiện tại giải quyết bằng giải mã tự hồi quy (autoregressive decoding) rất tốn kém hoặc cascade (ASR rồi mới sinh văn bản, chiếm đến 30% LLM input tokens trong ứng dụng thực tế Dimi và làm trễ phản hồi). Ngoài ra, các speech LLM dùng distillation từ transcript để huấn luyện connector bị 'điếc' trước các đặc trưng âm học ngoài văn bản (như giới tính, cảm xúc người nói) vì giáo viên text-only không hề nghe thấy âm thanh.",
+  "method": "DuplexJev kết nối một frozen ASR encoder (Qwen3-ASR-0.6B) với một frozen LLM (Qwen3-32B bf16) qua connector nhỏ có thể huấn luyện (17.8M - 21.1M tham số):\n- Connector: Đánh giá 2 kiến trúc: biến thể B chỉ dùng projector (frame stacking + MLP sang không gian $d=5120$) từ layer cuối $h^L$; biến thể A dùng cross-attention fusion gộp 3 layer ($Q=h^{18}, K=h^{14}, V=h^9$) khởi tạo zero residual trước projector.\n- Single-token Readout: Các câu hỏi trắc nghiệm $K$ lựa chọn gán nhãn A, B, C... (được xáo trộn ngẫu nhiên để tránh bias vị trí). Đọc logits tại vị trí token câu trả lời và softmax qua $K$ nhãn $p(o_k | S_t, q_j) = \\mathrm{softmax}_k(z_{\\pi_j(k)})$, không sinh tự hồi quy (0 decode steps).\n- Huấn luyện mục tiêu hỗn hợp (Mixed objective): Để giữ năng lực ngôn ngữ, các mẫu nội dung (transcription, continuation) vẫn dùng transcript distillation (token-level KL). Với các mẫu quyết định (decision samples), chỉ áp dụng cross-entropy trên đúng một token chữ cái đáp án tại vị trí đọc ra (Answer-token supervision).\n- Batching & Prefix Sharing: Nhúng tiền tố chung $P$ (template, audio, ngữ cảnh hội thoại) một lần vào KV cache, ghép $N$ hậu tố câu hỏi vào một hàng duy nhất với block-diagonal 4-D causal attention mask giúp chi phí bộ nhớ chỉ là $P + \\sum L_j$ thay vì $N(P + \\bar{L})$.",
+  "setup": "Huấn luyện trên 8×H200 (biến thể A) hoặc 8×A800 (biến thể B), batch size 16, lr $2\\times 10^{-4}$ (giai đoạn content R1-R2 trên tập WenetSpeech, GigaSpeech, LibriSpeech, Common Voice, CoVoST) và lr $10^{-4}$ (giai đoạn paralinguistic R3 trên AISHELL-1, LibriSpeech, ESD, CREMA-D). Đánh giá trên qa100 (100 câu hỏi trắc nghiệm tiếng Trung/Anh được công bố), ZJU audio benchmark v2.0.0 (ZJU-ML), ZJU audio-gender benchmark v1.2.0, Easy-Turn (zero-shot turn-taking) và kiểm thử độ trễ hệ thống trên 1 GPU NVIDIA H200 bằng vLLM so với baseline JSON cascade sinh từ transcript ASR.",
+  "results": [
+   "Về độ trễ và thông lượng: Trên 1 GPU H200, đọc 10 quyết định dạng single-token mất 92 ms/sự kiện so với 1.57 s của cascade sinh JSON (giảm 17× thời gian, chưa tính 411 ms nhận dạng ASR); trên node 8×H200 trả lời 80 quyết định chỉ mất 94–103 ms và đạt thông lượng bão hòa 3,684 decisions/s.",
+   "Về hiểu nội dung (qa100): Biến thể connector B đạt độ chính xác 90/100, sát với baseline đọc trực tiếp transcript văn bản hoàn hảo (oracle transcript đạt 91/100).",
+   "Về nhận biết giới tính người nói: Huấn luyện distillation giữ nguyên tỷ lệ đoán ngẫu nhiên (53%), trong khi answer-token supervision đưa độ chính xác lên 89.4% (biến thể A) và 87.9% (biến thể B) trên tập 800 câu thoại thực tế; biến thể A MIX-KD đạt 89.9% trên tập thực và 90% (native) / 86% (lettered) trên ZJU.",
+   "Về nhận diện cảm xúc (4 phân lớp): Huấn luyện distillation chỉ đạt mức ngẫu nhiên (27–28%), trong khi answer-token supervision nâng lên 71.8% (A), 85.5% (B) và 90.0% (A, MIX-KD 4k bước)."
+  ],
+  "limitations": "Huấn luyện dữ liệu cảm xúc và hỗn hợp 4 tác vụ làm suy giảm hiệu năng hiểu nội dung trên tập ZJU-ML (giảm từ 16–17 điểm phần trăm, chủ yếu ở nửa câu hỏi thực tế factual); mô hình chưa được đánh giá trực tiếp trên luồng âm thanh streaming thực tế.",
+  "takeaways": "Để đưa ra các quyết định hội thoại nhanh, kỹ sư không cần chạy ASR rồi sinh JSON hay dùng mô hình full-duplex tự hồi quy liên tục; chỉ cần chiếu embedding âm thanh vào frozen LLM và lấy phân phối xác suất single-token có prefix sharing. Muốn LLM 'nghe' được paralinguistics qua connector, mấu chốt là đổi objective sang cross-entropy trên token đáp án thay vì dùng distillation trên transcript.",
+  "strengths": [
+   "Tốc độ cực nhanh không cần giải mã",
+   "Prefix sharing tối ưu bộ nhớ KV cache",
+   "Khai thác paralinguistics mà không cần unfreeze LLM",
+   "Kiến trúc modular dễ dàng tráo đổi encoder/LLM"
+  ],
+  "weaknesses": [
+   "Giảm độ chính xác ZJU-ML khi train cảm xúc",
+   "Chưa benchmark trên audio streaming thời gian thực",
+   "Dựa vào LLM 32B nặng nề cho decision"
+  ],
+  "context": "Bài báo của nhóm nghiên cứu thuộc Adventists.ai (Melbourne), Đại học Chiết Giang và Đại học Virginia; phát hành dưới dạng preprint trên arXiv (arXiv:2610.02638) kèm mã nguồn và dữ liệu qa100."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

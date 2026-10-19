@@ -1,0 +1,53 @@
+{
+ "id": "arxiv:2610.21452",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 5,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đây là công trình đầu tiên mở rộng mô hình đối thoại full-duplex end-to-end sang đồng thời tạo sinh liên tục cả cử chỉ toàn thân và biểu cảm khuôn mặt, cùng cơ chế semantic-call tách biệt quyết định và thực thi cử chỉ ngữ nghĩa.",
+  "credibility": "Nghiên cứu đến từ nhóm tác giả uy tín tại Đại học Thanh Hoa và ByteDance (nối tiếp chuỗi mô hình SALMONN-omni và ELLSA), mã nguồn suy luận và pipeline dữ liệu được công bố trên GitHub chính thức của ByteDance.",
+  "technical": "Thiết kế kỹ thuật xuất sắc: phân rã SVD cho cử động miệng, liên kết trạng thái ẩn hai chiều nghe/nói, tận dụng thinker-talker triệt tiêu độ trễ tra cứu exemplar, cùng chiến lược curriculum learning 4 giai đoạn chặt chẽ.",
+  "impact": "Mở ra tiêu chuẩn mới cho các avatar và trợ lý tương tác mặt-đối-mặt trong tương lai, chuyển đổi từ mô hình hoạt hình sau lời nói sang đồng kiến tạo đa thể thức trong thời gian thực.",
+  "evidence": "Thực nghiệm toàn diện trên nhiều benchmark câu hỏi, cử chỉ và biểu cảm; so sánh với hàng loạt baseline mạnh; có phân tích ablation chi tiết và kiểm chứng tương quan hệ thống chặt chẽ giữa MLLM-as-a-judge và đánh giá người."
+ },
+ "summary": {
+  "tldr": "ELLSA 2 là mô hình hội thoại full-duplex end-to-end đầu tiên tối ưu hóa đồng thời cả tương tác tiếng nói, cử chỉ (gesture) và biểu cảm khuôn mặt (facial expression) theo cơ chế streaming liên tục. Mô hình tích hợp cơ chế contextual semantic calls và template guidance nhằm tách biệt quyết định kích hoạt cử chỉ ngữ nghĩa khỏi khâu sinh động tác, giúp tạo ra cử chỉ giàu ý nghĩa mà vẫn giữ độ trễ thời gian thực.",
+  "problem": "Hội thoại mặt-đối-mặt của con người đòi hỏi phối hợp nhịp nhàng giữa lời nói, cử chỉ và nét mặt ở cả vai trò người nói (speaking) lẫn người nghe (listening, ví dụ gật đầu, mỉm cười mà không cướp lượt). Các mô hình full-duplex trước đây chủ yếu tập trung vào tương tác giọng nói, trong khi các mô hình co-speech gesture thường xem chuyển động là bước ghép hoạt họa độc lập từ âm thanh đầu ra và gặp khó khăn khi sinh các cử chỉ mang ý nghĩa ngữ nghĩa cụ thể (semantic gestures) do sự phân bố thưa thớt của chúng trong dữ liệu đàm thoại thực tế.",
+  "method": "ELLSA 2 tích hợp kiến trúc tương tác giọng nói (dựa trên khung thời gian của SALMONN-omni) với bộ tổng hợp cử chỉ - biểu cảm dạng autoregressive chunk-wise:\\n- **Biểu diễn chuyển động và phân tách khuôn mặt**: Chuyển động thân trên và bàn tay được mô hình hóa bằng SMPL-H (loại bỏ nửa thân dưới), khuôn mặt bằng FLAME. Tách biệt biểu cảm bằng phân rã SVD để cô lập không gian con 8 chiều chi phối chuyển động miệng ($Capture$ 99.6836% năng lượng), giúp mã hóa khẩu hình độc lập với các biểu cảm khác. Sử dụng region-specific RVQ-VAE downsample từ 30 Hz xuống 7.5 Hz, mỗi bước sinh dự đoán 18 chỉ số codebook (6 thân trên, 6 tay, 4 biểu cảm ngoài miệng, 2 cử động miệng).\\n- **Tổng hợp Streaming Chunk-wise (0.8 s)**: Bộ sinh nhận 10 listening speech embeddings (từ tầng cuối LLM backbone khi xử lý audio người dùng) và 10 speaking speech embeddings (từ bộ tổng hợp giọng nói của mô hình) cùng đặc trưng âm học causal SPEAR được đóng băng. Khi mô hình im lặng (verbal silence), luồng listening vẫn duy trì hoạt động và điều kiện speaking được thay bằng learnable null token, cho phép tạo phản ứng người nghe (listener backchannels).\\n- **Contextual Semantic Calls & Template Guidance**: Tách biệt quyết định gọi cử chỉ và thực thi. Semantic call head gắn vào các tầng ẩn trung gian (tầng 16, 20, 24 của LLM backbone) để dự đoán xác suất kích hoạt cử chỉ ngữ nghĩa tại các điểm kết thúc cụm từ (lexical endpoint). Do áp dụng kiến trúc thinker-talker với văn bản sinh trước âm thanh, mô hình có đủ look-ahead time để truy xuất exemplar từ thư viện mẫu (gồm 3,227 mẫu thuộc 1,125 action families) và chèn token hướng dẫn vào chuỗi sinh mà không gây trễ.\\n- **Curriculum Training 4 giai đoạn**: Giai đoạn 1 huấn luyện ASR/QA; Giai đoạn 2 học hội thoại đa lượt và timing; Giai đoạn 3 đóng băng tương tác tiếng nói để căn chỉnh biểu diễn bộ sinh cử chỉ/biểu cảm; Giai đoạn 4 tối ưu hóa đồng thời toàn bộ mô hình với learning rate của LLM LoRA và synthesizer thấp hơn bộ sinh cử chỉ.",
+  "setup": "Dữ liệu huấn luyện cử chỉ được lọc kỹ từ Seamless Interaction: chỉ giữ lại 81 người nói có cử chỉ rõ ràng và nhất quán (từ 3,401 người nói ban đầu, đóng góp 1,318 bản ghi). Biểu cảm được trích xuất bằng KaoLRM. Mô hình có tổng cộng 10.78B tham số (776M tham số huấn luyện: 696M gesture generator khởi tạo từ Qwen2.5-0.5B-Instruct, LoRA trên LLM và synthesizer).\\n- Đánh giá tiếng nói: Llama Questions, Web Questions, TriviaQA (S2T và S2S accuracy qua Whisper-large-v3), AlpacaEval (GPTScore 1-5), và Turn-taking success rate (TT, %).\\n- Đánh giá cử chỉ và biểu cảm: Tập kiểm thử human-verified gồm 138 đoạn (67 duplex, 71 semantic). Sử dụng chỉ số tỉ lệ hoạt động nói/nghe ($R_{SL} = E_S / E_L$), prosodic alignment contrastive ($A$), đánh giá từ người thẩm định (Human Duplex $D$, Human Semantic $S$, thang điểm 1-5) và giám khảo MLLM-as-a-judge (Gemini-2.5-Pro, Seed-2.0-lite, thang 0-1). Chỉ số biểu cảm gồm LVE, MHD, FDD, JDD.\\n- Baselines so sánh: Full-duplex speech (Moshi, PersonaPlex, Freeze-Omni, SALMONN-omni); Gesture (GestureLSM, MIBURI, ConvoFusion, audio2photoreal); Expression (ARTalk, MIBURI, UniLS, DualTalk).",
+  "results": [
+   "Độ chính xác hỏi đáp dạng S2S đạt cao nhất trên cả 3 tập benchmark so với các mô hình full-duplex: Llama Questions đạt 78.0% (vượt SALMONN-omni 73.6%), Web Questions đạt 47.3% (vượt SALMONN-omni 43.7%), TriviaQA đạt 63.6% (vượt SALMONN-omni 56.0%).",
+   "Khả năng turn-taking đạt trung bình 95.2%, trong đó Llama Questions và Web Questions đều đạt 99.3%, TriviaQA đạt 94.4%.",
+   "Điểm chất lượng hội thoại AlpacaEval S2T/S2S đạt 3.97 / 3.20 (so với 4.01 / 3.22 của SALMONN-omni).",
+   "Semantic-call head đạt 87.8% F1 và 87.0% Accuracy trong việc dự đoán thời điểm kích hoạt cử chỉ ngữ nghĩa phù hợp ngữ cảnh.",
+   "Về chất lượng cử chỉ: ELLSA 2 với semantic guidance đạt điểm ngữ nghĩa do con người đánh giá (Human S) là 2.711 (tăng vọt so với 2.014 khi không có guidance, 1.444 của GestureLSM, 1.049 của ConvoFusion); MLLM S đạt 0.495 (so với 0.347 không guidance).",
+   "Về hành vi full-duplex cử chỉ: ELLSA 2 không guidance đạt điểm Human D cao nhất 3.201 và prosodic alignment A đạt 0.723 (so với standalone generator đạt 3.007 và 0.703; GestureLSM đạt 2.164 và 0.612). RSL đạt 1.597 với guidance và 1.563 không guidance.",
+   "Về độ chính xác biểu cảm khuôn mặt: ELLSA 2 with guidance đạt LVE thấp nhất 8.74 mm (so với ARTalk 9.35 mm, MIBURI 13.52 mm, UniLS 9.37 mm, DualTalk 12.72 mm) và MHD thấp nhất 1.88 mm; FDD (S/N) đạt 14.42 / 14.78; JDD (S/N) đạt 0.98 / 1.23.",
+   "Tương quan cấp hệ thống (system-level Pearson r) giữa MLLM mean và Human mean đạt 0.853 cho Duplex score và 0.919 cho Semantic score."
+  ],
+  "limitations": "Mô hình hiện chưa tích hợp khả năng thị giác (visual perception) để nhìn thấy người đối thoại trong giao tiếp mặt-đối-mặt. Thư viện cử chỉ mẫu (semantic exemplar library) mới chỉ được xây dựng từ tập dữ liệu Seamless Interaction nên độ bao phủ ngữ nghĩa còn giới hạn.",
+  "takeaways": "Việc tích hợp đồng thời biểu diễn đàm thoại (shared dialogue representations) từ LLM backbone và bộ tổng hợp giọng nói giúp mô hình sinh cử chỉ và biểu cảm chuẩn xác về mặt ngữ nghĩa và nhịp điệu hơn hẳn các mô hình cascaded, mà không làm suy giảm chất lượng tương tác tiếng nói. Ngoài ra, việc tận dụng kiến trúc thinker-talker (văn bản sinh trước âm thanh) là chìa khóa then chốt để xử lý độ trễ trong các bài toán kích hoạt tài nguyên mẫu (template/exemplar retrieval) theo thời gian thực.",
+  "strengths": [
+   "Hệ thống full-duplex end-to-end đa thể thức hoàn chỉnh",
+   "Cơ chế semantic-call kết hợp template guidance sáng tạo",
+   "Tối ưu miệng độc lập qua phân rã SVD",
+   "Giữ vững hiệu năng tương tác tiếng nói vượt trội",
+   "Thiết lập benchmark và pipeline đánh giá MLLM tin cậy"
+  ],
+  "weaknesses": [
+   "Chưa hỗ trợ visual input từ phía người dùng",
+   "Thư viện exemplar mới chỉ khai thác từ một nguồn",
+   "Tương quan MLLM-người ở cấp độ mẫu (sample-level) còn thấp"
+  ],
+  "context": "Siyin Wang, Wenyi Yu, Chao Zhang (Đại học Thanh Hoa) cùng Xianzhao Chen, Xiaohai Tian, Jun Zhang, Lu Lu (ByteDance); phát hành dưới dạng preprint trên arXiv (tháng 10/2026), mã nguồn công bố tại GitHub bytedance/SALMONN."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

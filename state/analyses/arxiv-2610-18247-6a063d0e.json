@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.18247",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Đề xuất khái niệm hiện thực hóa ngữ dụng đích (target-space realization) và cơ chế hiệu chuẩn không gian con kết hợp continuous soft prompt vào mô hình TTS đóng băng thay vì chỉ chuyển giao âm học trực tiếp.",
+  "credibility": "Nghiên cứu đến từ nhóm tác giả uy tín trong lĩnh vực xử lý tiếng nói (Satoshi Nakamura, CUHK Shenzhen) nhưng hiện mới là bản thảo preprint trên arXiv chưa công bố hội nghị.",
+  "technical": "Thiết kế phương pháp chặt chẽ từ trích xuất đặc trưng HuBERT theo ngôn ngữ, chiếu PLS, hiệu chuẩn không gian con trực giao đến ablation study phân tích rõ từng thành phần.",
+  "impact": "Cung cấp giải pháp khả thi cho lồng tiếng (dubbing) và thông dịch biểu cảm mà không cần train lại TTS backbone, tuy nhiên phụ thuộc vào bộ đặc trưng ngữ dụng chuyên biệt.",
+  "evidence": "Đánh giá đa chiều với nhiều hệ thống baseline mạnh (E2E, MLLM, Cascaded) cùng phân tích tương quan giữa trắc nghiệm khách quan và chủ quan, dù số lượng mẫu test còn hạn chế (30 cặp)."
+ },
+ "summary": {
+  "tldr": "PACT là framework dịch tiếng nói sang tiếng nói (S2ST) bảo toàn biểu cảm và giọng nói, ánh xạ các đặc trưng ngữ dụng (pragmatic cues) từ ngôn ngữ nguồn sang không gian biểu cảm ngôn ngữ đích đã được hiệu chuẩn. Các biểu diễn này được chuyển đổi thành continuous soft prompts để điều khiển bộ sinh tiếng nói CosyVoice 3 đang đóng băng (frozen), mang lại hiệu năng vượt trội trên benchmark song ngữ Tây Ban Nha - Anh TOPI.",
+  "problem": "Dịch tiếng nói biểu cảm không chỉ là sao chép âm sắc (timbre) hay đường nét âm học nguồn, mà phải tái hiện được ý định giao tiếp (affective stance, nhấn âm, nhịp điệu, ngắt nghỉ) phù hợp với quy ước của ngôn ngữ đích (target-language realization gap). Các hệ thống E2E S2ST, Speech MLLM và hệ thống cascaded hiện nay thường thiếu cơ chế tường minh để ánh xạ và hiệu chuẩn cách biểu cảm nguồn được hiện thực hóa trong không gian ngôn ngữ đích.",
+  "method": "PACT phân tách quá trình sinh tiếng nói thành 3 kênh độc lập và chỉ hợp nhất tại thời điểm tổng hợp âm thanh với mô hình TTS đóng băng hoàn toàn (CosyVoice 3):\n- **Semantic Channel**: Sử dụng Whisper Large V3 để nhận dạng nguồn và Qwen2.5-72B-Instruct dịch sang văn bản đích $T_t$.\n- **Speaker Channel**: Trích xuất điều kiện người nói $v_s$ từ âm thanh nguồn $x_s$ để nạp vào flow-matching decoder của CosyVoice 3.\n- **Pragmatic Prompting Channel**:\n  1. *Trích xuất đặc trưng*: Sử dụng HuBERT Large trích xuất các chiều đại diện cho độ tương đồng ngữ dụng theo ngôn ngữ (101 chiều cho tiếng Tây Ban Nha, 103 chiều cho tiếng Anh) kết hợp temporal average pooling thành $p_s$.\n  2. *Chiếu sang không gian đích*: Ánh xạ $p_s$ qua bộ chiếu Partial Least Squares (PLS) 64 thành phần: $z_{base} = f_{\\ell_s \\to \\ell_t}(p_s)$ huấn luyện trên tập DRAL.\n  3. *Hiệu chuẩn không gian đích (Realization Calibration)*: Chiếu vào không gian con khả thi để lọc nhiễu ngoài phân phối: $z_{cal} = \\mu_t + \\alpha U_{t,k} U_{t,k}^\\top (z_{base} - \\mu_t)$ với $k=64, \\alpha=0.25$ (áp dụng cho chiều Es$\\to$En; tắt ở En$\\to$Es).\n  4. *Soft Prompt Adapter*: Mạng MLP nhẹ (512 chiều ẩn, GELU, LayerNorm, ~3.5M tham số) biến đổi $z_{cal}$ thành $m=7$ token continuous prompt ($d_{model}=896$), gắn tiền tố vào chuỗi text embedding trước khi đưa vào CosyVoice 3 language model.",
+  "setup": "Đánh giá trên benchmark TOPI song ngữ Spanish–English (30 cặp câu đối thoại tự nhiên được diễn lại bởi người song ngữ). Huấn luyện adapter trên DRAL (2.577 cặp train, 286 cặp dev) và tập con Emilia 400 giờ (chỉ cho Es$\\to$En). Huấn luyện bằng Adam (lr $1 \\times 10^{-5}$, warmup 1.000 bước, grad clip 5, grad accum 2) trên 1 card NVIDIA RTX 5090. So sánh với 9 baseline: E2E (SeamlessExpressive, SeamlessM4T-v2, Fairseq S2UT, Qwen3.5-LiveTranslate), Speech MLLM (Qwen3.5-Omni-Plus, GPT-Audio-1.5), Cascaded (OpenVoice V2, Fish-Speech, XTTS-v2).",
+  "results": [
+   "Trên chiều Es→En, PACT đạt ASR-BLEU 30.7 so với 27.7 của OpenVoice V2 và 21.6 của SeamlessExpressive.",
+   "Về độ tương đồng ngữ dụng (Prag Sim.), PACT đạt 79.3 (Es→En) và 82.9 (En→Es), vượt qua SeamlessExpressive (72.0 | 81.4) và Fish-Speech (73.8 | 79.5).",
+   "Về bảo toàn giọng nói (Spk Sim.), PACT đạt 72.9 (Es→En) và 72.5 (En→Es), dẫn đầu so với SeamlessExpressive (66.3 | 70.6) và Qwen3.5-LiveTranslate (65.5 | 57.0).",
+   "Chỉ số cảm xúc và tham số âm học chi tiết: PACT đạt SER-JSD thấp nhất (8.9 Es→En | 12.4 En→Es) và khoảng cách eGeMAPS eG-Z thấp nhất (1.20 | 1.49).",
+   "Đánh giá chủ quan MOS (Es→En, thang 1-5): PACT dẫn đầu về Prag Sim. (3.42 vs 2.10 của Qwen3.5-LiveTranslate) và Spk Sim. (4.08 vs 2.72 của Qwen3.5-LiveTranslate); về Naturalness, PACT đạt 3.64 trong khi Qwen3.5-Omni-Plus đạt 4.78."
+  ],
+  "limitations": "Tập đánh giá TOPI có kích thước tương đối nhỏ (chỉ gồm 30 cặp câu đánh giá và 10 câu cho human MOS). Phương pháp phụ thuộc vào tập dữ liệu biểu cảm song ngữ theo cặp (DRAL) và các chiều HuBERT ngữ dụng được xác định trước. Cơ chế hiệu chuẩn (calibration) hoạt động không đối xứng giữa 2 chiều ngôn ngữ (phải tắt ở En→Es do thiếu tập pretraining tiếng Tây Ban Nha quy mô lớn). Độ tự nhiên (Naturalness) vẫn thấp hơn Speech MLLM thuần túy.",
+  "takeaways": "Tách biệt rõ ràng ba trục (ngữ nghĩa, giọng người nói, biểu cảm ngữ dụng) kết hợp soft-prompting vào mô hình TTS đóng băng là hướng tiếp cận hiệu quả, tiết kiệm tham số và tránh làm suy giảm chất lượng dịch văn bản trong S2ST biểu cảm.",
+  "strengths": [
+   "Kiến trúc modular tham số nhẹ (~3.5M params)",
+   "Giữ nguyên và tận dụng TTS đóng băng",
+   "Ánh xạ biểu cảm vào không gian ngôn ngữ đích",
+   "Cân bằng tốt giữa BLEU, timbre và ngữ dụng"
+  ],
+  "weaknesses": [
+   "Tập test nhỏ (30 cặp câu)",
+   "Phụ thuộc dữ liệu cặp song ngữ DRAL",
+   "Naturalness thấp hơn Speech MLLM",
+   "Hiệu chuẩn chưa tổng quát hóa đối xứng"
+  ],
+  "context": "Yuchen Song và Satoshi Nakamura (The Chinese University of Hong Kong, Shenzhen & Shenzhen Loop Area Institute); công bố dưới dạng preprint trên arXiv (arXiv:2610.18247, 2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

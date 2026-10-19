@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.17461",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đây là công trình đầu tiên áp dụng distillation trực tiếp từ Text LM vào mô hình Speech-to-Speech LM bằng cách kiến tạo giao diện text trung gian nội bộ theo từng từ mà không cần gỡ băng prompt lúc suy luận.",
+  "credibility": "Nhóm tác giả uy tín chuyên sâu về Speech LMs (Livescu Lab, TTI-Chicago) với các công trình nền tảng về Flow-SLM, thiết lập quy trình thực nghiệm minh bạch, có phụ lục chi tiết và AI statement rõ ràng.",
+  "technical": "Phương pháp thiết kế kiến trúc và hàm mục tiêu kết hợp (Discrete CE + CFM x-prediction + KL distillation + text replay) rất chặt chẽ, giải quyết triệt để vấn đề mất mát tri thức và độ trễ modality.",
+  "impact": "Cung cấp một giải pháp bản lề cho cộng đồng nghiên cứu Spoken LM để chuyển giao hiệu quả năng lực suy luận của các mô hình ngôn ngữ lớn sang mô hình thuần tiếng nói mà không làm biến dạng pipeline suy luận.",
+  "evidence": "Kết quả thực nghiệm toàn diện với đầy đủ ablation về distillation weight, text replay, so sánh đối đầu với các baseline mạnh (SpiritLM, SLAM, Llama-Mimi) trên cả genPPL, StoryCloze, Known-1000 và Gemini-Emo."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu đề xuất Text-Guided Speech LM (TGSLM), phương pháp tiền huấn luyện speech-to-speech tạo giao diện văn bản nội bộ dạng từ-nối-từ (word-by-word) mà không yêu cầu văn bản prompt ở đầu vào hay đầu ra khi suy luận. Cấu trúc này cho phép chưng cất tri thức (knowledge distillation) trực tiếp từ mô hình ngôn ngữ văn bản gốc vào các dự đoán text trung gian, giúp cải thiện vượt bậc chất lượng ngôn ngữ và duy trì kiến thức thực tế (factual knowledge).",
+  "problem": "Các mô hình ngôn ngữ thuần tiếng nói (speech-only SLMs) học tri thức ngôn ngữ và dữ kiện thực tế rất chậm so với mô hình văn bản dưới cùng ngân sách tính toán. Trong khi đó, các kỹ thuật chưng cất từ text LM trước đây chủ yếu áp dụng cho mô hình speech-in/text-out hoặc dựa trên RL/DPO ở mức câu tạo ra nhiều hạn chế, còn mô hình inner-monologue thường đòi hỏi phải có bản gỡ băng (ASR transcript) của prompt tiếng nói tại thời điểm suy luận.",
+  "method": "TGSLM phân tách việc sinh tiếng nói tiếp nối thành việc dự đoán nội dung ngôn ngữ dưới dạng text trước, sau đó mới sinh phân đoạn âm thanh tương ứng từng từ một. Cụ thể:\n- **Chuỗi dữ liệu huấn luyện:** Lấy căn chỉnh từ-tiếng nói bằng Whisper aligner, chèn token `<switch>` ngẫu nhiên tại một ranh giới từ. Trước `<switch>`, mô hình nhận ngữ cảnh tiếng nói thuần túy (không tính loss). Sau `<switch>`, chuỗi chuyển đổi tuần tự: $S_{\\text{context}} \\to \\text{<switch>} \\to T_1 \\to S_1 \\to T_2 \\to S_2 \\dots$, kết thúc mỗi từ bằng `<t-eow>` và `<s-eow>`.\n- **Mục tiêu sinh tiếng nói:** Dựa trên Flow-SLM với Mimi tokenizer, tầng Transformer dự đoán $k = 4$ semantic tokens rời rạc (từ Mimi RVQ codebook đầu tiên) thông qua loss $\\mathcal{L}_{\\text{discrete}}$, kết hợp với đầu Conditional Flow-Matching (CFM) theo tham số hóa $x$-prediction để sinh đặc trưng liên tục qua loss $\\mathcal{L}_{\\text{CFM}}$: $\\mathcal{L}_{\\text{speech}} = \\mathcal{L}_{\\text{discrete}} + \\mathcal{L}_{\\text{CFM}}$.\n- **Chưng cất tri thức (Knowledge Distillation):** Tại các vị trí token text, mô hình sinh viên (nhận ngữ cảnh tiếng nói và lịch sử text-speech) được chưng cất phân phối từ frozen text backbone teacher (nhận chuỗi text ground-truth) bằng loss forward KL divergence: $\\mathcal{L}_{\\text{KD}} = \\mathbb{E}\\left[\\frac{1}{T}\\sum_{t=1}^T D_{\\text{KL}}(p_{\\text{teacher}}(y_t \\mid c^{\\text{text}}_{<t}) \\parallel p_\\theta(y_t \\mid c^{\\text{st}}_{<t}))\\right]$.\n- **Huấn luyện và chống quên:** Tổng loss là $\\mathcal{L} = (1-\\lambda)\\mathcal{L}_{\\text{text}} + \\lambda \\mathcal{L}_{\\text{KD}} + \\mathcal{L}_{\\text{speech}}$, kết hợp xen kẽ text replay từ FineWeb (tần suất 0.2) để tránh suy thoái năng lực văn bản.\n- **Suy luận:** Prompt vào hoàn toàn bằng âm thanh, gắn `<switch>` để kích hoạt luồng xen kẽ online bằng chuẩn tham lam (greedy) xác định ranh giới từ qua `<t-eow>` và `<s-eow>`.",
+  "setup": "Khởi tạo từ pretrained Qwen3 base LM (Qwen3-0.6B cho TGSLM 0.8B và Qwen3-1.7B cho TGSLM-Large 1.9B). Huấn luyện trên Emilia tiếng Anh (21.3k giờ cho bản 0.8B; 135k giờ kết hợp Emilia-YODAS cho TGSLM-Large-distill) dùng 4 GPU với optimizer AdamW 8-bit và precision BF16. Đánh giá khả năng ngôn ngữ qua generative perplexity (genPPL, transcribe bằng Whisper small.en và chấm điểm bằng OLMo-3 7B), tính lặp từ qua bigram auto-BLEU, chất lượng âm học bằng UTMOS-v2, độ tương đồng người nói bằng WavLM-large-TDNN. Đánh giá factual qua Known-1000 (Pass@1, Pass@5), StoryCloze (spoken và text), và độ nhạy cảm xúc qua tập Gemini-Emo (96 triplets cảm xúc phân loại bằng emotion2vec-plus-large).",
+  "results": [
+   "Trên tập test Emilia, TGSLM (0.8B, 21.3k h) giảm genPPL từ 151.7 (Speech-only baseline) và 164.1 (Interleaved baseline) xuống còn 58.9, đạt mức tương đương mô hình text-leading có Whisper transcript (57.1) mà không cần bước ASR prompt.",
+   "Áp dụng distillation ($\\lambda = 0.25$) và text replay đưa genPPL tiếp tục hạ xuống 51.0 (TGSLM 0.8B) và đạt 45.0 trên TGSLM-Large-distill (1.9B, 135k h), trong khi bigram auto-BLEU duy trì ổn định (3.9 - 4.9 so với 4.3 của baseline).",
+   "Trên benchmark Known-1000, Pass@5 tăng mạnh từ 1.7% (Speech-only) lên 6.7% (TGSLM), 12.5% (TGSLM + replay) và 22.4% (TGSLM-distill $\\lambda = 0.5$). Bản phóng to TGSLM-Large-distill đạt 37.9% Pass@5 (Pass@1 đạt 16.8%), vượt qua SpiritLM Base 7B (Pass@5: 23.5% S->S, 31.8% S->T) dù kích thước mô hình và dữ liệu ít hơn nhiều.",
+   "Distillation đồng thời bảo toàn năng lực text gốc: độ chính xác trên StoryCloze văn bản (tSC) tăng từ 65.2% (TGSLM gốc) lên 80.0% (TGSLM-distill $\\lambda = 0.75$), và trên spoken StoryCloze (sSC) tăng từ 53.7% lên 58.3%.",
+   "Về độ nhạy cảm xúc trên Gemini-Emo, TGSLM-distill ($\\lambda = 0.5$) đạt Macro accuracy 57.4% so với 55.9% của Speech-only baseline và 57.7% của TGSLM thuần, cho thấy việc ép phân phối text không làm suy giảm khả năng bắt nhịp cảm xúc cận ngôn ngữ (paralinguistic cues)."
+  ],
+  "limitations": "Phụ thuộc vào công cụ gióng hàng từ-âm thanh (Whisper alignment) chất lượng cao trong pha tiền huấn luyện để cắt lát dữ liệu; chưa thử nghiệm loại bỏ ranh giới mức từ (như mức câu). Chỉ tập trung vào giai đoạn pretraining mà chưa kiểm chứng hiệu quả khi post-training (instruction tuning, đàm thoại song công full-duplex). Chỉ số âm học (UTMOS-v2 và speaker similarity) ở cấu hình nhỏ bị giảm nhẹ so với speech-only baseline.",
+  "takeaways": "Để đưa năng lực suy luận và tri thức phong phú của text LLM vào mô hình speech-to-speech, việc tổ chức chuỗi tự sinh trung gian 'text đi trước speech tương ứng' theo từng từ kết hợp chưng cất KL phân kỳ là giải pháp vượt trội so với mô hình interleaved hay pure-speech, mà vẫn giữ được tính thuận tiện là nhận/phát hoàn toàn bằng tiếng nói tại inference.",
+  "strengths": [
+   "Thiết kế chuỗi text-guided word-by-word thông minh",
+   "Suy luận tiếng nói trực tiếp không cần ASR",
+   "Giảm mạnh genPPL tiếp cận text-leading oracle",
+   "Duy trì tri thức dữ kiện thực tế vượt trội",
+   "Bảo toàn tốt độ nhạy cảm xúc paralinguistic"
+  ],
+  "weaknesses": [
+   "Phụ thuộc ranh giới căn chỉnh từ Whisper",
+   "UTMOS và speaker similarity giảm nhẹ ở bản nhỏ",
+   "Chưa đánh giá post-training hoặc dialogue"
+  ],
+  "context": "Nghiên cứu từ TTI-Chicago và Stony Brook University (tác giả Ju-Chieh Chou, Jiawei Zhou, Karen Livescu), công bố trên arXiv (arXiv:2610.17461)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

@@ -1,0 +1,48 @@
+{
+ "id": "gh:vahmoh25/veda",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 2,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tích hợp voice agent trực tiếp vào microkernel và UI toolkit qua typed actions thay vì screen scraping là cách tiếp cận OS-level rất mới mẻ.",
+  "credibility": "Dự án phát triển bởi cá nhân độc lập trên GitHub, chưa qua bình duyệt học thuật hay bảo trợ từ một tổ chức công nghệ lớn.",
+  "technical": "Khối lượng kỹ thuật ấn tượng bao gồm microkernel Rust, hypervisor riêng quản lý Linux driver VM, immediate-mode UI toolkit và IPC typed-action framework.",
+  "impact": "Dự án mới ở mức thử nghiệm/nghiên cứu với mức độ nhận diện khiêm tốn trên GitHub (82 stars, 10 forks) và chưa có triển khai thực tế quy mô lớn.",
+  "evidence": "Dự án cung cấp mã nguồn và bộ kiểm thử tự động, nhưng không có bài đánh giá hay số liệu thực nghiệm định lượng nào về độ trễ, độ chính xác ASR hay tỷ lệ thành công của agent."
+ },
+ "summary": {
+  "tldr": "Veda là một hệ điều hành hoàn chỉnh viết bằng Rust với voice agent được tích hợp trực tiếp như một dịch vụ hệ thống chạy từ lúc khởi động. Thay vì sử dụng screen scraping, agent tương tác với các ứng dụng thông qua giao thức typed actions và cơ chế phân quyền, xin phép (consent) an toàn được quản lý bởi desktop shell.",
+  "problem": "Các trợ lý giọng nói và AI agent trên máy tính hiện nay thường là ứng dụng tầng người dùng hoạt động tách biệt, phụ thuộc vào screen scraping hoặc accessibility API vốn chậm, kém ổn định và dễ gây lỗi. Hơn nữa, chúng thiếu sự kiểm soát an toàn cấp hệ điều hành đối với các tác vụ nhạy cảm hoặc mang tính phá hủy dữ liệu.",
+  "method": "Veda thiết kế một kiến trúc agentic-native từ tầng sâu nhất của hệ điều hành:\n- **Voice Agent Service:** Chạy như một system service từ khi boot, hỗ trợ đánh thức bằng wake word *\"Hey Veda\"*, phím tắt `Super+Space` hoặc biểu tượng taskbar. Agent cấu hình API key (Deepgram) để xử lý STT, TTS và LLM trong phần cài đặt Settings.\n- **Typed Actions qua UI Toolkit:** Các ứng dụng được xây dựng trên UI toolkit của Veda (`ui::App`) định nghĩa hành động thông qua `agent_info` (danh sách action, tham số, mô tả, mức độ rủi ro `Risk::Destructive`), báo cáo trạng thái bằng `agent_state` và xử lý lệnh qua `agent_invoke`. Agent tương tác cùng đường dẫn mã nguồn như chuột và bàn phím thay vì đọc màn hình.\n- **Kiểm soát Consent không thể vượt qua:** Hệ điều hành giữ lại các hành động có rủi ro cao hoặc nhạy cảm để chờ người dùng phê duyệt; chỉ có desktop shell mới có quyền trả lời prompt này.\n- **Kiến trúc OS:** Microkernel viết bằng Rust hỗ trợ capabilities, SMP và IPC; các dịch vụ user-space có cơ chế tự khởi động lại khi crash. Driver phần cứng chạy trên một Linux VM được cách ly bằng IOMMU thông qua hypervisor riêng của Veda.",
+  "setup": "Hỗ trợ máy tính x86-64 và QEMU (yêu cầu KVM với nested virtualization `kvm_intel nested=1`). Cần Rust, công cụ build (GCC, musl, CMake, NASM, Python3, v.v.). Chạy thực tế trên PC qua USB live (UEFI, bật VT-x/VT-d, tắt Secure Boot). Yêu cầu Deepgram API key để kích hoạt agent.",
+  "results": [
+   "Hơn 100 typed actions được tích hợp sẵn trên toàn bộ các ứng dụng mặc định của hệ thống",
+   "Thời gian biên dịch toolchain (GCC, musl, Rust cho Veda): khoảng 30 phút",
+   "Thời gian biên dịch WebKit (trình duyệt web): 1 giờ hoặc hơn",
+   "Độ trễ (latency), WER, MOS: Không được nêu trong tài liệu"
+  ],
+  "limitations": "Agent phụ thuộc vào dịch vụ API đám mây bên thứ ba (Deepgram) để hoạt động, không chạy offline/on-device cho pipeline tiếng nói; yêu cầu phần cứng x86-64 hỗ trợ ảo hóa phần cứng cụ thể (VT-x, VT-d) và phải tắt Secure Boot; tài liệu hoàn toàn thiếu các số liệu benchmark định lượng về hiệu năng tác vụ của agent.",
+  "takeaways": "Veda minh chứng một hướng đi tiềm năng cho AI-native OS: thay thế screen scraping bằng typed action APIs tích hợp trực tiếp vào UI framework và hệ thống cấp phép microkernel, giúp voice agent điều khiển ứng dụng ổn định và an toàn hơn.",
+  "strengths": [
+   "Voice agent tích hợp cấp hệ điều hành",
+   "Typed actions thay thế screen scraping",
+   "Cơ chế consent an toàn chống hành vi phá hoại",
+   "Kiến trúc microkernel Rust kết hợp Driver VM"
+  ],
+  "weaknesses": [
+   "Phụ thuộc cloud API bên ngoài (Deepgram)",
+   "Thiếu số liệu đo lường định lượng",
+   "Hạn chế phần cứng x86-64 và ảo hóa"
+  ],
+  "context": "Dự án nguồn mở của tác giả Vahid Mohammadi (vahmoh25) công bố trên GitHub theo giấy phép GPL-3.0 (bản quyền © 2026)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

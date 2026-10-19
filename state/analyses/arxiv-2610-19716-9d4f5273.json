@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2610.19716",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình đề xuất hướng đi mới mẻ khi kết hợp autoregressive LLM sinh multi-stream audio codec, tận dụng speaker timeline text supervision và dùng RLAIF theo cơ chế describe-then-rank để thích ứng trên audio thực tế không có nhãn stems.",
+  "credibility": "Nhóm tác giả uy tín từ Fudan University và Shanghai Innovation Institute (nhóm phát triển OpenMOSS, MOSS audio suite), phương pháp thực nghiệm và các giao thức kiểm thử được mô tả rất chi tiết.",
+  "technical": "Thiết kế kỹ thuật chặt chẽ với cơ chế local transformer sinh codebook, hệ thống lọc tín hiệu heuristic kết hợp kiểm định Kendall tau chống order bias cho LLM judge, cùng pipeline full-duplex conversation hoàn chỉnh.",
+  "impact": "Cung cấp giải pháp tiềm năng cho continuous speech separation và full-duplex dialog data preparation, tuy nhiên quy mô 5.38B tham số và kiến trúc serial autoregressive còn cồng kềnh cho các ứng dụng thực tế thời gian thực.",
+  "evidence": "Kết quả thực nghiệm phong phú trên 6 benchmark thuộc 3 domain (speech overlap, noise, singing), so sánh với nhiều baseline mạnh và có ablation study cụ thể cho từng thành phần (timeline supervision, RL, judge validation)."
+ },
+ "summary": {
+  "tldr": "Soloist là mô hình generative tách giọng nói mù (blind voice separation) dựa trên kiến trúc autoregressive sequence-to-sequence kết hợp LLM và neural audio codec mà không cần target-speaker query hay số lượng người nói định trước. Bằng phương pháp huấn luyện 2 giai đoạn kết hợp supervision đa nguồn (audio stems, timeline người nói) và Reinforcement Learning trên bản ghi thực tế với reward từ model-judge (describe-then-rank), mô hình đạt độ chính xác nhận diện số lượng người nói và chất lượng tách tiếng vượt trội so với các mô hình truyền thống.",
+  "problem": "Tách giọng nói trong môi trường thực tế (in-the-wild) đòi hỏi mô hình phải tự xác định số lượng người nói, bảo toàn nội dung/danh tính từng người và loại bỏ tạp âm/âm nhạc. Tuy nhiên, dữ liệu thực tế gần như không có stem riêng lẻ (isolated source waveforms) làm ground truth để giám sát, trong khi các phương pháp supervised hiện tại bị giới hạn bởi phân phối của dữ liệu tổng hợp (synthetic mixtures), còn các mô hình generative dễ bị hallucination hoặc resynthesis sai nội dung.",
+  "method": "Soloist (5.38B tham số) dùng decoder Qwen3-4B nhận đầu vào là continuous features từ AuT encoder (Qwen3-Omni) cộng với discrete codec tokens từ MOSS-Audio-Tokenizer-v2 (12 codebook, 12.5 fps). Một local transformer 1 lớp giải mã tuần tự 12 codec tokens cho từng frame âm thanh. Quá trình sinh diễn ra nối tiếp (serial): mô hình dự đoán số lượng người nói $\\hat{K}$, sau đó tuần tự sinh từng stream giọng nói kèm các token phân định. Quy trình huấn luyện gồm 2 giai đoạn: (1) Supervised training (SFT) kết hợp hỗn hợp nhân tạo (paired-stem targets), tách giọng hát (pseudo-vocal từ Mel-Band RoFormer) và timeline người nói dạng văn bản từ bản ghi tự nhiên (dự đoán mốc thời gian `[start][speaker][end]` qua MOSS-Transcribe-Diarize). (2) Reinforcement Learning (RL) trên bản ghi thực tế không có isolated source: sử dụng kiến trúc model-judge hai bước (Qwen3-Omni mô tả từng track và bản mix độc lập thành JSON, sau đó Qwen3.6-27B xếp hạng dựa trên báo cáo dạng text so với anchor bản mix ẩn danh), lọc qua kiểm tra nhất quán đảo thứ tự (Kendall's $\\tau_b \\ge 0.3$) và signal-level heuristic checks để tính reward cho clipped policy-gradient.",
+  "setup": "Đánh giá trên LibriMix (clean/noised 2-speaker), Voices in the Wild (ViW, 3.000 clip môi trường ồn/vang), WildTV (46 clip đời thực 1-3 người nói với blind count inference), cùng các tập hát SongYT, MIR-1K và MUSDB18-HQ. Baseline gồm các bộ tách âm SepFormer, MossFormer, ConvTasNet, SR-CorrNet và các mô hình query-based như SAM Audio, AudioSep, SoloAudio. Metric gồm PI-WER (Whisper large-v3), blind count accuracy, DNSMOS (BAK/OVRL), Raw Pitch Accuracy (RPA) và SingerSim (WavLM-large layer 14).",
+  "results": [
+   "Trên noised LibriMix (count=2 được cung cấp), Soloist đạt PI-WER 0.192, vượt qua SepFormer (0.218), MossFormer (0.289) và ConvTasNet (0.824); trên clean LibriMix đạt PI-WER 0.060 (so với SepFormer 0.058).",
+   "Trên WildTV (blind count inference), Soloist đạt blind count accuracy tuyệt đối 1.000 (100%) và PI-WER overall 0.150 (1 spk: 0.025, 2 spk: 0.160, 3 spk: 0.238), vượt xa mô hình blind baseline SR-CorrNet (count accuracy 0.217, PI-WER 1.940) lẫn các mô hình non-blind được cấp trước ground-truth count như MossFormer (0.527) và SepFormer (0.967).",
+   "Trên ViW (speech in noise), Soloist đạt WER thấp nhất trong các separator (0.302 so với MossFormer 0.315, SAM Audio 0.708, unprocessed 0.261) cùng điểm chất lượng DNSMOS cao nhất (BAK 3.18/3.45, OVRL 2.45/2.56 so với baseline kế tiếp MossFormer BAK 2.28/1.71, OVRL 1.69/1.23).",
+   "Trên benchmark hát SongYT, Soloist đạt WER 0.253, RPA 0.854 và SingerSim 0.982; trên MIR-1K đạt WER 0.354, RPA 0.799, SingerSim 0.956.",
+   "Ablation study cho thấy việc thêm timeline supervision nâng count accuracy từ 0.565 lên 0.761 trên WildTV, và giai đoạn RL tiếp tục cải thiện count accuracy lên 1.000 đồng thời hạ PI-WER từ 0.287 xuống 0.150."
+  ],
+  "limitations": "Mô hình sinh codec autoregressive có kích thước lớn (hơn 5.38 tỷ tham số) gây độ trễ tính toán cao, chưa hỗ trợ streaming thời gian thực. Giọng hát chỉ được mô phỏng theo pseudo-target từ teacher separator chứ không tách riêng từng ca sĩ trong dàn hợp xướng. Metric đánh giá phụ thuộc vào chất lượng nhận dạng của Whisper và ASR alignment.",
+  "takeaways": "Formulation tách tiếng như bài toán sinh codec chuỗi kết hợp LLM giải quyết triệt để vấn đề suy luận số lượng người nói không biết trước. Việc kết hợp timeline text-supervision và RL với model-judge dạng 'describe-then-rank' là một giải pháp khả thi để thích ứng mô hình âm thanh trên dữ liệu thực tế unlabelled.",
+  "strengths": [
+   "Tự suy luận số người nói chính xác 100% trên WildTV",
+   "Quy trình model-judge 2 bước describe-then-rank ổn định",
+   "Tận dụng speaker timeline để huấn luyện không cần isolated stems",
+   "Tích hợp hoàn chỉnh vào pipeline xử lý full-duplex"
+  ],
+  "weaknesses": [
+   "Mô hình 5.38B tham số tốn kém tài nguyên suy luận",
+   "Tách giọng hát chỉ học theo pseudo-target của teacher",
+   "Độ trễ cao do sinh codec autoregressive tuần tự"
+  ],
+  "context": "Nghiên cứu từ Đại học Fudan và Viện Đổi mới Sáng tạo Thượng Hải (Shanghai Innovation Institute), công bố trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

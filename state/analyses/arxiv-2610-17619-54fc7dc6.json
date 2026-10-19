@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2610.17619",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo không đề xuất kiến trúc ASR hay LLM mới mà phát triển một giao thức chẩn đoán ghép cặp có đối chứng (matched intervention) giúp phân tách rõ rệt vai trò tác vụ của từ bị lỗi thay vì chỉ dùng nhãn nhị phân.",
+  "credibility": "Nghiên cứu từ Leibniz University Hannover với tài liệu viết mạch lạc, quy trình đánh giá chuẩn xác, kiểm định thống kê đầy đủ (bootstrap CIs, McNemar, Holm correction) và công khai mã nguồn trên GitHub.",
+  "technical": "Thiết kế thực nghiệm và phân lập biến số rất tỉ mỉ, kiểm soát triệt để số lượng/thao tác chỉnh sửa từ vựng, kiểm toán tính ngẫu nhiên của LLM và phân rã chi tiết các tầng lỗi đầu ra.",
+  "impact": "Cung cấp khung đánh giá và phương pháp luận thiết thực cho cộng đồng phát triển voice agent trong việc chọn lựa ASR và phân tích lỗi, dù còn giới hạn ở phạm vi offline và single-turn.",
+  "evidence": "Số liệu thực nghiệm phong phú, kiểm tra trên 3 front-end ASR và 2 mô hình LLM, có báo cáo khoảng tin cậy 95%, giá trị p và phân tích chuyển giao rõ ràng."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu giới thiệu SpeechEvalX, một giao thức chẩn đoán ghép cặp (paired diagnostics) nhằm phân tích tác động của lỗi ASR đối với các lệnh gọi công cụ có cấu trúc (tool calls) trong hệ thống cascaded voice agent. Bằng cách kiểm soát chặt chẽ mức độ nghiêm trọng từ vựng (lexical severity), nghiên cứu chứng minh việc định danh vai trò tác vụ (task roles như number, negation, entity) dự đoán chính xác sự thất bại của hành động tốt hơn hẳn so với chỉ dựa vào WER, độ đo ngữ nghĩa hay nhãn critical-span nhị phân.",
+  "problem": "Trong các hệ thống trợ lý giọng nói dạng chuỗi (speech → ASR → LLM → structured action), chỉ số WER truyền thống không phản ánh đúng mức độ ảnh hưởng của lỗi nhận dạng giọng nói: một lỗi phiên âm nhỏ có thể vô hại (ví dụ: đổi mạo từ), nhưng cũng có thể làm sai lệch số lượng, đích đến hoặc mệnh đề phủ định, dẫn đến hành động sai hoàn toàn. Các nghiên cứu trước đây về nhiễu hoặc critical-span nhị phân chưa phân lập được lượng thông tin thực sự được bổ sung bởi từng vai trò tác vụ cụ thể khi cố định số lượng và phép biến đổi từ vựng.",
+  "method": "SpeechEvalX sử dụng phương pháp matched within-utterance edits để cố định câu nguồn $r_i$, số lượng chỉnh sửa, phép biến đổi (insertion, deletion, substitution) và hành động tham chiếu $z_i$:\n- **Phân loại vai trò tác vụ (7 vai trò)**: 5 vai trò mang tác vụ (Number, Entity, Negation, Intent cue, Other slot value) và 2 vai trò đối chứng (Function word, Other non-critical). Việc gán nhãn dựa trên luật đóng băng trước khi đánh giá (exact span-boundary F1 đạt 0.93, Cohen's $\\kappa = 0.89$).\n- **Đánh giá ghép cặp (Paired action outcomes)**: Phân loại thành Preserved success (1,1), Harmed pair $H$ (1,0), Rescued pair $R$ (0,1), và Persistent failure (0,0). Tổn thất Joint Call Accuracy (JCA) ghép cặp tính bằng $L_c = (H_c - R_c)/|I_c|$.\n- **Phân loại lỗi đầu ra cuối cùng**: Gán thứ tự ưu tiên gồm malformed output, incorrect call/no-call decision, wrong tool, invalid/missing argument structure, và incorrect argument value.\n- **Mô hình dự đoán chẩn đoán**: Sử dụng regularized logistic regression với source-grouped 5-fold cross-validation trên các tập đặc trưng tích lũy: B0 (lexical controls), B1 (+ BERT cosine distance), B2 (+ Semantic-WER), B3 (+ binary critical-span flag), và B4 (+ detailed task roles). Thử nghiệm chuyển giao (zero-shot transfer) sang mô hình LLM thứ hai mà không tinh chỉnh lại.",
+  "setup": "- **Dữ liệu**: Tập mẫu gồm 594 câu đơn lượt (single-turn) split đều từ hai bộ dữ liệu tiếng Anh: `VoiceAgentBench` (297 mẫu) và `BFCL Audio` (297 mẫu), gồm 540 call và 54 no-call. Tập can thiệp kiểm soát gồm 210 câu thỏa mãn có đầy đủ biến thể đơn sửa đổi cho mọi vai trò.\n- **Hệ thống**: \n  - ASR front-ends: Whisper large-v3, SenseVoice-Small, Paraformer-large (âm thanh 16-kHz mono float32).\n  - LLM agents: Qwen2.5-7B-Instruct (mô hình chính) và Llama-3.1-8B-Instruct (mô hình kiểm tra độ nhạy/chuyển giao). Thiết lập bfloat16, temperature 0, top-p 1, tối đa 256 tokens.\n- **Thước đo**: Corpus WER, Tool accuracy ($T/N_C$), Conditional argument exact match (Arg-EM, $C/T$), No-call accuracy ($C_0/N_0$), Joint Call Accuracy ($JCA = (C+C_0)/(N_C+N_0)$), Out-of-fold ROC-AUC, Average Precision (AP), và kiểm định McNemar / paired source-bootstrap.",
+  "results": [
+   "Trên 594 câu âm thanh benchmark với tác tử chính Qwen2.5-7B-Instruct: JCA với transcript chuẩn đạt 82.3% (Tool 91.3%, Arg-EM 89.5%, No-call 88.9%); khi qua ASR, JCA giảm xuống còn 74.9% với Whisper large-v3 (WER 6.3%), 73.2% với SenseVoice-Small (WER 7.2%), và 71.9% với Paraformer (WER 8.1%).",
+   "Trên 210 câu can thiệp đơn lẻ được ghép cặp (matched edits): Các vai trò mang tác vụ gây tổn thất JCA trung bình $L_c$ là 17.3 điểm phần trăm so với 2.1 điểm phần trăm ở các vai trò đối chứng. Cụ thể: Negation $L_c = 25.7$ điểm phần trăm (95% CI [20.0, 31.9]), Number $L_c = 21.9$ (95% CI [16.7, 27.6]), Entity $L_c = 17.1$ (95% CI [12.4, 22.4]), Intent cue $L_c = 12.4$, Other slot value $L_c = 9.5$, trong khi Function word chỉ mất $L_c = 2.9$ và Other non-critical chỉ mất $L_c = 1.4$.",
+   "Dự đoán lỗi hành động (B4 vs B3): Việc bổ sung nhãn vai trò chi tiết (B4) cải thiện ROC-AUC từ 0.73 lên 0.78 (mức tăng $\\Delta = 0.05$, 95% CI [0.02, 0.08], paired source-bootstrap $p = 0.003$) và AP tăng từ 0.62 lên 0.68 so với cờ critical-span nhị phân (B3).",
+   "Khả năng chuyển giao sang Llama-3.1-8B-Instruct mà không refit: Mô hình B4 duy trì ROC-AUC 0.74 so với 0.69 của B3; thứ tự nhạy cảm giữa các vai trò giữ nguyên (Negation mất 23.3 điểm, Number mất 19.0 điểm, Function word mất 3.3 điểm).",
+   "Phân tích 216 cặp bị tổn hại (harmed controlled pairs): Lỗi giá trị đối số (Argument value) chiếm đa số với 47.7% (103 trường hợp), tiếp theo là Argument structure (22.2%, 48), Wrong tool (19.4%, 42), Call/no-call decision (7.9%, 17), và Malformed output (2.8%, 6)."
+  ],
+  "limitations": "Tập can thiệp ghép cặp chỉ kiểm soát mức độ nghiêm trọng từ vựng (lexical severity) chứ không cân bằng được khoảng cách ngữ nghĩa hay xác suất âm học; chỉ đánh giá trên 54 ca no-call; dữ liệu giới hạn ở tiếng Anh, hội thoại đơn lượt (single-turn) và các công cụ đơn lẻ (single-tool call); giọng nói tổng hợp hạn chế tính đại diện thực tế; phương pháp đòi hỏi văn bản tham chiếu nên chỉ dùng cho chẩn đoán ngoại tuyến (offline diagnostic), không áp dụng phát hiện lỗi trực tuyến thời gian thực.",
+  "takeaways": "Kỹ sư hệ thống voice agent không nên dùng WER đơn thuần để đánh giá module ASR. Cần xây dựng các bài kiểm tra hồi quy và đánh giá trọng số lỗi tập trung vào các span mang thông tin định lượng (Number) và phủ định (Negation) vì chúng gây sụt giảm độ chính xác công cụ lớn nhất (21.9–25.7%).",
+  "strengths": [
+   "Thiết kế ghép cặp chặt chẽ kiểm soát nghiêm ngặt lexical severity.",
+   "Chứng minh rõ rệt giá trị của task-role so với binary criticality.",
+   "Quy trình gán nhãn có độ tin cậy liên thẩm định viên cao (kappa=0.89).",
+   "Khả năng chuyển giao dự đoán nhất quán qua mô hình LLM khác."
+  ],
+  "weaknesses": [
+   "Quy mô tập can thiệp tương đối nhỏ (210 câu, 54 no-call).",
+   "Chỉ đánh giá tiếng Anh và single-tool đơn lượt.",
+   "Chỉ là công cụ chẩn đoán offline, không dùng được online."
+  ],
+  "context": "Xiaolong Wang, Shijie Su, Naqi Xiong từ Leibniz University Hannover, Đức; công bố trên arXiv (arXiv:2610.17619v1) kèm mã nguồn tại github.com/invoker-qqwrv/SpeechEvalX."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

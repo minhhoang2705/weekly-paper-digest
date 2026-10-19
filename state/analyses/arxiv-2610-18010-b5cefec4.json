@@ -1,0 +1,52 @@
+{
+ "id": "arxiv:2610.18010",
+ "topic": "TTS",
+ "promise": 5,
+ "scores": {
+  "novelty": 5,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đột phá khi hợp nhất multi-turn directed revision, infilling speech editing, và multi-character dubbing trong một mô hình 35B MoE duy nhất, đồng thời đề xuất kiến trúc Codebook-MTP decoder và RL thuần túy bằng speech preference reward model.",
+  "credibility": "Báo cáo kỹ thuật chi tiết từ Fish Audio (đơn vị phát triển Fish-Speech/S2 với hơn 33k GitHub stars), phát hành mã nguồn, trọng số mở và demo trực tuyến hoàn chỉnh.",
+  "technical": "Kỹ thuật chuyên sâu và toàn diện từ thiết kế kiến trúc (Gated DeltaNet MoE, partial fusion, MTP decoder), công thức RL (GRPO không KL, DAPO clip, large batch) đến tối ưu hóa hệ thống serving (kernel fusion, shape-driven agent loop, prefill-decode disaggregation).",
+  "impact": "Là mô hình sinh giọng nói mã nguồn mở quy mô tham số lớn nhất hiện nay với độ tiếp nhận cộng đồng cao (33k+ GitHub stars), định hình chuẩn mực mới cho TTS biểu cảm có đạo diễn.",
+  "evidence": "Đánh giá chi tiết trên nhiều benchmark công khai (MiniMax, Ming-Freeform, Step-Audio-Edit, Seed-TTS-Eval, LibriSpeech-PC) với số liệu đo lường cụ thể về cả chất lượng âm học lẫn throughput serving."
+ },
+ "summary": {
+  "tldr": "Fish Audio Drama 3 là mô hình sinh giọng nói mã nguồn mở quy mô 35B tham số (MoE kích hoạt 3B tham số/token) chuyển văn bản thành các màn diễn xuất có tính đạo diễn (directed performance). Mô hình hợp nhất khả năng chỉnh sửa nhiều lượt (multi-turn revision), lồng tiếng phân cảnh đa nhân vật, in-filling biên tập giọng nói và tổng hợp streaming trực tiếp trong một kiến trúc duy nhất. Bằng việc kết hợp backbone hybrid linear-attention, bộ giải mã codebook-MTP và hậu huấn luyện RL hoàn toàn dựa trên một reward model sở thích con người duy nhất, Drama 3 đạt tốc độ suy luận 271 fps trên GPU H200.",
+  "problem": "Các mô hình TTS quy mô lớn trước đây (kể cả Fish Audio S2) tập trung đọc văn bản chuẩn xác nhưng thiếu khả năng điều hướng biểu cảm chuyên sâu cho kịch truyền thanh, lồng tiếng phim và game. Bốn hạn chế chính tồn tại: (1) Kiến trúc full-attention không mở rộng tốt với các phiên làm việc dài chứa hàng nghìn audio token, module Fast AR chỉ nhìn audio tham chiếu qua một trạng thái backbone; (2) Khả năng điều khiển chỉ là single-shot, không nhận phản hồi/góp ý để chỉnh sửa bản thu đã tạo; (3) Tạo âm thanh theo kiểu all-or-nothing, sửa một từ phải tạo lại cả đoạn; (4) Hậu huấn luyện bằng RL thường tối ưu các proxy như WER thấp hoặc speaker similarity cao, vốn xung đột và phạt các biểu cảm tự nhiên như cười, thì thầm hay tạm dừng ngắt nghỉ.",
+  "method": "Drama 3 thiết kế lại toàn bộ kiến trúc, biểu diễn tác vụ và mục tiêu huấn luyện:\n- **Kiến trúc Hybrid MoE + Codebook-MTP Decoder**: Khởi tạo từ LLM Qwen3.5-35B-A3B (40 layer hybrid gồm 3 layer Gated DeltaNet kết hợp 1 layer Gated Full-Attention, MoE định tuyến 8/256 experts + 1 shared expert, ~3B tham số kích hoạt). Thay thế Fast AR bằng Codebook Multi-Token-Prediction (MTP) decoder gồm 13 layer (4 shared layers và 9 per-codebook layers tương ứng 9 residual codebook acoustic) có cơ chế time-causal attention toàn chuỗi, tiếp cận trực tiếp acoustic chi tiết của audio tham chiếu.\n- **Partial Codebook Fusion**: Chỉ đưa codebook 0 (semantic, $q_t^{(0)}$) và codebook 1 ($q_t^{(1)}$) quay lại backbone ($x_t = \\frac{1}{\\sqrt{2}}(E^{\\text{LM}}[s(q_t^{(0)})] + E^{(1)}[q_t^{(1)}])$) nhằm giảm exposure bias, trong khi codebook 2–9 đi tắt trực tiếp vào shared layer đầu tiên của decoder.\n- **Quy trình huấn luyện**: Gồm 3 giai đoạn Pre-training (trên hàng trăm tỷ token, bao phủ ~80 ngôn ngữ/phương ngữ; Giai đoạn 1–2 căn chỉnh văn bản - âm thanh chuỗi 8K, Giai đoạn 3 mở rộng ngữ cảnh 16K hỗ trợ streaming, infilling và line-by-line; tối ưu bằng Muon và loss $L = L_{\\text{text}} + 0.5 L_{\\text{sem}} + 0.5 L_{\\text{cb}}$); 1 giai đoạn Instruction SFT (chuỗi lên tới 32K token với định dạng tham chiếu đánh chỉ số indexed reference layout); và Reinforcement Learning (RL).\n- **Single Reward Model trong RL**: Loại bỏ hoàn toàn rule-based rewards (WER, SIM). Sử dụng một reward model (RM) duy nhất được tiền huấn luyện dạng speech LLM và tinh chỉnh theo Bradley–Terry loss trên dữ liệu đánh giá sở thích con người. Huấn luyện bằng GRPO không dùng KL penalty, chuẩn hóa advantage căn giữa (Dr. GRPO) với kích thước batch cực lớn (1.536 prompt $\\times$ 8 bản thu/step) và clipping bất đối xứng của DAPO ($\\epsilon_{\\text{low}}=0.2, \\epsilon_{\\text{high}}=0.28$). Decoder MTP được đóng băng trong suốt quá trình RL.\n- **Inference Engine tối ưu**: Chạy expert ở định dạng block-scaled FP8; loại bỏ kernel launches thừa bên dưới CUDA graphs; tối ưu kernel dựa trên workload shapes thực tế; và áp dụng kỹ thuật Prefill–Decode Disaggregation (PD) tách biệt prefill GPU và decode GPU.",
+  "setup": "Đánh giá mô hình đơn lẻ Drama 3 trên nhiều tác vụ:\n- **Dữ liệu & Benchmark**: MiniMax Multilingual Testset (24 ngôn ngữ); LibriSpeech-PC test-clean (1.127 câu từ 39 người nói); Seed-TTS-Eval (test-zh, test-en); Ming-Freeform-Audio-Edit (basic và full split); Step-Audio-Edit benchmark; Expresso dataset.\n- **Metrics**: CER (tiếng Trung, Nhật, Hàn via Paraformer-zh), WER (các ngôn ngữ khác via Whisper-large-v3), Speaker Similarity (SIM via WavLM-large + ECAPA-TDNN), UTMOS, $\\text{MAE}_\\text{D}$ (DNSMOS P.835 difference), tỷ lệ Emotion/Style accuracy (Gemini-2.5-Pro judge).\n- **Cấu hình suy luận**: Sampling nhiệt độ 0.7, top-p 0.7, top-k 30; chạy suy luận trên GPU NVIDIA H200, B300 và RTX PRO 6000 với SGLang-Omni.",
+  "results": [
+   "Trên MiniMax Multilingual Testset, Drama 3 đạt tỷ lệ lỗi thấp nhất trong số tất cả hệ thống so sánh ở 5 ngôn ngữ: Chinese (0.63% CER), Dutch (0.59% WER), English (1.13% WER), German (0.48% WER) và Turkish (0.52% WER); vượt qua ElevenLabs v4 ở 9/24 ngôn ngữ và OmniVoice ở 15/24 ngôn ngữ.",
+   "Trên Ming-Freeform-Audio-Edit (Basic split), Drama 3 đạt kết quả vượt trội ở Chinese với SIM chèn từ đạt 0.909 và thay thế đạt 0.898 (so với 0.89 của CosyEdit2), WER xóa từ thấp nhất đạt 7.82% (so với 8.23% của CosyEdit2), và MAE_D xóa từ 0.105 / thay thế từ 0.100.",
+   "So sánh trực tiếp infill với Cartesia Sonic-3 trên Ming-Freeform, Drama 3 đạt WER tốt hơn trên cả hai tập: Basic EN đạt 3.49% (vs 4.58%), Basic ZH đạt 3.69% (vs 8.64%), Full EN đạt 3.43% (vs 4.68%), Full ZH đạt 2.35% (vs 6.53%).",
+   "Trên LibriSpeech-PC test-clean, việc tăng từ 1 reference clip lên 3 reference clips giúp SIM tăng từ 0.605 lên 0.633 (giữ nguyên WER 1.85% và UTMOS 4.31).",
+   "Trên Step-Audio-Edit, qua 3 vòng revision, độ chính xác Emotion tăng dần từ 55.5% lên 58.2%, độ chính xác Style tăng từ 76.5% lên 81.8%; điểm Paralinguistic tăng từ 1.32 lên 2.32 khi thêm point tag và infilling.",
+   "Trên Seed-TTS-Eval, RL với reward model duy nhất giúp giảm tỷ lệ bản thu lỗi (flagged first takes) từ 2.82% xuống 1.24% (test-zh) và 3.40% xuống 1.84% (test-en); sau tái tạo đạt 0.83% CER (zh) và 1.54% WER (en).",
+   "Tốc độ giải mã streaming đơn luồng đạt 271 fps trên 1 GPU H200 (so với 177 fps của Fish Audio S2 dù Drama 3 có số tham số gấp 7 lần) và 295 fps trên GPU B300. Hệ thống Prefill-Decode Disaggregation phục vụ 24 streams/GPU trên RTX PRO 6000 (so với ~10 streams/GPU khi chạy đơn lẻ)."
+  ],
+  "limitations": "Mô hình phụ thuộc vào việc phát hiện và tạo lại (regeneration) các bản thu hỏng cờ tín hiệu (silent, runaway length); trên tác vụ paralinguistic và emotion của Step-Audio-Edit, điểm số vẫn thấp hơn mô hình chuyên biệt Step-Audio-EditX (Emotion 58.2% vs 69.3%; Paralinguistic 2.32 vs 2.89). Kích thước mô hình lớn (35B tham số) đòi hỏi phần cứng cao cấp (H200, B300, RTX PRO 6000) và hạ tầng phức tạp.",
+  "takeaways": "Loại bỏ hoàn toàn các rule-based rewards (WER, SIM) trong RL và chuyển sang một learned preference reward model giúp mở khóa khả năng biểu cảm phong phú (thì thầm, cười, ngắt nghỉ) mà không làm suy giảm tính rõ ràng của lời nói. Kiến trúc kết hợp linear-attention MoE và codebook-MTP decoder cùng cơ chế Prefill-Decode Disaggregation cung cấp một blueprint chuẩn mực cho các hệ thống TTS quy mô lớn vừa biểu cảm cao vừa phục vụ streaming thời gian thực với chi phí tối ưu.",
+  "strengths": [
+   "Đa năng: directed revision, scene dubbing, infilling",
+   "Backbone MoE 35B hybrid tiết kiệm bộ nhớ",
+   "Codebook-MTP decoder tối ưu ngữ cảnh âm học",
+   "RL bằng single reward model chống reward hacking",
+   "Tốc độ suy luận 271 fps trên H200"
+  ],
+  "weaknesses": [
+   "Điểm paralinguistic/emotion thấp hơn Step-Audio-EditX",
+   "Quy mô 35B đòi hỏi phần cứng triển khai đắt đỏ",
+   "Vẫn cần bước lọc và tái tạo bản thu lỗi"
+  ],
+  "context": "Fish Audio Team (39 AI, Inc.), báo cáo kỹ thuật xuất bản trên arXiv tháng 10/2026, mã nguồn và trọng số mở trên GitHub và Hugging Face phục vụ qua SGLang-Omni."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

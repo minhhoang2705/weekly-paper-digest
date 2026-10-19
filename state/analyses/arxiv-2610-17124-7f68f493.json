@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2610.17124",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất quy trình chuyển đổi HD-SLM sang FD-SLM hiệu quả thông qua chưng cất biểu diễn encoder dạng decoder-free kết hợp căn chỉnh chuỗi theo chunk mịn, giải quyết được điểm nghẽn độ trễ của các công trình trước.",
+  "credibility": "Công trình đến từ nhóm nghiên cứu uy tín thuộc MIT CSAIL và MIT-IBM Watson AI Lab với báo cáo chi tiết về thuật toán, siêu tham số và demo công khai.",
+  "technical": "Phân tích toán học rõ ràng về phân rã xác suất theo chunk, thiết kế chi tiết cơ chế streaming cache, điều khiển token chuyển lượt và cung cấp đầy đủ ablation study.",
+  "impact": "Cung cấp một giải pháp thực tế, chi phí huấn luyện vừa phải để nâng cấp các foundation model giọng nói hiện hành thành voice agent tương tác thời gian thực mà không làm suy giảm trí thông minh.",
+  "evidence": "Đánh giá thực nghiệm toàn diện trên 2 bộ benchmark lớn (Full-Duplex-Bench và VoiceBench với 9 sub-tasks), đo đạc RTF trên phần cứng thực tế và có ablation chi tiết cho từng thành phần."
+ },
+ "summary": {
+  "tldr": "Dialogue-to-Duplex (D2) là một framework chuyển đổi các mô hình ngôn ngữ giọng nói bán song công (HD-SLM) có sẵn thành mô hình toàn song công (FD-SLM) với độ mịn thời gian cao (chunk 80–100 ms). Phương pháp này giúp duy trì năng lực suy luận và hiểu ngôn ngữ mạnh mẽ của HD-SLM, đạt 70.1 điểm trên VoiceBench và độ trễ phản hồi chỉ khoảng 400–520 ms.",
+  "problem": "Các mô hình ngôn ngữ giọng nói song công bản địa (native FD-SLMs như Moshi, MiniCPM-o 4.5) cho phép vừa nghe vừa nói đồng thời nhưng thường tụt hậu rất xa so với các mô hình bán song công (HD-SLMs như Qwen3-Omni, Kimi-Audio) về khả năng hiểu, tri thức, suy luận và bám sát chỉ dẫn. Các phương pháp chuyển đổi trước đây (như BayLing-Duplex) bị giới hạn bởi audio encoder khối lớn (lên tới 4 s, chunk 800 ms gây trễ nhiều giây), còn việc giảm kích thước chunk thường dẫn đến suy giảm hiệu năng nghiêm trọng.",
+  "method": "D2 tiếp cận bài toán toàn song công như việc thực hiện hội thoại ở độ mịn thời gian nhỏ hơn ($k\\Delta$), gồm 2 giai đoạn chính:\n- **Giai đoạn 1 (Decoder-free Streaming Encoder Distillation):** Chuyển đổi audio encoder gốc (vốn yêu cầu ngữ cảnh tương lai) thành encoder streaming causal theo từng khối. Student encoder tái tính toán tích chập và áp dụng attention hai chiều trong mỗi chunk ($k\\Delta$) nhưng causal giữa các chunk. Encoder được chưng cất trực tiếp từ teacher encoder (đóng băng) thông qua hàm mất mát $\\mathcal{L}_{\\text{distill}} = \\frac{1}{TD} \\sum_{t=1}^T \\| h_t^{\\text{stu}} - h_t^{\\text{tea}} \\|_1 - \\frac{1}{T} \\sum_{t=1}^T \\log \\sigma(\\cos(h_t^{\\text{stu}}, h_t^{\\text{tea}}))$ mà không cần ASR decoder hay nhãn văn bản.\n- **Giai đoạn 2 (D2 Supervised Fine-Tuning):** Đưa các hội thoại turn-based vào một trục thời gian chung dài $\\ge 720$ s mô phỏng song công với 3 trạng thái chuyển lượt: ngắt lời (50%), nối tiếp trực tiếp (30%), và khoảng lặng (20%). Sử dụng các token điều khiển như `RESPONSE`, `INTERRUPT`, `PAD` và audio `EOS`. Mô hình prefill cả vector âm thanh người dùng $X_i$ lẫn âm thanh phản hồi của chính mô hình ở chunk trước $S_{i-1}$ (delayed self-audio feedback). Mất mát cross-entropy được gán trọng số cao cho các token điều khiển (trọng số 20) và giảm mạnh ở `PAD` (0.05).",
+  "setup": "Mô hình áp dụng trên hai kiến trúc HD-SLM: **Qwen3-Omni-30B-A3B** (MoE Thinker–Talker, $\\Delta = 80$ ms) và **LLaMA-Omni 2** (7B bilingual, Whisper-large-v3, $\\Delta = 100$ ms). Dữ liệu Stage I gồm LibriSpeech (train-clean-100/360, ~338 giờ) và AVQA audio (~66.4 giờ). Stage II dùng InstructS2S-200K (~380 giờ), SODA (~200 giờ) được sinh giọng bằng Kokoro TTS, cùng 100 giờ AVQA. Đánh giá trên Full-Duplex-Bench (Turn-taking, Interruption, Pause handling), VoiceBench (9 tác vụ QA, reasoning, safety), và chất lượng giọng nói UTMOS.",
+  "results": [
+   "Qwen3-Omni-D2 (chunk 80 ms, 12.5 Hz) đạt Turn-taking TOR 99.2% (trễ 521 ms), Interruption TOR 99.5% (trễ 403 ms), và điểm chất lượng sau ngắt lời GPT-4o là 4.56/5 trên Full-Duplex-Bench.",
+   "Qwen3-Omni-D2 đạt điểm VoiceBench tổng hợp 70.1 tại chunk 80 ms (vượt baseline song công mạnh nhất MiniCPM-o 4.5 là 61.0 khoảng 9.1 điểm) và đạt 73.0 tại chunk 1040 ms (ngang ngửa HD-SLM Kimi-Audio với 72.3 điểm).",
+   "LLaMA-Omni 2-D2 (chunk 100 ms) đạt VoiceBench 34.7 (vượt baseline song công Moshi 30.0, PersonaPlex 32.7, BayLing-Duplex 32.4), Turn-taking TOR 100% (trễ 746 ms) và Interruption TOR 99.5% (trễ 621 ms).",
+   "Đo đạc tính toán trên RTX PRO 6000 GPU (96 GB, BF16) cho thấy Real-Time Factor (RTF) luôn < 1 ở mọi kích thước chunk (RTF từ 0.711 ở chunk 80 ms với mean latency 56.9 ms, giảm còn 0.656 ở chunk 1040 ms).",
+   "Chất lượng giọng nói UTMOS của Qwen3-Omni-D2 đạt 4.54 ± 0.03 (so với HD backbone gốc là 4.46 ± 0.07); LLaMA-Omni 2-D2 đạt 4.16 ± 0.20 (so với HD gốc 4.43 ± 0.09)."
+  ],
+  "limitations": "Module tổng hợp giọng nói (speech synthesis) chiếm phần lớn độ trễ đầu-cuối, giới hạn việc áp dụng D2 chỉ trên các backbone đã có sẵn decoder phát âm streaming độ trễ thấp; dữ liệu huấn luyện song công phải ghép nối tổng hợp từ hội thoại turn-based do thiếu tập dữ liệu song công tự nhiên chất lượng cao; khả năng xử lý tạm dừng (pause handling) ở kích thước chunk nhỏ còn hạn chế (chỉ đạt 21.3% ở chunk 80 ms trên Qwen3-Omni-D2).",
+  "takeaways": "Kỹ sư có thể tái sử dụng trực tiếp các mô hình HD-SLM mạnh để nâng cấp thành full-duplex mà không cần huấn luyện lại từ đầu. Điểm mấu chốt là chưng cất trực tiếp encoder sang dạng causal streaming mà không cần decoder ASR, đồng thời gán trọng số cao cho các token điều khiển lượt thoại khi fine-tuning trên chuỗi tín hiệu phân đoạn chunk cố định.",
+  "strengths": [
+   "Bảo tồn năng lực vượt trội của HD-SLM",
+   "Chuyển đổi encoder streaming không cần decoder",
+   "Hỗ trợ chunk cực ngắn 80-100 ms",
+   "Tốc độ xử lý đạt chuẩn real-time (RTF < 1)"
+  ],
+  "weaknesses": [
+   "Khả năng pause handling kém ở chunk nhỏ",
+   "Dữ liệu huấn luyện song công còn tổng hợp",
+   "Phụ thuộc nhiều vào module TTS của backbone"
+  ],
+  "context": "Nghiên cứu từ MIT CSAIL và MIT-IBM Watson AI Lab (tác giả Cheng-Kuang Chang, Kai-Wei Chang, James Glass cùng cộng sự), công bố trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

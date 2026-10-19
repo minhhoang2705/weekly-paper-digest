@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PACT: A Pragmatic Prompting Framework for Expressive and Voice-Preserving Speech-to-Speech Translation · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W43</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">PACT: A Pragmatic Prompting Framework for Expressive and Voice-Preserving Speech-to-Speech Translation</h1>
+    <div class="meta">
+      <span>published Oct 13, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Yuchen Song, Satoshi Nakamura</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.18247" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Speech-to-speech translation should preserve not only what is said, but also who says it and how it is said. Existing end-to-end S2ST, speech MLLM, and cascade systems can preserve content or timbre, but often struggle to realize emotion, tone, rhythm, pauses, and pragmatic attitude in the target language. We propose PACT, a target-space pragmatic prompting framework for expressive and voice-preserving S2ST. PACT extracts source pragmatic cues, projects them into the target-language expression space, calibrates the projected representation to a realizable target subspace, and converts it into continuous prompts for a frozen speech generator. On bidirectional Spanish-English TOPI evaluation, PACT achieves the best overall performance among evaluated systems across content fidelity, voice preservation, and expression preservation metrics.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 19, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>PACT là framework dịch tiếng nói sang tiếng nói (S2ST) bảo toàn biểu cảm và giọng nói, ánh xạ các đặc trưng ngữ dụng (pragmatic cues) từ ngôn ngữ nguồn sang không gian biểu cảm ngôn ngữ đích đã được hiệu chuẩn. Các biểu diễn này được chuyển đổi thành continuous soft prompts để điều khiển bộ sinh tiếng nói CosyVoice 3 đang đóng băng (frozen), mang lại hiệu năng vượt trội trên benchmark song ngữ Tây Ban Nha - Anh TOPI.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Dịch tiếng nói biểu cảm không chỉ là sao chép âm sắc (timbre) hay đường nét âm học nguồn, mà phải tái hiện được ý định giao tiếp (affective stance, nhấn âm, nhịp điệu, ngắt nghỉ) phù hợp với quy ước của ngôn ngữ đích (target-language realization gap). Các hệ thống E2E S2ST, Speech MLLM và hệ thống cascaded hiện nay thường thiếu cơ chế tường minh để ánh xạ và hiệu chuẩn cách biểu cảm nguồn được hiện thực hóa trong không gian ngôn ngữ đích.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>PACT phân tách quá trình sinh tiếng nói thành 3 kênh độc lập và chỉ hợp nhất tại thời điểm tổng hợp âm thanh với mô hình TTS đóng băng hoàn toàn (CosyVoice 3):</p>
+<ul>
+<li><strong>Semantic Channel</strong>: Sử dụng Whisper Large V3 để nhận dạng nguồn và Qwen2.5-72B-Instruct dịch sang văn bản đích <span class="math inline">T_t</span>.</li>
+<li><strong>Speaker Channel</strong>: Trích xuất điều kiện người nói <span class="math inline">v_s</span> từ âm thanh nguồn <span class="math inline">x_s</span> để nạp vào flow-matching decoder của CosyVoice 3.</li>
+<li><strong>Pragmatic Prompting Channel</strong>:
+<ol>
+<li><em>Trích xuất đặc trưng</em>: Sử dụng HuBERT Large trích xuất các chiều đại diện cho độ tương đồng ngữ dụng theo ngôn ngữ (101 chiều cho tiếng Tây Ban Nha, 103 chiều cho tiếng Anh) kết hợp temporal average pooling thành <span class="math inline">p_s</span>.</li>
+<li><em>Chiếu sang không gian đích</em>: Ánh xạ <span class="math inline">p_s</span> qua bộ chiếu Partial Least Squares (PLS) 64 thành phần: <span class="math inline">z_{base} = f_{\ell_s \to \ell_t}(p_s)</span> huấn luyện trên tập DRAL.</li>
+<li><em>Hiệu chuẩn không gian đích (Realization Calibration)</em>: Chiếu vào không gian con khả thi để lọc nhiễu ngoài phân phối: <span class="math inline">z_{cal} = \mu_t + \alpha U_{t,k} U_{t,k}^\top (z_{base} - \mu_t)</span> với <span class="math inline">k=64, \alpha=0.25</span> (áp dụng cho chiều Es<span class="math inline">\to</span>En; tắt ở En<span class="math inline">\to</span>Es).</li>
+<li><em>Soft Prompt Adapter</em>: Mạng MLP nhẹ (512 chiều ẩn, GELU, LayerNorm, ~3.5M tham số) biến đổi <span class="math inline">z_{cal}</span> thành <span class="math inline">m=7</span> token continuous prompt (<span class="math inline">d_{model}=896</span>), gắn tiền tố vào chuỗi text embedding trước khi đưa vào CosyVoice 3 language model.</li>
+</ol>
+</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá trên benchmark TOPI song ngữ Spanish–English (30 cặp câu đối thoại tự nhiên được diễn lại bởi người song ngữ). Huấn luyện adapter trên DRAL (2.577 cặp train, 286 cặp dev) và tập con Emilia 400 giờ (chỉ cho Es<span class="math inline">\to</span>En). Huấn luyện bằng Adam (lr <span class="math inline">1 \times 10^{-5}</span>, warmup 1.000 bước, grad clip 5, grad accum 2) trên 1 card NVIDIA RTX 5090. So sánh với 9 baseline: E2E (SeamlessExpressive, SeamlessM4T-v2, Fairseq S2UT, Qwen3.5-LiveTranslate), Speech MLLM (Qwen3.5-Omni-Plus, GPT-Audio-1.5), Cascaded (OpenVoice V2, Fish-Speech, XTTS-v2).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên chiều Es→En, PACT đạt ASR-BLEU 30.7 so với 27.7 của OpenVoice V2 và 21.6 của SeamlessExpressive.</li>
+<li>Về độ tương đồng ngữ dụng (Prag Sim.), PACT đạt 79.3 (Es→En) và 82.9 (En→Es), vượt qua SeamlessExpressive (72.0 | 81.4) và Fish-Speech (73.8 | 79.5).</li>
+<li>Về bảo toàn giọng nói (Spk Sim.), PACT đạt 72.9 (Es→En) và 72.5 (En→Es), dẫn đầu so với SeamlessExpressive (66.3 | 70.6) và Qwen3.5-LiveTranslate (65.5 | 57.0).</li>
+<li>Chỉ số cảm xúc và tham số âm học chi tiết: PACT đạt SER-JSD thấp nhất (8.9 Es→En | 12.4 En→Es) và khoảng cách eGeMAPS eG-Z thấp nhất (1.20 | 1.49).</li>
+<li>Đánh giá chủ quan MOS (Es→En, thang 1-5): PACT dẫn đầu về Prag Sim. (3.42 vs 2.10 của Qwen3.5-LiveTranslate) và Spk Sim. (4.08 vs 2.72 của Qwen3.5-LiveTranslate); về Naturalness, PACT đạt 3.64 trong khi Qwen3.5-Omni-Plus đạt 4.78.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Tập đánh giá TOPI có kích thước tương đối nhỏ (chỉ gồm 30 cặp câu đánh giá và 10 câu cho human MOS). Phương pháp phụ thuộc vào tập dữ liệu biểu cảm song ngữ theo cặp (DRAL) và các chiều HuBERT ngữ dụng được xác định trước. Cơ chế hiệu chuẩn (calibration) hoạt động không đối xứng giữa 2 chiều ngôn ngữ (phải tắt ở En→Es do thiếu tập pretraining tiếng Tây Ban Nha quy mô lớn). Độ tự nhiên (Naturalness) vẫn thấp hơn Speech MLLM thuần túy.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Tách biệt rõ ràng ba trục (ngữ nghĩa, giọng người nói, biểu cảm ngữ dụng) kết hợp soft-prompting vào mô hình TTS đóng băng là hướng tiếp cận hiệu quả, tiết kiệm tham số và tránh làm suy giảm chất lượng dịch văn bản trong S2ST biểu cảm.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">61.3<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 192.45,182.66 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="192.45" cy="182.66" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đề xuất khái niệm hiện thực hóa ngữ dụng đích (target-space realization) và cơ chế hiệu chuẩn không gian con kết hợp continuous soft prompt vào mô hình TTS đóng băng thay vì chỉ chuyển giao âm học trực tiếp.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế phương pháp chặt chẽ từ trích xuất đặc trưng HuBERT theo ngôn ngữ, chiếu PLS, hiệu chuẩn không gian con trực giao đến ablation study phân tích rõ từng thành phần.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 3/5 — Đánh giá đa chiều với nhiều hệ thống baseline mạnh (E2E, MLLM, Cascaded) cùng phân tích tương quan giữa trắc nghiệm khách quan và chủ quan, dù số lượng mẫu test còn hạn chế (30 cặp).</title>Evidence <tspan class="radar-value">3</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Cung cấp giải pháp khả thi cho lồng tiếng (dubbing) và thông dịch biểu cảm mà không cần train lại TTS backbone, tuy nhiên phụ thuộc vào bộ đặc trưng ngữ dụng chuyên biệt.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Nghiên cứu đến từ nhóm tác giả uy tín trong lĩnh vực xử lý tiếng nói (Satoshi Nakamura, CUHK Shenzhen) nhưng hiện mới là bản thảo preprint trên arXiv chưa công bố hội nghị.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đề xuất khái niệm hiện thực hóa ngữ dụng đích (target-space realization) và cơ chế hiệu chuẩn không gian con kết hợp continuous soft prompt vào mô hình TTS đóng băng thay vì chỉ chuyển giao âm học trực tiếp.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Nghiên cứu đến từ nhóm tác giả uy tín trong lĩnh vực xử lý tiếng nói (Satoshi Nakamura, CUHK Shenzhen) nhưng hiện mới là bản thảo preprint trên arXiv chưa công bố hội nghị.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế phương pháp chặt chẽ từ trích xuất đặc trưng HuBERT theo ngôn ngữ, chiếu PLS, hiệu chuẩn không gian con trực giao đến ablation study phân tích rõ từng thành phần.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Cung cấp giải pháp khả thi cho lồng tiếng (dubbing) và thông dịch biểu cảm mà không cần train lại TTS backbone, tuy nhiên phụ thuộc vào bộ đặc trưng ngữ dụng chuyên biệt.</dd></div>
+          <div><dt>Evidence <span class="muted">3/5</span></dt><dd>Đánh giá đa chiều với nhiều hệ thống baseline mạnh (E2E, MLLM, Cascaded) cùng phân tích tương quan giữa trắc nghiệm khách quan và chủ quan, dù số lượng mẫu test còn hạn chế (30 cặp).</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kiến trúc modular tham số nhẹ (~3.5M params) · Giữ nguyên và tận dụng TTS đóng băng · Ánh xạ biểu cảm vào không gian ngôn ngữ đích · Cân bằng tốt giữa BLEU, timbre và ngữ dụng</p>
+          <p><span class="label">Weaknesses</span> · Tập test nhỏ (30 cặp câu) · Phụ thuộc dữ liệu cặp song ngữ DRAL · Naturalness thấp hơn Speech MLLM · Hiệu chuẩn chưa tổng quát hóa đối xứng</p>
+          <p><span class="label">Context</span> · Yuchen Song và Satoshi Nakamura (The Chinese University of Hong Kong, Shenzhen &amp; Shenzhen Loop Area Institute); công bố dưới dạng preprint trên arXiv (arXiv:2610.18247, 2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

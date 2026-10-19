@@ -1,0 +1,48 @@
+{
+ "id": "arxiv:2610.17738",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đề xuất hệ thống phân loại 3 cấp độ lấy cảm hứng từ Interactional Competence và tách bạch đánh giá giữa thực thi tức thì và duy trì hệ quả hành động thay vì chỉ đo tần suất xuất hiện.",
+  "credibility": "Công trình đến từ các viện nghiên cứu uy tín (Melbourne, Birmingham, Wuhan), có quy trình kiểm thử nhân lực (20 người chấm đạt độ đồng thuận >95%) và phát hành mã nguồn/dữ liệu công khai.",
+  "technical": "Thiết kế phương pháp luận chi tiết và chặt chẽ với hai pipeline tương tác Direct Replay và Simulator Replay căn chỉnh thời gian chuẩn xác.",
+  "impact": "Cung cấp khung đánh giá chuẩn mực giải quyết đúng lỗ hổng lớn nhất của các mô hình full-duplex hiện nay, có tiềm năng định hình lại cách thiết kế dữ liệu huấn luyện post-training.",
+  "evidence": "Thực nghiệm chi tiết trên 14 mô hình hàng đầu (cả open-source lẫn closed-source) với 4.691 mẫu kiểm thử, cung cấp đầy đủ bảng phân tích điều kiện và số đo độ trễ."
+ },
+ "summary": {
+  "tldr": "DUPLEXACT là benchmark đầu tiên đánh giá toàn diện năng lực tương tác theo hành động (interaction action-taking) cho các mô hình E2E Full-Duplex Spoken Language Models (FD-SLMs). Nghiên cứu xây dựng một hệ thống phân loại 3 cấp (8 hành động L1, 24 điều kiện L2) và đề xuất tiêu chí đánh giá kép gồm Immediate execution và Subsequent follow-through trên 4.691 mẫu hội thoại đa dạng.",
+  "problem": "Các benchmark hiện tại cho E2E FD-SLMs thiếu không gian hành động có cấu trúc, thường trộn lẫn hành động của mô hình với điều kiện hội thoại ở cùng một tầng đơn lẻ. Hơn nữa, chúng chỉ đo lường sự xuất hiện bề mặt của hành vi (occurrence) thay vì đánh giá sự thành công và tính nhất quán xuyên suốt (follow-through), đồng thời phụ thuộc nhiều vào dữ liệu nhân tạo hoặc các kịch bản hẹp.",
+  "method": "DUPLEXACT thiết lập hệ thống phân loại tương tác 3 tầng: L0 (trạng thái observable: speak/silence), L1 (8 hành động tương tác: Take Turn, Stop, Hold Floor, Interrupt, Wait, Ignore, Backchannel, Recover dựa trên nghiên cứu Interactional Competence), và L2 (24 điều kiện ngữ cảnh). Đánh giá thành công qua 2 giai đoạn: Immediate execution ($I$ - thực hiện đúng thời điểm bằng rule-based) và Subsequent follow-through ($S$ - duy trì phản hồi tiếp theo nhất quán với hành động, đánh giá qua LLM judge GPT-5.4). Benchmark triển khai 2 pipeline: Direct Replay (cho Wait, Ignore, Take Turn, Backchannel) và Simulator Replay dựa trên GPT-5.4 điều phối thời điểm chèn audio có sẵn (cho Stop, Hold Floor, Recover, Interrupt). Tập dữ liệu gồm 4.691 mẫu (12,44 giờ) bao phủ 4 kịch bản (casual conversation, meetings, customer service, interviews), trong đó 54% (2.531 mẫu) trích xuất từ hội thoại thực tế (CANDOR, AMI, Loqui, CORAAL) và 2.160 mẫu tổng hợp có kiểm soát bằng GPT-5.4 kết hợp ElevenLabs v3.",
+  "setup": "Đánh giá 14 mô hình FD-SLM frontier: 10 mô hình open-source (Moshi, Freeze-Omni, Mini-Omni2, VITA-1.5, Voila-Autonomous, FLM-Audio, Raon-SpeechChat, BayLing-Duplex, Lychee-FD, MiniCPM-o 4.5) và 4 mô hình closed-source (Gemini 3.1 Flash Live, GPT-Realtime-2.1, Grok Voice, Qwen3.5-Omni-Flash-Realtime). Mô hình mã nguồn mở chạy trên GPU NVIDIA A100 (VITA-1.5 dùng 2 GPU), audio đầu vào PCM 16-kHz mono. Tất cả 14 mô hình được đánh giá trên 4 hành động Direct Replay; 10 mô hình hỗ trợ tương tác 2 chiều và streaming transcript được đánh giá trên Simulator Replay.",
+  "results": [
+   "Khả năng thực thi tức thì ($I$) chênh lệch mạnh giữa các hành động: 4 mô hình closed-source đạt $I$ từ 77,7% đến 97,0% trên Recover, nhưng chỉ đạt 27,5% đến 41,3% trên Take Turn trong cửa sổ thời gian cho phép; trung vị $I$ của tất cả mô hình giữa Wait và Ignore chênh lệch từ 94,0% xuống 75,4%.",
+   "Giám sát chuyên biệt tạo ra thế mạnh cục bộ: Raon-SpeechChat (huấn luyện với BC token và backchannel loss) đạt điểm Backchannel $I$ cao nhất trong các mô hình mã nguồn mở là 31,0%; BayLing-Duplex (huấn luyện trên ngắt lời) đạt 98,8% trên Stop và 49,0% trên Recover.",
+   "Thực thi tức thì thành công không đảm bảo duy trì tương tác ($S$): Moshi đạt $I = 67,5\\%$ trên Interrupt nhưng tỷ lệ thất bại follow-through $(1 - S)$ lên tới gần 100% (S = 0,0%); ở Hold Floor, điểm $I$ trung bình của các mô hình đạt 85,4% - 90,5% nhưng tỷ lệ $S$ sụt giảm nghiêm trọng xuống 4,5% cho Shorten và 5,7% cho Simplify (so với 73,3% cho Continue).",
+   "Khả năng suy luận của mô hình gốc không tự động chuyển hóa thành kiểm soát hội thoại: Các mô hình closed-source đạt $S$ cao trên Take Turn (78,6% - 83,0%) và Recover (78,6% - 90,3%), nhưng giảm xuống chỉ còn 39,3% - 57,3% trên Hold Floor khi phải vừa nghe vừa điều chỉnh phản hồi đang nói."
+  ],
+  "limitations": "Một số điều kiện hiếm trong tự nhiên vẫn phải bổ sung bằng dữ liệu tổng hợp (46%); Simulator Replay yêu cầu giao diện streaming transcript và audio đồng bộ thời gian thực nên hiện chỉ tương thích với 10/14 mô hình.",
+  "takeaways": "Huấn luyện full-duplex không nên chỉ nhắm vào các token điều khiển cục bộ hay các hành vi bề mặt (như ngắt lời hay chèn backchannel) mà cần mở rộng sang không gian hành động có cấu trúc; mô hình cần học được hệ quả ngữ nghĩa tiếp theo (follow-through) của từng quyết định tương tác.",
+  "strengths": [
+   "Taxonomy 3 cấp độ rất chặt chẽ",
+   "Tiêu chí đánh giá kép $I$ và $S$ đột phá",
+   "54% dữ liệu từ ghi âm thực tế",
+   "Đánh giá rộng trên 14 mô hình frontier"
+  ],
+  "weaknesses": [
+   "46% dữ liệu vẫn phải tổng hợp",
+   "Simulator phụ thuộc giao diện streaming riêng",
+   "Đánh giá follow-through dựa vào LLM judge"
+  ],
+  "context": "Nghiên cứu từ Đại học Melbourne, Đại học Birmingham, Đại học Vũ Hán và ARC OPTIMA; đăng tải dạng preprint trên arXiv (tháng 10/2026), mã nguồn và dữ liệu công khai trên GitHub."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}

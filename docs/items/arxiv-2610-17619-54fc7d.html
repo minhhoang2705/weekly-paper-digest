@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>When Does an ASR Error Matter? Task-Role Diagnostics for Tool-Using Voice Agents · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W43</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">When Does an ASR Error Matter? Task-Role Diagnostics for Tool-Using Voice Agents</h1>
+    <div class="meta">
+      <span>published Oct 13, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Xiaolong Wang, Shijie Su, Naqi Xiong</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.17619" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>In cascaded voice agents, ASR errors can have markedly different downstream consequences: a small transcription error may leave a tool call unchanged or alter its intent or arguments. Conventional word error rate (WER), however, does not capture these differences. We introduce SpeechEvalX, a paired diagnostic protocol that evaluates how task roles affected by ASR errors influence structured tool calls. Controlled edits are matched by source utterance, edit count, and operation, while task-role labels are compared with lexical severity, BERT cosine distance, Semantic-WER, and binary criticality. Across 594 source utterances, joint call accuracy falls from 82.3% with reference transcripts to 71.9-74.9% across three ASR front ends. Number and negation edits cause 21.9-25.7 percentage-point losses, versus 1.4-2.9 points for control edits. Detailed task-role labels improve source-grouped ROC-AUC from 0.73 to 0.78 over binary criticality, showing that downstream impact depends strongly on the task role affected.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 19, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Nghiên cứu giới thiệu SpeechEvalX, một giao thức chẩn đoán ghép cặp (paired diagnostics) nhằm phân tích tác động của lỗi ASR đối với các lệnh gọi công cụ có cấu trúc (tool calls) trong hệ thống cascaded voice agent. Bằng cách kiểm soát chặt chẽ mức độ nghiêm trọng từ vựng (lexical severity), nghiên cứu chứng minh việc định danh vai trò tác vụ (task roles như number, negation, entity) dự đoán chính xác sự thất bại của hành động tốt hơn hẳn so với chỉ dựa vào WER, độ đo ngữ nghĩa hay nhãn critical-span nhị phân.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Trong các hệ thống trợ lý giọng nói dạng chuỗi (speech → ASR → LLM → structured action), chỉ số WER truyền thống không phản ánh đúng mức độ ảnh hưởng của lỗi nhận dạng giọng nói: một lỗi phiên âm nhỏ có thể vô hại (ví dụ: đổi mạo từ), nhưng cũng có thể làm sai lệch số lượng, đích đến hoặc mệnh đề phủ định, dẫn đến hành động sai hoàn toàn. Các nghiên cứu trước đây về nhiễu hoặc critical-span nhị phân chưa phân lập được lượng thông tin thực sự được bổ sung bởi từng vai trò tác vụ cụ thể khi cố định số lượng và phép biến đổi từ vựng.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>SpeechEvalX sử dụng phương pháp matched within-utterance edits để cố định câu nguồn <span class="math inline">r_i</span>, số lượng chỉnh sửa, phép biến đổi (insertion, deletion, substitution) và hành động tham chiếu <span class="math inline">z_i</span>:</p>
+<ul>
+<li><strong>Phân loại vai trò tác vụ (7 vai trò)</strong>: 5 vai trò mang tác vụ (Number, Entity, Negation, Intent cue, Other slot value) và 2 vai trò đối chứng (Function word, Other non-critical). Việc gán nhãn dựa trên luật đóng băng trước khi đánh giá (exact span-boundary F1 đạt 0.93, Cohen's <span class="math inline">\kappa = 0.89</span>).</li>
+<li><strong>Đánh giá ghép cặp (Paired action outcomes)</strong>: Phân loại thành Preserved success (1,1), Harmed pair <span class="math inline">H</span> (1,0), Rescued pair <span class="math inline">R</span> (0,1), và Persistent failure (0,0). Tổn thất Joint Call Accuracy (JCA) ghép cặp tính bằng <span class="math inline">L_c = (H_c - R_c)/|I_c|</span>.</li>
+<li><strong>Phân loại lỗi đầu ra cuối cùng</strong>: Gán thứ tự ưu tiên gồm malformed output, incorrect call/no-call decision, wrong tool, invalid/missing argument structure, và incorrect argument value.</li>
+<li><strong>Mô hình dự đoán chẩn đoán</strong>: Sử dụng regularized logistic regression với source-grouped 5-fold cross-validation trên các tập đặc trưng tích lũy: B0 (lexical controls), B1 (+ BERT cosine distance), B2 (+ Semantic-WER), B3 (+ binary critical-span flag), và B4 (+ detailed task roles). Thử nghiệm chuyển giao (zero-shot transfer) sang mô hình LLM thứ hai mà không tinh chỉnh lại.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><ul>
+<li><strong>Dữ liệu</strong>: Tập mẫu gồm 594 câu đơn lượt (single-turn) split đều từ hai bộ dữ liệu tiếng Anh: <code>VoiceAgentBench</code> (297 mẫu) và <code>BFCL Audio</code> (297 mẫu), gồm 540 call và 54 no-call. Tập can thiệp kiểm soát gồm 210 câu thỏa mãn có đầy đủ biến thể đơn sửa đổi cho mọi vai trò.</li>
+<li><strong>Hệ thống</strong>:
+<ul>
+<li>ASR front-ends: Whisper large-v3, SenseVoice-Small, Paraformer-large (âm thanh 16-kHz mono float32).</li>
+<li>LLM agents: Qwen2.5-7B-Instruct (mô hình chính) và Llama-3.1-8B-Instruct (mô hình kiểm tra độ nhạy/chuyển giao). Thiết lập bfloat16, temperature 0, top-p 1, tối đa 256 tokens.</li>
+</ul>
+</li>
+<li><strong>Thước đo</strong>: Corpus WER, Tool accuracy (<span class="math inline">T/N_C</span>), Conditional argument exact match (Arg-EM, <span class="math inline">C/T</span>), No-call accuracy (<span class="math inline">C_0/N_0</span>), Joint Call Accuracy (<span class="math inline">JCA = (C+C_0)/(N_C+N_0)</span>), Out-of-fold ROC-AUC, Average Precision (AP), và kiểm định McNemar / paired source-bootstrap.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên 594 câu âm thanh benchmark với tác tử chính Qwen2.5-7B-Instruct: JCA với transcript chuẩn đạt 82.3% (Tool 91.3%, Arg-EM 89.5%, No-call 88.9%); khi qua ASR, JCA giảm xuống còn 74.9% với Whisper large-v3 (WER 6.3%), 73.2% với SenseVoice-Small (WER 7.2%), và 71.9% với Paraformer (WER 8.1%).</li>
+<li>Trên 210 câu can thiệp đơn lẻ được ghép cặp (matched edits): Các vai trò mang tác vụ gây tổn thất JCA trung bình <span class="math inline">L_c</span> là 17.3 điểm phần trăm so với 2.1 điểm phần trăm ở các vai trò đối chứng. Cụ thể: Negation <span class="math inline">L_c = 25.7</span> điểm phần trăm (95% CI [20.0, 31.9]), Number <span class="math inline">L_c = 21.9</span> (95% CI [16.7, 27.6]), Entity <span class="math inline">L_c = 17.1</span> (95% CI [12.4, 22.4]), Intent cue <span class="math inline">L_c = 12.4</span>, Other slot value <span class="math inline">L_c = 9.5</span>, trong khi Function word chỉ mất <span class="math inline">L_c = 2.9</span> và Other non-critical chỉ mất <span class="math inline">L_c = 1.4</span>.</li>
+<li>Dự đoán lỗi hành động (B4 vs B3): Việc bổ sung nhãn vai trò chi tiết (B4) cải thiện ROC-AUC từ 0.73 lên 0.78 (mức tăng <span class="math inline">\Delta = 0.05</span>, 95% CI [0.02, 0.08], paired source-bootstrap <span class="math inline">p = 0.003</span>) và AP tăng từ 0.62 lên 0.68 so với cờ critical-span nhị phân (B3).</li>
+<li>Khả năng chuyển giao sang Llama-3.1-8B-Instruct mà không refit: Mô hình B4 duy trì ROC-AUC 0.74 so với 0.69 của B3; thứ tự nhạy cảm giữa các vai trò giữ nguyên (Negation mất 23.3 điểm, Number mất 19.0 điểm, Function word mất 3.3 điểm).</li>
+<li>Phân tích 216 cặp bị tổn hại (harmed controlled pairs): Lỗi giá trị đối số (Argument value) chiếm đa số với 47.7% (103 trường hợp), tiếp theo là Argument structure (22.2%, 48), Wrong tool (19.4%, 42), Call/no-call decision (7.9%, 17), và Malformed output (2.8%, 6).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Tập can thiệp ghép cặp chỉ kiểm soát mức độ nghiêm trọng từ vựng (lexical severity) chứ không cân bằng được khoảng cách ngữ nghĩa hay xác suất âm học; chỉ đánh giá trên 54 ca no-call; dữ liệu giới hạn ở tiếng Anh, hội thoại đơn lượt (single-turn) và các công cụ đơn lẻ (single-tool call); giọng nói tổng hợp hạn chế tính đại diện thực tế; phương pháp đòi hỏi văn bản tham chiếu nên chỉ dùng cho chẩn đoán ngoại tuyến (offline diagnostic), không áp dụng phát hiện lỗi trực tuyến thời gian thực.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Kỹ sư hệ thống voice agent không nên dùng WER đơn thuần để đánh giá module ASR. Cần xây dựng các bài kiểm tra hồi quy và đánh giá trọng số lỗi tập trung vào các span mang thông tin định lượng (Number) và phủ định (Negation) vì chúng gây sụt giảm độ chính xác công cụ lớn nhất (21.9–25.7%).</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">60.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,82.8 230.0,115.26 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="82.8" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 3/5 — Bài báo không đề xuất kiến trúc ASR hay LLM mới mà phát triển một giao thức chẩn đoán ghép cặp có đối chứng (matched intervention) giúp phân tách rõ rệt vai trò tác vụ của từ bị lỗi thay vì chỉ dùng nhãn nhị phân.</title>Novelty <tspan class="radar-value">3</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế thực nghiệm và phân lập biến số rất tỉ mỉ, kiểm soát triệt để số lượng/thao tác chỉnh sửa từ vựng, kiểm toán tính ngẫu nhiên của LLM và phân rã chi tiết các tầng lỗi đầu ra.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Số liệu thực nghiệm phong phú, kiểm tra trên 3 front-end ASR và 2 mô hình LLM, có báo cáo khoảng tin cậy 95%, giá trị p và phân tích chuyển giao rõ ràng.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Cung cấp khung đánh giá và phương pháp luận thiết thực cho cộng đồng phát triển voice agent trong việc chọn lựa ASR và phân tích lỗi, dù còn giới hạn ở phạm vi offline và single-turn.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Nghiên cứu từ Leibniz University Hannover với tài liệu viết mạch lạc, quy trình đánh giá chuẩn xác, kiểm định thống kê đầy đủ (bootstrap CIs, McNemar, Holm correction) và công khai mã nguồn trên GitHub.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">3/5</span></dt><dd>Bài báo không đề xuất kiến trúc ASR hay LLM mới mà phát triển một giao thức chẩn đoán ghép cặp có đối chứng (matched intervention) giúp phân tách rõ rệt vai trò tác vụ của từ bị lỗi thay vì chỉ dùng nhãn nhị phân.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Nghiên cứu từ Leibniz University Hannover với tài liệu viết mạch lạc, quy trình đánh giá chuẩn xác, kiểm định thống kê đầy đủ (bootstrap CIs, McNemar, Holm correction) và công khai mã nguồn trên GitHub.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế thực nghiệm và phân lập biến số rất tỉ mỉ, kiểm soát triệt để số lượng/thao tác chỉnh sửa từ vựng, kiểm toán tính ngẫu nhiên của LLM và phân rã chi tiết các tầng lỗi đầu ra.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Cung cấp khung đánh giá và phương pháp luận thiết thực cho cộng đồng phát triển voice agent trong việc chọn lựa ASR và phân tích lỗi, dù còn giới hạn ở phạm vi offline và single-turn.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Số liệu thực nghiệm phong phú, kiểm tra trên 3 front-end ASR và 2 mô hình LLM, có báo cáo khoảng tin cậy 95%, giá trị p và phân tích chuyển giao rõ ràng.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Thiết kế ghép cặp chặt chẽ kiểm soát nghiêm ngặt lexical severity. · Chứng minh rõ rệt giá trị của task-role so với binary criticality. · Quy trình gán nhãn có độ tin cậy liên thẩm định viên cao (kappa=0.89). · Khả năng chuyển giao dự đoán nhất quán qua mô hình LLM khác.</p>
+          <p><span class="label">Weaknesses</span> · Quy mô tập can thiệp tương đối nhỏ (210 câu, 54 no-call). · Chỉ đánh giá tiếng Anh và single-tool đơn lượt. · Chỉ là công cụ chẩn đoán offline, không dùng được online.</p>
+          <p><span class="label">Context</span> · Xiaolong Wang, Shijie Su, Naqi Xiong từ Leibniz University Hannover, Đức; công bố trên arXiv (arXiv:2610.17619v1) kèm mã nguồn tại github.com/invoker-qqwrv/SpeechEvalX.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

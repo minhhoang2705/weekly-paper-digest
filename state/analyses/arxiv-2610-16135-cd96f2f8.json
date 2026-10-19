@@ -1,0 +1,47 @@
+{
+ "id": "arxiv:2610.16135",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Phát hiện và định nghĩa hiện tượng 'knows-but-cannot-say' kèm thước đo Token-level Modality Alignment (TMA) và cơ chế OmniCatalyst mang tính tiếp cận mới mẻ cho Omni-LLM.",
+  "credibility": "Bài báo preprint từ nhóm tác giả thuộc Naver AI (dựa trên GitHub repository), chưa có thông tin bình duyệt hội nghị cụ thể.",
+  "technical": "Ý tưởng kỹ thuật rõ ràng với metric TMA và chiến lược suy luận bổ sung self-generated text, tuy nhiên tài liệu tóm tắt chưa thể hiện đầy đủ công thức toán học và thiết kế sâu.",
+  "impact": "Cung cấp góc nhìn thực tiễn giúp cải thiện tương tác đa phương thức (audio/vision) trong Omni-LLM, nhận được 9 lượt upvote ban đầu trên HF.",
+  "evidence": "Nêu mức cải thiện +7.29% trên 7 mô hình Omni-LLM và có phát hành mã nguồn, nhưng bảng kết quả chi tiết và tên benchmark chưa được liệt kê trong bản tóm tắt."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu chỉ ra hiện tượng \"knows-but-cannot-say\" trong các mô hình Omni-modal LLM, nơi mô hình nhận thức đúng nhưng không diễn đạt được thông tin phi văn bản (như audio, vision, IMU). Nhóm tác giả đề xuất độ đo Token-level Modality Alignment (TMA) cùng giải pháp OmniCatalyst theo cơ chế \"perceive $\\rightarrow$ infer\" giúp cải thiện trung bình +7.29% hiệu năng trên 7 mô hình Omni-LLM.",
+  "problem": "Các mô hình Omni-modal Large Language Model (Omni-LLM) xử lý nhiều phương thức không đồng nhất (vision, audio, tín hiệu IMU, text) thường gặp hiện tượng mất kết nối: nhận thức chính xác thông tin từ các phương thức phi văn bản nhưng lại thất bại trong việc diễn đạt chúng ra câu trả lời ngôn ngữ (\"knows-but-cannot-say\"), dẫn đến sự thiên lệch ưu tiên phương thức không đồng đều.",
+  "method": "Tác giả phân tích và giải quyết vấn đề qua hai đóng góp chính:\n1. **Token-level Modality Alignment (TMA)**: Một thước đo đánh giá mức độ căn chỉnh biểu diễn giữa từng phương thức đầu vào riêng lẻ với biểu diễn của các response token. Phân tích qua TMA cho thấy biểu diễn phi văn bản ít căn chỉnh và nhận được ít attention hơn hẳn so với biểu diễn textual.\n2. **OmniCatalyst**: Chiến lược suy luận hai bước \"perceive $\\rightarrow$ infer\", bổ sung cho dữ liệu đầu vào gốc bằng văn bản tự sinh (self-generated text) đóng vai trò chất xúc tác trung gian để trích xuất tri thức phi văn bản, từ đó tăng chỉ số TMA và giúp thông tin phi văn bản dễ dàng được mô hình diễn đạt hơn trong câu trả lời.",
+  "setup": "Đánh giá nghiệm chứng trên 7 mô hình Omni-LLM khác nhau cùng các chiến lược huấn luyện mở rộng (diverse training strategies). Chi tiết cụ thể về tên dataset, baseline cụ thể, phần cứng compute hay thông số siêu tham số: Không được nêu trong tài liệu.",
+  "results": [
+   "OmniCatalyst cải thiện hiệu năng nhất quán trên 7 mô hình Omni-LLM với mức tăng trung bình +7.29% so với mô hình gốc không áp dụng chiến lược này.",
+   "Gia tăng chỉ số Token-level Modality Alignment (TMA) trong giai đoạn trích xuất tri thức, cải thiện sự cân bằng trong mức độ ưu tiên giữa các phương thức (modality preferences)."
+  ],
+  "limitations": "Tài liệu tóm tắt chưa cung cấp chi tiết tên cụ thể của 7 mô hình Omni-LLM, bộ benchmark/tác vụ thử nghiệm, độ trễ suy luận gia tăng khi dùng suy luận hai bước (perceive $\\rightarrow$ infer), cũng như chi phí tính toán compute chi tiết.",
+  "takeaways": "Đối với kỹ sư phát triển Speech/Omni LLM, việc kết nối encoder âm thanh/hình ảnh vào LLM chưa đủ để mô hình phát biểu tri thức; việc sử dụng văn bản trung gian làm cầu nối suy luận (perceive-then-infer / self-generated text) là giải pháp thực dụng giúp giải phóng tri thức tiềm ẩn từ modality âm thanh mà không nhất thiết phải thiết kế lại toàn bộ kiến trúc.",
+  "strengths": [
+   "Chỉ ra đúng hiện tượng 'knows-but-cannot-say'",
+   "Đề xuất metric TMA định lượng căn chỉnh",
+   "OmniCatalyst đơn giản, dễ áp dụng plug-and-play",
+   "Cải thiện ổn định +7.29% trên 7 mô hình",
+   "Có mở mã nguồn trên GitHub"
+  ],
+  "weaknesses": [
+   "Thiếu thông tin chi tiết các tập benchmark",
+   "Chưa rõ latency tăng thêm từ OmniCatalyst",
+   "Dữ liệu giới hạn trong phần tóm tắt"
+  ],
+  "context": "Nhóm tác giả Na Min An, Taekyung Kim, Jaemyung Yu, Hyunjung Shim, Dongyoon Han (thuộc Naver AI / tổ chức liên quan qua repo naver-ai/OmniLLM), công bố trên arXiv (arXiv:2610.16135)."
+ },
+ "fulltext_source": "abstract/mô tả (không lấy được full-text)",
+ "fulltext": false,
+ "analyzed_week": "2026-W43"
+}

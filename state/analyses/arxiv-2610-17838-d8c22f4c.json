@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.17838",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Phát hiện sâu sắc về cơ chế sụp đổ EOS trong one-shot SFT cho AR TTS và tiên phong đưa GRPO cùng On-Policy Self-Distillation với privileged context vào bài toán speaker adaptation.",
+  "credibility": "Bài báo từ nhóm nghiên cứu uy tín tại Seoul National University nhưng hiện là bản thảo arXiv, chưa qua bình duyệt tại hội nghị chuyên ngành.",
+  "technical": "Mô tả phương pháp toán học và quy trình lấy mẫu/chưng cất rõ ràng, thiết kế thí nghiệm đối chứng (SFT-ZSD, OPSD-RO, OPSD-TA) chặt chẽ để cô lập tác động của on-policy.",
+  "impact": "Cung cấp giải pháp thiết thực cho bài toán cá nhân hóa AR TTS vốn gặp bế tắc với SFT, tuy nhiên mức độ phổ biến trong thực tế còn phụ thuộc vào việc mã nguồn có được phát hành hay không.",
+  "evidence": "Thực nghiệm đầy đủ với các chỉ số khách quan (WER, SIM, tỉ lệ empty generation, runtime) và đánh giá chủ quan (NMOS có khoảng tin cậy), kèm phân tích ablation về rollout reuse."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu chỉ ra nguyên nhân khiến supervised fine-tuning (SFT) one-shot trên mô hình autoregressive (AR) TTS thất bại là do giám sát off-policy với mục tiêu cố định khiến mô hình phát sinh câu rỗng (bị ngắt sớm bởi token EOS). Tác giả đề xuất hai giải pháp on-policy: GRPO tối ưu theo speaker similarity reward và On-Policy Self-Distillation (OPSD) sử dụng ngữ cảnh tham chiếu làm privileged teacher, giúp cải thiện độ tương đồng giọng nói mà không làm suy giảm tính dễ nghe (intelligibility).",
+  "problem": "Khi cá nhân hóa one-shot cho mô hình AR TTS bằng SFT thông thường (kể cả khi dùng LoRA) trên một cặp âm thanh - văn bản mẫu $(c, r)$, mô hình bị huấn luyện lặp đi lặp lại để dự đoán token EOS ngay sau chuỗi codec $r$. Khi suy luận với prompt $\\langle c \\oplus x, r \\rangle$, mô hình kết thúc sớm và sinh ra speech rỗng hoặc gần rỗng ($<0.25$s), dẫn đến WER tăng vọt và độ tương đồng giảm mạnh. Phương pháp đa dạng hóa dữ liệu tĩnh (Zero-Shot Distilled SFT) loại bỏ được lỗi rỗng nhưng vẫn giữ mục tiêu cố định, cải thiện rất ít SIM và làm tăng WER.",
+  "method": "Hai phương pháp học on-policy từ các trajectory được sinh ra bởi chính policy hiện tại:\n- **GRPO (Group Relative Policy Optimization):** Với mỗi câu $x \\sim \\mathcal{D}$, sinh ra một nhóm $G$ rollout $y_i \\sim \\pi_{\\theta_{\\text{old}}}(\\cdot \\mid \\langle c \\oplus x, r \\rangle)$. Tính reward $R_i = \\text{SIM}(y_i, r)$ bằng cosine similarity giữa ECAPA-TDNN embedding của rollout được giải mã và âm thanh tham chiếu $r$. Tối ưu hóa advantage chuẩn hóa theo nhóm kết hợp clipping và hàm phạt KL divergence $\\beta D_{\\text{KL}}(\\pi_\\theta \\parallel \\pi_{\\theta_0})$.\n- **OPSD (On-Policy Self-Distillation):** Mô hình student sinh rollout $y \\sim \\pi_\\theta(\\cdot \\mid s(x))$ với context là văn bản $s(x) = \\langle x \\rangle$. Mô hình teacher đóng băng $\\pi_{\\theta_0}$ đánh giá cùng trajectory đó với privileged reference context $\\tau(x)$. Student cực tiểu hóa $D_{\\text{KL}}(\\pi_\\theta(\\cdot \\mid y_{<t}, s(x)) \\parallel \\pi_{\\theta_0}(\\cdot \\mid y_{<t}, \\tau(x)))$ trên top-$K=64$ logits. Hai biến thể: **Reference-Only OPSD (OPSD-RO)** dùng $x=c$ và $\\tau(c) = \\langle c \\oplus c, r \\rangle$; **Text-Augmented OPSD (OPSD-TA)** dùng câu mở rộng $x_a \\sim \\mathcal{D}_{\\text{text}}$ và $\\tau(x_a) = \\langle c \\oplus x_a, r \\rangle$.\n- **Rollout Reuse:** Tái sử dụng mỗi batch rollout cho $k$ lượt cập nhật tham số liên tiếp trong OPSD nhằm giảm chi phí sinh autoregressive.",
+  "setup": "Đánh giá trên tập tiếng Anh của Seed-TTS-Eval (mỗi người nói có 1 câu tham chiếu kèm transcript, tập test text và ground-truth speech). GRPO và OPSD-TA dùng thêm tập câu unpaired từ LibriTTS. Mô hình nền tảng là LLaSA-1B (kiến trúc dựa trên Llama, sinh codec XCodec2). Suy luận với nhiệt độ 0.8, top-p 1.0, độ dài tối đa 2048 token. Rollout sampling dùng nhiệt độ 0.9, top-p 0.95, top-k 50, tối đa 500 token. Đánh giá WER bằng whisper-large-v3, SIM bằng cosine similarity của ECAPA-TDNN, đánh giá chủ quan bằng 5-scale NMOS (120 lượt từ 93 người đánh giá).",
+  "results": [
+   "Zero-shot (ICL) baseline đạt WER 3.7%, SIM 0.574 và NMOS 3.83 ± 0.16.",
+   "SFT thông thường và SFT-LoRA suy giảm nghiêm trọng: SFT đạt WER 18.2%, SIM 0.536; SFT-LoRA đạt WER 35.0%, SIM 0.462 (thời gian huấn luyện mỗi bước $t=5.8$s, tỉ lệ $1.0\\times$).",
+   "SFT-ZSD (Zero-Shot Distilled SFT) giảm được lỗi sinh câu rỗng nhưng WER vẫn tăng lên 8.3%, SIM chỉ đạt 0.586 ($t=14.8$s, $2.6\\times$ SFT).",
+   "OPSD-RO ($k=10$) đạt WER 4.9%, SIM 0.608 ($t=35.3$s, $6.1\\times$ SFT). Khi không tái sử dụng rollout ($k=1$), OPSD-RO đạt WER 5.4%, SIM 0.607 ($t=224.0$s, $38.6\\times$ SFT).",
+   "OPSD-TA ($k=10$) giữ nguyên WER 3.7%, tăng SIM lên 0.609, NMOS đạt 3.80 ± 0.15 với chi phí thời gian $t=33.8$s ($5.8\\times$ SFT). Với $k=1$, OPSD-TA đạt WER 3.5%, SIM 0.613 ($t=174.1$s, $30.0\\times$ SFT).",
+   "GRPO đạt kết quả tốt nhất: WER 3.0%, SIM 0.647, NMOS 3.87 ± 0.15, nhưng thời gian huấn luyện cao nhất với $t=262.2$s ($45.2\\times$ SFT do phải vocode và chạy speaker encoder).",
+   "Ground Truth đạt NMOS 4.38 ± 0.09."
+  ],
+  "limitations": "GRPO có chi phí tính toán rất cao ($45.2\\times$ so với SFT) vì phải giải mã chuỗi codec thành waveform qua vocoder và chạy mô hình ECAPA-TDNN để trích xuất reward cho từng rollout. Nghiên cứu chỉ đánh giá trên một mô hình AR (LLaSA-1B) và chỉ trên ngôn ngữ tiếng Anh. Tài liệu không công bố liên kết mã nguồn mở hay checkpoint.",
+  "takeaways": "Không nên áp dụng SFT trực tiếp hoặc SFT-LoRA với một mẫu duy nhất trên mô hình AR TTS vì sẽ gây hiện tượng EOS collapse. Nếu cần chất lượng giọng nói cao nhất và có đủ tài nguyên tính toán, GRPO với speaker similarity reward là lựa chọn tối ưu. Nếu cần tốc độ thích ứng nhanh trong production mà không cần vocoding hay reward model bên ngoài, OPSD-TA kết hợp rollout reuse ($k=10$) là giải pháp cân bằng tốt giữa tốc độ ($5.8\\times$ SFT) và chất lượng.",
+  "strengths": [
+   "Chỉ rõ nguyên nhân gốc rễ gây EOS collapse trong SFT",
+   "GRPO cải thiện vượt trội cả SIM và WER",
+   "OPSD không cần vocoding hay reward model bên ngoài",
+   "Cơ chế rollout reuse giảm chi phí tính toán rõ rệt"
+  ],
+  "weaknesses": [
+   "GRPO có chi phí thời gian huấn luyện rất lớn",
+   "Chỉ thử nghiệm trên duy nhất mô hình LLaSA-1B",
+   "Chưa mở mã nguồn hoặc pretrained checkpoint"
+  ],
+  "context": "Nhóm tác giả thuộc Đại học Quốc gia Seoul (Seoul National University) và Đại học Seoul (University of Seoul), công bố trên arXiv vào tháng 10 năm 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W43"
+}
