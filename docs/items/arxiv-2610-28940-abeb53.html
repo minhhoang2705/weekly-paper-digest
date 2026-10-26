@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StyleStream 2.0: Fast and Controllable Streaming Voice Style Conversion · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W44</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">StyleStream 2.0: Fast and Controllable Streaming Voice Style Conversion</h1>
+    <div class="meta">
+      <span title="Listed by arXiv, HF Daily Papers, Papers with Code inside the crawl window">found Oct 22, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 20, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span><span class="pill">Papers with Code</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Yisi Liu, Nicholas Lee, Gopala K. Anumanchipalli</span>
+    </div>
+  </div>
+  <div class="header-actions">
+      <a class="button" href="https://github.com/Berkeley-Speech-Group/StyleStream2.0" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Code</a>
+    <a class="button" href="https://arxiv.org/abs/2610.28940" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Voice style conversion (VSC) aims to transform a source utterance to match the timbre, accent, and emotion of a target voice while preserving linguistic content. StyleStream 1.0 introduced the first streamable zero-shot VSC system with state-of-the-art conversion quality, but remained limited in two ways: approximately 1s end-to-end latency on consumer hardware, and the lack of a text-based interface for designing or editing target voices. We present StyleStream 2.0, a fast and controllable streaming VSC framework that addresses these limitations. To reduce latency, we train a few-step pixel MeanFlow model and further fine-tune it with autoregressive feedback inspired by Self Forcing, improving robustness under streaming inference. This reduces end-to-end latency to 520~ms on a consumer GPU, a 2x speedup over StyleStream 1.0, while maintaining conversion quality. To enable controllable style manipulation, we remove the mel-spectrogram context and instead route target style information through a compact style embedding. In this embedding space, we train a unified text-conditioned flow matching model that supports both text-based voice design, which maps natural language prompts to voice styles, and instruction-based voice editing, which modifies a specific attribute of a source utterance while preserving the rest. Experiments show that StyleStream 2.0 achieves the strongest target style fidelity on VSC, voice design, and voice editing, while remaining competitive on intelligibility and non-edited attribute preservation.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 26, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>StyleStream 2.0 là hệ thống Voice Style Conversion (VSC) dạng streaming cho phép chuyển đổi toàn diện âm sắc (timbre), giọng vùng miền (accent) và cảm xúc (emotion) với độ trễ đầu cuối giảm xuống 520 ms. Mô hình tích hợp thêm mô-đun Voice Controller dựa trên Flow Matching cho phép vừa tạo giọng (voice design) bằng câu nhắc tự nhiên, vừa chỉnh sửa từng thuộc tính giọng nói (voice editing) bằng chỉ dẫn văn bản.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>StyleStream 1.0 dù đạt chất lượng VSC zero-shot streaming tốt nhưng vẫn tồn tại hai hạn chế lớn: độ trễ đầu cuối xấp xỉ 1 giây trên GPU thương mại (quá cao cho tương tác thời gian thực) và thiếu giao diện văn bản để thiết kế/chỉnh sửa giọng đích (người dùng buộc phải cung cấp một đoạn âm thanh mẫu thay vì mô tả bằng ngôn ngữ tự nhiên).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>StyleStream 2.0 kế thừa kiến trúc Destylizer - Stylizer từ phiên bản 1.0:</p>
+<ul>
+<li><strong>Destylizer</strong>: Giữ nguyên từ StyleStream 1.0 (gồm frozen HuBERT-Large, 6 khối Conformer, nút thắt Finite Scalar Quantization - FSQ với kích thước codebook 45 và Transformer ASR decoder). Khi suy luận, loại bỏ FSQ và decoder, trích xuất đặc trưng nội dung <span class="math inline">f_c \in \mathbb{R}^{D_c \times T}</span> ở tần số 50 Hz.</li>
+<li><strong>Stylizer với Pixel MeanFlow (pMF)</strong>: Thay thế diffusion nhiều bước bằng pMF kết hợp dự đoán <span class="math inline">x</span> và chưng cất Classifier-Free Guidance (CFG). DiT 16 tầng dự đoán mel-spectrogram trực tiếp, chuyển đổi thành vận tốc trung bình qua <span class="math inline">u_\theta = (z_t - \hat{x}_\theta)/t</span> và vận tốc tức thời <span class="math inline">V_\theta</span> qua Jacobian-vector product (JVP), cho phép tạo mẫu chất lượng cao chỉ với 4 NFE (hoặc thậm chí 1-2 bước) và 1 lần đánh giá/bước.</li>
+<li><strong>Perceiver-Resampler Style Encoder</strong>: Loại bỏ mel-spectrogram context (mel-inpainting) để toàn bộ phong cách được gói gọn trong style embedding <span class="math inline">e_s \in \mathbb{R}^{768}</span>. Dùng frozen WavLM-base-plus (ghép 12 tầng) kết hợp Perceiver Resampler (4 khối, 8 learnable queries) nén thành vector 768 chiều (97.5M tham số so với 128.4M của bản 1.0).</li>
+<li><strong>Autoregressive Fine-Tuning</strong>: Lấy cảm hứng từ Self Forcing trong video diffusion, Stylizer được tinh chỉnh trên các rollout chunk không chồng lấn kèm kênh ngữ cảnh mel quá khứ <span class="math inline">m_{past}</span> (cửa sổ 3 giây) và lookahead nội dung (80 ms) nhằm khắc phục hiện tượng mất tính liên tục tại ranh giới chunk khi streaming.</li>
+<li><strong>Voice Controller</strong>: DiT 16 tầng trong không gian style embedding nhận văn bản qua frozen Flan-T5-base. Đối với voice design, đầu vào phụ là learned null embedding; đối với voice editing, đầu vào phụ là embedding giọng gốc đã chia patch (<span class="math inline">P=32</span>). Mô hình điều khiển 4 trục: age, gender, accent, emotion.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Stylizer huấn luyện trên ~50k giờ tiếng Anh từ Emilia-EN. Voice Controller huấn luyện trên tập dẫn xuất từ CapSpeech (~11.98M mẫu, gồm dữ liệu tự nhiên và tổng hợp qua CosyVoice 3). Đánh giá VSC trên 300 câu nguồn (ESD, GLOBE, LibriTTS) ghép với 10 câu đích (3000 cặp). Baseline VSC: CosyVoice 2.0/3.0, Vevo, Vevo 2.0 (cascade Whisper-large-v3 + Vevo 2.0), StyleStream 1.0. Baseline text design/editing: cascade ASR + prompt-TTS (CapTTS, Qwen3-TTS VoiceDesign) và CapTTS adapter + Vevo/Vevo2. Phần cứng đo đạc: GPU RTX 4060, chunk 300 ms, lookahead 80 ms. Metric: WER, S-SIM (Resemblyzer), A-SIM (CommonAccent), E-SIM (emotion2vec), NMOS, SMOS, VoxProfile classification accuracy, SC-MOS, SP-MOS.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Độ trễ đầu cuối giảm xuống 520.7 ms trên RTX 4060 (chunk 300 ms + lookahead 80 ms + thời gian xử lý mỗi chunk 140.7 ms bao gồm vocoder 3.139 ms), nhanh gấp đôi StyleStream 1.0.</li>
+<li>VSC offline: StyleStream 2.0 đạt S-SIM 0.879, A-SIM 0.705, NMOS 3.45±.13, S-SMOS 4.32±.10, E-SMOS 4.35±.09 chỉ với 4 NFE, vượt StyleStream 1.0 (16 NFE, S-SIM 0.869, S-SMOS 4.23±.10) và tiệm cận WER (7.00% so với 7.47%).</li>
+<li>VSC streaming: StyleStream 2.0 (4 NFE) đạt S-SIM 0.866, A-SIM 0.684, S-SMOS 4.18±.14, A-SMOS 3.89±.13, vượt trội StyleStream 1.0 streaming (12 NFE: S-SIM 0.842, A-SIM 0.656, S-SMOS 4.10±.14), WER đạt 12.02% (so với 11.41%).</li>
+<li>Voice design: StyleStream 2.0 offline dẫn đầu về độ chính xác Age-acc (70.67%), G-acc (99.44%), A-acc (52.73%) và SC-MOS (3.96±.10), vượt xa CapTTS (41.11%, 94.33%, 52.00%, SC-MOS 3.54±.13).</li>
+<li>Voice editing: StyleStream 2.0 offline đạt WER thấp nhất (6.43%), Age-acc 71.67%, G-acc 99.17%, A-acc 54.33%, E-acc 14.67% và SC-MOS 3.76±.13, vượt trội Vevo (Age-acc 28.33%, SC-MOS 2.64±.16) và Vevo2 (Age-acc 24.67%, SC-MOS 2.26±.15).</li>
+<li>Ablation autoregressive fine-tuning khi streaming: loại bỏ AR-ft khiến WER tăng vọt từ 12.03% lên 19.54% (chất lượng âm thanh tại ranh giới chunk suy giảm mạnh).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Độ trễ 520 ms vẫn chưa đạt mức tối ưu cho các tương tác đàm thoại tức thời khắt khe (&lt;300 ms). Trục điều khiển âm sắc mới dừng ở tuổi và giới tính, chưa hỗ trợ các thuộc tính thanh âm chi tiết (độ thở - breathiness, độ sáng - brightness, vocal effort). Độ chính xác chỉnh sửa cảm xúc (E-acc) còn thấp (13.67% - 14.67%) và việc chỉnh sửa đôi khi gây trôi nhẹ các thuộc tính không cần sửa.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Sự kết hợp giữa Pixel MeanFlow (chỉ cần 4 NFE kèm CFG distillation) và Autoregressive Fine-Tuning giải quyết triệt để bài toán trade-off giữa tốc độ sinh và tính ổn định biên giới chunk trong streaming VSC. Gom toàn bộ thông tin phong cách vào một vector embedding duy nhất cho phép dùng DiT thống nhất xử lý cả tác vụ thiết kế giọng và biên tập giọng trực tiếp bằng văn bản.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">75.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#4 (tied) in 2026-W44</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 214.08,212.43 127.55,182.66 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="214.08" cy="212.43" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Ứng dụng sáng tạo Pixel MeanFlow có CFG distillation vào âm thanh streaming kết hợp kỹ thuật fine-tuning tự hồi quy (Self Forcing) và DiT thống nhất cho cả voice design lẫn voice editing trên không gian embedding.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật vững chắc với công thức toán pMF rõ ràng (JVP derivative), cơ chế rollout chunk để xóa bỏ khoảng cách train-test, kiến trúc Perceiver Resampler tối ưu và pipeline tạo dữ liệu 11.98M cặp chi tiết.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 5/5 — Thực nghiệm toàn diện với 3000 mẫu thử, so sánh đối đầu nhiều baseline mạnh (CosyVoice 2/3, Vevo 1/2, CapTTS, Qwen3-TTS), đánh giá khách quan và chủ quan (40 người nghe) cùng các ablation chi tiết về chunk size, style encoder, NFE, CFG và text encoder.</title>Evidence <tspan class="radar-value">5</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Cung cấp giải pháp thiết thực cho VSC streaming và voice agent tương tác, tuy nhiên hiện tại các chỉ số cộng đồng (17 upvotes, 2 stars) còn ở mức ban đầu.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Đến từ nhóm nghiên cứu uy tín UC Berkeley (Gopala K. Anumanchipalli), được chấp nhận tại hội nghị đầu ngành NeurIPS 2026 và công khai mã nguồn cùng trang demo.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Ứng dụng sáng tạo Pixel MeanFlow có CFG distillation vào âm thanh streaming kết hợp kỹ thuật fine-tuning tự hồi quy (Self Forcing) và DiT thống nhất cho cả voice design lẫn voice editing trên không gian embedding.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Đến từ nhóm nghiên cứu uy tín UC Berkeley (Gopala K. Anumanchipalli), được chấp nhận tại hội nghị đầu ngành NeurIPS 2026 và công khai mã nguồn cùng trang demo.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật vững chắc với công thức toán pMF rõ ràng (JVP derivative), cơ chế rollout chunk để xóa bỏ khoảng cách train-test, kiến trúc Perceiver Resampler tối ưu và pipeline tạo dữ liệu 11.98M cặp chi tiết.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Cung cấp giải pháp thiết thực cho VSC streaming và voice agent tương tác, tuy nhiên hiện tại các chỉ số cộng đồng (17 upvotes, 2 stars) còn ở mức ban đầu.</dd></div>
+          <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Thực nghiệm toàn diện với 3000 mẫu thử, so sánh đối đầu nhiều baseline mạnh (CosyVoice 2/3, Vevo 1/2, CapTTS, Qwen3-TTS), đánh giá khách quan và chủ quan (40 người nghe) cùng các ablation chi tiết về chunk size, style encoder, NFE, CFG và text encoder.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Giảm độ trễ 2x xuống 520 ms trên RTX 4060 · Chỉ cần 4 NFE nhờ Pixel MeanFlow và CFG distillation · Điều khiển thống nhất voice design và editing qua văn bản · Ổn định streaming chunk nhờ Autoregressive Fine-Tuning · Vượt trội các hệ thống cascade và reference-based về style fidelity</p>
+          <p><span class="label">Weaknesses</span> · Độ chính xác chỉnh sửa cảm xúc còn thấp (14.67%) · Có hiện tượng trôi nhẹ thuộc tính không sửa · Độ trễ 520 ms vẫn chưa tối ưu cho siêu tương tác · Không gian âm sắc chưa hỗ trợ vocal qualities nâng cao</p>
+          <p><span class="label">Context</span> · Yisi Liu, Nicholas Lee, Gopala K. Anumanchipalli (University of California, Berkeley), công bố tại NeurIPS 2026 (arXiv:2610.28940v1).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

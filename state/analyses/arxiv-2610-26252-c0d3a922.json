@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.26252",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng mô hình hóa chuỗi subtoken embedding như một tín hiệu phổ để thực hiện low-pass filtering bảo toàn phase và dùng closed-form ridge regression cho khởi tạo OOV embedding trong TTS là hướng tiếp cận mới mẻ và độc đáo so với pooling thông thường.",
+  "credibility": "Báo cáo đến từ nhóm nghiên cứu trường đại học uy tín (ITMO University), công thức toán học và quy trình chứng minh chi tiết, tuy nhiên tài liệu hiện ở dạng bản thảo arXiv chưa qua bình duyệt chính thức tại hội nghị/tạp chí.",
+  "technical": "Phân tích kỹ thuật rất chặt chẽ từ nguyên lý Lipschitz continuity, chứng minh toán học về tính nhạy thứ tự của pha DFT, đến phân tích phổ năng lượng thực nghiệm và thuật toán dạng đóng không tham số phức tạp.",
+  "impact": "Cung cấp giải pháp thiết thực cho kỹ sư phát triển TTS đa ngôn ngữ muốn giảm chi phí thu thập dữ liệu audio mục tiêu, dù mức độ lan tỏa thực tế hiện tại còn hạn chế (7 lượt upvote trên Hugging Face Daily Papers).",
+  "evidence": "Thực nghiệm đa dạng trên 3 ngôn ngữ thuộc các ngữ hệ khác nhau, kiểm chứng trên 2 kiến trúc (Chatterbox và VibeVoice), có đánh giá khách quan (CER/WER từ ASR), đánh giá chủ quan mù (SBS với kiểm định thống kê), kèm nhiều ablation chi tiết."
+ },
+ "summary": {
+  "tldr": "SEAM là phương pháp khởi tạo embedding không cần audio (zero-audio) nhằm mở rộng từ vựng (vocabulary expansion) cho các mô hình TTS ít tài nguyên và đa ngôn ngữ. Bằng cách kết hợp lọc thông thấp phổ (spectral low-pass filtering) để bảo toàn thứ tự ngữ âm và hồi quy ridge dạng đóng (closed-form ridge regression) để căn chỉnh manifold, SEAM đạt hiệu năng tương đương hoặc vượt trội baseline với lượng dữ liệu huấn luyện ít hơn tới 4 lần (giảm 75% sample complexity).",
+  "problem": "Mở rộng từ vựng trong mô hình TTS có điều kiện (conditional TTS) sang các ngôn ngữ mới thường gặp hiện tượng nghẽn khởi tạo (initialization bottleneck): các token âm vị/chữ viết mới thường được gán vector ngẫu nhiên hoặc dùng mean pooling các subtoken (vốn làm mất thứ tự âm vị thời gian), đòi hỏi lượng lớn dữ liệu âm thanh ghép cặp và nhiều lượt fine-tuning để hội tụ, điều bất khả thi với các ngôn ngữ cực kỳ hiếm tài nguyên.",
+  "method": "Quy trình SEAM gồm hai giai đoạn chính dựa trên nguyên lý liên tục Lipschitz (Lipschitz continuity):\n1. **Spectral Merging Operator ($\\Psi$):** Biểu diễn chuỗi subtoken embedding $S = [e_1; \\dots; e_m] \\in \\mathbb{R}^{m \\times d}$ như một tín hiệu rời rạc. Áp dụng Discrete Fourier Transform (DFT) theo từng chiều embedding và lọc thông thấp Gaussian: $\\tilde{S}_j(k) = \\hat{S}_j(k) \\cdot \\exp(-k^2 / (2\\sigma^2))$ với $K_{\\text{eff}} = \\min(K, \\lfloor m/2 \\rfloor + 1)$ (mặc định $K=4, \\sigma=2.0$). Việc giữ lại các hệ số phức (magnitude và phase) giúp bảo toàn thứ tự ngữ âm theo thời gian (order-sensitive), đồng thời dập tắt nhiễu tần số cao tại biên giữa các subtoken.\n2. **Closed-Form Self-Calibration:** Trích xuất các cặp tự giám sát $(S^{(i)}, c_{\\text{target}}^{(i)} = E(t))$ từ từ vựng cũ $V_{\\text{old}}$ bằng BPE tokenizer gốc. Tham số chiếu tuyến tính $(W, b)$ được giải giải tích qua hồi quy ridge: $[W^{*\\top}; b^{*\\top}] = (\\tilde{X}^\\top \\tilde{X} + \\lambda R)^{-1} \\tilde{X}^\\top Y$ với $\\lambda = 10^{-6}$ mà không cần audio hay tối ưu dựa trên đạo hàm.\n3. **Khởi tạo token mới:** Ánh xạ từ mới (ví dụ chữ Cyrillic) sang English IPA, tách thành các subtoken thuộc $V_{\\text{old}}$, tính embedding qua $\\Psi^*(S_{\\text{new}}) = W^* \\phi(S_{\\text{new}}) + b^*$ và chuẩn hóa norm.",
+  "setup": "Đánh giá trên 3 ngôn ngữ: Russian (Slavic/Cyrillic), Kazakh (Turkic/Cyrillic-Latin) và French (Latin). Backbone chính là Chatterbox (0.5B, full fine-tuning) và mở rộng sang VibeVoice (1.5B, LoRA rank 128) trên workstation 1x NVIDIA RTX 3090 (24GB VRAM) và CPU Intel i9-14900K. Ngân sách dữ liệu huấn luyện gồm 5h, 25h và 100h. Đánh giá khách quan qua CER/WER bằng các mô hình ASR FastConformer (NVIDIA STT) trên 100 mẫu kiểm tra cố định từ RuLibriSpeech, KazakhTTS và French-unique-speaker-tts; đánh giá chủ quan qua Side-By-Side (SBS) với 5 người bản ngữ mỗi ngôn ngữ (25 câu/người).",
+  "results": [
+   "Trên Russian với ngân sách 25h: SEAM đạt 8.50% CER (20.01% WER), vượt qua Mean pooling (10.72% CER, 24.58% WER), Random (17.66% CER, 27.18% WER), và thậm chí vượt cả Mean pooling ở ngân sách 100h (9.64% CER, 19.87% WER).",
+   "Trên Kazakh với ngân sách 25h: SEAM đạt 5.26% CER (13.19% WER), vượt trội áp đảo so với Mean pooling (15.89% CER, 21.60% WER) và Random (32.60% CER, 39.89% WER). Ở mức 100h, SEAM đạt 4.39% CER so với 8.50% của Mean pooling.",
+   "Trên French với ngân sách 25h: SEAM đạt 11.93% CER (23.20% WER) so với Mean pooling đạt 12.80% CER (25.82% WER) và Random đạt 15.70% CER (29.68% WER).",
+   "Khảo sát nhân loại SBS (SEAM 25h vs. Mean pooling 100h, tỷ lệ non-tie): Người nghe bản ngữ ưu tiên SEAM vượt trội với 61.4% ở Russian ($p=0.041$), 65.1% ở Kazakh ($p=0.002$), và 70.6% ở French ($p<0.001$) dù dùng lượng dữ liệu ít hơn gấp 4 lần.",
+   "Thử nghiệm trên VibeVoice (1.5B) với tiếng Nga (5h): SEAM đạt 6.14% CER so với 8.34% của Average và 9.26% của Random.",
+   "Ablation độ nhạy thứ tự (Order Sensitivity trên Russian 5h): Giữ nguyên thứ tự đạt 14.88% CER (34.41% WER), đảo ngược thứ tự (Reversed) tăng lên 19.67% CER (51.99% WER), và xáo trộn ngẫu nhiên (Shuffled) tăng vọt lên 22.91% CER (53.66% WER)."
+  ],
+  "limitations": "Phụ thuộc chặt chẽ vào khả năng phân rã subtoken và độ chính xác của bảng chuyển tự IPA (lỗi mapping từ các chữ viết phi Latinh sẽ lan truyền vào conditioning space); vẫn cần downstream fine-tuning với audio có ghép cặp chứ không thay thế hoàn toàn; hiện tượng phương sai do chồng lấn từ vựng (lexical overlap) ở các tập dữ liệu cực nhỏ (5h vs 25h trên Kazakh) làm trồi sụt số đo CER.",
+  "takeaways": "Khi mở rộng từ vựng cho TTS, việc dùng mean pooling làm mất hoàn toàn thông tin thứ tự thời gian của ngữ âm. Việc áp dụng Fourier low-pass filter kết hợp ridge regression dạng đóng là giải pháp zero-audio cực kỳ nhẹ, không tốn chi phí tính toán huấn luyện và giúp tiết kiệm tới 75% dữ liệu audio mục tiêu trong quá trình fine-tuning thích ứng.",
+  "strengths": [
+   "Khởi tạo zero-audio hoàn toàn bằng công thức đóng",
+   "Bảo toàn thứ tự ngữ âm qua DFT phase",
+   "Giảm sample complexity tới 4 lần trên nhiều ngôn ngữ",
+   "Mở rộng tốt khi kích thước từ vựng tăng cao",
+   "Chứng minh hiệu quả trên cả Chatterbox và VibeVoice"
+  ],
+  "weaknesses": [
+   "Phụ thuộc công cụ phiên âm IPA chuẩn",
+   "Vẫn đòi hỏi fine-tuning với dữ liệu âm thanh",
+   "Chưa kiểm thử trên các ngôn ngữ thanh điệu"
+  ],
+  "context": "Nhóm tác giả từ ITMO University, SPC RAS và MWS AI; bài báo công bố dưới dạng preprint trên arXiv (arXiv:2610.26252v1 [cs.LG])."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

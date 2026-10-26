@@ -1,0 +1,48 @@
+{
+ "id": "arxiv:2610.27581",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Nghiên cứu tiên phong kết hợp bài toán kiểm soát ranh giới tương tác full-duplex với quản trị trạng thái bộ nhớ giao dịch có liên kết phiên bản (versioned ledger).",
+  "credibility": "Bản thảo preprint trên arXiv từ nhóm tác giả thuộc các trường đại học uy tín (NTU, Peking University) nhưng chưa qua bình duyệt tại hội nghị chuyên ngành.",
+  "technical": "Mô hình hóa chặt chẽ vòng đời giao dịch sự kiện (PREPARE, COMMIT, ABORT), thiết kế giao thức adaptive benchmark chi tiết và phân rã các chỉ số rõ ràng.",
+  "impact": "Mở ra hướng tiếp cận quan trọng cho voice agent thế hệ mới nhưng hiện tại sức ảnh hưởng còn hạn chế do benchmark synthetic và mã nguồn mới ở dạng repo mở đầu.",
+  "evidence": "Cung cấp đầy đủ số liệu thực nghiệm trên 5 baseline, phân tích ablation chi tiết, kiểm định paired-bootstrap CI 95% và minh họa log lỗi cụ thể."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu chỉ ra khoảng cách lớn giữa khả năng tương tác full-duplex và tính nhất quán của bộ nhớ trạng thái (state management), nơi các mô hình hiện tại chỉ đạt tối đa 2.01% độ phủ sự thật trạng thái cuối (final-state fact coverage). Nhóm tác giả giới thiệu DuplexLedger, một benchmark song ngữ gồm 1,094 phiên hội thoại có giám sát cấp sự kiện, cùng ACT-Mem—một module sidecar 8.92M tham số giúp tăng độ chính xác giá trị mới nhất (latest-value accuracy) từ 4.11% lên 8.68% trên backbone MiniCPM-o 4.5 đóng băng.",
+  "problem": "Các tác nhân đàm thoại full-duplex phải vừa nghe vừa nói đồng thời, dẫn đến bài toán quản trị trạng thái phức tạp: lời nói chen ngang có thể cập nhật thông tin, bị bỏ dở, chỉ là câu đệm (backchannel), hoặc nói với người khác. Các benchmark trước đây tách rời tương tác đàm thoại (timing, turn-taking, interruption) khỏi kết quả lưu trữ bộ nhớ dài hạn, khiến câu trả lời đúng không phản ánh được liệu mô hình có duy trì bộ nhớ mạch lạc hay chỉ ăn may theo ngữ cảnh tức thời.",
+  "method": "Tác giả đề xuất khuôn khổ bộ nhớ giao dịch (transactional memory) gồm hai đóng góp chính:\n- **DuplexLedger Benchmark**: Tập dữ liệu song ngữ (tiếng Trung/tiếng Anh) gồm 1,094 phiên đàm thoại persistent với 4 kịch bản full-duplex thích ứng (user interruption, user backchannel, within-turn pause, speech to others). Cung cấp nhãn giám sát cấp sự kiện gồm 4 thao tác: `WRITE`, `UPDATE`, `IGNORE`, `RETAIN`, cùng các trạng thái bộ nhớ oracle trước/sau và 6,564 câu hỏi kiểm tra bộ nhớ trong cùng phiên.\n- **ACT-Mem**: Module sidecar 8.92M tham số (4.59M cho Event Controller và 4.33M cho Typed Retriever) gắn ngoài backbone MiniCPM-o 4.5 đóng băng.\n  - *Event Controller*: Nhận bản gỡ băng từ ASR đóng băng và dự đoán người nhận (addressee), độ hoàn thiện ngữ nghĩa, loại thao tác và độ tin cậy; tính điểm tiếp nhận $g_t = p_t^{\\text{addr}} p_t^{\\text{complete}} [p_t(\\text{WRITE}) + p_t(\\text{UPDATE})] c_t$. Nếu $g_t \\ge \\tau_{\\text{write}}$ (0.35), giao dịch chuyển sang trạng thái `COMMIT`.\n  - *Versioned Transactional Ledger*: Lưu trữ tối đa 32 slot nhớ active, duy trì liên kết phiên bản (supersedes/superseded-by), chuyển các giá trị cũ sang trạng thái `superseded` khi có `UPDATE` hợp lệ.\n  - *Typed Retriever & Evidence Card*: Phân loại câu hỏi thành 4 hành vi truy xuất (Latest-value, Recall, Summary, Distractor-ignore), tạo thẻ ngữ cảnh đưa vào backbone qua kỹ thuật text-prefill chỉ khi trả lời câu hỏi QA.",
+  "setup": "Đánh giá 5 mô hình full-duplex mã nguồn mở: MiniCPM-o 4.5, Freeze-Omni, Moshi, Lychee-FD, và PersonaPlex-7B-v1 trên 1,094 phiên (35.33 giờ fixed audio, 24.22 giờ event audio). Đánh giá ACT-Mem trên tập held-out 219 phiên (1,314 câu hỏi QA, 438 câu hỏi latest-value) với backbone MiniCPM-o 4.5 đóng băng. Huấn luyện ACT-Mem trên 8 GPU NVIDIA A100 qua 2 giai đoạn (joint training với AdamW, lr $3 \\times 10^{-4}$ qua 10 epochs; sau đó đóng băng controller và adapt retriever với lr $1 \\times 10^{-4}$ qua 3 epochs). Các chỉ số: cFD (conditional full-duplex score), Stop@0.8s, stop latency (P50/P90), Latest-value accuracy, Stale assertion rate, Distractor adoption/rejection, Summary fact coverage.",
+  "results": [
+   "Trên benchmark DuplexLedger (1,094 phiên), không mô hình baseline nào đồng thời làm tốt cả tương tác và bộ nhớ: Lychee-FD dẫn đầu về latest-value accuracy với 25.50% và cFD 47.32% nhưng tỷ lệ distractor adoption lên tới 48.17% và final-state coverage chỉ đạt 1.06%; MiniCPM-o 4.5 có distractor rejection tốt nhất (85.19%) nhưng latest-value accuracy chỉ đạt 4.30%; Freeze-Omni đạt 11.61% latest-value nhưng distractor adoption là 65.90% và final-state coverage là 0.00%; mức final-state fact coverage cao nhất toàn bộ các hệ thống chỉ là 2.01% (MiniCPM-o 4.5).",
+   "Trên tập held-out 219 phiên, ACT-Mem cải thiện latest-value accuracy từ 4.11% lên 8.68% (+111.2% tương đối, +4.57 điểm phần trăm, 95% CI [1.60, 7.53]) so với MiniCPM-o 4.5 thuần.",
+   "ACT-Mem giúp giảm tỷ lệ stale assertions từ 0.68% xuống 0.46% (-0.22 điểm phần trăm) và giảm distractor adoption từ 13.70% xuống 11.42% (-2.28 điểm phần trăm).",
+   "Về tương tác full-duplex, ACT-Mem tăng cFD từ 37.18% lên 41.19% (+10.8%), giảm premature onset từ 19.70% xuống 16.03% (-18.6%), giảm pre-end overlap từ 45.26% xuống 41.82% (-7.6%), nhưng đánh đổi ở khả năng dừng ngắt lời: Stop@0.8s giảm từ 51.06% xuống 45.00% (-6.06 điểm phần trăm) và độ trễ ngắt lời trung vị (median stopping latency) tăng từ 1.123 s lên 1.340 s (+217 ms)."
+  ],
+  "limitations": "Toàn bộ dữ liệu hội thoại và âm thanh đều được sinh tổng hợp (bằng GPT-5.5 và TTS), thiếu các đặc trưng tiếng nói tự nhiên như disfluency phức tạp, phương ngữ, cảm xúc và tiếng ồn môi trường thực tế. Thời lượng phiên ngắn (khoảng 1-3 phút), chưa kiểm thử bộ nhớ trên thang đo nhiều giờ hoặc qua nhiều ngày. ACT-Mem làm chậm thời gian phản hồi dừng ngắt lời (tăng latency ngắt lời thêm 217 ms). Chưa hỗ trợ cơ chế xóa bộ nhớ tường minh (memory-deletion) phục vụ quyền riêng tư.",
+  "takeaways": "Không thể suy luận trạng thái bộ nhớ đáng tin cậy chỉ từ khả năng bắt nhịp tương tác âm thanh hay câu trả lời tức thời; việc phản xạ ngắt lời không đồng nghĩa với cập nhật trạng thái đúng. Kỹ sư xây dựng voice agent full-duplex cần tách biệt rõ ràng giữa cơ chế tiếp nhận/loại trừ sự kiện (admission/exclusion gate) và bộ nhớ phiên bản (versioned ledger) thay vì dồn toàn bộ transcript vào context của mô hình sinh.",
+  "strengths": [
+   "Đặt vấn đề chuẩn xác về transactional memory trong full-duplex",
+   "Thiết kế benchmark đồng bộ sự kiện, tương tác và QA",
+   "Kiến trúc ACT-Mem nhẹ (8.92M params), cắm ngoài backbone đóng băng",
+   "Phân tích lỗi chi tiết theo tiến trình từng sự kiện"
+  ],
+  "weaknesses": [
+   "Dữ liệu hoàn toàn là synthetic text và TTS",
+   "Hiệu năng tổng thể final-state coverage còn rất thấp (2.00%)",
+   "Làm giảm tốc độ dừng ngắt lời của agent"
+  ],
+  "context": "Yuxuan Li và cộng sự từ NTU, Đại học Bắc Kinh, BJUT, Xidian, Melbourne và CASIC; công bố dưới dạng preprint trên arXiv (arXiv:2610.27581)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

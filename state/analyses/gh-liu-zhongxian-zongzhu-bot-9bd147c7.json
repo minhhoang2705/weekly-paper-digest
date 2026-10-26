@@ -1,0 +1,48 @@
+{
+ "id": "gh:liu-zhongxian/zongzhu-bot",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án kết hợp khéo léo phần cứng ESP32 hiển thị biểu cảm với Grok Bot và backend media cục bộ, nhưng dựa trên nền tảng sẵn có của Xiaozhi.",
+  "credibility": "Kho mã nguồn mở cá nhân được phát hành công khai trên GitHub với tài liệu hướng dẫn và Web flasher chi tiết.",
+  "technical": "Kiến trúc client-server rõ ràng, kết hợp xử lý ASR offline với hotwords, xử lý ngoại lệ đồng âm và cơ chế phát nhạc fallback đa nền tảng.",
+  "impact": "Dự án DIY cá nhân đạt 214 stars và 98 forks, phục vụ cộng đồng phần cứng mã nguồn mở ESP32 quy mô vừa phải.",
+  "evidence": "Cung cấp mã nguồn đầy đủ, script cài đặt, thông số độ trễ ước tính (~1.5s) và hướng dẫn triển khai thực tế trên các dòng bo mạch cụ thể."
+ },
+ "summary": {
+  "tldr": "Zongzhu Bot là dự án trợ lý giọng nói để bàn kết hợp phần cứng ESP32-S3 và server chạy trên máy tính cục bộ kết nối với Grok Bot. Thiết bị tiếp nhận giọng nói, phân loại để điều khiển phát nhạc/âm lượng trực tiếp trên máy hoặc chuyển tác vụ phức tạp cho Grok Bot xử lý và phản hồi bằng giọng đọc.",
+  "problem": "Người dùng cần một giao diện phần cứng giọng nói để bàn nhỏ gọn, trực quan (có biểu cảm mắt linh hoạt) để tương tác tự nhiên với Grok Bot và điều khiển media cục bộ mà không cần phụ thuộc hoàn toàn vào các dịch vụ đám mây hay cú pháp lệnh rườm rà.",
+  "method": "Hệ thống chia làm hai phần chính:\n- **Phần cứng ESP32-S3**: Chịu trách nhiệm thu âm, phát âm thanh và hiển thị giao diện với 13 biểu cảm mắt vẽ thời gian thực phản hồi theo trạng thái (chạm, nghiêng, rung lắc); hỗ trợ 3 chế độ phụ đề (đầy đủ / thu gọn / tắt) chuyển đổi bằng nút BOOT.\n- **Backend máy tính**: Tiếp nhận âm thanh từ board, thực hiện ASR offline cục bộ (X-ASR) hỗ trợ song ngữ Trung - Anh kèm cơ chế hotwords và sửa lỗi nhận diện (error correction). Backend định tuyến intent: nếu là lệnh phát nhạc/âm lượng/tạm dừng sẽ thực thi cục bộ (qua `go-music-dl` đa nền tảng và `mpv` player); nếu là tác vụ khác sẽ chuyển qua Webhook đến Grok Bot và nhận file phản hồi để đọc lại cho người dùng.",
+  "setup": "Hỗ trợ phần cứng Waveshare ESP32-S3-Touch-AMOLED-1.75C, Lichee/LCSC 实战派 ESP32-S3 (M5Stack StopWatch hỗ trợ biên dịch nhưng chưa test thực tế). Backend yêu cầu máy Mac (đã kiểm nghiệm trên Apple silicon) hoặc server Linux/máy tính cùng mạng Wi-Fi 2.4GHz với board; Grok Bot yêu cầu webhook và quyền ghi file vào máy tính backend. Cung cấp Web flasher qua trình duyệt Chrome/Edge.",
+  "results": [
+   "Thời gian phản hồi khi gọi phát nhạc nội bộ: khoảng 1.5 giây sau khi ra lệnh",
+   "Kích thước tải model giọng nói (ASR) của backend: khoảng 200MB",
+   "Hỗ trợ 13 loại biểu cảm mắt vẽ thời gian thực theo tương tác vật lý và trạng thái",
+   "Firmware phiên bản phát hành: 2.5.2.9"
+  ],
+  "limitations": "Chỉ an toàn khi sử dụng trong mạng LAN (khuyến cáo không mở port 8000, 8003 ra public internet); Grok Bot bắt buộc phải có khả năng ghi file vào máy tính chạy backend; tính năng nghe nhạc phụ thuộc vào các API không chính thức từ bên thứ ba (`go-music-dl` mở cổng 18080); bo mạch M5Stack StopWatch chưa được kiểm thử trên phần cứng thực tế.",
+  "takeaways": "Dự án là mẫu thiết kế tham khảo thực tế để kết hợp firmware ESP32 nguồn mở (Xiaozhi) với backend AI agent nội bộ, cho phép offload tác vụ tính toán ASR/Agent về máy chủ cục bộ và giữ phần cứng client siêu nhẹ.",
+  "strengths": [
+   "Tích hợp ASR offline xử lý đa ngữ",
+   "Giao diện mắt động trực quan",
+   "Web flasher cài đặt dễ dàng",
+   "Định tuyến lệnh nhạc cục bộ nhanh"
+  ],
+  "weaknesses": [
+   "Cần Grok Bot ghi file cục bộ",
+   "Phụ thuộc mạng nội bộ LAN",
+   "Rủi ro bảo mật cổng dịch vụ"
+  ],
+  "context": "Dự án mã nguồn mở của tác giả Liu-zhongxian trên GitHub, kế thừa từ Xiaozhi ESP32 firmware và server."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

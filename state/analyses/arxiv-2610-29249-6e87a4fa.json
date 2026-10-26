@@ -1,0 +1,55 @@
+{
+ "id": "arxiv:2610.29249",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Tài liệu đề xuất benchmark đầu tiên kết hợp cả 4 phương thức (text, image, video, audio) trong hội thoại đa phiên và đưa ra giao thức chẩn đoán thay thế độc lập 4 giai đoạn WRITE-RETRIEVE-DELIVER-READ.",
+  "credibility": "Nghiên cứu đến từ các tổ chức uy tín (HKUST, Univ. of Edinburgh) với quy trình thẩm định đa tầng: 3 annotator audit người thật, hội đồng 3 LLM judge có độ tương đồng cao (kappa > 0.96).",
+  "technical": "Thiết kế thực nghiệm và kỹ thuật phân rã cực kỳ chặt chẽ: kiểm tra 12 failure modes, kiểm thử xóa từng fact, can thiệp matched conditions giữ cố định reader/judge, và phân tích sâu sắc tác động của media caps.",
+  "impact": "Cung cấp công cụ chẩn đoán giá trị cho cộng đồng phát triển trợ lý thoại và omni-modal agent, làm rõ các điểm nghẽn thực tế giữa biểu diễn, đóng gói ngữ cảnh và khả năng từ chối (abstention).",
+  "evidence": "Cung cấp đầy đủ số liệu định lượng chính xác trên 7 điều kiện chẩn đoán ghép cặp, 12 hệ thống Track B, khoảng tin cậy bootstrap 95%, phân tích lực thống kê (MDE), và thống kê từng artefact bị rơi rụng."
+ },
+ "summary": {
+  "tldr": "MOSAIC là benchmark đánh giá bộ nhớ dài hạn omni-modal (gồm cả 4 phương thức: văn bản, hình ảnh, video và âm thanh) cho trợ lý hội thoại đa phiên (11–24 phiên) với 923 câu hỏi được thiết kế theo các khoảng trống phương thức (modality gaps). Điểm cốt lõi của bài báo là một quy trình chẩn đoán 4 giai đoạn tách biệt—WRITE, RETRIEVE, DELIVER và READ—giúp định vị chính xác vị trí mất mát thông tin thay vì chỉ báo cáo điểm số end-to-end gộp.",
+  "problem": "Các benchmark bộ nhớ hội thoại hiện tại hầu như chỉ tập trung vào văn bản hoặc văn bản + hình ảnh (thường xem hình ảnh là phần trang trí không bắt buộc), thiếu video và âm thanh, đồng thời chỉ báo cáo điểm số end-to-end duy nhất. Điều này khiến các nhà nghiên cứu không thể xác định được tín hiệu bị mất ở khâu biểu diễn (WRITE), truy xuất (RETRIEVE), đóng gói ngữ cảnh vào giới hạn ngân sách (DELIVER), hay do mô hình đọc hiểu/suy luận sai (READ).",
+  "method": "MOSAIC xây dựng 923 câu hỏi (784 câu trả lời được và 139 câu kiểm soát từ chối - refusal controls) dựa trên 70 personas với lịch sử hội thoại dài 11–24 phiên (~269K token/persona, tổng ~18.8M token, 10,765 artefact đa phương thức). Phương pháp bao gồm:\n- **Xây dựng Modality Gap theo thiết kế:** Ép buộc thông tin cốt lõi phải nằm ở kênh phương thức nguyên bản mà caption hay văn bản không thể thay thế (Image: background detail, fine-grained attribute, spatial configuration; Video: action ordering, repetition count, state transition; Audio: happy/unhappy prosody với từ ngữ trung tính).\n- **Cấu trúc chuỗi suy luận:** Chuỗi bắt buộc gồm các vai trò $NAR^* SEL^* ANS$ (NARROWER thu hẹp ứng viên, SELECTOR chọn thực thể, ANSWER chứa giá trị đích), được kiểm thử xóa (deletion test) đối chiếu với 12 failure modes.\n- **Quy trình chẩn đoán 4 giai đoạn độc lập:** Mô hình hóa pipeline $M = W(H)$, $R = G(q, M)$, $D = P(R, B)$, $\\hat{a} = F(q, D)$. Thực hiện can thiệp ghép cặp (paired interventions) giữ cố định reader (Gemini 3.5), prompt, judge (Qwen3.7-Plus) và budget để đo lường riêng biệt chi phí tri giác (perception cost), mất mát do textualization, mất mát truy xuất (retrieval loss), và mất mát đóng gói do giới hạn media (delivery loss).\n- **Hai track đánh giá:** Track A (Fixed Reader) so sánh các cấu trúc bộ nhớ và biểu diễn; Track B (Native End-to-End) đánh giá các hệ thống hoàn chỉnh (Naive RAG, ReAct, A-MEM, MemoryOS).",
+  "setup": "Đánh giá trên 784 câu hỏi answerable và 139 câu refusal. Cố định reader chính là Gemini 3.5 (temperature 0), probe lọc dữ liệu là MiMo-V2.5, LLM judge chính là Qwen3.7-Plus (thang điểm ngữ nghĩa 0–1 qua 5 mức rubric). Đánh giá 3 kiến trúc biểu diễn: Caption-Text (Qwen3-VL-235B + Whisper-large-v3-turbo), Omni-Text (MiMo-V2.5 captions), và Native-MM (jina-embeddings-v5-omni-small + omni reader). Kiểm tra các backend: Naive RAG, ReAct-RAG, A-MEM, và MemoryOS.",
+  "results": [
+   "Trên matched decomposition (784 câu answerable): Gold symbolic facts đạt 0.846 (tồn tại 15.4 điểm lỗi đọc/chấm điểm dư thừa - residual read error ngay cả khi có bằng chứng hoàn hảo).",
+   "Gold native evidence đạt 0.783, phản ánh chi phí nhận thức phương thức gốc (perception cost) là 6.2 điểm (khoảng tin cậy 95% [3.2, 9.3]).",
+   "Mất mát do textualization (chuyển media thành văn bản): Generic captions/ASR tụt xuống 0.690 (-9.3 điểm so với native); structured writer chỉ phục hồi +1.4 điểm lên 0.704 (không có ý nghĩa thống kê [-0.9, 3.7]).",
+   "Mất mát truy xuất và phân phối: Retrieval làm giảm 7.6 điểm (0.783 -> 0.708); đóng gói theo giới hạn sản xuất (production delivery caps: tối đa 20 đơn vị, 3 media/modality, 100 MB) làm mất thêm 3.8 điểm (0.708 -> 0.670) và làm sụt giảm tỷ lệ phân phối trọn vẹn chuỗi (complete-chain delivery) từ 0.675 xuống 0.491. Pipeline end-to-end native RAG đạt 0.653.",
+   "Chi phí nhận thức phụ thuộc mạnh vào phương thức: Video chịu chi phí nhận thức cao nhất là 17.1 điểm (0.900 với symbolic vs 0.729 với native video); Image là 6.2 điểm (0.847 -> 0.785); Audio không có chi phí nhận thức âm học rõ rệt (0.821 -> 0.826).",
+   "Giới hạn đóng gói khắt khe (top-5 đơn vị, tối đa 1 media/modality) làm sụt giảm 17.7 điểm ([14.5, 20.9]) xuống 0.530 và sập tỷ lệ chain delivery từ 0.675 xuống 0.184; toàn bộ 9,338 artefact bị truy xuất nhưng bị loại bỏ đều do chạm trần số lượng media (media-count cap).",
+   "Đánh giá Track A (Fixed Reader): A-MEM vượt qua Flat RAG cùng biểu diện +16.2 điểm trên caption text (0.684 vs 0.522) và +16.4 điểm trên omni text nhờ cải thiện tỷ lệ complete-chain delivery (0.787 so với 0.698).",
+   "Đánh giá Track B và Abstention: Native ReAct với MiMo-V2.5 dẫn đầu về điểm trả lời (0.732) nhưng chỉ từ chối đúng (correct refusal) 0.410; ngược lại MemoryOS đạt tỷ lệ từ chối đúng >0.88 nhưng điểm trả lời dưới 0.26 và từ chối sai (false refusal) >0.61. Không có hệ thống nào dung hòa tốt cả hai khía cạnh.",
+   "Độ nhạy của nhãn prosody: Đảo ngược nhãn prosody vàng (happy <-> unhappy) làm giảm điểm số 4.6 điểm ([1.7, 7.7], W/T/L 46/330/23), chứng minh tính load-bearing nhân quả của thuộc tính prosody."
+  ],
+  "limitations": "Dữ liệu persona, hội thoại và media hoàn toàn là dữ liệu tổng hợp (synthetic qua FLUX-2-pro, Kling/Seedance, Qwen3-TTS), chưa kiểm nghiệm trên lịch sử người dùng thực tế. Các tập phân tầng video có kích thước mẫu nhỏ ($n=56-64$ QID), dẫn đến MDE cao (8.9–11.2 điểm) khiến các kết luận về video null chưa đủ mạnh. So sánh raw audio và ASR chưa có kết luận dứt khoát (+0.8 điểm) do kịch bản ASR chứa các tín hiệu từ ngữ biểu cảm (paralinguistic cues như 'oh wow', 'ugh'). Các câu hỏi refusal vẫn còn tồn tại tín hiệu hình thức bề mặt (surface form cues, AUROC 0.75-0.85).",
+  "takeaways": "Đối với kỹ sư hệ thống thoại và omni-modal: (1) Mất mát ở khâu DELIVER (do cắt giảm số lượng media khi đóng gói prompt) là nút thắt nghiêm trọng làm đứt gãy chuỗi suy luận multi-hop; tổ chức bộ nhớ tốt (như cấu trúc hóa facts) giúp tăng chain delivery hơn là nhồi nhét raw media vượt ngân sách. (2) Textualization qua caption làm mất nghiêm trọng quan hệ không gian (spatial) và ngữ điệu (prosody). (3) Cần kiểm soát chặt chẽ việc cân bằng giữa khả năng trả lời và phát hiện thiếu thông tin (abstention), vì các mô hình hiện nay hoặc trả lời bừa hoặc từ chối quá mức.",
+  "strengths": [
+   "Benchmark omni-modal 4 phương thức đầu tiên",
+   "Quy trình chẩn đoán 4 giai đoạn phân tách rõ ràng",
+   "Thiết kế modality gap có kiểm chứng nhân quả",
+   "Kiểm định chất lượng nghiêm ngặt qua human audit",
+   "Đo lường chính xác tác động của media caps"
+  ],
+  "weaknesses": [
+   "Toàn bộ hội thoại và media là dữ liệu tổng hợp",
+   "Cỡ mẫu phân tầng video còn nhỏ",
+   "Chênh lệch Raw Audio vs ASR chưa đủ kết luận",
+   "Tập từ chối còn lộ surface form cues"
+  ],
+  "context": "Hong Ting Tsang, Boyi Zhang và nhóm nghiên cứu từ The Hong Kong University of Science and Technology (HKUST) cùng University of Edinburgh; công bố trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

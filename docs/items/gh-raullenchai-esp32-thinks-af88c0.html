@@ -58,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W43</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W44</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -70,7 +70,7 @@
   <div class="page-heading">
     <h1 class="title">raullenchai/esp32-thinks</h1>
     <div class="meta">
-      <span title="Listed by GitHub inside the crawl window">found Oct 19, 2026</span><span aria-hidden="true">·</span>
+      <span title="Listed by GitHub inside the crawl window">found Oct 26, 2026</span><span aria-hidden="true">·</span>
 <span title="Original publication / creation date">published Oct 12, 2026</span><span aria-hidden="true">·</span>
 
       <span class="pill">Repo</span>
@@ -91,13 +91,13 @@
       <div class="card-body prose">
 <p>A multi-model Muse: personal AI voice assistant on ESP32 - wake word or knob, any OpenAI-compatible brain (STT/chat/TTS mix-and-match), streaming replies, out of the box. Built on muse-gadget-sdk.
 
-README: esp32-thinks. A multi-model Muse — a personal AI assistant on ESP32, talking out of the box. Think of it as a Muse that thinks with your models: say &quot;Hi, ESP&quot; (or press the knob), ask anything, and it answers out loud — streaming sentence-by-sentence while the model is still writing, in English, Chinese or Korean, on a small gadget with a mic, a speaker and a round display. No vendor lock on the brain: speech, transcription and chat are three independent endpoints, each pointed at any OpenAI-compatible server — one provider for all three, or a different one per task. - ESP32-S3 · built on Meta's open-source muse-gadget-sdk · license notices - Models: OpenAI, QuickSilver, or any mix — presets for the common ones, fully custom for the rest Why. Cloud assistants rent you a brain: one vendor's models, one vendor's pricing, one vendor's uptime, and your voice on their servers. The gadget hardware is fine — the lock is in the firmware. esp32-thinks flips that. The device runs your stack: pick the cheapest transcription, the smartest chat model, the voice you like — per task, changeable in one config line and a rebuild. The implementation is a reviewable patch against a pinned open-source SDK, so you can read it, change it, or point it at a local server. Performance (measured on device). QuickSilver preset: qwen3.7-flash chat, whisper-large-v3-turbo STT and chatterbox-turbo / qwen3-tts speech. v0.2.10 allows one or two natural sentences, rather than the old 15-character answers. Longer replies take longer to synthesize. | Pre-release language check | SDK turn duration | | English | 3.9 s | | Chinese | 8.7 s | | Korean, fresh history | 3.2 s | These are individual samples, not latency guarantees. The final flashed firmware returned a 29-word English answer in 7.1 s, 72 Chinese characters in 15.1 s and 76 Korean characters in 10.3 s. A greeting took 1.7 s and an immediate post-wake question took 1.9 s. The Chinese sample contained 66 Han characters: the prompt’s approximate</p>      </div>
+README: esp32-thinks. A multi-model Muse — a personal AI assistant on ESP32, talking out of the box. Think of it as a Muse that thinks with your models: say &quot;Hi, ESP&quot; (or press the knob), ask anything, and it answers out loud — streaming sentence-by-sentence while the model is still writing, in English, Chinese or Korean, on a small gadget with a mic, a speaker and a round display. No vendor lock on the brain: speech, transcription and chat are three independent endpoints, each pointed at any OpenAI-compatible server — one provider for all three, or a different one per task. Run it bare against QuickSilver, or put the in-repo openmuse agent in front to give it location, weather, time and memory. - ESP32-S3 · built on Meta's open-source muse-gadget-sdk · license notices - Models: OpenAI, QuickSilver, a local agent, or any mix — presets for the common ones, fully custom for the rest Why. Cloud assistants rent you a brain: one vendor's models, one vendor's pricing, one vendor's uptime, and your voice on their servers. The gadget hardware is fine — the lock is in the firmware. esp32-thinks flips that. The device runs your stack: pick the cheapest transcription, the smartest chat model, the voice you like — per task, changeable in one config line and a rebuild. The implementation is a reviewable patch against a pinned open-source SDK, so you can read it, change it, or point it at a local server. The optional openmuse agent keeps the extra context (location, memory, tools) on your machine too. What you get. - Wake word + button — say &quot;Hi, ESP&quot; (esp-sr WakeNet10, runs on-chip) or hold the knob; both start a turn. Wake turns end on a voice-activity timer; the button works exactly like before. - Bring your own brain — three independent OpenAI-compatible endpoints (STT / chat / TTS) in one config file. Mix providers freely; presets: openai, quicksilver, openmuse, custom. - Optional agent layer — the in-repo openmuse/ adds location, clock, weather, persistent memory and optional web s</p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">
       <div class="card-header">
         <h2 class="label" id="analysis-h">Auto Analysis</h2>
-          <span class="sublabel">analyzed Oct 19, 2026 · README</span>
+          <span class="sublabel">analysis reused from 2026-W43 · README</span>
           <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
             <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
           </button>

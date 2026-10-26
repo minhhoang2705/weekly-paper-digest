@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.29815",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đây là công trình đầu tiên ứng dụng mô hình sinh trong không gian latent của neural audio codec cho bài toán EEG-guided target speaker extraction, kết hợp cơ chế auditory attractor bằng EMA không tham số.",
+  "credibility": "Bài báo đến từ nhóm nghiên cứu Đại học Moratuwa (được tài trợ bởi dự án AHEAD của Ngân hàng Thế giới), quy trình thực nghiệm tuân thủ đạo đức nghiên cứu y sinh nhưng hiện chỉ là bản thảo preprint trên arXiv.",
+  "technical": "Thiết kế kiến trúc CM-S3 kết hợp Chebyshev GCN và Mamba rất hợp lý, giải quyết tốt bài toán lệch tốc độ lấy mẫu giữa EEG và audio; quy trình huấn luyện 6 pha chi tiết giúp ổn định tối ưu hóa đa mục tiêu.",
+  "impact": "Mở ra hướng tiếp cận mới thay thế cơ chế masking truyền thống trong neuro-steered speech processing, tuy nhiên tính ứng dụng thực tế bị giới hạn bởi yêu cầu phần cứng thu nhận EEG và độ trễ thuật toán 0.5 s.",
+  "evidence": "Thực nghiệm toàn diện trên 2 tập dữ liệu công khai ở chế độ Subject-Independent, ablation study đa chiều, đo đạc RTF thực tế và kiểm thử lắng nghe MUSHRA trên 20 đối tượng có phân tích thống kê đầy đủ."
+ },
+ "summary": {
+  "tldr": "NeuroCodec là mô hình generative đầu tiên cho bài toán trích xuất giọng nói mục tiêu có điều khiển bằng điện não đồ (EEG-guided TSE), hoạt động trực tiếp trong không gian latent của neural audio codec (DAC). Phương pháp loại bỏ các lỗi rò rỉ âm thanh (speaker leakage) của cơ chế time-frequency masking truyền thống, cho phép tái tạo âm thanh băng rộng lên tới 44.1 kHz (nội dung phổ đạt 20 kHz), đồng thời hỗ trợ biến thể streaming thời gian thực OnlineNeuroCodec.",
+  "problem": "Các kỹ thuật neuro-steered TSE hiện nay chủ yếu ước lượng mặt nạ trên miền thời gian - tần số (time-frequency masking). Khi các giọng nói chồng lấn mạnh, phương pháp này dễ gây méo tiếng, xuất hiện 'lỗ hổng phổ' (spectral holes) và rò rỉ tiếng người nói gây nhiễu (speaker leakage). Ngoài ra, các hệ thống trước đây chỉ xử lý âm thanh băng hẹp (narrowband, lấy mẫu tối đa 8 kHz hoặc 14.7 kHz) dẫn đến chất lượng âm thanh bị nghẹt, nhân tạo; các mô hình offline cũng không thể áp dụng cho thiết bị trợ thính yêu cầu độ trễ thấp.",
+  "method": "NeuroCodec chuyển đổi bài toán từ triệt tiêu nhiễu trên miền hỗn hợp sang căn chỉnh latent đa phương thức (cross-modal latent alignment) với 4 thành phần:\n- **Audio Encoder & Decoder**: Sử dụng encoder và decoder đóng băng từ Descript Audio Codec (DAC) đã huấn luyện sẵn. Tín hiệu âm thanh hỗn hợp được nén thành biểu diễn latent $Z_{mix} \\in \\mathbb{R}^{B \\times 1024 \\times T_c}$ (tần số frame ~86 Hz cho 44.1 kHz hoặc 50 Hz cho 16 kHz).\n- **EEG Encoder**: Mô hình hóa quan hệ không gian giữa các điện cực bằng đồ thị tích chập Chebyshev bậc 3 (Chebyshev GCN), sau đó xử lý bằng các khối tích chập 1D đa quy mô (kernel 3, 7, 11) và chuỗi temporal convolutions để đưa về chuỗi embedding $\\bar{E}$ ở cùng tốc độ frame với codec (tránh việc phải upsample EEG lên tần số lấy mẫu của audio).\n- **Cross-Modal Selective State Space Block (CM-S3)**: Gồm 4 khối xếp chồng. Sử dụng Multi-Head Cross-Attention (với query là audio latent, key/value là normalized EEG embedding) kết hợp với khối Mamba (selective state-space model) để mô hình hóa ngữ cảnh thời gian dài với độ phức tạp tuyến tính.\n- **Latent Generator & Frozen RVQ Decoder**: Đầu ra được chiếu về số chiều latent của DAC, lượng tử hóa qua bộ codebooks RVQ ($Q_1-Q_9$) đóng băng, và đưa qua DAC decoder đóng băng để tái tạo dạng sóng $\\hat{s}$.\n- **Curriculum Training 6 giai đoạn**: Huấn luyện bộ sinh theo hàm mục tiêu $L_G = \\lambda_{recon}L_{recon} + \\lambda_{mel}L_{mel} + \\lambda_{adv}L_{adv} + \\lambda_{fm}L_{fm}$ gồm: Phase 1 (chỉ tối ưu $L_{recon}$ cho đến khi MSE validation < 0.87); Phase 2 (tăng dần $\\lambda_{mel}$ từ 2 lên 15); Phase 3 (tối ưu chung $L_{recon} + L_{mel}$); Phase 4 (đóng băng generator trong 2 epoch để khởi động pretrain hai discriminator MPD và MBMSD); Phase 5 (tăng dần $\\lambda_{adv}, \\lambda_{fm}$ theo bước 0.25/0.5 lên 1.0/2.0); Phase 6 (huấn luyện full adversarial với ReduceLROnPlateau).\n- **OnlineNeuroCodec**: Phiên bản streaming nhân quả dựa trên cửa sổ trượt (ngữ cảnh đệm $w_b$, bước nhảy $w_c$). Duy trì một 'auditory attractor' $Z_{past}$ cập nhật qua Exponential Moving Average (EMA, hệ số $\\alpha=0.7$) trực tiếp trên không gian latent và điều biến query audio của hop tiếp theo bằng FiLM layer.",
+  "setup": "Đánh giá theo thiết lập subject-independent (SI) - người thử nghiệm không xuất hiện trong tập huấn luyện trên 2 tập dữ liệu công khai:\n- **Cocktail Party**: 33 đối tượng, 128 kênh EEG (128 Hz sau tiền xử lý), âm thanh 44.1 kHz, chia 23/5/5 cho train/val/test, cửa sổ 2 giây không chồng lấn.\n- **KUL**: 16 đối tượng (dùng 8 lượt nghe đầu), âm thanh 8 kHz upsample lên 16 kHz, cross-validation 16-fold, cửa sổ 4 giây bước nhảy 1 giây.\n- **Thước đo**: STOI, ESTOI, PESQ (tất cả đầu ra được resample về 8 kHz khi tính các chỉ số khách quan để so sánh công bằng với baseline 8 kHz) và Real-Time Factor (RTF trên GPU đơn GTX 1080 Ti).\n- **Thử nghiệm nghe chủ quan MUSHRA**: 20 người tham gia đánh giá trên 8 đoạn âm thanh 2 giây từ tập kiểm tra của bộ Cocktail Party.",
+  "results": [
+   "Trên tập Cocktail Party: NeuroCodec đạt STOI = 0.8273 và PESQ = 2.31, vượt trội so với M3ANet (STOI = 0.812, PESQ = 2.23) và BASEN (STOI = 0.790, PESQ = 1.91), trong khi ESTOI đạt 0.721 (so với 0.725 của M3ANet).",
+   "Trên tập KUL: NeuroCodec đạt STOI = 0.868, ESTOI = 0.754, PESQ = 2.562, vượt qua baseline SOTA NeuroSpex+ (STOI = 0.859, PESQ = 2.514) và bỏ xa NeuroHeed (STOI = 0.637, PESQ = 2.282).",
+   "Đánh giá chủ quan MUSHRA (Cocktail Party): Native NeuroCodec (44.1 kHz) đạt điểm số trung bình 82.24 (95% CI: 78.86-85.39) so với 49.63 (95% CI: 45.42-53.71) của M3ANet; khi lọc thông thấp về 7.296 kHz để cân bằng băng thông với M3ANet, NeuroCodec vẫn đạt 58.49 (CI: 55.06-62.31), khác biệt có ý nghĩa thống kê ($p = 3.0 \\times 10^{-5}$).",
+   "Đánh giá streaming OnlineNeuroCodec (KUL, $w_b=1.5$ s, $w_c=0.5$ s): Đạt STOI = 0.803, ESTOI = 0.711, PESQ = 1.662 và RTF = 0.18, nhanh gấp 2.3 lần và vượt trội về chất lượng so với NeuroHeed online (STOI = 0.612, ESTOI = 0.572, PESQ = 1.290, RTF = 0.41).",
+   "Ablation study trên KUL: Mamba đạt STOI = 0.7112 / PESQ = 1.5030, vượt trội so với Transformer (0.6120 / 0.8702) và Transformer+Snake (0.6480 / 1.0340); bỏ EEG guidance (thay bằng Gaussian noise) khiến STOI sụt giảm mạnh xuống 0.5412 và PESQ còn 0.7845."
+  ],
+  "limitations": "Độ trễ thuật toán của biến thể streaming vẫn còn tương đối cao đối với máy trợ thính thương mại (đòi hỏi đệm causal context $w_b = 1.5$ s và hop $w_c = 0.5$ s, trong khi thiết bị trợ thính yêu cầu độ trễ dưới 10 ms). Dữ liệu thử nghiệm chỉ mới hạn chế ở các kịch bản dichotic listening (hai câu chuyện phân tách hai tai) trong môi trường phòng thí nghiệm sạch, chưa kiểm chứng với nhiễu môi trường phức tạp hay âm vang thực tế. Mã nguồn chưa được công bố tại thời điểm phát hành bản thảo.",
+  "takeaways": "Việc sử dụng latent space của neural audio codec (như DAC) cùng với bộ giải mã đóng băng là hướng đi hiệu quả cho bài toán trích xuất âm thanh được điều khiển bởi tín hiệu sinh học, vừa giúp tận dụng perceptual prior của codec để nâng băng thông lên 44.1 kHz, vừa giảm tải tính toán do đồng bộ được tốc độ frame của EEG và audio latent.",
+  "strengths": [
+   "Generative EEG-TSE đầu tiên trong latent audio codec",
+   "Tái tạo âm thanh băng rộng 44.1 kHz chất lượng cao",
+   "Curriculum training 6 pha ổn định GAN đa phương thức",
+   "Biến thể streaming OnlineNeuroCodec nhanh gấp 2.3x baseline",
+   "Đánh giá Subject-Independent chặt chẽ kèm MUSHRA bài bản"
+  ],
+  "weaknesses": [
+   "Độ trễ streaming 0.5s chưa đạt chuẩn thiết bị trợ thính",
+   "Chỉ thử nghiệm trên dữ liệu dichotic phòng thí nghiệm",
+   "Chưa mở mã nguồn tại thời điểm xuất bản preprint"
+  ],
+  "context": "Julian Silva, Jaliya Kodithuwakku, Navindu Sirimanna, Shaveen Herath, Wageesha N. Manamperi và Joshua P. Kulasingham (Đại học Moratuwa, Sri Lanka); bản thảo đăng tải trên arXiv (arXiv:2610.29815v1 [eess.AS])."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

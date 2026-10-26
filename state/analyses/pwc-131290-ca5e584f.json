@@ -1,0 +1,44 @@
+{
+ "id": "pwc:131290",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 1,
+  "technical": 1,
+  "impact": 1,
+  "evidence": 1
+ },
+ "reasons": {
+  "novelty": "Ý tưởng huấn luyện mô hình full-duplex hoàn toàn từ âm thanh không cần text hay pretrained model khá mới lạ, nhưng thiếu chi tiết kỹ thuật để chứng minh tính đột phá.",
+  "credibility": "Tác giả không được công bố, không có bài báo nghiên cứu bình duyệt đi kèm và văn bản mang nặng tính quảng bá sản phẩm.",
+  "technical": "Tài liệu không đưa ra bất kỳ thông tin cụ thể nào về kiến trúc, biểu diễn âm thanh, hàm mất mát hay quy trình huấn luyện.",
+  "impact": "Không có mã nguồn, trọng số mô hình hoặc bằng chứng áp dụng thực tế nào được cung cấp.",
+  "evidence": "Hoàn toàn không có bất kỳ số liệu thực nghiệm, benchmark định lượng hay baseline so sánh nào trong tài liệu."
+ },
+ "summary": {
+  "tldr": "Dessa là mô hình hội thoại full-duplex dạng speech-to-speech được huấn luyện hoàn toàn từ âm thanh hội thoại của con người mà không thông qua văn bản hay mô hình tiền huấn luyện. Mục tiêu của hệ thống là tái hiện tương tác giọng nói tự nhiên, giàu cảm xúc, sắc thái, khoảng dừng và nhịp điệu chân thực như người thật.",
+  "problem": "Các hệ thống voice AI hiện tại thường chuyển đổi giọng nói sang văn bản (ASR/text-based LLM), vô tình loại bỏ một lượng lớn thông tin phi ngôn ngữ như cảm xúc, ngữ điệu và sắc thái mà văn bản không thể truyền tải, dẫn đến trải nghiệm giao tiếp kém tự nhiên và tiềm ẩn rủi ro.",
+  "method": "Mô hình được huấn luyện từ đầu (trained from scratch) hoàn toàn chỉ bằng dữ liệu âm thanh hội thoại của con người, không sử dụng văn bản (no text) và không dựa vào bất kỳ mô hình tiền huấn luyện (no pretrained models) nào. Hệ thống học cách duy trì hội thoại thời gian thực (full-duplex) chỉ bằng cách lắng nghe âm thanh. Các chi tiết cụ thể về kiến trúc mạng, hàm mất mát (loss function) và tokenizer/acoustic representation không được nêu trong tài liệu.",
+  "setup": "Không được nêu trong tài liệu (không có thông tin về tập dữ liệu, baseline, cấu hình phần cứng, ngôn ngữ hỗ trợ hoặc mã nguồn).",
+  "results": [
+   "Không có kết quả định lượng hoặc số liệu benchmark nào được nêu trong tài liệu."
+  ],
+  "limitations": "Tài liệu chỉ là phần mô tả/giới thiệu ngắn mang tính tiếp thị; hoàn toàn thiếu thông tin kỹ thuật về kiến trúc, dữ liệu huấn luyện, số lượng tham số, độ trễ thời gian thực và các đánh giá thực nghiệm định lượng.",
+  "takeaways": "Ý tưởng xây dựng mô hình full-duplex spoken dialogue thuần âm thanh từ đầu (speech-only) là một hướng đi đáng chú ý để giữ trọn sắc thái biểu cảm, tuy nhiên cần có bài báo kỹ thuật đầy đủ và mã nguồn/benchmark để kiểm chứng tính khả thi thực tế.",
+  "strengths": [
+   "Hướng tiếp cận thuần âm thanh, không qua text",
+   "Hỗ trợ hội thoại full-duplex thời gian thực",
+   "Giữ trọn cảm xúc, ngữ điệu và nhịp điệu"
+  ],
+  "weaknesses": [
+   "Không cung cấp kiến trúc kỹ thuật chi tiết",
+   "Hoàn toàn thiếu số liệu đo lường định lượng",
+   "Không công bố tác giả hay mã nguồn"
+  ],
+  "context": "Tác giả/lab không xác định (unknown), xuất hiện dưới dạng mục nhập trên Papers with Code."
+ },
+ "fulltext_source": "abstract/mô tả (không lấy được full-text)",
+ "fulltext": false,
+ "analyzed_week": "2026-W44"
+}

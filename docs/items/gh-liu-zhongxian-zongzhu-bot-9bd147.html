@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Liu-zhongxian/zongzhu-bot · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W44</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Liu-zhongxian/zongzhu-bot</h1>
+    <div class="meta">
+      <span title="Listed by GitHub inside the crawl window">found Oct 26, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 16, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Liu-zhongxian</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://github.com/Liu-zhongxian/zongzhu-bot" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">README excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>宗主：Waveshare 1.75C 圆屏 ESP32 上的 Grok Bot 语音终端，会眨眼的眼睛表情、字幕与朗读，含固件和后端源码（2.5.2.9）
+
+README: 中文 | English 宗主 Zongzhu Bot. 对板子说一句话：要查、要做的交给 Grok Bot，放歌、暂停、调音量在电脑上马上执行。 使用说明 · 文档目录 · 网页刷机 --- 一块 ESP32-S3 屏幕开发板，加上跑在你电脑上的后端。板子负责听和说，屏幕是一对会眨眼、会跟手、会被摇晕的眼睛。后端负责识别语音，再决定这句话交给谁： &gt; 基于小智开源固件和后端的社区项目，不是小智、Grok 或 xAI 的官方项目。 功能. 给 Grok Bot 派活 - 直接说需求：唤醒后说&quot;帮我把这周的 X 热点整理一下&quot;，不用加&quot;让机器人&quot;之类的前缀。 - 陪着等：等待时屏幕显示秒数，回复到了就朗读，读完保留全文，长回复自动滚动。 - 不会漏：连接断开期间到的回复，下次连上补发；对话中再说一次&quot;你好宗主&quot;只回一声&quot;我在&quot;，不会当成新任务。 本机点歌（可选，默认关闭） - 一句话点歌：说&quot;放周杰伦的晴天&quot;&quot;来一首孤勇者&quot;&quot;我想听陈奕迅的歌&quot;，约 1.5 秒后歌在电脑上放起来，屏幕显示歌名。 - 随口控制：&quot;先给我暂停&quot;&quot;下一首&quot;&quot;快进五秒&quot;&quot;从头播放&quot;&quot;单曲循环&quot;&quot;音量调到三十&quot;&quot;这首歌是谁唱的&quot;。 - 找原唱：先搜网易云，没有原唱再同时搜 QQ、酷狗、酷我、咪咕，跳过翻唱、Live、remix 和冒名上传，同样的版本里挑码率最高的。 - 听错了也能放：&quot;晴天&quot;被识别成&quot;请帖&quot;，会按读音找到《晴天》。 - 不抢 Bot 的活：&quot;暂停那个下载任务&quot;&quot;继续写昨天那份报告&quot;照旧交给 Bot。 听得准 - 本地离线识别（X-ASR），中英混说也能认，&quot;帮我看一下 GitHub 上的 issue&quot;能认对。 - 热词和识别后纠错：&quot;你好中主&quot;&quot;你好宗猪&quot;会改成&quot;你好宗主&quot;；打开点歌后，再加上常见歌手和歌名的热词。 屏幕会动 - 13 种实时绘制的眼睛表情，跟着状态切换；触摸、倾斜、摇晃都有反应。 - 字幕三种模式（完整 / 简洁 / 关闭），长按 BOOT 键切换。 操作表、表情列表、点歌能说的话见使用说明。 需要准备. - 板子：微雪 ESP32-S3-Touch-AMOLED-1.75C，或立创·实战派 ESP32-S3（说明）。M5Stack StopWatch 能编译，还没上过实机（说明）。 - 电脑：一台常开的 Mac（Apple 芯片上验证过）运行后端，和板子在同一个 2.4GHz 局域网。有公网服务器也可以部署到服务器。 - Bot：你的 Grok Bot 要提供 Webhook，并且能往这台电脑写文件，回复才能回到板子上（接口要求）。 快速开始. 1. 用电脑上的 Chrome 或 Edge 打开 网页刷机，USB 接上板子。 2. 第一次用先装后端：网页上给出一行命令，粘贴到&quot;终端&quot;运行。它会安装依赖、下载语音模型（约 200MB），问你的 Bot Webhook 地址，最后显示要填回网页的电脑地址。 3. 回到网页，按 6 步走完：识别板子、选唤醒词、选样式、填后端地址、填 Wi-Fi、刷入并检查连接。 4. 说&quot;你好宗主&quot;，再说一句需求。屏幕显示等待秒数，Bot 回复后开始朗读，就通了。 想用本机点歌： 按脚本最后的提示，在后端配置里打开 local_music，再重启后端。需要网易云会员歌曲的话，在 go-music-dl 的网页里扫码登录。步骤见使用说明 · 本机点歌。 不想用网页、要自己编译固件，或者网页用不了：看手动安装。 安全. - 只在局域网里用。不要把后端的 8000、8003 端口暴露到公网；要放到服务器上，按部署说明让后端只监听本机，并开启设备白名单。 - Bot 能做的事，语音也能让它做。板子听到的话会原样交给你的 Bot，它有什么权限（发消息、改文件、花钱），语音就能触发什么。Webhook 地址和令牌放在 private/（权限 600），不要提交。 - 本机点歌： - go-music-dl 会监听所有网卡的 18080 端口，后端运行期间，同一局域网的设备都能用它搜歌、下歌。 - 扫码登录的 Cookie 存在 local-music/go-music-dl/data/，这个目录不进 Git。 - 这些音乐来自各平台的非官方接口，只限个人自用。 文档. | docs/GUIDE.md | 使用说明：功能、本机点歌、手动安装、刷机、常见问题、Bot 接口、构建、测试、已知限制 | | docs/README.md | 全部文档目录，包括各板说明和开发记录 | | docs/records/REFERENCE-TASKS.md | 任务说明书：做过什么、为什么这样做、还有哪些待办 | | deploy/README.md | 部署到公网服务器 | 关于这个仓库. 本项目自己的改动集中在这几处</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 26, 2026 · README</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Zongzhu Bot là dự án trợ lý giọng nói để bàn kết hợp phần cứng ESP32-S3 và server chạy trên máy tính cục bộ kết nối với Grok Bot. Thiết bị tiếp nhận giọng nói, phân loại để điều khiển phát nhạc/âm lượng trực tiếp trên máy hoặc chuyển tác vụ phức tạp cho Grok Bot xử lý và phản hồi bằng giọng đọc.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Người dùng cần một giao diện phần cứng giọng nói để bàn nhỏ gọn, trực quan (có biểu cảm mắt linh hoạt) để tương tác tự nhiên với Grok Bot và điều khiển media cục bộ mà không cần phụ thuộc hoàn toàn vào các dịch vụ đám mây hay cú pháp lệnh rườm rà.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Hệ thống chia làm hai phần chính:</p>
+<ul>
+<li><strong>Phần cứng ESP32-S3</strong>: Chịu trách nhiệm thu âm, phát âm thanh và hiển thị giao diện với 13 biểu cảm mắt vẽ thời gian thực phản hồi theo trạng thái (chạm, nghiêng, rung lắc); hỗ trợ 3 chế độ phụ đề (đầy đủ / thu gọn / tắt) chuyển đổi bằng nút BOOT.</li>
+<li><strong>Backend máy tính</strong>: Tiếp nhận âm thanh từ board, thực hiện ASR offline cục bộ (X-ASR) hỗ trợ song ngữ Trung - Anh kèm cơ chế hotwords và sửa lỗi nhận diện (error correction). Backend định tuyến intent: nếu là lệnh phát nhạc/âm lượng/tạm dừng sẽ thực thi cục bộ (qua <code>go-music-dl</code> đa nền tảng và <code>mpv</code> player); nếu là tác vụ khác sẽ chuyển qua Webhook đến Grok Bot và nhận file phản hồi để đọc lại cho người dùng.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Hỗ trợ phần cứng Waveshare ESP32-S3-Touch-AMOLED-1.75C, Lichee/LCSC 实战派 ESP32-S3 (M5Stack StopWatch hỗ trợ biên dịch nhưng chưa test thực tế). Backend yêu cầu máy Mac (đã kiểm nghiệm trên Apple silicon) hoặc server Linux/máy tính cùng mạng Wi-Fi 2.4GHz với board; Grok Bot yêu cầu webhook và quyền ghi file vào máy tính backend. Cung cấp Web flasher qua trình duyệt Chrome/Edge.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Thời gian phản hồi khi gọi phát nhạc nội bộ: khoảng 1.5 giây sau khi ra lệnh</li>
+<li>Kích thước tải model giọng nói (ASR) của backend: khoảng 200MB</li>
+<li>Hỗ trợ 13 loại biểu cảm mắt vẽ thời gian thực theo tương tác vật lý và trạng thái</li>
+<li>Firmware phiên bản phát hành: 2.5.2.9</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Chỉ an toàn khi sử dụng trong mạng LAN (khuyến cáo không mở port 8000, 8003 ra public internet); Grok Bot bắt buộc phải có khả năng ghi file vào máy tính chạy backend; tính năng nghe nhạc phụ thuộc vào các API không chính thức từ bên thứ ba (<code>go-music-dl</code> mở cổng 18080); bo mạch M5Stack StopWatch chưa được kiểm thử trên phần cứng thực tế.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Dự án là mẫu thiết kế tham khảo thực tế để kết hợp firmware ESP32 nguồn mở (Xiaozhi) với backend AI agent nội bộ, cho phép offload tác vụ tính toán ASR/Agent về máy chủ cục bộ và giữ phần cứng client siêu nhẹ.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">45.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,82.8 212.5,120.94 192.45,182.66 138.37,167.77 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="82.8" r="3.5"/><circle class="radar-dot" cx="212.5" cy="120.94" r="3.5"/><circle class="radar-dot" cx="192.45" cy="182.66" r="3.5"/><circle class="radar-dot" cx="138.37" cy="167.77" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 3/5 — Dự án kết hợp khéo léo phần cứng ESP32 hiển thị biểu cảm với Grok Bot và backend media cục bộ, nhưng dựa trên nền tảng sẵn có của Xiaozhi.</title>Novelty <tspan class="radar-value">3</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 3/5 — Kiến trúc client-server rõ ràng, kết hợp xử lý ASR offline với hotwords, xử lý ngoại lệ đồng âm và cơ chế phát nhạc fallback đa nền tảng.</title>Technical <tspan class="radar-value">3</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 3/5 — Cung cấp mã nguồn đầy đủ, script cài đặt, thông số độ trễ ước tính (~1.5s) và hướng dẫn triển khai thực tế trên các dòng bo mạch cụ thể.</title>Evidence <tspan class="radar-value">3</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 2/5 — Dự án DIY cá nhân đạt 214 stars và 98 forks, phục vụ cộng đồng phần cứng mã nguồn mở ESP32 quy mô vừa phải.</title>Impact <tspan class="radar-value">2</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Kho mã nguồn mở cá nhân được phát hành công khai trên GitHub với tài liệu hướng dẫn và Web flasher chi tiết.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">3/5</span></dt><dd>Dự án kết hợp khéo léo phần cứng ESP32 hiển thị biểu cảm với Grok Bot và backend media cục bộ, nhưng dựa trên nền tảng sẵn có của Xiaozhi.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Kho mã nguồn mở cá nhân được phát hành công khai trên GitHub với tài liệu hướng dẫn và Web flasher chi tiết.</dd></div>
+          <div><dt>Technical <span class="muted">3/5</span></dt><dd>Kiến trúc client-server rõ ràng, kết hợp xử lý ASR offline với hotwords, xử lý ngoại lệ đồng âm và cơ chế phát nhạc fallback đa nền tảng.</dd></div>
+          <div><dt>Impact <span class="muted">2/5</span></dt><dd>Dự án DIY cá nhân đạt 214 stars và 98 forks, phục vụ cộng đồng phần cứng mã nguồn mở ESP32 quy mô vừa phải.</dd></div>
+          <div><dt>Evidence <span class="muted">3/5</span></dt><dd>Cung cấp mã nguồn đầy đủ, script cài đặt, thông số độ trễ ước tính (~1.5s) và hướng dẫn triển khai thực tế trên các dòng bo mạch cụ thể.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Tích hợp ASR offline xử lý đa ngữ · Giao diện mắt động trực quan · Web flasher cài đặt dễ dàng · Định tuyến lệnh nhạc cục bộ nhanh</p>
+          <p><span class="label">Weaknesses</span> · Cần Grok Bot ghi file cục bộ · Phụ thuộc mạng nội bộ LAN · Rủi ro bảo mật cổng dịch vụ</p>
+          <p><span class="label">Context</span> · Dự án mã nguồn mở của tác giả Liu-zhongxian trên GitHub, kế thừa từ Xiaozhi ESP32 firmware và server.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

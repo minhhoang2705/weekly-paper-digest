@@ -1,0 +1,53 @@
+{
+ "id": "arxiv:2610.29123",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng nhúng token/ký tự điều khiển vào văn bản không mới, nhưng cách tiếp cận data-driven khai thác ký tự Unicode trực tiếp trên kiến trúc LLM-TTS đóng băng để kiểm soát chi tiết ngữ điệu tiếng Trung là hợp lý và thực tế.",
+  "credibility": "Bài báo đến từ nhóm nghiên cứu tại JD.com, Inc., trình bày quy trình thực nghiệm minh bạch, nêu rõ các giới hạn và không thổi phồng kết quả, dù mới là bản thảo trên arXiv.",
+  "technical": "Quy trình kỹ thuật kết hợp MFA + WhisperX và trích xuất F0 qua RMVPE vững chắc, thiết lập huấn luyện trên 5.858 giờ với 8x B200 hoàn chỉnh kèm phân tích tương quan độ nhạy cross-tokenizer sắc sảo.",
+  "impact": "Cung cấp giải pháp khả thi tức thì cho các hệ thống production LLM-TTS cần tinh chỉnh ngữ điệu từng từ (dubbing, audiobook) mà không phải huấn luyện lại từ đầu mô hình âm học.",
+  "evidence": "Thực nghiệm quy mô lớn trên 2,15 triệu câu, đo đạc khách quan chi tiết về duration, F0, khoảng pause, speaking rate và thử nghiệm MOS trên 24 người nghe cùng kiểm thử phân tích tokenizer."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu đề xuất phương pháp điều khiển ngữ điệu mức ký tự (character-level prosody control) cho mô hình TTS nền tảng LLM tiếng Trung (cụ thể là CosyVoice2) mà hoàn toàn không thay đổi kiến trúc mô hình. Bằng cách tự động trích xuất các thuộc tính cao độ (pitch), độ dài (duration), năng lượng (energy) và khoảng nghỉ (pause) từ 5.858 giờ âm thanh và chèn dưới dạng ký tự Unicode vào văn bản, mô hình LLM-TTS được tinh chỉnh để học cách diễn giải chính xác các nhãn điều khiển này.",
+  "problem": "Các hệ thống LLM-based TTS hiện nay (như CosyVoice, Seed-TTS, Spark-TTS) đạt chất lượng tự nhiên cao nhưng chủ yếu cung cấp điều khiển phong cách ở mức toàn câu (utterance-level), thiếu khả năng can thiệp chi tiết đến từng ký tự/âm tiết cần thiết cho lồng tiếng phim, sách nói hay giao tiếp ảo. Ngược lại, các phương pháp điều khiển cục bộ truyền thống (SSML, ToBI, mô hình FastSpeech 2) đòi hỏi gán nhãn thủ công tốn kém, quy tắc ngôn ngữ phức tạp hoặc phải can thiệp sửa đổi kiến trúc mô hình âm học, gây khó khăn cho việc tích hợp vào các LLM-TTS tiền huấn luyện.",
+  "method": "Quy trình gồm 2 giai đoạn chính và 1 mô-đun tuỳ chọn:\n1. **Trích xuất ngữ điệu tự động (Automated Prosody Extraction):** Kết hợp Montreal Forced Aligner (MFA) và WhisperX để lấy mốc thời gian ký tự, loại bỏ mẫu nếu độ lệch $> 150\\text{ ms}$, hợp nhất bằng trung bình trọng số độ tin cậy $\\hat{t} = \\frac{w_W t_W + w_M t_M}{w_W + w_M}$. Từ đó trích xuất:\n   - *Pause duration:* Lượng tử hóa khoảng nghỉ giữa các cụm thành 4 mức (short `,`, moderate `··`, long `...`, very long `◦`).\n   - *Character duration:* Dán nhãn kéo dài (lengthened $\\rightarrow$, $t > 430\\text{ ms}$, phân vị thứ 95) hoặc rút ngắn (shortened $\\leftarrow$, $30 < t < 50\\text{ ms}$, phân vị 5%).\n   - *Character energy:* Dán nhãn stressed $\\uparrow$ hoặc weak $\\downarrow$ dựa trên cực đại/cực tiểu cục bộ trong cụm có phương sai cao.\n   - *Pitch (F0):* Ước lượng bằng RMVPE, gán nhãn rising $\\nearrow$ hoặc falling $\\searrow$ khi F0 trung bình lệch khỏi F0 cụm $> \\pm 100\\text{ Hz}$, biên độ nội ký tự $< 35\\text{ Hz}$, độ dài $> 150\\text{ ms}$.\n   - *Global speaking rate:* Phân vị thời lượng ký tự toàn câu thành 5 mức (very slow, slow, normal, fast, very fast).\n2. **Thông dịch viên âm học (Acoustic Interpreter):** Giữ nguyên kiến trúc của CosyVoice2 (tokenizer, LLM, decoder), chỉ tinh chỉnh LLM của TTS trên dữ liệu văn bản đã gán nhãn Unicode (prefix cho pitch/energy, suffix cho duration/pause) đối chiếu với chuỗi acoustic token tương ứng.\n3. **Front-End ngôn ngữ tự nhiên (Tuỳ chọn):** Sử dụng Qwen3-8B (tinh chỉnh qua LoRA) để chuyển đổi câu lệnh tự nhiên sang văn bản gán nhãn prosody, huấn luyện trên 210.000 mẫu sinh từ Qwen3-Omni.",
+  "setup": "Huấn luyện trên tập con tiếng Trung của VoxBox gồm 2.150.447 câu (5.858 giờ), chia train/val theo tỉ lệ 9:1 phân tầng theo người nói. Huấn luyện trên 8 GPU NVIDIA B200 trong 20 epochs (Adam, $\\beta = (0.9, 0.999)$, learning rate $10^{-5}$, linear warmup kết hợp cosine annealing), dung hợp trọng số 3 checkpoint có validation loss thấp nhất. Đánh giá kiểm soát trên 11 câu thử nghiệm thủ công qua 12 người nói (132 lượt sinh), 2.000 mẫu/nhãn pause, khảo sát nghe 24 người bản xứ chấm điểm 5 mức cho tự nhiên (naturalness), chân thực (realism), tương đồng người nói (speaker similarity), và phân tích độ nhạy cross-tokenizer trên 1.000 mẫu bị nhiễu.",
+  "results": [
+   "Khả năng kiểm soát độ dài ký tự: nhãn lengthen làm tăng độ dài từ 240 ms lên 391 ms (+62,9%); nhãn shorten giảm độ dài từ 144 ms xuống 119 ms (-17,4%).",
+   "Khả năng kiểm soát cao độ: nhãn rising tăng độ lệch F0 từ +6 Hz lên +11 Hz (+83,3%); nhãn falling tăng độ lệch F0 đi xuống từ -8 Hz lên -12 Hz (+50,0%).",
+   "Khả năng kiểm soát khoảng nghỉ: thời lượng pause thực tế đo được rơi đúng vào dải mục tiêu: short (354 ms vs [300, 500) ms), moderate (525 ms vs [500, 800) ms), long (824 ms vs [800, 1000) ms), very long (1109 ms vs [1000, 1500) ms).",
+   "Tốc độ nói toàn cục (words per minute): tách biệt rõ rệt theo 5 mức prompt: very slow (243 wpm), relatively slow (260 wpm), normal (282 wpm), relatively fast (321 wpm), very fast (333 wpm).",
+   "Đánh giá thính giác (MOS so với Base CosyVoice2): Naturalness đạt 4.44 so với 4.46 của Base; Realism đạt 4.15 so với 4.10; Speaker similarity đạt 4.00 so với 3.95.",
+   "Mô hình front-end Qwen3-8B giảm khoảng cách chỉnh sửa chuẩn hóa (NED) từ 7.91 (zero-shot) xuống 4.61 trên tập kiểm thử.",
+   "Phân tích độ nhạy tokenizer: Tokenizer tối ưu cho ASR của CosyVoice2 có độ nhạy thấp nhất với biến dạng âm thanh (đặc biệt triệt tiêu biến thiên độ to/energy), trong khi các codec tái tạo như BiCodec, DualCodec và TaDiCodec nhạy hơn nhiều (TaDiCodec có NED $\\approx 1.0$ khi biến dạng mạnh)."
+  ],
+  "limitations": "Chỉ mới thử nghiệm trên tiếng Trung và duy nhất mô hình CosyVoice2; ngưỡng trích xuất là các hằng số cố định theo Hz thay vì semitone/log-scale; điều khiển âm lượng (energy/loudness) không hiệu quả do tokenizer ASR-optimized triệt tiêu biến thiên biên độ; đánh giá kiểm soát dùng lại công cụ trích xuất lúc huấn luyện nên có thể chia sẻ sai số hệ thống; khảo sát nghe mang tính mô tả (24 người), chưa có kiểm định ý nghĩa thống kê; front-end tự nhiên chưa được đánh giá trọn vẹn end-to-end đến giọng nói.",
+  "takeaways": "Có thể bổ sung khả năng điều khiển ngữ điệu chi tiết đến từng ký tự cho các LLM-TTS sẵn có bằng cách coi nhãn prosody như ký tự Unicode trong chuỗi văn bản đầu vào mà không cần thay đổi kiến trúc mô hình. Tuy nhiên, các kỹ sư cần lưu ý đặc tính của speech tokenizer: tokenizer tối ưu hóa cho ASR sẽ triệt tiêu thông tin năng lượng/loudness, do đó các codec hướng tái tạo tín hiệu (reconstruction-oriented) sẽ phù hợp hơn nếu cần điều khiển biên độ chi tiết.",
+  "strengths": [
+   "Giữ nguyên 100% kiến trúc LLM-TTS",
+   "Tự động gán nhãn quy mô lớn",
+   "Kiểm soát chính xác duration, pitch, pause",
+   "Chất lượng giọng và độ tự nhiên bảo toàn",
+   "Phân tích thực nghiệm sâu về speech tokenizer"
+  ],
+  "weaknesses": [
+   "Chưa điều khiển được âm lượng (loudness)",
+   "Chỉ giới hạn trên tiếng Trung",
+   "Ngưỡng F0 cố định theo Hz",
+   "Đánh giá chủ quan chưa có suy luận thống kê"
+  ],
+  "context": "Nghiên cứu được thực hiện bởi nhóm tác giả thuộc JD.com, Inc. (Bắc Kinh, Trung Quốc), công bố dưới dạng preprint trên arXiv vào tháng 10 năm 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

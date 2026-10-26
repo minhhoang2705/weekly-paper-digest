@@ -1,0 +1,52 @@
+{
+ "id": "arxiv:2610.31292",
+ "topic": "Speech LLM",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất phương pháp representation-enhanced BEST-RQ sáng tạo kết hợp biểu diễn ngữ nghĩa đóng băng từ ASR teacher vào quantizer ngẫu nhiên, cùng chiến lược dual-trajectory on-policy distillation để tránh suy giảm năng lực nhận thức văn bản.",
+  "credibility": "Báo cáo kỹ thuật chính thức từ phòng nghiên cứu iFlytek, một tổ chức hàng đầu về công nghệ tiếng nói tại Trung Quốc, đi kèm liên kết trải nghiệm demo hệ thống.",
+  "technical": "Mô tả chuyên sâu và tỉ mỉ về kiến trúc mô hình (Whisper large-v3 0.65B + MoE 30B-A3B), công thức toán học phân rã mất mát, chiến lược song song hóa (EP8, CP4, ZeRO-2) và huấn luyện hoàn toàn trên hạ tầng Ascend/Hygon.",
+  "impact": "Khẳng định lộ trình kỹ thuật độc lập hoàn toàn cho mô hình nền tảng tiếng nói trên chip nội địa Trung Quốc và chứng minh hiệu quả giảm chi phí dữ liệu đào tạo cho cộng đồng công nghệ tiếng nói.",
+  "evidence": "Báo cáo cung cấp số liệu thực nghiệm toàn diện trên nhiều benchmark công khai chuẩn mực lẫn dữ liệu thực tế in-house, so sánh trực diện với Qwen3.5-Omni và Gemini 3.1 Pro, đi kèm các phân tích cô lập đánh giá chất lượng audio encoder."
+ },
+ "summary": {
+  "tldr": "Spark-Audio 1.0 là mô hình nền tảng tiếng nói (speech foundation model) đa ngữ và đa phương ngữ, hỗ trợ 99 ngôn ngữ và 202 phương ngữ, được huấn luyện hoàn toàn trên hạ tầng tính toán nội địa Trung Quốc (Huawei Ascend 910B và Hygon BW1000). Mô hình kết hợp audio encoder dày đặc 0.65B với backbone LLM Mixture-of-Experts (MoE) 30B-A3B (kích hoạt 3B), đạt hiệu năng cạnh tranh với Qwen3.5-Omni-Flash dù chỉ sử dụng khoảng 1/10 lượng dữ liệu huấn luyện âm thanh (13 triệu giờ so với quy mô lớn hơn của đối thủ).",
+  "problem": "Phần lớn các mô hình nền tảng tiếng nói tiên tiến hiện nay phụ thuộc hoàn toàn vào hệ sinh thái phần cứng và phần mềm nước ngoài (foreign computing stacks), tạo rủi ro độc lập công nghệ tại Trung Quốc. Đồng thời, quan niệm phổ biến cho rằng để đạt hiệu năng cạnh tranh bắt buộc phải mở rộng quy mô dữ liệu và mô hình ngày càng lớn, khiến chi phí huấn luyện trở nên đắt đỏ và đặt ra câu hỏi liệu mô hình huấn luyện với ít dữ liệu hơn có phục vụ tốt các ứng dụng thực tế hay không.",
+  "method": "Spark-Audio 1.0 kết hợp audio encoder 0.65B (dựa trên kiến trúc Whisper large-v3 với 32 layer, hỗ trợ cả streaming lẫn non-streaming trong cùng một bộ tham số) với backbone MoE 30B-A3B thông qua adapter (gồm MLP và các lớp CNN downsampling thời gian từ 50 Hz xuống 12.5 Hz). Quá trình huấn luyện chia thành hai giai đoạn lớn:\n1. **Audio Encoder Pretraining (3 giai đoạn)**:\n- *Giai đoạn I (Representation-Enhanced BEST-RQ)*: Thay vì lượng tử hóa đặc trưng âm học thô như BEST-RQ gốc, mô hình đưa biểu diễn ngữ nghĩa sâu từ Whisper large-v3 ASR teacher đóng băng (huấn luyện trên 1.5 triệu giờ ASR) qua ma trận chiếu ngẫu nhiên $A \\in \\mathbb{R}^{D_q \\times D}$ và bộ mã ngẫu nhiên cố định $C = \\{c_1, \\dots, c_K\\}$ để sinh mục tiêu nhãn rời rạc $q_t$. Bộ mã hóa sinh viên nhận đầu vào bị che $\\tilde{X} = \\text{Mask}(X)$ và tối ưu hàm mất mát cross-entropy $L_{\\text{BEST-RQ}} = -\\frac{1}{|\\mathcal{I}_{\\text{mask}}|} \\sum_{t \\in \\mathcal{I}_{\\text{mask}}} \\log p_{\\theta, \\phi, t}(q_t | \\tilde{X}, M)$, mở rộng quy mô dữ liệu tự giám sát từ 1.5M $\\to$ 2.6M $\\to$ 13M giờ (99 ngôn ngữ).\n- *Giai đoạn II (Multilingual ASR Adaptation)*: Tinh chỉnh có giám sát trên 1.3 triệu giờ lời thoại đa ngữ có nhãn.\n- *Giai đoạn III (Multi-task Training)*: Huấn luyện có giám sát bằng văn bản trên 5 tác vụ $\\mathcal{T} = \\{\\text{ASR}, \\text{Gender}, \\text{Age}, \\text{Emotion}, \\text{SoundEvent}\\}$ nhằm học đặc trưng toàn diện.\n2. **Audio-LLM Pretraining và Post-Training**:\n- *Pretraining 3 giai đoạn*: Giai đoạn 1 đóng băng LLM và encoder, chỉ huấn luyện adapter (4K context, lr $2 \\times 10^{-4}$); Giai đoạn 2 tối ưu toàn bộ tham số (encoder, adapter, LLM) trên hỗn hợp âm thanh, lời nói và văn bản thuần (4K context, lr $5 \\times 10^{-5} \\to 2.5 \\times 10^{-5}$); Giai đoạn 3 mở rộng ngữ cảnh dài lên 32K token và độ dài đoạn âm thanh từ 30s lên 45s (sử dụng 8-way Expert Parallelism và 4-way Context Parallelism, lr $2.5 \\times 10^{-5} \\to 5 \\times 10^{-6}$).\n- *Post-training*: Kết hợp SFT đa tác vụ (ChatML format) và chưng cất chính sách trên quỹ đạo kép (Dual-Trajectory On-Policy Distillation - OPD). Mô hình sinh câu trả lời theo cả hai luồng âm thanh ($x_b^a$) và văn bản ($x_b^t$), nhận giám sát từ mô hình giáo viên văn bản thuần đóng băng qua hàm mất mát reverse-KL cục bộ trên tập $K_{\\text{KD}} = 64$ token hàng đầu: $d_{b, i}^m = D_{\\text{KL}}(\\tilde{p}_{\\theta, b, i}^m \\parallel \\tilde{q}_{\\phi, b, i}^m)$ với nhiệt độ $\\tau_{\\text{KD}} = 0.5$, cân bằng $L_{\\text{OPD}} = L_a + \\lambda L_t$ (với $\\lambda = 1$).",
+  "setup": "Huấn luyện từ đầu đến cuối trên các chip AI nội địa gồm Huawei Ascend 910B và Hygon BW1000. Đánh giá trên các bộ benchmark công khai: FLEURS (tiếng Trung, Anh và 3 nhóm đa ngữ 14, 20, 64 ngôn ngữ), AISHELL6-Whisper, WenetSpeech (net/meeting), SpeechIO, KeSpeech, LibriSpeech, speechocean762, TED; Audio understanding: AIR-Bench, MMSU, MMAR; Spoken dialogue: VoiceBench; Dịch tiếng nói FLEURS zh-en/en-zh; Text benchmarks: MMLU-Pro, CMMLU, C-Eval, IFEval, IFBench, MATH-500, GSM8K, HumanEval. Ngoài ra đánh giá trên các tập dữ liệu nội bộ (in-house) từ các kịch bản thực tế (ghi biên bản cuộc họp, trợ lý giọng nói, tiếng ồn cao, âm lượng nhỏ) với giám khảo DeepSeek chấm điểm từ 0-5 (tính Full-Score Rate - FSR). Hệ thống đối chiếu: Qwen3.5-Omni-Flash, Qwen3.5-Omni-Plus, Gemini 3.1 Pro.",
+  "results": [
+   "FLEURS Chinese & English ASR: Spark-Audio 1.0 đạt CER 1.88% (zh) và WER 2.25% (en), vượt trội so với Qwen3.5-Omni-Flash (2.90% / 3.70%), Qwen3.5-Omni-Plus (2.90% / 3.20%) và Gemini 3.1 Pro (3.60% / 2.70%).",
+   "Multilingual FLEURS ASR: Nhóm 14 ngôn ngữ cốt lõi đạt WER/CER 2.81% (Flash: 3.96%, Plus: 3.47%, Gemini: 3.36%); nhóm 20 ngôn ngữ mở rộng đạt 6.30% (Flash: 12.08%, Plus: 6.65%, Gemini: 8.38%); tuy nhiên nhóm 64 ngôn ngữ phụ đạt 31.89%, tốt hơn Flash (39.00%) nhưng kém Plus (28.66%) và Gemini 3.1 Pro (20.09%).",
+   "In-house ASR & Dialect: Đạt CER 7.26% trên tập tiếng Trung chung (tốt nhất đối thủ là 7.45%) và CER 14.29% trên tập 202 phương ngữ, giảm tương đối 27.8% lỗi so với đối thủ tốt nhất (19.79%).",
+   "Âm thanh thách thức: Trong điều kiện âm lượng nhỏ (low-volume), CER đạt 17.17% so với 23.62% của Qwen3.5-Omni-Flash và 57.72% của Gemini 3.1 Pro; trong điều kiện nhiễu cao (high-noise) đạt CER 37.76% so với 38.66% của Flash.",
+   "Spoken Interaction: Đạt điểm 90.35 trên VoiceBench (vượt Qwen3.5-Omni-Flash 87.80 và Gemini 3.1 Pro 88.90, sau Qwen3.5-Omni-Plus 93.10); In-house FSR đạt 63.28% (tương tác chung) và 67.92% (tuân thủ chỉ dẫn), vượt Flash (49.57% / 60.83%).",
+   "Audio Understanding & Reasoning: Đạt MMSU 73.96% (Flash: 72.20%) và AIR-Bench 71.85 (Flash: 72.63%), nhưng tụt lại trên MMAR với độ chính xác 57.90% so với Flash (74.00%), Plus (80.00%) và Gemini 3.1 Pro (83.70%).",
+   "Text capabilities: Tương đương hoặc vượt Qwen3.5-Omni-Flash ở GSM8K (97.35% vs 95.83%) và HumanEval (pass@1 92.07% vs 89.02%), tương đương ở C-Eval (85.85% vs 86.00%) và CMMLU (82.39% vs 81.85%), nhưng thấp hơn ở IFEval (82.19% vs 85.20%) và IFBench (36.33% vs 38.40%).",
+   "Đánh giá Audio Encoder (khi ghép với backbone Qwen3-4B): Đạt CER/WER trung bình 8.93% trên 15 tập tiếng Trung và 6.17% trên 5 tập tiếng Anh (vượt trội so với Whisper large-v3: 32.35% / 9.50% và AuT: 10.47% / 7.35%); đạt độ chính xác trung bình 61.49% trên 8 tập hiểu âm thanh (Whisper: 33.49%, AuT: 54.54%)."
+  ],
+  "limitations": "Khả năng tuân thủ chỉ dẫn (instruction following) văn bản thuần còn yếu hơn đối thủ (IFEval 82.19% vs 85.20%, IFBench 36.33% vs 38.40%). Suy luận âm thanh phức tạp (complex audio reasoning) còn khoảng cách lớn so với các mô hình đóng và đối thủ cùng cỡ (MMAR chỉ đạt 57.90% so với 74.00%-83.70%). Độ chính xác nhận dạng trên nhóm 64 ngôn ngữ phụ còn cao (WER/CER 31.89%). Chưa hỗ trợ nhận dạng âm thanh dài hàng giờ, tách nhiều người nói (multi-speaker) hoặc hiểu âm thanh theo không gian (spatial audio).",
+  "takeaways": "Chứng minh tính khả thi hoàn toàn của việc huấn luyện end-to-end các mô hình foundation tiếng nói - ngôn ngữ quy mô lớn (30B MoE) trên chip AI nội địa (Ascend 910B, Hygon BW1000). Phương pháp representation-enhanced BEST-RQ (dùng biểu diễn ngữ nghĩa của mô hình ASR có sẵn làm target cho bộ lượng tử hóa ngẫu nhiên) cùng kỹ thuật on-policy distillation kép giúp tối ưu hóa hiệu quả dữ liệu, đạt hiệu năng ASR và audio understanding hàng đầu mà không làm suy giảm năng lực cốt lõi của LLM văn bản.",
+  "strengths": [
+   "Huấn luyện 100% trên phần cứng nội địa",
+   "Hiệu quả dữ liệu cực cao (1/10 data)",
+   "Hỗ trợ tới 99 ngôn ngữ, 202 phương ngữ",
+   "Encoder BEST-RQ cải tiến biểu diễn xuất sắc"
+  ],
+  "weaknesses": [
+   "Khoảng cách lớn ở suy luận âm thanh phức tạp (MMAR)",
+   "Năng lực instruction following còn hạn chế",
+   "Hiệu năng nhận dạng nhóm ngôn ngữ hiếm còn thấp"
+  ],
+  "context": "Nhóm iFlytek Spark Audio Team (iFlytek Research); báo cáo kỹ thuật công bố trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

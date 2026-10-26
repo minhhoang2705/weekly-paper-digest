@@ -1,0 +1,47 @@
+{
+ "id": "gh:vatavale/folivox",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án kết hợp các công nghệ TTS nguồn mở (CosyVoice 3, Drama 3) và Whisper QC thành một pipeline tạo sách nói hoàn chỉnh, đưa ra workflow kết hợp sinh mẫu giọng giá rẻ online với clone local.",
+  "credibility": "Dự án cá nhân độc lập trên GitHub, mã nguồn công khai, sử dụng các dependency và model uy tín từ FunAudioLLM, Fish Audio, OpenAI.",
+  "technical": "Kiến trúc hệ thống rất bài bản với journaling phục hồi sau sự cố, normalizer đa ngôn ngữ có biến cách ngữ pháp, vòng lặp Whisper QC và hỗ trợ đa nền tảng phần cứng.",
+  "impact": "Thu hút mức độ quan tâm ban đầu (106 stars, 11 forks) và giải quyết nhu cầu thực tế rất lớn về tự host và tạo audiobook cá nhân.",
+  "evidence": "Cung cấp mã nguồn đầy đủ, script cài đặt, tài liệu chi tiết và chi phí áng chừng, nhưng thiếu báo cáo số liệu thực nghiệm hệ thống (WER, RTF chuẩn)."
+ },
+ "summary": {
+  "tldr": "Folivox là một công cụ mã nguồn mở giúp chuyển đổi sách điện tử thành sách nói có đầy đủ chương mục, metadata và cover, hoạt động cục bộ hoặc qua API đám mây. Dự án tích hợp mô hình CosyVoice 3 mặc định để zero-shot clone giọng đọc từ mẫu ngắn mà không tốn phí, đồng thời hỗ trợ Fish Audio Drama 3 cùng nhiều nhà cung cấp online.",
+  "problem": "Việc tạo audiobook dài nhiều tiếng (long-form TTS) từ các định dạng sách khác nhau thường gặp khó khăn về chi phí API đắt đỏ, thiếu khả năng xử lý ngắt quãng/lỗi mạng (crash-recovery), chuẩn hóa văn bản kém tự nhiên (số, ngày tháng, biến cách) và không có cơ chế tự động kiểm soát chất lượng (QC) cho từng đoạn âm thanh.",
+  "method": "Hệ thống xây dựng một pipeline hoàn chỉnh bao gồm:\n- **Parser & Text Normalization:** Hỗ trợ FB2, EPUB, DOCX, PDF (text layer), TXT; loại bỏ header/footer PDF và unhyphenate; chuẩn hóa số, ngày, tiền tệ, đơn vị, chữ số La Mã kèm ngữ pháp/biến cách cho 9 ngôn ngữ (Russian, English, German, French, Spanish, Italian, Chinese, Japanese, Korean) và phục hồi `ё`/dấu trọng âm tiếng Nga bằng `ruaccent`.\n- **Audio Engines:** Chạy offline mặc định với CosyVoice 3 (voice cloning từ mẫu 6–15 giây) hoặc Fish Audio Drama 3 (hỗ trợ chỉ đạo bằng văn bản `[calm, warm narration]`, hơn 80 ngôn ngữ, hội thoại đa giọng), hoặc kết nối API ngoài (ElevenLabs, OpenAI, Gemini 3.8 Flash, Cartesia, Fish Audio).\n- **Voice Design & QC:** Cho phép trích xuất giọng từ video/file âm thanh dài, thiết kế giọng bằng LLM + Gemini/Qwen3 TTS. Sử dụng Whisper (faster-whisper hoặc mlx-whisper) nghe lại từng fragment để kiểm tra lỗi; tự động đọc lại và chọn take tốt nhất (`--takes`, mặc định 3).\n- **Journaling & Packaging:** Ghi nhật ký từng fragment đã render để khôi phục khi gặp sự cố, chuẩn hóa âm lượng (−18 LUFS) và đóng gói thành 1 file `.m4b` (kèm chapter markers, cover, metadata) hoặc từng file `.mp3` theo chương.",
+  "setup": "Yêu cầu Python 3.10–3.12, ffmpeg, dung lượng tải model khoảng 7.6 GB (~6 GB model giọng và ~1.6 GB model QC). Hỗ trợ phần cứng đa dạng: macOS Apple Silicon (GPU qua Metal, MLX cho Whisper), NVIDIA CUDA, hoặc CPU (có fallback CPU khi GPU lỗi). Cung cấp giao diện web studio (`folivox ui`) hỗ trợ 49 ngôn ngữ và CLI (`folivox render`). Cài đặt qua script một dòng, Docker hoặc git.",
+  "results": [
+   "Chi phí tạo voice sample online bằng Gemini 3.8 để làm cloning prompt cho engine local: khoảng $0.0023 cho 10 giây audio.",
+   "Chi phí render toàn bộ sách online bằng Gemini 3.8 Flash TTS: ước tính khoảng $0.8 mỗi giờ audio tại thời điểm tháng 10/2026 (~$8 cho cuốn sách 10 giờ)."
+  ],
+  "limitations": "Tài liệu đang ở trạng thái 'early development'. Không cung cấp số liệu benchmark chuẩn hóa (WER, CER, MOS, RTF cụ thể cho từng phần cứng). Mô hình Fish Audio Drama 3 cục bộ đòi hỏi máy Mac có đủ bộ nhớ; PDF chỉ đọc layer text, không hỗ trợ OCR; hỗ trợ card đồ họa AMD và Intel còn ở mức thử nghiệm (thông qua native runtime audio.cpp).",
+  "takeaways": "Folivox cung cấp một framework kỹ thuật hoàn chỉnh cho kỹ sư speech giải quyết bài toán end-to-end audiobook synthesis: từ text normalization đa ngôn ngữ, pipeline xử lý lỗi/chấm điểm bằng Whisper QC loop, đến cơ chế journal phục hồi khi crash cho audiobooks dài hơn 10 tiếng.",
+  "strengths": [
+   "Hỗ trợ text normalization chuyên sâu 9 ngôn ngữ",
+   "Vòng lặp Whisper QC tự động đọc lại",
+   "Cơ chế journaling chống crash cho sách dài",
+   "Kết hợp thông minh giữa online sample và local cloning",
+   "Giao diện web trực quan và CLI đa năng"
+  ],
+  "weaknesses": [
+   "Chưa có benchmark định lượng cụ thể (MOS/RTF)",
+   "Drama 3 đòi hỏi cấu hình Mac RAM cao",
+   "Dự án cá nhân ở giai đoạn phát triển sớm"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi tác giả vatavale trên GitHub, phát hành theo giấy phép Apache-2.0."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

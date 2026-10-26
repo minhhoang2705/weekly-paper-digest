@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spark-Audio 1.0 Technical Report · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W44</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Spark-Audio 1.0 Technical Report</h1>
+    <div class="meta">
+      <span>published Oct 22, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Speech LLM</span>        <span class="authors">Chenyue Zhang, Cong Liu, Dingshu Tian, Dong Sun, Genshun Wan, Guanming Meng, Guolong Zhong, Hang Chen, Hankun Yang, Haoming Wang, Haoyang Wang, Hengquan Mei, Huaxin Wu, Jiahao Li, Jiahuan Fan +51 more</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.31292" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>This paper introduces Spark-Audio 1.0, a speech foundation model trained on domestically produced computing infrastructure. The model accepts text and speech inputs and generates text outputs. It supports multilingual (99 languages) and multi-dialect (202 dialects) speech recognition, speech translation, audio perception and understanding, and both text- and speech-based dialogue, marking a shift from merely ``hearing clearly'' to genuinely ``understanding'' speech. Architecturally, Spark-Audio 1.0 couples a 0.65B-parameter dense audio encoder with a 30B-A3B Mixture-of-Experts (MoE) large language model (LLM). The audio encoder is pretrained with representation-enhanced BEST-RQ and then refined through multi-task supervised training. The audio--LLM is trained through staged pretraining, followed by post-training that combines supervised fine-tuning with on-policy distillation. In total, the model is trained on 13 million hours of audio data together with large-scale text data. We evaluate Spark-Audio 1.0 on mainstream audio and text benchmarks, as well as on in-house test sets drawn from real-world application scenarios. Despite using substantially less audio training data than Qwen3.5-Omni-Flash, Spark-Audio 1.0 achieves comparable performance on most audio and text tasks, outperforms it in multilingual speech recognition, spoken dialogue, and real-world application scenarios, and approaches the performance of larger closed-source models. Nevertheless, there remains room for improvement in instruction following and complex audio reasoning. Finally, the successful training of Spark-Audio 1.0 on domestic hardware, including Huawei Ascend 910B and Hygon BW1000 chips, demonstrates the feasibility of a domestic technical pathway for building speech foundation models.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 26, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Spark-Audio 1.0 là mô hình nền tảng tiếng nói (speech foundation model) đa ngữ và đa phương ngữ, hỗ trợ 99 ngôn ngữ và 202 phương ngữ, được huấn luyện hoàn toàn trên hạ tầng tính toán nội địa Trung Quốc (Huawei Ascend 910B và Hygon BW1000). Mô hình kết hợp audio encoder dày đặc 0.65B với backbone LLM Mixture-of-Experts (MoE) 30B-A3B (kích hoạt 3B), đạt hiệu năng cạnh tranh với Qwen3.5-Omni-Flash dù chỉ sử dụng khoảng 1/10 lượng dữ liệu huấn luyện âm thanh (13 triệu giờ so với quy mô lớn hơn của đối thủ).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Phần lớn các mô hình nền tảng tiếng nói tiên tiến hiện nay phụ thuộc hoàn toàn vào hệ sinh thái phần cứng và phần mềm nước ngoài (foreign computing stacks), tạo rủi ro độc lập công nghệ tại Trung Quốc. Đồng thời, quan niệm phổ biến cho rằng để đạt hiệu năng cạnh tranh bắt buộc phải mở rộng quy mô dữ liệu và mô hình ngày càng lớn, khiến chi phí huấn luyện trở nên đắt đỏ và đặt ra câu hỏi liệu mô hình huấn luyện với ít dữ liệu hơn có phục vụ tốt các ứng dụng thực tế hay không.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Spark-Audio 1.0 kết hợp audio encoder 0.65B (dựa trên kiến trúc Whisper large-v3 với 32 layer, hỗ trợ cả streaming lẫn non-streaming trong cùng một bộ tham số) với backbone MoE 30B-A3B thông qua adapter (gồm MLP và các lớp CNN downsampling thời gian từ 50 Hz xuống 12.5 Hz). Quá trình huấn luyện chia thành hai giai đoạn lớn:</p>
+<ol>
+<li><strong>Audio Encoder Pretraining (3 giai đoạn)</strong>:</li>
+</ol>
+<ul>
+<li><em>Giai đoạn I (Representation-Enhanced BEST-RQ)</em>: Thay vì lượng tử hóa đặc trưng âm học thô như BEST-RQ gốc, mô hình đưa biểu diễn ngữ nghĩa sâu từ Whisper large-v3 ASR teacher đóng băng (huấn luyện trên 1.5 triệu giờ ASR) qua ma trận chiếu ngẫu nhiên <span class="math inline">A \in \mathbb{R}^{D_q \times D}</span> và bộ mã ngẫu nhiên cố định <span class="math inline">C = \{c_1, \dots, c_K\}</span> để sinh mục tiêu nhãn rời rạc <span class="math inline">q_t</span>. Bộ mã hóa sinh viên nhận đầu vào bị che <span class="math inline">\tilde{X} = \text{Mask}(X)</span> và tối ưu hàm mất mát cross-entropy <span class="math inline">L_{\text{BEST-RQ}} = -\frac{1}{|\mathcal{I}_{\text{mask}}|} \sum_{t \in \mathcal{I}_{\text{mask}}} \log p_{\theta, \phi, t}(q_t | \tilde{X}, M)</span>, mở rộng quy mô dữ liệu tự giám sát từ 1.5M <span class="math inline">\to</span> 2.6M <span class="math inline">\to</span> 13M giờ (99 ngôn ngữ).</li>
+<li><em>Giai đoạn II (Multilingual ASR Adaptation)</em>: Tinh chỉnh có giám sát trên 1.3 triệu giờ lời thoại đa ngữ có nhãn.</li>
+<li><em>Giai đoạn III (Multi-task Training)</em>: Huấn luyện có giám sát bằng văn bản trên 5 tác vụ <span class="math inline">\mathcal{T} = \{\text{ASR}, \text{Gender}, \text{Age}, \text{Emotion}, \text{SoundEvent}\}</span> nhằm học đặc trưng toàn diện.</li>
+</ul>
+<ol start="2">
+<li><strong>Audio-LLM Pretraining và Post-Training</strong>:</li>
+</ol>
+<ul>
+<li><em>Pretraining 3 giai đoạn</em>: Giai đoạn 1 đóng băng LLM và encoder, chỉ huấn luyện adapter (4K context, lr <span class="math inline">2 \times 10^{-4}</span>); Giai đoạn 2 tối ưu toàn bộ tham số (encoder, adapter, LLM) trên hỗn hợp âm thanh, lời nói và văn bản thuần (4K context, lr <span class="math inline">5 \times 10^{-5} \to 2.5 \times 10^{-5}</span>); Giai đoạn 3 mở rộng ngữ cảnh dài lên 32K token và độ dài đoạn âm thanh từ 30s lên 45s (sử dụng 8-way Expert Parallelism và 4-way Context Parallelism, lr <span class="math inline">2.5 \times 10^{-5} \to 5 \times 10^{-6}</span>).</li>
+<li><em>Post-training</em>: Kết hợp SFT đa tác vụ (ChatML format) và chưng cất chính sách trên quỹ đạo kép (Dual-Trajectory On-Policy Distillation - OPD). Mô hình sinh câu trả lời theo cả hai luồng âm thanh (<span class="math inline">x_b^a</span>) và văn bản (<span class="math inline">x_b^t</span>), nhận giám sát từ mô hình giáo viên văn bản thuần đóng băng qua hàm mất mát reverse-KL cục bộ trên tập <span class="math inline">K_{\text{KD}} = 64</span> token hàng đầu: <span class="math inline">d_{b, i}^m = D_{\text{KL}}(\tilde{p}_{\theta, b, i}^m \parallel \tilde{q}_{\phi, b, i}^m)</span> với nhiệt độ <span class="math inline">\tau_{\text{KD}} = 0.5</span>, cân bằng <span class="math inline">L_{\text{OPD}} = L_a + \lambda L_t</span> (với <span class="math inline">\lambda = 1</span>).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Huấn luyện từ đầu đến cuối trên các chip AI nội địa gồm Huawei Ascend 910B và Hygon BW1000. Đánh giá trên các bộ benchmark công khai: FLEURS (tiếng Trung, Anh và 3 nhóm đa ngữ 14, 20, 64 ngôn ngữ), AISHELL6-Whisper, WenetSpeech (net/meeting), SpeechIO, KeSpeech, LibriSpeech, speechocean762, TED; Audio understanding: AIR-Bench, MMSU, MMAR; Spoken dialogue: VoiceBench; Dịch tiếng nói FLEURS zh-en/en-zh; Text benchmarks: MMLU-Pro, CMMLU, C-Eval, IFEval, IFBench, MATH-500, GSM8K, HumanEval. Ngoài ra đánh giá trên các tập dữ liệu nội bộ (in-house) từ các kịch bản thực tế (ghi biên bản cuộc họp, trợ lý giọng nói, tiếng ồn cao, âm lượng nhỏ) với giám khảo DeepSeek chấm điểm từ 0-5 (tính Full-Score Rate - FSR). Hệ thống đối chiếu: Qwen3.5-Omni-Flash, Qwen3.5-Omni-Plus, Gemini 3.1 Pro.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>FLEURS Chinese &amp; English ASR: Spark-Audio 1.0 đạt CER 1.88% (zh) và WER 2.25% (en), vượt trội so với Qwen3.5-Omni-Flash (2.90% / 3.70%), Qwen3.5-Omni-Plus (2.90% / 3.20%) và Gemini 3.1 Pro (3.60% / 2.70%).</li>
+<li>Multilingual FLEURS ASR: Nhóm 14 ngôn ngữ cốt lõi đạt WER/CER 2.81% (Flash: 3.96%, Plus: 3.47%, Gemini: 3.36%); nhóm 20 ngôn ngữ mở rộng đạt 6.30% (Flash: 12.08%, Plus: 6.65%, Gemini: 8.38%); tuy nhiên nhóm 64 ngôn ngữ phụ đạt 31.89%, tốt hơn Flash (39.00%) nhưng kém Plus (28.66%) và Gemini 3.1 Pro (20.09%).</li>
+<li>In-house ASR &amp; Dialect: Đạt CER 7.26% trên tập tiếng Trung chung (tốt nhất đối thủ là 7.45%) và CER 14.29% trên tập 202 phương ngữ, giảm tương đối 27.8% lỗi so với đối thủ tốt nhất (19.79%).</li>
+<li>Âm thanh thách thức: Trong điều kiện âm lượng nhỏ (low-volume), CER đạt 17.17% so với 23.62% của Qwen3.5-Omni-Flash và 57.72% của Gemini 3.1 Pro; trong điều kiện nhiễu cao (high-noise) đạt CER 37.76% so với 38.66% của Flash.</li>
+<li>Spoken Interaction: Đạt điểm 90.35 trên VoiceBench (vượt Qwen3.5-Omni-Flash 87.80 và Gemini 3.1 Pro 88.90, sau Qwen3.5-Omni-Plus 93.10); In-house FSR đạt 63.28% (tương tác chung) và 67.92% (tuân thủ chỉ dẫn), vượt Flash (49.57% / 60.83%).</li>
+<li>Audio Understanding &amp; Reasoning: Đạt MMSU 73.96% (Flash: 72.20%) và AIR-Bench 71.85 (Flash: 72.63%), nhưng tụt lại trên MMAR với độ chính xác 57.90% so với Flash (74.00%), Plus (80.00%) và Gemini 3.1 Pro (83.70%).</li>
+<li>Text capabilities: Tương đương hoặc vượt Qwen3.5-Omni-Flash ở GSM8K (97.35% vs 95.83%) và HumanEval (pass@1 92.07% vs 89.02%), tương đương ở C-Eval (85.85% vs 86.00%) và CMMLU (82.39% vs 81.85%), nhưng thấp hơn ở IFEval (82.19% vs 85.20%) và IFBench (36.33% vs 38.40%).</li>
+<li>Đánh giá Audio Encoder (khi ghép với backbone Qwen3-4B): Đạt CER/WER trung bình 8.93% trên 15 tập tiếng Trung và 6.17% trên 5 tập tiếng Anh (vượt trội so với Whisper large-v3: 32.35% / 9.50% và AuT: 10.47% / 7.35%); đạt độ chính xác trung bình 61.49% trên 8 tập hiểu âm thanh (Whisper: 33.49%, AuT: 54.54%).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Khả năng tuân thủ chỉ dẫn (instruction following) văn bản thuần còn yếu hơn đối thủ (IFEval 82.19% vs 85.20%, IFBench 36.33% vs 38.40%). Suy luận âm thanh phức tạp (complex audio reasoning) còn khoảng cách lớn so với các mô hình đóng và đối thủ cùng cỡ (MMAR chỉ đạt 57.90% so với 74.00%-83.70%). Độ chính xác nhận dạng trên nhóm 64 ngôn ngữ phụ còn cao (WER/CER 31.89%). Chưa hỗ trợ nhận dạng âm thanh dài hàng giờ, tách nhiều người nói (multi-speaker) hoặc hiểu âm thanh theo không gian (spatial audio).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Chứng minh tính khả thi hoàn toàn của việc huấn luyện end-to-end các mô hình foundation tiếng nói - ngôn ngữ quy mô lớn (30B MoE) trên chip AI nội địa (Ascend 910B, Hygon BW1000). Phương pháp representation-enhanced BEST-RQ (dùng biểu diễn ngữ nghĩa của mô hình ASR có sẵn làm target cho bộ lượng tử hóa ngẫu nhiên) cùng kỹ thuật on-policy distillation kép giúp tối ưu hóa hiệu quả dữ liệu, đạt hiệu năng ASR và audio understanding hàng đầu mà không làm suy giảm năng lực cốt lõi của LLM văn bản.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">75.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#4 (tied) in 2026-W44</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đề xuất phương pháp representation-enhanced BEST-RQ sáng tạo kết hợp biểu diễn ngữ nghĩa đóng băng từ ASR teacher vào quantizer ngẫu nhiên, cùng chiến lược dual-trajectory on-policy distillation để tránh suy giảm năng lực nhận thức văn bản.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Mô tả chuyên sâu và tỉ mỉ về kiến trúc mô hình (Whisper large-v3 0.65B + MoE 30B-A3B), công thức toán học phân rã mất mát, chiến lược song song hóa (EP8, CP4, ZeRO-2) và huấn luyện hoàn toàn trên hạ tầng Ascend/Hygon.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Báo cáo cung cấp số liệu thực nghiệm toàn diện trên nhiều benchmark công khai chuẩn mực lẫn dữ liệu thực tế in-house, so sánh trực diện với Qwen3.5-Omni và Gemini 3.1 Pro, đi kèm các phân tích cô lập đánh giá chất lượng audio encoder.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Khẳng định lộ trình kỹ thuật độc lập hoàn toàn cho mô hình nền tảng tiếng nói trên chip nội địa Trung Quốc và chứng minh hiệu quả giảm chi phí dữ liệu đào tạo cho cộng đồng công nghệ tiếng nói.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Báo cáo kỹ thuật chính thức từ phòng nghiên cứu iFlytek, một tổ chức hàng đầu về công nghệ tiếng nói tại Trung Quốc, đi kèm liên kết trải nghiệm demo hệ thống.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đề xuất phương pháp representation-enhanced BEST-RQ sáng tạo kết hợp biểu diễn ngữ nghĩa đóng băng từ ASR teacher vào quantizer ngẫu nhiên, cùng chiến lược dual-trajectory on-policy distillation để tránh suy giảm năng lực nhận thức văn bản.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Báo cáo kỹ thuật chính thức từ phòng nghiên cứu iFlytek, một tổ chức hàng đầu về công nghệ tiếng nói tại Trung Quốc, đi kèm liên kết trải nghiệm demo hệ thống.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Mô tả chuyên sâu và tỉ mỉ về kiến trúc mô hình (Whisper large-v3 0.65B + MoE 30B-A3B), công thức toán học phân rã mất mát, chiến lược song song hóa (EP8, CP4, ZeRO-2) và huấn luyện hoàn toàn trên hạ tầng Ascend/Hygon.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Khẳng định lộ trình kỹ thuật độc lập hoàn toàn cho mô hình nền tảng tiếng nói trên chip nội địa Trung Quốc và chứng minh hiệu quả giảm chi phí dữ liệu đào tạo cho cộng đồng công nghệ tiếng nói.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Báo cáo cung cấp số liệu thực nghiệm toàn diện trên nhiều benchmark công khai chuẩn mực lẫn dữ liệu thực tế in-house, so sánh trực diện với Qwen3.5-Omni và Gemini 3.1 Pro, đi kèm các phân tích cô lập đánh giá chất lượng audio encoder.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Huấn luyện 100% trên phần cứng nội địa · Hiệu quả dữ liệu cực cao (1/10 data) · Hỗ trợ tới 99 ngôn ngữ, 202 phương ngữ · Encoder BEST-RQ cải tiến biểu diễn xuất sắc</p>
+          <p><span class="label">Weaknesses</span> · Khoảng cách lớn ở suy luận âm thanh phức tạp (MMAR) · Năng lực instruction following còn hạn chế · Hiệu năng nhận dạng nhóm ngôn ngữ hiếm còn thấp</p>
+          <p><span class="label">Context</span> · Nhóm iFlytek Spark Audio Team (iFlytek Research); báo cáo kỹ thuật công bố trên arXiv (tháng 10/2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

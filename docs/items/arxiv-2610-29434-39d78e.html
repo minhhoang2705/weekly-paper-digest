@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RubatoCodec: Budgeted Adaptive Speech Tokenization with Streaming Decoding · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W44</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">RubatoCodec: Budgeted Adaptive Speech Tokenization with Streaming Decoding</h1>
+    <div class="meta">
+      <span title="Listed by arXiv, HF Daily Papers, Papers with Code inside the crawl window">found Oct 22, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 21, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span><span class="pill">Papers with Code</span><span class="pill pill-accent">TTS</span>        <span class="authors">Chihiro Arata, Shohei Taniguchi, Gouki Minegishi, Kan Hatakeyama-Sato</span>
+    </div>
+  </div>
+  <div class="header-actions">
+      <a class="button" href="https://github.com/third-intelligence/RubatoCodec" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Code</a>
+    <a class="button" href="https://arxiv.org/abs/2610.29434" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Neural speech codecs provide discrete tokens for speech generation. Lower frame rates shorten token sequences, but each token must then carry more linguistic and acoustic information. Variable-frame-rate codecs address this trade-off by adapting token allocation to speech content, but threshold-based allocation lets content determine the token count, so the sequence length a speech generator must produce varies across utterances and datasets at a fixed setting. We present RubatoCodec, a variable-frame-rate speech codec built on X-Codec-2 with an exact utterance-level event budget and streaming decoding. Its Adaptive Firing mechanism uses changes in codec features and waveform spectra to divide speech into variable-duration events without a learned boundary predictor. Discrete codes and an explicit duration represent each event, allowing a speech generator to predict and decode one event at a time. Controlled experiments show that adaptive allocation outperforms fixed-rate coding in reconstruction fidelity and intelligibility at low event rates. A model trained on large-scale multilingual speech achieves competitive reconstruction quality across English, Japanese, and Mandarin, with the best intelligibility preservation among the compared codecs on the evaluated English and Japanese benchmarks at comparable bitrates. In a matched text-to-speech comparison, the adaptive representation yields lower WER and higher UTMOS and UTMOSv2 with comparable speaker similarity. The speech generator also learns the codec's utterance-level event budget without an explicit generation-time rate constraint. These results demonstrate that budgeted adaptive speech representations support both high-quality reconstruction and streaming text-to-speech generation. Code and weights are available at https://github.com/third-intelligence/RubatoCodec and https://huggingface.co/third-intelligence/RubatoCodec.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Oct 26, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>RubatoCodec là neural speech codec có tốc độ khung hình biến thiên (VFR) xây dựng trên nền X-Codec-2, kết hợp cơ chế phân bổ sự kiện chính xác theo ngân sách mức câu (exact utterance-level event budget) và giải mã nhân quả dạng streaming. Thay vì dùng bộ dự đoán ranh giới học được, codec sử dụng thuật toán Adaptive Firing dựa trên biến thiên đặc trưng ẩn và spectral flux của dạng sóng để chia chuỗi âm thanh thành các sự kiện có độ dài động kèm thời lượng rõ ràng (explicit duration). Mô hình đạt chất lượng bảo toàn độ rõ ngôn ngữ (intelligibility preservation) hàng đầu ở băng thông thấp trên tiếng Anh, tiếng Nhật và tiếng Quan Thoại, đồng thời chứng minh hiệu quả trong mô hình sinh Text-to-Speech (TTS) streaming.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các neural speech codec với tốc độ khung hình cố định ở mức thấp (chẳng hạn 12.5 Hz) giúp rút ngắn độ dài chuỗi token phục vụ Speech LM, nhưng lại dễ nuốt mất các chuyển đổi ngữ âm nhanh hoặc lãng phí token cho các đoạn im lặng/ngắt nghỉ. Các codec VFR hiện tại giải quyết vấn đề này dựa trên ngưỡng (threshold-based), khiến số lượng token bị phụ thuộc hoàn toàn vào nội dung và dao động mạnh giữa các câu hoặc tập dữ liệu khác nhau (ví dụ DTM-Codec dao động từ 46.1 đến 81.5 events/s ở cùng một cấu hình). Điều này làm cho độ dài chuỗi sinh và chi phí suy luận của mô hình hạ tầng không thể dự đoán trước dựa trên thời lượng âm thanh.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>RubatoCodec giải quyết bài toán bằng các thành phần kỹ thuật cốt lõi sau:</p>
+<ul>
+<li><strong>Signal Path &amp; Acoustic/Semantic Encoder</strong>: Âm thanh 16 kHz được đưa qua bộ mã hóa tích chập 50 Hz (hop size 320 mẫu) kết hợp đặc trưng trích từ tầng 16 của frozen w2v-BERT 2.0 (<span class="math inline">b^*_t</span>) để tạo biểu diễn kết hợp <span class="math inline">h_t \in \mathbb{R}^{2048}</span>.</li>
+<li><strong>Adaptive Firing &amp; Bounded Event Budget</strong>: Ngân sách số sự kiện được ấn định chính xác <span class="math inline">K = \max\{1, \min(T, \text{round}(RT))\}</span> với tỷ lệ lưu giữ mặc định <span class="math inline">R = 0.25</span> (tương đương danh định 12.5 events/s từ lưới 50 Hz). Tín hiệu firing <span class="math inline">s_t</span> là tổng chuẩn hóa trung bình của độ không tương đồng ẩn đa tỷ lệ (multi-scale latent dissimilarity theo cosine distance) và log-mel spectral flux dạng sóng. Thuật toán tìm hệ số <span class="math inline">\alpha</span> qua phương pháp chia đôi (bisection) sao cho tổng các bước tăng giới hạn <span class="math inline">\delta_t = \min(\alpha s_t, 1)</span> bằng <span class="math inline">M = K - 1</span>, sau đó xác định ranh giới sự kiện bằng ngưỡng tích lũy <span class="math inline">j - \frac{1}{2}</span> kết hợp hiệu chỉnh vị trí đơn điệu để đảm bảo chính xác <span class="math inline">K</span> sự kiện mà không cần bộ dự đoán ranh giới học được hay hàm phạt tốc độ.</li>
+<li><strong>Interval Aggregation</strong>: Biểu diễn đầu vào quantizer <span class="math inline">g_i</span> kết hợp vector khởi điểm <span class="math inline">h_{p_i}</span>, giá trị trung bình <span class="math inline">\bar{h}_i</span> và duration embedding <span class="math inline">E_d(\min(d_i, 64))</span> thông qua kết nối residual và MLP: <span class="math inline">g_i = h_{p_i} + \text{MLP}([h_{p_i}; \bar{h}_i; E_d(\min(d_i, 64))])</span>.</li>
+<li><strong>Hybrid Residual Quantizer &amp; Semantic Supervision</strong>: Gồm <span class="math inline">Q=16</span> tầng lượng tử (mỗi tầng 12 bit). Tầng 0 sử dụng Finite Scalar Quantization (FSQ) với các mức <span class="math inline">[8, 8, 8, 8]</span> (4,096 mã), các tầng 1–15 dùng DAC-style Residual VQ (4,096 vector/tầng). Một đầu semantic phụ chỉ dùng khi huấn luyện để ép tầng FSQ tái tạo lại đặc trưng w2v-BERT 2.0 tại thời điểm bắt đầu sự kiện.</li>
+<li><strong>Causal Waveform Decoder</strong>: Đặt vector sự kiện đã giải lượng tử tại khung bắt đầu trên lưới 50 Hz, các khung bên trong gán vector rỗng học được <span class="math inline">e_{\text{empty}}</span> cộng embedding độ lệch <span class="math inline">E_r(\min(r, 64))</span>. Mạng giải mã dùng 12 tầng Causal Transformer, upsampler tích chập chuyển vị nhân 3 (50 Hz lên 150 Hz) và Vocos-style spectral head kèm causal ISTFT phát sóng 44.1 kHz. Khi streaming, bộ nhớ đệm trạng thái được định kỳ tính toán lại theo cửa sổ sự kiện gần nhất và làm mượt bằng crossfade ngắn (11.07 ms/event trên H200).</li>
+<li><strong>TTS Autoregressive Modeling</strong>: Tích hợp vào mô hình MOSS-TTS (Qwen3-0.6B temporal backbone + 4 tầng local Transformer), tự hồi quy sinh mã tiếp tục/dừng, 8 codebook tokens, và dự đoán thời lượng <span class="math inline">d_i</span> ở vị trí cuối cùng dựa trên toàn bộ mã của sự kiện.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Mô hình đa ngôn ngữ được huấn luyện trên khoảng 375,000 giờ dữ liệu tiếng Anh, tiếng Nhật, tiếng Quan Thoại và các ngôn ngữ khác (Emilia-YODAS, HiFiTTS-2 44-kHz, ReazonSpeech, The People's Speech, VoxPopuli, MLS, Omnilingual, IndicVoices...). Đánh giá tái tạo âm thanh trên 5 bộ dữ liệu (10,563 câu): LibriSpeech test-clean (2,620 câu), VCTK (1,308 câu), JVS nonpara30 (3,000 câu), JVNV (1,615 câu), seed-tts-eval test-zh (2,020 câu). Baseline gồm EnCodec, DAC (24 kHz), BigCodec, WavTokenizer, X-Codec-2, Mimi, MiMo-Audio-Tokenizer, MOSS-Audio-Tokenizer, Qwen3-TTS-Tokenizer-12Hz, DTM-Codec, CodecSlime, FlexiCodec và DyCAST. Đo lường dWER/dCER (Whisper-large-v3, Paraformer-zh), PESQ-WB, STOI, UTMOSv2, DNSMOS, SIM (WavLM-Large) và RTFx trên 1 GPU NVIDIA H200.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Khả năng kiểm soát event rate tuyệt đối: Duy trì chính xác 12.5 Hz trên toàn bộ 5 tập dữ liệu đánh giá, trong khi DTM-Codec (mục tiêu 80 Hz) dao động từ 46.1 đến 81.5 Hz, FlexiCodec (<span class="math inline">\tau=0.91</span>) dao động từ 7.0 đến 8.5 Hz, và DyCAST dao động từ 3.7 đến 14.2 Hz.</li>
+<li>Tái tạo tiếng Anh (LibriSpeech test-clean, ~1.2 kbit/s, depth 8): RubatoCodec đạt dWER 0.75% (thấp nhất) và UTMOSv2 3.478 (cao nhất), so với FlexiCodec <span class="math inline">\tau=1</span> (dWER 0.83%, UTMOSv2 3.194), MiMo-Audio-Tokenizer (dWER 0.86%, UTMOSv2 3.183), MOSS-Audio-Tokenizer (dWER 0.89%, UTMOSv2 3.230); PESQ-WB đạt 2.684 so với MOSS (3.052) và DTM-Codec (2.971).</li>
+<li>Tái tạo tiếng Anh (LibriSpeech test-clean, ~2.4 kbit/s, depth 16): dWER giảm xuống 0.50% và DNSMOS đạt 3.314 (đều tốt nhất nhóm), vượt qua Qwen3-TTS-Tokenizer-12Hz (dWER 0.53%, DNSMOS 3.273) và MOSS-Audio-Tokenizer (dWER 0.62%, DNSMOS 3.203).</li>
+<li>Tái tạo tiếng Nhật cảm xúc (JVNV): Đạt dCER vượt trội ở cả hai mức băng thông: 1.92% ở depth 8 (so với 5.44% của MOSS và 5.52% của FlexiCodec) và 1.54% ở depth 16 (so với 3.01% của Qwen3-TTS-Tokenizer-12Hz và 3.96% của MOSS).</li>
+<li>Đánh giá TTS zero-shot (seed-tts-eval English): Mô hình TTS dùng RubatoCodec (12.5 Hz, 8 codebooks) đạt WER 3.10% (so với 3.20% của codec cố định 12.5 Hz), UTMOS 4.162 (so với 4.080), UTMOSv2 3.295 (so với 3.239) với speaker similarity tương đương (SIM 0.392).</li>
+<li>Khả năng tuân thủ ngân sách khi sinh tự do: 88.3% câu TTS sinh ra có số event bằng chính xác <span class="math inline">\text{round}(0.25T)</span> và 99.9% sai lệch trong khoảng <span class="math inline">\pm 1</span> event dù không hề áp đặt ràng buộc rate lúc sinh.</li>
+<li>Thông lượng tính toán (NVIDIA H200): Bộ giải mã đạt 446.8x và 427.4x real-time tương ứng ở depth 8 và 16; trễ giải mã streaming từng event chỉ mất trung bình 11.07 ms cho một đoạn âm thanh ~80 ms.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Chỉ số trung thực dạng sóng tham chiếu (PESQ-WB, STOI) và độ tương đồng người nói (SIM) vẫn thấp hơn một số baseline mạnh nhất (như MOSS-Audio-Tokenizer, Qwen3-TTS-Tokenizer). Bộ mã hóa vẫn là non-causal và cần trích xuất đặc trưng w2v-BERT 2.0 (tốn thêm 580M tham số). Mô hình nhạy cảm bất đối xứng với thay đổi rate lúc suy luận: tăng rate thì chất lượng cải thiện nhưng giảm rate dưới 12.5 Hz làm dWER tăng vọt (lên 45.66% ở 5 Hz). Trong TTS, các sự kiện kéo dài bất thường (&gt;300 ms) đôi khi gây ra hiện tượng ngắt nghỉ không tự nhiên trong câu nói.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Biểu diễn âm thanh VFR với ngân sách cố định theo thời lượng câu là giải pháp lý tưởng cho LLM-based TTS: vừa tận dụng được ưu thế dồn token vào vùng ngữ âm phức tạp và gộp vùng khoảng lặng, vừa giữ độ dài chuỗi dự đoán được hoàn toàn trước khi sinh. Cơ chế giải mã streaming nhân quả với đầu vào lưới thưa (sparse grid) cho phép triển khai tổng hợp tiếng nói thời gian thực với độ trễ thấp.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">66.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#9 (tied) in 2026-W44</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đề xuất cơ chế Adaptive Firing kết hợp thuật toán bisection ràng buộc ngân sách sự kiện chính xác cấp câu mà không cần bộ dự đoán ranh giới học được hay dynamic programming.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế toán học chặt chẽ cho thuật toán phân bổ firing, kiến trúc hybrid FSQ+RVQ, cơ chế causal decoding lưới thưa kèm crossfade streaming và tích hợp TTS bài bản.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Đánh giá thực nghiệm phong phú trên 5 tập dữ liệu, 3 ngôn ngữ với hơn 10 baseline mạnh, kèm các ablation chi tiết về causal decoding, firing rules và duration prediction.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Cung cấp lời giải thực tiễn cho bài toán VFR trong Speech LLM; các tín hiệu ban đầu ở mức vừa phải (15 upvotes trên Hugging Face, 3 stars GitHub).</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Bản tiền ấn phẩm từ công ty khởi nghiệp Third Intelligence, Inc., nhưng minh bạch mã nguồn, trọng số mở đầy đủ và mô tả phương pháp, siêu tham số chi tiết.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đề xuất cơ chế Adaptive Firing kết hợp thuật toán bisection ràng buộc ngân sách sự kiện chính xác cấp câu mà không cần bộ dự đoán ranh giới học được hay dynamic programming.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Bản tiền ấn phẩm từ công ty khởi nghiệp Third Intelligence, Inc., nhưng minh bạch mã nguồn, trọng số mở đầy đủ và mô tả phương pháp, siêu tham số chi tiết.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế toán học chặt chẽ cho thuật toán phân bổ firing, kiến trúc hybrid FSQ+RVQ, cơ chế causal decoding lưới thưa kèm crossfade streaming và tích hợp TTS bài bản.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Cung cấp lời giải thực tiễn cho bài toán VFR trong Speech LLM; các tín hiệu ban đầu ở mức vừa phải (15 upvotes trên Hugging Face, 3 stars GitHub).</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Đánh giá thực nghiệm phong phú trên 5 tập dữ liệu, 3 ngôn ngữ với hơn 10 baseline mạnh, kèm các ablation chi tiết về causal decoding, firing rules và duration prediction.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Ngân sách số event chuẩn xác theo thời lượng câu · Bảo toàn độ rõ ngữ âm (dWER/dCER) xuất sắc · Không cần học bộ phân chia ranh giới phức tạp · Bộ giải mã nhân quả hỗ trợ streaming hiệu năng cao · Mô hình TTS tự học được quy luật phân bổ nhịp điệu</p>
+          <p><span class="label">Weaknesses</span> · Chỉ số PESQ và SIM thấp hơn vài baseline · Bộ mã hóa cần w2v-BERT 2.0 cồng kềnh · Chất lượng suy giảm mạnh nếu giảm rate dưới mức train · Chưa đánh giá nghe thẩm định nhân lực (MOS)</p>
+          <p><span class="label">Context</span> · Nhóm nghiên cứu đến từ Third Intelligence, Inc. (tác giả chính: Chihiro Arata); công bố mã nguồn và trọng số mô hình trên GitHub và Hugging Face.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2610.26233",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng Heartbeat Thinking cho phép các tiến trình suy luận và gọi công cụ chạy song song không đồng bộ, gối đầu xuyên qua các mốc cập nhật ASR mà không bị gián đoạn hay cắt cụt như các phương pháp trước đó (SHANKS, SIA).",
+  "credibility": "Bài báo đến từ nhóm nghiên cứu Ant International nhưng là bản preprint trên arXiv, chưa có thông tin về hội nghị peer-reviewed chấp nhận chính thức.",
+  "technical": "Thiết kế hệ thống chi tiết, bao gồm cơ chế quản lý snapshot trạng thái chia sẻ, hủy tác vụ quá hạn tại VAD handoff, và modular prompt rõ ràng cho Thinker và Responder.",
+  "impact": "Cung cấp một giải pháp thực tế để giảm độ trễ cho các hệ thống full-duplex voice agent, nhưng hiệu ứng ban đầu ở mức vừa phải (24 upvotes trên Hugging Face).",
+  "evidence": "Thực nghiệm kỹ lưỡng với đầy đủ số liệu định lượng về độ trễ, độ phủ công cụ, độ chính xác trên 3 tập dữ liệu chuẩn, cùng các phân tích phân rã theo loại thông tin và trường hợp lỗi."
+ },
+ "summary": {
+  "tldr": "Heartbeat Thinking là một khung kiến trúc cho voice agent cho phép suy luận và gọi công cụ phỏng đoán (speculative tool execution) không đồng bộ và gối đầu (overlapping) theo chu kỳ định kỳ trong khi người dùng đang nói. Bằng cách tách biệt vai trò Thinker và Responder thông qua bảng trạng thái chia sẻ (shared state), hệ thống giúp việc chuẩn bị tác vụ không bị ngắt quãng bởi các cập nhật âm thanh streaming. Trên FDBench v3, phương pháp này tăng tỷ lệ bao phủ công cụ phỏng đoán thêm 16 điểm phần trăm và giảm độ trễ phản hồi cuối cùng 36.4% so với đường cơ sở dạng cửa sổ kiểu SHANKS.",
+  "problem": "Các voice agent hỗ trợ công cụ thường bắt người dùng chờ đợi sau khi kết thúc lượt nói vì mô hình phải suy luận và đợi thực thi công cụ bên ngoài sau khi đã có toàn bộ câu nói. Các hướng tiếp cận phỏng đoán trước đây (như SHANKS hay SIA) thường giới hạn việc sinh lệnh theo từng chunk âm thanh hoặc ngắt ngang tiến trình sinh khi có thông tin ASR mới, dẫn tới việc các lệnh gọi công cụ có đối số dài bị cắt cụt (truncate) hoặc hủy bỏ trước khi hoàn tất.",
+  "method": "Heartbeat Thinking phân chia quy trình thành hai vai trò mô hình ngôn ngữ độc lập:\n- **Periodic Asynchronous Thinker**: Được kích hoạt định kỳ mỗi $\\Delta$ giây (mặc định 500 ms) với giới hạn tối đa $K$ tiến trình chạy đồng thời ($K = 2$). Nếu các slot bận, lần kích hoạt tiếp theo sẽ bị bỏ qua thay vì xếp hàng hoặc ngắt tiến trình đang chạy. Mỗi tiến trình Thinker đọc ASR transcript bán phần mới nhất, lịch sử đối thoại $H$, schema công cụ $\\mathcal{T}$ và snapshot kết quả từ shared state. Thinker có thể sinh: `noop`, `think` (chỉ suy luận), hoặc `think with tool calls`. Các công cụ được kích hoạt bất đồng bộ và không giới hạn đồng thời ở tầng dispatch.\n- **Shared State**: Lưu trữ vết suy luận, các lệnh gọi công cụ đang chờ (pending) và kết quả đã hoàn thành kèm tool-call ID duy nhất để tránh gọi trùng lặp.\n- **Endpoint-triggered Responder**: Khi VAD phát hiện kết thúc câu nói (thời điểm context assembly $c$), scheduler dừng kích hoạt Thinker mới và hủy toàn bộ tác vụ suy luận/công cụ chưa hoàn tất. Responder nhận snapshot $R_c = \\{r_j : r_j \\text{ is complete and } a_j \\le c\\}$ chứa các kết quả đã sẵn sàng tại $c$, chạy quy trình ReAct để đối chiếu với toàn bộ câu nói, loại bỏ suy diễn bị mâu thuẫn, tái sử dụng kết quả phỏng đoán phù hợp và tự phát động các tool call còn thiếu mà không phải chờ đợi các tác vụ bị hủy.",
+  "setup": "Đánh giá trên 3 bộ benchmark: **SpeechFCEval** (1,914 mẫu), **FDBench v3** (100 đoạn ghi âm, 79 kịch bản, 12 người nói, ASR Parakeet TDT 0.6B v2, chấm điểm bằng DeepSeek-V4-Flash reasoning cao nhất), và **AudioCRAG** (1,312 mẫu). Cấu hình mặc định: Thinker là Qwen3.6-35B-A3B, Responder là DeepSeek-V4-Flash (0731), $\\Delta = 500\\text{ ms}$, $K = 2$. Pipeline trễ sử dụng Qwen3-ASR-1.7B và Qwen3-TTS-12Hz-1.7B-Base trên GPU NVIDIA H200. Các baseline so sánh gồm: Speech-to-Speech, Pipecat, LiveKit, và Window Thinking (phong cách SHANKS).",
+  "results": [
+   "FDBench v3 - Latency: Mean Final Response Latency của Heartbeat đạt 4.39 s, giảm 36.4% so với Window Thinking (6.90 s) và giảm 45.7% so với Pipecat (8.08 s); Correct Tool Call Latency khởi chạy ở mốc -4.37 s (trước khi dứt lời) so với -2.74 s của Window Thinking và 2.45-3.52 s của các baseline cascaded.",
+   "FDBench v3 - Task & Coverage: Speculative Tool Coverage (STC) tăng từ 34.67% (Window Thinking) lên 50.67% (+16.00 điểm %); Quality tăng từ 72.0% lên 77.0%; Pass@1 tăng từ 57.0% lên 65.0% (dù vẫn thấp hơn Speech-to-Speech 75.0% và LiveKit 67.0%).",
+   "SpeechFCEval: STC tổng thể đạt 43.69% so với 33.13% của Window Thinking (+10.56 điểm %); trong đó Speech-BFCL parallel calling tăng từ 36.34% lên 58.03%. Tuy nhiên độ chính xác (Accuracy) tổng thể giảm nhẹ từ 67.95% xuống 66.85%.",
+   "AudioCRAG: STC (tỷ lệ tái sử dụng truy xuất) đạt 62.42% so với 20.05% của Window Thinking (+42.37 điểm %); tuy vậy tỷ lệ trả lời đúng (Correct) giảm từ 57.24% xuống 55.49% và tỷ lệ thiếu câu trả lời (Missing) tăng từ 14.33% lên 16.84%."
+  ],
+  "limitations": "Chu kỳ heartbeat $\\Delta$ và số lượng tiến trình đồng thời $K$ là cố định, chưa có cơ chế điều phối thích ứng (adaptive scheduling) theo biến động ASR; Responder chỉ nhận snapshot tại thời điểm cắt VAD $c$ nên các kết quả công cụ trả về muộn sau $c$ bị loại bỏ; việc tăng tỷ lệ bao phủ phỏng đoán không nhất quán cải thiện chất lượng cuối cùng (do lỗi phân giải ngữ cảnh ở Responder); trong 4.0% bản ghi trên FDBench v3, câu trả lời dùng kết quả lỗi thời dù đối số gọi công cụ đã được sửa đổi (đặc biệt nguy hiểm với các công cụ thay đổi trạng thái như giỏ hàng).",
+  "takeaways": "Cho phép các tác vụ suy luận và gọi công cụ chạy xuyên qua ranh giới cập nhật ASR (cross-boundary execution) giúp tận dụng tối đa thời gian nghe để giảm đáng kể độ trễ phản hồi (hơn 36%). Tuy nhiên, các kỹ sư cần lưu ý: công cụ có hiệu ứng phụ (state-changing actions) rất khó đảo ngược nếu người dùng thay đổi ý định giữa chừng, và mô hình phản hồi (Responder) cần cơ chế kiểm soát chặt chẽ để tránh bị 'nhiễm' dữ liệu phỏng đoán lỗi thời.",
+  "strengths": [
+   "Thực thi gối đầu không bị cắt cụt",
+   "Giảm độ trễ phản hồi cuối 36.4%",
+   "Kiến trúc Thinker-Responder phân tách linh hoạt",
+   "Đánh giá đa dạng trên 3 benchmark"
+  ],
+  "weaknesses": [
+   "Chu kỳ heartbeat và concurrency cố định",
+   "Loại bỏ hoàn toàn công cụ trả về muộn",
+   "Chất lượng tác vụ đôi khi suy giảm",
+   "Dễ gặp lỗi với công cụ thay đổi trạng thái"
+  ],
+  "context": "Nhóm nghiên cứu Ant International công bố trên arXiv (arXiv:2610.26233v1) vào tháng 10/2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

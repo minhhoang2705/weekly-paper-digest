@@ -58,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W43</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W44</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -70,7 +70,7 @@
   <div class="page-heading">
     <h1 class="title">KittenML/kitten-tts-2</h1>
     <div class="meta">
-      <span title="Listed by HF Models inside the crawl window">found Oct 19, 2026</span><span aria-hidden="true">·</span>
+      <span title="Listed by HF Models inside the crawl window">found Oct 26, 2026</span><span aria-hidden="true">·</span>
 <span title="Original publication / creation date">published Sep 30, 2026</span><span aria-hidden="true">·</span>
 
       <span class="pill">Model</span>
@@ -89,7 +89,7 @@
         <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">model card excerpt</span>
       </div>
       <div class="card-body prose">
-<p>KittenTTS 2. A 1.7B speech language model with in-context voice cloning. It reads text and writes S3 codec tokens, which a vocoder turns into 24 kHz audio. Everything the model needs is in this repository, so no Hugging Face login is required. Voices. m.available_voices lists all 47. Bella, Jasper, Luna, Bruno, Rosie, Hugo, Kiki and Leo are the same speakers as in KittenTTS 0.8, so existing code keeps working. Nine are named after a language rather than a person — Arabic, Chinese, French, German, Hindi, Italian, Portuguese, Russian, Spanish — and are how you reach those languages, since the voice is what carries the accent: Pass normalize=False for non-English text: the text normalizer is English-tuned and will mangle numbers and dates in other languages. Expression controls. &gt; Beta. Emotion control steers delivery rather than guaranteeing it, and the effect &gt; varies by voice and by sentence. A leading [emotion] tag, inline tags and (((emphasis))) spans reach the model as markup rather than being spoken, and switch on its expression conditioning. Emotions — one leading tag sets the emotion for the whole line: [angry] [contemplative] [excited] [joyful] [mundane] [nervous] [sad] [stern] [surprised] [tender] Vocal events — inline, anywhere in the line: Emphasis — triple parentheses stress a word or short phrase: Only these twenty tags are recognised. They are the most common of the many in the training data, so a rarer one such as [reverent] is spoken as ordinary text rather than treated as markup — as is anything else bracketed, like section [3] or x &lt; 5. Weight variants. The language model ships in three packings of the same weights. weights= picks one; model.available_weights lists them. | weights= | On disk | | | &quot;packed&quot; *(default)* | 954 MB | 1.58-bit ternary body, bf16 embedding. Lossless | | &quot;emb4&quot; | 469 MB | Same body in TL2, plus a 4-bit embedding. Lossy | | &quot;full&quot; | 3469 MB | Plain bf16 | Only the variant you ask for is downloaded. emb4 halves the download, </p>      </div>
+<p>KittenTTS 2. A 1.7B speech language model with in-context voice cloning. It reads text and writes S3 codec tokens, which a vocoder turns into 24 kHz audio. Everything the model needs is in this repository, so no Hugging Face login is required. Voices. m.available_voices lists all 115. Bella, Jasper, Luna, Bruno, Rosie, Hugo, Kiki and Leo are the same speakers as in KittenTTS 0.8, so existing code keeps working. Voices named after a person are English. The rest are named for the language they speak followed by what they are — SpanishAbuela, JapaneseTrainConductor, RussianBabushka — and are how you reach those languages, since the voice is what carries the accent. Nine older entries carry a bare language name: Arabic, Chinese, French, German, Hindi, Italian, Portuguese, Russian, Spanish. Sixteen languages have a named voice: Arabic, Chinese, Dutch, French, German, Hindi, Indonesian, Italian, Japanese, Korean, Polish, Portuguese, Russian, Spanish, Turkish, and English. Pass normalize=False for non-English text: the text normalizer is English-tuned and will mangle numbers and dates in other languages. Expression controls. &gt; Beta. Emotion control steers delivery rather than guaranteeing it, and the effect &gt; varies by voice and by sentence. A leading [emotion] tag, inline tags and (((emphasis))) spans reach the model as markup rather than being spoken, and switch on its expression conditioning. Emotions — one leading tag sets the emotion for the whole line: [angry] [contemplative] [excited] [joyful] [mundane] [nervous] [sad] [stern] [surprised] [tender] Vocal events — inline, anywhere in the line: Emphasis — triple parentheses stress a word or short phrase: Only these twenty tags are recognised. They are the most common of the many in the training data, so a rarer one such as [reverent] is spoken as ordinary text rather than treated as markup — as is anything else bracketed, like section [3] or x &lt; 5. Weight variants. The language model ships in three packings of the same</p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">

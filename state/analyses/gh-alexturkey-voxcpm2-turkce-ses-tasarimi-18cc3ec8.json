@@ -1,0 +1,50 @@
+{
+ "id": "gh:alexturkey/voxcpm2-turkce-ses-tasarimi",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Ứng dụng VoxCPM2 kết hợp audio.cpp và đưa ra kỹ thuật phân đoạn câu để giữ timbre nhất quán trên GPU 4 GB, nhưng bản thân không đề xuất kiến trúc mô hình mới.",
+  "credibility": "Dự án mã nguồn mở cá nhân trên GitHub (255 stars, 28 forks), có tài liệu chi tiết, checksum rõ ràng và sử dụng các upstream uy tín (OpenBMB, audio.cpp).",
+  "technical": "Kỹ thuật tối ưu hóa VRAM thông qua patch C++/CUDA cho audio.cpp, lượng tử hóa Q8_0, caching reference encoding và xử lý pipeline đa ngôn ngữ hoàn chỉnh.",
+  "impact": "Hữu ích đối với cộng đồng xử lý ngôn ngữ tiếng Thổ Nhĩ Kỳ và người dùng có GPU cấp thấp (GTX 1050 Ti), đã đạt 255 stars trên GitHub.",
+  "evidence": "Cung cấp số liệu cụ thể về VRAM đỉnh, tốc độ sinh (RTF), thời gian xử lý trên GTX 1050 Ti và Apple M4, cùng các mẫu âm thanh/video minh họa thực tế."
+ },
+ "summary": {
+  "tldr": "Dự án cung cấp giải pháp thiết kế và tổng hợp giọng nói (Voice Design/TTS) bằng tiếng Thổ Nhĩ Kỳ và 7 ngôn ngữ khác dựa trên mô hình VoxCPM2 của OpenBMB. Hệ thống tối ưu hóa engine C++ audio.cpp thông qua bản vá để chạy cục bộ trên GPU chỉ với 4 GB VRAM (chẳng hạn GTX 1050 Ti), kèm UI web nhẹ và 14 giọng đọc tổng hợp định sẵn.",
+  "problem": "Mô hình VoxCPM2 gốc có kích thước tham số lớn (2B parameters), đòi hỏi tài nguyên tính toán cao và gặp hiện tượng mất ổn định (rhythm bị tăng tốc, trôi giọng nói/voice drift) khi sinh âm thanh kéo dài liên tục trên 30 giây. Ngoài ra, việc thiết lập môi trường C++/CUDA phức tạp và thiếu quy trình chuẩn để tạo/duy trì đặc trưng giọng nói theo mô tả văn bản trên phần cứng khiêm tốn.",
+  "method": "Hệ thống bao gồm 3 thành phần chính:\n- **Thiết kế giọng (Voice Design):** Sử dụng prompt mô tả bằng tiếng Anh kết hợp văn bản đọc mẫu (khoảng 20-30 giây) và seed riêng biệt để VoxCPM2 sinh ra bản ghi âm mẫu ban đầu dài 20-35 giây.\n- **Đọc tham chiếu từng câu (Reference-based reading):** Khắc phục hiện tượng drift bằng cách đọc văn bản theo từng dòng/câu. Bản ghi thiết kế được cấp đồng thời cho hai đầu vào của engine (`audio` và `voice_ref`) cùng với transcript (`reference_text`) và cùng một fixed seed. Cấu hình cố định: 16 diffusion steps, CFG 2.0.\n- **Tối ưu hóa Engine & VRAM:** Sử dụng bản vá `patches/0001-voxcpm2-4gb-ve-hiz.patch` trên `audio.cpp v0.7.2` với mô hình lượng tử hóa `VoxCPM2 Q8_0 GGUF` (kích thước 2.95 GB), giúp cùng một seed cho ra âm thanh giống hệt nhau (deterministic) và giới hạn VRAM đỉnh ở mức 2.6 - 2.9 GB.\n- **Hỗ trợ xử lý văn bản:** Từ điển phát âm `ayarlar/okunus_sozlugu.tsv` cho tiếng Thổ Nhĩ Kỳ, kiểm tra số (bắt buộc viết chữ), tách dòng và tính năng gate kiểm tra tốc độ (`speed gate`).",
+  "setup": "Hỗ trợ Windows 10/11 (CUDA 12.8, driver NVIDIA $\\ge 570$, hoặc Vulkan thử nghiệm cho AMD/Intel), macOS Apple Silicon (Metal qua Homebrew/CMake hoặc app native Xcode, có bản MLX độc lập). Cần Python 3.10–3.13. Cung cấp gói cài đặt tự động 1 lệnh tải engine prebuilt và mô hình (~3.7 GB download). Hỗ trợ 8 ngôn ngữ gồm Thổ Nhĩ Kỳ (`tr`), Anh (`en`), Pháp (`fr`), Đức (`de`), Tây Ban Nha (`es`), Nga (`ru`), Trung (`zh`), Nhật (`ja`).",
+  "results": [
+   "Mức tiêu thụ VRAM đỉnh: 2.6 - 2.9 GB (khoảng ~2.8 GB), chạy hoàn toàn trên GTX 1050 Ti 4 GB.",
+   "Tốc độ sinh âm thanh trên GTX 1050 Ti 4 GB (CPU i7-7700HQ): Real-time factor (RTF) khoảng 1.9 - 2.8 (tương đương ~2 s tính toán cho mỗi 1 s âm thanh) sau khi tốn ~50 s mã hóa tham chiếu 1 lần (được cache trên ổ đĩa) và 10-20 s tải model.",
+   "Thời gian tạo 1 biến thể thiết kế giọng (~25 s âm thanh): khoảng 55 s trên GTX 1050 Ti 4 GB.",
+   "Tốc độ trên backend CPU: 535 s so với 94 s của GTX 1050 Ti khi sinh 48 s âm thanh (chậm hơn khoảng ~6x).",
+   "Hiệu năng trên MacBook Air M4 16 GB: ~2 s tính toán cho 1 s âm thanh, VRAM/RAM đỉnh ~5.3 GB, giữ vững tốc độ suốt 12 phút đọc liên tục."
+  ],
+  "limitations": "Model VoxCPM2 không ổn định khi sinh đoạn âm thanh đơn lẻ dài > 30 s (buộc phải chia câu). Backend Vulkan cho AMD/Intel mới chỉ là thử nghiệm và chưa được kiểm thử thực tế trên phần cứng AMD/Intel. Hệ thống từ chối nhận chữ số (cần đổi sang chữ) và dấu ngoặc kép. Backend CPU quá chậm (~6x so với GPU cấp thấp).",
+  "takeaways": "Cung cấp một giải pháp kỹ thuật thực tế cho việc triển khai mô hình TTS diffusion lớn (VoxCPM2 2B) trên phần cứng edge/consumer siêu hạn chế (4 GB VRAM) bằng cách kết hợp GGUF Q8_0, engine C++ (audio.cpp) vá lỗi và kỹ thuật chia nhỏ câu bám theo fixed reference recording.",
+  "strengths": [
+   "Chạy được TTS 2B trên GPU 4 GB VRAM",
+   "Thiết kế giọng bằng text prompt linh hoạt",
+   "Hỗ trợ 8 ngôn ngữ với native narrators",
+   "Cài đặt một lệnh tiện lợi không cần biên dịch",
+   "Bộ giọng tổng hợp và mẫu thử đa dạng"
+  ],
+  "weaknesses": [
+   "Bắt buộc tách văn bản theo từng câu",
+   "Không hỗ trợ ký tự số tự động",
+   "Vulkan cho AMD/Intel chưa được xác thực"
+  ],
+  "context": "Tác giả Ali Haydar Ozturk (@alexturkey), phát hành dưới dạng mã nguồn mở Apache-2.0 trên GitHub, tích hợp công nghệ từ OpenBMB (VoxCPM2) và ShugoAI LLC (audio.cpp)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

@@ -1,0 +1,52 @@
+{
+ "id": "arxiv:2610.28940",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Ứng dụng sáng tạo Pixel MeanFlow có CFG distillation vào âm thanh streaming kết hợp kỹ thuật fine-tuning tự hồi quy (Self Forcing) và DiT thống nhất cho cả voice design lẫn voice editing trên không gian embedding.",
+  "credibility": "Đến từ nhóm nghiên cứu uy tín UC Berkeley (Gopala K. Anumanchipalli), được chấp nhận tại hội nghị đầu ngành NeurIPS 2026 và công khai mã nguồn cùng trang demo.",
+  "technical": "Thiết kế kỹ thuật vững chắc với công thức toán pMF rõ ràng (JVP derivative), cơ chế rollout chunk để xóa bỏ khoảng cách train-test, kiến trúc Perceiver Resampler tối ưu và pipeline tạo dữ liệu 11.98M cặp chi tiết.",
+  "impact": "Cung cấp giải pháp thiết thực cho VSC streaming và voice agent tương tác, tuy nhiên hiện tại các chỉ số cộng đồng (17 upvotes, 2 stars) còn ở mức ban đầu.",
+  "evidence": "Thực nghiệm toàn diện với 3000 mẫu thử, so sánh đối đầu nhiều baseline mạnh (CosyVoice 2/3, Vevo 1/2, CapTTS, Qwen3-TTS), đánh giá khách quan và chủ quan (40 người nghe) cùng các ablation chi tiết về chunk size, style encoder, NFE, CFG và text encoder."
+ },
+ "summary": {
+  "tldr": "StyleStream 2.0 là hệ thống Voice Style Conversion (VSC) dạng streaming cho phép chuyển đổi toàn diện âm sắc (timbre), giọng vùng miền (accent) và cảm xúc (emotion) với độ trễ đầu cuối giảm xuống 520 ms. Mô hình tích hợp thêm mô-đun Voice Controller dựa trên Flow Matching cho phép vừa tạo giọng (voice design) bằng câu nhắc tự nhiên, vừa chỉnh sửa từng thuộc tính giọng nói (voice editing) bằng chỉ dẫn văn bản.",
+  "problem": "StyleStream 1.0 dù đạt chất lượng VSC zero-shot streaming tốt nhưng vẫn tồn tại hai hạn chế lớn: độ trễ đầu cuối xấp xỉ 1 giây trên GPU thương mại (quá cao cho tương tác thời gian thực) và thiếu giao diện văn bản để thiết kế/chỉnh sửa giọng đích (người dùng buộc phải cung cấp một đoạn âm thanh mẫu thay vì mô tả bằng ngôn ngữ tự nhiên).",
+  "method": "StyleStream 2.0 kế thừa kiến trúc Destylizer - Stylizer từ phiên bản 1.0:\n- **Destylizer**: Giữ nguyên từ StyleStream 1.0 (gồm frozen HuBERT-Large, 6 khối Conformer, nút thắt Finite Scalar Quantization - FSQ với kích thước codebook 45 và Transformer ASR decoder). Khi suy luận, loại bỏ FSQ và decoder, trích xuất đặc trưng nội dung $f_c \\in \\mathbb{R}^{D_c \\times T}$ ở tần số 50 Hz.\n- **Stylizer với Pixel MeanFlow (pMF)**: Thay thế diffusion nhiều bước bằng pMF kết hợp dự đoán $x$ và chưng cất Classifier-Free Guidance (CFG). DiT 16 tầng dự đoán mel-spectrogram trực tiếp, chuyển đổi thành vận tốc trung bình qua $u_\\theta = (z_t - \\hat{x}_\\theta)/t$ và vận tốc tức thời $V_\\theta$ qua Jacobian-vector product (JVP), cho phép tạo mẫu chất lượng cao chỉ với 4 NFE (hoặc thậm chí 1-2 bước) và 1 lần đánh giá/bước.\n- **Perceiver-Resampler Style Encoder**: Loại bỏ mel-spectrogram context (mel-inpainting) để toàn bộ phong cách được gói gọn trong style embedding $e_s \\in \\mathbb{R}^{768}$. Dùng frozen WavLM-base-plus (ghép 12 tầng) kết hợp Perceiver Resampler (4 khối, 8 learnable queries) nén thành vector 768 chiều (97.5M tham số so với 128.4M của bản 1.0).\n- **Autoregressive Fine-Tuning**: Lấy cảm hứng từ Self Forcing trong video diffusion, Stylizer được tinh chỉnh trên các rollout chunk không chồng lấn kèm kênh ngữ cảnh mel quá khứ $m_{past}$ (cửa sổ 3 giây) và lookahead nội dung (80 ms) nhằm khắc phục hiện tượng mất tính liên tục tại ranh giới chunk khi streaming.\n- **Voice Controller**: DiT 16 tầng trong không gian style embedding nhận văn bản qua frozen Flan-T5-base. Đối với voice design, đầu vào phụ là learned null embedding; đối với voice editing, đầu vào phụ là embedding giọng gốc đã chia patch ($P=32$). Mô hình điều khiển 4 trục: age, gender, accent, emotion.",
+  "setup": "Stylizer huấn luyện trên ~50k giờ tiếng Anh từ Emilia-EN. Voice Controller huấn luyện trên tập dẫn xuất từ CapSpeech (~11.98M mẫu, gồm dữ liệu tự nhiên và tổng hợp qua CosyVoice 3). Đánh giá VSC trên 300 câu nguồn (ESD, GLOBE, LibriTTS) ghép với 10 câu đích (3000 cặp). Baseline VSC: CosyVoice 2.0/3.0, Vevo, Vevo 2.0 (cascade Whisper-large-v3 + Vevo 2.0), StyleStream 1.0. Baseline text design/editing: cascade ASR + prompt-TTS (CapTTS, Qwen3-TTS VoiceDesign) và CapTTS adapter + Vevo/Vevo2. Phần cứng đo đạc: GPU RTX 4060, chunk 300 ms, lookahead 80 ms. Metric: WER, S-SIM (Resemblyzer), A-SIM (CommonAccent), E-SIM (emotion2vec), NMOS, SMOS, VoxProfile classification accuracy, SC-MOS, SP-MOS.",
+  "results": [
+   "Độ trễ đầu cuối giảm xuống 520.7 ms trên RTX 4060 (chunk 300 ms + lookahead 80 ms + thời gian xử lý mỗi chunk 140.7 ms bao gồm vocoder 3.139 ms), nhanh gấp đôi StyleStream 1.0.",
+   "VSC offline: StyleStream 2.0 đạt S-SIM 0.879, A-SIM 0.705, NMOS 3.45±.13, S-SMOS 4.32±.10, E-SMOS 4.35±.09 chỉ với 4 NFE, vượt StyleStream 1.0 (16 NFE, S-SIM 0.869, S-SMOS 4.23±.10) và tiệm cận WER (7.00% so với 7.47%).",
+   "VSC streaming: StyleStream 2.0 (4 NFE) đạt S-SIM 0.866, A-SIM 0.684, S-SMOS 4.18±.14, A-SMOS 3.89±.13, vượt trội StyleStream 1.0 streaming (12 NFE: S-SIM 0.842, A-SIM 0.656, S-SMOS 4.10±.14), WER đạt 12.02% (so với 11.41%).",
+   "Voice design: StyleStream 2.0 offline dẫn đầu về độ chính xác Age-acc (70.67%), G-acc (99.44%), A-acc (52.73%) và SC-MOS (3.96±.10), vượt xa CapTTS (41.11%, 94.33%, 52.00%, SC-MOS 3.54±.13).",
+   "Voice editing: StyleStream 2.0 offline đạt WER thấp nhất (6.43%), Age-acc 71.67%, G-acc 99.17%, A-acc 54.33%, E-acc 14.67% và SC-MOS 3.76±.13, vượt trội Vevo (Age-acc 28.33%, SC-MOS 2.64±.16) và Vevo2 (Age-acc 24.67%, SC-MOS 2.26±.15).",
+   "Ablation autoregressive fine-tuning khi streaming: loại bỏ AR-ft khiến WER tăng vọt từ 12.03% lên 19.54% (chất lượng âm thanh tại ranh giới chunk suy giảm mạnh)."
+  ],
+  "limitations": "Độ trễ 520 ms vẫn chưa đạt mức tối ưu cho các tương tác đàm thoại tức thời khắt khe (<300 ms). Trục điều khiển âm sắc mới dừng ở tuổi và giới tính, chưa hỗ trợ các thuộc tính thanh âm chi tiết (độ thở - breathiness, độ sáng - brightness, vocal effort). Độ chính xác chỉnh sửa cảm xúc (E-acc) còn thấp (13.67% - 14.67%) và việc chỉnh sửa đôi khi gây trôi nhẹ các thuộc tính không cần sửa.",
+  "takeaways": "Sự kết hợp giữa Pixel MeanFlow (chỉ cần 4 NFE kèm CFG distillation) và Autoregressive Fine-Tuning giải quyết triệt để bài toán trade-off giữa tốc độ sinh và tính ổn định biên giới chunk trong streaming VSC. Gom toàn bộ thông tin phong cách vào một vector embedding duy nhất cho phép dùng DiT thống nhất xử lý cả tác vụ thiết kế giọng và biên tập giọng trực tiếp bằng văn bản.",
+  "strengths": [
+   "Giảm độ trễ 2x xuống 520 ms trên RTX 4060",
+   "Chỉ cần 4 NFE nhờ Pixel MeanFlow và CFG distillation",
+   "Điều khiển thống nhất voice design và editing qua văn bản",
+   "Ổn định streaming chunk nhờ Autoregressive Fine-Tuning",
+   "Vượt trội các hệ thống cascade và reference-based về style fidelity"
+  ],
+  "weaknesses": [
+   "Độ chính xác chỉnh sửa cảm xúc còn thấp (14.67%)",
+   "Có hiện tượng trôi nhẹ thuộc tính không sửa",
+   "Độ trễ 520 ms vẫn chưa tối ưu cho siêu tương tác",
+   "Không gian âm sắc chưa hỗ trợ vocal qualities nâng cao"
+  ],
+  "context": "Yisi Liu, Nicholas Lee, Gopala K. Anumanchipalli (University of California, Berkeley), công bố tại NeurIPS 2026 (arXiv:2610.28940v1)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

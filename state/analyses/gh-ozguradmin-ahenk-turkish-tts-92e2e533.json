@@ -1,0 +1,50 @@
+{
+ "id": "gh:ozguradmin/ahenk-turkish-tts",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án chủ yếu kết hợp và tinh chỉnh các kiến trúc mã nguồn mở có sẵn (VoxCPM2, EMA Lightning) cho ngôn ngữ Thổ Nhĩ Kỳ cùng bộ chuẩn hóa trnorm dựa trên luật.",
+  "credibility": "Dự án nguồn mở cá nhân của tác giả độc lập, không phải công bố học thuật được bình duyệt (peer-reviewed).",
+  "technical": "Quy trình kỹ thuật được thực hiện chỉn chu: fine-tune LoRA, chưng cất sang mô hình 8.6M on-device, chuẩn hóa văn bản đồng bộ Python/JS và xây dựng harness kiểm thử tự động.",
+  "impact": "Tác động giới hạn trong cộng đồng ứng dụng tiếng Thổ Nhĩ Kỳ với độ phổ biến ở mức khiêm tốn (99 stars trên GitHub).",
+  "evidence": "Đưa ra số liệu định lượng chi tiết (WER với Whisper large-v3-turbo, UTMOS, RTF) so sánh với nhiều mô hình khác, nhưng phần nghe thẩm định chỉ có 1 người nghe và thiếu bài test MOS chính thức."
+ },
+ "summary": {
+  "tldr": "Ahenk là bộ công cụ tổng hợp tiếng nói (TTS) tiếng Thổ Nhĩ Kỳ mã nguồn mở gồm mô hình lớn Ahenk (VoxCPM2 2B + LoRA 36M), mô hình nhỏ gọn Ahenk Cep (EMA Lightning 8.6M chạy trên CPU) và bộ chuẩn hóa văn bản trnorm. Dự án cung cấp giọng tổng hợp nhân tạo (f022), hỗ trợ ngữ điệu câu hỏi, 6 loại cảm xúc và có thể chạy trực tiếp trên trình duyệt thiết bị người dùng.",
+  "problem": "Tiếng nói tổng hợp tiếng Thổ Nhĩ Kỳ mã nguồn mở còn thiếu các giải pháp toàn diện từ chuẩn hóa văn bản (text normalisation cho số, ngày tháng, tiền tệ) đến khả năng biểu đạt cảm xúc, ngữ điệu nghi vấn và khả năng triển khai linh hoạt (từ GPU lớn đến CPU/trình duyệt nhẹ).",
+  "method": "Hệ thống bao gồm ba thành phần chính:\n- **Ahenk (Large)**: Kiến trúc VoxCPM2 (2B tham số) được huấn luyện LoRA (36M tham số) để sinh giọng đọc Thổ Nhĩ Kỳ, hỗ trợ ngữ điệu câu hỏi, tiếng cười và 6 cảm xúc thông qua câu lệnh tiếng Thổ hoặc tiếng Anh. Tích hợp `instruction_pick` (tự động đổi ngôn ngữ prompt để tránh lỗi phát âm âm 'c') và `pause_clean` (giảm tiếng thở ngắt nghỉ).\n- **Ahenk Cep (Small)**: Mô hình học sinh (student model) 8.6M tham số (~34 MB) dựa trên kiến trúc EMA Lightning, được chưng cất (distill) từ giọng của Ahenk để chạy mượt mà trên CPU với RTF ~0.2.\n- **trnorm / trnorm-js**: Bộ công cụ chuẩn hóa văn bản Thổ Nhĩ Kỳ thuần Python và JavaScript (không phụ thuộc thư viện ngoài), hỗ trợ đọc đúng số, ngày, giờ, tiền tệ, phần trăm, từ viết tắt và biến đổi hậu tố theo cách phát âm.\n- **Dữ liệu & Giọng**: Giọng đọc nhân tạo thiết kế f022, sử dụng dữ liệu Alania Turkish Synthetic Speech và Alania Turkish Domain Text.",
+  "setup": "Đánh giá tự động trên tập kiểm thử **TR-Zor** (155 câu phức tạp thuộc 13 danh mục) và tập **Held-out** (20 câu dài 12–19s trích từ bộ dữ liệu Antalia, không nằm trong tập train). Trọng tài đánh giá là `faster-whisper large-v3-turbo`, chuẩn hóa văn bản qua `trnorm.normalize_for_eval`. Đo lường tính tự nhiên bằng mô hình UTMOS22 (thang 1–5). Ahenk và Trendyol-TTS chạy trên GPU A100, các mô hình nhỏ chạy trên GPU laptop và CPU.",
+  "results": [
+   "Trên TR-Zor (155 câu): Ahenk Cep đạt WER thấp nhất là 2.32% (144/155 câu chuẩn tuyệt đối); Ahenk đạt 2.54% (141/155 câu); EMA Lightning + trnorm đạt 2.43%; Antalia-2 Mini đạt 3.30%; Trendyol-TTS đạt 3.98%.",
+   "Trên tập Held-out (20 câu): Trendyol-TTS đạt WER tốt nhất là 0.68% (16/20); Ahenk đạt 0.82% (16/20); Ahenk Cep đạt 0.95% (17/20); Antalia-2 Mini đạt 1.22%; EMA Lightning + trnorm đạt 1.49%.",
+   "Độ tự nhiên UTMOS (TR-Zor / Held-out): Trendyol-TTS dẫn đầu với 3.82 / 3.73; Ahenk đạt 3.70 / 3.14; Ahenk Cep đạt 3.44 / 3.18; EMA Lightning + trnorm đạt 3.36 / 2.95; Antalia-2 Mini đạt 3.23 / 2.94.",
+   "Tác động của trnorm: Giúp giảm tỷ lệ lỗi TR-Zor của EMA Lightning từ 14.0% (bộ front-end mặc định) xuống còn 1.9% (đo trên CPU với judge int8).",
+   "Tốc độ sinh (RTF): Trên A100, Trendyol-TTS nhanh hơn Ahenk (RTF 1.37 so với 2.28 ở 16 bước); trên CPU (2 luồng), Ahenk Cep (RTF 0.20) chậm hơn EMA (0.13) và Antalia (0.08)."
+  ],
+  "limitations": "Câu hỏi không có hậu tố nghi vấn 'mı' (ví dụ câu hỏi dùng ngữ điệu như 'Yarın geliyorsun?') bị đọc thành câu trần thuật; âm 'c' đứng đầu dễ bị đọc sai (/k/, /s/, /z/) khi nhận lệnh tiếng Anh; âm sắc có hiện tượng rè/như qua điện thoại ở 7/20 mẫu cảm xúc; tiếng thở còn vướng ở quãng nghỉ; Ahenk Cep thể hiện cảm xúc còn yếu (buồn chỉ giảm 1.9 semitone và chậm hơn 8%, không có cười); Ahenk 2B chậm hơn thời gian thực trên GPU (RTF 2.28); chỉ hỗ trợ một giọng đọc duy nhất và chỉ dùng cho tiếng Thổ Nhĩ Kỳ; chưa có thử nghiệm MOS với con người.",
+  "takeaways": "Bộ chuẩn hóa văn bản (text normalisation) chuyên biệt theo ngôn ngữ như trnorm tạo ra khác biệt cực lớn về WER (giảm từ 14% xuống 1.9%). Kiến trúc EMA Lightning 8.6M kết hợp trnorm là giải pháp on-device rất thực tế cho CPU và trình duyệt web mà không cần GPU.",
+  "strengths": [
+   "Bộ công cụ hoàn chỉnh từ text normalisation đến TTS",
+   "Mô hình Cep siêu nhẹ (8.6M) chạy tốt trên CPU/browser",
+   "Chuẩn hóa trnorm cải thiện WER vượt bậc",
+   "Cung cấp bộ benchmark TR-Zor và TR-Soru công khai"
+  ],
+  "weaknesses": [
+   "Mô hình lớn Ahenk có RTF cao (2.28 trên A100)",
+   "Chỉ hỗ trợ một giọng đơn kênh và tiếng Thổ",
+   "Chưa đánh giá nghe chuẩn bằng MOS người thật",
+   "Lỗi ngữ điệu ở câu hỏi không có từ 'mı'"
+  ],
+  "context": "Dự án nguồn mở của tác giả độc lập Özgür Güler (ozguradmin), được tài trợ tài nguyên tính toán GPU qua CloudRift AI Builder Grant, phát hành mã nguồn và trọng số mô hình công khai trên GitHub và Hugging Face."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

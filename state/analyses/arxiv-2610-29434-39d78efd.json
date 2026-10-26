@@ -1,0 +1,53 @@
+{
+ "id": "arxiv:2610.29434",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất cơ chế Adaptive Firing kết hợp thuật toán bisection ràng buộc ngân sách sự kiện chính xác cấp câu mà không cần bộ dự đoán ranh giới học được hay dynamic programming.",
+  "credibility": "Bản tiền ấn phẩm từ công ty khởi nghiệp Third Intelligence, Inc., nhưng minh bạch mã nguồn, trọng số mở đầy đủ và mô tả phương pháp, siêu tham số chi tiết.",
+  "technical": "Thiết kế toán học chặt chẽ cho thuật toán phân bổ firing, kiến trúc hybrid FSQ+RVQ, cơ chế causal decoding lưới thưa kèm crossfade streaming và tích hợp TTS bài bản.",
+  "impact": "Cung cấp lời giải thực tiễn cho bài toán VFR trong Speech LLM; các tín hiệu ban đầu ở mức vừa phải (15 upvotes trên Hugging Face, 3 stars GitHub).",
+  "evidence": "Đánh giá thực nghiệm phong phú trên 5 tập dữ liệu, 3 ngôn ngữ với hơn 10 baseline mạnh, kèm các ablation chi tiết về causal decoding, firing rules và duration prediction."
+ },
+ "summary": {
+  "tldr": "RubatoCodec là neural speech codec có tốc độ khung hình biến thiên (VFR) xây dựng trên nền X-Codec-2, kết hợp cơ chế phân bổ sự kiện chính xác theo ngân sách mức câu (exact utterance-level event budget) và giải mã nhân quả dạng streaming. Thay vì dùng bộ dự đoán ranh giới học được, codec sử dụng thuật toán Adaptive Firing dựa trên biến thiên đặc trưng ẩn và spectral flux của dạng sóng để chia chuỗi âm thanh thành các sự kiện có độ dài động kèm thời lượng rõ ràng (explicit duration). Mô hình đạt chất lượng bảo toàn độ rõ ngôn ngữ (intelligibility preservation) hàng đầu ở băng thông thấp trên tiếng Anh, tiếng Nhật và tiếng Quan Thoại, đồng thời chứng minh hiệu quả trong mô hình sinh Text-to-Speech (TTS) streaming.",
+  "problem": "Các neural speech codec với tốc độ khung hình cố định ở mức thấp (chẳng hạn 12.5 Hz) giúp rút ngắn độ dài chuỗi token phục vụ Speech LM, nhưng lại dễ nuốt mất các chuyển đổi ngữ âm nhanh hoặc lãng phí token cho các đoạn im lặng/ngắt nghỉ. Các codec VFR hiện tại giải quyết vấn đề này dựa trên ngưỡng (threshold-based), khiến số lượng token bị phụ thuộc hoàn toàn vào nội dung và dao động mạnh giữa các câu hoặc tập dữ liệu khác nhau (ví dụ DTM-Codec dao động từ 46.1 đến 81.5 events/s ở cùng một cấu hình). Điều này làm cho độ dài chuỗi sinh và chi phí suy luận của mô hình hạ tầng không thể dự đoán trước dựa trên thời lượng âm thanh.",
+  "method": "RubatoCodec giải quyết bài toán bằng các thành phần kỹ thuật cốt lõi sau:\n- **Signal Path & Acoustic/Semantic Encoder**: Âm thanh 16 kHz được đưa qua bộ mã hóa tích chập 50 Hz (hop size 320 mẫu) kết hợp đặc trưng trích từ tầng 16 của frozen w2v-BERT 2.0 ($b^*_t$) để tạo biểu diễn kết hợp $h_t \\in \\mathbb{R}^{2048}$.\n- **Adaptive Firing & Bounded Event Budget**: Ngân sách số sự kiện được ấn định chính xác $K = \\max\\{1, \\min(T, \\text{round}(RT))\\}$ với tỷ lệ lưu giữ mặc định $R = 0.25$ (tương đương danh định 12.5 events/s từ lưới 50 Hz). Tín hiệu firing $s_t$ là tổng chuẩn hóa trung bình của độ không tương đồng ẩn đa tỷ lệ (multi-scale latent dissimilarity theo cosine distance) và log-mel spectral flux dạng sóng. Thuật toán tìm hệ số $\\alpha$ qua phương pháp chia đôi (bisection) sao cho tổng các bước tăng giới hạn $\\delta_t = \\min(\\alpha s_t, 1)$ bằng $M = K - 1$, sau đó xác định ranh giới sự kiện bằng ngưỡng tích lũy $j - \\frac{1}{2}$ kết hợp hiệu chỉnh vị trí đơn điệu để đảm bảo chính xác $K$ sự kiện mà không cần bộ dự đoán ranh giới học được hay hàm phạt tốc độ.\n- **Interval Aggregation**: Biểu diễn đầu vào quantizer $g_i$ kết hợp vector khởi điểm $h_{p_i}$, giá trị trung bình $\\bar{h}_i$ và duration embedding $E_d(\\min(d_i, 64))$ thông qua kết nối residual và MLP: $g_i = h_{p_i} + \\text{MLP}([h_{p_i}; \\bar{h}_i; E_d(\\min(d_i, 64))])$.\n- **Hybrid Residual Quantizer & Semantic Supervision**: Gồm $Q=16$ tầng lượng tử (mỗi tầng 12 bit). Tầng 0 sử dụng Finite Scalar Quantization (FSQ) với các mức $[8, 8, 8, 8]$ (4,096 mã), các tầng 1–15 dùng DAC-style Residual VQ (4,096 vector/tầng). Một đầu semantic phụ chỉ dùng khi huấn luyện để ép tầng FSQ tái tạo lại đặc trưng w2v-BERT 2.0 tại thời điểm bắt đầu sự kiện.\n- **Causal Waveform Decoder**: Đặt vector sự kiện đã giải lượng tử tại khung bắt đầu trên lưới 50 Hz, các khung bên trong gán vector rỗng học được $e_{\\text{empty}}$ cộng embedding độ lệch $E_r(\\min(r, 64))$. Mạng giải mã dùng 12 tầng Causal Transformer, upsampler tích chập chuyển vị nhân 3 (50 Hz lên 150 Hz) và Vocos-style spectral head kèm causal ISTFT phát sóng 44.1 kHz. Khi streaming, bộ nhớ đệm trạng thái được định kỳ tính toán lại theo cửa sổ sự kiện gần nhất và làm mượt bằng crossfade ngắn (11.07 ms/event trên H200).\n- **TTS Autoregressive Modeling**: Tích hợp vào mô hình MOSS-TTS (Qwen3-0.6B temporal backbone + 4 tầng local Transformer), tự hồi quy sinh mã tiếp tục/dừng, 8 codebook tokens, và dự đoán thời lượng $d_i$ ở vị trí cuối cùng dựa trên toàn bộ mã của sự kiện.",
+  "setup": "Mô hình đa ngôn ngữ được huấn luyện trên khoảng 375,000 giờ dữ liệu tiếng Anh, tiếng Nhật, tiếng Quan Thoại và các ngôn ngữ khác (Emilia-YODAS, HiFiTTS-2 44-kHz, ReazonSpeech, The People's Speech, VoxPopuli, MLS, Omnilingual, IndicVoices...). Đánh giá tái tạo âm thanh trên 5 bộ dữ liệu (10,563 câu): LibriSpeech test-clean (2,620 câu), VCTK (1,308 câu), JVS nonpara30 (3,000 câu), JVNV (1,615 câu), seed-tts-eval test-zh (2,020 câu). Baseline gồm EnCodec, DAC (24 kHz), BigCodec, WavTokenizer, X-Codec-2, Mimi, MiMo-Audio-Tokenizer, MOSS-Audio-Tokenizer, Qwen3-TTS-Tokenizer-12Hz, DTM-Codec, CodecSlime, FlexiCodec và DyCAST. Đo lường dWER/dCER (Whisper-large-v3, Paraformer-zh), PESQ-WB, STOI, UTMOSv2, DNSMOS, SIM (WavLM-Large) và RTFx trên 1 GPU NVIDIA H200.",
+  "results": [
+   "Khả năng kiểm soát event rate tuyệt đối: Duy trì chính xác 12.5 Hz trên toàn bộ 5 tập dữ liệu đánh giá, trong khi DTM-Codec (mục tiêu 80 Hz) dao động từ 46.1 đến 81.5 Hz, FlexiCodec ($\\tau=0.91$) dao động từ 7.0 đến 8.5 Hz, và DyCAST dao động từ 3.7 đến 14.2 Hz.",
+   "Tái tạo tiếng Anh (LibriSpeech test-clean, ~1.2 kbit/s, depth 8): RubatoCodec đạt dWER 0.75% (thấp nhất) và UTMOSv2 3.478 (cao nhất), so với FlexiCodec $\\tau=1$ (dWER 0.83%, UTMOSv2 3.194), MiMo-Audio-Tokenizer (dWER 0.86%, UTMOSv2 3.183), MOSS-Audio-Tokenizer (dWER 0.89%, UTMOSv2 3.230); PESQ-WB đạt 2.684 so với MOSS (3.052) và DTM-Codec (2.971).",
+   "Tái tạo tiếng Anh (LibriSpeech test-clean, ~2.4 kbit/s, depth 16): dWER giảm xuống 0.50% và DNSMOS đạt 3.314 (đều tốt nhất nhóm), vượt qua Qwen3-TTS-Tokenizer-12Hz (dWER 0.53%, DNSMOS 3.273) và MOSS-Audio-Tokenizer (dWER 0.62%, DNSMOS 3.203).",
+   "Tái tạo tiếng Nhật cảm xúc (JVNV): Đạt dCER vượt trội ở cả hai mức băng thông: 1.92% ở depth 8 (so với 5.44% của MOSS và 5.52% của FlexiCodec) và 1.54% ở depth 16 (so với 3.01% của Qwen3-TTS-Tokenizer-12Hz và 3.96% của MOSS).",
+   "Đánh giá TTS zero-shot (seed-tts-eval English): Mô hình TTS dùng RubatoCodec (12.5 Hz, 8 codebooks) đạt WER 3.10% (so với 3.20% của codec cố định 12.5 Hz), UTMOS 4.162 (so với 4.080), UTMOSv2 3.295 (so với 3.239) với speaker similarity tương đương (SIM 0.392).",
+   "Khả năng tuân thủ ngân sách khi sinh tự do: 88.3% câu TTS sinh ra có số event bằng chính xác $\\text{round}(0.25T)$ và 99.9% sai lệch trong khoảng $\\pm 1$ event dù không hề áp đặt ràng buộc rate lúc sinh.",
+   "Thông lượng tính toán (NVIDIA H200): Bộ giải mã đạt 446.8x và 427.4x real-time tương ứng ở depth 8 và 16; trễ giải mã streaming từng event chỉ mất trung bình 11.07 ms cho một đoạn âm thanh ~80 ms."
+  ],
+  "limitations": "Chỉ số trung thực dạng sóng tham chiếu (PESQ-WB, STOI) và độ tương đồng người nói (SIM) vẫn thấp hơn một số baseline mạnh nhất (như MOSS-Audio-Tokenizer, Qwen3-TTS-Tokenizer). Bộ mã hóa vẫn là non-causal và cần trích xuất đặc trưng w2v-BERT 2.0 (tốn thêm 580M tham số). Mô hình nhạy cảm bất đối xứng với thay đổi rate lúc suy luận: tăng rate thì chất lượng cải thiện nhưng giảm rate dưới 12.5 Hz làm dWER tăng vọt (lên 45.66% ở 5 Hz). Trong TTS, các sự kiện kéo dài bất thường (>300 ms) đôi khi gây ra hiện tượng ngắt nghỉ không tự nhiên trong câu nói.",
+  "takeaways": "Biểu diễn âm thanh VFR với ngân sách cố định theo thời lượng câu là giải pháp lý tưởng cho LLM-based TTS: vừa tận dụng được ưu thế dồn token vào vùng ngữ âm phức tạp và gộp vùng khoảng lặng, vừa giữ độ dài chuỗi dự đoán được hoàn toàn trước khi sinh. Cơ chế giải mã streaming nhân quả với đầu vào lưới thưa (sparse grid) cho phép triển khai tổng hợp tiếng nói thời gian thực với độ trễ thấp.",
+  "strengths": [
+   "Ngân sách số event chuẩn xác theo thời lượng câu",
+   "Bảo toàn độ rõ ngữ âm (dWER/dCER) xuất sắc",
+   "Không cần học bộ phân chia ranh giới phức tạp",
+   "Bộ giải mã nhân quả hỗ trợ streaming hiệu năng cao",
+   "Mô hình TTS tự học được quy luật phân bổ nhịp điệu"
+  ],
+  "weaknesses": [
+   "Chỉ số PESQ và SIM thấp hơn vài baseline",
+   "Bộ mã hóa cần w2v-BERT 2.0 cồng kềnh",
+   "Chất lượng suy giảm mạnh nếu giảm rate dưới mức train",
+   "Chưa đánh giá nghe thẩm định nhân lực (MOS)"
+  ],
+  "context": "Nhóm nghiên cứu đến từ Third Intelligence, Inc. (tác giả chính: Chihiro Arata); công bố mã nguồn và trọng số mô hình trên GitHub và Hugging Face."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

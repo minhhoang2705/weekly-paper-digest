@@ -1,0 +1,51 @@
+{
+ "id": "gh:jms1717/ming-voice",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Không tạo ra mô hình mới mà kết hợp tài tình các mô hình mở (Ming-3.0, Smart Turn v3, Silero VAD) cùng kỹ thuật speculative generation và rollback.",
+  "credibility": "Kho mã nguồn mở cá nhân (285 stars, 14 forks), tài liệu hướng dẫn rất chi tiết kèm công cụ benchmark nội bộ nhưng không qua bình duyệt học thuật.",
+  "technical": "Kỹ thuật tối ưu hệ thống ở mức xuất sắc: viết lại MoE prefill/decode và flow-matching bằng Triton kernels trên ROCm, HIP graphs bucketed, và cơ chế echo guard đo tương quan tín hiệu.",
+  "impact": "Rất có giá trị đối với cộng đồng chạy AI cục bộ trên GPU AMD Radeon, chứng minh khả năng phục vụ speech agent độ trễ thấp ngoài hệ sinh thái CUDA.",
+  "evidence": "Cung cấp đầy đủ số liệu định lượng chi tiết về latency (~0.23 s), token throughput (115 t/s), VRAM tiêu thụ, WER (1.0%), và kèm bộ script dev test để kiểm chứng lại."
+ },
+ "summary": {
+  "tldr": "Ming Voice là hệ thống trợ lý giọng nói thời gian thực chạy hoàn toàn local, được tối ưu hóa đặc biệt cho GPU AMD Radeon (ROCm 7.2) trên Linux và Windows (WSL2), hỗ trợ thử nghiệm trên NVIDIA. Dự án đóng gói mô hình speech-to-speech `inclusionAI/Ming-3.0-audio-tiny` kết hợp Triton kernels tự viết và HIP graphs để đạt độ trễ phản hồi cực thấp (~0.23 s).",
+  "problem": "Các mô hình speech-to-speech (S2S) mã nguồn mở kích thước lớn thường khó triển khai cho người dùng cá nhân do yêu cầu VRAM cao, độ trễ end-to-end lớn, và khả năng hỗ trợ kém trên phần cứng GPU AMD Radeon so với CUDA. Ngoài ra, việc xây dựng một voice agent hoàn chỉnh đòi hỏi xử lý turn-taking tự nhiên (tránh ngắt lời khi người dùng ngừng nghỉ ngắt quãng), chống vọng âm (echo guard khi dùng loa ngoài), và tích hợp gọi công cụ (tool calling) thời gian thực mà không làm tăng độ trễ.",
+  "method": "Hệ thống kết hợp nhiều thành phần kỹ thuật được tối ưu sâu:\n- **Mô hình cốt lõi:** Sử dụng `inclusionAI/Ming-3.0-audio-tiny`. Phần **Thinker** (audio LLM lai Kimi-delta-attention / MLA, kiến trúc MoE 128 chuyên gia: tổng 9.3B params, 2.7B active) chạy suy luận với static-state cache và HIP graph theo bucket độ dài attention.Prefill đồ thị hỗ trợ padding lên 32/64/128 tokens với cơ chế biến padding thành no-op đối với các lớp KDA tuần hoàn. MoE được viết bằng Triton kernel dung hợp (fused MoE), gom shared expert và sắp xếp token theo expert trực tiếp trên GPU, giảm thời gian prefill MoE từ ~120 ms xuống ~15 ms.\n- **Talker (Tổng hợp giọng nói):** Kiến trúc Qwen2 + 10-step flow-matching DiT + AudioVAE. Sử dụng fused Triton kernels (gộp RMSNorm, bias, activation, residual vào các phép GEMM kích thước $M$ nhỏ, giảm thời gian thực thi từ ~45 µs của rocBLAS xuống ~20 µs) kết hợp HIP graph mỗi bước giải mã diffusion và streaming VAE decode.\n- **Turn-taking & Barge-in:** Kết hợp Silero VAD và Smart Turn v3 để dự đoán ranh giới lượt nói qua ngữ điệu và câu từ. Suy luận phỏng đoán (speculative generation) bắt đầu chỉ sau 32 ms tạm dừng; nếu người dùng tiếp tục nói trong vòng 1000 ms, câu trả lời bị hủy và hợp nhất lượt thoại. Module `echo_guard.py` tính toán tương quan tín hiệu micro và âm thanh phát ra loa để barge-in chính xác mà không tự ngắt lời chính nó.\n- **Bộ nhớ & Nạp:** Hỗ trợ lượng tử hóa int8 weight-only cho các MoE expert (giảm VRAM từ ~20.5 GB xuống ~12.5 GB, logit cosine $\\ge 0.997$). Module `direct_load.py` stream trọng số trực tiếp vào VRAM với các luồng đọc song song để tránh nghẽn host RAM.",
+  "setup": "Đo đạc trên phần cứng AMD Radeon RX 7900 XTX (24 GB VRAM) chạy ROCm 7.2. Hỗ trợ hệ điều hành Linux (Arch, Ubuntu, Debian, Fedora,...) và Windows 11 (qua WSL2). Yêu cầu tối thiểu 16 GB+ VRAM (AMD Radeon RX 6800+ hoặc NVIDIA RTX 30 series trở lên). Hỗ trợ tiếng Anh và tiếng Trung. Tích hợp giao thức WebSocket (16 kHz PCM in / 44.1 kHz PCM out) và API tương thích OpenAI (/v1/audio/speech, /v1/audio/transcriptions, /v1/chat/completions).",
+  "results": [
+   "Độ trễ trung vị từ khi dứt câu đến khi phát âm thanh (end of speech → first audio): ~0.23 s (câu trả lời được tính toán phỏng đoán trong khoảng ngừng 0.2 s của Smart Turn).",
+   "Tốc độ sinh Thinker (Audio LLM MoE): ~115 tokens/s; thời gian ra token đầu tiên (TTFT) ~80 ms sau lượt thoại ngắn.",
+   "Tốc độ sinh Talker (Voice DiT): ~0.3× real time; tiêu tốn 13 ms cho mỗi 80 ms audio ở bước tính toán cốt lõi.",
+   "Mức chiếm dụng VRAM: ~20.5 GB ở định dạng bf16, giảm xuống ~12.5 GB khi bật int8 experts.",
+   "Chất lượng giọng nói: Đạt 1.0% Word Error Rate (WER) khi nhận dạng lại giọng phát ra (ngang bằng bản tham chiếu ban đầu).",
+   "Tối ưu kernel: Fused Triton MoE prefill giảm thời gian xử lý từ ~120 ms (5 kernels/expert/layer ở bản gốc) xuống ~15 ms; thay thế GEMM nhỏ của rocBLAS từ ~45 µs xuống ~20 µs."
+  ],
+  "limitations": "Hỗ trợ NVIDIA mới chỉ ở mức thực nghiệm ('experimental'), chưa được tác giả kiểm thử đầy đủ trên card 16 GB NVIDIA. Chỉ hỗ trợ 2 ngôn ngữ (English và Chinese). Yêu cầu tối thiểu 16 GB VRAM khiến các GPU phổ thông (<12 GB) không thể sử dụng.",
+  "takeaways": "Dự án là hình mẫu kỹ thuật xuất sắc trong việc tối ưu pipeline Voice-to-Voice cục bộ: thay thế BLAS mặc định bằng custom Triton kernels, đóng gói HIP/CUDA graphs cho từng token, và tận dụng khoảng lặng tự nhiên của người nói để suy luận phỏng đoán nhằm che giấu hoàn toàn độ trễ.",
+  "strengths": [
+   "Độ trễ cực thấp (~0.23 s median)",
+   "Tối ưu sâu Triton/HIP trên AMD ROCm",
+   "Tích hợp Smart Turn và Echo Guard",
+   "Hỗ trợ Tool Calling và Home Assistant",
+   "Tương thích chuẩn API OpenAI"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ tiếng Anh và Trung",
+   "Hỗ trợ phần cứng NVIDIA còn thử nghiệm",
+   "Yêu cầu VRAM cao (tối thiểu 16 GB)"
+  ],
+  "context": "Dự án mã nguồn mở do nhà phát triển độc lập JMS1717 phát hành trên GitHub dưới giấy phép MIT, xây dựng quanh mô hình Ming-3.0-audio-tiny của inclusionAI."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

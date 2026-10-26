@@ -1,0 +1,47 @@
+{
+ "id": "gh:timoncool/speech-studio",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tích hợp studio âm thanh không mới, nhưng cách tiếp cận zero-Python native kết hợp giao diện MCP cho agent tương tác trực tiếp tạo nên tính đột phá trong ứng dụng thực tế.",
+  "credibility": "Dự án nguồn mở từ cá nhân có track record về công cụ AI native, mã nguồn và binary release rõ ràng cùng mã băm SHA-256 minh bạch dù không xuất bản hội nghị khoa học.",
+  "technical": "Kỹ thuật hệ thống rất ấn tượng khi tích hợp đồng thời nhiều runtime C ABI (GGUF, ONNX Runtime CUDA, llama.cpp, transcribe.cpp) vào chung một tiến trình Rust/Tauri hiệu năng cao.",
+  "impact": "Dự án mới đạt 99 stars trên GitHub nhưng có tiềm năng lớn cho cộng đồng sáng tạo nội dung audiobook/podcast và các nhà phát triển agent tương tác giọng nói cục bộ.",
+  "evidence": "Cung cấp đầy đủ số liệu đo lường tốc độ xử lý cụ thể (RTF), thời gian phát âm thanh đầu tiên (first sound latency) và mức chiếm dụng VRAM/RAM thực tế trên phần cứng xác định."
+ },
+ "summary": {
+  "tldr": "Speech Studio là ứng dụng desktop studio âm thanh AI đa năng, mã nguồn mở, hoạt động 100% offline trên Windows mà không phụ thuộc vào Python runtime. Hệ thống kết hợp nhiều mô hình TTS, ASR, VAD và Voice Cloning hàng đầu qua các engine native C++/CUDA/Rust, hỗ trợ xử lý ngữ âm tiếng Nga chuyên sâu cùng giao tiếp agent qua giao thức MCP và OpenAI-compatible API.",
+  "problem": "Phần lớn các công cụ TTS và ASR hiện đại đòi hỏi môi trường Python cồng kềnh (PyTorch, CUDA wheels, dependencies phức tạp), phụ thuộc vào cloud API tốn kém và kém bảo mật thông tin, hoặc gặp khó khăn khi xử lý các sắc thái ngôn ngữ phức tạp (như trọng âm, homograph, biến cách số từ trong tiếng Nga). Ngoài ra, việc tích hợp hai chiều giữa công cụ giọng nói cục bộ với các tác vụ AI agent (như Claude qua MCP) còn thiếu một giải pháp trọn gói, độ trễ thấp.",
+  "method": "Hệ thống xây dựng trên kiến trúc native kết hợp Tauri 2 (Rust) với backend máy chủ cục bộ axum (`speech-server`) phục vụ giao diện React 19/Vite/Tailwind trong cùng một tiến trình, loại bỏ hoàn toàn Python khi runtime:\n- **TTS Engines & Voice Cloning**: Tích hợp trực tiếp qua C ABI gồm Higgs Audio v3 (`audiocpp_engine.dll`), Fish Audio Drama 3 (`drama_engine.dll` - hỗ trợ cơ chế offload chuyên gia sang RAM nếu GPU < 24 GB), Qwen3-TTS 1.7B (`qwen.dll`), Supertonic 3 (chạy ONNX Runtime int8) và LoRA trọng âm tiếng Nga gắn runtime.\n- **ASR & Audio Processing**: Hỗ trợ Parakeet-TDT v3, Parakeet Ultra và Nemotron 3.5 qua `transcribe.cpp` native, Whisper qua faster-whisper, Nemotron 3 Diarization (lên tới 8 người), Silero VAD v6.2 cắt khoảng lặng, DPDFNet khử ồn, Mel-Band Roformer tách giọng khỏi nhạc (BSRoformer.cpp) và WeSpeaker ResNet34-LM đo độ tương đồng giọng nói.\n- **Xử lý văn bản tiếng Nga**: Bộ chuẩn hóa số từ, ngày tháng, cùng RUAccent (model homograph `big_poetry` int8) tự động giải quyết dấu trọng âm và phân biệt từ đồng âm theo ngữ cảnh.\n- **Agent Integration**: Cung cấp máy chủ MCP (`http://127.0.0.1:8797/mcp`) và OpenAI Audio API (`/v1/audio/speech`, `/v1/audio/transcriptions`), hỗ trợ chế độ tương tác Live thoại hai chiều với cơ chế ngắt lời thông minh.",
+  "setup": "Chạy cục bộ trên Windows 10/11 x64 (bản Linux x86-64 ở mức experimental); khuyến nghị GPU NVIDIA (tối thiểu 8 GB VRAM, kiến trúc Turing trở lên với driver CUDA 13; Drama 3 cần 24 GB VRAM hoặc 6 GB VRAM + 32 GB RAM). Các mô hình tải tự động định dạng GGUF/ONNX/Safetensors kèm kiểm tra SHA-256. Đánh giá tốc độ thực hiện trên cấu hình Windows 11, GPU NVIDIA RTX 4090 (24 GB VRAM).",
+  "results": [
+   "Tốc độ Voicing (văn bản tiếng Nga 17s trên RTX 4090): Supertonic 3 đạt 168× realtime (thời gian phát âm thanh đầu tiên 103 ms, 1.0 GB VRAM); Qwen3-TTS đạt 12× realtime (first sound 19 ms, 3.1 GB VRAM); Qwen3-TTS + ru stress LoRA đạt 10× realtime (first sound 26 ms, 3.5 GB VRAM); Fish Audio Drama 3 đạt 7.0× realtime (first sound 326 ms, 21.9 GB VRAM); Higgs Audio v3 đạt 2.3× realtime (first sound 1.0 s, 18.1 GB VRAM).",
+   "Tốc độ Recognition (file âm thanh tiếng Nga 299.7s trên RTX 4090): Parakeet TDT v3 đạt 96× realtime (xử lý trong 3.1 s trên GPU, 33× trên CPU, chiếm 1.2 GB VRAM); Parakeet Ultra và Nemotron 3.5 đạt 73× realtime (4.1 s trên GPU, chiếm 1.0 GB VRAM); Whisper large-v3-turbo đạt 19× realtime (15.4 s trên GPU, 2.2× trên CPU, chiếm 1.6 GB VRAM).",
+   "Độ trễ tương tác Live theo lượt thoại: Xử lý giọng nói người dùng thành văn bản mất 0.64–0.74 s (Parakeet trên GPU, đã tính độ trễ khoảng lặng kết thúc câu); mô hình Claude Sonnet sinh phản hồi văn bản mất 2.0–3.9 s; âm thanh câu trả lời đầu tiên phát ra sau 15 ms đến 1.0 s tùy thuộc vào engine TTS."
+  ],
+  "limitations": "Ứng dụng được tối ưu hóa và chỉ kiểm thử chính thức trên GPU NVIDIA; phiên bản Linux x86-64 còn ở trạng thái thử nghiệm chưa hoàn thiện. Chưa hỗ trợ GPU AMD/Intel cũng như môi trường macOS.",
+  "takeaways": "Đây là thiết kế mẫu mực về engineering cho việc đóng gói hệ thống speech đa mô hình (TTS/ASR/VAD/Diarization) thành ứng dụng desktop native không Python. Việc expose song song giao diện MCP và chuẩn OpenAI API cục bộ biến ứng dụng thành hạ tầng âm thanh lý tưởng để tích hợp trực tiếp vào quy trình làm việc của AI agent.",
+  "strengths": [
+   "100% native Rust và C++/CUDA, không phụ thuộc Python",
+   "Hỗ trợ giao thức MCP và OpenAI audio API",
+   "Xử lý trọng âm và homograph tiếng Nga chuyên sâu",
+   "Tích hợp đa dạng engine SOTA (Higgs, Drama 3, Parakeet)"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ tối ưu trên GPU NVIDIA",
+   "Bản Linux còn mang tính thử nghiệm, chưa có macOS",
+   "Dung lượng tải mô hình lớn (lên đến hàng chục GB)"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi lập trình viên Nerual Dreming / Neuro-Soft, phát hành công khai trên GitHub dưới giấy phép MIT (kèm giấy phép riêng của từng mô hình)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

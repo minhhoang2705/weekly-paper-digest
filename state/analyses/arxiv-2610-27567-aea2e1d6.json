@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.27567",
+ "topic": "Speech Understanding",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất cấu trúc lập luận lâm sàng OAS kết hợp nhận diện mâu thuẫn cảm xúc ngữ âm - ngữ nghĩa (ECI) cho Omni-LLM là hướng tiếp cận mới mẻ và giải thích được.",
+  "credibility": "Bài báo đến từ các viện nghiên cứu và trường đại học danh tiếng (HKUST, SIAT CAS, NUS) với quy trình thử nghiệm chi tiết và kiểm chứng bởi chuyên gia tâm lý hành nghề.",
+  "technical": "Thiết kế kỹ thuật vững chắc với curriculum 3 giai đoạn (SFT nhận thức, SFT suy luận OAS, ORPO căn chỉnh), pipeline context augmentation có vòng lặp SER verification.",
+  "impact": "Cung cấp khung mẫu hữu ích cho chẩn đoán sức khỏe tâm thần đa phương thức, nhưng tác động thực tế bị kìm hãm bởi rào cản đạo đức y tế và dữ liệu benchmark khan hiếm.",
+  "evidence": "Thực nghiệm toàn diện trên 2 tập dữ liệu chuẩn, so sánh nhiều baseline mạnh, tiến hành ablation study đầy đủ và có đánh giá mù từ 4 chuyên gia tâm lý."
+ },
+ "summary": {
+  "tldr": "AudiPsy là mô hình omni-LLM đánh giá trầm cảm dựa trên bằng chứng qua hội thoại tư vấn giọng nói thông qua cấu trúc suy luận Observation–Assessment–Summary (OAS). Bằng cách khai thác sự bất đồng nhất giữa cảm xúc âm học và ngữ nghĩa văn bản cùng quy trình học 3 giai đoạn trên dữ liệu tăng cường AudiPsy-Counsel, mô hình vượt trội so với các LLM giọng nói và mô hình chuyên biệt trên DAIC-WOZ và EATD-Corpus.",
+  "problem": "Các hệ thống đánh giá trầm cảm tự động hiện nay chủ yếu tiếp cận theo hướng phân loại hộp đen end-to-end, trực tiếp ánh xạ biểu diễn âm thanh và văn bản sang nhãn chẩn đoán. Cách tiếp cận này bộc lộ hai hạn chế lớn: biểu diễn âm học bậc thấp/tiềm ẩn thiếu ý nghĩa tâm lý rõ ràng, và mô hình gom cụm đặc trưng mà không diễn giải bằng chứng theo tiến trình hội thoại ngữ cảnh. Ngoài ra, dữ liệu âm thanh tư vấn thực tế vô cùng khan hiếm do rào cản đạo đức và chi phí.",
+  "method": "AudiPsy triển khai khung suy luận cấu trúc OAS (Observation–Assessment–Summary) theo từng lượt hội thoại $(x_t, S_{t-1}) \\to (O_t, A_t, S_t)$:\n- **Observation ($O_t$)**: Trích xuất bản phiên âm hội thoại ($O_t^{dt}$), cảm xúc văn bản ($O_t^{te}$), độ phân cực (polarity), cảm xúc âm thanh ($O_t^{ae}$), nhãn cảm xúc âm thanh (7 loại), và bộ chỉ số VAD (Valence-Arousal-Dominance) rời rạc hóa 5 mức.\n- **Assessment ($A_t$)**: Đánh giá sự bất đồng nhất cảm xúc âm thanh - văn bản ($A_t^{ei}$ - Emotion Incongruence, dựa trên lý thuyết Emotion Context Insensitivity / ECI) và đánh giá xu hướng trầm cảm ($A_t^{dep}$, dựa trên ECI và PHQ-8), mỗi phần gồm nhãn nhị phân và đoạn lập luận (rationale).\n- **Summary ($S_t$)**: Duy trì trạng thái tóm tắt ngữ cảnh cô đọng và bảng thống kê tỷ lệ tích lũy (negative text, low VAD, emotion incongruence). Cuối hội thoại, nhãn tổng thể được xác định bằng cơ chế majority voting.\n- **AudiPsy-Counsel**: Pipeline tăng cường ngữ cảnh từ CounselChat và CPsyCounR, sử dụng GPT-5 để viết lại tình huống hội thoại song ngữ Anh - Trung, gán nhãn cảm xúc/bất đồng cảm xúc, tổng hợp âm thanh bằng Qwen3-TTS và kiểm soát chất lượng bằng mô hình SER (loại bỏ và tạo lại nếu không khớp nhãn, tối đa 50 lần).\n- **Quy trình huấn luyện 3 giai đoạn**: Khởi tạo từ Qwen2.5-Omni-7B; Giai đoạn 1 huấn luyện cảm thụ cảm xúc (Affective Perception) trên IEMOCAP cân bằng và dữ liệu tổng hợp SynEI (2,109 mẫu) bằng hàm mất mát $\\mathcal{L}_{S1}$; Giai đoạn 2 SFT suy luận cấu trúc OAS trên 2,400 hội thoại AudiPsy-Counsel bằng $\\mathcal{L}_{S2}$; Giai đoạn 3 căn chỉnh sở thích hiệu chỉnh (Corrective Preference Alignment) bằng ORPO trên 280 hội thoại thực tế từ DAIC-WOZ và EATD-Corpus.",
+  "setup": "Khởi tạo từ backbone Qwen2.5-Omni-7B, tinh chỉnh LoRA và ORPO bằng framework ms-swift trên cụm 4 GPU NVIDIA H800. Đánh giá kiểm thử trên tập development set của DAIC-WOZ (33 hội thoại: 12 trầm cảm, 21 không trầm cảm) và tập validation set của EATD-Corpus (79 hội thoại: 11 trầm cảm, 68 không trầm cảm). So sánh với các mô hình chuyên biệt (BiLSTM+GRU, WavLM Layer 10, Llama2+Acoustic Landmarks, SpeechT-RAG) và các speech/omni-LLM (Kimi-Audio-7B, MOSS-Audio-8B, Gemini 2.5 Flash/Pro, Qwen2.5-Omni-7B, Qwen3-Omni-30B). Bốn chuyên gia tư vấn tâm lý thực tế đánh giá chất lượng suy luận trên 10 hội thoại DAIC-WOZ theo 4 tiêu chí (thang điểm 1-5): Evidence Grounding (EG), Clinical Plausibility (CP), Multi-Modal Integration (MMI), Contextual Evidence Integration (CEI).",
+  "results": [
+   "Trên DAIC-WOZ, AudiPsy đạt MCC 0.70, F1 0.81, Recall 0.92, Precision 0.73, Specificity 0.81; vượt trội so với baseline tốt nhất trước đó là Gemini 2.5 Pro (MCC 0.65, F1 0.79) và các mô hình chuyên biệt như WavLM Layer 10 (F1 0.72), Llama2+Landmarks (F1 0.72), BiLSTM+GRU (MCC 0.11, F1 0.53).",
+   "Trên EATD-Corpus, AudiPsy đạt MCC 0.41 và F1 0.40; vượt qua BiLSTM+GRU (MCC 0.19, F1 0.32), Gemini 2.5 Pro (MCC 0.23, F1 0.33) và Qwen3-Omni-30B-Thinking (MCC 0.32, F1 0.40).",
+   "Ablation study trên DAIC-WOZ chứng minh tính thiết yếu của các thành phần: loại bỏ Stage 1 (w/o LS1) làm giảm F1 từ 0.81 xuống 0.74 (MCC giảm xuống 0.58); loại bỏ phân tích bất đồng cảm xúc (w/o Emotion Incongruence) làm F1 giảm xuống 0.73 (MCC 0.58); chuyển OAS sang văn bản không cấu trúc (w/ Unstructured Rationale) làm F1 giảm xuống 0.69.",
+   "Trong đánh giá của chuyên gia tâm lý (Human Evaluation), AudiPsy đạt điểm chênh lệch trung bình (mean-centered) cao nhất ở cả 4 tiêu chí: EG (+1.25), CP (+0.80), MMI (+1.08), CEI (+1.21), vượt trội áp đảo về win-rate so với Gemini 2.5 Pro và Qwen2.5-Omni-7B.",
+   "Phân tích thăm dò nhận diện cảm xúc (SER) trên IEMOCAP cho thấy AudiPsy cải thiện khả năng tách biệt cảm xúc âm thanh khỏi ngữ nghĩa văn bản đối với các nhóm cảm xúc Neutral và Sad khi xảy ra xung đột cực tính (transcript polarity conflict)."
+  ],
+  "limitations": "Tập dữ liệu đánh giá thực nghiệm bị giới hạn trong DAIC-WOZ và EATD-Corpus do sự khan hiếm nghiêm trọng của dữ liệu âm thanh lâm sàng gắn nhãn; tỷ lệ mất cân bằng nhãn ở tập kiểm thử cao; tập huấn luyện AudiPsy-Counsel sử dụng giọng đọc tổng hợp từ TTS nên có thể chưa phản ánh đầy đủ độ biến thiên tự nhiên và biểu cảm lâm sàng ngoài đời thực; mô hình chỉ phục vụ nghiên cứu và chưa thể thay thế chẩn đoán y tế.",
+  "takeaways": "Việc phân rã quy trình suy luận thành các bước quan sát - đánh giá - tóm tắt (OAS) và theo dõi sự mâu thuẫn giữa giọng điệu và ngữ nghĩa (Emotion Incongruence) theo lý thuyết tâm lý học giúp Omni-LLM vượt qua giới hạn ngữ cảnh dài và đưa ra suy luận lâm sàng minh bạch, chính xác hơn.",
+  "strengths": [
+   "Paradigm OAS cấu trúc hóa suy luận đa lượt",
+   "Mô hình hóa sâu sắc hiện tượng emotion incongruence",
+   "Pipeline tổng hợp dữ liệu kiểm định SER chặt chẽ",
+   "Hiệu năng SOTA trên DAIC-WOZ và EATD-Corpus",
+   "Đánh giá định tính bởi chuyên gia tâm lý"
+  ],
+  "weaknesses": [
+   "Dữ liệu huấn luyện chính là âm thanh tổng hợp",
+   "Kích thước tập benchmark kiểm thử còn nhỏ",
+   "Nguy cơ suy đoán sai lệch trong bối cảnh lâm sàng"
+  ],
+  "context": "Nghiên cứu được thực hiện bởi nhóm tác giả đến từ HKUST, SIAT CAS, NUS, UCAS và BIT; đăng tải dưới dạng bản thảo tiền ấn phẩm trên arXiv vào tháng 10 năm 2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

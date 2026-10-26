@@ -1,0 +1,49 @@
+{
+ "id": "gh:c4rohan/lampline",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 3,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Dự án kết hợp khéo léo framework Pipecat với cơ chế chuyển đổi hai chiều cho Dialogflow CX và công cụ kiểm thử qua browser extension, dù kiến trúc cốt lõi dựa trên các thành phần có sẵn.",
+  "credibility": "Kho mã nguồn mở cá nhân của tác giả Rohan Salvi với 267 GitHub stars, có tài liệu chi tiết, giấy phép rõ ràng và hệ thống CI tự động kiểm thử toàn diện.",
+  "technical": "Hệ thống xây dựng hoàn chỉnh từ CLI `vk`, drag-and-drop builder, tích hợp SIP jambonz, local SQLite RAG đến pipeline xử lý voice thời gian thực.",
+  "impact": "Cung cấp giải pháp thay thế mở giúp tiết kiệm chi phí đáng kể cho các doanh nghiệp đang dùng Dialogflow CX, nhận được 267 stars và 36 forks trên GitHub.",
+  "evidence": "Tài liệu đưa ra mô hình tính toán chi phí chi tiết và bộ test CI, nhưng chưa có số liệu benchmark thực nghiệm định lượng về chất lượng nhận dạng, tổng hợp giọng nói hay độ trễ hệ thống."
+ },
+ "summary": {
+  "tldr": "Lampline là nền tảng voice agent mã nguồn mở, tự host (self-hosted) xây dựng trên Pipecat, cho phép di chuyển hai chiều với Google Dialogflow CX và CX Agent Studio. Hệ thống hỗ trợ chạy hoàn toàn cục bộ hoặc on-premise với chi phí ước tính $0.02–0.17 mỗi cuộc gọi thay vì $0.50 trên nền tảng đám mây thương mại.",
+  "problem": "Chi phí vận hành voice agent trên các nền tảng thương mại như CX Agent Studio rất cao ($0.50/cuộc gọi), đồng thời người dùng bị khóa vào hệ sinh thái đám mây đóng, thiếu quyền kiểm soát phần cứng, dữ liệu riêng tư và gặp khó khăn trong việc kiểm thử tự động trên đường dây điện thoại thực tế.",
+  "method": "Lampline kết hợp drag-and-drop builder với triết lý 'Agents as code' (lưu trữ agent dưới dạng thư mục gồm `agent.yaml` và các file Markdown cho prompt), chạy trên Pipecat pipeline:\\n- **Chuyển đổi Dialogflow CX / CX Agent Studio:** Import/export hai chiều. Các flow/page chuyển thành scripted page; form parameter/entity type thành form field; playbook thành LLM step; webhook/OpenAPI/datastore thành HTTP/MCP tool và local knowledge search.\\n- **Telephony & SIP:** Hỗ trợ Twilio, Telnyx và mọi SIP trunk, PBX hoặc SBC thông qua jambonz; hỗ trợ chuyển tiếp cuộc gọi sang nhân viên kèm thông tin chi tiết qua SIP headers.\\n- **Speech & Model Providers:** Tích hợp hơn 20 nhà cung cấp đám mây (Claude, OpenAI, Gemini, Bedrock, Groq, v.v.) hoặc chạy hoàn toàn cục bộ/miễn phí bằng Ollama (Qwen3 4B), Moonshine/Whisper (ASR) và Kokoro/Qwen3-TTS (TTS).\\n- **Evals & Phone Bridge:** Công cụ kiểm thử giọng nói gọi qua đường dây điện thoại thật thông qua tiện ích mở rộng Phone Bridge trên Chrome/Edge với Google Voice, sử dụng AI Test Caller đóng vai người gọi để chấm điểm transcript và đo lường độ trễ response time (typical và p95).\\n- **CLI `vk`:** Hỗ trợ lint, kiểm tra rò rỉ dữ liệu, chạy kịch bản hội thoại tự động (`tests/*.yaml`), import/export và tích hợp kỹ năng cho coding agent (Claude Code).",
+  "setup": "Yêu cầu Docker với Compose v2 hoặc Python 3.11+ chạy native (`scripts/docker-up.sh` hoặc `scripts/engine-up.sh`). Tùy chọn `--free` tự động tải khoảng 3 GB mô hình cục bộ (Qwen3 4B trên Ollama, Moonshine, Kokoro). Dữ liệu cấu hình, SQLite và knowledge base được lưu cục bộ tại `./.vpe-data` với quyền `chmod 600`. Ngôn ngữ hỗ trợ cụ thể: Không được nêu trong tài liệu.",
+  "results": [
+   "Chi phí mô phỏng cuộc gọi 4 phút ở quy mô 10k cuộc/tháng: CX Agent Studio tốn $5,000, trong khi on-premise GPU + mô hình self-hosted tốn $681, on-premise CPU + Google model APIs tốn $1,384, GKE production + mixed vendors tốn $1,105, GKE production + self-hosted L4 GPUs tốn $1,054.",
+   "Chi phí ở quy mô 50k cuộc/tháng: CX Agent Studio tốn $25,000; on-premise GPU + self-hosted models tốn $1,363; on-premise CPU + Google APIs tốn $6,235; GKE + mixed vendors tốn $3,612; GKE + self-hosted L4 GPUs tốn $1,675.",
+   "Chi phí ở quy mô 200k cuộc/tháng: CX Agent Studio tốn $100,000; on-premise GPU + self-hosted models tốn $3,748; on-premise CPU + Google APIs tốn $24,426; GKE + mixed vendors tốn $13,037; GKE + self-hosted L4 GPUs tốn $3,888.",
+   "Mức chi phí ước tính mỗi cuộc gọi giảm từ $0.50 (thương mại) xuống còn khoảng $0.02–0.17."
+  ],
+  "limitations": "Tài liệu chưa công bố các benchmark chuẩn hóa độc lập về độ trễ và độ chính xác hội thoại (vẫn nằm trong mục chưa hoàn thành trên Roadmap). Khả năng triển khai một lệnh lên Google Cloud và kết nối trực tiếp với các trung tâm liên lạc (Genesys Cloud, Avaya, Cisco, Amazon Connect, NICE CXone, Five9, Twilio Flex) vẫn đang trong giai đoạn phát triển ('coming soon'). Các tính toán tiết kiệm chi phí dựa trên hai giả định chưa được kiểm chứng độc lập: số cuộc gọi đồng thời trên mỗi GPU và năng lực đáp ứng của mô hình mở 8B đối với các luồng nghiệp vụ phức tạp. Kiểm thử Google Voice yêu cầu người dùng bấm máy thủ công do chính sách cấm tự động quay số.",
+  "takeaways": "Lampline là giải pháp phù hợp cho các kỹ sư muốn hiện đại hóa hoặc chuyển đổi hệ thống IVR/Dialogflow CX sang voice agent mã nguồn mở, cho phép kiểm soát toàn bộ dữ liệu, tối ưu chi phí hạ tầng và kiểm thử tự động qua đường dây thoại thực tế.",
+  "strengths": [
+   "Chuyển đổi hai chiều Dialogflow CX và CX Agent Studio",
+   "Chạy cục bộ, bảo mật dữ liệu, không telemetry",
+   "Hỗ trợ 20 nhà cung cấp và mô hình mã nguồn mở",
+   "Đánh giá cuộc gọi thực tế qua Phone Bridge",
+   "Mô hình Agents as code quản lý dễ dàng qua Git"
+  ],
+  "weaknesses": [
+   "Chưa có benchmark định lượng chuẩn hóa về latency",
+   "Chưa tích hợp sẵn các hệ thống Contact Center lớn",
+   "Phụ thuộc giả định chưa kiểm chứng về GPU"
+  ],
+  "context": "Dự án mã nguồn mở do tác giả Rohan Salvi (C4rohan) phát triển và duy trì trên GitHub theo giấy phép Apache-2.0."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

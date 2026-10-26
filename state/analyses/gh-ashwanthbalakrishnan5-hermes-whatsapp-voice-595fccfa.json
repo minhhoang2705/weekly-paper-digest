@@ -1,0 +1,45 @@
+{
+ "id": "gh:ashwanthbalakrishnan5/hermes-whatsapp-voice",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Kết hợp khéo léo thư viện dịch ngược WhatsApp Rust với Gemini Live S2S và Hermes API, nhưng không giới thiệu kiến trúc âm thanh hay mô hình mới.",
+  "credibility": "Dự án cá nhân mã nguồn mở trên GitHub (116 stars, 14 forks), có quy trình kiểm thử và verify release attestation nhưng không phải công bố nghiên cứu qua bình duyệt.",
+  "technical": "Hiện thực tốt về mặt kỹ thuật hệ thống (Rust sidecar, quản lý linked device, resample audio 16kHz/24kHz, tích hợp tool calling với API server), dù phụ thuộc vào các thư viện bên thứ ba.",
+  "impact": "Tác động ở mức độ tiện ích ngách dành cho người dùng Hermes Agent, rủi ro vi phạm ToS của WhatsApp giới hạn việc triển khai sản xuất diện rộng.",
+  "evidence": "Tài liệu tập trung vào hướng dẫn cài đặt và mô tả kiến trúc triển khai, hoàn toàn không có số liệu đo lường định lượng (như latency hay chất lượng cuộc gọi)."
+ },
+ "summary": {
+  "tldr": "hermes-whatsapp-voice là một plugin cho Hermes Agent kết hợp sidecar viết bằng Rust để cho phép gọi điện thoại hai chiều qua WhatsApp cá nhân mà không cần WhatsApp Business/Cloud API. Dự án sử dụng Gemini Live (`gemini-3.8-live`) làm tầng speech-to-speech hai chiều ngắt quãng được (interruptible) và kết nối ngược lại Hermes API server để thực thi công việc thực tế.",
+  "problem": "Các trợ lý thoại tích hợp gọi điện thoại qua WhatsApp thường yêu cầu tài khoản WhatsApp Business / Cloud API phức tạp và tốn phí, hoặc chỉ hỗ trợ gửi tin nhắn văn bản thay vì đàm thoại hai chiều bằng giọng nói theo thời gian thực (speech-to-speech) có khả năng ngắt lời và giao việc cho agent.",
+  "method": "Hệ thống bao gồm hai thành phần chính: một plugin Hermes (Python) và một tiến trình sidecar (`hermes-wa-voice`) viết bằng Rust dựa trên thư viện `whatsapp-rust`. Sidecar liên kết với số WhatsApp của bot như một thiết bị phụ (linked device, chiếm 1 trong 4 slot của WhatsApp). Khi có cuộc gọi thoại (16 kHz in, 24 kHz out, được resample), sidecar làm cầu nối luồng âm thanh trực tiếp tới Gemini Live (`gemini-3.8-live`). Mô hình Gemini Live được cấp hai tool: `ask_hermes` (chuyển lượt đàm thoại tới Hermes API server qua endpoint `/v1/runs` và nói câu trả lời khi có kết quả) và `end_call` (ngắt máy sau khi chào tạm biệt). Plugin phía Hermes cung cấp các agent tool: `whatsapp_call_owner(reason, details?)` và `whatsapp_call_status(call_id?)` để cho phép agent chủ động gọi người dùng (hỗ trợ cron job/escalation). Khi kết thúc cuộc gọi, Hermes tóm tắt transcript và gửi tóm tắt qua tin nhắn WhatsApp.",
+  "setup": "Yêu cầu: Hermes `>= 0.21.5` trên Linux hoặc macOS; một số WhatsApp riêng cho bot (chế độ `bot`, không hỗ trợ `self-chat`); Gemini API key (`GOOGLE_API_KEY` hoặc `GEMINI_API_KEY`); Hermes API server được bật (`API_SERVER_ENABLED=true`, `API_SERVER_KEY`). Sidecar cung cấp binary dựng sẵn cho Linux amd64/arm64 và macOS arm64 (yêu cầu Rust 1.94+, cmake, C compiler nếu build từ source). Chi phí trả phí ước tính: khoảng $0.005/phút audio in và $0.018/phút audio out với Gemini Live.",
+  "results": [
+   "Không được nêu trong tài liệu (dự án dạng open-source tool/plugin, không có bảng đánh giá benchmark định lượng WER hay latency so sánh với baseline)."
+  ],
+  "limitations": "Sử dụng giao thức WhatsApp dịch ngược không chính thức (`whatsapp-rust`), tiềm ẩn rủi ro bị cập nhật WhatsApp làm gãy hoặc vi phạm Điều khoản Dịch vụ dẫn đến khóa số. Chỉ hỗ trợ 1 cuộc gọi tại một thời điểm; không hỗ trợ cuộc gọi nhóm và video. Kết nối Gemini Live giới hạn khoảng 10 phút mỗi phiên; dù sidecar có cơ chế resume nhưng vẫn có nguy cơ rớt cuộc gọi dài.",
+  "takeaways": "Cung cấp một kiến trúc tham khảo hữu ích cho việc tích hợp mô hình speech-to-speech thời gian thực (Gemini Live) với WhatsApp cá nhân thông qua linked-device bridge viết bằng Rust, giúp agent tự động leo thang (escalate) từ tác vụ nền sang cuộc gọi trực tiếp mà không cần thiết lập hạ tầng viễn thông phức tạp.",
+  "strengths": [
+   "Không cần WhatsApp Business/Cloud API",
+   "Bridge giọng nói thời gian thực với Gemini Live",
+   "Thiết kế bảo mật chỉ gọi/nghe chủ sở hữu",
+   "Hỗ trợ agent chủ động gọi và tóm tắt"
+  ],
+  "weaknesses": [
+   "Dùng giao thức WhatsApp không chính thức dễ bị ban",
+   "Giới hạn phiên Gemini Live 10 phút",
+   "Thiếu đánh giá độ trễ đàm thoại thực tế"
+  ],
+  "context": "Tác giả ashwanthbalakrishnan5, phát hành mã nguồn mở (giấy phép MIT) trên GitHub dưới dạng plugin cho hệ sinh thái NousResearch Hermes Agent."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}

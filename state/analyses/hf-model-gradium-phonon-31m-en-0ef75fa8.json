@@ -1,0 +1,48 @@
+{
+ "id": "hf-model:gradium/phonon-31m-en",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình kế thừa kiến trúc flow-matching transformer và Mimi codec từ Kyutai Pocket TTS, tập trung vào tối ưu kích thước siêu nhỏ (31M) và streaming on-device thay vì đề xuất một kiến trúc hoàn toàn mới.",
+  "credibility": "Mô hình được phát hành công khai bởi Gradium cùng trọng số, tích hợp chính thức vào Hugging Face Transformers và có runtime đa nền tảng rõ ràng, tuy nhiên không có bài báo khoa học bình duyệt (peer-reviewed paper) đi kèm.",
+  "technical": "Kỹ thuật tối ưu hóa và đóng gói hệ thống rất ấn tượng với việc hỗ trợ lượng tử hóa GGUF q8, phát sinh frame-by-frame 80 ms, cùng hệ sinh thái runtime phủ rộng từ WASM, Core ML, Snapdragon NPU đến C/C++ và Rust.",
+  "impact": "Đạt hơn 27.800 lượt tải và 105 likes trên Hugging Face, cung cấp giải pháp TTS on-device giấy phép Apache 2.0 có tiềm năng ứng dụng thực tế rất lớn trong các sản phẩm thương mại.",
+  "evidence": "Cung cấp đầy đủ số liệu đánh giá blind pairwise human listening test (hơn 8.200 vote Elo) và hai thang đo LLM WER so sánh trực diện với các baseline nguồn mở phổ biến (Kokoro, NeuTTS, Magpie), cùng mã nguồn và trọng số tải về trực tiếp."
+ },
+ "summary": {
+  "tldr": "phonon-31m-en là mô hình Text-to-Speech (TTS) kích thước cực nhỏ (31M tham số) dành riêng cho tiếng Anh, có khả năng streaming on-device trên trình duyệt, điện thoại hoặc CPU máy tính. Mô hình kết hợp flow-matching transformer với Mimi codec (Kyutai), cho phép xuất âm thanh 24 kHz với độ trễ mỗi khung hình 80 ms dưới giấy phép thương mại Apache 2.0.",
+  "problem": "Nhiều mô hình TTS chất lượng cao hiện nay có kích thước tham số lớn, đòi hỏi GPU mạnh mẽ hoặc phụ thuộc vào cloud API với độ trễ khứ hồi cao (round trip latency), không phù hợp cho các tác vụ tương tác thời gian thực, trợ lý giọng nói ngoại tuyến (offline) hoặc các thiết bị biên (edge devices) bị giới hạn tài nguyên.",
+  "method": "Phonon được phát triển dựa trên Pocket TTS và audio codec Mimi từ Kyutai. Kiến trúc gồm một flow-matching transformer dự đoán các audio latent từ văn bản đầu vào theo từng khung hình 80 ms (frame-by-frame), sau đó Mimi decoder chuyển đổi latent thành dạng sóng âm thanh mono 24 kHz. Mô hình hỗ trợ streaming ngay trong quá trình sinh latent. Trọng số được lượng tử hóa 8-bit (q8) định dạng GGUF với kích thước chỉ 64.5 MB. Mô hình hỗ trợ voice cloning/prompting thông qua embedding âm thanh đầu vào (ví dụ định dạng `.safetensors` với shape `(num_frames, 512)`).",
+  "setup": "Mô hình hỗ trợ tiếng Anh (mono, 24 kHz). Hệ sinh thái runtime đa nền tảng gồm: thư viện Python `ptts` (qua PyPI hoặc `uvx`), Hugging Face `transformers` (`GradiumPhononTTSForConditionalGeneration`), Web/WASM (`phonon-tts` npm), iOS/macOS (Core ML / Swift), Android (bao gồm hỗ trợ Snapdragon NPU), Docker API tương thích OpenAI, WebSocket server, Rust (`ptts` crates.io) và C/C++ FFI. Đánh giá thực nghiệm so sánh với Kokoro, Magpie và NeuTTS thông qua: Elo (human preference mù từ 468 người chấm, 8.290 lượt bình chọn), Hard set LLM WER (đoạn văn phức tạp chứa số, ngày tháng, mã, đơn vị đo) và Seed-TTS LLM WER.",
+  "results": [
+   "Elo rating (English US, 468 raters, 8.290 votes): phonon-31m-en đạt 2098 điểm (vượt Kokoro 2043, NeuTTS 2034, Magpie 1939; xếp sau phonon-40m-en đạt 2117).",
+   "Hard set LLM WER (English US): phonon-31m-en đạt 1.5% (tốt nhất bảng, vượt phonon-40m-en 2.3%, phonon-40m-multilingual 2.0%, Kokoro 3.5%, NeuTTS 8.7%, Magpie 28%).",
+   "Seed-TTS LLM WER (English US): phonon-31m-en đạt 0.51% (so với Kokoro 0.45%, phonon-40m-en 0.45%, phonon-40m-multilingual 0.48%, Magpie 0.46%, NeuTTS 0.62%)."
+  ],
+  "limitations": "Mô hình chỉ hỗ trợ tiếng Anh; văn bản ngôn ngữ khác sẽ bị phát âm sai. Cần module chuẩn hóa văn bản (text normalization) phù hợp để đọc đúng số, ngày tháng và ký hiệu. Văn bản dài bị chia nhỏ theo câu nên ngữ điệu (prosody) không duy trì liền mạch xuyên suốt toàn bộ đoạn văn. Tài liệu không công bố chi tiết về tập dữ liệu huấn luyện hoặc thời lượng giờ âm thanh đã dùng.",
+  "takeaways": "Lựa chọn hàng đầu cho các kỹ sư cần triển khai TTS streaming siêu nhẹ trên edge/on-device (WASM, mobile, CPU) với chất lượng tiếng Anh cao, license thương mại Apache 2.0 và hệ sinh thái đa ngôn ngữ lập trình hoàn chỉnh.",
+  "strengths": [
+   "Kích thước siêu nhỏ gọn (31M params, 64.5 MB)",
+   "Độ trễ thấp, streaming theo khung 80 ms",
+   "Giấy phép thương mại mở Apache 2.0",
+   "Hệ sinh thái runtime đa nền tảng toàn diện",
+   "Kết quả Hard set WER và Elo vượt trội"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ duy nhất tiếng Anh",
+   "Không giữ ngữ điệu qua các câu dài",
+   "Thiếu thông tin chi tiết về dataset huấn luyện"
+  ],
+  "context": "Mô hình do Gradium phát triển và phát hành mã nguồn mở trên Hugging Face cùng runtime trên GitHub, kế thừa từ Pocket TTS và Mimi codec của Kyutai."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W44"
+}
