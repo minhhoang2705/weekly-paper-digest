@@ -1,0 +1,49 @@
+{
+ "id": "hf-model:ServiceNow-AI/Apriel-Voice-27B-preview",
+ "topic": "Speech Understanding",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Kiến trúc kết hợp Whisper encoder và LLM backbone qua projector là phổ biến, điểm mới nằm ở việc tích hợp trơn tru thinking mode và tool-calling cho audio dài.",
+  "credibility": "Đến từ bộ phận nghiên cứu AI của ServiceNow kèm mã nguồn MIT, tài liệu kỹ thuật chi tiết, artifact Docker vLLM và demo trực tiếp.",
+  "technical": "Quy trình huấn luyện căn chỉnh kỹ lưỡng bằng replay/distillation, cùng cấu hình serving vLLM chuyên sâu kết hợp speculative decoding và FlashInfer.",
+  "impact": "Cung cấp giải pháp mã nguồn mở mạnh mẽ về voice agent cho cộng đồng, dù mức độ phổ biến trên Hugging Face hiện ở mức ban đầu (50 likes, 294 downloads).",
+  "evidence": "Cung cấp bảng so sánh số liệu đo lường cụ thể trên nhiều benchmark đàm thoại (EVA, $\\tau$-Voice), ASR chuẩn và bài toán suy luận giọng nói với các baseline thương mại lẫn nguồn mở."
+ },
+ "summary": {
+  "tldr": "Apriel Voice 27B Preview là mô hình ngôn ngữ - giọng nói mã nguồn mở (MIT) từ ServiceNow-AI, kết hợp bộ mã hóa Whisper large-v3-turbo với backbone Gemma 4 26B-A4B qua learned projector. Mô hình có khả năng nhận dạng, hiểu lệnh giọng nói, suy luận đa bước (thinking mode) và gọi công cụ (tool use) dưới dạng text, phối hợp với external speech synthesizer để tạo hệ thống đàm thoại 2-stage.",
+  "problem": "Xây dựng các trợ lý thoại tương tác và quy trình hỗ trợ khách hàng thường đòi hỏi kết hợp hiểu giọng nói, suy luận phức tạp và gọi công cụ (tool calling) với độ trễ thấp. Các giải pháp mã nguồn mở 2-stage trước đây thường có điểm trải nghiệm đàm thoại hoặc năng lực giải quyết tác vụ (task success) kém xa các hệ thống thương mại Native S2S hoặc gặp khó khăn khi xử lý âm thanh dài và tool use.",
+  "method": "Mô hình gồm bộ mã hóa Whisper large-v3-turbo kết nối với Gemma 4 26B-A4B thông qua một learned projector. Quá trình huấn luyện diễn ra theo hai giai đoạn: đầu tiên căn chỉnh giao diện giọng nói (align speech interface), sau đó tiếp tục thích ứng projector cùng mô hình nền bằng các tác vụ giọng nói kết hợp cơ chế text replay. Giám sát huấn luyện sử dụng kết hợp cross-entropy loss và teacher distillation tùy theo nguồn dữ liệu. Bộ xử lý tự động chia audio 16 kHz mono thành các chunk 30 giây dùng chung context window với văn bản, cho phép xử lý các đoạn ghi âm dài liên tục tới 30 phút (hỗ trợ cấu hình lên 1 giờ). Checkpoint tạo phản hồi text và tool call dạng cấu trúc, hỗ trợ thinking mode và kết hợp với synthesizer bên ngoài (Cartesia Sonic 3.5).",
+  "setup": "Đánh giá hội thoại và tác vụ thoại trên benchmark EVA-A (service accuracy), EVA-X (conversational experience), và $\\tau$-Voice pass@1 kèm độ trễ phản hồi toàn hệ thống. Đánh giá ASR trên LibriSpeech, GigaSpeech, $\\mu$-Bench, FLEURS, Earnings21. Đánh giá suy luận giọng nói trên 8 tập dữ liệu (BFCL, Big Bench Audio, IFEval, MT-Bench, Spoken SQuAD, Alpaca Audio, OpenHermes, GSM8K). Đánh giá văn bản với Gemma 4 26B-A4B trên MMLU-Pro, GPQA Diamond, AIME, MATH-500, AMC 2023, $\\tau^2$. Phục vụ suy luận tối ưu hóa bằng vLLM Docker (`docker.io/amant555/vllm_apriel_voice:optimised-26b-v0.32.0`) trên 4 GPU H100 80 GB kèm speculative decoding (`google/gemma-4-26B-A4B-it-assistant`), FlashInfer và FlashAttention-4.",
+  "results": [
+   "Đạt 51.27% EVA-A và 74.13% EVA-X, vượt trội so với các hệ thống mã nguồn mở 2-stage khác như UltraVox v0.6 (8.94% EVA-A, 1.91% EVA-X) và Audex-30B-A3B (5.66% EVA-A, 8.2% EVA-X), đồng thời EVA-X cao hơn cả GPT Realtime 2.1 (61.6%) và Gemini-3.8 Live Extended Thinking (73.5%).",
+   "Đạt tỷ lệ thành công tác vụ $\\tau$-Voice pass@1 là 65.51% với độ trễ phản hồi trung bình 1.91 giây, tiệm cận GPT Realtime 2.1 (69.82%, 1.55 giây) và tốt hơn đáng kể so với UltraVox v0.6 (26.80%, 3.95 giây).",
+   "Hiệu năng nhận dạng giọng nói tiếng Anh (WER): đạt 2.23% trên LibriSpeech test-clean, 5.15% trên LibriSpeech test-other, 10.20% trên GigaSpeech, 10.76% trên $\\mu$-Bench (en-US), 3.55% trên FLEURS (en-US) và 11.25% trên Earnings21.",
+   "Điểm trung bình audio reasoning trên 8 benchmark đạt 85.84 (với GSM8K đạt 93.18, Big Bench Audio đạt 98.90, IFEval đạt 86.47, MT-Bench đạt 86.19, Spoken SQuAD đạt 82.24, BFCL đạt 81.13, OpenHermes đạt 81.8, Alpaca Audio đạt 76.8).",
+   "Giữ vững năng lực suy luận văn bản so với Gemma 4 26B-A4B gốc (GPQA Diamond: 80.40% vs 77.80%; $\\tau^2$: 70.95% vs 68.93%; MMLU-Pro: 84.42% vs 85.27%)."
+  ],
+  "limitations": "Mô hình không phải là native full-duplex speech-to-speech mà chỉ sinh văn bản và tool calls, cần hạ tầng bên ngoài để tổng hợp âm thanh (TTS) và quản lý chuyển lượt (turn-taking). Hiệu năng đa ngôn ngữ không đồng đều và kém hơn tiếng Anh; giọng nói có nhiễu hoặc mic xa vẫn là thách thức lớn. Âm thanh dài có thể gây lặp từ hoặc mất tính mạch lạc. Khả năng thực thi chính xác chuỗi workflow công cụ phức tạp vẫn có rủi ro sai sót.",
+  "takeaways": "Apriel Voice 27B là lựa chọn nguồn mở mạnh mẽ theo kiến trúc 2-stage cho bài toán voice agent và tool calling, đặc biệt khi được tối ưu hóa serving qua vLLM kết hợp speculative decoding trên hạ tầng GPU chuyên dụng.",
+  "strengths": [
+   "Bản quyền mã nguồn mở MIT hoàn toàn",
+   "Hỗ trợ đồng thời audio, text, images và tool calling",
+   "Khả năng suy luận giọng nói và EVA-X rất cao",
+   "Có sẵn image vLLM tối ưu hóa hiệu năng cao"
+  ],
+  "weaknesses": [
+   "Không sinh âm thanh trực tiếp (cần external TTS)",
+   "Yêu cầu phần cứng lớn (khuyến nghị 4x GPU H100)",
+   "Chất lượng đa ngôn ngữ chưa đồng đều ngoài tiếng Anh"
+  ],
+  "context": "Nhóm nghiên cứu ServiceNow-AI (dẫn đầu bởi Aman Tiwari và các cộng sự), công bố dưới dạng model release kèm technical report và Spaces demo trên Hugging Face năm 2026."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

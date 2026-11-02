@@ -1,0 +1,51 @@
+{
+ "id": "hf-model:Edge0/Audio8-TTS-Realistic-0.6b",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 2,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Kiến trúc DualAR được kế thừa trực tiếp từ Fish Audio S2 Pro mà không có đổi mới đột phá về mặt cấu trúc mô hình.",
+  "credibility": "Mô hình phát hành từ nhóm nguồn mở Edge0 đi kèm bài báo arXiv và mã nguồn/checkpoint đầy đủ, dù chưa qua bình duyệt tại hội nghị chuyên ngành.",
+  "technical": "Thiết kế kỹ thuật hoàn chỉnh gồm DualAR, codec 44.1 kHz tích hợp và adapter SGLang Omni với paged attention và dynamic batching, dù chi tiết quy trình huấn luyện không được mô tả.",
+  "impact": "Nhận được sự quan tâm đáng kể từ cộng đồng (207 likes, hơn 4.6k lượt tải) nhờ kích thước nhỏ gọn 0.6B và giấy phép Apache 2.0 thân thiện.",
+  "evidence": "Báo cáo thực nghiệm rất chi tiết trên Seed-TTS, CV3 (22 ngôn ngữ) và MiniMax (24 ngôn ngữ) với các chỉ số WER/CER, SIM rõ ràng và so sánh với nhiều baseline mạnh."
+ },
+ "summary": {
+  "tldr": "Audio8-TTS-Realistic-0.6b là mô hình text-to-speech tự hồi quy kép (DualAR) nhỏ gọn với 601M tham số, hỗ trợ zero-shot voice cloning và mở rộng lên 23 ngôn ngữ. Mô hình cải thiện đáng kể độ chân thực (prosody và biểu cảm) so với bản Preview trước đó và hỗ trợ serving production thông qua SGLang Omni.",
+  "problem": "Các mô hình TTS hiện đại thường có kích thước rất lớn hoặc hạn chế về số lượng ngôn ngữ hỗ trợ, trong khi các hệ thống nhỏ gọn thường gặp khó khăn trong việc tạo ra giọng nói tự nhiên, giàu cảm xúc và hỗ trợ zero-shot voice cloning đa ngôn ngữ ổn định.",
+  "method": "Mô hình kế thừa kiến trúc DualAR từ Fish Audio S2 Pro: Slow AR Transformer (24 layers, width 896, 14 attention heads, 2 KV heads) dự đoán 1 semantic token cho mỗi audio frame; Fast AR Transformer (4 layers, width 896, 14 attention heads, 2 KV heads) dự đoán các codec codebook dựa trên hidden state của Slow AR và các codebook phía trước. Hệ thống acoustic tokens dùng 10 codebooks (4,096 entries/codebook), context window lên đến 2,048 vị trí text/audio. Mô hình đi kèm neural audio codec độc lập 44.1 kHz (~21.5 frames/s, 2,048 samples/frame) phụ trách cả mã hóa audio tham chiếu và giải mã waveform. Dữ liệu và kỹ thuật huấn luyện cụ thể không được nêu trong tài liệu.",
+  "setup": "Cấu hình triển khai yêu cầu Python >= 3.10, PyTorch >= 2.5.0, Transformers 4.57.0–5, chạy qua custom code (`trust_remote_code=True`). Hệ thống hỗ trợ GPU serving bằng SGLang Omni (hỗ trợ paged attention, dynamic batching, fixed KV cache cho Fast AR và API chuẩn OpenAI `/v1/audio/speech`). Bộ đánh giá gồm: Seed-TTS (EN/ZH), CV3 (22 ngôn ngữ) và MiniMax (24 ngôn ngữ), sử dụng các chỉ số WER/CER và Speaker Similarity (SIM trên thang 0–1).",
+  "results": [
+   "Trên Seed-TTS (macro EN/ZH): Audio8-TTS-Realistic đạt tỉ lệ lỗi 1.25% và SIM 0.704 (so với bản Preview đạt 1.23% lỗi và 0.682 SIM; Fish S2 Pro đạt 1.32% lỗi; CosyVoice3-1.5B đạt 1.67% lỗi).",
+   "Chi tiết Seed-TTS: Tiếng Anh đạt WER 1.464% (SIM 0.663); tiếng Trung đạt CER 1.029% (SIM 0.745); tiếng Trung tập khó (hard) đạt CER 12.797% (SIM 0.702).",
+   "Trên benchmark CV3 (9 ngôn ngữ chính): Tỉ lệ lỗi đạt 4.86% và SIM đạt 0.661, vượt trội hơn Qwen3-TTS-1.7B (7.73%), MOSS-TTS-v1.5 (6.11%) và CosyVoice3-1.5B (6.89%).",
+   "Trên benchmark MiniMax (24 ngôn ngữ): Tỉ lệ lỗi trung bình đạt 5.89% và SIM đạt 0.754 (vượt Qwen3-TTS-1.7B với 27.41% lỗi, tiệm cận Fish S2 Pro với 4.40%).",
+   "Chất lượng tiếng Việt: Trên CV3 đạt WER 28.111% và SIM 0.6790; trên MiniMax đạt CER 7.966% và SIM 0.7120."
+  ],
+  "limitations": "Chất lượng âm thanh không đồng đều giữa các ngôn ngữ; một số ngôn ngữ có tỉ lệ lỗi còn rất cao (ví dụ CV3 Thai WER 48.574%, Finnish WER 32.279%, Vietnamese WER 28.111%, Cantonese CER trên MiniMax 31.349%). Âm thanh mẫu ồn hoặc văn bản tham chiếu không khớp chính xác sẽ làm giảm tính ổn định; mô hình vẫn có thể gặp hiện tượng phát âm sai, lặp từ, nuốt từ hoặc dừng sinh sớm. Tốc độ throughput và khả năng streaming trên SGLang Omni chưa được benchmark định lượng.",
+  "takeaways": "Là một lựa chọn mã nguồn mở (Apache 2.0) rất tiềm năng cho các ứng dụng TTS đa ngôn ngữ nhỏ gọn (0.6B) với chất lượng tiếng Anh và tiếng Trung xuất sắc. Hỗ trợ sẵn SGLang Omni giúp việc đưa vào production thuận tiện, nhưng cần kiểm định kỹ lưỡng chất lượng nếu triển khai cho các ngôn ngữ có độ lỗi cao như tiếng Việt hay tiếng Thái.",
+  "strengths": [
+   "Kích thước nhỏ gọn 601M tham số",
+   "Hỗ trợ tới 23 ngôn ngữ",
+   "Đi kèm codec 44.1 kHz hoàn chỉnh",
+   "Tích hợp sẵn SGLang Omni serving",
+   "Giấy phép mã nguồn mở Apache 2.0"
+  ],
+  "weaknesses": [
+   "Độ lỗi rất cao ở một số ngôn ngữ",
+   "Không công bố tập dữ liệu huấn luyện",
+   "Cần bật trust_remote_code khi chạy",
+   "Chưa đo kiểm throughput và streaming"
+  ],
+  "context": "Mô hình được phát triển và phát hành mã nguồn mở bởi Edge0 trên Hugging Face / GitHub kèm liên kết bài báo arXiv:2610.14776."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

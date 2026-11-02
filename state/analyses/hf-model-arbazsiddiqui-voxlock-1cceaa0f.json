@@ -1,0 +1,51 @@
+{
+ "id": "hf-model:arbazsiddiqui/voxlock",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Kế thừa kiến trúc causal BSRNN và WeSpeaker ECAPA từ các công trình trước (REAL-TSE/WeSep), nhưng đóng góp quy trình fine-tuning 4 giai đoạn hiệu quả và cơ chế tự động tìm caller mà không cần audio đăng ký ban đầu.",
+  "credibility": "Phát hành bởi nhà phát triển cá nhân arbazsiddiqui trên Hugging Face/GitHub, không qua bình duyệt học thuật nhưng cung cấp đầy đủ benchmark mở, mã nguồn và checkpoint có thể tái lập.",
+  "technical": "Quy trình huấn luyện và tối ưu hệ thống chặt chẽ với latency 24 ms, hỗ trợ lượng tử hóa ONNX int8, cung cấp đầy đủ wrapper cho các framework voice agent hiện đại (Pipecat, LiveKit, sherpa-onnx C++).",
+  "impact": "Giải quyết trực diện nút thắt background crosstalk cho voice agents với hiệu năng vượt giải pháp thương mại và tích hợp sẵn vào các framework phổ biến.",
+  "evidence": "Được kiểm nghiệm chi tiết trên hai tập benchmark thực tế (Krisp benchmark 265 file và AMI 134 window), đo lường cả WER lẫn tỷ lệ rò rỉ từ nền và profiling chi tiết tài nguyên CPU/GPU."
+ },
+ "summary": {
+  "tldr": "VoxLock là mô hình tách giọng nói (voice isolation / target speaker extraction) mã nguồn mở với 27M tham số, được thiết kế tối ưu cho voice agents và điện thoại viễn thông. Mô hình tự động nhận diện và giữ lại giọng nói của người gọi (caller) đồng thời triệt tiêu giọng nói nền xung quanh với độ trễ thuật toán chỉ 24 ms trên CPU.",
+  "problem": "Trong các ứng dụng voice agents và hệ thống tổng đài (call center), giọng nói của người khác xung quanh phòng (background voices/crosstalk) thường lọt vào microphone, khiến hệ thống Speech-to-Text (STT) nhận diện sai và làm gián đoạn hội thoại.",
+  "method": "VoxLock sử dụng kiến trúc Band-Split RNN (BSRNN) nhân quả (causal) với 27M tham số kết hợp mô hình trích xuất speaker embedding ECAPA-TDNN (từ WeSpeaker). Mô hình nhận đầu vào là audio cuộc gọi đơn kênh và tự động trích xuất giọng người gọi từ 15 giây đầu (hoặc 3 giây đầu khi streaming ở chế độ `live()`), hoặc nhận mẫu âm thanh đăng ký trước (`sample`). Quá trình fine-tune được khởi tạo từ baseline `REAL-TSE tfmap_context_causal_100` trên một GPU NVIDIA L4 qua 4 giai đoạn nối tiếp: (1) 4.000 bước với cuộc gọi mô phỏng (người nói LibriSpeech + giọng nền trong phòng mô phỏng), (2) 4.000 bước với nhiễu xuyên âm thực tế từ 40 cuộc họp tập dữ liệu AMI, (3) 800 bước cho cuộc gọi dài 30 giây, và (4) 400 bước tinh chỉnh độ vang phòng, khoảng cách micro và tiếng ồn. Mô hình được xuất sang định dạng ONNX với 4 mức lượng tử hóa (`int8`, `int8-full`, `fp16`, `fp32`).",
+  "setup": "Đánh giá chất lượng nhận dạng sau tách giọng bằng Parakeet TDT 0.6B trên hai tập dữ liệu: (1) Krisp Voice Isolation Benchmark (265 bản ghi thực tế) và (2) AMI Meeting Corpus (134 đoạn kiểm thử held-out với người đeo headset là caller). So sánh với các mô hình thương mại trả phí (Krisp VI 2.5 các biến thể, ai-coustics Voice Focus 2.2, Sanas SE 1.0, ElevenLabs Voice Isolator) và mã nguồn mở (REAL-TSE causal, Hush, DeepFilterNet3, TIGER, Meta SAM-Audio small). Đo lường hiệu năng thời gian thực trên CPU Google Cloud g2-standard-8 (Intel Xeon @ 2.20 GHz, onnxruntime 1.31.1). Hỗ trợ tiếng Anh, thư viện `pip install voxlock`, và tích hợp sẵn vào Pipecat, LiveKit, sherpa-onnx (C++).",
+  "results": [
+   "Trên Krisp Benchmark (265 bản ghi), VoxLock đạt Word Error Rate (WER) 4.95% và rò rỉ 0.11 từ nền/phút (Background words leaked/min), vượt qua Krisp VI 2.5 Default (5.30% WER, 1.52 từ/phút), ai-coustics Voice Focus 2.2 L (6.84% WER, 0.66 từ/phút) và audio gốc chưa xử lý (23.21% WER, 66.48 từ/phút).",
+   "Ở chế độ streaming tự động (`live()`), VoxLock đạt 5.15% WER trên 265 bản ghi Krisp.",
+   "Trên 7 bản ghi nhiều giọng nền nhất từ Krisp Benchmark, VoxLock đạt 2.98% WER và 0.0 từ rò rỉ/phút, so với ElevenLabs Voice Isolator đạt 43.79% WER và 144.6 từ rò rỉ/phút (gốc chưa xử lý là 45.82% WER, 154.3 từ rò rỉ/phút).",
+   "Trên 134 đoạn held-out AMI, VoxLock đạt WER thấp nhất ở mức 10.12% và rò rỉ 2.12 từ/phút, so với ai-coustics Voice Focus 2.2 S (11.85% WER, 1.06 từ/phút) và gốc chưa xử lý (33.03% WER, 78.34 từ/phút).",
+   "Về tốc độ trên 1 luồng CPU Intel Xeon: chunk 40 ms đạt Real-time factor (RTF) 0.77 (77% 1 core CPU), chunk 80 ms đạt RTF 0.61 (61% 1 core). Trên GPU NVIDIA L4 (fp32, CUDA), tốc độ xử lý nhanh gấp 40 lần thời gian thực.",
+   "Phiên bản lượng tử hóa int8 mặc định có kích thước tải 74 MB, giữ được 99.8% độ chính xác so với fp32 (đạt 5.11% WER và 0.12 từ rò rỉ/phút)."
+  ],
+  "limitations": "Chỉ được huấn luyện và kiểm thử trên tiếng Anh (LibriSpeech, AMI). Khi streaming tự động không có mẫu đăng ký trước, mô hình phải cho audio đi qua nguyên bản trong 3 giây đầu để xác định người gọi rồi mới bắt đầu cô lập giọng. Chạy chunk 20 ms trên một luồng CPU đơn bị quá tải (RTF 1.10, chiếm 110% core), đòi hỏi phải dùng từ 2 luồng hoặc chunk từ 40 ms trở lên để bắt kịp thời gian thực.",
+  "takeaways": "VoxLock là giải pháp tách giọng người gọi mã nguồn mở vượt trội hơn nhiều công cụ thương mại đóng phí, sẵn sàng triển khai ngay vào luồng xử lý voice agent thời gian thực nhờ độ trễ thấp (24 ms) và các tích hợp sẵn với Pipecat, LiveKit và sherpa-onnx.",
+  "strengths": [
+   "Vượt qua các giải pháp thương mại trả phí",
+   "Độ trễ thuật toán thấp chỉ 24 ms",
+   "Tự động khóa giọng caller không cần sample",
+   "Tích hợp sẵn LiveKit, Pipecat và C++",
+   "Mô hình nhỏ gọn hỗ trợ ONNX int8"
+  ],
+  "weaknesses": [
+   "Chỉ huấn luyện và đánh giá trên tiếng Anh",
+   "Chậm 3 giây ban đầu khi streaming tự động",
+   "Không chạy kịp trên 1 luồng với chunk 20ms"
+  ],
+  "context": "Mô hình mã nguồn mở do nhà phát triển độc lập arbazsiddiqui phát hành dưới giấy phép Apache-2.0 trên Hugging Face và GitHub, xây dựng dựa trên WeSep và baseline REAL-TSE."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

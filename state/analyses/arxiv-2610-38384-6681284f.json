@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.38384",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng xem từ điển tĩnh như reward model cấp độ phone để thực hiện RAFT và phương pháp huấn luyện population voice nhằm ẩn danh hóa là hướng tiếp cận mới mẻ cho TTS ngôn ngữ ít tài nguyên.",
+  "credibility": "Bài báo xuất bản dạng preprint độc lập từ tác giả đơn lẻ (Laneguage) trên arXiv, nhưng có ghi nhận minh bạch mã nguồn, hash dữ liệu và phát hành checkpoint mở theo giấy phép Apache-2.0.",
+  "technical": "Bài viết thể hiện kỹ thuật sâu khi cô lập và sửa chữa được các lỗi rò rỉ dữ liệu và lệch nhãn trong script vendor của Qwen3-TTS, kết hợp thiết kế critic và quy trình RAFT chặt chẽ.",
+  "impact": "Tạo ra mô hình TTS mã nguồn mở chất lượng cao đầu tiên cho tiếng Ireland theo giấy phép Apache-2.0 và quy trình chuyển giao có giá trị tham khảo cho các ngôn ngữ thiểu số khác.",
+  "evidence": "Thực nghiệm có đối chiếu nhiều baseline, thực hiện kiểm định bootstrap paired CI, phân tích phân rã lỗi ngôn ngữ và cross-check bằng hệ thống ASR độc lập, dù vẫn thiếu bài kiểm tra nghe chủ quan của con người."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu chứng minh khả năng thích ứng mô hình text-to-speech lớn (Qwen3-TTS 0.6B) sang một ngôn ngữ chưa từng xuất hiện trong pre-training (tiếng Ireland) chỉ với 12.8 giờ thu âm crowdsourced. Bằng cách biến từ điển phát âm Wiktionary thành phoneme critic đóng vai trò verifier cho rejection fine-tuning (RAFT), hệ thống đạt CER 0.159 cross-corpus trên một giọng nói ẩn danh đại diện quần thể (population voice).",
+  "problem": "Tiếng Ireland (Gaeilge) có hệ thống chính tả phức tạp (deep orthography), biến đổi phụ âm đầu (initial mutations) và nhiều phương ngữ, nhưng dữ liệu giọng nói có gán nhãn rất ít (Common Voice chỉ có ~13 giờ, chủ yếu là người học). Các mô hình TTS tiên tiến hiện nay hoặc không hỗ trợ tiếng Ireland, hoặc mang giấy phép phi thương mại, trong khi việc thích ứng mô hình lớn sang ngôn ngữ mới thường thiếu cả preference của con người lẫn hệ thống ASR chuẩn.",
+  "method": "Tác giả đề xuất quy trình thích ứng gồm bốn thành phần chính:\n- **Khắc phục lỗi script fine-tuning của vendor**: Phát hiện và sửa hai lỗi nghiêm trọng trong mã huấn luyện Qwen3-TTS (lỗi dịch nhãn kép hai khung hình do cả trainer lẫn Transformers cùng shift nhãn; lỗi data leakage ở sub-talker do hidden state đầu vào chứa sẵn embedding tổng của 16 nhóm mã cùng khung hình).\n- **Xây dựng giọng ẩn danh quần thể (Population Voice)**: Gộp toàn bộ 202 người nói trong tập dữ liệu dưới một voice tag duy nhất (`ga_blend_m1`) với speaker embedding là trung bình của các donor reference clip, vượt qua bài kiểm tra độ tương đồng nearest-speaker (thay vì blend số ít người nói khiến giọng bị kéo về donor gần nhất).\n- **Từ điển đóng vai trò Verifier (Pronunciation Critic)**: Trích xuất 11,532 từ kèm phiên âm IPA (gắn nhãn 3 phương ngữ Munster, Ulster, Connacht) từ Wiktionary. Dùng silver label để tinh chỉnh wav2vec2-XLS-R (300M) làm CTC phoneme recogniser (đạt phone error rate PER 0.164 trên người nói chưa thấy).\n- **Rejection Fine-Tuning (RAFT)**: Từ checkpoint broad SFT, lấy mẫu 4 ứng viên cho mỗi câu trong số 250 prompt ở nhiệt độ 1.0 (tổng 1,000 clips); critic chấm điểm qua hàm thưởng kết hợp $\\text{reward} = -\\text{PER}_{\\text{target}} + 0.5 \\times \\text{margin}$ kèm hình phạt ASR-CER $> 0.35$; lọc lấy 84 clips tốt nhất để huấn luyện LoRA adapter (rank-16, $\\alpha=32$).",
+  "setup": "Huấn luyện trên Common Voice Irish 27.0 (CC0, 12,311 clips từ 202 người nói, 12.84 giờ sau khi lọc). Đánh giá speaker-disjoint trên tập held-out Common-80, FLEURS-223, in-domain-400, FLEURS-train-200 và các bài kiểm tra câu dài. Đánh giá tự động qua hai hệ thống ASR không chia sẻ pipeline: Irish Whisper tinh chỉnh (primary scorer) và Blas-IE (wav2vec2-XLS-R CTC, independent cross-check). Huấn luyện trên 1 card NVIDIA RTX PRO 6000 (96 GB), tối ưu AdamW, mixed precision bf16.",
+  "results": [
+   "Broad SFT (0.6B) đạt CER cross-corpus 0.225 trên FLEURS-223, vượt trội so với Matcha-TTS huấn luyện từ đầu (0.397) và zero-shot clone Qwen3-TTS 1.7B (0.437).",
+   "Rejection fine-tuning (verifier-RAFT) với 84 clips chọn lọc giúp giảm CER cross-corpus trên FLEURS-223 xuống 0.159 (3-draw mean; khoảng chênh lệch $\\Delta -0.066$ $[-0.076, -0.056]$) và CER in-domain xuống 0.067 (sát ground-truth floor 0.054).",
+   "Trên hệ thống chấm độc lập Blas-IE, RAFT tiếp tục tái lập chiến thắng (CER cross-corpus 0.175 so với 0.218 của broad SFT).",
+   "Giọng Glór Nua vượt qua bài kiểm tra ẩn danh quần thể với độ tương đồng 0.87–0.88 (dưới ngưỡng 0.93), trong khi trộn 3 donor thất bại (độ tương đồng 0.88–0.90 vượt ngưỡng 0.82).",
+   "Công cụ critic định lượng độ lệch phương ngữ trong tập huấn luyện: 8,451/12,311 clip nghiêng về Munster, trong khi Ulster chỉ có 229 clip; điều này giải thích việc áp dụng RAFT, DPO hay huấn luyện trên tập con đều thất bại trong việc lái giọng (steering) sang phương ngữ thiểu số."
+  ],
+  "limitations": "Chưa thực hiện đánh giá nghe từ người bản ngữ (native listener evaluation) cho độ tự nhiên, độ chấp nhận phát âm và tính xác thực phương ngữ. Critic chỉ đo độ tương thích với từ điển quy chuẩn (lexicon conformity), không đo được độ tự nhiên bản ngữ (nativeness). Toàn bộ mô hình kế thừa độ lệch giọng người học (learner speech) từ Common Voice. Không thể tổng hợp phương ngữ thiểu số do mất cân bằng dữ liệu nghiêm trọng.",
+  "takeaways": "Từ điển phát âm tĩnh kết hợp cùng mô hình acoustic tự giám sát (XLS-R) có thể đóng vai trò như một reward model/verifier hiệu quả để thực hiện RAFT cho các ngôn ngữ cực hiếm khi thiếu ASR chuẩn. Gom toàn bộ tập người nói vào một voice tag chung là giải pháp thực tế để tạo giọng đọc ẩn danh hợp pháp thay vì blend vài người nói. Cần kiểm tra kỹ mã nguồn fine-tuning của bên thứ ba trước khi chạy thực nghiệm.",
+  "strengths": [
+   "Phương pháp verifier-RAFT hiệu quả chỉ từ 84 clips",
+   "Phát hiện và sửa hai lỗi mã vendor Qwen3-TTS",
+   "Kỹ thuật population voice đảm bảo tính ẩn danh",
+   "Định lượng chính xác nguyên nhân thất bại phương ngữ",
+   "Đánh giá nghiêm ngặt kèm cross-check độc lập"
+  ],
+  "weaknesses": [
+   "Hoàn toàn thiếu đánh giá người nghe bản xứ",
+   "Kế thừa độ lệch giọng người học Common Voice",
+   "Thất bại trong việc lái sang phương ngữ thiểu số"
+  ],
+  "context": "Tác giả William Lane thuộc Laneguage; bài báo xuất bản trên arXiv (10/2026), kèm phát hành mô hình Glór Nua (glor-nua-irish-tts-0.6b) theo giấy phép Apache-2.0 trên Hugging Face."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

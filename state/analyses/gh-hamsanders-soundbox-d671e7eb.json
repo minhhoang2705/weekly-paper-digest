@@ -1,0 +1,49 @@
+{
+ "id": "gh:hamsanders/soundbox",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 3,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Dự án kết hợp runtime native audio.cpp không cần Python với MCP server và timeline studio thành một ứng dụng desktop/API hoàn chỉnh, dù bản thân các mô hình sinh âm thanh là open-weights có sẵn.",
+  "credibility": "Kho mã nguồn mở cá nhân của tác giả HamSanders, tài liệu cấu trúc rõ ràng, có bản phát hành thực tế và liên kết minh bạch tới giấy phép từng mô hình.",
+  "technical": "Thiết kế hệ thống tốt khi đóng gói giao diện phòng thu multi-track, runtime C++ native, quản lý cơ sở dữ liệu SQLite và bộ công cụ giao thức MCP 24 tools.",
+  "impact": "Có tiềm năng trở thành lựa chọn mã nguồn mở cục bộ thay thế Suno/ElevenLabs, hiện ghi nhận 126 stars và 11 forks trên GitHub.",
+  "evidence": "Tài liệu tập trung vào tính năng phần mềm và hướng dẫn triển khai, không trình bày các benchmark định lượng chính thức (như latency cụ thể theo mili-giây, MOS hay so sánh chất lượng âm thanh chuẩn hóa)."
+ },
+ "summary": {
+  "tldr": "Soundbox là một ứng dụng mã nguồn mở, hoạt động cục bộ (local) thay thế cho các dịch vụ như ElevenLabs và Suno, cho phép sinh hiệu ứng âm thanh (SFX), nhạc cụ, bài hát có lời, giọng nói và voice cloning từ các mô hình mã nguồn mở. Hệ thống chạy trên nền tảng runtime C++ nguyên bản (`audio.cpp`), tích hợp multi-track timeline studio và máy chủ MCP (Model Context Protocol) với 24 công cụ cho các AI agent.",
+  "problem": "Các dịch vụ tạo âm thanh và âm nhạc AI hiện nay (như ElevenLabs, Suno) chủ yếu là các nền tảng đóng (closed-source), tính phí theo gói thuê bao hoặc tín dụng, yêu cầu tài khoản và kết nối trực tuyến liên tục, đồng thời giữ quyền kiểm soát đối với dữ liệu và điều khoản thương mại. Ngoài ra, việc thiết lập các mô hình open-weights cục bộ trên máy tính thường phức tạp do phụ thuộc vào môi trường Python và CUDA toolkit cồng kềnh.",
+  "method": "Soundbox cung cấp một giải pháp phần mềm desktop và server cục bộ hoàn chỉnh với các thành phần chính:\n- **Runtime gốc (audio.cpp):** Sử dụng `audio.cpp` thay vì môi trường Python hay CUDA toolkit, hỗ trợ backend CUDA cho GPU NVIDIA, Vulkan (cho AMD/Intel GPU) và Metal trên Apple Silicon.\n- **Studio & Quản lý dữ liệu:** Giao diện Timeline đa kênh (multi-track timeline) hỗ trợ chèn voice lines kịch bản, nhạc nền, SFX, MIDI và mixdown. Toàn bộ dữ liệu thư viện và cấu hình lưu trữ cục bộ trong một file SQLite và thư mục WAV tại `~/.soundbox`, hỗ trợ chuyển đổi nhiều profile.\n- **Voice Lab & Mô hình:** Cho phép clone giọng từ một đoạn âm thanh mẫu hoặc mô hình tích hợp. Hỗ trợ 4 mô hình đã được xác thực (verified end-to-end) mặc định: Stable Audio 3.0 SFX, Stable Audio 3.0 Small Music, ACE-Step 1.5 Turbo và MiniMax Music 3, cùng danh mục mở rộng gồm 61 mô hình khác (45 TTS, 6 music, 2 SFX, 4 stem separation, 4 voice conversion).\n- **Agent & MCP Server:** Cung cấp MCP server với 24 tools kết nối Claude Code, Cursor và 3 kỹ năng agent (`soundbox-sfx`, `soundbox-sound-pass`, `soundbox-voice-story`), cùng REST HTTP API trên cổng 17494.",
+  "setup": "Yêu cầu cài đặt bộ cài đặt desktop (Windows 10/11 x64, macOS Apple Silicon, Intel) hoặc chạy qua Docker/Node.js (yêu cầu Node 22.12 trở lên). Đối với phần cứng: NVIDIA GPU được hỗ trợ qua CUDA (yêu cầu vài GB VRAM cho các mô hình thông thường; MiniMax Music 3 cần khoảng 10 GB VRAM); chạy được trên CPU nhưng tốc độ chậm hơn; hỗ trợ Vulkan trên AMD/Intel và Metal trên Apple silicon nhưng chưa xác nhận tính tương thích đầy đủ với các mô hình verified.",
+  "results": [
+   "Tích hợp mặc định 4 mô hình verified end-to-end (Stable Audio 3.0 SFX, Stable Audio 3.0 Small Music, ACE-Step 1.5 Turbo, MiniMax Music 3) và danh mục 61 mô hình mở rộng.",
+   "Cung cấp MCP server tích hợp 24 công cụ tương tác trực tiếp với các agent như Claude Code và Cursor qua cổng HTTP 17494.",
+   "Yêu cầu khoảng 10 GB VRAM cho mô hình MiniMax Music 3 và vài GB VRAM cho các mô hình verified khác trên nền tảng CUDA.",
+   "Kho mẫu thử nghiệm gồm khoảng 600 đoạn âm thanh demo trên trang web giới thiệu."
+  ],
+  "limitations": "Chưa có chữ ký số (code signing) cho các bản build cài đặt ban đầu. Các mô hình verified chưa được kiểm chứng đầy đủ trên kiến trúc Mac (Apple Silicon / Metal) và Vulkan. Bản phát hành không có hệ thống xác thực (authentication) tích hợp cho HTTP API khi triển khai từ xa, phải phụ thuộc reverse proxy. Không có số liệu đo đạc benchmark định lượng chuẩn (WER, MOS, FAD) được báo cáo trong tài liệu.",
+  "takeaways": "Soundbox là một framework ứng dụng kỹ thuật âm thanh hữu ích cho các kỹ sư muốn tự lưu trữ và tích hợp quy trình tạo âm thanh/TTS/nhạc cục bộ vào ứng dụng AI hoặc IDE thông qua MCP server, loại bỏ sự phụ thuộc vào Python runtime phức tạp.",
+  "strengths": [
+   "Không phụ thuộc môi trường Python nhờ audio.cpp",
+   "Tích hợp MCP server với 24 tools",
+   "Giao diện timeline studio và Voice Lab trực quan",
+   "Hỗ trợ đa dạng tác vụ (TTS, SFX, Music)"
+  ],
+  "weaknesses": [
+   "Chưa có benchmark định lượng (MOS, FAD, latency)",
+   "Chưa kiểm chứng đầy đủ trên Metal và Vulkan",
+   "Bản build chưa ký số (unsigned builds)",
+   "Thiếu cơ chế xác thực tích hợp cho API"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi lập trình viên HamSanders, phát hành dưới giấy phép MIT trên GitHub."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

@@ -1,0 +1,48 @@
+{
+ "id": "gh:ishangautam7/talvio",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Dự án kết hợp khéo léo các công nghệ mã nguồn mở sẵn có (transcribe.cpp, llama.cpp, Tauri 2, Silero VAD) thành một trợ lý giọng nói hoàn chỉnh, dù phần lớn kiến trúc STT kế thừa từ dự án Handy.",
+  "credibility": "Mã nguồn mở đầy đủ, kiến trúc rõ ràng, giấy phép MIT chuẩn và ghi nhận đầy đủ attribution cho các dự án nền tảng, tuy nhiên tác giả là lập trình viên cá nhân độc lập.",
+  "technical": "Thiết kế kỹ thuật sâu và hoàn chỉnh từ xử lý worker tiến trình STT, VAD, uinput/evdev trên Linux, loopback audio, cho đến server Bun/SQLite và client Flutter kết nối WebRTC/TURN.",
+  "impact": "Dự án ở giai đoạn ban đầu với 50 stars và 4 forks trên GitHub, chưa ghi nhận mức độ áp dụng rộng rãi trong cộng đồng.",
+  "evidence": "Tài liệu tập trung vào tài liệu hướng dẫn sử dụng và tính năng sản phẩm, hoàn toàn thiếu các số liệu benchmark định lượng (WER, độ trễ xử lý, mức tiêu thụ tài nguyên phần cứng)."
+ },
+ "summary": {
+  "tldr": "Talvio là một ứng dụng trợ lý giọng nói và nhập liệu (dictation) đa nền tảng chạy local-first cho Windows, macOS, Linux và Android. Ứng dụng tích hợp speech-to-text cục bộ thông qua transcribe.cpp với danh mục 69 mô hình (Parakeet, Nemotron, Whisper), hỗ trợ xử lý lệnh hệ điều hành, dọn dẹp văn bản bằng LLM, ghi âm cuộc họp hai kênh và điều khiển máy tính từ xa qua ứng dụng di động.",
+  "problem": "Nhu cầu nhập liệu và tương tác máy tính bằng giọng nói thường phụ thuộc vào các dịch vụ đám mây thương mại gây rủi ro về quyền riêng tư, độ trễ và chi phí API. Ngoài ra, việc thiếu khả năng tích hợp sâu vào hệ điều hành (nhập văn bản vào mọi ứng dụng, điều khiển hệ thống, ghi âm cuộc họp tách kênh mic/loa) khiến trải nghiệm trợ lý giọng nói trên desktop bị phân mảnh.",
+  "method": "Talvio được xây dựng trên nền Tauri 2 (Rust backend kết hợp React/TypeScript frontend) và Flutter cho ứng dụng Android:\n- **Speech Pipeline**: Chạy tiến trình worker riêng sử dụng `transcribe.cpp` trên GPU/CPU hoặc `sherpa-onnx`, kết hợp Silero VAD (`silero_vad_v4.onnx`) để phát hiện giọng nói. Hỗ trợ 69 mô hình cục bộ (Parakeet 0.6B, Nemotron 3.5, Canary 180M Flash, Cohere Transcribe, Whisper Medium...) hoặc tùy chọn kết nối Cloud API (Deepgram, OpenAI, ElevenLabs...).\n- **AI Cleanup & Assistant**: Xử lý văn bản nhập bằng mô hình cục bộ chuyên dụng SpeakoFlow Mini hoặc llama.cpp nhúng sẵn (hỗ trợ cả Ollama, LM Studio hoặc Cloud LLM) để sửa lỗi chính tả, bỏ từ đệm và tuân theo chỉ dẫn sửa giọng nói. Hệ thống hỗ trợ chế độ Assistant và Voice Commands (tương tác UI, mở ứng dụng, soạn/gửi email, lịch, kiểm tra xác nhận trước khi thực hiện hành động phá hủy/gửi đi).\n- **Meeting Transcription**: Thu âm mic và âm thanh hệ thống thành hai lane độc lập, bóc băng thời gian thực mà không cần bot tham gia cuộc họp, sau đó LLM tóm tắt quyết định và công việc cần làm.\n- **Kiến trúc phân tán & Remote**: Ứng dụng điện thoại kết nối qua server tài nguyên tối giản (Bun + SQLite) hỗ trợ micro không dây, điều khiển từ xa, xem màn hình và gõ phím trực tiếp vào PC.",
+  "setup": "Phần mềm chạy trên Windows (x64/msi), Linux (AppImage, deb, ARM64, Vulkan/CPU, tích hợp uinput/evdev hoặc Tauri keys), macOS (Apple Silicon/Intel dmg) và Android (APK). Bản build yêu cầu Rust stable, Bun, tải trước model ONNX `silero_vad_v4.onnx`. Người dùng có thể chạy hoàn toàn offline hoặc cấu hình API key (được lưu an toàn trong OS keychain).",
+  "results": [
+   "Hỗ trợ danh mục 69 mô hình speech-to-text chạy local qua transcribe.cpp.",
+   "Cung cấp 5 tùy chọn mô hình STT mặc định trong onboarding: Parakeet 0.6B (English), Nemotron 3.5 (28 ngôn ngữ), Canary 180M Flash, Cohere Transcribe, Whisper Medium.",
+   "Mặc định kích hoạt AI cleanup bỏ qua cho các câu ngắn dưới 15 từ.",
+   "Cửa sổ nhớ ngữ cảnh hỏi nhanh (quick ask) duy trì lịch sử hội thoại trong 10 phút."
+  ],
+  "limitations": "Tài liệu không công bố các benchmark định lượng chính thức về WER, CER, RTF hay latency thực thi. Trình cài đặt Windows và macOS chưa có chữ ký số (cần bypass SmartScreen và chạy lệnh gỡ quarantine trên macOS). Thu âm loopback hai kênh trên macOS cần phần mềm ngoài (BlackHole). Khả năng tự động đọc và tương tác cửa sổ ứng dụng trước màn hình hiện chỉ mới hỗ trợ trên Windows.",
+  "takeaways": "Talvio là một kiến trúc mẫu thực tế và toàn diện cho speech engineers muốn xây dựng desktop/mobile voice assistant local-first bằng Tauri, Rust, transcribe.cpp và llama.cpp, kết hợp giải pháp bảo mật dữ liệu và kiến trúc client-server tinh gọn.",
+  "strengths": [
+   "Hỗ trợ 69 model STT local không phụ thuộc cloud",
+   "Ghi âm cuộc họp hai kênh độc lập không bot",
+   "Kiến trúc Tauri 2 và Rust tối ưu tài nguyên",
+   "Ứng dụng Android biến điện thoại thành mic và remote"
+  ],
+  "weaknesses": [
+   "Chưa công bố benchmark định lượng về WER và latency",
+   "Gói cài đặt chưa ký số trên Windows và macOS",
+   "Tính năng GUI automation nâng cao chỉ có trên Windows"
+  ],
+  "context": "Mã nguồn mở được phát triển bởi ishangautam7 (kế thừa lõi nhận dạng giọng nói từ dự án Handy của CJ Pais), phát hành trên GitHub theo giấy phép MIT."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

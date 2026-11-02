@@ -1,0 +1,48 @@
+{
+ "id": "gh:recepyagmur/englishpractice",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Dự án sử dụng và tích hợp các mô hình có sẵn (Whisper, Ollama, Kokoro, EMA Lightning) thành một ứng dụng học tập, không đề xuất kiến trúc mô hình hay giải thuật học máy mới.",
+  "credibility": "Đây là kho lưu trữ cá nhân của một nhà phát triển độc lập trên GitHub, không qua bình duyệt học thuật và chưa có tổ chức nghiên cứu lớn bảo trợ.",
+  "technical": "Kỹ thuật kỹ nghệ hệ thống rất chỉn chu: thiết kế portable không cần admin, pipeline TTS hai ngôn ngữ tối ưu trên ONNX Runtime CPU, chia câu giảm độ trễ giọng nói và cơ chế đồng bộ dữ liệu SQLite thông minh.",
+  "impact": "Tập trung vào phân khúc ngách (người dùng nói tiếng Thổ Nhĩ Kỳ học tiếng Anh) với mức độ tiếp cận cộng đồng ở mức khiêm tốn (89 GitHub stars).",
+  "evidence": "Tài liệu cung cấp đầy đủ mã nguồn và các thông số vận hành thực tế nhưng hoàn toàn thiếu các đo đạc đánh giá chuẩn hóa mang tính định lượng (như WER của ASR hay điểm MOS của TTS)."
+ },
+ "summary": {
+  "tldr": "recepyagmur/EnglishPractice là một ứng dụng mã nguồn mở chạy hoàn toàn cục bộ (offline) và portable, hỗ trợ người nói tiếng Thổ Nhĩ Kỳ luyện tập giao tiếp và viết tiếng Anh. Dự án tích hợp quy trình Voice Agent khép kín gồm faster-whisper (STT), Ollama với Gemma/Qwen (LLM) và Kokoro-82M song song cùng EMA Lightning ONNX (TTS) mà không yêu cầu cài đặt môi trường hệ thống phức tạp.",
+  "problem": "Người học tiếng Anh (đặc biệt là người lớn đi làm nói tiếng Thổ Nhĩ Kỳ) cần môi trường luyện nói, sửa lỗi ngữ pháp tức thì và học tập riêng tư mà không phụ thuộc vào kết nối Internet, chi phí API đám mây, hay rò rỉ dữ liệu cá nhân ra máy chủ bên ngoài. Ngoài ra, việc thiết lập các mô hình AI cục bộ (Ollama, Whisper, TTS, môi trường Python) thường phức tạp đối với người dùng phổ thông.",
+  "method": "Hệ thống xây dựng theo kiến trúc voice agent cục bộ với các thành phần chính:\n- **Speech-to-Text (STT):** Sử dụng `faster-whisper` (1.2.1) chạy trên `CTranslate2` (4.8.2) với các mô hình `base.en`, `small.en`, hoặc `distil-large-v3`. Điểm tin cậy (confidence score) theo từng từ được dùng làm chỉ báo phát âm thô (từ có độ tin cậy < 60% được đánh dấu màu vàng để người dùng nghe lại phát âm mẫu).\n- **LLM Engine:** Quản lý Ollama độc lập chạy trên port động. Mặc định dùng Gemma 4 E4B (hỗ trợ thêm Gemma E2B, 26B, Qwen3/3.5, TranslateGemma 4B). LLM xử lý hội thoại, đóng vai (scenarios), sinh câu hỏi và giải thích ngữ pháp bằng tiếng Thổ Nhĩ Kỳ. Hệ thống tích hợp các bộ lọc luật (rule-based heuristics) cứng như kiểm tra hòa hợp đại từ nhân xưng 'he/she' và tra từ điển ngoại tuyến để phát hiện văn bản không phải tiếng Anh.\n- **Bilingual Text-to-Speech (TTS):** Định tuyến 2 luồng âm thanh riêng biệt. Tiếng Anh sử dụng `Kokoro-82M` v1.0 qua `kokoro-onnx` trên CPU (tạo âm thanh theo từng câu, câu đầu tiên phát sau ~1 giây). Giọng giáo viên tiếng Thổ Nhĩ Kỳ sử dụng mô hình `EMA Lightning` chuyển đổi sang ONNX (`app/tts_tr`, kích thước ~35 MB, tốc độ ~20× thời gian thực trên CPU, chuẩn hóa số/ngày tháng bằng `normalizer-tr`).\n- **Đóng gói & Portable Runtime:** Nhúng trực tiếp Python 3.12 (bản standalone/embeddable ~11–64 MB) và Ollama riêng biệt trong thư mục ứng dụng; giao diện Web dựa trên FastAPI, hiển thị qua trình duyệt không viền (app window).\n- **Học thuật & Đánh giá:** Hệ sinh thái gồm 50 bài học (A1–C1), 300 mẫu câu, 7.768 từ vựng, bài thi YDS (320 câu), thuật toán lặp lại ngắt quãng (SM-2) và cơ chế đồng bộ 2 máy tính qua Google Drive.",
+  "setup": "Hỗ trợ Windows 10/11 (qua `Kurulum.bat`, `Baslat.bat`), Linux x86_64 và macOS Apple Silicon (macOS 14+). Yêu cầu tối thiểu 15 GB dung lượng trống; khuyến nghị RAM 16 GB. Hỗ trợ tăng tốc GPU qua NVIDIA CUDA (cuBLAS, cuDNN) hoặc ROCm/Metal trên Ollama. Tích hợp sẵn cơ sở dữ liệu SQLite từ điển ngoại tuyến ~13 MB trích xuất từ Wiktionary (26.000 từ + 53.000 dạng biến thể).",
+  "results": [
+   "Độ trễ phản hồi giọng nói tiếng Anh (Kokoro-82M): Câu đầu tiên bắt đầu phát thanh sau ~1 giây (xử lý tuần tự theo từng câu).",
+   "Tốc độ mô hình TTS tiếng Thổ Nhĩ Kỳ (EMA Lightning ONNX): Đạt ~20× real-time trên CPU, dung lượng ~35 MB không phụ thuộc PyTorch.",
+   "Ngưỡng cảnh báo phát âm Whisper: Tự động cảnh báo phát âm không rõ ràng khi điểm tin cậy của từ < 60%.",
+   "Quy mô nội dung: Bao gồm 50 bài học A1–C1 (A1: 10, A2: 10, B1: 12, B2: 10, C1: 8), 7.768 từ vựng CEFR-J/Octanove, 3.000 từ NGSL, 300 mẫu câu và 320 câu hỏi định dạng thi YDS."
+  ],
+  "limitations": "STT chỉ hỗ trợ nhận dạng tiếng Anh (chưa hỗ trợ ra lệnh bằng giọng nói tiếng Thổ Nhĩ Kỳ); tính năng chỉ báo phát âm dựa trên độ tin cậy của Whisper chỉ mang tính tương đối (dễ báo nhầm với từ ngắn hoặc tên riêng); phiên bản macOS chưa được kiểm thử thực tế trên máy Mac vật lý; khả năng dịch câu phụ thuộc vào mô hình AI cục bộ nên vẫn có thể phát sinh sai sót nhỏ.",
+  "takeaways": "Dự án là một ví dụ tham khảo thực tế xuất sắc về kỹ thuật tích hợp (systems integration) ứng dụng Voice Agent hoàn toàn on-device: kết hợp streaming LLM, tách câu để đẩy nhanh TTS latency (< 1s TTFA), định tuyến 2 engine TTS khác ngôn ngữ bằng ONNX CPU để tiết kiệm VRAM cho LLM, và đóng gói zero-setup không cần quyền admin.",
+  "strengths": [
+   "Hoàn toàn offline và bảo mật dữ liệu",
+   "Đóng gói portable xuất sắc không cần cài đặt",
+   "Định tuyến bilingual TTS tối ưu trên CPU",
+   "Tích hợp chặt chẽ bài học và lặp lại ngắt quãng SM-2"
+  ],
+  "weaknesses": [
+   "STT chỉ hỗ trợ tiếng Anh một chiều",
+   "Thiếu đánh giá định lượng chuẩn hóa (WER/MOS)",
+   "macOS Apple Silicon chưa kiểm thử trên phần cứng thực tế"
+  ],
+  "context": "Dự án mã nguồn mở cá nhân của tác giả recepyagmur phát hành trên GitHub (khoảng 89 stars, 3 forks)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

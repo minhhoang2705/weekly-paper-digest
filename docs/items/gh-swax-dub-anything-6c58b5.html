@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>swax/dub-anything · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W45</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">swax/dub-anything</h1>
+    <div class="meta">
+      <span title="Listed by GitHub inside the crawl window">found Nov 2, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 7, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span><span class="pill pill-accent">TTS</span>        <span class="authors">swax</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://github.com/swax/dub-anything" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">README excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>A tool that allows AI to direct the dubbing process, uses the original actor voices and does the audio generation on your local PC
+
+README: Dub Anything. Dub any video into another language in each actor's own voice, with the original music and sound effects intact. It runs on your own PC, and an AI coding agent directs the dub line by line, the way a dubbing director would. You give it a video file and target language. You get the same file back as my-video (dubbed).mkv: the dub plays by default, the original audio is one track away, and subtitles in both languages are included. Or ask for subtitles alone: the same agent-directed transcript and translation, timed for reading, with text on screen translated where it appears, as my-video (subtitled).mkv plus an .srt beside it. Subtitles need no voice engine running. Demos. | Japanese animation, dubbed into English | Japanese live action, dubbed into English | What you need. A computer, one of: - macOS (Apple Silicon or Intel) - Windows with an NVIDIA GPU (6 GB or more) - Windows with an AMD Radeon GPU (RDNA 3 or newer, Ryzen AI) - Linux with an NVIDIA GPU (6 GB or more) an AMD GPU should work, but not tested yet An AI coding agent to direct the dub, and a plan to run it, one of: - Claude Pro or Max, with Claude Code or the Claude desktop app - ChatGPT Plus or Pro, with Codex - OpenCode with an API key, or a local model that can read images Disk space: about 40 GB, plus room to work (a long video in both voices used about 85 GB until it was cleaned up). Your agent installs VoiceStudio, the voice engine, and the other prerequisites as part of the first run. Getting started. 1. Install/Open a desktop AI app, such as ChatGPT, Claude or OpenCode, with access to your local files and a terminal. Turn on remote control so you can monitor the dubbing process when you're away from your computer. 2. Ask it to dub your video. Give it this repository, your video's path and the language you want. For example: &gt; Use https://github.com/swax/dub-anything to dub D:\videos\my-video.mkv &gt; into English. Download the repository and install the prerequisites for me. 3. Let the</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 2, 2026 · README</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Dub Anything là một framework mã nguồn mở tự động hóa quy trình lồng tiếng (dubbing) video đa ngôn ngữ và giữ nguyên giọng diễn viên cục bộ trên máy tính cá nhân. Hệ thống sử dụng một AI coding agent (như Claude hoặc ChatGPT) đóng vai trò đạo diễn từng câu thoại (line-by-line), kết hợp tách âm thanh nền, nhận dạng giọng nói, đọc chữ trên màn hình (OCR) và mô hình voice cloning/conversion.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các công cụ lồng tiếng video hiện nay thường dựa trên pipeline cố định: chuyển văn bản thô, dịch thuật máy móc, clone giọng từ một đoạn âm thanh mẫu duy nhất và tăng tốc âm thanh khi bị tràn thời lượng, dẫn đến mất ngữ điệu cảm xúc, lệch nhịp thoại và làm hỏng nhạc nền gốc.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Quy trình bao gồm 8 giai đoạn được điều phối bởi script Python và AI agent:</p>
+<ol>
+<li><strong>Split</strong>: Chia video thành các phân đoạn khoảng 3 phút tại các khoảng lặng âm thanh.</li>
+<li><strong>Separate</strong>: Tách giọng nói khỏi nhạc nền và hiệu ứng âm thanh (BGM/SFX) bằng Mel-Band Roformer (thông qua <code>python-audio-separator</code>).</li>
+<li><strong>Transcribe</strong>: Nhận dạng giọng nói bằng Whisper <code>large-v3</code> (<code>faster-whisper</code>), kết hợp mô hình thứ hai từ <code>sherpa-onnx</code> để đối chiếu, và trích xuất burned-in caption/biển hiệu bằng RapidOCR (PP-OCRv5).</li>
+<li><strong>Cast</strong>: Phân tách và ghép người nói trên toàn bộ video bằng <code>pyannote-audio</code>, WeSpeaker, Silero VAD và đối chiếu frame hình ảnh.</li>
+<li><strong>Direct</strong>: AI Agent hiệu chỉnh transcript, dịch thuật căn chỉnh thời lượng (time-matched), và dự đoán độ dài câu.</li>
+<li><strong>Voice</strong>: Lồng tiếng bằng VoiceStudio backend: Giữ accent gốc qua OmniVoice (prompt bằng chính giọng diễn viên ở câu đó); hoặc sinh giọng American English qua IndexTTS kết hợp Chatterbox để voice conversion sang âm sắc diễn viên.</li>
+<li><strong>Fit, mix &amp; check (Line QA)</strong>: Căn chỉnh lại take âm thanh khớp thời điểm dừng của diễn viên, mix lại với âm thanh nền gốc, sau đó ASR nhận dạng ngược lại (transcribe back) tối đa 3 vòng để phát hiện và sửa từ lỗi.</li>
+<li><strong>Deliver</strong>: Ghép mux bằng FFmpeg thành file <code>.mkv</code> chứa cả track lồng tiếng, track gốc và phụ đề mà không cần re-encode video.</li>
+</ol>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Hỗ trợ macOS (Apple Silicon MPS, Intel), Windows/Linux (NVIDIA GPU tối thiểu 6 GB VRAM; AMD Radeon RDNA 3/Ryzen AI qua ROCm). Yêu cầu dung lượng ổ đĩa ~40 GB (lên tới 85 GB khi xử lý file lớn) và tối thiểu 32 GB RAM nếu dùng GPU tích hợp. Cần môi trường AI Agent (Claude Code/Desktop, ChatGPT Codex, hoặc OpenCode với API/local vision model) để điều phối và cài đặt VoiceStudio.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Thời gian xử lý video 90 phút (giữ accent gốc): 4.1 giờ GPU trên laptop RTX 4090 (~50% chuẩn bị dữ liệu, ~40% render và kiểm tra take); thêm track American English nâng tổng thời gian lên ~7 giờ.</li>
+<li>Thời gian xử lý video 15 phút trên AMD Radeon 890M: ~3 giờ máy (thêm track American tốn thêm 2.7 giờ, trong đó 1/3 thời gian chạy Whisper trên CPU).</li>
+<li>Tạo phụ đề riêng biệt (không render giọng): Video 30 phút tốn 41 phút (2/3 thời gian là OCR màn hình; nếu bỏ qua OCR chỉ tốn ~15 phút); bàn giao sản phẩm sau 43 phút tính cả khâu agent điều phối.</li>
+<li>Mức tiêu thụ token của Agent: Điều phối video 15 phút (5 phần, ~190 câu thoại) tốn ~175 lượt agent turn, bao gồm ~0.2M output tokens, ~0.4M new input tokens, và ~110M input tokens đọc lại từ prompt cache.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Tốn chi phí token rất lớn cho LLM/Agent (dễ chạm rate limit của các gói thuê bao nhỏ); tốc độ trên AMD ROCm còn chậm và Whisper phải chạy trên CPU; phụ thuộc vào nhiều công cụ ngoại vi và model có ràng buộc giấy phép khắt khe (pyannote gated, Sortformer CC-BY-NC, VoiceStudio AGPL-3.0).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Cung cấp một kiến trúc tham khảo thực tế về cách kết hợp AI agent với pipeline xử lý audio/video phức tạp để giải quyết bài toán kiểm soát chất lượng (QA) và căn nhịp (lip/time alignment) mà các pipeline tự động cố định chưa làm tốt.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">56.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 192.45,182.66 138.37,167.77 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="192.45" cy="182.66" r="3.5"/><circle class="radar-dot" cx="138.37" cy="167.77" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Ý tưởng sử dụng AI coding agent làm đạo diễn lồng tiếng line-by-line và dùng chính phát âm gốc làm prompt điều khiển TTS/voice cloning mang tính sáng tạo cao so với pipeline truyền thống.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Tích hợp công phu nhiều công nghệ SOTA (Whisper, Roformer, OmniVoice, IndexTTS, Chatterbox, RapidOCR, pyannote) cùng cơ chế multi-agent và line-level QA loop.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 3/5 — Cung cấp số liệu thời gian chạy thực tế chi tiết trên nhiều phần cứng (RTX 4090, AMD 890M), video demo thực tế và thống kê token, nhưng thiếu các benchmark định lượng chuẩn (như MOS, WER, độ tương đồng giọng nói).</title>Evidence <tspan class="radar-value">3</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 2/5 — Dự án ở giai đoạn thử nghiệm cá nhân, số lượng tương tác còn khiêm tốn (84 stars, 7 forks) và rào cản tài nguyên/token cản trở việc triển khai diện rộng.</title>Impact <tspan class="radar-value">2</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Dự án nguồn mở cá nhân trên GitHub (84 stars) với mã nguồn và tài liệu chi tiết, sử dụng các backbone uy tín nhưng chưa qua bình duyệt học thuật.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Ý tưởng sử dụng AI coding agent làm đạo diễn lồng tiếng line-by-line và dùng chính phát âm gốc làm prompt điều khiển TTS/voice cloning mang tính sáng tạo cao so với pipeline truyền thống.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Dự án nguồn mở cá nhân trên GitHub (84 stars) với mã nguồn và tài liệu chi tiết, sử dụng các backbone uy tín nhưng chưa qua bình duyệt học thuật.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Tích hợp công phu nhiều công nghệ SOTA (Whisper, Roformer, OmniVoice, IndexTTS, Chatterbox, RapidOCR, pyannote) cùng cơ chế multi-agent và line-level QA loop.</dd></div>
+          <div><dt>Impact <span class="muted">2/5</span></dt><dd>Dự án ở giai đoạn thử nghiệm cá nhân, số lượng tương tác còn khiêm tốn (84 stars, 7 forks) và rào cản tài nguyên/token cản trở việc triển khai diện rộng.</dd></div>
+          <div><dt>Evidence <span class="muted">3/5</span></dt><dd>Cung cấp số liệu thời gian chạy thực tế chi tiết trên nhiều phần cứng (RTX 4090, AMD 890M), video demo thực tế và thống kê token, nhưng thiếu các benchmark định lượng chuẩn (như MOS, WER, độ tương đồng giọng nói).</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Tận dụng AI agent làm đạo diễn thoại · Prompt bằng chính câu thoại gốc của diễn viên · Vòng lặp Line-QA tự động nhận dạng sửa lỗi · Tách BGM/SFX sạch bằng Mel-Band Roformer · Đóng gói mkv giữ nguyên chất lượng video gốc</p>
+          <p><span class="label">Weaknesses</span> · Tiêu hao token context cache cực kỳ lớn · Thời gian xử lý render cục bộ còn chậm · Cài đặt phức tạp phụ thuộc VoiceStudio và agent · Vướng giấy phép phi thương mại CC-BY-NC</p>
+          <p><span class="label">Context</span> · Dự án nguồn mở của tác giả độc lập `swax` trên GitHub, phát triển hệ thống điều phối dubbing tự động trên nền tảng VoiceStudio.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

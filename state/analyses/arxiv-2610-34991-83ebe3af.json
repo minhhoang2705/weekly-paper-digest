@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.34991",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo tiên phong phát hiện và lượng hóa một cách có hệ thống hiện tượng suy thoái phiên dài trên mô hình full-duplex, đồng thời sáng tạo thích ứng cơ chế nén gist token và privileged context distillation cho tín hiệu tiếng nói liên tục.",
+  "credibility": "Bản preprint từ nhóm nghiên cứu uy tín thuộc Đại học Quốc gia Seoul (SNU) với đầy đủ thông tin thiết lập thực nghiệm và link mã nguồn/trang dự án, dù chưa qua bình duyệt xuất bản chính thức.",
+  "technical": "Thiết kế kỹ thuật rất sâu và chặt chẽ: xử lý vị trí RoPE hai độ phân giải, phân tách hàm mất mát KL cho content/control tokens, bổ sung loss hidden-state chuẩn hóa cho decoder, và quy trình chẩn đoán dựa trên thời gian logic tránh sai số phần cứng.",
+  "impact": "Đánh trúng điểm nghẽn then chốt của các hệ thống voice agent dạng full-duplex hiện nay khi chuyển từ demo ngắn sang phục vụ thực tế dài hạn, đồng thời đưa ra giải pháp nén bộ nhớ khả thi cao.",
+  "evidence": "Thực nghiệm chi tiết với 90 phiên đánh giá lặp lại cho mỗi mô hình, ước lượng khoảng tin cậy 95% bootstrap, đo đạc trực tiếp trên 3 mô hình mã nguồn mở lớn, có đầy đủ ablation loss và phân tích bộ nhớ/độ trễ."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu chỉ ra hiện tượng suy giảm nghiêm trọng về độ nhạy (responsiveness), chất lượng nội dung nói (spoken content quality) và tính nhất quán giọng nói (voice consistency) ở các mô hình hội thoại song công toàn phần (full-duplex) khi đàm thoại kéo dài. Để giải quyết, nhóm tác giả đề xuất kỹ thuật privileged-context self-distillation kết hợp kiến trúc quản lý ngữ cảnh hai độ phân giải Two-Resolution Context (TRC), giúp duy trì tương tác ổn định đến 20 phút và giảm tốc độ tăng trưởng KV-cache hơn 90%.",
+  "problem": "Các mô hình hội thoại full-duplex end-to-end gần đây xử lý đồng thời luồng nghe và nói, nhưng hành vi của chúng qua các phiên hội thoại dài (long-session) chưa được nghiên cứu thấu đáo. Khi hội thoại kéo dài (trên 10 phút), lịch sử tích lũy token âm thanh và điều khiển khiến mô hình bị suy giảm: phản hồi chậm trễ/hết thời gian chờ (timeout), nội dung lặp lại hoặc vô nghĩa (non-speech vocalizations), và trôi dạt đặc tính giọng nói (voice drift). Hơn nữa, việc phình to KV-cache làm tăng mạnh chi phí bộ nhớ và độ trễ suy luận streaming.",
+  "method": "Tác giả tiếp cận vấn đề theo 3 đóng góp kỹ thuật chính:\n1. **Khung chẩn đoán closed-loop**: Mô phỏng tương tác động giữa mô hình và user ảo (gồm LLM Qwen3.8-27B, TTS Kokoro-82M, VAD Silero 6.2.1, ASR Parakeet Unified EN 0.6B) dựa trên trục 'thời gian logic' (logical time theo độ dài audio, loại bỏ ảnh hưởng từ độ trễ phần cứng) qua 6 chỉ số: Floor Transfer Offset (FTO), Response Timeout (RT) rate, Terminated Sessions (TS) rate, Conversation Quality (CQ), Word Error Rate (WER) giữa văn bản gốc và ASR speech, và Speaker Similarity (Spk sim).\n2. **Privileged-Context Self-Distillation**: Tạo dữ liệu huấn luyện bằng cách cho chính mô hình gốc (frozen base model) đóng vai trò teacher sinh hội thoại theo từng phân đoạn ngắn kèm bản tóm tắt quá khứ trong system prompt ($s_{k-1}$). Mô hình student nhận toàn bộ chuỗi nối tiếp mà không có phần tóm tắt tường minh, được cập nhật thông qua LoRA ($r=8, \\alpha=8$, chiếm ~0.1% tham số backbone). Hàm mất mát phân tách rõ rệt giữa dự đoán nội dung và điều khiển luồng nói, kèm normalized MSE trên hidden states truyền vào audio decoder:\n$$\\mathcal{L} = \\lambda_{\\text{cnt}}\\mathcal{L}_{\\text{KL,cnt}} + \\lambda_{\\text{ctl}}\\mathcal{L}_{\\text{KL,ctl}} + \\lambda_{\\text{hid}}\\mathcal{L}_{\\text{hid}}$$\n3. **Kiến trúc Two-Resolution Context (TRC)**: Kế thừa cơ chế nén ngữ cảnh UniGist cho streaming audio. Hội thoại được chia thành các ô thời gian (tiles) thời lượng $\\Delta \\approx 1\\text{ s}$, mỗi tile sinh một `gist token` tích lũy thông tin. Cửa sổ cục bộ $H \\approx 10\\text{ s}$ lưu raw token; các tile cũ hơn bị loại bỏ raw token và chỉ giữ lại `gist token`. Hệ thống áp dụng RoPE với chỉ mục kép (native absolute indices cho raw context và compact indices cho prefix/gist tokens).",
+  "setup": "Đánh giá chẩn đoán trên 4 mô hình: Moshi, PersonaPlex, MiniCPM-o 4.5, Raon-SpeechChat (mỗi mô hình chạy 90 phiên hội thoại 600 s gồm 3 personas và 10 chủ đề). Thử nghiệm phương pháp trên 3 mô hình mã nguồn mở có kiến trúc khác nhau: PersonaPlex, MiniCPM-o 4.5, và Raon-SpeechChat. Huấn luyện LoRA trên 360 quỹ đạo (~10 phút mỗi quỹ đạo), kiểm tra trên cả phiên 10 phút và mở rộng đến 20 phút. Đánh giá bộ nhớ/độ trễ trên GPU NVIDIA L40 (BF16, batch size 1) và khả năng nhớ thông tin (retention) bằng 100 cặp hỏi-đáp từ FictionalQA.",
+  "results": [
+   "Trong khung huấn luyện 10 phút: Trên PersonaPlex, Base tụt CQ từ 4.78 xuống 1.29 và WER tăng từ 5.4% lên 44.3%, trong khi Ours (TRC) duy trì CQ 4.76 → 3.84 và WER 5.2% → 13.3%; Spk sim của Base giảm từ 0.733 xuống 0.337 còn Ours (TRC) giữ ở mức 0.699 → 0.617.",
+   "Trên Raon-SpeechChat (0–2 min → 8–10 min): Base có CQ tụt 4.52 → 1.63 và WER tăng 11.1% → 70.5%; Ours (TRC) cải thiện vượt bậc với CQ 4.54 → 4.19 và WER 11.7% → 15.3%, Spk sim đạt 0.814 → 0.802 (so với Base tụt xuống 0.520).",
+   "Vượt ngoài khung huấn luyện (10–12 min → 18–20 min): LoRA đơn thuần bị sụp đổ hành vi (WER vọt lên 88.7%–99.6%, CQ rơi về 1.00–1.06 trên Raon-SpeechChat và MiniCPM-o 4.5). Ngược lại, Ours (TRC) giữ vững tính ổn định: PersonaPlex đạt CQ 3.53 và WER 12.8%; Raon-SpeechChat đạt CQ 3.29 và WER 44.3%; MiniCPM-o 4.5 đạt CQ 4.64 và WER 5.8%.",
+   "Tiết kiệm bộ nhớ KV-cache: TRC cắt giảm tốc độ tăng trưởng KV-cache (không tính prompt) từ 91.7% đến 95.8% (PersonaPlex giảm từ 375.00 xuống 31.25 MiB/min; MiniCPM-o 4.5 giảm từ 109.69 xuống 8.44 MiB/min; Raon-SpeechChat giảm từ 210.94 xuống 8.79 MiB/min).",
+   "Độ trễ suy luận backbone: Ở mốc 20 phút, độ trễ trung bình của Base tăng vọt lên 231.0 ms (MiniCPM-o 4.5) và 104.9 ms (Raon-SpeechChat), trong khi cấu hình TRC chỉ tốn tương ứng 127.4 ms (tăng 12–15% so với mốc 1 phút) và 33.8 ms.",
+   "Ablation hidden-state loss (PersonaPlex, 18–20 min): Loại bỏ $\\mathcal{L}_{\\text{hid}}$ khiến WER cuối phiên tăng từ 12.8% lên 19.8% và Spk sim giảm mạnh từ 0.579 xuống 0.418."
+  ],
+  "limitations": "Mô phỏng user chưa chủ động chen ngang (interrupt) hay chêm lời (backchannel) để thử thách phản xạ đa chiều của mô hình trong phiên dài. Khả năng truy xuất thông tin chi tiết (memory recall) bị suy giảm ở cự ly ngắn so với Base do thông tin bị nén mạnh thành gist token. Dữ liệu tinh chỉnh tương đối nhỏ (400 quỹ đạo) có thể làm lệch hành vi tự nhiên ban đầu.",
+  "takeaways": "Kỹ sư xây dựng trợ lý giọng nói full-duplex cần lưu ý rằng mô hình chạy mượt trong 2-3 phút đầu thường sẽ sụp đổ sau 8-10 phút nếu không kiểm soát ngữ cảnh. Giải pháp hiệu quả là kết hợp nén token streaming online (như TRC giữ window cục bộ 10s và nén gist 1s) với self-distillation qua LoRA cực nhẹ (~0.1% tham số), giám sát đồng thời cả token điều khiển chuyển lượt lẫn hidden state của audio decoder.",
+  "strengths": [
+   "Khung đánh giá closed-loop chuẩn xác theo logical time",
+   "Self-distillation không cần gán nhãn thủ công bên ngoài",
+   "TRC giảm hơn 91% tốc độ phình KV-cache",
+   "Hiệu quả kiểm chứng trên 3 kiến trúc khác nhau",
+   "Phân tách rõ ràng loss nội dung và điều khiển lượt"
+  ],
+  "weaknesses": [
+   "Simulator chưa kiểm tra user chủ động ngắt lời",
+   "Độ chính xác memory recall ngắn hạn bị sụt giảm",
+   "Chưa tích hợp bài toán bộ nhớ vào objective huấn luyện"
+  ],
+  "context": "Nghiên cứu từ Junho Kim và các cộng sự tại Đại học Quốc gia Seoul (SNU) và Đại học Seoul, công bố dạng preprint trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

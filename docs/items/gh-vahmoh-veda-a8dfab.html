@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>vahmoh/Veda · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W45</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">vahmoh/Veda</h1>
+    <div class="meta">
+      <span title="Listed by GitHub inside the crawl window">found Nov 2, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 3, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">vahmoh</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://github.com/vahmoh/Veda" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">README excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>The Agentic-Native Operating System
+
+README: Veda. The Agentic-Native Operating System An operating system written in Rust, with a voice agent built into the system. Screenshots · Quick start · Make an app agentic · Architecture · Documentation Say *&quot;Hey Veda, switch my wallpaper to the dunes&quot;* and it is done. The agent works in every application through the same code as your keyboard and mouse, and asks you before anything that is hard to undo. Everything here is Rust, from the UEFI bootloader and the microkernel to the window system and the applications. An agent in the system A service from boot that wakes when you say its name. Its model, its voice and even its name are settings. Actions, not screen scraping Applications declare typed actions that run the same code as the keyboard and mouse. The built-in ones offer more than 100. Consent the model cannot skip The system holds sensitive and destructive actions until you allow them, and only the desktop shell can answer. A microkernel in Rust Capabilities, SMP, and services in user space that restart by themselves. Applications get Rust's standard library. Linux's drivers, contained Linux drives the hardware in a VM on Veda's own hypervisor, held in by the IOMMU and restarted if it crashes. A complete desktop A compositing window system, a lock screen, a web browser on WebKit, OpenGL ES 3.0, GCC in the Terminal, WPA3 Wi-Fi and a firewall that asks first. Screenshots. Desktop Browser Text Editor Photos Music Files Videos Settings Paint Calculator Terminal Interceptor Unlocking Quick start. Veda builds on an x86-64 Linux machine with KVM. Install Rust and the build tools: Packages on Debian and Ubuntu The driver VM also needs KVM's nested virtualization (kvm_intel nested=1). Then build Veda and boot it: Add a Deepgram API key in Settings → Agent, then say &quot;Hey Veda&quot;, click the ring on the taskbar or press Super+Space. Try *&quot;Play Neon Horizon&quot;*, *&quot;Show me the lighthouse photo, full screen&quot;* or *&quot;Delete the City Lights photo&quot;* (it asks you first). On a PC: cargo</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 2, 2026 · README</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Veda là một hệ điều hành agentic-native được viết hoàn toàn bằng Rust trên kiến trúc x86-64, tích hợp sẵn voice agent từ cấp hệ thống. Thay vì sử dụng kỹ thuật screen scraping, hệ thống cho phép các ứng dụng desktop khai báo trực tiếp hơn 100 typed actions kèm cơ chế kiểm soát rủi ro và xác thực an toàn từ người dùng.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các voice agent và trợ lý AI trên desktop hiện nay thường hoạt động như lớp ứng dụng rời rạc trên cùng, dựa vào screen scraping hoặc mô phỏng thao tác thiếu tin cậy, không có giao diện API chuẩn hóa với ứng dụng, thiếu cơ chế phân quyền an toàn đối với các tác vụ phá hủy hoặc nhạy cảm.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Veda tích hợp voice agent ngay từ tầng hệ thống thông qua kiến trúc microkernel và UI toolkit bằng Rust:</p>
+<ul>
+<li><strong>Kiến trúc OS</strong>: Sử dụng capability-based microkernel viết bằng Rust (hỗ trợ SMP, tickless timers, IPC, dynamic linking). Các driver phần cứng ngoại vi chạy bên trong một Linux VM được cô lập qua hypervisor riêng của Veda và IOMMU; dịch vụ hệ thống chạy ở user space và tự khởi động lại khi gặp sự cố.</li>
+<li><strong>Agent Framework (<code>ui::agent</code>)</strong>: Các ứng dụng tích hợp trực tiếp với agent thông qua trait <code>ui::App</code>, định nghĩa siêu dữ liệu hành động (<code>agent_info</code>), trạng thái ứng dụng dưới dạng JSON (<code>agent_state</code>), và hàm thực thi (<code>agent_invoke</code>).</li>
+<li><strong>Typed Actions</strong>: Thay thế screen scraping bằng hơn 100 hành động định kiểu cụ thể do các ứng dụng built-in (Photos, Music, Files, Editor...) khai báo, chia sẻ chung luồng xử lý mã lệnh như bàn phím/chuột.</li>
+<li><strong>Kiểm soát rủi ro &amp; Consent</strong>: Phân loại rủi ro tác vụ (ví dụ <code>Risk::Destructive</code>). Hệ thống sẽ tạm dừng các tác vụ nhạy cảm để yêu cầu người dùng xác nhận thông qua desktop shell trước khi thực thi.</li>
+<li><strong>Tích hợp Voice/LLM</strong>: Đánh thức bằng wake word (&quot;Hey Veda&quot;), phím tắt (Super+Space) hoặc biểu tượng trên taskbar; cấu hình khóa API Deepgram, giọng nói, tốc độ nói (speaking rate) và mô hình ngôn ngữ trong Settings.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Yêu cầu hệ thống và môi trường chạy:</p>
+<ul>
+<li>Chạy trên PC kiến trúc x86-64 (hỗ trợ UEFI, VT-x, VT-d, Secure Boot tắt) hoặc chạy giả lập trên QEMU với KVM (hỗ trợ nested virtualization <code>kvm_intel nested=1</code>).</li>
+<li>Môi trường build: Host Linux x86-64 (Debian/Ubuntu) với Rust toolchain, QEMU, GCC, musl, CMake, Meson, Ninja, NASM.</li>
+<li>Tích hợp Voice API: Khóa API Deepgram cho dịch vụ giọng nói; bộ kiểm thử tích hợp dùng bản mock Deepgram ngoại tuyến để chạy test determinism.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Hơn 100 typed actions được khai báo sẵn trên các ứng dụng mặc định của hệ thống.</li>
+<li>Hệ điều hành tích hợp đầy đủ desktop shell, Web browser nền WebKit, OpenGL ES 3.0, WPA3 Wi-Fi và GCC 16 trên lớp POSIX bằng Rust.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Xử lý giọng nói và LLM phụ thuộc vào dịch vụ đám mây bên thứ ba (Deepgram API key) thay vì các mô hình on-device local; tài liệu chưa cung cấp các số liệu định lượng về độ trễ âm thanh (audio latency), tỉ lệ nhận dạng từ (WER) hay tài nguyên tiêu thụ.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Veda chứng minh tính khả thi của mô hình Agentic-Native OS: xây dựng các typed action protocol trực tiếp vào GUI toolkit kết hợp cùng cơ chế ủy quyền/phân quyền (consent) của microkernel là hướng tiếp cận an toàn và ổn định hơn nhiều so với việc để agent tự động đọc màn hình (screen scraping).</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">51.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 181.63,167.77 138.37,167.77 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="181.63" cy="167.77" r="3.5"/><circle class="radar-dot" cx="138.37" cy="167.77" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Thiết kế một hệ điều hành microkernel bằng Rust tích hợp sâu voice agent và typed action system ở cấp độ hệ thống là ý tưởng rất mới lạ.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Kỹ thuật hệ thống phức tạp và đồ sộ, kết hợp Rust microkernel, driver VM trên hypervisor cô lập bằng IOMMU, lớp POSIX và UI framework riêng cho agent.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 2/5 — Kho mã nguồn mở hoàn chỉnh và có video demo, nhưng không có bảng đánh giá định lượng về hiệu năng giọng nói, độ trễ hay tỉ lệ chính xác tác vụ.</title>Evidence <tspan class="radar-value">2</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 2/5 — Hiện tại là dự án thử nghiệm với 99 stars trên GitHub, chưa có hệ sinh thái ứng dụng hoặc triển khai diện rộng trong môi trường sản xuất.</title>Impact <tspan class="radar-value">2</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Dự án mã nguồn mở cá nhân của Vahid Mohammadi trên GitHub (99 stars, 15 forks), có mã nguồn đầy đủ nhưng chưa qua xuất bản học thuật.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Thiết kế một hệ điều hành microkernel bằng Rust tích hợp sâu voice agent và typed action system ở cấp độ hệ thống là ý tưởng rất mới lạ.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Dự án mã nguồn mở cá nhân của Vahid Mohammadi trên GitHub (99 stars, 15 forks), có mã nguồn đầy đủ nhưng chưa qua xuất bản học thuật.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Kỹ thuật hệ thống phức tạp và đồ sộ, kết hợp Rust microkernel, driver VM trên hypervisor cô lập bằng IOMMU, lớp POSIX và UI framework riêng cho agent.</dd></div>
+          <div><dt>Impact <span class="muted">2/5</span></dt><dd>Hiện tại là dự án thử nghiệm với 99 stars trên GitHub, chưa có hệ sinh thái ứng dụng hoặc triển khai diện rộng trong môi trường sản xuất.</dd></div>
+          <div><dt>Evidence <span class="muted">2/5</span></dt><dd>Kho mã nguồn mở hoàn chỉnh và có video demo, nhưng không có bảng đánh giá định lượng về hiệu năng giọng nói, độ trễ hay tỉ lệ chính xác tác vụ.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Microkernel và desktop stack thuần Rust · Typed actions thay thế screen scraping · Cơ chế consent an toàn cấp OS · Bộ test deterministic giả lập Deepgram</p>
+          <p><span class="label">Weaknesses</span> · Phụ thuộc API đám mây Deepgram · Chưa có benchmark định lượng độ trễ · Hỗ trợ phần cứng thực tế còn hạn chế</p>
+          <p><span class="label">Context</span> · Dự án mã nguồn mở do Vahid Mohammadi (vahmoh) phát triển và phát hành theo giấy phép GPL-3.0 trên GitHub.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

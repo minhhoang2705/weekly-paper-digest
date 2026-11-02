@@ -1,0 +1,52 @@
+{
+ "id": "hf-model:LiquidAI/d1-Omni-2B",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình đề xuất hướng tiếp cận decision model đa phương thức không sinh token (non-autoregressive) qua một forward pass duy nhất tích hợp cả audio/vision/text, khác biệt với mô hình LLM thông thường.",
+  "credibility": "Đến từ Liquid AI - lab uy tín về kiến trúc phi Transformer/hybrid, công bố checkpoint mở trên Hugging Face kèm tài liệu blog, tuy nhiên tài liệu hiện tại chỉ ở dạng model card chứ chưa phải bài báo peer-reviewed.",
+  "technical": "Kiến trúc kết hợp 13 tầng gated short convolutions với sliding-window và global attention, thiết kế API system_one trả về kết quả định kiểu và xác suất hiệu chuẩn với context dài 128K.",
+  "impact": "Các chỉ số ban đầu ở mức tốt (86 likes, gần 1.6k downloads) với tiềm năng ứng dụng cao trong các tác vụ edge và voice triage/routing, dù giấy phép là LFM 1.0 riêng biệt.",
+  "evidence": "Model card cung cấp số liệu thực nghiệm toàn diện trên hàng loạt benchmark công khai (SLURP, MASSIVE, FLEURS, ESC-50, DecisionBench), so sánh chi tiết hiệu năng giữa văn bản và âm thanh cùng bảng đo độ trễ phần cứng rõ ràng."
+ },
+ "summary": {
+  "tldr": "d1-Omni-2B là mô hình ra quyết định đa phương thức (decision model) 2.17B tham số từ Liquid AI, xử lý trực tiếp văn bản, hình ảnh và âm thanh nguyên bản (native audio). Thay vì sinh chuỗi token tuần tự (autoregressive generation), mô hình đưa ra các câu trả lời có định kiểu (typed answers) cùng xác suất hiệu chuẩn (calibrated probabilities) chỉ trong một lượt truyền thẳng (single forward pass) với độ trễ tính bằng mili-giây.",
+  "problem": "Các mô hình ngôn ngữ lớn (LLM) sinh token truyền thống thường có độ trễ cao, tốn kém tính toán và gặp khó khăn trong việc hiệu chuẩn độ tin cậy khi thực hiện các tác vụ phân loại, định tuyến hoặc trích xuất thông tin nhanh. Ngoài ra, việc xử lý âm thanh thường đòi hỏi quy trình ASR chuyển âm thanh thành văn bản trước khi đưa vào LLM, gây mất mát thông tin ngữ âm, độ trễ lớn và suy giảm hiệu năng trên các thiết bị edge.",
+  "method": "Mô hình được hậu huấn luyện (post-trained) trên nền tảng `LiquidAI/LFM3-Omni-2B`. Kiến trúc LFM3 gồm 24 layers: 13 tầng tích chập ngắn có cổng (gated short convolutions), 5 tầng sliding-window attention và 6 tầng global attention; context length đạt 128K tokens; từ vựng 128,000 tokens. Đầu vào bao gồm trạng thái (state dạng text/JSON hoặc `None`), hình ảnh, video, các đoạn audio clips và danh sách câu hỏi có tên (bằng văn bản hoặc giọng nói). Đầu ra là kết quả phân loại (`noul`, `choice`, `multiple choice`, `score`), trích xuất (`text`, `number`, `date` kèm `span`) hoặc ước lượng khoảng và bounding box (`box`, `boxes`). Quá trình xử lý diễn ra qua API `system_one` trong duy nhất một forward pass, không sinh token.",
+  "setup": "Chạy trên thư viện `transformers>=5.19` (sử dụng custom code, `trust_remote_code=True`). Hỗ trợ 16 ngôn ngữ cho văn bản/ảnh (en, ar, zh, fr, de, it, ja, ko, pt, es, vi, th, id, hi, ru, pl); giọng nói (speech) hỗ trợ toàn bộ danh sách trên ngoại trừ Hindi, Thái, Việt Nam và Indonesia. Âm thanh đầu vào hỗ trợ PCM WAV 16-bit resample về 16 kHz mono. Đánh giá kiểm thử âm thanh trên dữ liệu held-out chưa thấy trong huấn luyện (zero-shot/unseen tasks) và các tập chuẩn: SLURP (intents), Speech-MASSIVE, FLEURS, ESC-50, DecisionBench, JevBench, Typed Decisions, Belebele.",
+  "results": [
+   "Độ trễ xử lý 1 câu hỏi trên NVIDIA H100 PCIe đạt 5.8 ms (AMD MI325X: 3.7 ms; Apple M5 Pro: 21.1 ms); với đoạn audio 10 giây đạt 12.4 ms trên H100 và 8.2 ms trên MI325X; throughput đạt 1,154 states/s (H100) và 1,697 states/s (MI325X) khi batch 64 states.",
+   "Điểm effective accuracy trên các câu hỏi bằng giọng nói (spoken questions) ở các tác vụ chưa xuất hiện trong huấn luyện đạt 44.7 (so với văn bản tương ứng là 45.2).",
+   "Trên tập SLURP intents (loa thật), điểm nghe (heard) đạt 81.7 so với đọc văn bản (written) 87.4; trên Speech-MASSIVE (12 ngôn ngữ), điểm heard đạt 63.4 so với written 85.2.",
+   "Nhận dạng ngôn ngữ nói trên FLEURS (43 ngôn ngữ) đạt 92.5 (nghe) so với 92.4 (văn bản); phân loại âm thanh trên ESC-50 đạt 84.5.",
+   "Trên các bộ benchmark quyết định đọc thành tiếng: DecisionBench v1 đạt 78.2 (nghe) vs 83.4 (đọc); JevBench v1.4.1 đạt 89.0 (nghe) vs 87.6 (đọc); Typed Decisions đạt 48.0 (nghe) vs 50.5 (đọc); Belebele tụt xuống 41.8 (nghe) so với 83.6 (đọc).",
+   "Điểm trung bình (Average) trên các benchmark công khai đạt 67.7 (vượt d1-omni-600M đạt 42.8 và d1-3B đạt 65.4, nhưng xếp sau d1-2B chỉ có text/vision đạt 70.2)."
+  ],
+  "limitations": "Mô hình không phải là chat model, không có khả năng sinh văn bản tự do hay transcript/speech. Độ chính xác giảm sút rõ rệt trên các đoạn hội thoại nói dài (long spoken passages), đặc biệt đối với các ngôn ngữ không sử dụng ký tự Latin. Giọng nói chưa hỗ trợ tiếng Việt, Hindi, Thái, Indonesia. Khi không dùng âm thanh, bản d1-2B chuyên văn bản/ảnh đạt hiệu năng cao hơn và hiệu chuẩn tốt hơn.",
+  "takeaways": "Là lựa chọn phù hợp cho các pipeline edge hoặc low-latency yêu cầu ra quyết định trực tiếp từ âm thanh/hình ảnh/văn bản (như phân loại sự kiện âm thanh, phân luồng cuộc gọi voice routing, intent recognition) với tốc độ sub-15ms mà không cần ghép nối pipeline qua mô hình ASR trung gian.",
+  "strengths": [
+   "Suy luận 1 forward pass siêu nhanh (dưới 13ms)",
+   "Native audio không cần qua pipeline ASR",
+   "Định dạng đầu ra có kiểu dữ liệu chuẩn xác",
+   "Kiến trúc hybrid convolution và attention hiệu quả",
+   "Điểm số spoken question tiệm cận written"
+  ],
+  "weaknesses": [
+   "Chưa hỗ trợ speech tiếng Việt và 3 ngôn ngữ khác",
+   "Kém chính xác trên âm thanh nói dài",
+   "Không thể sinh transcript hoặc văn bản tự do",
+   "Thấp điểm hơn bản d1-2B trên tác vụ text thuần"
+  ],
+  "context": "Mô hình do Liquid AI phát hành kèm blog giới thiệu Open d1 (năm 2026), cấp phép theo mã nguồn mở LFM Open License v1.0."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.35581",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất góc nhìn mới mẻ thay thế sampling trong RL timing bằng tích phân đóng noisy-OR và survival likelihood trên các quyết định điều khiển cục bộ.",
+  "credibility": "Bài báo đến từ nhóm nghiên cứu mạnh thuộc NTU và Tencent với phân tích toán học và cơ chế lỗi rất minh bạch, chi tiết.",
+  "technical": "Phân tích nguyên nhân gốc rễ của GRPO (zero-gradient trap, credit leakage) rất chặt chẽ, đi kèm nghiệm chứng giải tích và thiết kế gate khéo léo cho mô hình không có control token.",
+  "impact": "Cung cấp giải pháp thiết thực cho bài toán turn-taking trong full-duplex speech, tuy nhiên chưa có thông tin về mã nguồn mở hay mức độ đón nhận từ cộng đồng.",
+  "evidence": "Thực nghiệm đa dạng trên 6 mô hình mã nguồn mở khác nhau, đo đạc thống kê đầy đủ với 95% bootstrap CI, ablation nghiên cứu nhân quả và silence test chi tiết."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu chỉ ra hai lỗi cơ bản của RL cấp chuỗi (GRPO) khi hậu huấn luyện (post-training) tương tác song công (full-duplex): bẫy triệt tiêu gradient (zero-gradient trap) và rò rỉ tín dụng (credit leakage). Nhóm tác giả đề xuất Window Likelihood (WL) nhằm tính toán kỳ vọng reward dưới dạng giải tích đóng (closed-form) qua noisy-OR và survival likelihood thay vì lấy mẫu, giúp cải thiện đáng kể F1 yield/hold trên 6 mô hình full-duplex mở mà không gây hiện tượng nói vào khoảng lặng.",
+  "problem": "Các mô hình đàm thoại song công cần quyết định nhường lời (yield) khi người dùng ngắt lời (interruption) và giữ lời (hold) khi người dùng chỉ phát ra âm đệm (backchannel). Các phương pháp RL theo chuỗi phổ biến (như GRPO với $G=16$) gặp hai hạn chế nghiêm trọng do đối xử reward như một hàm hộp đen trên toàn bộ rollout: (1) Zero-gradient trap: reward nhị phân khiến advantage chuẩn hóa theo nhóm bằng 0 trên các cửa sổ khó (chiếm 23–34% số cửa sổ huấn luyện), triệt tiêu tín hiệu học; (2) Credit leakage: điểm số rollout bị gán lan sang cả các quyết định ở trạng thái lắng nghe (listening-state), khiến mô hình tự động nói vào khoảng lặng (re-opening the floor) hoặc ngừng trả lời câu hỏi đầu tiên.",
+  "method": "Phương pháp Window Likelihood (WL) lấy mẫu một continuation duy nhất cho mỗi cửa sổ sự kiện $[t_0, t_0 + 2\\text{ s}]$, nhưng tích phân giải tích đóng trên các quyết định dừng $p_k$ trong cửa sổ qua teacher-forced forward pass:\n- **Mục tiêu tối ưu hóa closed-form:** Khi có interruption, tối đa hóa xác suất dừng ít nhất một lần qua noisy-OR: $\\mathcal{L}_{\\text{int}} = -\\log(1 - \\prod_k (1 - p_k))$. Khi có backchannel, tối đa hóa xác suất không bao giờ dừng qua survival likelihood: $\\mathcal{L}_{\\text{bc}} = -\\sum_k \\log(1 - p_k)$. Về mặt giải tích, gradient của $\\mathcal{L}_{\\text{int}}$ duy trì ở mức $\\Theta(1)$ ngay cả khi $S \\to 0$, loại bỏ hoàn toàn bẫy gradient triệt tiêu.\n- **Các thành phần bổ trợ:** Thêm số hạng tiền sự kiện $\\mathcal{L}_{\\text{pre}}$ (áp dụng survival form trước $t_0$ để mô hình tiếp tục nói) và turn-taking $\\mathcal{L}_{\\text{tt}}$ (noisy-OR sau khi người dùng dứt lời, survival khi người dùng đang nói). Tổng hàm mất mát: $\\mathcal{L} = \\mathcal{L}_{\\text{event}} + 0.5 \\mathcal{L}_{\\text{pre}} + \\mathcal{L}_{\\text{tt}} + \\beta \\text{KL}(\\pi_\\theta \\parallel \\pi_{\\text{ref}})$.\n- **Xử lý mô hình không có control token (PersonaPlex, Moshika):** Định nghĩa điểm dừng là chuỗi 10 frame 80-ms liên tiếp không có từ ($0.8\\text{ s}$); chỉ huấn luyện 2 hàng projection của text output (PAD và end-of-text PAD, gồm 8,194 tham số); áp dụng event gate dựa trên tín hiệu âm thanh để chỉ kích hoạt 2 hàng này khi có tranh chấp lời nói, kết hợp giai đoạn post-turn để ngăn chặn nói vào khoảng lặng.",
+  "setup": "Huấn luyện trên tập clip ngắt lời và backchannel của HumDial Track-2 (tiếng Trung cho Lychee-FD, MiniCPM-o, Freeze-Omni; tiếng Anh cho BayLing-Duplex, PersonaPlex, Moshika). Đánh giá closed-loop trên HumDial-FDBench (1,500 ngắt lời thực tế chia đều 5 loại: ask, deny, repeat, shift, wait; cùng 300 backchannel) bằng simulator chèn audio người dùng tại 0.8 s, 1.6 s hoặc 2.4 s sau khi mô hình bắt đầu nói. Đánh giá tất cả mô hình trong cửa sổ $2\\text{ s}$ dựa trên tín hiệu dừng nội tại hoặc khoảng lặng năng lượng $\\ge 0.8\\text{ s}$, không sử dụng LLM judge. Bổ sung bài kiểm tra 100-s silence test với 40 câu hỏi tiếng Anh.",
+  "results": [
+   "Lychee-FD (zh): WL đạt F1 91.4% (I: 95.9%, B: 12.8%), vượt trội so với Base (F1 62.6%), GRPO G16 (F1 75.9%) và GRPO speaking-only (F1 84.2%); đồng thời giữ tỷ lệ re-open ở khoảng lặng 100 s là 0% (so với 100% / 45.8 s của GRPO G16).",
+   "MiniCPM-o 4.5 (zh): WL đạt F1 89.6% (I: 81.3%, B: 0.3%), cao hơn Base (F1 27.9%), GRPO G16 (F1 76.4%) và GRPO speaking-only (F1 83.9%).",
+   "BayLing-Duplex (en): GRPO G16 bị sụp đổ (collapse) chỉ còn F1 9.4% (I: 4.9%), trong khi WL đạt F1 85.7% (I: 95.7%, B: 22.4%), cải thiện mạnh so với Base (F1 32.3%).",
+   "Freeze-Omni (zh): GRPO G16 và speaking-only đều sụp đổ (F1 0.5% và 0.8% do triệt tiêu phản hồi), còn WL nâng F1 lên 40.5% (I: 26.0%, B: 9.1%) so với Base (F1 19.7%).",
+   "PersonaPlex & Moshika (en): Trên PersonaPlex, WL đạt F1 77.2%, vượt qua checkpoint Kyutai GRPO (F1 52.4%) và Base (F1 61.7%), giảm re-open từ 100% xuống 0%. Trên Moshika, WL đạt F1 70.0% so với Kyutai GRPO (F1 59.4%) và Base (F1 57.3%)."
+  ],
+  "limitations": "Hiệu năng tuyệt đối trên Freeze-Omni vẫn thấp (F1 40.5) do state head tuyến tính gắn VAD không phân biệt được trạng thái người dùng đang hỏi và vừa dứt lời. Với BayLing-Duplex, token [EPAD] vừa biểu thị ngắt lời vừa là kết thúc câu trả lời, dẫn đến 30% (12/40) câu trả lời đầu tiên không kết thúc trong vòng 120 s. Trên họ Moshi, WL thiên về điều chỉnh operating point hơn là cải thiện phân loại (AUC linear probe chỉ tăng nhẹ từ 0.769 lên 0.795 trên PersonaPlex), và Moshika WL vẫn phát ra âm thanh phi ngôn ngữ trong 2/37 trường hợp khoảng lặng.",
+  "takeaways": "Khi reward có thể xác minh và phụ thuộc vào một tập hữu hạn các biến cố điều khiển (như quyết định dừng trong cửa sổ thời gian), việc tích phân giải tích đóng (closed-form expectation) hiệu quả vượt trội so với lấy mẫu RL hộp đen (như GRPO), giúp loại bỏ hoàn toàn bẫy zero-gradient và credit leakage. Phương pháp này chỉ cần huấn luyện head quyết định dừng hoặc LoRA cục bộ với chi phí tính toán thấp.",
+  "strengths": [
+   "Giải tích hóa reward thay vì lấy mẫu",
+   "Triệt tiêu hoàn toàn zero-gradient trap",
+   "Ngăn chặn credit leakage vào listening-state",
+   "Đánh giá closed-loop chuẩn xác không dùng LLM",
+   "Hiệu quả đồng nhất trên 6 kiến trúc"
+  ],
+  "weaknesses": [
+   "F1 trên Freeze-Omni còn khá khiêm tốn",
+   "Lỗi kéo dài câu trả lời ở BayLing",
+   "Mới kiểm nghiệm trên một benchmark duy nhất",
+   "Cần cơ chế gate thủ công cho Moshi"
+  ],
+  "context": "Nghiên cứu từ Nanyang Technological University (NTU) và Tencent; công bố dưới dạng preprint trên arXiv tháng 10/2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

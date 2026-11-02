@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.37024",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng kết hợp hồi quy continuous latent một bước trong frozen streaming codec với kỹ thuật cắt tỉa tầng RVQ để giải quyết triệt để bài toán generative SE streaming causal là cách tiếp cận mới mẻ và thực dụng.",
+  "credibility": "Bài báo đến từ nhóm nghiên cứu Đại học Sungkyunkwan, trình bày mạch lạc và phương pháp thực nghiệm chặt chẽ nhưng hiện mới ở dạng bản thảo arXiv.",
+  "technical": "Thiết kế kiến trúc causal nhất quán từ codec đến SE module, xử lý lan truyền gradient qua RVQ bằng STE với reference round-trip chuẩn xác, đo đạc profile phần cứng chi tiết trên smartphone.",
+  "impact": "Mở ra lộ trình khả thi cho các mô hình generative SE triển khai trực tiếp trên chip di động, tuy nhiên chưa có thông tin phát hành mã nguồn mở nên mức độ ảnh hưởng diện rộng cần thời gian kiểm chứng.",
+  "evidence": "Dữ liệu thực nghiệm thuyết phục với bảng so sánh chi tiết trên DNS Challenge 2020 gồm 7 baselines, ablation study rõ ràng giữa OVL và SIM, cùng thống kê p95 latency trực tiếp trên phần cứng di động Galaxy S22."
+ },
+ "summary": {
+  "tldr": "StreamSE là mô hình generative speech enhancement (SE) streaming gọn nhẹ (20M tham số) hoạt động trực tiếp trên không gian latent liên tục của một frozen causal neural audio codec. Bằng cách hồi quy latent liên tục trong một lượt forward duy nhất kèm kỹ thuật cắt tỉa tầng RVQ (level truncation), mô hình đạt chất lượng vượt trội các baseline offline mà vẫn chạy thời gian thực trên một nhân CPU smartphone.",
+  "problem": "Các mô hình SE dạng generative gần đây (diffusion, language model) đạt chất lượng âm thanh cảm nhận rất cao nhưng thường dựa trên kiến trúc non-causal xử lý cả câu hoặc đòi hỏi lấy mẫu lặp nhiều bước (iterative sampling), gây khó khăn lớn cho việc triển khai streaming với độ trễ thấp trên thiết bị di động (on-device). Ngoài ra, các phương pháp sinh discrete token trên codec RVQ nhiều tầng tốn chi phí phân loại lặp lại cho từng tầng trong mỗi frame.",
+  "method": "StreamSE xây dựng pipeline streaming hoàn toàn causal gồm một codec âm thanh cố định (frozen) kết hợp với khối tăng cường âm thanh causal Transformer:\n- **Neural Audio Codec**: Sử dụng `MOSS-Audio-Tokenizer-Nano` causal streaming (~22M tham số), xử lý audio 48 kHz ở frame rate 12.5 Hz (80 ms mỗi frame), ánh xạ thành continuous latent $d=768$ và lượng tử hóa qua 16 tầng RVQ (codebook size 1024).\n- **Kiến trúc StreamSE**: Causal decoder-only Transformer (~20M tham số, 6 layers, hidden dimension 512, 8 heads, RoPE). Ở mỗi frame $t$, mô hình nhận đầu vào là concatenation của noisy continuous latent $n_{embed, t}$ và latent đã lượng tử hóa của frame trước $h_{quant, t-1}$, hồi quy trực tiếp continuous latent sạch $h_{embed, t}$ thay vì phân loại discrete tokens.\n- **RVQ Level Truncation**: Cắt tỉa RVQ từ 16 tầng xuống chỉ còn $k=8$ tầng coarse. Việc này giảm một nửa số token/frame và loại bỏ các tầng chi tiết (fine levels) vốn bị phát hiện là chứa âm vang dư thừa (residual reverberation).\n- **Hàm mất mát**: Tổng trọng số $\\mathcal{L} = \\mathcal{L}_{emb} + \\lambda_w \\mathcal{L}_{wav} + \\lambda_m \\mathcal{L}_{mel}$ (với $\\lambda_w=0.2, \\lambda_m=0.5$). $\\mathcal{L}_{emb}$ đo khoảng cách L1 giữa $h_{embed}$ và $c_{embed}$. $\\mathcal{L}_{wav}$ và $\\mathcal{L}_{mel}$ so sánh tín hiệu giải mã $h$ với tín hiệu codec round-trip reference $\\bar{c} = \\text{Decoder}(c_{quant})$ (giúp loại bỏ lỗi tái tạo cố hữu của codec khỏi tín hiệu huấn luyện). Gradient truyền qua khâu lượng tử hóa nhờ Straight-Through Estimator (STE).",
+  "setup": "Huấn luyện trên dữ liệu tổng hợp trực tuyến từ LibriTTS-R (clean-100, clean-360) và VoiceBank-DEMAND kết hợp nhiễu WHAM!/DEMAND (SNR từ -5 đến 20 dB, xác suất 0.8), tạo vang bằng RIR openSLR26/openSLR28 (xác suất 0.5), phân đoạn 125 frames (10 s), huấn luyện 20 epochs trên 1 GPU V100 16GB với batch size hiệu dụng 48. Đánh giá trên tập test DNS Challenge 2020 bằng DNSMOS P.835 (SIG, BAK, OVL) và WeSpeaker speaker similarity (SIM). Baseline gồm nhóm discriminative (Conv-TasNet, Demucs, Inter-SubNet) và generative offline (CDiffuSE, SGMSE, StoRM, SELM). Đánh giá on-device trên một nhân big CPU của Samsung Galaxy S22 (Snapdragon 8 Gen 1) sử dụng ONNX Runtime CPU backend với dynamic int8 quantization.",
+  "results": [
+   "Trên DNS Challenge 2020 không look-ahead (ℓ=0, fp32): StreamSE đạt điểm vượt trội các baseline trên 7/9 metric DNSMOS; ở danh mục With Reverb đạt SIG 3.417, BAK 3.990, OVL 3.086 (vượt trội StoRM với OVL 2.516 và SELM với OVL 2.695).",
+   "Ở danh mục Without Reverb (ℓ=0, fp32): StreamSE đạt SIG 3.617, BAK 4.124, OVL 3.361 so với SELM (SIG 3.508, BAK 4.096, OVL 3.258) và StoRM (SIG 3.514, BAK 3.941, OVL 3.205).",
+   "Ở danh mục Real Recordings (ℓ=0, fp32): StreamSE đạt BAK 3.830 (cao nhất trong tất cả các hệ thống, vượt SELM 3.435) và OVL 3.016 so với SELM 3.124.",
+   "Ablation RVQ Level Truncation: Khi giảm $k$ từ 16 xuống 8, OVL có reverb tăng từ 2.973 lên 3.086 (+0.113 OVL) trong khi độ tương đồng người nói (SIM) không reverb chỉ giảm nhẹ từ 0.818 xuống 0.779 (-0.039 SIM); giảm sâu hơn xuống $k=4$ làm SIM sụt mạnh xuống 0.698.",
+   "Benchmark on-device Galaxy S22 (int8, ℓ=0): Tổng thời gian p95 mỗi frame là 61.04 ms (chiếm 76% ngân sách 80 ms), trong đó Codec Encoder tốn 27.72 ms, Codec Decoder tốn 27.86 ms (codec chiếm 91% tổng thời gian) và StreamSE chỉ tốn 5.46 ms (chiếm 9%)."
+  ],
+  "limitations": "Codec chiếm tới 91% độ trễ xử lý trên thiết bị khiến chi phí codec trở thành nút thắt cổ chai chính; việc cắt giảm RVQ level làm suy giảm chỉ số speaker similarity (SIM); nghiên cứu chỉ đánh giá bằng chỉ số khách quan (DNSMOS, SIM) mà không có đánh giá chủ quan bằng con người (MUSHRA/P.808); mã nguồn và trọng số mô hình không được công bố trong bài báo.",
+  "takeaways": "Thay vì phân loại autoregressive qua từng discrete token tầng RVQ, việc trực tiếp hồi quy continuous latent trước RVQ trong frozen streaming codec là hướng đi vượt trội cả về tốc độ lẫn độ trễ cho generative speech enhancement trên thiết bị biên. Kỹ thuật cắt bỏ các tầng RVQ chi tiết (level truncation) là mẹo hiệu quả để khử vang mà không cần kiến trúc phức tạp.",
+  "strengths": [
+   "Hồi quy continuous latent một lượt đơn giản",
+   "Streaming hoàn toàn causal không cần look-ahead",
+   "Cắt tỉa RVQ tăng mạnh chất lượng khử vang",
+   "Chạy thực tế dưới 80ms trên CPU di động",
+   "Vượt trội baselines generative offline trên DNSMOS"
+  ],
+  "weaknesses": [
+   "Codec chiếm 91% độ trễ on-device",
+   "Giảm RVQ level làm giảm độ nhận diện giọng nói",
+   "Thiếu đánh giá thính giác chủ quan (human eval)",
+   "Chưa cung cấp mã nguồn hoặc checkpoint"
+  ],
+  "context": "Nhóm tác giả thuộc Đại học Sungkyunkwan (Hàn Quốc); công bố dưới dạng preprint trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

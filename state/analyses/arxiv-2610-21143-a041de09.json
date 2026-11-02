@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.21143",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tách rời không gian sinh và tổng hợp thông qua nén BPE post-hoc kết hợp mean-initialization và progressive dialogue adaptation là cách tiếp cận mới mẻ so với việc thay thế tokenizer tốc độ thấp.",
+  "credibility": "Nghiên cứu đến từ nhóm tác giả uy tín tại Viện Tự động hóa - Viện Hàn lâm Khoa học Trung Quốc (CASIA) với mã nguồn công khai trên GitHub.",
+  "technical": "Quy trình thích ứng 3 giai đoạn được thiết kế bài bản, có phân tích định lượng chi tiết giữa chi phí chiếu của LM-head và số bước decoding tiết kiệm được.",
+  "impact": "Cung cấp giải pháp thực tiễn cao giúp giảm chi phí suy luận trực tiếp cho các mô hình thoại âm thanh đang triển khai, dù lượng tương tác ban đầu trên cộng đồng còn ở mức trung bình.",
+  "evidence": "Thực nghiệm đối sánh toàn diện trên 12 tập benchmark URO-Bench, bao gồm phân tích latency/throughput hệ thống trên vLLM, human evaluation, kiểm tra ablation tỉ mỉ và chứng minh chuyển giao trên kiến trúc khác."
+ },
+ "summary": {
+  "tldr": "CoSTA là framework post-hoc giúp tách rời không gian sinh mã âm thanh (generation token space) và không gian tổng hợp âm thanh (synthesis token space) cho các mô hình hội thoại tiếng nói (SDM). Bằng cách mở rộng từ vựng qua thuật toán BPE và thích ứng mô hình qua các bước huấn luyện chuyên biệt, CoSTA rút ngắn chuỗi autoregressive và đạt tốc độ sinh mã âm thanh nhanh hơn ~1,7× mà vẫn giữ nguyên speech tokenizer và speech decoder gốc.",
+  "problem": "Các mô hình hội thoại tiếng nói (SDMs) hiện nay thường sử dụng chung một không gian token cho cả quá trình sinh autoregressive và tổng hợp âm thanh (speech synthesis), dẫn đến chuỗi sinh quá dài, chi phí suy luận cao, căn chỉnh văn bản - tiếng nói khó khăn và hạn chế khả năng đàm thoại nhiều lượt. Các tokenizer tốc độ thấp (lower-rate tokenizers) có thể giảm độ dài nhưng thường gặp đánh đổi nén-chất lượng (compression-quality trade-off) và đòi hỏi phải huấn luyện lại toàn bộ hệ thống từ đầu.",
+  "method": "CoSTA đề xuất kiến trúc decoupling không gian sinh và tổng hợp thông qua các bước chính:\n- **Quy luật nén BPE thực nghiệm**: Khám phá quan hệ tuyến tính xấp xỉ giữa tỷ lệ nén $\\rho$ và $\\log_2 M$ (với $M$ là số lượng BPE token mở rộng từ 10K đến 320K, đạt $R^2 \\ge 0.98$ qua 8 cấu hình tokenizer).\n- **Mở rộng từ vựng và khởi tạo trung bình (Mean-based Initialization)**: Mở rộng từ vựng mô hình $V$ thêm $M = 80\\text{K}$ đơn vị BPE ($V' = V \\cup (Z \\setminus S)$). Mỗi embedding $E'_z$ và hàng LM-head $W'_z$ của token BPE mới được khởi tạo bằng trung bình cộng các vector thành phần tương ứng: $E'_z = \\frac{1}{k}\\sum_{i=1}^k E_{s_i}$ và $W'_z = \\frac{1}{k}\\sum_{i=1}^k W_{s_i}$.\n- **Pronunciation Adaptation**: Huấn luyện tiệm tiến (progressive) trên 300 giờ dữ liệu TTS tiếng Trung và 300 giờ tiếng Anh (được chuẩn hóa âm sắc bằng Seed-VC). Giai đoạn 1 cập nhật embedding và LM-head (lr = $1.6 \\times 10^{-4}$); Giai đoạn 2 mở đóng băng các tầng trung gian (lr = $2.0 \\times 10^{-5}$).\n- **Dialogue Adaptation**: Thích ứng mô hình hội thoại trên xấp xỉ 50K mẫu cặp hội thoại song ngữ tiếng-nói-sang-tiếng-nói (chỉ nén speech token ở câu trả lời), giữ đông băng speech encoder, adaptor và decoder.\n- **Suy luận mở rộng tất định (Deterministic Expansion)**: SDM sinh chuỗi nén $z$, sau đó hàm tất định $\\pi(z) = s$ giải mã ngược lại không gian token gốc $S$ trước khi chuyển thẳng vào speech decoder không đổi.",
+  "setup": "Mô hình nền tảng chính là Step-Audio 2 mini (8B, S3Tokenizer V2 25 Hz, từ vựng speech gốc 6,656 token) và mô hình Think-Talk OpenS2S (12.5 Hz GLM-4-Voice tokenizer). Dữ liệu huấn luyện gồm 300h tiếng Trung + 300h tiếng Anh từ Emilia (TTS) và ~50K mẫu hội thoại tổng hợp/ngôn ngữ từ quy trình OpenS2S/CosyVoice 2. Đánh giá trên 12 tập dữ liệu URO-Bench (AlpacaEval, APE, Claude, LCSTS, MLC, Wildchat...). Đo đạc hệ thống thực hiện trên vLLM với GPU đơn NVIDIA A100 80GB (bfloat16). Đánh giá chất lượng dùng G-Eval (GPT-4o mini), UTMOS (speech quality), CER/WER (căn chỉnh text-speech) và human MOS.",
+  "results": [
+   "Về tốc độ sinh mã trên Step-Audio 2 mini: CoSTA-ZH đạt tỷ lệ nén generated token $\\rho_g = 66.81\\%$, tốc độ sinh mã mở rộng đạt 101.99 tokens/s (tăng tương đối 173.63% so với baseline gốc 58.74 tokens/s). CoSTA-EN đạt $\\rho_g = 70.17\\%$, tốc độ 99.05 tokens/s (tăng tương đối 165.94% so với 59.69 tokens/s).",
+   "Về hiệu năng hệ thống trên GPU A100: Ở concurrency 1/4/8, CoSTA-ZH giảm full-response latency từ 10.73/13.63/15.56s xuống 7.14/9.16/9.49s (giảm 32.8% - 39.0%) và tăng throughput từ 0.103/0.316/0.515 lên 0.160/0.479/0.820 req/s (tăng 51.6% - 59.2%). CoSTA-EN giảm latency 22.4% - 26.0% và tăng throughput 25.8% - 38.6%, bộ nhớ đỉnh chỉ tăng thêm tối đa 0.68 GiB.",
+   "Về chất lượng tự động: CoSTA-ZH đạt G-Eval 72.27, ASR-CER 1.51%, UTMOS 3.75 (so với Step-Audio 2 mini gốc: G-Eval 69.24, CER 7.49%, UTMOS 3.62; và Vanilla-FT-ZH: G-Eval 69.88, CER 4.96%, UTMOS 3.77). CoSTA-EN đạt G-Eval 69.97, WER 2.50%, UTMOS 4.54 (so với bản gốc G-Eval 63.73, WER 6.49%, UTMOS 4.53).",
+   "Đánh giá con người: CoSTA vượt trội hoặc hòa bản gốc/Vanilla-FT với tỷ lệ win-or-tie đạt 86.1% - 96.1% về độ trôi chảy (fluency) và 83.3% - 87.7% về chất lượng ngữ nghĩa.",
+   "Chuyển giao kiến trúc trên OpenS2S: Giảm số bước sinh speech token 21.17% (tiếng Trung, $\\rho_g = 78.83\\%$, CER giảm từ 11.08% xuống 8.50%, G-Eval tăng từ 65.26 lên 69.18) và 18.64% (tiếng Anh, $\\rho_g = 81.36\\%$, G-Eval tăng từ 73.97 lên 76.23).",
+   "Độ bền hội thoại dưới budget hạn chế: CoSTA duy trì được 7.21 lượt (turns) tiếng Trung và 5.79 lượt tiếng Anh (so với 3.71 và 1.84 lượt của Vanilla-FT), tạo ra thời lượng nói dài hơn (150.67s so với 97.62s ở tiếng Trung)."
+  ],
+  "limitations": "Dữ liệu thích ứng hội thoại phụ thuộc vào dữ liệu tổng hợp (synthetic S2S data); chưa đánh giá sâu trên hội thoại cảm xúc chi tiết, phong cách cá nhân hóa hay môi trường âm học phức tạp; mới chỉ khai thác thuật toán BPE chứ chưa khảo sát các phương pháp nén lossless speech token phân đoạn khác.",
+  "takeaways": "Kỹ sư có thể tăng tốc độ sinh tiếng nói của các SDM mã nguồn mở hiện có lên ~1.7× mà không cần train lại hay đổi codec/decoder, chỉ cần mở rộng từ vựng BPE khoảng 80K đơn vị kèm 2 pha adaptation (TTS + Dialogue) tiêu tốn ~79.5 A100 GPU-hours.",
+  "strengths": [
+   "Tăng tốc sinh token ~1.7× không đổi decoder",
+   "Bảo toàn và cải thiện chất lượng căn chỉnh",
+   "Chi phí thích ứng thấp (~80 GPU-giờ)",
+   "Chuyển giao tốt qua kiến trúc Think-Talk khác",
+   "Quy luật scaling nén BPE log-linear rõ ràng"
+  ],
+  "weaknesses": [
+   "Phụ thuộc dữ liệu dialogue tổng hợp",
+   "Chi phí tính toán LM-head tăng khi scale từ vựng",
+   "Chưa thử nghiệm trên dữ liệu âm thanh nhiễu"
+  ],
+  "context": "Nhóm tác giả từ Viện Tự động hóa - Viện Hàn lâm Khoa học Trung Quốc (CASIA), UCAS và Wuhan AI Research; công bố dưới dạng preprint mã nguồn mở."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

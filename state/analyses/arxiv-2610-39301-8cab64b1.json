@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2610.39301",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đột phá trong việc dùng một encoder đơn lẻ khởi tạo từ LM cho cả audio và vision kết hợp fusion layer sớm và cơ chế chưng cất on-policy phân tách vai trò token (OSAD).",
+  "credibility": "Báo cáo kỹ thuật chi tiết từ Tencent Youtu Lab kèm mã nguồn và checkpoint công khai trên Hugging Face / GitHub.",
+  "technical": "Thiết kế kỹ thuật xuất sắc về đồng bộ trục không-thời gian (Chunked RoPE), sparse cross-modal fusion, và quy trình huấn luyện 7 giai đoạn chặt chẽ.",
+  "impact": "Cung cấp một perception layer chuẩn mực cho các agent đa phương thức, thu hút sự chú ý tốt (403 GitHub stars, công khai mã nguồn).",
+  "evidence": "Đánh giá thực nghiệm toàn diện trên 6 benchmark lớn, so sánh trực tiếp với hàng loạt mô hình chuyên biệt lẫn API thương mại kèm ablation chi tiết."
+ },
+ "summary": {
+  "tldr": "Youtu-Parsing-Omni là mô hình parser đa phương thức (omni-modal) kích thước 5B tham số, tích hợp xử lý tài liệu, ảnh tự nhiên, âm thanh và video thành các bản ghi có cấu trúc được gắn neo không-thời gian (spatial and temporal grounding). Hệ thống được xây dựng trên hai trụ cột cốt lõi: một encoder chia sẻ trọng số cho toàn bộ các phương thức (Youtu-Omni-Encoder) và một schema chuẩn hóa duy nhất (OmniSchema) được tối ưu hóa qua quy trình tự tiến hóa OSAD.",
+  "problem": "Các mô hình agent hiện nay cần đọc hiểu dữ liệu đa phương thức nhưng việc nạp trực tiếp chuỗi token thô (raw pixels, waveforms) vào LLM rất tốn kém tính toán và khó truy vết nguồn gốc bằng chứng (grounding). Trong khi đó, các parser hiện tại thường phân mảnh (mỗi định dạng/tác vụ dùng một encoder chuyên biệt và cấu trúc output khác nhau) và các kiến trúc hai tháp (two-tower) tách biệt thị giác - âm thanh khiến thông tin không được liên kết/căn chỉnh thời gian ngay từ tầng perception.",
+  "method": "Mô hình gồm 2 thành phần chính: (1) **Youtu-Omni-Encoder** (0.4B tham số, khởi tạo từ Qwen3-0.6B-Base bỏ embedding và LM head) xử lý cả vision và audio với trọng số Transformer hai chiều chia sẻ. Modality stems chỉ chiếm dưới 3% tham số: vision stem dùng linear projection cho patch 16x16; audio stem dùng 3 lớp tích chập stride-2 trên log-mel spectrogram cho ra tốc độ 13 tokens/giây. Vị trí được mã hóa bằng Chunked Axis-Factorized RoPE 64 slots chia cho $(d_T, d_H, d_W) = (21, 21, 22)$, với bước thời gian đồng bộ $\\Delta t_{\\text{audio}} = 1$ và $\\Delta t_{\\text{vision}} = r_a / \\text{fps}$. Tại 4 tầng fusion layers (13, 14, 27, 28), các khung hình video có thể chú ý trực tiếp đến audio đồng thời theo các nhóm $(I^+A^*)$. (2) **OmniSchema**: Định dạng JSON thống nhất 10 tác vụ (gồm cả OCR, SMILES hóa học, nốt nhạc ABC, ASR, và video timeline). (3) **Chiến lược huấn luyện 7 giai đoạn**: Tiền huấn luyện 4 giai đoạn (2.24T tokens) gồm Stage 0 (Perception Alignment), Stage 1 (Omni-modal Pre-Training, 1.28T tokens), Stage 2 (Annealing với layer-wise decay và stochastic routing $p_{\\text{fus}}=0.8$), và Stage 3 (Long-context extension đến 128k tokens, 512 frames). Hậu huấn luyện 3 giai đoạn: SFT (16B tokens), Schema-Routed RLVR (GRPO với hàm thưởng phạt lặp, thiếu thông tin và độ chính xác nội dung), và OSAD (OmniSchema-Aware On-Policy Distillation qua 6 vòng tự cập nhật teacher, phân tách hàm mất mát: JS divergence cho content tokens và forward KL divergence cho structure tokens).",
+  "setup": "Đánh giá mô hình checkpoint 5B (decoder 4.5B dùng kiến trúc MLA dense 40 lớp context 128k) trên các benchmark: OmniDocBench v1.6 (1.651 mẫu), PureDocBench (1.475x3 mẫu), OmniParsingBench (3.738 mẫu trên 5 phân mảng: ảnh tự nhiên, đồ họa chart/geometry, âm thanh, video tự nhiên, text-rich video), Video-MME-v2 (3.200 câu hỏi không phụ đề), ChemOCR (990 phân tử), PDMX-Synth (800 bản nhạc). So sánh với các mô hình chuyên biệt (TeleOCR, MinerU2.5-Pro, PaddleOCR-VL-1.6, LEGATO) và tổng quát (Gemini-3-Pro, Logics-Parsing-Omni, Qwen3-Omni-30B-A3B).",
+  "results": [
+   "Đạt Top 1 OmniDocBench v1.6 với điểm Overall 96.96 (so với TeleOCR 96.91 và Youtu-Parsing 93.74), dẫn đầu về Reading Order Edit (0.1104).",
+   "Đạt điểm Avg 75.08 trên OmniParsingBench, dẫn đầu toàn bộ các mô hình trọng số mở (vượt qua Logics-Parsing-Omni 72.26 và Qwen3-Omni-30B-A3B 66.44), áp sát Gemini-3-Pro (77.44).",
+   "Trên phân mảng Audio của OmniParsingBench, đạt Overall 78.08 (so với Logics-Parsing-Omni 75.58 và Gemini-3-Pro 76.74), chủ yếu nhờ Time F1 đạt 53.89 và Key F1 đạt 59.48, dù điểm ASR đạt 77.94 (thấp hơn Gemini-3-Pro 84.38).",
+   "Dẫn đầu các mô hình mở trên phân mảng Natural Video (Overall 74.18 vs Logics-Parsing-Omni 67.34) và Text-Rich Video (75.62 vs 65.36).",
+   "Đạt tỷ lệ khớp chính xác phân tử Tani@1.0 là 54.2 trên ChemOCR (vượt DeepSeek-OCR 2 đạt 49.6) và đạt CER 22.73 trên PDMX-Synth (vượt chuyên gia OMR LEGATO đạt 23.30)."
+  ],
+  "limitations": "Chưa hỗ trợ cơ chế giải mã tăng tốc song song (parallel decoding) như phiên bản tiền nhiệm Youtu-Parsing, dẫn đến thông lượng giải mã chậm hơn trên các cấu trúc dày đặc như bảng biểu; năng lực nhận dạng tiếng nói (ASR) thuần túy còn thấp hơn các mô hình lớn (đạt 77.94 trên audio benchmark so với Gemini-3-Pro 84.38); khả năng suy luận đa bước phức tạp trên video (mức L2, L3) còn hạn chế do chưa tích hợp chế độ suy nghĩ (thinking mode).",
+  "takeaways": "Chứng minh tính khả thi của việc sử dụng một encoder chung duy nhất được khởi tạo từ text LLM cho cả âm thanh, hình ảnh và video thay vì thiết kế kiến trúc hai tháp riêng rẽ. Phương pháp chưng cất tự tiến hóa thích ứng vai trò token (OSAD) là giải pháp hiệu quả cho các tác vụ xuất dữ liệu có cấu trúc kết hợp nhiều phương thức.",
+  "strengths": [
+   "Một encoder chia sẻ trọng số cho mọi phương thức",
+   "Schema chuẩn hóa đồng nhất 10 tác vụ phân tích",
+   "Đạt SOTA trên OmniDocBench và OmniParsingBench (mô hình mở)",
+   "Quy trình hậu huấn luyện OSAD tự tiến hóa hiệu quả",
+   "Mã nguồn và trọng số mô hình được công khai"
+  ],
+  "weaknesses": [
+   "Độ chính xác ASR thấp hơn các hệ thống lớn",
+   "Giải mã tự hồi quy làm giảm thông lượng (throughput)",
+   "Thiếu thinking mode cho suy luận video phức tạp"
+  ],
+  "context": "Nhóm nghiên cứu Tencent Youtu Lab (tác giả chính: Yunhang Shen, Zhangquan Chen, Xiaotian Li, Haoyu Cao, Xing Sun); báo cáo kỹ thuật công bố trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

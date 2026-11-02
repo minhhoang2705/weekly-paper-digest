@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>S3-S2ST: Semantically Supervised Streaming Speech-to-Speech Translation · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W45</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">S3-S2ST: Semantically Supervised Streaming Speech-to-Speech Translation</h1>
+    <div class="meta">
+      <span>published Oct 27, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Speech LLM</span>        <span class="authors">Yuxiang Zhao, Zhiyun Fan, Yu Pu, Yanjie An, Yushen Chen, Wenrui Liang, Baiji Liu, Yunchong Xiao, Zhaoci Liu, Keqi Deng, Kai Yu, Zhifu Gao, Xiangang Li, Xie Chen</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2610.36777" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Streaming speech-to-speech translation requires timely decisions about when partial input is sufficient for accurate translation. We present S3-S2ST, a model that learns to translate and speak from semantically aligned streaming supervision. By converting utterance-level speech pairs into incremental training examples, we teach a learned policy when to commit translations. Its adjustable threshold controls the quality--latency tradeoff on a fixed 640\,ms input grid. S3-S2ST delivers competitive English--Chinese translation on FLEURS and leads the evaluated streaming systems in translation quality on the internal 9-pair test set. On RealSI, adapting the threshold to buffered speech further improves quality over a low fixed threshold with little change in first-audio latency. We plan to release the model and code.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 2, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>S3-S2ST là hệ thống dịch lời nói sang lời nói trực tuyến (streaming S2ST) dựa trên kiến trúc Thinker-Talker, huấn luyện từ các quỹ đạo giám sát ngữ nghĩa (semantically aligned trajectories). Mô hình sử dụng frontend dạng khối 640 ms và cơ chế ngưỡng quyết định phát ngôn linh hoạt (playback-adaptive threshold) giúp tối ưu đánh đổi chất lượng - độ trễ trên cùng một checkpoint mà không cần huấn luyện lại.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Thách thức cốt lõi của streaming S2ST là quyết định lượng ngữ cảnh cần chờ trước khi dịch: dịch quá sớm giảm độ trễ nhưng dễ dịch sai, trong khi chờ quá lâu sẽ gián đoạn hội thoại; đặc biệt lời nói phát ra không thể tự âm thầm sửa lại như văn bản. Các cặp câu song ngữ ở mức utterance không chỉ ra rõ phần âm thanh nguồn nào hỗ trợ span dịch đích nào, và các phương pháp kiểm soát độ trễ trước đây thường phải thay đổi độ dài chunk hoặc retrain mô hình.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>S3-S2ST xây dựng trên mô hình Thinker-Talker kết hợp bộ giải mã flow-matching và vocoder cố định:</p>
+<ul>
+<li><strong>Chunkwise Frontend</strong>: Xử lý âm thanh nguồn theo từng khối 640 ms (16 encoder states) với lookahead 160 ms ở layer đầu (tổng lookahead 162.5 ms tính cả STFT framing). Block-causal adaptor nén mỗi chunk thành 8 vị trí; các layer sau không được nhìn sang block tương lai.</li>
+<li><strong>Dự đoán phát ngôn (READ/WRITE Policy)</strong>: Bộ phân loại MLP (0.66M tham số) nhận trạng thái ẩn chuẩn hóa cuối cùng của Thinker (<span class="math inline">h_t \in \mathbb{R}^{2560}</span>) để dự đoán xác suất <span class="math inline">p_t</span> cho hành động WRITE, huấn luyện bằng cross-entropy với nhãn READ/WRITE.</li>
+<li><strong>Playback-Adaptive Threshold</strong>: Điều chỉnh ngưỡng phát ngôn động dựa trên lượng audio còn trong bộ đệm phát <span class="math inline">b_t</span> (tính bằng giây): <span class="math inline">\tau_t = 0.1 + 0.89\sqrt{\min(b_t / 1\text{ s}, 1)}</span>. Khi buffer cạn, ngưỡng giảm về 0.1 để phản hồi sớm; khi buffer còn audio, ngưỡng tăng lên tối đa 0.99 để chờ thêm ngữ cảnh nguồn.</li>
+<li><strong>Hidden-State Fusion 8 tầng</strong>: Talker nhận trạng thái biểu diễn kết hợp từ 8 layer của Thinker <span class="math inline">\mathcal{L} = \{4, 8, 12, 16, 20, 24, 28, 32\}</span> qua vector trọng số học được <span class="math inline">w_\ell \in \mathbb{R}^{2560}</span>: <span class="math inline">\tilde{h}_t = \sum_{\ell \in \mathcal{L}} w_\ell \odot h_t^{(\ell)}</span>, sau đó chiếu qua ma trận <span class="math inline">P</span>.</li>
+<li><strong>Giám sát ngữ nghĩa (Semantic Supervision)</strong>: Dùng Qwen3.7-Max phân tách transcript thành các đơn vị ngữ nghĩa đảm bảo prefix-supported, ánh xạ mốc thời gian bằng forced alignment rồi lượng tử hóa về lưới 640 ms (<span class="math inline">g_j = C\lceil a_j / C\rceil, C = 0.64\text{ s}</span>) để gán nhãn READ nội bộ và WRITE ở biên.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Huấn luyện qua 3 giai đoạn: streaming S2TT adaptation (~3M giờ tiền huấn luyện, 10k bước LoRA; sau đó 10k bước gate trên ~17k giờ trajectories), offline S2ST adaptation (15k bước trên ~300k giờ), và streaming S2ST adaptation (5k bước Talker, 4k bước E2E trên ~13k giờ). Đánh giá trên tập dữ liệu En-Zh công khai FLEURS (945 Zh-En, 646 En-Zh), tập nội bộ 9-pair (996 mẫu/chiều) và RealSI cho đánh đổi chất lượng - độ trễ computation-aware StartOffset. Baselines gồm SeamlessM4T-v2-large, SeamlessStreaming, Qwen3-Omni (30B/3B MoE), UniSS, SimulS2ST-Omni (3B), X-Translator (8B), Hy-SimulMT (30B/3B MoE) và text-only IWSLT (VAD).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên FLEURS streaming: S3-S2ST (fixed <span class="math inline">\tau=0.5</span>) đạt BLEU 29.83, COMET 0.828, WER 4.02%, ASR-BLEU 25.65, ASR-COMET 0.769, SIM 0.606, UTMOS 3.75; S3-S2ST (adaptive) đạt BLEU 29.51, COMET 0.804, WER 3.74%, ASR-BLEU 25.74, ASR-COMET 0.751, SIM 0.605, UTMOS 3.65 (so với SeamlessStreaming: BLEU 23.17, COMET 0.730; X-Translator: BLEU 28.63, COMET 0.759; SimulS2ST-Omni m2: BLEU 26.46, COMET 0.743; Hy-SimulMT 1.6s: BLEU 30.20, COMET 0.845).</li>
+<li>Trên 9-pair test set streaming: S3-S2ST (fixed <span class="math inline">\tau=0.5</span>) dẫn đầu vượt trội với BLEU 60.51, COMET 0.965, ASR-BLEU 55.13, ASR-COMET 0.933 (so với Hy-SimulMT 1.6s: BLEU 52.22, COMET 0.954, ASR-BLEU 50.05, ASR-COMET 0.926; SimulS2ST-Omni m2: BLEU 47.18, COMET 0.940, ASR-BLEU 40.36, ASR-COMET 0.840; SeamlessStreaming: BLEU 32.90, COMET 0.871).</li>
+<li>Trên FLEURS offline: S3-S2ST (4B) đạt BLEU 34.52, COMET 0.904, ASR-COMET 0.849, SIM 0.604, UTMOS 4.01, cạnh tranh trực tiếp với Qwen3-Omni 30B/3B (BLEU 34.46, COMET 0.905, ASR-COMET 0.843, SIM 0.015, UTMOS 4.16).</li>
+<li>Trên RealSI chất lượng - độ trễ: Điểm playback-adaptive đạt ASR-COMET cao hơn và StartOffset thấp hơn cả hai cấu hình chunk của Hy-SimulMT (0.8s và 1.6s); fixed <span class="math inline">\tau=0.1</span> vượt trội hơn hẳn SimulS2ST-Omni m2-m5 ở cả ASR-COMET lẫn StartOffset.</li>
+<li>Ablation trên FLEURS: Kiến trúc chunkwise frontend đạt COMET 0.827 so với 0.687 của block-causal cũ; policy học bằng MLP đạt COMET 0.828 / StartOffset 6.61s so với Fixed 8 blocks đạt 0.814 / 6.83s; Eight-layer fusion cải thiện ASR-COMET lên 0.751 và giảm WER về 3.74% so với chỉ dùng final layer (0.744 và 4.13%).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Mô hình mới chỉ được đánh giá trên cặp ngôn ngữ Anh - Trung (English-Chinese); chưa đánh giá khả năng chuyển giao đa ngữ rộng hơn cũng như các cuộc hội thoại dài liên tục. Tập kiểm thử 9-pair là nội bộ không công khai. Đánh giá kiểm toán dữ liệu exact-match chưa loại trừ hoàn toàn các mẫu audio trùng lặp gần (near-duplicate) hoặc chồng lấn từ giai đoạn pretraining.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Có thể điều khiển linh hoạt ranh giới đánh đổi quality-latency trong streaming S2ST trên một checkpoint cố định bằng cách điều chỉnh ngưỡng policy WRITE (đặc biệt là công thức phụ thuộc bộ đệm playback <span class="math inline">b_t</span>), thay vì phải retrain mô hình hay thay đổi kích thước chunk âm thanh đầu vào.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">70.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#7 (tied) in 2026-W45</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Ý tưởng dùng LLM tạo nhãn giám sát ngữ nghĩa prefix-supported kết hợp với ngưỡng phát ngôn thích ứng bộ đệm playback (playback-adaptive threshold) để kiểm soát độ trễ mà không cần đổi kích thước chunk hay retrain là rất mới và sáng tạo.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Quy trình kỹ thuật được thiết kế sâu sắc từ frontend chunkwise FSMN + block-causal, trajectory annotation hai lượt bằng Qwen3.7-Max, căn chỉnh forced alignment, đến fusion 8 tầng và huấn luyện 3 giai đoạn chặt chẽ.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Kết quả thực nghiệm toàn diện trên benchmark công khai FLEURS và RealSI, so sánh với nhiều baseline mạnh (Hy-SimulMT, SimulS2ST-Omni, SeamlessStreaming) kèm đầy đủ phân tích ablation và khoảng tin cậy bootstrap.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Bài báo cung cấp giải pháp thực tế mạnh mẽ cho streaming S2ST, có kế hoạch mở mã nguồn và checkpoint, nhưng hiện mới tập trung vào cặp ngôn ngữ Anh - Trung nên phạm vi ảnh hưởng trực tiếp chưa lan tỏa toàn diện.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Nghiên cứu đến từ nhóm tác giả uy tín tại X-LANCE Lab (SJTU) và Alibaba Token Foundry, phương pháp và giao thức thực nghiệm được mô tả chi tiết, minh bạch về cả kiểm toán rò rỉ dữ liệu.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Ý tưởng dùng LLM tạo nhãn giám sát ngữ nghĩa prefix-supported kết hợp với ngưỡng phát ngôn thích ứng bộ đệm playback (playback-adaptive threshold) để kiểm soát độ trễ mà không cần đổi kích thước chunk hay retrain là rất mới và sáng tạo.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Nghiên cứu đến từ nhóm tác giả uy tín tại X-LANCE Lab (SJTU) và Alibaba Token Foundry, phương pháp và giao thức thực nghiệm được mô tả chi tiết, minh bạch về cả kiểm toán rò rỉ dữ liệu.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Quy trình kỹ thuật được thiết kế sâu sắc từ frontend chunkwise FSMN + block-causal, trajectory annotation hai lượt bằng Qwen3.7-Max, căn chỉnh forced alignment, đến fusion 8 tầng và huấn luyện 3 giai đoạn chặt chẽ.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Bài báo cung cấp giải pháp thực tế mạnh mẽ cho streaming S2ST, có kế hoạch mở mã nguồn và checkpoint, nhưng hiện mới tập trung vào cặp ngôn ngữ Anh - Trung nên phạm vi ảnh hưởng trực tiếp chưa lan tỏa toàn diện.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Kết quả thực nghiệm toàn diện trên benchmark công khai FLEURS và RealSI, so sánh với nhiều baseline mạnh (Hy-SimulMT, SimulS2ST-Omni, SeamlessStreaming) kèm đầy đủ phân tích ablation và khoảng tin cậy bootstrap.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Điều khiển độ trễ linh hoạt không cần huấn luyện lại · Playback-adaptive threshold tối ưu ngữ cảnh thông minh · Dẫn đầu chất lượng dịch streaming trên 9-pair · Kết hợp hiệu quả biểu diễn 8 tầng Thinker · Quy trình gán nhãn ngữ nghĩa streaming chặt chẽ</p>
+          <p><span class="label">Weaknesses</span> · Mới chỉ thử nghiệm trên cặp Anh - Trung · Tập kiểm thử 9-pair không công khai · Phụ thuộc pipeline tạo dữ liệu phân đoạn phức tạp · Chưa đánh giá hội thoại dài thực tế</p>
+          <p><span class="label">Context</span> · Nghiên cứu hợp tác giữa X-LANCE Lab (Đại học Giao thông Thượng Hải - SJTU), Shanghai Innovation Institute và Alibaba Token Foundry; công bố dạng preprint trên arXiv tháng 10/2026.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

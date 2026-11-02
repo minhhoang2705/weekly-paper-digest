@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ServiceNow-AI/Apriel-Voice-27B-preview · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W45</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">ServiceNow-AI/Apriel-Voice-27B-preview</h1>
+    <div class="meta">
+      <span title="Listed by HF Models inside the crawl window">found Nov 2, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 13, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Model</span>
+<span class="pill">HF Models</span><span class="pill pill-accent">Speech Understanding</span>        <span class="authors">ServiceNow-AI</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://huggingface.co/ServiceNow-AI/Apriel-Voice-27B-preview" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">model card excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>Apriel Voice 27B Preview. An open model for speech, reasoning, and tool use from ServiceNow Apriel Voice 27B Preview understands spoken requests, reasons over conversational context, and generates text responses and tool calls through a shared Gemma 4 backbone. It adds a speech interface while retaining text and image input capabilities. Pair it with an external speech synthesizer to build interactive voice assistants, customer support workflows, and spoken tool use. Try Apriel Live · Read the blog · Technical report Model capabilities. | Capability | What it supports | | Speech understanding | Transcription, translation, and spoken question answering. | | Reasoning and tool use | Following instructions, handling multi-step requests, and generating structured tool calls. | | Multimodal context | Audio, text, images, and tool results in a shared conversation. | | Voice applications | Text responses paired with external speech synthesis and application-managed turn-taking. | The model supports transcription, speech translation, spoken instruction following, reasoning, and function calling. The application executes tools and returns their results to the conversation. Real-time voice interaction is supported by the application and serving stack; the checkpoint itself generates text and tool calls rather than native full-duplex speech. A Whisper large-v3-turbo speech encoder connects to the Gemma 4 26B-A4B backbone through a learned projector. Training first aligns this speech interface, then adapts it with the backbone using speech tasks and text replay. Cross-entropy and teacher-distillation supervision vary by data source; the technical report describes the full recipe. Long audio. The processor automatically splits longer 16 kHz mono recordings into 30-second chunks. In testing, we observed good performance on continuous recordings up to around 30 minutes. Longer recordings are supported, but performance can decline as duration grows; thinking mode is recommended for</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 2, 2026 · model card</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Apriel Voice 27B Preview là mô hình ngôn ngữ - giọng nói mã nguồn mở (MIT) từ ServiceNow-AI, kết hợp bộ mã hóa Whisper large-v3-turbo với backbone Gemma 4 26B-A4B qua learned projector. Mô hình có khả năng nhận dạng, hiểu lệnh giọng nói, suy luận đa bước (thinking mode) và gọi công cụ (tool use) dưới dạng text, phối hợp với external speech synthesizer để tạo hệ thống đàm thoại 2-stage.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Xây dựng các trợ lý thoại tương tác và quy trình hỗ trợ khách hàng thường đòi hỏi kết hợp hiểu giọng nói, suy luận phức tạp và gọi công cụ (tool calling) với độ trễ thấp. Các giải pháp mã nguồn mở 2-stage trước đây thường có điểm trải nghiệm đàm thoại hoặc năng lực giải quyết tác vụ (task success) kém xa các hệ thống thương mại Native S2S hoặc gặp khó khăn khi xử lý âm thanh dài và tool use.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Mô hình gồm bộ mã hóa Whisper large-v3-turbo kết nối với Gemma 4 26B-A4B thông qua một learned projector. Quá trình huấn luyện diễn ra theo hai giai đoạn: đầu tiên căn chỉnh giao diện giọng nói (align speech interface), sau đó tiếp tục thích ứng projector cùng mô hình nền bằng các tác vụ giọng nói kết hợp cơ chế text replay. Giám sát huấn luyện sử dụng kết hợp cross-entropy loss và teacher distillation tùy theo nguồn dữ liệu. Bộ xử lý tự động chia audio 16 kHz mono thành các chunk 30 giây dùng chung context window với văn bản, cho phép xử lý các đoạn ghi âm dài liên tục tới 30 phút (hỗ trợ cấu hình lên 1 giờ). Checkpoint tạo phản hồi text và tool call dạng cấu trúc, hỗ trợ thinking mode và kết hợp với synthesizer bên ngoài (Cartesia Sonic 3.5).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá hội thoại và tác vụ thoại trên benchmark EVA-A (service accuracy), EVA-X (conversational experience), và <span class="math inline">\tau</span>-Voice pass@1 kèm độ trễ phản hồi toàn hệ thống. Đánh giá ASR trên LibriSpeech, GigaSpeech, <span class="math inline">\mu</span>-Bench, FLEURS, Earnings21. Đánh giá suy luận giọng nói trên 8 tập dữ liệu (BFCL, Big Bench Audio, IFEval, MT-Bench, Spoken SQuAD, Alpaca Audio, OpenHermes, GSM8K). Đánh giá văn bản với Gemma 4 26B-A4B trên MMLU-Pro, GPQA Diamond, AIME, MATH-500, AMC 2023, <span class="math inline">\tau^2</span>. Phục vụ suy luận tối ưu hóa bằng vLLM Docker (<code>docker.io/amant555/vllm_apriel_voice:optimised-26b-v0.32.0</code>) trên 4 GPU H100 80 GB kèm speculative decoding (<code>google/gemma-4-26B-A4B-it-assistant</code>), FlashInfer và FlashAttention-4.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Đạt 51.27% EVA-A và 74.13% EVA-X, vượt trội so với các hệ thống mã nguồn mở 2-stage khác như UltraVox v0.6 (8.94% EVA-A, 1.91% EVA-X) và Audex-30B-A3B (5.66% EVA-A, 8.2% EVA-X), đồng thời EVA-X cao hơn cả GPT Realtime 2.1 (61.6%) và Gemini-3.8 Live Extended Thinking (73.5%).</li>
+<li>Đạt tỷ lệ thành công tác vụ <span class="math inline">\tau</span>-Voice pass@1 là 65.51% với độ trễ phản hồi trung bình 1.91 giây, tiệm cận GPT Realtime 2.1 (69.82%, 1.55 giây) và tốt hơn đáng kể so với UltraVox v0.6 (26.80%, 3.95 giây).</li>
+<li>Hiệu năng nhận dạng giọng nói tiếng Anh (WER): đạt 2.23% trên LibriSpeech test-clean, 5.15% trên LibriSpeech test-other, 10.20% trên GigaSpeech, 10.76% trên <span class="math inline">\mu</span>-Bench (en-US), 3.55% trên FLEURS (en-US) và 11.25% trên Earnings21.</li>
+<li>Điểm trung bình audio reasoning trên 8 benchmark đạt 85.84 (với GSM8K đạt 93.18, Big Bench Audio đạt 98.90, IFEval đạt 86.47, MT-Bench đạt 86.19, Spoken SQuAD đạt 82.24, BFCL đạt 81.13, OpenHermes đạt 81.8, Alpaca Audio đạt 76.8).</li>
+<li>Giữ vững năng lực suy luận văn bản so với Gemma 4 26B-A4B gốc (GPQA Diamond: 80.40% vs 77.80%; <span class="math inline">\tau^2</span>: 70.95% vs 68.93%; MMLU-Pro: 84.42% vs 85.27%).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Mô hình không phải là native full-duplex speech-to-speech mà chỉ sinh văn bản và tool calls, cần hạ tầng bên ngoài để tổng hợp âm thanh (TTS) và quản lý chuyển lượt (turn-taking). Hiệu năng đa ngôn ngữ không đồng đều và kém hơn tiếng Anh; giọng nói có nhiễu hoặc mic xa vẫn là thách thức lớn. Âm thanh dài có thể gây lặp từ hoặc mất tính mạch lạc. Khả năng thực thi chính xác chuỗi workflow công cụ phức tạp vẫn có rủi ro sai sót.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Apriel Voice 27B là lựa chọn nguồn mở mạnh mẽ theo kiến trúc 2-stage cho bài toán voice agent và tool calling, đặc biệt khi được tối ưu hóa serving qua vLLM kết hợp speculative decoding trên hạ tầng GPU chuyên dụng.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">63.7<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,82.8 230.0,115.26 203.26,197.54 127.55,182.66 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="82.8" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 3/5 — Kiến trúc kết hợp Whisper encoder và LLM backbone qua projector là phổ biến, điểm mới nằm ở việc tích hợp trơn tru thinking mode và tool-calling cho audio dài.</title>Novelty <tspan class="radar-value">3</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Quy trình huấn luyện căn chỉnh kỹ lưỡng bằng replay/distillation, cùng cấu hình serving vLLM chuyên sâu kết hợp speculative decoding và FlashInfer.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Cung cấp bảng so sánh số liệu đo lường cụ thể trên nhiều benchmark đàm thoại (EVA, $\tau$-Voice), ASR chuẩn và bài toán suy luận giọng nói với các baseline thương mại lẫn nguồn mở.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Cung cấp giải pháp mã nguồn mở mạnh mẽ về voice agent cho cộng đồng, dù mức độ phổ biến trên Hugging Face hiện ở mức ban đầu (50 likes, 294 downloads).</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Đến từ bộ phận nghiên cứu AI của ServiceNow kèm mã nguồn MIT, tài liệu kỹ thuật chi tiết, artifact Docker vLLM và demo trực tiếp.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">3/5</span></dt><dd>Kiến trúc kết hợp Whisper encoder và LLM backbone qua projector là phổ biến, điểm mới nằm ở việc tích hợp trơn tru thinking mode và tool-calling cho audio dài.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Đến từ bộ phận nghiên cứu AI của ServiceNow kèm mã nguồn MIT, tài liệu kỹ thuật chi tiết, artifact Docker vLLM và demo trực tiếp.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Quy trình huấn luyện căn chỉnh kỹ lưỡng bằng replay/distillation, cùng cấu hình serving vLLM chuyên sâu kết hợp speculative decoding và FlashInfer.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Cung cấp giải pháp mã nguồn mở mạnh mẽ về voice agent cho cộng đồng, dù mức độ phổ biến trên Hugging Face hiện ở mức ban đầu (50 likes, 294 downloads).</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Cung cấp bảng so sánh số liệu đo lường cụ thể trên nhiều benchmark đàm thoại (EVA, <span class="math inline">\tau</span>-Voice), ASR chuẩn và bài toán suy luận giọng nói với các baseline thương mại lẫn nguồn mở.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Bản quyền mã nguồn mở MIT hoàn toàn · Hỗ trợ đồng thời audio, text, images và tool calling · Khả năng suy luận giọng nói và EVA-X rất cao · Có sẵn image vLLM tối ưu hóa hiệu năng cao</p>
+          <p><span class="label">Weaknesses</span> · Không sinh âm thanh trực tiếp (cần external TTS) · Yêu cầu phần cứng lớn (khuyến nghị 4x GPU H100) · Chất lượng đa ngôn ngữ chưa đồng đều ngoài tiếng Anh</p>
+          <p><span class="label">Context</span> · Nhóm nghiên cứu ServiceNow-AI (dẫn đầu bởi Aman Tiwari và các cộng sự), công bố dưới dạng model release kèm technical report và Spaces demo trên Hugging Face năm 2026.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+ "id": "gh:swax/dub-anything",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Ý tưởng sử dụng AI coding agent làm đạo diễn lồng tiếng line-by-line và dùng chính phát âm gốc làm prompt điều khiển TTS/voice cloning mang tính sáng tạo cao so với pipeline truyền thống.",
+  "credibility": "Dự án nguồn mở cá nhân trên GitHub (84 stars) với mã nguồn và tài liệu chi tiết, sử dụng các backbone uy tín nhưng chưa qua bình duyệt học thuật.",
+  "technical": "Tích hợp công phu nhiều công nghệ SOTA (Whisper, Roformer, OmniVoice, IndexTTS, Chatterbox, RapidOCR, pyannote) cùng cơ chế multi-agent và line-level QA loop.",
+  "impact": "Dự án ở giai đoạn thử nghiệm cá nhân, số lượng tương tác còn khiêm tốn (84 stars, 7 forks) và rào cản tài nguyên/token cản trở việc triển khai diện rộng.",
+  "evidence": "Cung cấp số liệu thời gian chạy thực tế chi tiết trên nhiều phần cứng (RTX 4090, AMD 890M), video demo thực tế và thống kê token, nhưng thiếu các benchmark định lượng chuẩn (như MOS, WER, độ tương đồng giọng nói)."
+ },
+ "summary": {
+  "tldr": "Dub Anything là một framework mã nguồn mở tự động hóa quy trình lồng tiếng (dubbing) video đa ngôn ngữ và giữ nguyên giọng diễn viên cục bộ trên máy tính cá nhân. Hệ thống sử dụng một AI coding agent (như Claude hoặc ChatGPT) đóng vai trò đạo diễn từng câu thoại (line-by-line), kết hợp tách âm thanh nền, nhận dạng giọng nói, đọc chữ trên màn hình (OCR) và mô hình voice cloning/conversion.",
+  "problem": "Các công cụ lồng tiếng video hiện nay thường dựa trên pipeline cố định: chuyển văn bản thô, dịch thuật máy móc, clone giọng từ một đoạn âm thanh mẫu duy nhất và tăng tốc âm thanh khi bị tràn thời lượng, dẫn đến mất ngữ điệu cảm xúc, lệch nhịp thoại và làm hỏng nhạc nền gốc.",
+  "method": "Quy trình bao gồm 8 giai đoạn được điều phối bởi script Python và AI agent:\n1. **Split**: Chia video thành các phân đoạn khoảng 3 phút tại các khoảng lặng âm thanh.\n2. **Separate**: Tách giọng nói khỏi nhạc nền và hiệu ứng âm thanh (BGM/SFX) bằng Mel-Band Roformer (thông qua `python-audio-separator`).\n3. **Transcribe**: Nhận dạng giọng nói bằng Whisper `large-v3` (`faster-whisper`), kết hợp mô hình thứ hai từ `sherpa-onnx` để đối chiếu, và trích xuất burned-in caption/biển hiệu bằng RapidOCR (PP-OCRv5).\n4. **Cast**: Phân tách và ghép người nói trên toàn bộ video bằng `pyannote-audio`, WeSpeaker, Silero VAD và đối chiếu frame hình ảnh.\n5. **Direct**: AI Agent hiệu chỉnh transcript, dịch thuật căn chỉnh thời lượng (time-matched), và dự đoán độ dài câu.\n6. **Voice**: Lồng tiếng bằng VoiceStudio backend: Giữ accent gốc qua OmniVoice (prompt bằng chính giọng diễn viên ở câu đó); hoặc sinh giọng American English qua IndexTTS kết hợp Chatterbox để voice conversion sang âm sắc diễn viên.\n7. **Fit, mix & check (Line QA)**: Căn chỉnh lại take âm thanh khớp thời điểm dừng của diễn viên, mix lại với âm thanh nền gốc, sau đó ASR nhận dạng ngược lại (transcribe back) tối đa 3 vòng để phát hiện và sửa từ lỗi.\n8. **Deliver**: Ghép mux bằng FFmpeg thành file `.mkv` chứa cả track lồng tiếng, track gốc và phụ đề mà không cần re-encode video.",
+  "setup": "Hỗ trợ macOS (Apple Silicon MPS, Intel), Windows/Linux (NVIDIA GPU tối thiểu 6 GB VRAM; AMD Radeon RDNA 3/Ryzen AI qua ROCm). Yêu cầu dung lượng ổ đĩa ~40 GB (lên tới 85 GB khi xử lý file lớn) và tối thiểu 32 GB RAM nếu dùng GPU tích hợp. Cần môi trường AI Agent (Claude Code/Desktop, ChatGPT Codex, hoặc OpenCode với API/local vision model) để điều phối và cài đặt VoiceStudio.",
+  "results": [
+   "Thời gian xử lý video 90 phút (giữ accent gốc): 4.1 giờ GPU trên laptop RTX 4090 (~50% chuẩn bị dữ liệu, ~40% render và kiểm tra take); thêm track American English nâng tổng thời gian lên ~7 giờ.",
+   "Thời gian xử lý video 15 phút trên AMD Radeon 890M: ~3 giờ máy (thêm track American tốn thêm 2.7 giờ, trong đó 1/3 thời gian chạy Whisper trên CPU).",
+   "Tạo phụ đề riêng biệt (không render giọng): Video 30 phút tốn 41 phút (2/3 thời gian là OCR màn hình; nếu bỏ qua OCR chỉ tốn ~15 phút); bàn giao sản phẩm sau 43 phút tính cả khâu agent điều phối.",
+   "Mức tiêu thụ token của Agent: Điều phối video 15 phút (5 phần, ~190 câu thoại) tốn ~175 lượt agent turn, bao gồm ~0.2M output tokens, ~0.4M new input tokens, và ~110M input tokens đọc lại từ prompt cache."
+  ],
+  "limitations": "Tốn chi phí token rất lớn cho LLM/Agent (dễ chạm rate limit của các gói thuê bao nhỏ); tốc độ trên AMD ROCm còn chậm và Whisper phải chạy trên CPU; phụ thuộc vào nhiều công cụ ngoại vi và model có ràng buộc giấy phép khắt khe (pyannote gated, Sortformer CC-BY-NC, VoiceStudio AGPL-3.0).",
+  "takeaways": "Cung cấp một kiến trúc tham khảo thực tế về cách kết hợp AI agent với pipeline xử lý audio/video phức tạp để giải quyết bài toán kiểm soát chất lượng (QA) và căn nhịp (lip/time alignment) mà các pipeline tự động cố định chưa làm tốt.",
+  "strengths": [
+   "Tận dụng AI agent làm đạo diễn thoại",
+   "Prompt bằng chính câu thoại gốc của diễn viên",
+   "Vòng lặp Line-QA tự động nhận dạng sửa lỗi",
+   "Tách BGM/SFX sạch bằng Mel-Band Roformer",
+   "Đóng gói mkv giữ nguyên chất lượng video gốc"
+  ],
+  "weaknesses": [
+   "Tiêu hao token context cache cực kỳ lớn",
+   "Thời gian xử lý render cục bộ còn chậm",
+   "Cài đặt phức tạp phụ thuộc VoiceStudio và agent",
+   "Vướng giấy phép phi thương mại CC-BY-NC"
+  ],
+  "context": "Dự án nguồn mở của tác giả độc lập `swax` trên GitHub, phát triển hệ thống điều phối dubbing tự động trên nền tảng VoiceStudio."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

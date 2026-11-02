@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Youtu-Parsing-Omni: One Encoder, One Schema, All Modalities · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W45</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Youtu-Parsing-Omni: One Encoder, One Schema, All Modalities</h1>
+    <div class="meta">
+      <span title="Listed by HF Daily Papers, Papers with Code inside the crawl window">found Oct 30, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 29, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">HF Daily Papers</span><span class="pill">Papers with Code</span><span class="pill pill-accent">Speech LLM</span>        <span class="authors">Yunhang Shen, Zhangquan Chen, Xiaotian Li, Zhongpeng Cai, Qing Zhou, Zekai Zhang, Kun Zhang, Zezhong Wu, Jian Hu, Haihan Gao, Heting Gao, Xin Li, Yinsong Liu, Deqian Jiang, Di Yin +15 more</span>
+    </div>
+  </div>
+  <div class="header-actions">
+      <a class="button" href="https://github.com/TencentCloudADP/youtu-parsing" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Code</a>
+    <a class="button" href="https://huggingface.co/papers/2610.39301" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>We present Youtu-Parsing-Omni, an omni-modal parser that converts documents, images, audio, and video into structured records grounded in space and time, providing a perception layer for agents that read, locate, and cite evidence across modalities. Its design rests on one encoder for every modality and one schema for every task. Youtu-Omni-Encoder, initialized from a pre-trained language model to strengthen text reading, encodes all modalities with shared weights in a unified space-time coordinate system, and a few fusion layers let video frames attend to concurrent audio, bringing cross-modal fusion and temporal alignment into perception itself. OmniSchema unifies the outputs of all ten parsing tasks, allowing a single self-evolving post-training procedure, OmniSchema-Aware On-Policy Distillation (OSAD), to provide a shared token-role-based objective across tasks. In each round, the model is trained on its own rollouts against token-level targets from a reference-conditioned copy of itself, which is then refreshed with the trained weights, so that the parser and its supervision co-evolve. With a single 5 B-parameter checkpoint, Youtu-Parsing-Omni achieves state-of-the-art performance on OmniDocBench v1.6 (96.96 Overall) and leads all open-weight models on OmniParsingBench (75.08 Avg.), with its advantage concentrated on audio and video. It also achieves the best overall chart-parsing score (95.02) and the highest exact chemical-fingerprint agreement among compared systems, and matches a dedicated optical-music model in character-level transcription of typeset sheet music while staying far ahead of general-purpose systems. Code and model weights are publicly available.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 2, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Youtu-Parsing-Omni là mô hình parser đa phương thức (omni-modal) kích thước 5B tham số, tích hợp xử lý tài liệu, ảnh tự nhiên, âm thanh và video thành các bản ghi có cấu trúc được gắn neo không-thời gian (spatial and temporal grounding). Hệ thống được xây dựng trên hai trụ cột cốt lõi: một encoder chia sẻ trọng số cho toàn bộ các phương thức (Youtu-Omni-Encoder) và một schema chuẩn hóa duy nhất (OmniSchema) được tối ưu hóa qua quy trình tự tiến hóa OSAD.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình agent hiện nay cần đọc hiểu dữ liệu đa phương thức nhưng việc nạp trực tiếp chuỗi token thô (raw pixels, waveforms) vào LLM rất tốn kém tính toán và khó truy vết nguồn gốc bằng chứng (grounding). Trong khi đó, các parser hiện tại thường phân mảnh (mỗi định dạng/tác vụ dùng một encoder chuyên biệt và cấu trúc output khác nhau) và các kiến trúc hai tháp (two-tower) tách biệt thị giác - âm thanh khiến thông tin không được liên kết/căn chỉnh thời gian ngay từ tầng perception.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Mô hình gồm 2 thành phần chính: (1) <strong>Youtu-Omni-Encoder</strong> (0.4B tham số, khởi tạo từ Qwen3-0.6B-Base bỏ embedding và LM head) xử lý cả vision và audio với trọng số Transformer hai chiều chia sẻ. Modality stems chỉ chiếm dưới 3% tham số: vision stem dùng linear projection cho patch 16x16; audio stem dùng 3 lớp tích chập stride-2 trên log-mel spectrogram cho ra tốc độ 13 tokens/giây. Vị trí được mã hóa bằng Chunked Axis-Factorized RoPE 64 slots chia cho <span class="math inline">(d_T, d_H, d_W) = (21, 21, 22)</span>, với bước thời gian đồng bộ <span class="math inline">\Delta t_{\text{audio}} = 1</span> và <span class="math inline">\Delta t_{\text{vision}} = r_a / \text{fps}</span>. Tại 4 tầng fusion layers (13, 14, 27, 28), các khung hình video có thể chú ý trực tiếp đến audio đồng thời theo các nhóm <span class="math inline">(I^+A^*)</span>. (2) <strong>OmniSchema</strong>: Định dạng JSON thống nhất 10 tác vụ (gồm cả OCR, SMILES hóa học, nốt nhạc ABC, ASR, và video timeline). (3) <strong>Chiến lược huấn luyện 7 giai đoạn</strong>: Tiền huấn luyện 4 giai đoạn (2.24T tokens) gồm Stage 0 (Perception Alignment), Stage 1 (Omni-modal Pre-Training, 1.28T tokens), Stage 2 (Annealing với layer-wise decay và stochastic routing <span class="math inline">p_{\text{fus}}=0.8</span>), và Stage 3 (Long-context extension đến 128k tokens, 512 frames). Hậu huấn luyện 3 giai đoạn: SFT (16B tokens), Schema-Routed RLVR (GRPO với hàm thưởng phạt lặp, thiếu thông tin và độ chính xác nội dung), và OSAD (OmniSchema-Aware On-Policy Distillation qua 6 vòng tự cập nhật teacher, phân tách hàm mất mát: JS divergence cho content tokens và forward KL divergence cho structure tokens).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá mô hình checkpoint 5B (decoder 4.5B dùng kiến trúc MLA dense 40 lớp context 128k) trên các benchmark: OmniDocBench v1.6 (1.651 mẫu), PureDocBench (1.475x3 mẫu), OmniParsingBench (3.738 mẫu trên 5 phân mảng: ảnh tự nhiên, đồ họa chart/geometry, âm thanh, video tự nhiên, text-rich video), Video-MME-v2 (3.200 câu hỏi không phụ đề), ChemOCR (990 phân tử), PDMX-Synth (800 bản nhạc). So sánh với các mô hình chuyên biệt (TeleOCR, MinerU2.5-Pro, PaddleOCR-VL-1.6, LEGATO) và tổng quát (Gemini-3-Pro, Logics-Parsing-Omni, Qwen3-Omni-30B-A3B).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Đạt Top 1 OmniDocBench v1.6 với điểm Overall 96.96 (so với TeleOCR 96.91 và Youtu-Parsing 93.74), dẫn đầu về Reading Order Edit (0.1104).</li>
+<li>Đạt điểm Avg 75.08 trên OmniParsingBench, dẫn đầu toàn bộ các mô hình trọng số mở (vượt qua Logics-Parsing-Omni 72.26 và Qwen3-Omni-30B-A3B 66.44), áp sát Gemini-3-Pro (77.44).</li>
+<li>Trên phân mảng Audio của OmniParsingBench, đạt Overall 78.08 (so với Logics-Parsing-Omni 75.58 và Gemini-3-Pro 76.74), chủ yếu nhờ Time F1 đạt 53.89 và Key F1 đạt 59.48, dù điểm ASR đạt 77.94 (thấp hơn Gemini-3-Pro 84.38).</li>
+<li>Dẫn đầu các mô hình mở trên phân mảng Natural Video (Overall 74.18 vs Logics-Parsing-Omni 67.34) và Text-Rich Video (75.62 vs 65.36).</li>
+<li>Đạt tỷ lệ khớp chính xác phân tử Tani@1.0 là 54.2 trên ChemOCR (vượt DeepSeek-OCR 2 đạt 49.6) và đạt CER 22.73 trên PDMX-Synth (vượt chuyên gia OMR LEGATO đạt 23.30).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Chưa hỗ trợ cơ chế giải mã tăng tốc song song (parallel decoding) như phiên bản tiền nhiệm Youtu-Parsing, dẫn đến thông lượng giải mã chậm hơn trên các cấu trúc dày đặc như bảng biểu; năng lực nhận dạng tiếng nói (ASR) thuần túy còn thấp hơn các mô hình lớn (đạt 77.94 trên audio benchmark so với Gemini-3-Pro 84.38); khả năng suy luận đa bước phức tạp trên video (mức L2, L3) còn hạn chế do chưa tích hợp chế độ suy nghĩ (thinking mode).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Chứng minh tính khả thi của việc sử dụng một encoder chung duy nhất được khởi tạo từ text LLM cho cả âm thanh, hình ảnh và video thay vì thiết kế kiến trúc hai tháp riêng rẽ. Phương pháp chưng cất tự tiến hóa thích ứng vai trò token (OSAD) là giải pháp hiệu quả cho các tác vụ xuất dữ liệu có cấu trúc kết hợp nhiều phương thức.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">85.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#1 in 2026-W45</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 247.5,109.57 214.08,212.43 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="247.5" cy="109.57" r="3.5"/><circle class="radar-dot" cx="214.08" cy="212.43" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đột phá trong việc dùng một encoder đơn lẻ khởi tạo từ LM cho cả audio và vision kết hợp fusion layer sớm và cơ chế chưng cất on-policy phân tách vai trò token (OSAD).</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 5/5 — Thiết kế kỹ thuật xuất sắc về đồng bộ trục không-thời gian (Chunked RoPE), sparse cross-modal fusion, và quy trình huấn luyện 7 giai đoạn chặt chẽ.</title>Technical <tspan class="radar-value">5</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 5/5 — Đánh giá thực nghiệm toàn diện trên 6 benchmark lớn, so sánh trực tiếp với hàng loạt mô hình chuyên biệt lẫn API thương mại kèm ablation chi tiết.</title>Evidence <tspan class="radar-value">5</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Cung cấp một perception layer chuẩn mực cho các agent đa phương thức, thu hút sự chú ý tốt (403 GitHub stars, công khai mã nguồn).</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Báo cáo kỹ thuật chi tiết từ Tencent Youtu Lab kèm mã nguồn và checkpoint công khai trên Hugging Face / GitHub.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đột phá trong việc dùng một encoder đơn lẻ khởi tạo từ LM cho cả audio và vision kết hợp fusion layer sớm và cơ chế chưng cất on-policy phân tách vai trò token (OSAD).</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Báo cáo kỹ thuật chi tiết từ Tencent Youtu Lab kèm mã nguồn và checkpoint công khai trên Hugging Face / GitHub.</dd></div>
+          <div><dt>Technical <span class="muted">5/5</span></dt><dd>Thiết kế kỹ thuật xuất sắc về đồng bộ trục không-thời gian (Chunked RoPE), sparse cross-modal fusion, và quy trình huấn luyện 7 giai đoạn chặt chẽ.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Cung cấp một perception layer chuẩn mực cho các agent đa phương thức, thu hút sự chú ý tốt (403 GitHub stars, công khai mã nguồn).</dd></div>
+          <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Đánh giá thực nghiệm toàn diện trên 6 benchmark lớn, so sánh trực tiếp với hàng loạt mô hình chuyên biệt lẫn API thương mại kèm ablation chi tiết.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Một encoder chia sẻ trọng số cho mọi phương thức · Schema chuẩn hóa đồng nhất 10 tác vụ phân tích · Đạt SOTA trên OmniDocBench và OmniParsingBench (mô hình mở) · Quy trình hậu huấn luyện OSAD tự tiến hóa hiệu quả · Mã nguồn và trọng số mô hình được công khai</p>
+          <p><span class="label">Weaknesses</span> · Độ chính xác ASR thấp hơn các hệ thống lớn · Giải mã tự hồi quy làm giảm thông lượng (throughput) · Thiếu thinking mode cho suy luận video phức tạp</p>
+          <p><span class="label">Context</span> · Nhóm nghiên cứu Tencent Youtu Lab (tác giả chính: Yunhang Shen, Zhangquan Chen, Xiaotian Li, Haoyu Cao, Xing Sun); báo cáo kỹ thuật công bố trên arXiv (tháng 10/2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

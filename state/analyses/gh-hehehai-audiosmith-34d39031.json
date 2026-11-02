@@ -1,0 +1,50 @@
+{
+ "id": "gh:hehehai/audiosmith",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án là sự kết hợp và đóng gói công phu nhiều mô hình mã nguồn mở hiện có vào một ứng dụng macOS qua MLX và MCP chứ không giới thiệu kiến trúc mô hình học sâu mới.",
+  "credibility": "Dự án cá nhân/nhóm độc lập trên GitHub với bản phát hành ký Developer ID và notarized bởi Apple, nhưng chưa qua bình duyệt học thuật.",
+  "technical": "Thiết kế hệ thống rất chặt chẽ khi bắc cầu Go và Swift engine (mlx-swift/mlx-audio-swift), tích hợp hàng loạt pipeline phức tạp (diarization, alignment, LLM director, stem separation) và giao thức MCP.",
+  "impact": "Dự án nhận được 190 stars và 18 forks, có tiềm năng lớn cho cộng đồng người dùng macOS cần studio giọng nói offline và tích hợp coding agent.",
+  "evidence": "Cung cấp số liệu đo lường tốc độ thực tế rõ ràng trên phần cứng cụ thể (MacBook Air M4 24GB), phát hành đầy đủ mã nguồn và bản dựng cài đặt công khai."
+ },
+ "summary": {
+  "tldr": "AudioSmith là một ứng dụng voice studio mã nguồn mở chạy hoàn toàn cục bộ trên macOS (Apple silicon) thông qua MLX framework. Phần mềm tích hợp toàn diện các tác vụ speech bao gồm text-to-speech, voice cloning, voice design, hội thoại đa giọng, lồng tiếng video (dubbing), nhận dạng tiếng nói (ASR/diarization) và tách giọng nói, đồng thời hỗ trợ giao thức MCP và OpenAI-compatible API cho AI agent.",
+  "problem": "Các tác vụ xử lý giọng nói nâng cao (lồng tiếng đa ngôn ngữ, chuyển đổi kịch bản thành hội thoại tự nhiên, clone giọng, diarization) thường phân mảnh, phụ thuộc vào hạ tầng cloud tốn kém hoặc tiềm ẩn rủi ro về quyền riêng tư dữ liệu, và thiếu các công cụ máy trạm thống nhất có thể tự động hóa bằng AI agent.",
+  "method": "AudioSmith kết hợp giao diện Go (dùng framework MyGo) với engine nền tảng viết bằng Swift (`audiosmith-engine`) chạy trên `mlx-audio-swift` và `mlx-swift` để tận dụng GPU của Apple silicon mà không cần môi trường Python:\n- **TTS & Cloning:** Hỗ trợ Qwen3-TTS 0.6B CustomVoice/Base, Qwen3-TTS 1.7B Base/VoiceDesign, Kokoro 82M, Chatterbox Turbo và OmniVoice (hơn 600 ngôn ngữ). Cho phép điều khiển qua markup (`[pause 400ms]`, `[slow]`, `[[word|say]]`) và lưu định dạng `.asvoice`.\n- **Hội thoại & Story:** Tích hợp SoulX-Podcast 1.7B (*Dialogue · Light*) và MOSS-TTSD v1.0 (*Dialogue · One take*) để sinh đối thoại nhiều lượt tự nhiên; sử dụng Qwen3 4B Instruct làm 'AI director' để gán 13 loại cảm xúc cho từng câu thoại.\n- **Lồng tiếng (Dubbing):** Pipeline tự động gồm tách giọng và nhạc (HTDemucs, DeepFilterNet 3), ASR và phân đoạn người nói (MOSS-Transcribe-Diarize 0.9B hoặc Qwen3-ASR 0.6B kết hợp Sortformer), dịch thuật (Qwen3 4B, Ollama hoặc cloud API), sau đó clone giọng theo mốc thời gian gốc.\n- **Hạ tầng Agent:** Tích hợp Model Context Protocol (MCP) server với 57 công cụ qua HTTP/stdio và OpenAI-compatible REST API (`/v1`). Audio xuất ra được gắn watermark ẩn bằng AudioSeal.",
+  "setup": "Yêu cầu macOS 15 trở lên trên Apple silicon (M1 trở lên). Cấu hình RAM theo gói model: 8 GB (gói Fast: 1.3–2.8 GB disk), 16 GB (gói Balanced: 4.3–5.8 GB disk), 24 GB (gói Quality: 13.4–14.9 GB disk), và 48 GB (gói Max: 15.5–17.0 GB disk). Model hội thoại SoulX-Podcast cần thêm 2.4 GB disk (16 GB RAM) và MOSS-TTSD cần 10.9 GB disk (24 GB RAM). Hỗ trợ tiếng Trung, tiếng Anh và đa ngôn ngữ.",
+  "results": [
+   "Độ trễ Dictation (Qwen3-ASR): 0.2–0.3 s sau khi dừng nói trên MacBook Air M4 (24 GB RAM).",
+   "Tốc độ High-fidelity clone: xấp xỉ real-time (tạo 3.5 phút audio từ 940 ký tự tiếng Trung mất khoảng 3¼ phút) trên MacBook Air M4.",
+   "Tốc độ Standard voices: khoảng 1.7× real time trên MacBook Air M4.",
+   "Tốc độ Transcription kèm phân tách người nói (diarization): xử lý bản ghi 10 phút trong khoảng 4 phút trên MacBook Air M4.",
+   "Tốc độ sinh hội thoại (Dialogue · Light / One take): đạt khoảng 0.7× / 0.8× real time trên MacBook Air M4.",
+   "Tốc độ Writing assistant (Qwen3 4B Instruct): đạt 36–40 tokens/s trên MacBook Air M4."
+  ],
+  "limitations": "Phiên bản hiện tại là beta (0.5.0-beta.1). ffmpeg không đi kèm sẵn trong bộ cài. Gõ chính tả (dictation) chỉ xuất văn bản khi người dùng ngừng nói chứ không hiển thị từng từ theo thời gian thực (word-by-word). Các model hội thoại chỉ được đánh giá cho tiếng Trung và tiếng Anh. Watermark AudioSeal không giữ được nếu âm thanh bị time-stretching vượt quá khoảng $\\pm 5\\%$. Tính năng AI phone agent yêu cầu tài khoản Twilio riêng và tunnel public.",
+  "takeaways": "AudioSmith cung cấp một kiến trúc mẫu xuất sắc về việc đóng gói toàn bộ hệ sinh thái Speech/Audio AI phức tạp thành một ứng dụng desktop native chạy MLX trên macOS không phụ thuộc Python, đặc biệt hữu ích cho kỹ sư muốn triển khai pipeline TTS/dubbing/agent cục bộ và bảo mật.",
+  "strengths": [
+   "Pipeline speech cục bộ toàn diện không cần Python",
+   "Hỗ trợ giao thức MCP với 57 công cụ",
+   "Tối ưu hóa MLX mượt mà trên Apple silicon",
+   "Đầy đủ tính năng từ dubbing đến audiobooks"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ hệ sinh thái macOS Apple silicon",
+   "Model hội thoại chỉ tối ưu tiếng Anh/Trung",
+   "Yêu cầu phần cứng cao (16–24 GB RAM)"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi lập trình viên hehehai (phát hành qua ActNow), cung cấp mã nguồn theo giấy phép AGPL-3.0 trên GitHub."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

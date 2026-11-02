@@ -1,0 +1,49 @@
+{
+ "id": "gh:grigio/sonia-assistant",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Ý tưởng kết hợp VAD, ASR, LLM và TTS không mới, nhưng kiến trúc phối hợp phân tầng turn-detection và echo-aware barge-in không cần GPU rời trên máy cá nhân được hiện thực hóa rất khéo léo.",
+  "credibility": "Dự án cá nhân mã nguồn mở trên GitHub, mã nguồn và script cài đặt rõ ràng, nhưng chưa qua bình duyệt học thuật hay phát hành bởi một tổ chức nghiên cứu lớn.",
+  "technical": "Thiết kế kỹ thuật sâu sát từ xử lý frame 32 ms/20 ms, xử lý sự cố biên dịch AVX-512 của audio.cpp, đến quản lý WebSocket origin, turn-detection phân tầng và tool gate.",
+  "impact": "Mức độ lan tỏa còn ở mức khiêm tốn (67 GitHub stars, 7 forks) và phục vụ phân khúc người dùng tự build trợ lý cá nhân trên máy tính cá nhân.",
+  "evidence": "Có mã nguồn đầy đủ, video demo và hướng dẫn cài đặt chạy được, nhưng hoàn toàn thiếu các bài benchmark định lượng chuẩn về WER, RTF, latency hay ablation study."
+ },
+ "summary": {
+  "tldr": "Sonia là một trợ lý giọng nói (voice assistant) mã nguồn mở, full-duplex, hoạt động hoàn toàn cục bộ trên máy tính cá nhân mà không cần GPU rời. Hệ thống yêu cầu dưới 15 GB RAM, kết hợp Voxtral Mini 4B (ASR), Qwen3.5-4B-MTP (LLM), Pocket TTS và phân tầng turn-detection để hỗ trợ đàm thoại hai chiều thời gian thực với tính năng ngắt lời (barge-in) thông minh.",
+  "problem": "Các trợ lý giọng nói full-duplex và độ trễ thấp hiện nay (tiêu biểu như Speakrail) thường đòi hỏi phần cứng GPU rời chuyên dụng đắt đỏ (CUDA/Nvidia) và tài nguyên tính toán lớn. Người dùng cá nhân thiếu một giải pháp trợ lý thoại chạy hoàn toàn local, nhẹ, hoạt động được trên iGPU hoặc CPU thông thường nhưng vẫn duy trì được cơ chế nghe - nói đồng thời và ngắt lời mượt mà.",
+  "method": "Kiến trúc hệ thống xoay quanh một hub điều phối viết bằng TypeScript/Bun quản lý vòng lặp khung âm thanh 32 ms:\n- **VAD & ASR**: Silero VAD v5 (ONNX, CPU, 2.3 MB) chạy in-process; streaming ASR sử dụng Voxtral Mini 4B Realtime 2602 (quantization `q4_k`, 2.9 GB) phục vụ qua `audio.cpp` trên Vulkan iGPU hoặc CPU.\n- **Layered Turn Detection**: Quyết định kết thúc lượt thoại theo phân tầng: khoảng lặng (pause) $\\ge 200\\text{ ms}$ kích hoạt bộ phân loại Smart Turn v3.2 (ngưỡng $\\ge 0.5$ thì chốt lượt); nếu pause $\\ge 900\\text{ ms}$ mà chưa rõ ràng, gọi prompt 4-token (`LISTEN`/`REPLY`) tới LLM để phán đoán.\n- **LLM & Tool Gate**: Sử dụng Qwen3.5-4B-MTP (`Q4_K_M`, 2.7 GiB) qua `llama-server` ngoài hoặc CLI `pi`. Tích hợp function calling (tối đa 6 tool rounds/lượt) được kiểm duyệt bởi một 'tool gate' dựa trên LLM prompt để chống kích hoạt công cụ sai lệch từ mô hình 4B nhỏ.\n- **TTS & Barge-in**: Pocket TTS (`bf16`, ~209 MiB/pack, CPU) truyền SSE PCM16 đến bộ phát âm thanh chia lát 20 ms. Cơ chế barge-in khử vọng bằng WebRTC echo canceller của PipeWire (`fd_ec_source`/`fd_ec_sink`), cho phép phân biệt tiếng nói thật của người dùng với âm thanh vọng lại từ loa.",
+  "setup": "Yêu cầu Bun $\\ge 1.x$, `llama-server` chạy ngoài ở cổng `:8080`, thư viện biên dịch `vendor/audio.cpp` (với Vulkan SDK hoặc cờ `-DENGINE_ENABLE_VULKAN=OFF`), và PipeWire cho audio I/O trên Linux. Hỗ trợ giao diện web Chromium nhúng, GTK4 native client, hoặc chế độ `--cli`/`--text`. Hỗ trợ song ngữ tiếng Anh và tiếng Ý (English/Italian tested).",
+  "results": [
+   "Tổng dung lượng RAM yêu cầu toàn hệ thống: < 15 GB RAM, không cần GPU rời chuyên dụng.",
+   "Kích thước bộ mô hình âm thanh tải về: ~3.3 GiB tổng cộng (Voxtral Mini 4B ASR: 2.9 GB; Pocket TTS: ~209 MiB/pack; Smart Turn v3.2: 31 MB; Silero VAD v5: 2.3 MB; LLM Qwen3.5-4B-MTP: 2.7 GiB).",
+   "Kích thước lát xử lý audio: vòng lặp khung thu âm 32 ms và bộ phát âm thanh xuất các lát 20 ms.",
+   "Không có bảng đánh giá định lượng chuẩn hóa (như WER, MOS, hoặc Latency cụ thể bằng mili-giây) được nêu trong tài liệu."
+  ],
+  "limitations": "Tài liệu không cung cấp các phép đo định lượng cụ thể về end-to-end latency, WER cho ASR, hay MOS cho TTS. Chỉ mới thử nghiệm chính thức trên 2 ngôn ngữ (EN/IT). Lệnh shell thực thi trực tiếp bằng `bash -c` theo quyền user mà không có cơ chế sandbox cấp kernel/container.",
+  "takeaways": "Sonia cung cấp một bản thiết kế mẫu (reference architecture) xuất sắc cho các kỹ sư muốn ghép nối các mô hình mở nhỏ gọn (small open-weights models) thành hệ thống full-duplex voice agent chạy được trên phần cứng máy tính tiêu dùng phổ thông mà không phụ thuộc vào hạ tầng đám mây hay GPU Nvidia cao cấp.",
+  "strengths": [
+   "Chạy hoàn toàn local không cần GPU rời",
+   "Kiến trúc full-duplex kèm echo-aware barge-in",
+   "Bộ turn-detection phân tầng tối ưu độ trễ",
+   "Tool-gate kiểm soát an toàn lệnh gọi tool",
+   "Tích hợp gọn gàng qua audio.cpp và Bun"
+  ],
+  "weaknesses": [
+   "Thiếu số liệu đo lường benchmark định lượng",
+   "Chưa có sandbox bảo mật cho shell execution",
+   "Phụ thuộc cài đặt PipeWire phức tạp cho AEC"
+  ],
+  "context": "Dự án mã nguồn mở phát triển bởi lập trình viên độc lập grigio (phát hành trên GitHub theo giấy phép GPL-3.0), lấy cảm hứng từ Speakrail."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

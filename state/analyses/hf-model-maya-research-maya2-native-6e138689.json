@@ -1,0 +1,50 @@
+{
+ "id": "hf-model:maya-research/maya2-native",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình kết hợp các thành phần sẵn có (Qwen3-1.7B, Mimi codec, ECAPA-TDNN, depth decoder) thành hệ thống streaming TTS và cross-lingual cloning cho nhóm ngôn ngữ Indic nhưng không đề xuất kiến trúc nền tảng hoàn toàn mới.",
+  "credibility": "Đến từ startup Maya Research kèm code/weights đầy đủ, có kết quả kiểm chứng độc lập trên VoiceArena leaderboard dù không phải bài báo qua bình duyệt peer-review.",
+  "technical": "Kỹ thuật tối ưu hóa phục vụ rất sâu với continuous batching, CUDA graphs, WebSocket server, depth decoder 2 tầng và đo lường VRAM/latency chi tiết theo số seat.",
+  "impact": "Là một trong những mô hình TTS streaming mở mạnh nhất cho các ngôn ngữ Indic, đã thu hút hơn 3.100 lượt tải và 137 upvotes trên Hugging Face.",
+  "evidence": "Cung cấp benchmark chi tiết 6.000 mẫu qua 3 giám khảo ASR độc lập, kiểm tra đồng thuận lỗi, đo đạc độ trễ/VRAM thực tế và dẫn chứng bảng xếp hạng Elo ngoài."
+ },
+ "summary": {
+  "tldr": "Maya 2 Native là mô hình text-to-speech (TTS) dạng streaming mã nguồn mở (Apache-2.0) với 2.5B tham số, hỗ trợ 12 ngôn ngữ (11 ngôn ngữ Indic và tiếng Anh) ở tần số lấy mẫu 24 kHz. Mô hình tích hợp 20 giọng dựng sẵn, hỗ trợ zero-shot cross-lingual voice cloning chỉ từ 3–10 giây audio mẫu và đạt vị trí #2 trên bảng xếp hạng VoiceArena Hindi Real-time TTS.",
+  "problem": "Phần lớn các mô hình TTS streaming chất lượng cao hiện nay tập trung vào tiếng Anh hoặc các ngôn ngữ phổ biến, trong khi các ngôn ngữ tại Ấn Độ (Indic languages) thiếu hụt các mô hình phát âm chuẩn bản địa, hỗ trợ đa ngôn ngữ, cross-lingual voice cloning và có khả năng phục vụ streaming với độ trễ thấp ở quy mô lớn.",
+  "method": "Kiến trúc gồm hai tầng kết hợp codec nén âm thanh: (1) Backbone sinh mã autoregressive khởi tạo từ Qwen3-1.7B-Base (28 layers, hidden size 2048, 16 attention heads, 8 KV heads) với từ vựng mở rộng cho token ngôn ngữ và âm thanh, đảm nhận dự đoán codebook 0. (2) Depth decoder (~555M tham số) dự đoán song song/tiếp nối 31 codebook còn lại (từ codebook 1 đến 31). (3) Codec Kyutai Mimi (32 codebooks, 2048 entries mỗi codebook, tốc độ 12.5 fps tương ứng 80 ms mỗi audio frame) dùng để giải mã ra waveform 24 kHz mono. Điều kiện hóa người nói sử dụng embedding 192 chiều từ SpeechBrain ECAPA-TDNN kết hợp audio tham chiếu (`icl_spk` mode). Huấn luyện qua giai đoạn DPO (Direct Preference Optimization) dựa trên độ đồng thuận của ASR và độ tương đồng người nói.",
+  "setup": "Yêu cầu Linux, Python 3.10–3.12, GPU NVIDIA hỗ trợ CUDA 12.8 (tối thiểu ~9.2 GB VRAM cho single-seat). Benchmark nội bộ bench6k gồm 6.000 câu văn bản held-out (500 câu/ngôn ngữ trên 31 danh mục, tổng cộng 20.3 giờ âm thanh) đánh giá qua 3 ASR (ASR-1, Qwen3-ASR, ASR-2 held-out) theo CER (v1 và v2) và Voice identity (ECAPA nearest-centroid). Đánh giá phục vụ trên 1 GPU H100 NVL (95 GB VRAM) chạy 224 WebSocket streams đồng thời.",
+  "results": [
+   "Xếp hạng #2 bảng xếp hạng VoiceArena Hindi Real-time TTS với Elo 1047 ±11 (2.268 samples), chỉ xếp sau Cartesia Sonic-3.6 (1094) và đứng trên Bulbul-V3 của Sarvam AI (957).",
+   "Đạt CER tổng thể trên bench6k: 3.49% (ASR-1), 3.40% (Qwen3-ASR), 2.86% (ASR-2 held-out) với Scorer v1; giảm xuống 2.35%, 2.22%, 1.73% với Scorer v2 (có thêm chuẩn hóa code-mixed).",
+   "Độ chính xác nhận diện giọng nói dựng sẵn (Voice identity) đạt 98.6% và mean ECAPA similarity đạt 0.778 trên toàn bộ 12 ngôn ngữ (Hindi đạt CER 1.52%, Marathi đạt 1.66% với ASR-1).",
+   "Consensus failure rate (lặp từ, ngắt quãng, lỗi nghiêm trọng) chỉ 0.15% (v1) và 0.03% (v2); tỷ lệ chạm ngưỡng giới hạn độ dài là 0.00%.",
+   "Hiệu năng streaming trên 1 H100 NVL với 224 concurrent streams đạt throughput 323 giây audio/giây thực tế, p50 time-to-first-audio (TTFA) ở steady state là 111 ms (p90 134 ms, p99 242 ms), per-stream RTF p50 là 0.68. Đơn luồng đạt TTFA ~14 ms và RTF 0.13."
+  ],
+  "limitations": "Chất lượng không đồng đều giữa các ngôn ngữ: tiếng Assamese không có giọng dựng sẵn nào có trên 1 giờ dữ liệu huấn luyện, dễ bị lệch âm sắc sang tiếng Bengali; các câu ngắn 1–2 từ kém ổn định về nhận diện giọng; CER còn cao ở danh mục địa chỉ web (29.06% CER v1) và code-mixed nặng (16.74% CER v1); thiếu benchmark định lượng riêng cho zero-shot voice cloning; chưa có đánh giá MOS từ con người; không có audio watermark tích hợp sẵn.",
+  "takeaways": "Lựa chọn mã nguồn mở hàng đầu cho các ứng dụng Voice Agent và tổng đài đa ngôn ngữ tại thị trường Ấn Độ, cung cấp sẵn pipeline tối ưu hóa từ continuous batching, WebSocket streaming đến inference server tương thích OpenAI API.",
+  "strengths": [
+   "Bản quyền mã nguồn mở Apache-2.0 thương mại",
+   "Hỗ trợ 12 ngôn ngữ và zero-shot cloning",
+   "Độ trễ cực thấp (TTFA 14ms single-stream)",
+   "Throughput ấn tượng (323s audio/giây trên H100)",
+   "Đạt thứ hạng cao trên VoiceArena Hindi"
+  ],
+  "weaknesses": [
+   "Không công bố chi tiết dataset và giờ huấn luyện",
+   "Hiệu năng Assamese và đọc URL/ký hiệu còn yếu",
+   "Chưa có đánh giá MOS bằng con người"
+  ],
+  "context": "Mô hình được phát triển bởi nhóm nghiên cứu Maya Research (Dheemanth Reddy BS, Bharath Kumar Kakumani, Sai Charan Thippareddy, Prahalad Boreddy, Nikil Thalapaneni), phát hành checkpoint v1.0 vào tháng 10 năm 2026 trên Hugging Face."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

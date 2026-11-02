@@ -1,0 +1,50 @@
+{
+ "id": "gh:alexturkey/dubworld",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Hệ thống kết hợp các mô hình có sẵn (Whisper, wav2vec2, Opus-MT, Supertonic 3, FFmpeg) nhưng đóng góp cơ chế kết hợp giữa TTS speed-up 1.25x và video retiming thực tế.",
+  "credibility": "Kho mã nguồn mở cá nhân minh bạch, có tài liệu chi tiết, giấy phép cụ thể cho từng thành phần và có trích dẫn kiểm thử phần cứng thực tế.",
+  "technical": "Tích hợp tốt nhiều giai đoạn kỹ thuật phức tạp (VAD, diarization, CTC alignment, retiming video, subtitle karaoke) thành các CLI và API độc lập.",
+  "impact": "Dự án quy mô nhỏ (khoảng 52 stars, 5 forks) phục vụ chủ yếu cho cộng đồng tiếng Thổ Nhĩ Kỳ và người dùng máy cá nhân.",
+  "evidence": "Cung cấp thời gian benchmark cụ thể trên cả cấu hình CPU và GPU Pascal 4 GB, nhưng thiếu đánh giá định lượng chất lượng dịch hay MOS giọng nói."
+ },
+ "summary": {
+  "tldr": "DubWorld là một pipeline mã nguồn mở chạy offline trên máy cục bộ, cho phép lồng tiếng video (video dubbing) tự động sang ngôn ngữ khác. Hệ thống tích hợp toàn diện từ bóc tách âm thanh, nhận dạng tiếng nói (STT) kèm mốc thời gian từ, dịch thuật (machine translation), phân tách người nói (diarization), đến tổng hợp giọng nói (TTS) kết hợp điều chỉnh tốc độ âm thanh và đồng bộ khung hình video.",
+  "problem": "Quy trình lồng tiếng video đa ngôn ngữ thường phức tạp, phụ thuộc vào các dịch vụ đám mây trả phí hoặc yêu cầu thiết lập thủ công nhiều mô hình AI rời rạc (STT, dịch, TTS, chỉnh sửa video). Ngoài ra, việc lệch nhịp giữa độ dài câu nói mới và video gốc là thách thức kỹ thuật lớn trong dubbing.",
+  "method": "Pipeline hoạt động tuần tự qua các khối module độc lập:\n- **Tách âm thanh:** Dùng FFmpeg trích xuất audio; hỗ trợ tùy chọn Demucs để tách vocal và nhạc nền.\n- **STT & Căn chỉnh từ:** Sử dụng faster-whisper large-v3-turbo kết hợp mô hình CTC wav2vec2 để lấy word-level timestamps; hỗ trợ tùy chọn CrisperWhisper 2.0 Turbo (engine 13).\n- **Nhận diện giọng nói:** Dùng 3D-Speaker CAM++ cùng mô hình phân loại giới tính để gán giọng nhân tạo phù hợp cho từng speaker.\n- **Dịch thuật:** Tích hợp CLI của Codex hoặc Claude Code nếu có sẵn; mặc định chạy offline bằng Opus-MT (English sang Turkish); hỗ trợ các API backend khác.\n- **TTS & Đồng bộ thời lượng:** Mặc định dùng Supertonic 3, tùy chọn VoxCPM2 hoặc XTTS-v2. Về mặt timing: mỗi câu tổng hợp được tăng tốc tối đa $1.25\\times$ để khớp độ dài đoạn gốc; phần thời lượng dôi dư còn lại được xử lý bằng cách retime (làm chậm/kéo dài) khung hình video, do đó video lồng tiếng có thể dài hơn video nguồn.\n- **Ghép video & Xuất bản:** FFmpeg kết hợp video retimed, audio mới và gắn phụ đề (SRT, VTT, ASS ở chế độ word/karaoke) cùng metadata tag `AI-dubbed`.",
+  "setup": "Chạy trên Windows 10/11 x64 (có script tự động `kur.cmd`/`kur.ps1` không cần cài trước Python, CUDA, ffmpeg). Yêu cầu ổ cứng trống ban đầu: 22 GB (GPU profile) hoặc 14 GB (CPU profile). Hỗ trợ ngôn ngữ mặc định là tiếng Thổ Nhĩ Kỳ (Turkish) từ nguồn tiếng Anh, hỗ trợ thêm các ngôn ngữ khác qua voice engine và CLI dịch.",
+  "results": [
+   "Thời gian cài đặt mặc định lần đầu trên máy Pascal GPU 4 GB: ≈ 44 phút (GPU profile, riêng gói tải mất 13.7 phút); trên CPU: ≈ 38 phút.",
+   "Dung lượng đĩa thực tế sau cài đặt: ≈ 14.6 GB (GPU profile, hard links tính 1 lần) và ≈ 13.2 GB (CPU profile).",
+   "Thời gian xử lý dub clip mẫu 9 giây (dịch offline): 376 giây (GPU Pascal 4 GB) và 528 giây (CPU).",
+   "Thời gian xử lý clip tiếng Anh 30 giây (dùng Demucs + Claude Code dịch): 744 giây trên GPU Pascal 4 GB."
+  ],
+  "limitations": "Chưa kiểm thử hoàn chỉnh trên Linux và macOS; CI chỉ chạy kiểm thử trên CPU. Bộ dịch offline chỉ hỗ trợ cặp En-Tr (các ngôn ngữ khác cần gọi LLM CLI hoặc API). faster-whisper mặc định có thể bỏ sót âm thanh hoặc tạo ảo giác chữ ở tiếng Trung/Nhật nếu không bật CrisperWhisper. Chưa kiểm thử end-to-end cho XTTS-v2, RVC và Telegram bot.",
+  "takeaways": "Một giải pháp kỹ thuật thực tế cho bài toán video dubbing trên thiết bị cục bộ cấu hình thấp (chạy được trên GPU 4 GB VRAM) nhờ chiến lược phối hợp giữa co giãn tốc độ giọng nói (tối đa 1.25×) và retiming hình ảnh để giải quyết triệt để vấn đề lệch thời lượng.",
+  "strengths": [
+   "Thiết kế module hóa cao từng chặng",
+   "Chạy hoàn toàn offline cục bộ",
+   "Cơ chế retime video sáng tạo",
+   "Tối ưu hóa chạy trên VRAM 4GB",
+   "Tự động hóa cài đặt bằng AI agent"
+  ],
+  "weaknesses": [
+   "Tốc độ xử lý còn rất chậm",
+   "Mô hình offline chỉ hỗ trợ En-Tr",
+   "Chưa hỗ trợ chính thức Linux/macOS",
+   "Vấn đề bản quyền mô hình phi thương mại"
+  ],
+  "context": "Dự án nguồn mở của tác giả cá nhân alexturkey trên GitHub, cung cấp pipeline lồng tiếng đa phương tiện tích hợp nhiều mô hình open-source."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

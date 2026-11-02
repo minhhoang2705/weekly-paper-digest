@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Morvex885/pulsar · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W45</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Morvex885/pulsar</h1>
+    <div class="meta">
+      <span title="Listed by GitHub inside the crawl window">found Nov 2, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 21, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Morvex885</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://github.com/Morvex885/pulsar" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">README excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>Яндекс Станция Миди / Лайт 2 / Мини / Мини 2 / Мини 3 как локальный голосовой спутник Home Assistant (ESPHome Native API) и Sendspin-плеер Music Assistant — без облака Яндекса
+
+README: pulsar. Яндекс Станция Миди, Лайт 2, Мини 2, Мини 3 и Мини первого поколения как локальный голосовой спутник и умная колонка для Home Assistant — без облака Яндекса. | Модель | Кодовое имя | Статус | Данные о модели | | Станция Миди | cucumber | проверена мейнтейнером | станция мейнтейнера | | Станция Лайт 2 | plum | проверена мейнтейнером | станция мейнтейнера | | Станция Мини 2 | station-mini2 | экспериментально, см. Мини 2 | контрибьюторы: #9, станция из #38 | | Станция Мини 3 | bergamot | экспериментально, см. профиль | контрибьютор: #30 | | Станция Мини | yandexmini | по данным контрибьютора, см. Мини | контрибьютор: #35 | Вместо штатного стека Яндекса (maind) на колонке работает небольшой нативный демон. Он говорит с Home Assistant по протоколу ESPHome Native API и выглядит в HA как обычное ESPHome-устройство. Для Music Assistant он дополнительно является нативным Sendspin-плеером. Железо колонки используется полностью и штатными средствами прошивки: - «Алиса» / «Яндекс» — родная модель активационной фразы Яндекса и родное шумоподавление/эхоподавление (VQE) по микрофонам колонки (Миди — 4, Лайт 2 — 2, Мини 2 — 4, Мини 3 — 3, Мини — 4) с вычитанием звука собственных динамиков. - Локальные голосовые команды — «стоп», «громче», «тише», «продолжи» и т. д. выполняются на самой колонке, без HA и без «Алиса» (родная модель команд Яндекса). - Отвечает ближайшая колонка — если «Алису» услышали несколько колонок с pulsar, отвечает та, что услышала громче. - Динамики — воспроизведение HTTP-потоков через GStreamer прошивки, громкость через ALSA. - Кольцо светодиодов, часы, кнопки, переключатель микрофона, датчик освещённости — по моделям; у Мини нет части из них (см. Мини). - Zigbee (Миди, экспериментально) — встроенный Zigbee-модуль колонки на собственной прошивке pulsar работает полноценным координатором для Zigbee2MQTT и ZHA (как USB-стик ConBee) или роутером (ретранслятором) в существующей сети (см. Zigbee). Ни одна проприетарная библиотека Яндекса в репозитории не ра</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 2, 2026 · README</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>pulsar là một daemon C++ native chạy trực tiếp trên các dòng loa thông minh Yandex Station (Midi, Lite 2, Mini 2, Mini 3, Mini v1), biến chúng thành vệ tinh thoại cục bộ (Assist satellite) cho Home Assistant và trình phát Sendspin cho Music Assistant mà không phụ thuộc vào hạ tầng cloud của Yandex. Dự án tận dụng trực tiếp mô hình wake word, VQE khử tiếng vang/chống ồn và mô hình khẩu lệnh offline từ firmware gốc mà không phân phối lại bất kỳ thư viện độc quyền nào.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các dòng loa thông minh Yandex Station thường bị khóa chặt vào hệ sinh thái điện toán đám mây của Yandex. Người dùng muốn tích hợp các thiết bị này vào hệ thống nhà thông minh mã nguồn mở cục bộ (Home Assistant) thường thiếu một giải pháp khai thác tối đa phần cứng (micro array, VQE, LED, hiển thị đồng hồ LED, Zigbee) để biến chúng thành Voice Assistant Satellite hoàn toàn riêng tư.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>pulsar thay thế tiến trình <code>maind</code> mặc định của Yandex bằng một daemon C++ nhẹ:</p>
+<ul>
+<li><strong>Giao thức &amp; Tích hợp</strong>: Giao tiếp trực tiếp với Home Assistant thông qua giao thức ESPHome Native API (hỗ trợ mã hóa Noise API), xuất hiện dưới dạng một ESPHome Assist satellite và Media Player; hỗ trợ tối đa 4 client kết nối đồng thời. Đồng thời hoạt động như một trình phát Sendspin native cho Music Assistant hỗ trợ FLAC lossless.</li>
+<li><strong>Khai thác phần cứng gốc</strong>: Daemon tải động các thư viện độc quyền từ chính filesystem trên thiết bị tại runtime (không vi phạm bản quyền). Sử dụng pipeline VQE (Voice Quality Enhancement) và wake word spotting bản địa («Алиса» / «Яндекс») với mảng micro (Midi: 4, Lite 2: 2, Mini 2: 4, Mini 3: 3, Mini: 4) kết hợp acoustic echo cancellation (AEC) loại trừ âm thanh từ loa.</li>
+<li><strong>Xử lý lệnh ngoại tuyến &amp; Trọng tài</strong>: Nhận diện lệnh giọng nói cục bộ (không qua HA hay wake word) như «стоп», «громче», «тише»... Hỗ trợ tính năng trọng tài gần nhất: các loa pulsar trong cùng mạng chia sẻ cường độ âm thanh nhận diện wake word qua multicast/broadcast và loa nghe rõ nhất sẽ phản hồi.</li>
+<li><strong>Zigbee subsystem (Midi)</strong>: Nạp firmware tự biên dịch dựa trên Telink Zigbee SDK vào mô-đun Zigbee tích hợp, biến nó thành Zigbee Coordinator giao tiếp qua TCP (giao thức deCONZ cổng 6638) cho Zigbee2MQTT/ZHA hoặc thành Zigbee Router.</li>
+<li><strong>Kiến trúc giám sát &amp; Cập nhật</strong>: Quản lý bằng init script (<code>/etc/init.d/S99zpulsar</code>), có cơ chế rollback tự động (nếu crash 5 lần liên tiếp trong 5 phút sẽ khôi phục file binary <code>.prev</code>, hoặc trả quyền lại cho <code>maind</code> của Yandex) và hỗ trợ tự cập nhật OTA kiểm tra mã SHA256SUMS.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Yêu cầu thiết bị:</p>
+<ul>
+<li>Yandex Station Midi (<code>cucumber</code>), Lite 2 (<code>plum</code>), Mini 2 (<code>station-mini2</code>), Mini 3 (<code>bergamot</code>), Mini v1 (<code>yandexmini</code>) đã có root access qua ADB (<code>adb shell</code> root qua mạng/USB).</li>
+<li>Firmware đã kiểm tra: Midi (<code>0.351.1.6.4197281754.20260528.142</code>), Lite 2 (<code>0.369.1.46.4778258659.20261013.133</code>), Mini 2 (<code>0.369.1.46.4778262943.20261013.299</code>), Mini 3 (<code>0.369.1.50.4794652521.20261021.117</code>), Mini (<code>1.369.4.24.4711907614.20260928</code>).</li>
+<li>Môi trường máy tính cài đặt: Trình cài đặt viết bằng Go hỗ trợ Windows, macOS, Linux (x86_64 và ARM64).</li>
+<li>Phần mềm phối hợp: Home Assistant 2025.x trở lên với tích hợp ESPHome và Assist pipeline (hỗ trợ STT/TTS tiếng Nga), Music Assistant hỗ trợ Sendspin.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Hỗ trợ số lượng kết nối đồng thời: Tối đa 4 client (ví dụ: Home Assistant và ESPHome Dashboard song song).</li>
+<li>Khả năng phục hồi truyền phát âm thanh: Tự động thử kết nối lại tối đa 3 lần từ vị trí gián đoạn nếu mạng bị đứt.</li>
+<li>Cơ chế tự động rollback: Tự động hoàn tác về bản nhị phân <code>.prev</code> sau 5 lần crash liên tiếp mà không duy trì được 5 phút hoạt động.</li>
+<li>Bộ đệm lệnh tức thì sau wake word («Command right after wake word»): Giữ lại âm thanh ngay sau từ khóa kích hoạt để không làm mất âm tiết đầu của câu lệnh (áp dụng trên Midi, Lite 2, Mini 2, Mini 3).</li>
+<li>Thời gian chờ pipeline giọng nói: Tự động hủy phiên và hiển thị lỗi trên LED nếu Home Assistant không có sự kiện sau 30 giây lắng nghe hoặc 120 giây xử lý.</li>
+<li>Thông số điều chỉnh âm lượng: Bước nhảy âm lượng ALSA chuẩn hóa ở mức 5% (~2.5 dB), tương đương một nấc âm lượng gốc của Alice.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Yêu cầu thiết bị đã được root sẵn qua ADB (dự án không cung cấp công cụ bẻ khóa/root). Giọng đọc phản hồi phụ thuộc hoàn toàn vào TTS của Home Assistant, không có giọng Alice gốc. Chưa có cơ chế chặn bản cập nhật OTA từ Yandex (OTA có thể ghi đè phân vùng root). Cổng Zigbee 6638 không có xác thực; không hỗ trợ Zigbee install code và Green Power. Trình cài đặt trên Windows/macOS chưa được tác giả kiểm nghiệm thực tế trên máy vật lý.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Cung cấp một mẫu kiến trúc xuất sắc cho embedded speech engineering: tái sử dụng mô hình ML on-device và thư viện xử lý DSP độc quyền bằng cách liên kết động tại chỗ, kết hợp hoàn hảo với hệ sinh thái nguồn mở (ESPHome/Home Assistant/Music Assistant) mà không vi phạm bản quyền phân phối.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">61.3<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 192.45,182.66 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="192.45" cy="182.66" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Cách tiếp cận biến loa Yandex thành ESPHome native satellite và nạp lại firmware cho chip Telink Zigbee tích hợp là giải pháp kỹ thuật rất sáng tạo và hiếm thấy trên dòng thiết bị này.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Kỹ thuật can thiệp hệ thống sâu: hook thư viện âm thanh độc quyền runtime, quản lý ALSA/GStreamer, ESPHome protocol, Noise encryption và nạp firmware Telink Zigbee SDK.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 3/5 — Mã nguồn và tài liệu kiến trúc đầy đủ; thông số vận hành (timeout, rollback, bước âm lượng dB) được ghi rõ, tuy nhiên tài liệu không có các đo đạc benchmark định lượng về WER hay độ trễ nhận diện.</title>Evidence <tspan class="radar-value">3</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Rất hữu ích cho cộng đồng tự lưu trữ (self-hosted) và người dùng Home Assistant sở hữu loa Yandex (82 stars, 22 forks), nhưng giới hạn trong thị trường phần cứng Yandex nói tiếng Nga.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Kho mã nguồn mở chi tiết trên GitHub với sự đóng góp từ cộng đồng (PR, issues), tuy nhiên dự án cá nhân chưa qua bình duyệt học thuật và chưa test thực tế trình cài đặt trên macOS/Windows.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Cách tiếp cận biến loa Yandex thành ESPHome native satellite và nạp lại firmware cho chip Telink Zigbee tích hợp là giải pháp kỹ thuật rất sáng tạo và hiếm thấy trên dòng thiết bị này.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Kho mã nguồn mở chi tiết trên GitHub với sự đóng góp từ cộng đồng (PR, issues), tuy nhiên dự án cá nhân chưa qua bình duyệt học thuật và chưa test thực tế trình cài đặt trên macOS/Windows.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Kỹ thuật can thiệp hệ thống sâu: hook thư viện âm thanh độc quyền runtime, quản lý ALSA/GStreamer, ESPHome protocol, Noise encryption và nạp firmware Telink Zigbee SDK.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Rất hữu ích cho cộng đồng tự lưu trữ (self-hosted) và người dùng Home Assistant sở hữu loa Yandex (82 stars, 22 forks), nhưng giới hạn trong thị trường phần cứng Yandex nói tiếng Nga.</dd></div>
+          <div><dt>Evidence <span class="muted">3/5</span></dt><dd>Mã nguồn và tài liệu kiến trúc đầy đủ; thông số vận hành (timeout, rollback, bước âm lượng dB) được ghi rõ, tuy nhiên tài liệu không có các đo đạc benchmark định lượng về WER hay độ trễ nhận diện.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Tái sử dụng VQE và wake word gốc · Tích hợp ESPHome Native API và Sendspin · Hỗ trợ Zigbee Coordinator/Router trên Midi · Cơ chế watchdog và tự rollback an toàn</p>
+          <p><span class="label">Weaknesses</span> · Bắt buộc phải có quyền root ADB · Không chặn được cập nhật OTA Yandex · Cổng Zigbee mở không có xác thực</p>
+          <p><span class="label">Context</span> · Dự án nguồn mở phát triển bởi Morvex885 phát hành trên GitHub dưới giấy phép GNU AGPL-3.0 (phần firmware Zigbee theo Apache 2.0).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

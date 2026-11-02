@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.34807",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đây là công trình đầu tiên tái sử dụng toàn diện cả không gian latent VAE lẫn backbone DiT từ mô hình tạo ảnh hiện đại (FLUX.2) cho bài toán zero-shot và instruction-guided TTS quy mô lớn.",
+  "credibility": "Nghiên cứu đến từ nhóm tác giả uy tín tại Microsoft, Đại học Vũ Hán và CUHK với quy trình thực nghiệm rõ ràng, chi tiết cấu hình và cung cấp trang demo âm thanh.",
+  "technical": "Thiết kế kỹ thuật chặt chẽ với conditional latent flow matching, phân tách rõ ràng luồng modality trong double-stream blocks, phân tích sâu sắc giữa không gian VAE latent và direct mel cùng cơ chế dual CFG.",
+  "impact": "Mở ra hướng nghiên cứu cross-modal thú vị từ image sang speech, nhưng kích thước 3.9B tham số cùng chi phí tính toán cao gây cản trở đáng kể cho việc ứng dụng thực tế so với các mô hình TTS chuyên dụng.",
+  "evidence": "Cung cấp đầy đủ kết quả thực nghiệm định lượng, so sánh công bằng trên cùng tập dữ liệu 100K giờ Emilia và benchmark CapSpeech, kèm theo các phân tích ablation về độ phân giải VAE và tốc độ hội tụ."
+ },
+ "summary": {
+  "tldr": "ImageTTS tái sử dụng trực tiếp mô hình tạo ảnh FLUX.2-klein-base-4B (3.9B tham số) cho tác vụ tổng hợp tiếng nói thông qua biểu diễn log-mel spectrogram dưới dạng ảnh giả RGB (pseudo-RGB). Bằng cách đóng băng image VAE và chỉ fine-tune DiT backbone với conditional flow matching, hệ thống chứng minh các prior và biểu diễn latent từ thị giác có thể chuyển giao hiệu quả sang giọng nói cho cả zero-shot TTS và instruction-guided TTS.",
+  "problem": "Liệu các mô hình diffusion/flow-matching tiền huấn luyện trên ảnh có thể chuyển giao trực tiếp cả không gian biểu diễn latent và generative prior sang miền tiếng nói hay không, thay vì chỉ kế thừa kiến trúc mạng. Tiếng nói đòi hỏi độ chính xác cao về mặt ngôn ngữ (linguistic fidelity) và khả năng bảo toàn danh tính người nói (speaker identity) từ một đoạn mẫu ngắn, vốn là thử thách lớn đối với các prior được học từ ảnh.",
+  "method": "ImageTTS tận dụng pipeline của FLUX.2-klein-base-4B:\n- **Xử lý biểu diễn**: Log-mel spectrogram đơn kênh ($F_{\\text{mel}} = 100$) được nội suy song tuyến (bilinear interpolation) lên tần số $F = 512$, padding thời gian chia hết cho 16, chuẩn hóa về $[-1, 1]$ và nhân bản thành 3 kênh pseudo-RGB kích thước $3 \\times F \\times T$. Bộ mã hóa FLUX.2 image VAE đóng băng (downsampling không gian $8\\times$, patchify $2 \\times 2$ thành các token 128 chiều) sẽ trích xuất latent.\n- **Kiến trúc DiT**: Tận dụng 5 khối double-stream (tính joint cross-attention giữa stream văn bản và stream âm thanh) và 20 khối single-stream (shared self-attention). Text encoder Qwen3 được đóng băng, lấy hidden states từ các tầng intermediate {9, 18, 27} ghép lại rồi chiếu sang số chiều 3072.\n- **Mục tiêu huấn luyện**: Masked conditional flow matching trong không gian latent của VAE với vector vận tốc mục tiêu $u_\\sigma = \\epsilon - z^{\\text{tgt}}$. Zero-shot TTS được mô hình hóa dưới dạng latent infilling có điều kiện; Instruction-guided TTS nhận transcript ghép với chuỗi mô tả phong cách bằng prompt template.\n- **Dual Classifier-Free Guidance (CFG)**: Tách biệt tỷ lệ text guidance ($s_t$) và speech reference guidance ($s_s$).\n- **Tạo sóng âm**: Latent tạo ra được decode qua FLUX.2 VAE decoder để lấy lại mel-spectrogram, sau đó BigVGAN-v2 tổng hợp ra waveform.",
+  "setup": "Đánh giá qua 3 giai đoạn:\n- Phân tích chuyển giao trên LibriTTS (585 giờ, 2.456 người nói) huấn luyện trên 16 GPU NVIDIA A100 (40GB), batch size 128; kiểm thử trên 200 câu LibriSpeech test-clean.\n- Mở rộng Zero-shot TTS (ImageTTS-base) trên 100K giờ dữ liệu Emilia (Anh và Trung), huấn luyện 180k bước trên 64 GPU NVIDIA A100; kiểm thử trên Seed-TTS test-en (1.088 mẫu), Seed-TTS test-zh (2.020 mẫu) và tập nội bộ 100 mẫu tiếng Anh.\n- Mở rộng Instruction-guided TTS (ImageTTS-instruct) tiếp tục huấn luyện 50k bước trên 9K giờ từ CapSpeech; đánh giá trên 200 mẫu CapSpeech test set.\n- Baseline so sánh: F5-TTS, MaskGCT, Qwen3-TTS, FireRedTTS3-Instruct, VoxCPM2, CapTTS-AR, CapTTS-NAR, Riffusion.\n- Metrics: WER (Conformer-Transducer), CER (Paraformer-zh), SIM (WavLM-TDNN), MOS (chấm điểm 1-5 từ 10 người nghe trên 30 mẫu), PESQ, STOI, DNSMOS, UTMOS, Style-ACC, CLSP-Score.",
+  "results": [
+   "Khả năng tái tạo của Frozen Image VAE: Với F=512, FLUX.2 VAE đạt 0.99 STOI, 0.95 SIM, 3.86 PESQ trên LibriTTS và 0.98 STOI, 0.96 SIM, 3.79 PESQ trên LibriSpeech, vượt trội hoàn toàn VAE của Riffusion (2.45 PESQ, 0.92 STOI, 0.86 SIM trên LibriTTS).",
+   "Hiệu quả khởi tạo Image-pretrained DiT: Tại 100k bước cập nhật trên LibriTTS, khởi tạo từ FLUX.2 đạt WER 2.7%, SIM 0.78, DNSMOS 3.78 so với 4.2% WER, 0.77 SIM, 3.72 DNSMOS của khởi tạo ngẫu nhiên (random init). Ngay cả khi random init huấn luyện tới 150k bước, WER vẫn dừng ở mức 3.8%.",
+   "So sánh không gian sinh (Image-VAE latent vs Direct mel): Khởi tạo tiền huấn luyện ảnh đều cải thiện WER ở cả hai không gian; tuy nhiên Image-VAE latent cho chất lượng âm thanh cao hơn (DNSMOS 3.78 vs 3.56) dù SIM thấp hơn nhẹ (0.78 vs 0.80).",
+   "Zero-shot TTS trên Seed-TTS test-en: ImageTTS-base (100K h) đạt WER 1.12%, SIM 0.66, MOS 4.08 ± 0.18, vượt qua F5-TTS (1.17% WER, 0.67 SIM, 3.33 MOS) và MaskGCT (2.33% WER, 0.71 SIM, 3.95 MOS).",
+   "Zero-shot TTS trên Seed-TTS test-zh: ImageTTS-base đạt CER 1.68%, SIM 0.72, MOS 4.01 ± 0.17, vượt trội về CER và MOS so với F5-TTS (1.70% CER, 3.53 MOS) và MaskGCT (2.36% CER, 3.34 MOS).",
+   "Instruction-guided TTS trên CapSpeech: Chỉ với 9K giờ huấn luyện, ImageTTS-instruct đạt Style-ACC 0.66, CLSP-Score 0.49, WER 8.8%, vượt CapTTS-AR (Style-ACC 0.52, WER 11.9%) và CapTTS-NAR (Style-ACC 0.62, WER 10.8%) dù hai baseline này dùng tới 33.6K giờ dữ liệu."
+  ],
+  "limitations": "Bảo toàn danh tính người nói (SIM) trên tiếng Trung vẫn thấp hơn các baseline thuần tiếng nói (0.72 so với 0.76 của F5-TTS và 0.77 của MaskGCT) do thất thoát thông tin qua frozen image VAE. Mô hình phụ thuộc vào ước lượng thời lượng từ bên ngoài (duration estimation heuristic). Mô hình DiT 3.9B tham số có chi phí tính toán rất lớn, đồng thời text encoder Qwen3 nhạy cảm với cách phân mảnh token/dấu phẩy.",
+  "takeaways": "Các generative prior và biểu diễn latent từ mô hình tạo ảnh thị giác có thể chuyển dịch trực tiếp sang sinh phổ âm thanh mà không cần huấn luyện lại autoencoder chuyên biệt cho tiếng nói. Việc khởi tạo từ DiT tạo ảnh mang lại tốc độ hội tụ nhanh hơn và độ chính xác nhận dạng từ vựng cao hơn hẳn so với huấn luyện từ đầu.",
+  "strengths": [
+   "Chuyển giao thành công generative prior từ ảnh sang tiếng nói",
+   "Độ chính xác nội dung vượt trội các baseline cùng quy mô dữ liệu",
+   "Hỗ trợ đồng thời zero-shot và instruction-guided TTS",
+   "Frozen VAE bảo toàn STOI (0.99) và SIM (0.95) tốt"
+  ],
+  "weaknesses": [
+   "SIM tiếng Trung còn hạn chế do nghẽn thông tin VAE ảnh",
+   "Kích thước mô hình rất lớn (3.9B tham số)",
+   "Phụ thuộc thuật toán ngoại vi để ước tính thời lượng",
+   "Nhạy cảm với dấu câu và token hóa của text encoder"
+  ],
+  "context": "Nghiên cứu phối hợp giữa Đại học Vũ Hán, Microsoft Corporation và Đại học Trung văn Hồng Kông (CUHK), công bố dưới dạng bản thảo arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

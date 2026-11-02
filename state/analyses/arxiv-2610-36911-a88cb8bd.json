@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.36911",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Ứng dụng kiến trúc LLaMA-Omni sẵn có vào tiếng Basque và chứng minh tính khả thi của pipeline dữ liệu tổng hợp hoàn toàn cho low-resource SLM, không đề xuất cấu trúc mạng mới.",
+  "credibility": "Nghiên cứu đến từ phòng thí nghiệm uy tín về xử lý tiếng Basque (HiTZ / Aholab, UPV/EHU), có công bố chi tiết về thiết lập huấn luyện và mã nguồn.",
+  "technical": "Quy trình kỹ thuật được thiết kế chặt chẽ và bài bản từ fine-tuning HuBERT, gom cụm K-Means, huấn luyện HiFi-GAN đa người nói đến huấn luyện SLM 2 giai đoạn.",
+  "impact": "Có ý nghĩa quan trọng đối với cộng đồng nghiên cứu tiếng Basque và làm khuôn mẫu tham khảo cho các ngôn ngữ thiểu số khác triển khai SLM end-to-end.",
+  "evidence": "Báo cáo đầy đủ các chỉ số định lượng (WER, CER, MCD, UTMOS, Latency), tuy nhiên tập kiểm định hoàn toàn là dữ liệu tổng hợp và thiếu kiểm chứng từ người thật."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu giới thiệu mô hình Speech Language Model (SLM) mã nguồn mở đầu tiên cho tiếng Basque dựa trên kiến trúc modular của LLaMA-Omni với backbone Latxa-3.1-8B-Instruct. Bằng cách xây dựng pipeline tạo dữ liệu synthetic hoàn chỉnh từ VoiceAssistant-400K và VITS TTS, hệ thống đạt điểm chất lượng nội dung 3.86/5, WER 9.94% và độ trễ streaming chỉ 370 ms.",
+  "problem": "Các mô hình SLM hiện đại chủ yếu là hệ thống độc quyền hoặc chỉ tập trung vào tiếng Anh và tiếng Trung Quốc. Các ngôn ngữ ít tài nguyên (low-resource) như tiếng Basque đối mặt với sự thiếu hụt nghiêm trọng dữ liệu chỉ dẫn giọng nói (triplet audio-in, text-out, discrete-units-out) cũng như chi phí tính toán đắt đỏ nếu phải pre-train đa phương thức quy mô lớn từ đầu.",
+  "method": "Hệ thống áp dụng kiến trúc modular kế thừa từ LLaMA-Omni nhằm tận dụng các module tiền huấn luyện sẵn có:\n- **Speech Encoder & Adaptor**: Sử dụng Whisper-large-v3-eu trích xuất biểu diễn âm thanh đầu vào, sau đó đưa qua speech adaptor (gồm giảm tần số thời gian và 2 lớp FFN kèm kích hoạt ReLU) để ánh xạ trực tiếp vào không gian embedding của backbone LLM.\n- **Backbone LLM**: Sử dụng Latxa-3.1-8B-Instruct (LLM tiếng Basque dựa trên LLaMA-3.1) để duy trì khả năng hiểu cú pháp và ngữ nghĩa tiếng Basque.\n- **Speech Decoder & Discrete Units**: Hidden states của LLM được chuyển song song tới non-autoregressive (NAR) Transformer decoder để dự đoán chuỗi discrete speech units bằng hàm mất mát CTC loss. Các discrete token này trích xuất từ layer thứ 9 của mô hình mHuBERT-147 (được fine-tune tác vụ ASR trên 600 giờ tiếng Basque) gom cụm qua K-Means với $k = 1000$.\n- **Vocoder**: Sử dụng Unit HiFi-GAN huấn luyện đa người nói (2 giọng: Maider và Antton, khoảng 16 giờ/người) có điều kiện hóa speaker embedding từ ECAPA-TDNN để tái tạo waveform.\n- **Synthetic Data Pipeline**: Dịch bộ dữ liệu VoiceAssistant-400K sang tiếng Basque bằng Latxa-3.1-70B-Instruct với rubric kiểm soát; tổng hợp âm thanh câu hỏi qua VITS với 14 giọng tổng hợp và âm thanh câu trả lời bằng giọng của 2 speaker vocoder, tạo ra ~450.000 cặp câu hỏi - trả lời (~550 giờ câu hỏi, >3300 giờ câu trả lời).\n- **Quy trình huấn luyện SLM 2 giai đoạn**: Giai đoạn 1 đóng băng Whisper, chỉ fine-tune speech adaptor và LLM với cross-entropy loss; Giai đoạn 2 đóng băng Whisper, adaptor và LLM, chỉ huấn luyện NAR speech decoder bằng CTC loss (tổng cộng 3 epochs mỗi giai đoạn trên 4 GPU A100 80GB trong chưa đầy 100 giờ).",
+  "setup": "Huấn luyện HuBERT bằng Hugging Face Transformers trên 1 GPU H100 80GB (100 epochs, ~400 giờ) với bộ dữ liệu composite-eu (600 giờ từ Common Voice, BasqueParliament, OpenSLR). Huấn luyện Unit HiFi-GAN trên SpeechBrain bằng 1 GPU H100 80GB (1000 epochs, ~10 giờ) trên 32 giờ Basque TTS dataset. Tập kiểm thử end-to-end gồm 4.419 synthetic instructions disjoint với tập huấn luyện. Đánh giá nội dung bằng Latxa-3.1-70B-Instruct (LLM-as-a-judge, thang điểm 1-5), độ rõ lời bằng ASR Conformer tiếng Basque (WER, CER), chất lượng âm thanh bằng UTMOS và MCD, cùng streaming latency (chunk size $\\Omega = 40$ trên NVIDIA A100 80GB).",
+  "results": [
+   "HuBERT Discrete Unit Encoder: Đạt 4.90% WER trên test split của tập composite-eu sau 100 epochs fine-tuning ASR.",
+   "Unit HiFi-GAN Vocoder: Đạt Mel Cepstral Distortion (MCD) 4.8 dB đối với giọng Antton và 5.1 dB đối với giọng Maider sau 1000 epochs.",
+   "Chất lượng nội dung (LLM Score 1-5): Đạt 3.86/5, tiệm cận LLaMA-Omni tiếng Anh (3.99) và vượt qua SALMONN + Orca (3.44) cùng Qwen2-Audio + Orca (3.47).",
+   "Độ rõ lời phát âm (Spoken Intelligibility): Đạt 9.94% WER và 1.62% CER trên tiếng Basque (đo qua Conformer ASR), tương đương LLaMA-Omni tiếng Anh (10.82% WER), dù còn khoảng cách với LLaMA-Omni2-7B (3.26% WER).",
+   "Chất lượng âm thanh (Audio Quality): Đạt 3.07 điểm UTMOS, thấp hơn đáng kể so với các hệ thống tiếng Anh như LLaMA-Omni (3.92) hay LLaMA-Omni2-7B (4.22).",
+   "Độ trễ streaming (Latency): Đạt 370 ms ở cấu hình chunk size $\\Omega = 40$, nhanh hơn nhiều so với pipeline cascade như SpeechGPT (5587 ms) và tương đương LLaMA-Omni tiếng Anh (346 ms)."
+  ],
+  "limitations": "Toàn bộ đánh giá end-to-end được thực hiện trên dữ liệu tổng hợp (in-distribution), chưa kiểm thử trên giọng nói người dùng thật (real user speech). Đánh giá LLM-as-a-judge dùng Latxa-3.1-70B-Instruct cùng họ mô hình với backbone và bộ dịch, tiềm ẩn nguy cơ self-preference bias nhưng thiếu judge thứ hai hoặc chuyên gia con người. Thước đo UTMOS vốn được huấn luyện chủ yếu trên tiếng Anh và tiếng Nhật nên điểm số tiếng Basque chỉ mang tính tương đối. Chất lượng âm thanh tổng hợp vẫn còn khoảng cách xa so với các SLM tiếng Anh.",
+  "takeaways": "Cung cấp một giải pháp khả thi và tiết kiệm tài nguyên tính toán để phát triển SLM cho các ngôn ngữ ít tài nguyên: kết hợp LLM dịch thuật chất lượng cao với TTS đa giọng để sinh dữ liệu instruction dạng nói, sau đó ghép nối speech adaptor và streaming decoder vào LLM backbone bản địa mà không cần pre-train đa phương thức khổng lồ.",
+  "strengths": [
+   "SLM mã nguồn mở đầu tiên cho tiếng Basque",
+   "Kiến trúc modular tiết kiệm chi phí huấn luyện",
+   "Pipeline tạo dữ liệu synthetic hiệu quả quy mô lớn",
+   "Độ trễ phản hồi streaming rất thấp (370 ms)",
+   "Độ thông hiểu nội dung và WER cạnh tranh"
+  ],
+  "weaknesses": [
+   "Chưa đánh giá trên giọng nói thực tế",
+   "Tiềm ẩn thiên vị khi dùng LLM cùng họ làm Judge",
+   "Chất lượng âm thanh tổng hợp (UTMOS) còn thấp"
+  ],
+  "context": "Nhóm tác giả thuộc HiTZ Basque Center for Language Technology và Aholab Signal Processing Laboratory, Đại học UPV/EHU (Tây Ban Nha); công bố dưới dạng preprint trên arXiv (tháng 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

@@ -1,0 +1,52 @@
+{
+ "id": "arxiv:2610.39427",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Kết hợp sáng tạo giữa bộ phát hiện emphasis có sẵn, Diffusion-DPO và cơ chế replay loss để điều khiển prosody post-hoc, dù từng thành phần kỹ thuật đã xuất hiện trước đó.",
+  "credibility": "Đến từ nhóm nghiên cứu uy tín tại Adobe Research và Brown University, phương pháp mô tả chặt chẽ kèm audio demo công khai.",
+  "technical": "Thiết kế hàm chấm điểm cặp DPO chi tiết (tính chọn lọc và mức tăng tối thiểu) cùng phân tích sâu sắc về sự bất ổn định khi thiếu replay loss.",
+  "impact": "Cung cấp recipe tinh gọn và thực tế để kiểm soát trọng âm trong zero-shot TTS, tuy nhiên việc không mở checkpoint/code có thể hạn chế mức độ ứng dụng ngay lập tức của cộng đồng.",
+  "evidence": "Đánh giá toàn diện trên 6 ngôn ngữ bằng cả metric khách quan lẫn subjective listening test có đối chứng paired t-test và ablation study rõ ràng."
+ },
+ "summary": {
+  "tldr": "EmpDPO giới thiệu quy trình 2 giai đoạn (SFT kết hợp Diffusion-DPO) nhằm bổ sung khả năng điều khiển nhấn âm (emphasis control) cấp từ post-hoc cho mô hình zero-shot latent diffusion TTS đa ngôn ngữ. Phương pháp sử dụng bộ phát hiện emphasis đa ngôn ngữ có sẵn để gán nhãn pseudo-label cho SFT và tự động tạo cặp dữ liệu preference cho DPO mà không cần bất kỳ dữ liệu gán nhãn thủ công nào. Kết quả thực nghiệm trên 6 ngôn ngữ cho thấy DPO giúp tăng cường độ nhấn âm rõ rệt chỉ với khoảng 5.000 cặp preference và 10k bước huấn luyện trong khi vẫn giữ nguyên độ tự nhiên và chất lượng âm thanh.",
+  "problem": "Kiểm soát trọng âm/nhấn âm (emphasis control) ở cấp từ là yếu tố thiết yếu để thể hiện tiêu điểm đối lập (contrastive focus) mà văn bản thuần không thể truyền tải. Các phương pháp gán nhãn giám sát truyền thống đòi hỏi chi phí gán nhãn thủ công rất đắt, trong khi điều khiển gián tiếp qua các thuộc tính prosody rời rạc (pitch, energy, duration) bị phụ thuộc ngôn ngữ và kém tự nhiên. Bên cạnh đó, việc điều khiển emphasis sau tiền huấn luyện bằng RL trực tuyến (như GRPO) thường phức tạp và cần thiết kế hàm thưởng (reward function) chuyên biệt.",
+  "method": "EmpDPO gồm 2 giai đoạn post-hoc trên nền mô hình latent diffusion TTS đa ngôn ngữ (huấn luyện bằng flow matching trên latent của DAC, text mã hóa bằng T5 frozen, phoneme IPA):\n1. **Giai đoạn SFT**: Dùng bộ emphasis detector đa ngôn ngữ có sẵn [18] chấm điểm các từ trong speech corpus; từ có điểm > 0.35 được gắn thẻ `<emp>` trên cả luồng text và IPA phoneme. Mô hình TTS được fine-tune trên tập dữ liệu trộn giữa mẫu có gắn nhãn và không gắn nhãn.\n2. **Tạo cặp DPO**: Với mỗi text và prompt âm thanh, mô hình SFT sinh $K=5$ mẫu có thẻ `<emp>` và $N=3$ mẫu baseline không thẻ. Detector chấm điểm toàn bộ từ. Điểm tổng hợp của ứng viên $k$ là $g_k = \\lambda_{\\min}\\delta^{\\min}_k + \\lambda_{\\text{avg}}\\bar{\\delta}_k + \\lambda_{\\text{sel}}\\rho_k$ (với trọng số 0.6, 0.4, 0.3), trong đó $\\delta_k$ đo mức tăng điểm của từ mục tiêu so với baseline, còn $\\rho_k$ (tính chọn lọc) đo tỷ lệ từ không được gán thẻ có điểm thấp hơn từ mục tiêu. Cặp có $g_k$ cao nhất và thấp nhất được chọn làm chosen ($z_w$) và rejected ($z_l$), sau khi qua các bộ lọc cứng (CER $\\le 0.20$, NISQA $\\ge 2.0$, SIM $\\ge 0.15$, clipping $\\le 0.001$, $\\delta^{\\min}_k \\ge 0.20$ hoặc $\\ge 0.15$ cho ja/zh).\n3. **Diffusion-DPO với Corpus Replay**: Huấn luyện với hàm mất mát $\\mathcal{L} = \\mathcal{L}_{\\text{replay}} + \\lambda \\mathcal{L}_{\\text{diff}}$ (với $\\lambda = 0.1$, $\\beta = 0.1$). Thành phần $\\mathcal{L}_{\\text{replay}}$ là hàm mất mát denoising gốc trên dữ liệu thật (corpus replay) giúp tránh trôi phân phối và ngăn lỗi denoising bùng nổ.",
+  "setup": "Mô hình base được pre-train 700k bước trên 300k giờ dữ liệu nội bộ (21 ngôn ngữ). SFT dùng 258k mẫu (~711 giờ, 45% chứa `<emp>`). DPO dùng 5.171 cặp preference trên 6 ngôn ngữ (en: 957, de: 878, es: 1.314, fr: 796, ja: 662, zh: 564) huấn luyện 10k bước trên 8 GPU (batch 32 cặp + 64 mẫu replay/bước, AdamW lr $2\\times 10^{-5}$). Đánh giá trên 6 ngôn ngữ (de, en, es, fr, ja, zh), 210 câu không trùng lặp $\\times$ 8 giọng mẫu (1.680 lượt). So sánh với Fish-S2 (Fish Audio S2 Pro), WordVoice (en/zh), Qwen3-TTS (CustomVoice). Đo đạc khách quan: $\\bar{\\delta}$ (gain nhấn âm), CER, SIM (ECAPA-TDNN trên WavLM-Large), UTMOS, NISQA. Đánh giá chủ quan qua Prolific với 3 câu hỏi: Q1 (độ mạnh nhấn âm, 1-5), Q2 (độ tự nhiên, 1-5), Q3 (tỷ lệ nhấn nhầm từ khác).",
+  "results": [
+   "Khách quan về độ tăng nhấn âm ($\\bar{\\delta}$): Ours-DPO đạt 0.136 ± 0.005, vượt trội so với Ours-SFT (0.069 ± 0.003), Fish-S2 (0.129 ± 0.005), WordVoice (0.074 ± 0.008) và Qwen3-TTS (0.017 ± 0.003).",
+   "Chất lượng và độ trung thực giọng nói: Ours-DPO giữ nguyên CER (plain 0.008 / emph 0.008) và SIM (plain 0.49 / emph 0.49), UTMOS (plain 3.60 / emph 3.55), NISQA (plain 4.36 / emph 4.34), không bị suy giảm chất lượng âm thanh so với Ours-Base (CER 0.008, SIM 0.49, UTMOS 3.61, NISQA 4.34).",
+   "Đánh giá chủ quan của người nghe (Q1 - độ mạnh nhấn âm): Ours-DPO đạt 3.56 ± 0.07, cao hơn đáng kể so với Ours-Base (2.73 ± 0.08), Ours-SFT (3.15 ± 0.08) và Fish-S2 (3.25 ± 0.08); ngang ngửa WordVoice trên en/zh (3.37 ± 0.12).",
+   "Đánh giá chủ quan (Q2 - độ tự nhiên): Ours-DPO đạt 3.47 ± 0.08, giữ nguyên mức tương đương Ours-Base (3.45 ± 0.08) và Ours-SFT (3.52 ± 0.08), trong khi Fish-S2 tụt sâu (2.90 ± 0.11) và WordVoice thấp hơn (3.13 ± 0.15).",
+   "Tỷ lệ nhấn nhầm (Q3): Ours-DPO đạt 32%, giảm so với Ours-Base (42%) và Ours-SFT (34%), tiệm cận Fish-S2 (29%).",
+   "Ablation về Replay: DPO không có replay bị nổ lỗi denoising sau khoảng 2k bước; DPO với chosen replay khiến âm lượng tăng vọt 5.7 dB (LUFS -14.0 so với -19.7) và NISQA tụt xuống 3.74; trong khi DPO với corpus replay giữ LUFS ở mức -19.6 và NISQA ở 4.34."
+  ],
+  "limitations": "Mô hình base và dữ liệu pre-train (300k giờ) là nội bộ không mở; quy trình tạo cặp DPO phụ thuộc hoàn toàn vào độ chính xác của bộ emphasis detector ngoài; tỷ lệ mis-emphasis (nhấn nhầm sang từ khác) vẫn ở mức 32% (hơi cao hơn Fish-S2 với 29%); chưa hỗ trợ đa trọng âm phức tạp trong câu dài ngoài trường hợp câu đơn có 1 từ nhấn.",
+  "takeaways": "Diffusion-DPO kết hợp với replay loss từ dữ liệu gốc (corpus replay) là giải pháp post-training rất hiệu quả để dạy mô hình diffusion TTS kiểm soát các thuộc tính chi tiết (fine-grained control) như emphasis mà không cần gán nhãn thủ công hay huấn luyện RL online phức tạp.",
+  "strengths": [
+   "Không cần gán nhãn nhấn âm thủ công",
+   "Hiệu quả cao chỉ với ~5k cặp preference",
+   "Giữ nguyên độ tự nhiên và chất lượng giọng",
+   "Hoạt động ổn định trên 6 ngôn ngữ",
+   "Cơ chế corpus replay ổn định diffusion DPO"
+  ],
+  "weaknesses": [
+   "Dựa trên mô hình nền và data nội bộ",
+   "Tỷ lệ nhấn nhầm từ (Q3) còn 32%",
+   "Phụ thuộc chất lượng detector có sẵn",
+   "Chưa mở mã nguồn và checkpoint"
+  ],
+  "context": "Nghiên cứu từ Haonan Chen, Yunyun Wang, Zeyu Jin (Adobe Research) kết hợp với Megan Wei (Brown University); bài báo được nộp lên IEEE (bản preprint trên arXiv, 10/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

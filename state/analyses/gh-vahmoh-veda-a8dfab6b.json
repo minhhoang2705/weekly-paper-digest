@@ -1,0 +1,46 @@
+{
+ "id": "gh:vahmoh/veda",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Thiết kế một hệ điều hành microkernel bằng Rust tích hợp sâu voice agent và typed action system ở cấp độ hệ thống là ý tưởng rất mới lạ.",
+  "credibility": "Dự án mã nguồn mở cá nhân của Vahid Mohammadi trên GitHub (99 stars, 15 forks), có mã nguồn đầy đủ nhưng chưa qua xuất bản học thuật.",
+  "technical": "Kỹ thuật hệ thống phức tạp và đồ sộ, kết hợp Rust microkernel, driver VM trên hypervisor cô lập bằng IOMMU, lớp POSIX và UI framework riêng cho agent.",
+  "impact": "Hiện tại là dự án thử nghiệm với 99 stars trên GitHub, chưa có hệ sinh thái ứng dụng hoặc triển khai diện rộng trong môi trường sản xuất.",
+  "evidence": "Kho mã nguồn mở hoàn chỉnh và có video demo, nhưng không có bảng đánh giá định lượng về hiệu năng giọng nói, độ trễ hay tỉ lệ chính xác tác vụ."
+ },
+ "summary": {
+  "tldr": "Veda là một hệ điều hành agentic-native được viết hoàn toàn bằng Rust trên kiến trúc x86-64, tích hợp sẵn voice agent từ cấp hệ thống. Thay vì sử dụng kỹ thuật screen scraping, hệ thống cho phép các ứng dụng desktop khai báo trực tiếp hơn 100 typed actions kèm cơ chế kiểm soát rủi ro và xác thực an toàn từ người dùng.",
+  "problem": "Các voice agent và trợ lý AI trên desktop hiện nay thường hoạt động như lớp ứng dụng rời rạc trên cùng, dựa vào screen scraping hoặc mô phỏng thao tác thiếu tin cậy, không có giao diện API chuẩn hóa với ứng dụng, thiếu cơ chế phân quyền an toàn đối với các tác vụ phá hủy hoặc nhạy cảm.",
+  "method": "Veda tích hợp voice agent ngay từ tầng hệ thống thông qua kiến trúc microkernel và UI toolkit bằng Rust:\n- **Kiến trúc OS**: Sử dụng capability-based microkernel viết bằng Rust (hỗ trợ SMP, tickless timers, IPC, dynamic linking). Các driver phần cứng ngoại vi chạy bên trong một Linux VM được cô lập qua hypervisor riêng của Veda và IOMMU; dịch vụ hệ thống chạy ở user space và tự khởi động lại khi gặp sự cố.\n- **Agent Framework (`ui::agent`)**: Các ứng dụng tích hợp trực tiếp với agent thông qua trait `ui::App`, định nghĩa siêu dữ liệu hành động (`agent_info`), trạng thái ứng dụng dưới dạng JSON (`agent_state`), và hàm thực thi (`agent_invoke`).\n- **Typed Actions**: Thay thế screen scraping bằng hơn 100 hành động định kiểu cụ thể do các ứng dụng built-in (Photos, Music, Files, Editor...) khai báo, chia sẻ chung luồng xử lý mã lệnh như bàn phím/chuột.\n- **Kiểm soát rủi ro & Consent**: Phân loại rủi ro tác vụ (ví dụ `Risk::Destructive`). Hệ thống sẽ tạm dừng các tác vụ nhạy cảm để yêu cầu người dùng xác nhận thông qua desktop shell trước khi thực thi.\n- **Tích hợp Voice/LLM**: Đánh thức bằng wake word (\"Hey Veda\"), phím tắt (Super+Space) hoặc biểu tượng trên taskbar; cấu hình khóa API Deepgram, giọng nói, tốc độ nói (speaking rate) và mô hình ngôn ngữ trong Settings.",
+  "setup": "Yêu cầu hệ thống và môi trường chạy:\n- Chạy trên PC kiến trúc x86-64 (hỗ trợ UEFI, VT-x, VT-d, Secure Boot tắt) hoặc chạy giả lập trên QEMU với KVM (hỗ trợ nested virtualization `kvm_intel nested=1`).\n- Môi trường build: Host Linux x86-64 (Debian/Ubuntu) với Rust toolchain, QEMU, GCC, musl, CMake, Meson, Ninja, NASM.\n- Tích hợp Voice API: Khóa API Deepgram cho dịch vụ giọng nói; bộ kiểm thử tích hợp dùng bản mock Deepgram ngoại tuyến để chạy test determinism.",
+  "results": [
+   "Hơn 100 typed actions được khai báo sẵn trên các ứng dụng mặc định của hệ thống.",
+   "Hệ điều hành tích hợp đầy đủ desktop shell, Web browser nền WebKit, OpenGL ES 3.0, WPA3 Wi-Fi và GCC 16 trên lớp POSIX bằng Rust."
+  ],
+  "limitations": "Xử lý giọng nói và LLM phụ thuộc vào dịch vụ đám mây bên thứ ba (Deepgram API key) thay vì các mô hình on-device local; tài liệu chưa cung cấp các số liệu định lượng về độ trễ âm thanh (audio latency), tỉ lệ nhận dạng từ (WER) hay tài nguyên tiêu thụ.",
+  "takeaways": "Veda chứng minh tính khả thi của mô hình Agentic-Native OS: xây dựng các typed action protocol trực tiếp vào GUI toolkit kết hợp cùng cơ chế ủy quyền/phân quyền (consent) của microkernel là hướng tiếp cận an toàn và ổn định hơn nhiều so với việc để agent tự động đọc màn hình (screen scraping).",
+  "strengths": [
+   "Microkernel và desktop stack thuần Rust",
+   "Typed actions thay thế screen scraping",
+   "Cơ chế consent an toàn cấp OS",
+   "Bộ test deterministic giả lập Deepgram"
+  ],
+  "weaknesses": [
+   "Phụ thuộc API đám mây Deepgram",
+   "Chưa có benchmark định lượng độ trễ",
+   "Hỗ trợ phần cứng thực tế còn hạn chế"
+  ],
+  "context": "Dự án mã nguồn mở do Vahid Mohammadi (vahmoh) phát triển và phát hành theo giấy phép GPL-3.0 trên GitHub."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

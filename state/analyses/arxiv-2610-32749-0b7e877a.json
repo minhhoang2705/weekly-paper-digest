@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2610.32749",
+ "topic": "Speech Understanding",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đề xuất benchmark RealSSA giải quyết bài toán thiếu hụt bối cảnh thực tế đa người nói và đưa ra encoder-space speaker contrastive loss cho AVTSE.",
+  "credibility": "Nhóm nghiên cứu có nhiều công trình uy tín về speech separation (CTCNet, SwiftNet), cung cấp chi tiết toàn diện về quy trình thu âm, toán học và mở mã nguồn kèm checkpoint.",
+  "technical": "Kiến trúc U-Net causal single-pass đa thang độ và việc chứng minh contrastive loss hoạt động hiệu quả qua việc annealing nhiệt độ được thiết kế rất chặt chẽ.",
+  "impact": "Khả năng giảm 91.9% tham số và tăng tốc hơn 11 lần là bước tiến lớn cho việc đưa AVTSE lên các thiết bị đeo trợ thính và edge video conferencing.",
+  "evidence": "Kiểm thử rộng lượng trên 5 bộ dữ liệu, so sánh với 9 baseline causal, đầy đủ phân tích ablation study, latency, memory, spectrogram và đánh giá thực nghiệm trên môi trường thật."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu giới thiệu RealSSA, một bộ benchmark tách giọng nói kết hợp thị giác (AVTSE) streaming phản ánh âm học thực tế (1–5 người gây nhiễu trường gần, 10–15 người trường xa, dội âm và tiếng ồn đột ngột) kèm tập kiểm thử thu âm thực tế RealSSA-Real. Đồng thời, nhóm tác giả đề xuất Falcon, một kiến trúc AVTSE causal single-pass đa thang độ và hàm mất mát encoder-space speaker contrastive loss giúp giảm 91.9% tham số và tăng tốc suy luận GPU 11.1 lần so với AV-TFGridNet.",
+  "problem": "Các benchmark AVTSE causal hiện tại chủ yếu cố định số lượng 2 người nói, không mô phỏng trường gần/trường xa, độ dội âm (RT60) và tạp âm đột biến, đồng thời thiếu tập dữ liệu kiểm thử thu âm thực tế (real-world recordings). Về mặt mô hình, các kiến trúc causal hiệu năng cao (như AV-TFGridNet) quá nặng để chạy trên thiết bị edge, trong khi các mạng lặp nhẹ (như SwiftNet) lại tốn kém tính toán do gọi module nhiều vòng; mặt khác hàm mất mát SI-SNR truyền thống không chủ động đẩy lùi rò rỉ âm thanh từ những người nói trường gần.",
+  "method": "Falcon hoạt động theo quy trình streaming với visual lookahead cố định 120 ms (3 frames ở 25 fps) và audio hop 8 ms (128 samples tại 16 kHz):\\n- **Audio-Visual Front-end**: Visual backbone FRCNN (đóng băng) trích xuất đặc trưng khẩu hình $V$, qua VideoBlock causal LSTM và upsample lên tốc độ audio. Audio STFT (window 512, hop 128) đưa phần thực, ảo và biên độ qua Conv2D và AudioBlock (cấu trúc tương tự separator) để tạo đặc trưng $A_{ref}$. Fused feature $F = A_{ref} + V_{up}$ được đưa vào bộ phân tách.\\n- **Single-Pass Multi-Scale Separator**: Cấu trúc U-Net bất đối xứng với 3 tầng downsampling (stride-2 depthwise conv, streaming-causal layer norm). Time-Frequency Refinement Block (TFRB) gồm chuỗi Bidirectional LSTM theo trục tần số, Unidirectional LSTM theo trục thời gian và 2D block-causal self-attention. Bottleneck và 3 tầng decoder khôi phục độ phân giải từ thô đến mịn kết hợp mô-đun Global Context Injection (GCI) có gating, thực hiện đa thang độ chỉ qua 1 lượt forward duy nhất.\\n- **Complex-Valued Masking**: Dự đoán mask phức $M$ để nhân phức với phổ đầu vào, tái tạo waveform qua iSTFT.\\n- **Encoder-Space Speaker Contrastive Loss**: Sử dụng audio encoder tính biểu diễn của query $\\hat{S}$ (ước lượng mục tiêu), positive $S$ (target sạch) và các negative $I_k$ (các người nói trường gần). Hàm loss $\\mathcal{L}_{spk}$ kéo gần positive và đẩy xa negative với margin $\\gamma = 0.2$ và trọng số softmax điều chỉnh qua nhiệt độ $\\beta$ (annealing tuyến tính từ 0.0 lên 2.0). Loss này chỉ dùng khi huấn luyện, tốn 0 chi phí suy luận.",
+  "setup": "Đánh giá trên RealSSA-Sim (~48 giờ tạo từ LRS3, LibriSpeech, WHAM!, Hive qua gpuRIR chia 4 loại phòng/ngoại cảnh), RealSSA-Real (41 sessions, ~76 phút từ iPhone 17 Pro với 25 người tham gia tại 8 môi trường thực tế), cùng 3 tập chuẩn: LRS2-2Mix, LRS3-2Mix, VoxCeleb2-2Mix. Huấn luyện bằng AdamW (lr $5\\times 10^{-4}$), batch size 4/GPU trên RTX 3090, tối ưu $\\mathcal{L} = \\mathcal{L}_{SISNR} + 0.1\\mathcal{L}_{spk}$. Đo lường bằng SI-SNRi, SDRi, DNSMOS, NISQA, WER (dùng Mega-ASR) và Target-Speaker Similarity (ResNet34 WeSpeaker). Đo độ trễ suy luận trên 1 luồng CPU Intel Xeon Gold 6226R và GPU RTX 3090 cho đoạn clip 2 giây.",
+  "results": [
+   "Trên RealSSA-Sim, Falcon đạt 7.7 dB SI-SNRi và 8.2 dB SDRi, vượt trội so với AV-TF-GridNet (7.6 dB / 8.1 dB) và Swift-Net-12 (7.3 dB / 7.8 dB); WER đạt 25.47% (thấp nhất trong các mô hình, so với 27.31% của AV-TF-GridNet).",
+   "Trên các tập 2-speaker chuẩn: Đạt 14.1 dB SI-SNRi trên LRS2-2Mix (vượt baseline tốt nhất Swift-Net-12 đạt 13.9 dB); 16.4 dB SI-SNRi trên LRS3-2Mix (vượt AV-Mossformer2 đạt 16.2 dB); và 10.5 dB SI-SNRi trên VoxCeleb2-2Mix (vượt Swift-Net-12 đạt 9.4 dB).",
+   "Trên RealSSA-Real, Falcon đạt DNSMOS 3.276 (đồng hạng nhất với Swift-Net-12, vượt AV-TF-GridNet 3.030), NISQA 3.615 (cao nhất khi huấn luyện bằng RealSSA-Sim), WER 32.74% (đứng thứ hai sau AV-Mossformer2 32.00%) và Target Similarity đạt 42.23 (cao nhất).",
+   "Hiệu năng tính toán: Falcon chỉ có 0.5M tham số và 10.6 G MACs; so với AV-TF-GridNet (6.2M params, 213.8 G MACs), Falcon giảm 91.9% params, giảm tính toán 20.2 lần và giảm latency GPU 11.1 lần (từ 567.8 ms xuống 51.3 ms cho clip 2s); bộ nhớ RAM CPU chỉ 125.3 MB và GPU 364.7 MB."
+  ],
+  "limitations": "Mô hình và hàm mất mát contrastive hiện chỉ xử lý single-channel (chưa khai thác dữ liệu mảng mic 4 kênh được mô phỏng). Tập RealSSA-Real còn hạn chế về quy mô (~76 phút, 25 người). Hàm contrastive loss yêu cầu waveform nguồn sạch của các người nói trường gần nên chưa áp dụng trực tiếp cho dữ liệu thực tế không có nhãn cách ly. Hệ thống vẫn suy giảm mạnh khi mất hoàn toàn thông tin thị giác (-0.16 dB SI-SNRi).",
+  "takeaways": "Falcon chứng minh rằng thiết kế U-Net đơn lượt (single-pass) phân tầng tần số - thời gian hiệu quả hơn nhiều so với việc lặp lại các block nhỏ dạng đệ trình (iterative). Kỹ thuật contrastive loss trong không gian encoder là giải pháp zero-cost khi suy luận rất hiệu quả để chống rò rỉ giọng nói trong các không gian đông đúc.",
+  "strengths": [
+   "Kiến trúc single-pass siêu nhẹ (0.5M params)",
+   "Tốc độ suy luận GPU vượt trội (51.3 ms)",
+   "Benchmark RealSSA toàn diện, sát thực tế",
+   "Speaker contrastive loss chuyển giao tốt đa kiến trúc",
+   "Độ trễ thuật ngữ streaming cố định (120 ms visual)"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ âm thanh single-channel",
+   "Tập test thực tế RealSSA-Real còn nhỏ",
+   "Hiệu năng phụ thuộc nhiều vào visual input"
+  ],
+  "context": "Nhóm tác giả Wendi Sang, Kai Li, Yifan Li, Jianqiang Huang, Xiaolin Hu (Tsinghua University và các đơn vị cộng tác, Trung Quốc); mã nguồn và demo phát hành công khai tại cslikai.cn/Falcon/."
+ },
+ "fulltext_source": "arXiv HTML",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

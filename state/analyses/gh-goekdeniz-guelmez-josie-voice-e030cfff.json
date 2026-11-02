@@ -1,0 +1,46 @@
+{
+ "id": "gh:goekdeniz-guelmez/josie-voice",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 1,
+  "technical": 2,
+  "impact": 1,
+  "evidence": 1
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tích hợp các mô hình open-source (VAD, ASR, TTS, LLM) thành pipeline voice assistant trên Mac không mới, tài liệu chỉ mô tả sự kết hợp các công cụ sẵn có.",
+  "credibility": "Dự án của nhà phát triển độc lập, không có mã nguồn mở trong repo, hình ảnh toàn bộ là mockup và hẹn lịch ra mắt tới tận tháng 12 năm 2026.",
+  "technical": "Tài liệu liệt kê các thành phần công nghệ hiện đại (MLX Swift, Smart Turn v3, Kokoro, Parakeet), nhưng không cung cấp chi tiết kỹ thuật sâu hay mã nguồn để kiểm chứng cách ghép nối hệ thống.",
+  "impact": "Mức độ quan tâm còn khiêm tốn (53 stars, 4 forks) và chưa phát hành phần mềm thực tế nên chưa tạo ra tác động tới cộng đồng hay sản phẩm.",
+  "evidence": "Hoàn toàn không có dữ liệu thực nghiệm, không có số đo WER/latency định lượng và không có bản cài đặt hay mã nguồn để chạy thử nghiệm."
+ },
+ "summary": {
+  "tldr": "JOSIE-Voice là một dự án trợ lý thoại và văn bản chạy on-device trên Mac (Apple Silicon), tích hợp pipeline xử lý giọng nói hoàn chỉnh từ VAD, ASR, nhận diện người nói đến TTS và LLM. Dự án hứa hẹn giữ toàn bộ dữ liệu giọng nói cục bộ và điều khiển các ứng dụng Apple (Reminders, Calendar, Maps, Messages), tuy nhiên hiện chỉ là tài liệu/mockup và dự kiến ra mắt bản DMG đầu tiên vào tháng 12 năm 2026.",
+  "problem": "Nhu cầu về một trợ lý ảo dạng giọng nói tự nhiên, phản hồi theo thời gian thực và có khả năng tương tác sâu với hệ thống trên macOS, nhưng vẫn phải đảm bảo quyền riêng tư tuyệt đối bằng cách xử lý toàn bộ âm thanh và mô hình AI on-device thay vì gửi lên đám mây.",
+  "method": "Hệ thống được thiết kế dạng native app bằng SwiftUI và MLX Swift, phân tách pipeline thành các module:\n- **Listening & Turn-taking:** Sử dụng Silero VAD để phát hiện giọng nói và Smart Turn v3 để xác định thời điểm người dùng kết thúc lượt nói hoặc ngắt lời (barge-in).\n- **Speech Recognition (ASR):** Mặc định dùng Qwen3-ASR, với tùy chọn chuyển đổi sang NVIDIA Parakeet TDT 0.6B v3 hoặc recognizer on-device có sẵn của Apple.\n- **Voice Identification (Speaker ID):** Dùng WeSpeaker được port sang MLX, nhận diện người nói dựa trên ba cụm từ mẫu.\n- **Speech Synthesis (TTS):** Mặc định là Qwen3-TTS hỗ trợ voice cloning và voice design, hoặc tùy chọn Kokoro 82M nhẹ hơn.\n- **Language Model (LLM):** Chạy cục bộ qua Ollama (mặc định `qwen3.5:0.8b`), có thể cấu hình trỏ tới endpoint OpenAI-compatible hoặc Apple Intelligence.\n- **Retrieval & Library:** Sử dụng EmbeddingGemma để tìm kiếm ngữ nghĩa, trực quan hóa embedding dạng 2D (PCA) và 3D (UMAP).\n- **Tích hợp hệ thống:** Tool calling can thiệp vào Apple Reminders, Calendar, Maps và Messages qua cơ chế cấp quyền của macOS.",
+  "setup": "Yêu cầu phần cứng Apple Silicon (M1 trở lên), hệ điều hành macOS 14 Sonoma trở lên. Dung lượng lưu trữ yêu cầu khoảng 5 GB cho các mô hình giọng nói và khoảng 1 GB cho LLM mặc định (các gói tùy chọn gồm voice design 3.1 GB và word timestamps 1.3 GB). Không cần tài khoản; tương thích bổ sung với iPhone thông qua OpenAI GPT-Live hoặc kết nối về Mac qua Tailscale.",
+  "results": [
+   "Không được nêu trong tài liệu (kho lưu trữ không cung cấp kết quả định lượng, benchmark WER, độ trễ chính xác hay điểm đánh giá MOS; toàn bộ hình ảnh và video trình diễn đều là mockup dựng từ mã nguồn)."
+  ],
+  "limitations": "Chưa có bản tải về hoặc mã nguồn công khai (mã nguồn là private, bản DMG công khai đầu tiên bị lùi đến tháng 12 năm 2026); toàn bộ tư liệu hiện tại chỉ là mockup; không chạy được trên chip Intel; phiên bản iPhone không chạy mô hình on-device mà phụ thuộc GPT-Live/máy chủ Mac.",
+  "takeaways": "Dự án phác thảo một kiến trúc tham khảo đầy tham vọng cho voice agent hoàn toàn on-device trên Apple Silicon bằng cách kết hợp hệ sinh thái mô hình nguồn mở (Silero, Qwen, Parakeet, Kokoro, WeSpeaker) qua MLX Swift, nhưng các kỹ sư chưa thể kiểm chứng tính khả thi và hiệu năng thực tế tại thời điểm này.",
+  "strengths": [
+   "Kiến trúc voice agent on-device hoàn chỉnh",
+   "Tận dụng tối đa MLX Swift",
+   "Bảo mật quyền riêng tư cao",
+   "Thiết kế UI/UX mockup chi tiết"
+  ],
+  "weaknesses": [
+   "Chưa có bản phát hành thực tế",
+   "Mã nguồn đóng (private repo)",
+   "Thiếu hoàn toàn số liệu benchmark",
+   "Lịch phát hành xa (tháng 12/2026)"
+  ],
+  "context": "Dự án cá nhân của tác giả Gökdeniz Gülmez thuộc hệ sinh thái mô hình JOSIE, được công bố dưới dạng tài liệu trang web trên GitHub Pages."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}

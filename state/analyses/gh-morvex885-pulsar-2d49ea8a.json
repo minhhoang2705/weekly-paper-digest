@@ -1,0 +1,50 @@
+{
+ "id": "gh:morvex885/pulsar",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Cách tiếp cận biến loa Yandex thành ESPHome native satellite và nạp lại firmware cho chip Telink Zigbee tích hợp là giải pháp kỹ thuật rất sáng tạo và hiếm thấy trên dòng thiết bị này.",
+  "credibility": "Kho mã nguồn mở chi tiết trên GitHub với sự đóng góp từ cộng đồng (PR, issues), tuy nhiên dự án cá nhân chưa qua bình duyệt học thuật và chưa test thực tế trình cài đặt trên macOS/Windows.",
+  "technical": "Kỹ thuật can thiệp hệ thống sâu: hook thư viện âm thanh độc quyền runtime, quản lý ALSA/GStreamer, ESPHome protocol, Noise encryption và nạp firmware Telink Zigbee SDK.",
+  "impact": "Rất hữu ích cho cộng đồng tự lưu trữ (self-hosted) và người dùng Home Assistant sở hữu loa Yandex (82 stars, 22 forks), nhưng giới hạn trong thị trường phần cứng Yandex nói tiếng Nga.",
+  "evidence": "Mã nguồn và tài liệu kiến trúc đầy đủ; thông số vận hành (timeout, rollback, bước âm lượng dB) được ghi rõ, tuy nhiên tài liệu không có các đo đạc benchmark định lượng về WER hay độ trễ nhận diện."
+ },
+ "summary": {
+  "tldr": "pulsar là một daemon C++ native chạy trực tiếp trên các dòng loa thông minh Yandex Station (Midi, Lite 2, Mini 2, Mini 3, Mini v1), biến chúng thành vệ tinh thoại cục bộ (Assist satellite) cho Home Assistant và trình phát Sendspin cho Music Assistant mà không phụ thuộc vào hạ tầng cloud của Yandex. Dự án tận dụng trực tiếp mô hình wake word, VQE khử tiếng vang/chống ồn và mô hình khẩu lệnh offline từ firmware gốc mà không phân phối lại bất kỳ thư viện độc quyền nào.",
+  "problem": "Các dòng loa thông minh Yandex Station thường bị khóa chặt vào hệ sinh thái điện toán đám mây của Yandex. Người dùng muốn tích hợp các thiết bị này vào hệ thống nhà thông minh mã nguồn mở cục bộ (Home Assistant) thường thiếu một giải pháp khai thác tối đa phần cứng (micro array, VQE, LED, hiển thị đồng hồ LED, Zigbee) để biến chúng thành Voice Assistant Satellite hoàn toàn riêng tư.",
+  "method": "pulsar thay thế tiến trình `maind` mặc định của Yandex bằng một daemon C++ nhẹ:\n- **Giao thức & Tích hợp**: Giao tiếp trực tiếp với Home Assistant thông qua giao thức ESPHome Native API (hỗ trợ mã hóa Noise API), xuất hiện dưới dạng một ESPHome Assist satellite và Media Player; hỗ trợ tối đa 4 client kết nối đồng thời. Đồng thời hoạt động như một trình phát Sendspin native cho Music Assistant hỗ trợ FLAC lossless.\n- **Khai thác phần cứng gốc**: Daemon tải động các thư viện độc quyền từ chính filesystem trên thiết bị tại runtime (không vi phạm bản quyền). Sử dụng pipeline VQE (Voice Quality Enhancement) và wake word spotting bản địa («Алиса» / «Яндекс») với mảng micro (Midi: 4, Lite 2: 2, Mini 2: 4, Mini 3: 3, Mini: 4) kết hợp acoustic echo cancellation (AEC) loại trừ âm thanh từ loa.\n- **Xử lý lệnh ngoại tuyến & Trọng tài**: Nhận diện lệnh giọng nói cục bộ (không qua HA hay wake word) như «стоп», «громче», «тише»... Hỗ trợ tính năng trọng tài gần nhất: các loa pulsar trong cùng mạng chia sẻ cường độ âm thanh nhận diện wake word qua multicast/broadcast và loa nghe rõ nhất sẽ phản hồi.\n- **Zigbee subsystem (Midi)**: Nạp firmware tự biên dịch dựa trên Telink Zigbee SDK vào mô-đun Zigbee tích hợp, biến nó thành Zigbee Coordinator giao tiếp qua TCP (giao thức deCONZ cổng 6638) cho Zigbee2MQTT/ZHA hoặc thành Zigbee Router.\n- **Kiến trúc giám sát & Cập nhật**: Quản lý bằng init script (`/etc/init.d/S99zpulsar`), có cơ chế rollback tự động (nếu crash 5 lần liên tiếp trong 5 phút sẽ khôi phục file binary `.prev`, hoặc trả quyền lại cho `maind` của Yandex) và hỗ trợ tự cập nhật OTA kiểm tra mã SHA256SUMS.",
+  "setup": "Yêu cầu thiết bị:\n- Yandex Station Midi (`cucumber`), Lite 2 (`plum`), Mini 2 (`station-mini2`), Mini 3 (`bergamot`), Mini v1 (`yandexmini`) đã có root access qua ADB (`adb shell` root qua mạng/USB).\n- Firmware đã kiểm tra: Midi (`0.351.1.6.4197281754.20260528.142`), Lite 2 (`0.369.1.46.4778258659.20261013.133`), Mini 2 (`0.369.1.46.4778262943.20261013.299`), Mini 3 (`0.369.1.50.4794652521.20261021.117`), Mini (`1.369.4.24.4711907614.20260928`).\n- Môi trường máy tính cài đặt: Trình cài đặt viết bằng Go hỗ trợ Windows, macOS, Linux (x86_64 và ARM64).\n- Phần mềm phối hợp: Home Assistant 2025.x trở lên với tích hợp ESPHome và Assist pipeline (hỗ trợ STT/TTS tiếng Nga), Music Assistant hỗ trợ Sendspin.",
+  "results": [
+   "Hỗ trợ số lượng kết nối đồng thời: Tối đa 4 client (ví dụ: Home Assistant và ESPHome Dashboard song song).",
+   "Khả năng phục hồi truyền phát âm thanh: Tự động thử kết nối lại tối đa 3 lần từ vị trí gián đoạn nếu mạng bị đứt.",
+   "Cơ chế tự động rollback: Tự động hoàn tác về bản nhị phân `.prev` sau 5 lần crash liên tiếp mà không duy trì được 5 phút hoạt động.",
+   "Bộ đệm lệnh tức thì sau wake word («Command right after wake word»): Giữ lại âm thanh ngay sau từ khóa kích hoạt để không làm mất âm tiết đầu của câu lệnh (áp dụng trên Midi, Lite 2, Mini 2, Mini 3).",
+   "Thời gian chờ pipeline giọng nói: Tự động hủy phiên và hiển thị lỗi trên LED nếu Home Assistant không có sự kiện sau 30 giây lắng nghe hoặc 120 giây xử lý.",
+   "Thông số điều chỉnh âm lượng: Bước nhảy âm lượng ALSA chuẩn hóa ở mức 5% (~2.5 dB), tương đương một nấc âm lượng gốc của Alice."
+  ],
+  "limitations": "Yêu cầu thiết bị đã được root sẵn qua ADB (dự án không cung cấp công cụ bẻ khóa/root). Giọng đọc phản hồi phụ thuộc hoàn toàn vào TTS của Home Assistant, không có giọng Alice gốc. Chưa có cơ chế chặn bản cập nhật OTA từ Yandex (OTA có thể ghi đè phân vùng root). Cổng Zigbee 6638 không có xác thực; không hỗ trợ Zigbee install code và Green Power. Trình cài đặt trên Windows/macOS chưa được tác giả kiểm nghiệm thực tế trên máy vật lý.",
+  "takeaways": "Cung cấp một mẫu kiến trúc xuất sắc cho embedded speech engineering: tái sử dụng mô hình ML on-device và thư viện xử lý DSP độc quyền bằng cách liên kết động tại chỗ, kết hợp hoàn hảo với hệ sinh thái nguồn mở (ESPHome/Home Assistant/Music Assistant) mà không vi phạm bản quyền phân phối.",
+  "strengths": [
+   "Tái sử dụng VQE và wake word gốc",
+   "Tích hợp ESPHome Native API và Sendspin",
+   "Hỗ trợ Zigbee Coordinator/Router trên Midi",
+   "Cơ chế watchdog và tự rollback an toàn"
+  ],
+  "weaknesses": [
+   "Bắt buộc phải có quyền root ADB",
+   "Không chặn được cập nhật OTA Yandex",
+   "Cổng Zigbee mở không có xác thực"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi Morvex885 phát hành trên GitHub dưới giấy phép GNU AGPL-3.0 (phần firmware Zigbee theo Apache 2.0)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W45"
+}
