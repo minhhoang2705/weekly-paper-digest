@@ -1,0 +1,50 @@
+{
+ "id": "gh:viajatech/agente-isabella",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Cách tiếp cận kết hợp Gemini Live trực tiếp với audio injection qua Magisk/tinyplay trên SIM vật lý thay vì dùng dịch vụ VoIP truyền thống là rất mới mẻ và độc đáo.",
+  "credibility": "Dự án cá nhân độc lập từ viajatech đi kèm mã nguồn và tài liệu chi tiết, nhưng không phải bài báo khoa học hay sản phẩm từ phòng lab lớn.",
+  "technical": "Mức độ can thiệp kỹ thuật sâu: xử lý mixer ALSA/Qualcomm, bypass vbmeta, build pipeline không dùng Gradle và kiến trúc phân phối ephemeral token an toàn.",
+  "impact": "Rào cản root máy và phụ thuộc phần cứng làm hạn chế khả năng nhân rộng trong các sản phẩm thực tế, hiện chủ yếu phục vụ cộng đồng DIY/maker (137 stars).",
+  "evidence": "Dự án có mã nguồn và video minh họa nhưng hoàn toàn thiếu các đo đạc định lượng chuẩn mực về latency, WER hoặc MOS."
+ },
+ "summary": {
+  "tldr": "Agente Isabella là dự án mã nguồn mở biến điện thoại Android (đã root qua Magisk) thành một voice agent tự động thực hiện cuộc gọi viễn thông thực qua thẻ SIM cá nhân bằng Google Gemini Live. Hệ thống bơm trực tiếp tín hiệu âm thanh kỹ thuật số vào mixer của modem VoLTE (thay vì dùng loa ngoài), không phụ thuộc vào các dịch vụ VoIP của bên thứ ba như Twilio.",
+  "problem": "Việc triển khai các AI voice agent gọi điện thoại thông thường đòi hỏi hạ tầng VoIP thương mại tốn phí (như Twilio), thuê số điện thoại ảo và dễ bị nhận diện/chặn cuộc gọi. Ngoài ra, việc dùng thiết bị vật lý phát âm thanh qua loa ngoài thu lại bằng micro gây trễ, vọng âm (echo) và chất lượng kém, trong khi hệ điều hành Android mặc định chặn các ứng dụng thông thường can thiệp trực tiếp vào luồng âm thanh cuộc gọi.",
+  "method": "Kiến trúc hệ thống bao gồm ba thành phần chính:\n- **Bảo mật & Quản lý Token:** Một Cloudflare Worker lưu trữ `GEMINI_API_KEY_AQ`. Ứng dụng Android gửi secret của thiết bị để nhận token Gemini Live tạm thời (single-use ephemeral token) với cấu hình persona/giọng nói (Zephyr) đã được cố định từ trước. Worker áp đặt rate limit (3 token/phút, 30 token/ngày).\n- **Xử lý âm thanh & Đàm thoại:** Ứng dụng kết nối WebSocket trực tiếp tới Gemini Live, trao đổi luồng âm thanh PCM 16/24 kHz hai chiều. Ứng dụng tích hợp các bộ lọc âm thanh: chỉnh âm lượng TTS, pre-emphasis, low-cut filter (filtro de graves) và soft-clipping.\n- **Can thiệp phần cứng (Root Audio Injection):** Sử dụng quyền root qua Magisk và các tiện ích như `tinyplay`/`tinycap` để định tuyến luồng âm thanh số trực tiếp vào Qualcomm audio mixers của phần cứng (đã thử nghiệm trên Samsung Galaxy A72 VoLTE).\n- **Quy trình Build & Safeguards:** Dự án được biên dịch hoàn toàn không dùng Gradle (`aapt2` -> `javac` -> `d8` -> `apksigner`). Tích hợp 8 cơ chế an toàn ('fusibles'): câu chào bắt buộc tự giới thiệu là AI, đếm ngược xác nhận 3 giây trước khi quay số, trần thời lượng mỗi cuộc gọi, tự ngắt khi im lặng và không tự động kết nối lại.",
+  "setup": "Yêu cầu phần cứng và phần mềm:\n- Điện thoại Android 14 trở lên đã unlock bootloader và root bằng Magisk (đã kiểm thử cụ thể trên Samsung Galaxy A72 chip Qualcomm Snapdragon).\n- Máy tính macOS (Apple Silicon hoặc Intel) kèm Homebrew và cáp USB truyền dữ liệu để chạy script biên dịch/cài đặt.\n- Tài khoản Google AI Studio (Gemini Live API) và tài khoản Cloudflare (Workers).\n- Thẻ SIM và một số điện thoại thứ hai để nhận cuộc gọi thử nghiệm.",
+  "results": [
+   "Tỷ lệ giới hạn hạn mức trên Cloudflare Worker: 3 token/phút và tối đa 30 token/ngày.",
+   "Độ trễ xác nhận an toàn trước khi kích hoạt cuộc gọi: 3 giây.",
+   "Kích thước tệp vbmeta tùy biến để bypass bootloop khi root: 4 KB.",
+   "Độ phân giải âm thanh đàm thoại WebSocket: PCM 16/24 kHz.",
+   "Không có số liệu định lượng về độ trễ end-to-end (latency), MOS hoặc WER được công bố trong tài liệu."
+  ],
+  "limitations": "Đòi hỏi can thiệp sâu vào hệ thống (unlock bootloader, root Magisk, can thiệp ALSA/tinyplay mixer), có rủi ro làm treo thiết bị (bootloop) hoặc mất dữ liệu; cấu hình audio mixer gắn chặt với phần cứng Snapdragon/Samsung Galaxy A72 và cần chỉnh sửa thủ công cho dòng máy khác; giấy phép phi thương mại (Non-commercial license).",
+  "takeaways": "Cung cấp một giải pháp kỹ thuật thực tế cho kỹ sư muốn bypass rào cản VoIP của Twilio để làm voice agent qua SIM cá nhân bằng cách can thiệp audio mixer cấp thấp trên Android; đồng thời minh họa mô hình bảo vệ API key thông qua Cloudflare Worker để cấp ephemeral token cho client.",
+  "strengths": [
+   "Bơm âm thanh số sạch, triệt tiêu echo",
+   "Không phụ thuộc Twilio hay tổng đài ảo",
+   "Bảo mật tốt bằng Cloudflare Worker ephemeral token",
+   "Tích hợp sẵn nhiều cơ chế an toàn"
+  ],
+  "weaknesses": [
+   "Đòi hỏi root máy và can thiệp kernel",
+   "Phụ thuộc mixer phần cứng cụ thể (A72)",
+   "Thiếu đánh giá độ trễ và WER định lượng",
+   "Giấy phép giới hạn phi thương mại"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi David Ruiz Duarte (viajatech), phát hành công khai trên GitHub."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

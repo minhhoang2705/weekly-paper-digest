@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Decode Before You Hear: Speculative Listening for Chunk-Interleaved Full-Duplex Speech Language Models · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W46</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">Decode Before You Hear: Speculative Listening for Chunk-Interleaved Full-Duplex Speech Language Models</h1>
+    <div class="meta">
+      <span title="Listed by arXiv, HF Daily Papers, Papers with Code inside the crawl window">found Nov 6, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Nov 4, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span><span class="pill">Papers with Code</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Yutong Bian, Yanglin Zhang, Yuxiang Wang, Luoyuan Zhang, Rongshen He, Zihao Wang, Junwen Qiu, Jiaqi Li, Zhizheng Wu</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2611.06982" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Chunk-interleaved full-duplex speech language models listen and speak in fixed time chunks, and each chunk must be processed before the next one arrives. Their workload is asymmetric across chunks: listen chunks leave compute idle while awaiting audio, and speak and tool-call chunks require serial generation, which delays responses and tool calls. Using the idle compute for the next chunk requires decoding it before its audio arrives, under an assumed input. Taking silence as the assumed input and comparing the output with the output under real audio on four models, we observe two properties. First, the next audio chunk does not change the output in 95.3% of chunks. Second, 88% of changes begin at the first output token. Building on these properties, we propose Speculative Listening, a training-free, lossless framework for input-time self-speculative decoding. During idle time, the model drafts the next chunk under silence and, for changes at the first token, a second branch from the runner-up first token. It keeps all drafts in a cross-chunk hypothesis pool and verifies them when the audio arrives. On our eight-task benchmark TickTock-Bench, Speculative Listening speeds up speak chunks by 2.6-2.8x and tool-call chunks by up to 23.4x. On average, it reduces the decoding delay before a response starts by 73%, to 74-241 ms, close to the 200 ms gap between human turns, and the maximum lag behind real time by 94.4%.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 9, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Nghiên cứu đề xuất Speculative Listening, một khung giải mã tự suy đoán (self-speculative decoding) không cần huấn luyện (training-free) và không tổn hao (lossless) dành riêng cho các mô hình ngôn ngữ giọng nói song công hoàn toàn (full-duplex SLM) dạng chunk-interleaved. Bằng cách tận dụng khoảng thời gian tính toán nhàn rỗi (idle window) để dự đoán trước output dưới giả định im lặng (silence hypothesis) kèm nhánh runner-up và kho giả thuyết (hypothesis pool), phương pháp giúp tăng tốc speak chunk từ 2,6–2,8× và tool-call chunk lên đến 23,4×, đưa độ trễ phản hồi về mức tương đương giao tiếp con người (~200 ms).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình full-duplex SLM dạng chunk-interleaved hoạt động theo các khung thời gian cố định (chunk deadline, ví dụ 1 giây). Tuy nhiên, khối lượng tính toán giữa các chunk bị bất đối xứng nghiêm trọng: listen chunk chỉ xử lý audio đầu vào và để trống GPU trong 70–89% thời lượng chunk (idle window), trong khi speak chunk và tool-call chunk đòi hỏi sinh tuần tự (serial autoregressive) tốn hàng chục forward pass. Tình trạng này khiến các tác vụ gọi công cụ hoặc phản hồi văn bản/giọng nói dài bị trễ hạn chót (tool call trễ 1,8–2,6 giây, 95% speak chunk của mô hình LWS bị trượt deadline), dẫn đến tích lũy độ trễ (lag), làm hội thoại tụt hậu so với thời gian thực và khiến độ trễ phản hồi (response onset latency) bị kéo dài tới 417–1089 ms.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Phương pháp dựa trên hai quan sát then chốt: (1) Output tạo ra dưới giả định im lặng (<span class="math inline">a_{\text{sil}}</span>) trùng khớp từng token với output dưới âm thanh thực tế trong 95,3% số chunk; (2) Khi có sai lệch, 87,7% phân kỳ xảy ra ngay tại token đầu tiên (<span class="math inline">y_1</span>).
+Từ đó, Speculative Listening triển khai quy trình gồm các bước:</p>
+<ol>
+<li><strong>Drafting under silence hypothesis</strong>: Trong khoảng thời gian nhàn rỗi của chunk <span class="math inline">t-1</span>, chính mô hình mục tiêu tự sinh nháp <span class="math inline">\tilde{y} = (\tilde{y}_1, \dots, \tilde{y}_\gamma)</span> cho chunk <span class="math inline">t</span> dựa trên giả định âm thanh im lặng <span class="math inline">a_{\text{sil}}</span> bằng greedy decoding trên KV cache sẵn có.</li>
+<li><strong>Runner-up branch &amp; Cross-chunk hypothesis pool</strong>: Khi bản nháp chính hoàn thành sớm trước khi hết idle window, mô hình tiếp tục sinh nhánh thứ hai bắt đầu từ token đầu tiên có xác suất cao thứ nhì (runner-up token: <span class="math inline">\arg\max_{y \in \mathcal{V} \setminus \{\tilde{y}_1\}} p_\theta(y \mid x_{&lt;t}, a_{\text{sil}})</span>). Mọi bản nháp của các chunk trước đó được lưu trữ trong kho giả thuyết <span class="math inline">\mathcal{C}</span> (được lập chỉ mục theo N-gram như lookahead decoding).</li>
+<li><strong>Prefill + Verification pass</strong>: Khi audio thực <span class="math inline">a_t</span> cập bến, mô hình rollback KV cache về cuối <span class="math inline">x_{&lt;t}</span> và thực hiện đúng một forward pass duy nhất để vừa prefill <span class="math inline">a_t</span> vừa kiểm chứng toàn bộ bản nháp <span class="math inline">\tilde{y}</span>. Nếu khớp, toàn bộ token được commit cùng lúc; nếu lệch, mô hình tiếp tục sinh từ điểm lệch hoặc truy xuất từ kho <span class="math inline">\mathcal{C}</span>. Quá trình này hỗ trợ cả speculative sampling khi giải mã ngẫu nhiên (stochastic decoding), bảo toàn 100% phân phối đầu ra của mô hình mục tiêu.</li>
+</ol>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Tác giả xây dựng benchmark <strong>TickTock-Bench</strong> (dựa trên cảm hứng từ Spec-Bench) gồm 8 tác vụ thuộc 3 nhóm: Speech reasoning (Web Questions, Llama Questions, TriviaQA, AlpacaEval, Big Bench Audio), Conversational dynamics (Full-Duplex-Bench v1, v1.5) và Agentic tool use (FDB v3), tổng cộng 760 phiên hội thoại và 15.883 chunk (thời lượng 1 giây). Thử nghiệm trên 4 mô hình chunk-interleaved: Streaming SLM (Qwen2.5-Omni-7B Thinker), Gander, Realtime-Venus, và LWS trên 1 GPU NVIDIA A100 (định dạng bfloat16, batch size 1). So sánh với Autoregressive (AR), Prompt Lookup Decoding (PLD), Token Recycling và Lookahead decoding.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Tăng tốc thời gian xử lý sau audio (post-audio latency) trên speak chunk đạt 2,6–2,8× trung bình trên cả 4 mô hình (Streaming SLM: 2,76×; Gander: 2,60×; Realtime-Venus: 2,69×; LWS: 2,68×), trong khi các phương pháp baseline huấn luyện tự do chỉ đạt 0,96–1,23×.</li>
+<li>Tăng tốc vượt trội trên tool-call chunk trong FDB v3: đạt 23,41× trên Streaming SLM và 3,45× trên Gander.</li>
+<li>Chỉ số tokens chấp nhận trên mỗi forward pass mục tiêu (#MAT) đạt 2,15–2,63 so với mức 1,01–1,23 của các baseline.</li>
+<li>Giảm độ trễ bắt đầu phản hồi (response onset latency) trung bình 73%, từ 417–1089 ms xuống còn 74–241 ms (tiệm cận ngưỡng 200 ms của con người).</li>
+<li>Giảm độ trễ thực thi tool call từ 72% đến 96% (Streaming SLM giảm từ 2623 ms xuống 112 ms; Gander giảm từ 1827 ms xuống 513 ms).</li>
+<li>Giảm độ trễ tích lũy cực đại so với thời gian thực (maximum lag behind real time) trung bình 94,4% (trên Streaming SLM giảm từ 568 ms xuống 0 ms; tỷ lệ phiên bị lag &gt;1s giảm từ 35% về 0%).</li>
+<li>Trong kịch bản phục vụ đa phiên (N=4 phiên đồng thời trên 1 GPU A100), Speculative Listening vẫn duy trì tốc độ 2,0× trên speak chunk và 10,5× trên tool-call chunk, giảm tỷ lệ trễ hạn chót của tool call từ 100% xuống 2,9%.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Phương pháp chủ yếu hướng tới môi trường độ trễ thấp với mức đồng thời thấp (low-concurrency); khi tăng số phiên đồng thời trên GPU hoặc batching lớn, idle window bị thu hẹp làm giảm hiệu quả tăng tốc. Nghiên cứu chỉ đánh giá thành phần Thinker (bộ giải mã văn bản/ngữ nghĩa), chưa đo lường Talker (bộ tổng hợp âm thanh). Thiết kế chỉ áp dụng cho kiến trúc chunk-interleaved có idle window, không tương thích trực tiếp với mô hình luồng song song liên tục (parallel-stream như Moshi giải mã mỗi 80 ms).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Đối với kỹ sư phát triển voice agent song công, tận dụng thời gian nhàn rỗi trong lúc lắng nghe (idle window) với giả định im lặng kết hợp kho giả thuyết N-gram là chiến lược tối ưu để giải quyết triệt để vấn đề nghẽn cổ chai của tool-call và giảm độ trễ phản hồi về mức đàm thoại tự nhiên của con người mà không cần huấn luyện lại mô hình.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">80.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#3 (tied) in 2026-W46</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 214.08,212.43 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="214.08" cy="212.43" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Ý tưởng suy đoán trước đầu vào (input-time self-speculative) bằng silence hypothesis kết hợp runner-up branch và hypothesis pool trong khoảng nhàn rỗi của full-duplex SLM là cách tiếp cận rất mới và thông minh.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Phân tích kỹ lưỡng các thuộc tính chunk, công thức toán học chặt chẽ cho greedy và speculative sampling verification, thiết kế hệ thống pool N-gram hợp lý.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 5/5 — Thực nghiệm xuất sắc trên 4 mô hình SLM, 8 tác vụ thuộc benchmark TickTock-Bench mới, đầy đủ ablation study, kiểm tra chất lượng tự động và đo kiểm đa phiên phục vụ.</title>Evidence <tspan class="radar-value">5</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Giải quyết điểm nghẽn nghiêm trọng nhất của full-duplex voice agent hiện nay là trượt deadline do tool call và độ trễ phản hồi chậm, mở đường cho triển khai thực tế.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Nghiên cứu đến từ nhóm nghiên cứu uy tín về xử lý giọng nói (CUHK Shenzhen &amp; Amphion), tài liệu công bố chi tiết với mã nguồn/harness được công bố mở.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Ý tưởng suy đoán trước đầu vào (input-time self-speculative) bằng silence hypothesis kết hợp runner-up branch và hypothesis pool trong khoảng nhàn rỗi của full-duplex SLM là cách tiếp cận rất mới và thông minh.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Nghiên cứu đến từ nhóm nghiên cứu uy tín về xử lý giọng nói (CUHK Shenzhen &amp; Amphion), tài liệu công bố chi tiết với mã nguồn/harness được công bố mở.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Phân tích kỹ lưỡng các thuộc tính chunk, công thức toán học chặt chẽ cho greedy và speculative sampling verification, thiết kế hệ thống pool N-gram hợp lý.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Giải quyết điểm nghẽn nghiêm trọng nhất của full-duplex voice agent hiện nay là trượt deadline do tool call và độ trễ phản hồi chậm, mở đường cho triển khai thực tế.</dd></div>
+          <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Thực nghiệm xuất sắc trên 4 mô hình SLM, 8 tác vụ thuộc benchmark TickTock-Bench mới, đầy đủ ablation study, kiểm tra chất lượng tự động và đo kiểm đa phiên phục vụ.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Hoàn toàn training-free và lossless (bảo toàn phân phối) · Tăng tốc tool-call đột phá (lên tới 23,4×) · Giảm triệt để hiện tượng lag tích lũy (94,4%) · Xây dựng benchmark TickTock-Bench toàn diện kèm replay harness</p>
+          <p><span class="label">Weaknesses</span> · Hiệu quả giảm khi tải GPU tăng (high concurrency) · Chưa đo lường trực tiếp độ trễ module Talker · Không áp dụng được cho kiến trúc parallel-stream (Moshi)</p>
+          <p><span class="label">Context</span> · Nhóm tác giả đến từ The Chinese University of Hong Kong, Shenzhen và Amphion Technology Co., Ltd.; công bố dạng preprint trên arXiv vào tháng 11 năm 2026.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

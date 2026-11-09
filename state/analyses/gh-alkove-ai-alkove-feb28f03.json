@@ -1,0 +1,50 @@
+{
+ "id": "gh:alkove-ai/alkove",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Kết hợp khéo léo 5 mô hình micro-size chuyên biệt (từ text-to-wake-word đến target speaker isolation) vào một pipeline on-device hoàn chỉnh chạy bằng Rust engine.",
+  "credibility": "Dự án mã nguồn mở độc lập từ tổ chức alkove-ai, đi kèm repo code, weights trên Hugging Face và thư mục benchmark có thể tái lập nhưng chưa xuất bản qua hội nghị học thuật.",
+  "technical": "Kỹ thuật hệ thống và tối ưu kích thước ấn tượng khi nén toàn bộ 5 mô hình xuống dưới 8 MB và xây dựng engine inference bằng Rust đa nền tảng (WebAssembly, Android, iOS, ESP32).",
+  "impact": "Mức độ tiếp cận ban đầu khiêm tốn (74 stars trên GitHub), nhưng tính ứng dụng thực tế rất cao nhờ tương thích sẵn với LiveKit Agents, Pipecat và Home Assistant.",
+  "evidence": "Cung cấp các con số đo lường cụ thể về lọc giọng (trên tập AMI), tỷ lệ false barge-in so với Silero VAD và độ chính xác wake word, có kèm thư mục bench để đối chứng."
+ },
+ "summary": {
+  "tldr": "Alkove là bộ công cụ mã nguồn mở gọn nhẹ chạy on-device (browser, Python, Android, iOS, ESP32) chuyên xử lý âm thanh đầu vào cho voice agent. Hệ thống tích hợp 5 mô hình nhỏ gọn (tổng dung tích dưới 8 MB) để thực hiện voice isolation, zero-shot wake word tùy biến bằng văn bản, VAD và voiceprint mà không cần gửi dữ liệu lên server.",
+  "problem": "Các ứng dụng voice agent và đàm thoại trên thiết bị đầu cuối thường gặp tình trạng bị lẫn giọng nói người khác trong phòng họp hoặc môi trường ồn, nhận diện nhầm wake word hoặc bị gián đoạn (false barge-in) do tiếng nhạc/tạp âm. Ngoài ra, việc gửi toàn bộ audio lên server gây lo ngại về độ trễ và quyền riêng tư, trong khi các mô hình deep learning truyền thống thường quá nặng để chạy cục bộ trên điện thoại, trình duyệt hoặc vi điều khiển.",
+  "method": "Alkove xây dựng một engine suy luận riêng bằng Rust (kích thước chỉ 141 KB sau nén brotli) sử dụng định dạng mô hình `.alk`, đóng gói 5 mô hình chuyên biệt:\n- **Focus (1.1 MB):** Tách giọng nói mục tiêu (target speaker extraction / voice isolation), giữ lại giọng gần microphone nhất hoặc giọng khớp với voiceprint đăng ký từ trước, triệt tiêu tiếng ồn, âm nhạc và giọng nói khác. Chế độ `near` phân biệt dựa trên cường độ âm thanh (loudness) đối chiếu với giọng người dùng mà không cần dữ liệu sinh trắc học.\n- **Cue (1.2 MB):** Mô hình VAD/turn-taking phát hiện tiếng người nói mỗi 30 ms và xác định thời điểm kết thúc lượt thoại (end of turn).\n- **Spot (2.8 MB):** Nhận diện từ khóa đánh thức (wake word) tức thì cho bất kỳ từ nào được gõ văn bản qua 7 ngôn ngữ mà không cần huấn luyện lại hay thu âm trước.\n- **Lex (1.8 MB):** Bộ dự đoán phát âm (grapheme-to-phoneme/pronunciation) chuyển từ ngữ dạng văn bản sang cách phát âm tương ứng để cấp cho Spot.\n- **Timbre (0.74 MB):** Trích xuất vector đặc trưng giọng nói (voiceprint) và so khớp danh tính người nói.",
+  "setup": "Hỗ trợ đa nền tảng:\n- **Môi trường & SDK:** WebAssembly/Web SDK (`alkove` trên npm), Python (`alkove` trên PyPI), Android (`ai.alkove:alkove`), iOS/macOS (Swift package), React Native (`@alkove/react-native`), vi điều khiển ESP32-S3 (ESPHome) và Wyoming satellite (Home Assistant).\n- **Tích hợp Voice Agent:** Hỗ trợ sẵn plugin cho LiveKit Agents (`livekit-plugins-alkove`) và Pipecat (`pipecat-alkove`).\n- **Đặc tả âm thanh & thiết bị:** Yêu cầu micro gần người nói (điện thoại, tai nghe, laptop; không phù hợp đặt giữa bàn họp nhiều người). Đầu ra âm thanh là 16 kHz (HD voice, giới hạn tần số 8 kHz).\n- **Dữ liệu & Benchmark:** Bộ dữ liệu kiểm thử AMI meeting recordings và các protocol nằm trong thư mục `bench/` của repository.",
+  "results": [
+   "Trên tập dữ liệu cuộc họp ghi bằng microphone headset (AMI), số từ của người xung quanh lọt vào bản phiên âm giảm từ 17 từ/phút xuống còn 0.5 từ/phút khi dùng Focus (trong khi các bộ denoiser thông thường để lọt 19 từ trở lên).",
+   "Khả năng phát hiện từ khóa (Spot): Đạt 80% recall ở ngưỡng 1 false alarm mỗi giờ đối với từ khóa gõ bằng văn bản (không cần train).",
+   "Giảm false barge-in: Khi đặt sau Focus, mô hình Cue kích hoạt nhầm trên âm nhạc ít hơn 4× so với Silero VAD.",
+   "Kích thước tối ưu on-device: Toàn bộ 5 mô hình nặng dưới 8 MB (Focus: 1.1 MB, Cue: 1.2 MB, Spot: 2.8 MB, Lex: 1.8 MB, Timbre: 0.74 MB); inference engine viết bằng Rust chỉ 141 KB (brotli)."
+  ],
+  "limitations": "Chỉ hoạt động tối ưu với thiết lập 'near microphone, one person' (tai nghe, điện thoại, laptop đặt trước mặt); nếu đặt micro ở giữa bàn họp đông người thì hệ thống sẽ tự động lọc bỏ luôn các thành viên khác. Âm thanh đầu ra chỉ đạt chuẩn 16 kHz (HD voice), không hỗ trợ dải tần đầy đủ (full band). Phiên bản hiện tại là bản xem trước (preview 0.x), các bản native trên iOS và React Native chưa được kiểm thử thực tế trên microphone phần cứng iPhone.",
+  "takeaways": "Alkove cung cấp giải pháp trọn gói, plug-and-play để giải quyết bài toán âm thanh đầu vào cho voice agent cục bộ với dung lượng cực nhỏ (< 8 MB). Kỹ sư phát triển agent có thể dễ dàng nhúng vào LiveKit, Pipecat hoặc ứng dụng mobile/web để chặn tạp âm, loại bỏ giọng người ngoài và tự tạo wake word bất kỳ mà không cần server hay chi phí bản quyền mô hình.",
+  "strengths": [
+   "Dung lượng siêu nhẹ (tổng 5 model <8MB, engine 141KB)",
+   "Zero-shot wake word hỗ trợ 7 ngôn ngữ",
+   "Tích hợp sẵn LiveKit, Pipecat, ESPHome, Home Assistant",
+   "Mã nguồn và trọng số mở hoàn toàn (Apache-2.0)",
+   "Bảo mật cao, chạy on-device không telemetry"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ HD voice 16 kHz",
+   "Chỉ dùng cho micro gần một người nói",
+   "Bản iOS/React Native chưa test trên iPhone",
+   "Dự án mới ở giai đoạn preview 0.x"
+  ],
+  "context": "Dự án mã nguồn mở do tổ chức alkove-ai phát triển và phát hành trên GitHub/Hugging Face dưới giấy phép Apache-2.0."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

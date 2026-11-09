@@ -58,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W45</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W46</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -70,7 +70,7 @@
   <div class="page-heading">
     <h1 class="title">arbazsiddiqui/voxlock</h1>
     <div class="meta">
-      <span title="Listed by HF Models inside the crawl window">found Nov 2, 2026</span><span aria-hidden="true">·</span>
+      <span title="Listed by HF Models inside the crawl window">found Nov 9, 2026</span><span aria-hidden="true">·</span>
 <span title="Original publication / creation date">published Oct 11, 2026</span><span aria-hidden="true">·</span>
 
       <span class="pill">Model</span>
@@ -90,13 +90,13 @@
         <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">model card excerpt</span>
       </div>
       <div class="card-body prose">
-<p>VoxLock. The best performing voice isolator there is. VoxLock is an open-source voice isolation model: it keeps the caller's voice and removes the other voices in the room before speech-to-text hears them. Made for voice agents and phone calls: one input, the call audio, and it picks out the caller by itself. It streams on a CPU with 24 ms of algorithmic latency, and plugs into Pipecat and LiveKit voice agents. Write-up · Code · pip · Try it in your browser Results. | Model | Access | Word error rate % | Background words leaked / min | | VoxLock | open | 4.95 | 0.11 | | Krisp VI 2.5 Default | paid | 5.30 | 1.52 | | Krisp VI 2.5 Balanced | paid | 5.32 | 2.02 | | Krisp VI 2.5 HD | paid | 5.79 | 2.74 | | Krisp VI 2.5 Lite | paid | 6.21 | 4.52 | | ai-coustics Voice Focus 2.2 L | paid | 6.84 | 0.66 | | ai-coustics Voice Focus 2.2 S | paid | 6.91 | 1.00 | | Sanas Voice Isolation SE 1.0 | paid | 9.38 | 13.76 | | REAL-TSE causal (VoxLock's starting checkpoint) | open | 9.81 | 13.73 | | Hush | open | 12.09 | 19.58 | | DeepFilterNet3 | open | 13.30 | 22.77 | | TIGER | open | 14.72 | 37.24 | | No processing | | 23.21 | 66.48 | | SAM-Audio small (Meta) | open | 33.77 | 21.15 | | ElevenLabs Voice Isolator\*\* | paid | 43.79\*\* | 144.6\*\* | 265 real recordings from the Krisp Voice Isolation Benchmark, transcribed with Parakeet TDT 0.6B v2 and scored with the benchmark's published method. Background words leaked counts words transcribed while only the background was talking, per minute of that audio. \*\* ElevenLabs Voice Isolator, run on the 7 of these recordings with the most background speech, not all 265. On the same 7, no processing scores 45.82% and 154.3 leaked words per minute, and VoxLock 2.98% and 0.0. On real AMI meetings not used in training, with the headset wearer as the caller: | Model | Access | Word error rate % | Background words leaked / min | | VoxLock | open | 10.12 | 2.12 | | ai-coustics Voice Focus 2.2 S | paid | 11.85 | 1.06 | | ai-coustics Voice Focus 2.</p>      </div>
+<p>VoxLock. The best performing voice isolator there is. VoxLock is an open-source voice isolation model: it keeps the caller's voice and removes the other voices in the room before speech-to-text hears them. Made for voice agents and phone calls: one input, the call audio, and it picks out the caller by itself. It streams on a CPU with 24 ms of algorithmic latency, and plugs into Pipecat and LiveKit voice agents. Paper · Code · pip · Try it in your browser · Write-up Results. | Model | Access | Word error rate % | Background words leaked / min | | VoxLock | open | 4.95 | 0.11 | | Krisp VI 2.5 Default | paid | 5.30 | 1.52 | | Krisp VI 2.5 Balanced | paid | 5.32 | 2.02 | | Krisp VI 2.5 HD | paid | 5.79 | 2.74 | | Krisp VI 2.5 Lite | paid | 6.21 | 4.52 | | ai-coustics Voice Focus 2.2 L | paid | 6.84 | 0.66 | | ai-coustics Voice Focus 2.2 S | paid | 6.91 | 1.00 | | Sanas Voice Isolation SE 1.0 | paid | 9.38 | 13.76 | | REAL-TSE causal (VoxLock's starting checkpoint) | open | 9.81 | 13.73 | | Hush | open | 12.09 | 19.58 | | DeepFilterNet3 | open | 13.30 | 22.77 | | TIGER | open | 14.72 | 37.24 | | No processing | | 23.21 | 66.48 | | SAM-Audio small (Meta) | open | 33.77 | 21.15 | | ElevenLabs Voice Isolator\*\* | paid | 43.79\*\* | 144.6\*\* | 265 real recordings from the Krisp Voice Isolation Benchmark, transcribed with Parakeet TDT 0.6B v2 and scored with the benchmark's published method. Background words leaked counts words transcribed while only the background was talking, per minute of that audio. \*\* ElevenLabs Voice Isolator, run on the 7 of these recordings with the most background speech, not all 265. On the same 7, no processing scores 45.82% and 154.3 leaked words per minute, and VoxLock 2.98% and 0.0. On real AMI meetings not used in training, with the headset wearer as the caller: | Model | Access | Word error rate % | Background words leaked / min | | VoxLock | open | 10.12 | 2.12 | | ai-coustics Voice Focus 2.2 S | paid | 11.85 | 1.06 | | ai-coustics Voice </p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">
       <div class="card-header">
         <h2 class="label" id="analysis-h">Auto Analysis</h2>
-          <span class="sublabel">analyzed Nov 2, 2026 · model card</span>
+          <span class="sublabel">analysis reused from 2026-W45 · model card</span>
           <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
             <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
           </button>

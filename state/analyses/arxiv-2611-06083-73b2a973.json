@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2611.06083",
+ "topic": "Speech LLM",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Bài báo đặt lại giả định cốt lõi của lĩnh vực omni LLM bằng cách chứng minh VLM thuần kết hợp transcript ASR làm index và agentic search vượt trội hơn việc trực tiếp nghe audio.",
+  "credibility": "Tài liệu là bản thảo preprint trên arXiv từ nhóm tác giả thuộc Ant Group, Tsinghua và Bristol với thông tin cam kết mở mã nguồn harness.",
+  "technical": "Thiết kế sandbox chặt chẽ chống rò rỉ dữ liệu, cơ chế định vị coarse-to-fine qua timestamp/gap cùng phân tích định tính chi tiết giữa lỗi của omni model và VLM.",
+  "impact": "Cung cấp góc nhìn thực dụng làm thay đổi hướng tiếp cận omni video understanding, giúp giảm tải nhu cầu đào tạo multimodal omni phức tạp cho các kỹ sư hệ thống.",
+  "evidence": "Thực nghiệm cực kỳ vững chắc trên 5 benchmark lớn với hàng ngàn câu hỏi, so sánh chi tiết với đầy đủ các mô hình omni hàng đầu và kiểm toán sandbox toàn diện."
+ },
+ "summary": {
+  "tldr": "SleuthVLM đặt dấu hỏi về xu hướng huấn luyện mô hình omni end-to-end xử lý đồng thời audio và video trong một lượt, thay vào đó đề xuất một agent harness cho phép VLM không cần nghe audio trực tiếp mà dùng transcript có timestamp cấp từ làm chỉ mục thời gian để tự điều tra video. Phương pháp này thiết lập SOTA trên 4 benchmark omni lớn với độ chính xác trung bình 75.0% (vượt Gemini 3.8 Flash 2.6 điểm) và đứng đầu bảng xếp hạng Video-MME-v2 với 77.8%.",
+  "problem": "Các mô hình omni hiện đại (như Gemini 3.8 Flash, Qwen3.8-Omni) giả định rằng mô hình phải tiếp nhận trực tiếp luồng audio qua omni training tốn kém, nhưng việc này làm suy giảm năng lực suy luận và dùng công cụ sẵn có của VLM, trong khi phần lớn thông tin âm thanh quan trọng lại là lời nói (chiếm 75.2% câu hỏi trong LVOmniBench). Hơn nữa, việc xử lý video trong một lượt (one-turn passive sampling) với số lượng frame cố định thường bỏ sót các khoảnh khắc quyết định chỉ kéo dài vài giây trong video dài và không cho phép mô hình quay lại kiểm tra.",
+  "method": "SleuthVLM tách biệt việc xử lý âm thanh và hình ảnh thông qua agentic harness chạy trong sandbox:\n- **Chuyển audio thành timed text:** Sử dụng Qwen3-ASR-1.7B và Qwen3-ForcedAligner-0.6B để phiên âm một lần duy nhất, gán timestamp từng từ $W = \\{(w_j, s_j, e_j)\\}_{j=1}^M$. Các đoạn im lặng $\\ge 3\\text{ s}$ được đánh dấu thành khoảng trống (gaps) $G = \\{(e_j, s_{j+1}) : s_{j+1} - e_j \\ge 3\\}$ (thường chứa nhạc hoặc âm thanh nền) lưu vào `asr.txt` và `asr_words.tsv`.\n- **Agentic harness & Sandbox:** VLM truy cập video đã tắt tiếng, câu hỏi và transcript qua 4 công cụ chính (`bash`, `view`, `watch`, `answer`). Trong `bash`, mô hình có thể gọi `vsheet` (kết xuất contact sheet theo dải thời gian), `vframes` (trích frame), `vcrop` (crop frame độ phân giải gốc), và `asr` (tìm từ khóa hoặc gap).\n- **Chỉ mục thời gian (Temporal index):** Thay vì duyệt toàn bộ video gây tốn kém ($D/\\Delta$ frames), VLM tìm từ khóa trong transcript để xác định cửa sổ $\\Omega = [s - \\delta, e + \\delta]$ rồi zoom-in từ thô đến mịn qua các mức $\\Omega_1 \\supset \\Omega_2 \\dots$ với số frame xem thực tế $\\sum_k |\\Omega_k|/\\Delta_k \\ll D/\\Delta_K$.\n- **Công cụ âm thanh bổ trợ:** Đối với các câu hỏi về nhạc hoặc phi ngôn ngữ không thể giải bằng text, VLM có thể gọi `audio_caption(t_0, t_1, p)` sử dụng Ming-3.0-audio-tiny (9.3B params, 2.7B active) để mô tả đoạn audio $[t_0, t_1]$.",
+  "setup": "Đánh giá trên 4 benchmark omni video QA: Daily-Omni (1,197 câu, video 30-60s), WorldSense (3,172 câu, TB 2.4 phút), OmniVideoBench (1,000 câu, TB 6.4 phút), LVOmniBench (1,014 câu, 10-90 phút, TB 34.6 phút), cùng Video-MME-v2 (3,200 câu, TB 10.4 phút). Mô hình suy luận chính là Qwen3.8-27B (chạy vLLM trên GPU H200/A100, high/medium effort) và Claude Opus 5.5. Ngân sách mỗi câu hỏi giới hạn 50 turns, 30 images, 10 clips và 30 phút tính toán.",
+  "results": [
+   "Độ chính xác trung bình trên 4 benchmark omni: SleuthVLM (Opus 5.5) đạt 75.0%, vượt qua Gemini 3.8 Flash (72.4%) 2.6 điểm và Qwen3.8-Omni-Flash (70.1%) 4.9 điểm.",
+   "Trên LVOmniBench (video dài): SleuthVLM (Opus 5.5) đạt 75.5% (vượt Gemini 3.8 Flash 70.7% là +4.8 điểm); SleuthVLM (Qwen3.8-27B) đạt 61.7%, vượt mô hình open-source mạnh nhất là video-SALMONN-R3 (42.9%) tới 18.8 điểm và vượt Qwen3-Omni-30B-A3B (35.8%) tới 16.8 điểm.",
+   "Trên Video-MME-v2: SleuthVLM (Opus 5.5) đứng đầu leaderboard với 77.8% accuracy và 63.5 non-linear score, vượt Gemini 3.8 Flash (71.0%) 6.8 điểm; bản chạy Qwen3.8-27B đạt 62.0% accuracy (non-linear 44.4), vượt Gemini-3-Flash (61.1%) và GPT-5 (55.6%).",
+   "Trên OmniVideoBench: SleuthVLM (Opus 5.5) đạt 69.90% (vượt Gemini 3.8 Flash 65.2% là +4.7 điểm); SleuthVLM (Qwen3.8-27B) đạt 60.40% so với 38.40% của Qwen3-Omni-30B-A3B.",
+   "Ablation về transcript: Bỏ ASR transcript khiến độ chính xác của SleuthVLM (Qwen3.8-27B, medium) sụt giảm 17.4 điểm trên Daily-Omni (xuống 62.9%) và sụt 16.6 điểm trên LVOmniBench (xuống 43.6%); bỏ timestamp cấp từ làm giảm 1.3 điểm trên cả hai tập.",
+   "Hiệu quả công cụ audio_caption: Trên 448 câu hỏi về âm nhạc, công cụ giúp tăng độ chính xác thêm 9.8 điểm (từ 48.9% lên 58.7%)."
+  ],
+  "limitations": "Phụ thuộc vào chất lượng hệ thống ASR và forced alignment (nếu căn chỉnh từ thất bại phải chuyển sang chia chunk 30s); các tác vụ nhận biết âm thanh phi ngôn ngữ hoặc nhạc điệu vẫn cần phụ thuộc vào mô hình audio ngoài (`audio_caption`); độ trễ tổng thể và chi phí token cao do bản chất agent tương tác nhiều lượt (5.8 đến 17 turns) so với single-pass.",
+  "takeaways": "Không nhất thiết phải ép VLM học biểu diễn audio trực tiếp qua joint training vì dễ làm mất năng lực reasoning và tool-use; việc chuyển audio thành text có timestamp cấp từ kết hợp tìm kiếm hình ảnh chủ động (agentic search) là chiến lược hiệu quả và tiết kiệm chi phí hơn hẳn cho video hiểu đa phương thức dài.",
+  "strengths": [
+   "Thiết lập SOTA trên 5 benchmark lớn",
+   "Dùng transcript làm index thời gian cực kỳ hiệu quả",
+   "Không cần tốn kém omni multimodal pre-training",
+   "Mô hình mở 27B vượt qua omni closed-source"
+  ],
+  "weaknesses": [
+   "Độ trễ cao do suy luận lặp nhiều lượt",
+   "Phụ thuộc chặt chẽ vào độ chính xác ASR",
+   "Cần công cụ audio ngoài cho nhạc/tiếng động"
+  ],
+  "context": "Nghiên cứu hợp tác giữa University of Bristol, Ant Group và Tsinghua University, công bố trên arXiv vào tháng 11/2026."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

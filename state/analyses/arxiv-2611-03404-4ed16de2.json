@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2611.03404",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 3,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đề xuất cơ chế replacement-aware loss bóc tách vùng miệng để giải quyết xung đột nhãn khi cross-dubbing, kết hợp pipeline chưng cất 2-step kết hợp trajectory matching và DMD2 cho full-context video.",
+  "credibility": "Nghiên cứu có sự tham gia của các nhà nghiên cứu uy tín (như Bernard Ghanem), công bố mã nguồn, benchmark VidDub-Bench và giao thức đánh giá minh bạch kèm bootstrap CI.",
+  "technical": "Quy trình kỹ thuật và chưng cất đa tầng cực kỳ chặt chẽ, kiểm soát và chứng minh rõ ràng sự đánh đổi giữa full-context và block-causal, xử lý được bộ nhớ và video dài 60s.",
+  "impact": "Mở ra tiêu chuẩn huấn luyện đúng đắn cho video dubbing offline với hiệu năng 2 NFE rất cao, dù mức độ phổ biến ban đầu còn ở mức khiêm tốn (21 GitHub stars, 9 HF upvotes tại thời điểm ghi nhận).",
+  "evidence": "Thực nghiệm chi tiết trên 4 benchmark chuẩn và 1 tập video dài, kết hợp cả SyncNet, LRS3 VSR độc lập, kiểm tra dịch pha thời gian, đo lường phần cứng NVIDIA H20 và blind human evaluation."
+ },
+ "summary": {
+  "tldr": "VidDub là mô hình video dubbing dạng diffusion hai bước (2 NFE) cho kịch bản offline, giải quyết xung đột giám sát khi thay thế giọng nói bằng cơ chế replacement-aware cross-audio supervision. Mô hình duy trì temporal attention hai chiều (full-context), được chưng cất từ teacher nhiều bước thông qua trajectory regression và distribution matching distillation (DMD), đạt tốc độ 11.3 FPS với độ đồng bộ môi và chất lượng hình ảnh vượt trội.",
+  "problem": "Các mô hình lồng tiếng video trước đây chủ yếu được huấn luyện bằng cơ chế tự tái tạo (self-reconstruction) với cặp audio gốc. Khi áp dụng vào thực tế với audio mới (cross-audio dubbing), khuôn miệng gốc trong video nguồn xung đột trực tiếp với âm thanh đích cần khớp; nếu áp dụng hàm mất mát tái tạo thông thường lên vùng miệng, mô hình sẽ bị kéo ngược về khẩu hình nguồn thay vì khớp theo giọng nói mới. Bên cạnh đó, việc nén mô hình diffusion xuống số bước cực ít (few-step) thường làm suy giảm độ nét và tính chân thực nếu không có chiến lược chưng cất phù hợp.",
+  "method": "Phương pháp gồm ba thành phần cốt lõi:\n- **Replacement-Aware Cross-Audio Supervision**: Phân tách mục tiêu giám sát theo vùng và loại dữ liệu. Với mẫu cùng audio (paired same-audio), áp dụng loss tái tạo toàn khung thông thường ($L_{\\text{flow}} + \\lambda_{\\text{pix}} L_{\\text{pix}} + \\lambda_{\\text{lpips}} L_{\\text{lpips}} + \\lambda_{\\text{sync}} L_{\\text{sync}}$). Với mẫu thay thế audio (unpaired replacement-audio), mô hình triệt tiêu hoàn toàn loss flow-matching, pixel ($L_1$), và LPIPS tại vùng miệng ($w = 1 - M_{\\text{mouth}}$); vùng miệng chỉ nhận gradient từ audio-visual synchronization loss ($L_{\\text{sync}}$ trích xuất từ StableSyncNet đông băng của LatentSync-1.6), trong khi vùng ngoài miệng và hậu cảnh vẫn được bảo toàn qua spatial keep loss ($L_{\\text{keep}}$).\n- **Kiến trúc Full-Context Diffusion**: Xây dựng trên nền tảng Wan-1.3B kết hợp VACE context conditioning và audio adapter 287M từ Whisper-small features (tổng kích thước inference stack 2.81B). Thay vì dùng block-causal attention cho streaming, VidDub tận dụng ngữ cảnh offline bằng bidirectional DiT self-attention trên toàn bộ cửa sổ 81 frame (21 latent video frames).\n- **Chưng cất hai bước (Two-Step Distillation)**: Sau khi huấn luyện teacher 48 bước với tỷ lệ 70% paired / 30% unpaired audio, mô hình áp dụng: (1) *Guided Trajectory Regression* trên tập 4,096 quỹ đạo để hấp thụ Classifier-Free Guidance (CFG) và nén về student 2 bước (2 NFE); (2) *Guided Distribution Matching Distillation (DMD2)* với frozen real score và online fake score nhằm khôi phục độ chân thực và FVD mà không cần dùng CFG lúc suy luận.\n- **Long-Video Inference**: Xử lý video dài qua các cửa sổ 81 frame trượt liên tiếp (stride 64 frame, overlap 17 frame để hòa trộn), giữ vững độ ổn định danh tính và đồng bộ suốt 60 giây.",
+  "setup": "Đánh giá trên 4 benchmark chính: HDTF-30, VoxCeleb2-30, TalkVid-Bench (500 clip), và VidDub-Bench (bộ benchmark mới gồm 256 video sinh từ H3, 128 tiếng Trung và 128 tiếng Anh), cùng bộ Long-20 (20 video dài 60s). So sánh với các mô hình feed-forward/1-step (Wav2Lip, VideoReTalking, MuseTalk 1.5), diffusion đa bước (Diff2Lip, LatentSync 1.6, X-Dub), và diffusion 2-step causal (Lip Forcing 14.53B). Đo lường qua SyncNet (Sync-C, Sync-D), visual quality (SSIM, PSNR, FVD), độ bảo toàn (Upper-L1, ArcFace ID, InsightFace Pose), nhận dạng khẩu hình visual speech recognition (WER/CER với mô hình độc lập LRS3), và tốc độ/bộ nhớ trên GPU NVIDIA H20.",
+  "results": [
+   "Trên HDTF-30 (replacement dubbing): VidDub (2 NFE) đạt Sync-C 10.102, Sync-D 5.856, FVD 27.66 ở 11.3 FPS, vượt trội so với Lip Forcing 14.53B (Sync-C 6.884, Sync-D 8.284, FVD 33.80 ở 2.4 FPS) và LatentSync 1.6 20 NFE (Sync-C 8.160, FVD 28.05).",
+   "Trên TalkVid-Bench: VidDub đạt Sync-C 7.646, Sync-D 7.309, FVD 10.25 (vượt Lip Forcing với Sync-C 5.610, FVD 12.68 và LatentSync với Sync-C 6.860, FVD 59.27).",
+   "Trên VidDub-Bench (256 video): VidDub đạt Sync-C 8.709, Sync-D 7.140, FVD 17.50, duy trì 99.6% chất lượng đồng bộ của mô hình teacher 48 bước (Sync-C 8.718, FVD 15.23).",
+   "VSR WER (LRS3 reader độc lập): VidDub đạt WER thấp nhất trên cả ba tập kiểm thử (HDTF: 0.503 vs Lip Forcing 1.093; VoxCeleb2: 0.752 vs Lip Forcing 0.977; VidDub-Bench: 0.758 vs Lip Forcing 0.977).",
+   "So sánh Full-context vs. Causal cùng backbone (Table 11/12): Thiết kế Full-context đạt throughput cao hơn (11.3 vs 9.4 FPS), tiết kiệm 37% peak memory (13.77 vs 21.96 GiB), và thắng 6/6 lượt so sánh VSR, dù causal có first-frame latency nhanh hơn (1.052s vs 7.165s)."
+  ],
+  "limitations": "Mô hình được tối ưu hóa riêng cho tác vụ offline dubbing nên độ trễ khung hình đầu tiên cao (7.165 s), không phù hợp cho tác vụ đàm thoại thời gian thực/streaming tương tác so với các kiến trúc causal. Dữ liệu huấn luyện replacement audio trong teacher refinement lấy đơn giản từ mẫu liền trước trên cùng worker mà không lọc cứng qua thuộc tính giọng nói/giới tính.",
+  "takeaways": "Khi huấn luyện dubbing thay thế audio, tuyệt đối không áp dụng reconstruction loss lên vùng miệng nguồn với dữ liệu unpaired; chỉ nên dùng sync loss cho miệng và keep loss cho phần còn lại. Với tác vụ dubbing offline, kiến trúc diffusion hai chiều (full-context) kết hợp chưng cất DMD2 2-step mang lại tỷ lệ chất lượng/tốc độ/VRAM vượt trội hơn đáng kể so với việc cố ép sang causal autoregressive.",
+  "strengths": [
+   "Giải quyết triệt để xung đột giám sát cross-audio",
+   "Tốc độ cao 11.3 FPS chỉ với 2 NFE",
+   "Độ đồng bộ và khả năng đọc khẩu hình (VSR) dẫn đầu",
+   "Phân tích đối đầu kỹ lưỡng giữa Full-context và Causal",
+   "Đóng góp tập dữ liệu VidDub-Bench chuẩn hóa"
+  ],
+  "weaknesses": [
+   "Không hỗ trợ streaming độ trễ thấp",
+   "Phụ thuộc StableSyncNet đông băng để tính gradient miệng",
+   "Vẫn xuất hiện suy giảm FVD nhẹ khi nén 2 bước"
+  ],
+  "context": "Nhóm tác giả gồm Yexin Liu, Yunlong Lin, Bernard Ghanem, Bing Li, Harry Yang... công bố mã nguồn mở trên GitHub (LAW1223/VidDub) và preprint tháng 11/2026."
+ },
+ "fulltext_source": "arXiv HTML",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

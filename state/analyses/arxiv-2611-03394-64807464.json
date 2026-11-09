@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2611.03394",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Kết hợp sáng tạo giữa progressive flow trajectory với stage-local KV caching để pipeline hóa chunk, cùng kỹ thuật chưng cất bất đối xứng giải quyết đứt gãy lời nói qua các cửa sổ văn bản.",
+  "credibility": "Báo cáo kỹ thuật dạng preprint trên arXiv từ nhóm nghiên cứu Alibaba Group và Đại học Nam Kinh, có trang dự án và mã nguồn đi kèm nhưng chưa qua bình duyệt hội nghị.",
+  "technical": "Thiết kế toán học chặt chẽ ở bước nâng lưới khử nhiễu (coupled noise interpolation), kiến trúc quản lý bộ nhớ KV phân tầng và quy trình huấn luyện DMD có replay gradient rất chuẩn mực.",
+  "impact": "Cung cấp giải pháp kỹ thuật có giá trị thực tiễn cao cho bài toán streaming digital human độ nét cao, song chi phí phần cứng (8 GPU H20) là rào cản ứng dụng rộng rãi.",
+  "evidence": "Thực nghiệm kỹ lưỡng với đầy đủ số liệu định lượng (CER, VABench, SyncNet, FPS), phân tích phân rã lỗi cụ thể và ablation study rõ ràng giữa các cấu hình độ phân giải và chiến lược chưng cất."
+ },
+ "summary": {
+  "tldr": "TaoMate-HD là mô hình autoregressive phục vụ streaming digital human độ phân giải cao kết hợp đồng thời âm thanh và hình ảnh (joint audio-video). Phương pháp kết hợp khử nhiễu tăng dần độ phân giải (progressive denoising) cùng bộ nhớ KV phân tầng (stage-local KV history) và kỹ thuật chưng cất bất đối xứng (asymmetric distillation) để duy trì tính liên tục của lời nói khi cập nhật văn bản giữa chừng mà không cần ASR hay con trỏ văn bản bên ngoài.",
+  "problem": "Quá trình sinh streaming video độ phân giải cao theo phương pháp khử nhiễu trực tiếp (direct high-resolution) tốn kém chi phí tính toán lưới token dày đặc ở mọi bước, trong khi tính chất phụ thuộc tuần tự giữa các chunk làm chậm trễ quá trình streaming. Ngoài ra, khi cửa sổ văn bản thay đổi giữa chừng (mid-sentence), mô hình rất dễ gặp lỗi lặp lại từ ngữ đã nói hoặc ngắt quãng lời thoại đang diễn ra.",
+  "method": "Mô hình xử lý từng chunk qua $N=3$ stage: 2 stage đầu khử nhiễu trên lưới thô $L$ ($480\\times864$) để định hình bố cục/chuyển động, stage cuối tinh chỉnh ở lưới độ phân giải cao $H$ ($768\\times1376$), trong khi âm thanh giữ nguyên hình học latent trong suốt quỹ đạo joint flow matching. Tại mỗi stage $\\ell$, mô hình dự đoán trực tiếp endpoint sạch (clean prediction) $\\hat{x}_{b,\\ell}^m = u_{b,\\ell}^m + \\sigma_\\ell^m \\hat{v}_{b,\\ell}^m$ và mã hóa ở $\\sigma=0$ vào bộ nhớ stage-local KV history của stage tương ứng cho chunk kế tiếp, cho phép thực thi song song theo đường chéo phụ (stage-parallel pipeline). Bước chuyển không gian $L \\to H$ sử dụng ghép nhiễu chuẩn $\\Lambda_\\sigma(u_L) = U(u_L) + \\sigma [\\epsilon_H - U(\\epsilon_L)]$ với $\\epsilon_L = P\\epsilon_H$ để bảo toàn phân rã tín hiệu/nhiễu. Để xử lý cập nhật văn bản, nhóm tác giả đề xuất asymmetric text conditioning trong Distribution-Matching Distillation (DMD): generator nhận cửa sổ kế tiếp $W_2 = B + C$ (tận dụng đoạn trùng lặp $B$ làm ngữ cảnh thay vì đọc lại), trong khi điểm phân phối fake score nhận $W_1 = A + B$ cùng văn bản mở rộng, và real score nhận tiền tố văn bản gốc. Mô hình được huấn luyện LoRA rank-128 từ checkpoint MiniMax-H3 FL2VA trên 10.000 cặp chưng cất tự sinh.",
+  "setup": "Huấn luyện trên 10.000 cặp chưng cất tự sinh từ base model MiniMax-H3 FL2VA. Đánh giá trên 100 chuỗi tự sinh dài 1–10 phút với các yêu cầu văn bản 5 giây liên tiếp, xuất ra định dạng $768\\times1376$ ở 24 FPS và âm thanh stereo 32-kHz. Đo kiểm hiệu năng thực thi trên cụm 8 GPU NVIDIA H20. Các thang đo gồm VABench (VisualRealism, AudioAes, LipSync, Desync), Temporal continuity, Long-range continuity, CER (đo bằng Whisper-small), SyncNet (LSE-C, LSE-D) và cosine similarity của MFCC.",
+  "results": [
+   "Sinh tuần tự progressive (480p sang 768p) giảm thời gian sinh từ 491 giây xuống 307 giây, đạt tốc độ nhanh hơn 1.60x so với sinh trực tiếp 768p trên cùng phần cứng.",
+   "Triển khai song song phân tầng (stage-parallel) tối ưu giảm thời gian tiếp tục từ 307 giây xuống 160 giây, đạt thông lượng 8.99 FPS (tăng tốc 1.92x so với progressive tuần tự 4.68 FPS).",
+   "Asymmetric distillation giúp giảm đáng kể CER từ 30.751% xuống 19.570% (giảm 11.18 điểm phần trăm; trong đó lỗi thay thế giảm 12.64 điểm phần trăm, lỗi xóa giảm 1.28 điểm phần trăm, lỗi chèn tăng 2.74 điểm phần trăm).",
+   "Độ nhất quán âm phổ MFCC cosine giữa 5 giây đầu và 5 giây cuối tăng từ 0.97064 lên 0.97905, LSE-C cải thiện từ 6.239 lên 6.341.",
+   "So với nhóm streaming audio-video trong Bảng 1, TaoMate-HD (serial) đạt điểm cao nhất về Temporal (0.913), AudioAes (4.407), VisualRealism (5.00), Desync hoàn hảo (0.000) và CER thấp nhất (19.57%).",
+   "Tỉ lệ thông lượng so với baseline foundation MiniMax-H3 (0.40 FPS) đạt mức vượt trội 22.4x khi chạy stage-parallel (8.99 FPS)."
+  ],
+  "limitations": "Mô hình đòi hỏi cụm 8 GPU NVIDIA H20 để đạt tốc độ 8.99 FPS cho độ phân giải $768\\times1376$, chưa đạt ngưỡng thời gian thực hoàn toàn (24 FPS). Lỗi chèn từ (insertion error) trong CER tăng nhẹ 2.74 điểm phần trăm sau khi áp dụng asymmetric distillation.",
+  "takeaways": "Việc trích xuất và lưu trữ clean prediction ở từng mức khử nhiễu (stage-local KV) mở ra khả năng pipeline hóa hiệu quả giữa các chunk video. Cơ chế bất đối xứng giữa generator và bộ chấm điểm DMD là giải pháp tinh gọn để duy trì lời thoại mượt mà qua các sliding window mà không cần thêm module ASR hoặc force alignment.",
+  "strengths": [
+   "Kiến trúc progressive khử nhiễu đa tầng hiệu quả cao",
+   "Stage-local KV hỗ trợ song song hóa pipeline linh hoạt",
+   "Asymmetric distillation xử lý mượt mà văn bản gối đầu",
+   "Chất lượng AV và đồng bộ khẩu hình đạt mức hàng đầu",
+   "Chứng minh khả năng stream ổn định suốt 1 giờ"
+  ],
+  "weaknesses": [
+   "Yêu cầu phần cứng cao (8 GPU H20)",
+   "Thông lượng 8.99 FPS chưa đạt 24 FPS realtime",
+   "Lỗi chèn từ tăng nhẹ sau huấn luyện bất đối xứng"
+  ],
+  "context": "Nghiên cứu từ Alibaba Group hợp tác với Đại học Nam Kinh (Nanjing University), công bố dưới dạng preprint kỹ thuật trên arXiv vào tháng 10/11 năm 2026 kèm mã nguồn mở và trang demo."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

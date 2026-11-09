@@ -58,7 +58,7 @@
     <footer class="status">
       <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
       <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
-      <div class="status-row"><span class="dot"></span>last digest: 2026-W45</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W46</div>
     </footer>
   </aside>
   <div class="scrim" data-nav-close></div>
@@ -70,7 +70,7 @@
   <div class="page-heading">
     <h1 class="title">Morvex885/pulsar</h1>
     <div class="meta">
-      <span title="Listed by GitHub inside the crawl window">found Nov 2, 2026</span><span aria-hidden="true">·</span>
+      <span title="Listed by GitHub inside the crawl window">found Nov 9, 2026</span><span aria-hidden="true">·</span>
 <span title="Original publication / creation date">published Oct 21, 2026</span><span aria-hidden="true">·</span>
 
       <span class="pill">Repo</span>
@@ -89,15 +89,15 @@
         <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">README excerpt</span>
       </div>
       <div class="card-body prose">
-<p>Яндекс Станция Миди / Лайт 2 / Мини / Мини 2 / Мини 3 как локальный голосовой спутник Home Assistant (ESPHome Native API) и Sendspin-плеер Music Assistant — без облака Яндекса
+<p>Яндекс Станции как локальный голосовой спутник Home Assistant (ESPHome Native API) и Sendspin-плеер Music Assistant — без облака Яндекса
 
-README: pulsar. Яндекс Станция Миди, Лайт 2, Мини 2, Мини 3 и Мини первого поколения как локальный голосовой спутник и умная колонка для Home Assistant — без облака Яндекса. | Модель | Кодовое имя | Статус | Данные о модели | | Станция Миди | cucumber | проверена мейнтейнером | станция мейнтейнера | | Станция Лайт 2 | plum | проверена мейнтейнером | станция мейнтейнера | | Станция Мини 2 | station-mini2 | экспериментально, см. Мини 2 | контрибьюторы: #9, станция из #38 | | Станция Мини 3 | bergamot | экспериментально, см. профиль | контрибьютор: #30 | | Станция Мини | yandexmini | по данным контрибьютора, см. Мини | контрибьютор: #35 | Вместо штатного стека Яндекса (maind) на колонке работает небольшой нативный демон. Он говорит с Home Assistant по протоколу ESPHome Native API и выглядит в HA как обычное ESPHome-устройство. Для Music Assistant он дополнительно является нативным Sendspin-плеером. Железо колонки используется полностью и штатными средствами прошивки: - «Алиса» / «Яндекс» — родная модель активационной фразы Яндекса и родное шумоподавление/эхоподавление (VQE) по микрофонам колонки (Миди — 4, Лайт 2 — 2, Мини 2 — 4, Мини 3 — 3, Мини — 4) с вычитанием звука собственных динамиков. - Локальные голосовые команды — «стоп», «громче», «тише», «продолжи» и т. д. выполняются на самой колонке, без HA и без «Алиса» (родная модель команд Яндекса). - Отвечает ближайшая колонка — если «Алису» услышали несколько колонок с pulsar, отвечает та, что услышала громче. - Динамики — воспроизведение HTTP-потоков через GStreamer прошивки, громкость через ALSA. - Кольцо светодиодов, часы, кнопки, переключатель микрофона, датчик освещённости — по моделям; у Мини нет части из них (см. Мини). - Zigbee (Миди, экспериментально) — встроенный Zigbee-модуль колонки на собственной прошивке pulsar работает полноценным координатором для Zigbee2MQTT и ZHA (как USB-стик ConBee) или роутером (ретранслятором) в существующей сети (см. Zigbee). Ни одна проприетарная библиотека Яндекса в репозитории не ра</p>      </div>
+README: pulsar. Яндекс Станция Миди, Станция 2, Лайт 2, Мини 2, Мини 3, Мини 3 Про и Мини первого поколения как локальный голосовой спутник и умная колонка для Home Assistant — без облака Яндекса. | Модель | Кодовое имя | Статус | Данные о модели | | Станция Миди | cucumber | проверена мейнтейнером | станция мейнтейнера | | Станция Лайт 2 | plum | проверена мейнтейнером | станция мейнтейнера | | Станция Лайт 2, плата prune | prune | экспериментально, см. Лайт 2 на плате prune | контрибьютор: #57 | | Станция 2 | station-midi | экспериментально, см. Станция 2 | контрибьютор: #58 | | Станция Мини 2 | station-mini2 | экспериментально, см. Мини 2 | контрибьюторы: #9, станция из #38 | | Станция Мини 3 | bergamot | экспериментально, см. профиль | контрибьютор: #30 | | Станция Мини 3 Про | pickle | экспериментально, см. профиль | контрибьютор: #52 | | Станция Мини | yandexmini | по данным контрибьютора, см. Мини | контрибьютор: #35 | Вместо штатного стека Яндекса (maind) на колонке работает небольшой нативный демон. Он говорит с Home Assistant по протоколу ESPHome Native API и выглядит в HA как обычное ESPHome-устройство. Для Music Assistant он дополнительно является нативным Sendspin-плеером. Железо колонки используется полностью и штатными средствами прошивки: - «Алиса» / «Яндекс» — родная модель активационной фразы Яндекса и родное шумоподавление/эхоподавление (VQE) по микрофонам колонки (Миди — 4, Станция 2 — 4, Лайт 2 — 2, Мини 2 — 4, Мини 3 — 3, Мини 3 Про — 3, Мини — 4) с вычитанием звука собственных динамиков. - Локальные голосовые команды — «стоп», «громче», «тише», «продолжи» и т. д. выполняются на самой колонке, без HA и без «Алиса» (родная модель команд Яндекса). - Отвечает ближайшая колонка — если «Алису» услышали несколько колонок с pulsar, отвечает та, что услышала громче. - Динамики — воспроизведение HTTP-потоков через GStreamer прошивки, громкость через ALSA. - Светодиоды — панель или кольцо, часы, кнопки, переключатель микрофона, датчик освещённости — по моделям;</p>      </div>
     </section>
 
     <section class="card" aria-labelledby="analysis-h">
       <div class="card-header">
         <h2 class="label" id="analysis-h">Auto Analysis</h2>
-          <span class="sublabel">analyzed Nov 2, 2026 · README</span>
+          <span class="sublabel">analysis reused from 2026-W45 · README</span>
           <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
             <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
           </button>

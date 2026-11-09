@@ -1,0 +1,50 @@
+{
+ "id": "hf-model:ConwayResearch/Underdog-Woof",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình kết hợp audio decoder rút gọn từ Mimi codec và kiến trúc TTS nhẹ suy luận thuần NumPy, không đưa ra đột phá lý thuyết mới nhưng tối ưu hóa kỹ thuật on-device rất tốt.",
+  "credibility": "Phát hành mã nguồn và trọng số chạy trực tiếp bởi ConwayResearch trên Hugging Face, nhưng không phải bài báo bình duyệt học thuật.",
+  "technical": "Thiết kế hệ thống suy luận thuần NumPy cực kỳ gọn gàng với cơ chế kiểm soát chất lượng tự sinh lại câu lỗi và bộ chuẩn hóa văn bản không phụ thuộc bên ngoài.",
+  "impact": "Có tiềm năng ứng dụng cao cho thiết bị biên và CPU laptop, dù bị hạn chế bởi giấy phép phi thương mại (Underdog Non-Commercial License 1.0).",
+  "evidence": "Bảng kết quả thực nghiệm chi tiết so sánh với 20 mô hình cloud và edge khác nhau trên benchmark chuẩn Gradium TTS Hard Cases kèm số liệu bộ nhớ và tốc độ cụ thể."
+ },
+ "summary": {
+  "tldr": "Underdog Woof là mô hình Text-to-Speech tiếng Anh siêu gọn nhẹ với dung lượng chỉ 40.6 MB (38.24M tham số), tích hợp hai giọng đọc Juno và Mira chạy trực tiếp trên CPU chỉ bằng thư viện NumPy. Mô hình đạt tốc độ suy luận tới 13.8x thời gian thực trên một luồng CPU Apple M5 Max và ghi nhận Word Error Rate (WER) 1.42% trên tập benchmark Gradium TTS Hard Cases, vượt qua nhiều mô hình cloud và on-device kích thước lớn hơn đáng kể.",
+  "problem": "Các mô hình TTS hiện đại thường đòi hỏi tài nguyên tính toán lớn (GPU, RAM cao, kích thước file từ vài trăm megabyte đến hàng chục gigabyte), phụ thuộc vào cloud API hoặc gặp nhiều lỗi phát âm/đọc sai đối với các định dạng văn bản phức tạp như số điện thoại, ngày tháng, giá tiền và mã ký tự đặc biệt.",
+  "method": "Hệ thống có tổng cộng 38.24M tham số (mô hình phát âm speech model 22.95M và audio decoder 15.3M được tùy biến từ Mimi codec của Kyutai), xuất âm thanh mono tần số 24 kHz. Toàn bộ trọng số của cả hai giọng đọc được gói gọn trong một file 40.6 MB và chạy suy luận thuần túy bằng NumPy. Kiến trúc tích hợp một bộ chuẩn hóa văn bản (text normalizer) dựa trên luật viết bằng standard library để xử lý số, thời gian, tiền tệ và từ điển phiên âm tên khó. Văn bản dài được chia câu (cắt tiếp tại dấu phẩy, chấm phẩy, gạch nối nếu câu vượt quá 120 ký tự). Quy trình tạo âm có cơ chế tự kiểm định: nếu đoạn âm thanh quá dài so với văn bản hoặc xuất hiện khoảng lặng từ 1 giây trở lên ở giữa, hệ thống sẽ tự động thử lại (re-draw) tối đa 3 lần và chọn lượt tốt nhất. Dữ liệu huấn luyện bao gồm LibriTTS-R và Emilia-YODAS.",
+  "setup": "Môi trường yêu cầu tối thiểu Python với thư viện `numpy`. Mô hình hỗ trợ tiếng Anh (en) với 2 giọng (Juno và Mira). Đo lường benchmark thực hiện trên tập Gradium TTS Hard Cases (500 câu tiếng Anh), sinh phụ đề kiểm chứng bằng `qwen3.8-omni-flash` và đếm lỗi từ bằng `gemma-4-31b-it`. Tốc độ đo trên 1 luồng CPU của Apple M5 Max qua trung vị 3 vòng chạy trên 200 câu thông dụng.",
+  "results": [
+   "Trên Gradium TTS Hard Cases (English), giọng Mira đạt WER 1.42% (62/4,379 lỗi từ) và Juno đạt 1.53% (67/4,371 lỗi từ), thấp hơn 25% lỗi so với Fish Audio Drama 3 (41.5 GB, WER 1.89%).",
+   "Bản Woof 1 giọng (31.7 MB, PyTorch int8, 16 bước) đạt WER 2.06%, vượt qua Phonon 31m (55.1 MB, WER 2.16%), Deepgram Flux TTS (WER 2.39%), Deepgram Aura-2 (WER 2.43%), Microsoft MAI-Voice-2.1 Flash (WER 2.51%), và Qwen Audio 3.0 TTS Plus (WER 2.74%).",
+   "Vượt trội so với các mô hình on-device phổ biến khác: Kokoro 82M (327 MB, WER 5.17%), Pocket TTS (219 MB, WER 8.07%), Supertonic 3 (398 MB, WER 8.81%), Kitten Nano 0.8 (27.6 MB, WER 9.81%), và Qwen3-TTS 1.7B (4.54 GB, WER 11.99%).",
+   "Mô hình Liquid AI LFM3-Audio-2B (1.21 GB, GGUF 4-bit) đạt WER 20.1% (747/3,718 lỗi từ) khi kiểm nghiệm qua Whisper large-v3.",
+   "Tốc độ suy luận đạt 13.8x thời gian thực với Juno (tiêu thụ đỉnh 402 MB RAM) và 7.2x thời gian thực với Mira (tiêu thụ đỉnh 601 MB RAM) trên 1 luồng CPU Apple M5 Max; bản 1 giọng đạt 18x thời gian thực."
+  ],
+  "limitations": "Mô hình hiện chỉ hỗ trợ tiếng Anh và giới hạn ở 2 giọng đọc cố định (Juno, Mira). Chi tiết kiến trúc bên trong phần speech model 22.95M và thuật toán huấn luyện cụ thể không được công bố chi tiết trong tài liệu; đánh giá chỉ tập trung vào WER trên Gradium TTS Hard Cases mà không cung cấp điểm đánh giá chất lượng tự nhiên như MOS hay UTMOS.",
+  "takeaways": "Woof chứng minh rằng mô hình TTS kích thước cực nhỏ (<41 MB) kết hợp runtime tối giản chỉ dùng NumPy và bộ chuẩn hóa dựa trên luật có thể vượt qua các mô hình lớn về độ chính xác phát âm các trường hợp khó trên CPU người dùng cuối.",
+  "strengths": [
+   "Kích thước siêu nhỏ chỉ 40.6 MB",
+   "Runtime thuần NumPy không cần GPU",
+   "Tốc độ cao 13.8x thời gian thực CPU",
+   "WER ấn tượng trên các ca phức tạp",
+   "Tích hợp tự sửa lỗi khoảng lặng"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ tiếng Anh hai giọng",
+   "Giấy phép giới hạn phi thương mại",
+   "Thiếu đánh giá chất lượng MOS/tự nhiên"
+  ],
+  "context": "ConwayResearch phát hành trên Hugging Face (tháng 11 năm 2026 theo mốc thời gian đối chuẩn nêu trong văn bản) kèm demo trình duyệt tại underdog.ai/woof."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

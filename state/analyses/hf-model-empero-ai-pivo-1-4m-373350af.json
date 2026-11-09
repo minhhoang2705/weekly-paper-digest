@@ -1,0 +1,48 @@
+{
+ "id": "hf-model:empero-ai/PiVo-1.4M",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Tích hợp toàn bộ hệ thống TTS cả acoustic và vocoder chạy streaming chỉ trong 1.4M tham số là một nỗ lực tối ưu tham số rất đột phá.",
+  "credibility": "Đến từ tổ chức nghiên cứu độc lập (Empero Research) với báo cáo kỹ thuật tự công bố, kèm bảng hash model manifest và xuất xứ dữ liệu rõ ràng nhưng chưa qua bình duyệt.",
+  "technical": "Thiết kế kỹ thuật hoàn chỉnh từ acoustic model kết hợp attention/dilated conv đến FARGAN vocoder và xuất đồ thị ONNX với độ sai số cực nhỏ.",
+  "impact": "Có tiềm năng ứng dụng cao cho thiết bị biên và CPU giá rẻ, thu hút sự chú ý trên Hugging Face nhưng giới hạn về chất âm làm giảm phạm vi ứng dụng thương mại.",
+  "evidence": "Cung cấp số đo WER qua Whisper và kiểm chứng sai số ONNX chi tiết, nhưng đánh giá chất lượng giọng người nghe chỉ dựa trên 1 cá nhân với 20 mẫu."
+ },
+ "summary": {
+  "tldr": "PiVo-1.4M là hệ thống Text-to-Speech (TTS) siêu nhẹ dành cho tiếng Anh với hai giọng nói (Pi và Vo), gói gọn toàn bộ kiến trúc (acoustic model và vocoder) trong chỉ 1.4 triệu tham số (1,401,562 parameters). Hệ thống chạy hoàn toàn cục bộ trên CPU bằng NumPy và ONNX Runtime mà không phụ thuộc vào PyTorch hay kết nối mạng.",
+  "problem": "Các mô hình TTS hiện đại thường đòi hỏi dung lượng lớn, phần cứng GPU hoặc framework nặng như PyTorch, gây khó khăn khi triển khai trên các thiết bị hạn chế tài nguyên CPU thuần túy hoặc biên (edge devices).",
+  "method": "Toàn bộ hệ thống gồm acoustic model (584,965 tham số) và FARGAN-derived vocoder (816,597 tham số) tạo âm thanh mono 16 kHz:\n- **Frontend**: Tra từ điển CMU Pronouncing Dictionary, chuẩn hóa số, tiền tệ, số thứ tự và định dạng ISO dates. Khi gặp từ ngoài từ điển, hệ thống ném ngoại lệ yêu cầu người dùng cung cấp phiên âm ARPAbet thay vì đoán bừa.\n- **Acoustic Model**: Lấy cảm hứng từ Neuroblast (của Mariusz Kurman). Text encoder có độ rộng kênh 96 (width 96), kết hợp attention và dilated convolution để dự đoán duration của từng phone kèm tín hiệu timing nội tại; tiếp đó là hai khối causal decoder blocks dự đoán 18 hệ số cepstral (cepstral coefficients), pitch và pitch correlation mỗi chu kỳ 10 ms.\n- **Vocoder**: Kiến trúc dựa trên FARGAN, tổng hợp bốn subframe 40 mẫu cho mỗi frame 10 ms.\n- **Dữ liệu huấn luyện**: Sử dụng 8,628 câu tổng hợp (tương đương 12.29 giờ gốc, 10.77 giờ sau khi cắt khoảng lặng) được sinh bởi Qwen3-TTS VoiceDesign và Qwen3-TTS Base.",
+  "setup": "Yêu cầu Python 3.11+, ONNX Runtime và NumPy. Hỗ trợ tổng hợp streaming qua `iter_audio` theo từng khung 10 ms, giới hạn tối đa 2,000 ký tự, 512 token frontend và 30 giây audio (3,000 khung) cho mỗi phát ngôn, tốc độ điều chỉnh từ 0.5 đến 2.0.",
+  "results": [
+   "Nhận dạng tự động bằng Whisper small.en trên tập Validation (114 câu, 1,738 từ): 15 lỗi, đạt Word Error Rate (WER) 0.863%.",
+   "Nhận dạng tự động bằng Whisper small.en trên tập Test (152 câu, 2,254 từ): 12 lỗi, đạt Word Error Rate (WER) 0.532%.",
+   "So sánh mù vocoder gốc vs vocoder tinh chỉnh (20 cặp câu, 1 người nghe): điểm trung bình lần lượt là 6.10/10 so với 6.15/10 (18 câu hòa, mỗi bên thắng 1 câu).",
+   "Sai lệch tối đa giữa đồ thị ONNX và PyTorch: 1.23e-6 (encoder), 6.68e-6 (decoder), 3.87e-7 (conditioning) và 2.98e-7 (vocoder step)."
+  ],
+  "limitations": "Giọng đọc vẫn còn cảm giác thô cứng, kim loại (metallic/robotic texture) ở các âm xát (sibilants) và khoảng ngừng (pauses); frontend nghiêm ngặt dừng xử lý khi gặp từ lạ ngoài từ điển CMU; đánh giá cảm thụ chủ quan chỉ qua 1 người nghe (không phải bài test MOS chuẩn); chưa đo đạc hiệu năng/bộ nhớ trên kiến trúc ARM/mobile và chưa lượng tử hóa.",
+  "takeaways": "Một minh chứng xuất sắc về việc thu nhỏ toàn bộ pipeline TTS hoàn chỉnh xuống dưới 1.5M tham số chạy CPU thuần với ONNX. Thích hợp cho các kỹ sư speech tìm kiếm giải pháp nhúng (embedded/edge) cực nhẹ, chấp nhận đánh đổi một phần độ tự nhiên của âm thanh.",
+  "strengths": [
+   "Dung lượng cực nhỏ chỉ 1.4M tham số",
+   "Chạy CPU độc lập không cần PyTorch",
+   "Hỗ trợ streaming khung 10 ms độ trễ thấp",
+   "Độ rõ âm tốt (WER kiểm thử 0.532%)"
+  ],
+  "weaknesses": [
+   "Âm thanh còn tính kim loại và rè",
+   "Frontend dừng lỗi khi gặp từ ngoài từ điển",
+   "Thiếu đánh giá MOS quy mô lớn"
+  ],
+  "context": "Tác giả Leon Lehmann thuộc Empero Research, phát hành dưới dạng Technical Report và mô hình mở trên Hugging Face (tháng 11/2026 theo trích dẫn citation)."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

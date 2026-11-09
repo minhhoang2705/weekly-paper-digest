@@ -1,0 +1,49 @@
+{
+ "id": "gh:varsian/ghost",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Kết hợp các thành phần sẵn có (DSH, VoxCPM 1.5, Live2D Cubism) và kỹ thuật lip-sync theo RMS envelope PCM cổ điển thay vì đề xuất phương pháp mô hình hóa mới.",
+  "credibility": "Repository mã nguồn mở do cá nhân duy trì, các số liệu livestream là tự báo cáo (self-reported) từ dashboard sáng tạo nội dung, chưa qua bình duyệt.",
+  "technical": "Thiết kế hệ thống kỹ thuật tốt với cơ chế shim byte-for-byte relay để tee audio PCM, tính toán độ trễ thực tế và bảo vệ backpressure trên SSE.",
+  "impact": "Dự án mới ở mức khởi điểm với 52 GitHub stars và phục vụ hệ sinh thái DeepSeek Harness ngách trên Windows.",
+  "evidence": "Tài liệu chỉ công bố các con số về người xem và thời lượng phát livestream thực tế, hoàn toàn thiếu benchmark định lượng về TTS (RTF, MOS, WER) hay độ trễ lip-sync chi tiết."
+ },
+ "summary": {
+  "tldr": "GHOST (bản Community Edition) là hệ thống digital human Live2D cục bộ chạy trên DeepSeek Harness (DSH), kết hợp mô hình TTS VoxCPM 1.5 để đồng bộ khẩu hình theo thời gian thực. Dự án tích hợp trực tiếp qua shim để trích xuất RMS envelope từ luồng PCM thực tế đang phát ra loa thay vì dự đoán qua độ dài văn bản.",
+  "problem": "Các giải pháp digital human Live2D thông thường thường phụ thuộc vào cloud TTS, hoạt ảnh khẩu hình cố định hoặc ước lượng theo độ dài text khiến chuyển động môi không khớp với âm thanh thực tế, đồng thời thiếu khả năng tương thích dạng plugin module hóa với các agent runtime như DeepSeek Harness.",
+  "method": "Kiến trúc gồm 3 thành phần chính:\n- **`voice-plugin/`**: Snapshot plugin `@deepseek-ai/dsh-tool-tts` (v0.1.5-rc.2) kết hợp engine VoxCPM 1.5 bằng Python, hỗ trợ voice cloning từ 1 đoạn audio mẫu kèm transcript, sinh và phát audio dạng streaming theo từng câu.\n- **`tts-bridge/`**: Cung cấp shim `live2d_tts_shim.py` ghi đè `daemonScript` của công cụ TTS. Shim chạy tiến trình gốc `tts_daemon.py` (byte-for-byte relay) và tee trực tiếp luồng PCM thực phát qua card âm thanh để tính envelope RMS (~20ms), kèm timeline cảm xúc/câu và độ trễ ngõ ra thực tế, sau đó gửi qua HTTP POST tới `127.0.0.1:34567/ingest`.\n- **`live2d-pet/`**: Host Node.js nhận dữ liệu và đẩy qua Server-Sent Events (`/events`) tới tầng renderer browser (pixi.js, pixi-live2d-display và Soullink adapter) hiển thị trên cửa sổ Electron trong suốt hoặc overlay GUI; biểu cảm được pha trộn qua nhãn cảm xúc (exp3 + VAD).",
+  "setup": "Yêu cầu hệ thống: Windows 10/11 với PowerShell 7 (`pwsh`), Node.js ≥ 20 (kèm `esbuild`), Python 3.10+ (khuyến nghị GPU CUDA cho VoxCPM 1.5), và DeepSeek Harness (DSH). Người dùng cần tự chuẩn bị model Live2D Cubism 4 có bản quyền, trọng số VoxCPM 1.5, file mẫu âm thanh clone (`.wav` kèm `.txt`), và chạy script tải `Live2D Cubism Core` có chấp thuận EULA.",
+  "results": [
+   "Số liệu từ đợt phát thử nghiệm (Bilibili Creator Backend, thống kê 7 ngày đến 2026-10-21):",
+   "Lượt người xem tích lũy trong 1 buổi phát: 47.3 vạn+ (473K+ viewers)",
+   "Số lượng follower tăng ròng: +928 người (tổng tăng 1,255 người, thuộc top 1% so với streamer cùng cấp độ)",
+   "Tổng thời lượng phát sóng trong kỳ thống kê: 14.2 giờ",
+   "Độ trễ tính toán envelope RMS: cửa sổ ~20ms trên luồng PCM thực tế"
+  ],
+  "limitations": "Bản Community Edition (CE) bị giới hạn tính năng: không kèm module TTS cao cấp dùng cho livestream thương mại, thiếu các plugin nâng cao, chỉ hỗ trợ Windows 10/11 (Linux/macOS chưa được kiểm thử), không đi kèm sẵn trọng số TTS hay model Live2D do bản quyền.",
+  "takeaways": "Cung cấp một kiến trúc tham khảo tốt về kỹ thuật intercept và tee luồng audio PCM cục bộ qua shim tiến trình để trích xuất RMS envelope phục vụ lip-sync thời gian thực mà không làm gián đoạn streaming pipeline của TTS agent.",
+  "strengths": [
+   "Lip-sync RMS bám sát audio PCM thực tế",
+   "Xử lý hoàn toàn local không telemetry",
+   "Kiến trúc modular tách biệt bridge và pet",
+   "Tích hợp sâu runtime DeepSeek Harness"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ môi trường Windows",
+   "Bản CE bị cắt giảm tính năng TTS",
+   "Dự án cá nhân quy mô nhỏ"
+  ],
+  "context": "Dự án nguồn mở cá nhân của tác giả varsian trên GitHub (52 stars, 6 forks), phát hành dưới dạng snapshot Community Edition được mời thử nghiệm trên phân khu AI của Bilibili Live."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

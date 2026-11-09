@@ -1,0 +1,49 @@
+{
+ "id": "hf-model:Edge0/Audio8-TTS-Realistic-Air",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ứng dụng và tinh chỉnh kiến trúc DualAR từ Fish Audio S2 Pro xuống quy mô 0.6B cho TTS đa ngôn ngữ, không tạo ra cơ chế hoàn toàn mới.",
+  "credibility": "Được phát hành công khai bởi Edge0 dưới giấy phép Apache 2.0 kèm liên kết arXiv, demo và cấu hình tái hiện chi tiết.",
+  "technical": "Kiến trúc DualAR 2 cấp được đặc tả rõ ràng với codec 44.1 kHz đồng bộ và adapter SGLang Omni hỗ trợ paged attention và dynamic batching.",
+  "impact": "Mức độ quan tâm ban đầu tốt trong cộng đồng (366 likes, hơn 15.000 lượt tải trên Hugging Face) cho một mô hình 0.6B dễ phục vụ.",
+  "evidence": "Báo cáo chi tiết số liệu WER/CER và SIM trên 3 benchmark (Seed-TTS, CV3, MiniMax) với bảng so sánh trực tiếp cùng 8 mô hình TTS lớn."
+ },
+ "summary": {
+  "tldr": "Audio8-TTS-Realistic-Air là mô hình text-to-speech và zero-shot voice cloning đa ngôn ngữ gọn nhẹ với 601 triệu tham số (0.6B) từ Edge0. Mô hình mở rộng hỗ trợ lên 23 ngôn ngữ (thêm 12 ngôn ngữ so với bản Preview), cải thiện độ tự nhiên của ngữ điệu và tích hợp sẵn adapter phục vụ hiệu năng cao trên SGLang Omni.",
+  "problem": "Cung cấp một mô hình TTS nhỏ gọn (kích thước ~0.6B) nhưng đạt tính chân thực cao trong biểu cảm, hỗ trợ nhiều ngôn ngữ và khả năng zero-shot voice cloning ổn định, đồng thời hỗ trợ triển khai serving trên GPU với thông lượng cao.",
+  "method": "Mô hình kế thừa kiến trúc DualAR lấy cảm hứng từ Fish Audio S2 Pro. Cấu trúc gồm hai thành phần chính với tổng cộng 601,159,424 tham số (không tính codec): Slow AR Transformer gồm 24 layers (hidden dimension 896, 14 attention heads, 2 KV heads) dự đoán 1 semantic token cho mỗi audio frame; Fast AR Transformer gồm 4 layers (hidden dimension 896, 14 attention heads, 2 KV heads) dự đoán các acoustic tokens của frame dựa trên hidden state của Slow AR và các codebook đi trước. Chuỗi âm thanh được biểu diễn bằng 10 codebooks (4,096 mục mỗi codebook). Codec nén âm thanh 44.1 kHz đi kèm với tỉ lệ 2,048 mẫu/frame (~21.5 frames/s), xử lý cả mã hóa reference audio lẫn giải mã waveform. Ngữ cảnh tối đa đạt 2,048 vị trí đóng gói text/audio.",
+  "setup": "Mô hình yêu cầu Python $\\ge$ 3.10, PyTorch $\\ge$ 2.5.0, Transformers $\\ge$ 4.57.0 (<5), SoundFile $\\ge$ 0.12 và safetensors $\\ge$ 0.4. Đã smoke-test trên GPU NVIDIA H20 (BF16) với PyTorch 2.8.0 và Transformers 4.57.3. Hỗ trợ 23 ngôn ngữ (11 ngôn ngữ từ Preview: Cantonese, Chinese, Dutch, English, French, German, Italian, Japanese, Korean, Polish, Spanish; 12 ngôn ngữ mới: Arabic, Finnish, Hindi, Indonesian, Malay, Norwegian, Portuguese, Russian, Swedish, Thai, Turkish, Vietnamese). Cung cấp adapter cho SGLang Omni (paged attention, dynamic batching, fixed KV cache cho Fast AR, API tương thích OpenAI /v1/audio/speech).",
+  "results": [
+   "Trên Seed-TTS (English WER / Chinese CER): Realistic Air đạt macro error 1.25% (English WER 1.464%, Chinese CER 1.029%, Chinese hard CER 12.797%) và SIM 0.704 (Preview: 1.23% error, SIM 0.682).",
+   "Trên Common Voice 3 (CV3, 8 ngôn ngữ dùng chung): Realistic Air đạt error 4.56%, SIM 0.663 (Preview đạt error 4.80%).",
+   "Trên CV3 (9 ngôn ngữ chính): Realistic Air đạt error 4.86%, SIM 0.661.",
+   "Trên MiniMax (24 ngôn ngữ đánh giá): Realistic Air đạt error 5.89% và SIM 0.754.",
+   "So sánh tham chiếu với các baseline lớn hơn: Trên CV3 (9 ngôn ngữ), Realistic Air (0.6B) đạt error 4.86%, tốt hơn Qwen3-TTS-1.7B (7.73%), MOSS-TTS-v1.5 (6.11%), CosyVoice3-1.5B (6.89%), VoxCPM2 (5.35%), bám sát Higgs Audio v3 4B (4.41%) và Fish S2 Pro 4.6B (4.49%)."
+  ],
+  "limitations": "Chất lượng không đồng đều giữa các ngôn ngữ (ví dụ: trên CV3, Thai WER lên tới 48.574%, Finnish WER 32.279%, Vietnamese WER 28.111%; trên MiniMax, Cantonese CER là 31.349%). Giọng tham chiếu bị nhiễu hoặc sai lệch transcript làm giảm độ ổn định và tương đồng giọng. Độ dài ngữ cảnh bị giới hạn ở 2,048 vị trí. Có thể gặp lỗi phát âm, lặp từ, bỏ sót từ hoặc kết thúc sớm (early stopping). Các benchmark hiện tại (WER/CER, SIM) chưa đo lường trực tiếp độ chân thực (perceived realism).",
+  "takeaways": "Là lựa chọn open-weight (Apache 2.0) rất đáng giá ở phân khúc siêu nhẹ (0.6B) cho bài toán zero-shot TTS đa ngôn ngữ, đặc biệt đã tối ưu sẵn serving qua SGLang Omni. Kỹ sư cần lưu ý tiền xử lý tách câu nhỏ (<2048 vị trí ngữ cảnh) và kiểm tra kỹ chất lượng nếu ứng dụng vào các ngôn ngữ có WER cao.",
+  "strengths": [
+   "Kích thước gọn nhẹ 0.6B tham số",
+   "Hỗ trợ 23 ngôn ngữ đa dạng",
+   "Tích hợp sẵn SGLang Omni serving adapter",
+   "Mã nguồn mở giấy phép Apache 2.0"
+  ],
+  "weaknesses": [
+   "Chất lượng kém trên một số ngôn ngữ",
+   "Ngữ cảnh giới hạn tối đa 2,048 vị trí",
+   "Nhạy cảm với audio tham chiếu nhiễu"
+  ],
+  "context": "Edge0; phát hành checkpoint và code mã nguồn mở trên Hugging Face / GitHub kèm technical report arXiv:2610.14776."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

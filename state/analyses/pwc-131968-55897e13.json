@@ -1,0 +1,47 @@
+{
+ "id": "pwc:131968",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 3,
+  "evidence": 1
+ },
+ "reasons": {
+  "novelty": "Mô hình kết hợp full-duplex omni (nghe, nhìn, nói, render khuôn mặt) trong chunk 160 ms cùng cơ chế background delegation là bước tiến kiến trúc rất mới so với các voice agent thông thường.",
+  "credibility": "Tài liệu chỉ là đoạn trích giới thiệu ngắn trên Papers with Code, tác giả để 'unknown' và không có liên kết tới bài báo khoa học hay báo cáo kỹ thuật chính thức.",
+  "technical": "Văn bản nêu được thông số cấu hình quan trọng (45B MoE, 2T tokens, chunk 160 ms, background execution) nhưng không đi sâu vào chi tiết thiết kế mạng hay thuật toán tối ưu.",
+  "impact": "Khái niệm omni agent full-duplex có khuôn mặt và xử lý nền có sức ảnh hưởng tiềm năng lớn đến thiết kế trợ lý ảo, nhưng tác động thực tế hạn chế do chưa có mã nguồn hoặc bản demo công khai.",
+  "evidence": "Không có bất kỳ dữ liệu benchmark, baseline so sánh, ablation study hay số liệu đo lường hiệu năng thực tế nào được cung cấp trong văn bản."
+ },
+ "summary": {
+  "tldr": "Higgs Realtime Duplex là mô hình omni tương tác full-duplex của Boson, hỗ trợ nghe, nhìn, nói và kết xuất (render) khuôn mặt đồng thời theo các chunk 160 ms. Hệ thống sử dụng mô hình front-end 45B MoE được huấn luyện trên 2 nghìn tỷ token và có thể thực thi tác vụ nền hoặc ủy quyền cho mô hình lớn hơn mà không làm gián đoạn hội thoại.",
+  "problem": "Các tác nhân tương tác giọng nói truyền thống thường hoạt động ở chế độ half-duplex hoặc không thể vừa tương tác đa phương thức thời gian thực vừa xử lý suy nghĩ, gọi công cụ phức tạp ở chế độ nền mà không làm gián đoạn cuộc hội thoại.",
+  "method": "Mô hình omni tương tác hoạt động ở chế độ full duplex, cho phép đồng thời lắng nghe, quan sát video, nói và render khuôn mặt biểu cảm theo các chunk thời gian 160 ms. Kiến trúc là mô hình front-end 45B MoE (Mixture of Experts) được huấn luyện trên khoảng 2 nghìn tỷ (2 trillion) tokens đa phương thức gồm text, audio và video. Về hành vi hội thoại, mô hình tự quyết định khi nào cần nói và nhận diện được khi nào câu nói của người dùng không hướng tới nó. Về xử lý nền (background work), mô hình có thể suy nghĩ, gọi tool và ủy quyền (delegate) xử lý cho một mô hình lớn hơn mà không làm gián đoạn luồng hội thoại liên tục.",
+  "setup": "Không được nêu trong tài liệu (chỉ cung cấp thông tin mô hình 45B MoE được train trên khoảng 2 nghìn tỷ token text, audio và video; không có thông tin về tập dữ liệu benchmark, baseline hay môi trường phần cứng).",
+  "results": [
+   "Kích thước mô hình front-end: 45B MoE",
+   "Quy mô dữ liệu huấn luyện: khoảng 2 nghìn tỷ (2 trillion) tokens gồm text, audio và video",
+   "Độ dài chunk xử lý tương tác đa phương thức đồng thời (nghe, nhìn, nói, render khuôn mặt): 160 ms"
+  ],
+  "limitations": "Tài liệu chỉ là đoạn tóm tắt/thông báo sản phẩm sơ lược; hoàn toàn thiếu các thông số đánh giá định lượng (WER, MOS, latency chi tiết), không có bảng so sánh với baseline và chưa có đường dẫn mã nguồn hay trọng số mô hình.",
+  "takeaways": "Mô hình minh chứng cho xu hướng thiết kế agent omni full-duplex thế hệ mới: kết hợp xử lý streaming chunk ngắn (160 ms) cho audio/video/khuôn mặt song song với cơ chế ủy quyền chạy nền cho mô hình lớn hơn để giải quyết tác vụ phức tạp.",
+  "strengths": [
+   "Hỗ trợ full duplex đa phương thức đồng thời",
+   "Xử lý streaming chunk ngắn 160 ms",
+   "Tích hợp render khuôn mặt trực tiếp",
+   "Hỗ trợ gọi tool và chạy nền mượt mà"
+  ],
+  "weaknesses": [
+   "Thiếu hoàn toàn kết quả thực nghiệm định lượng",
+   "Không có mã nguồn hoặc trọng số mô hình",
+   "Tài liệu chỉ là bản mô tả sơ lược"
+  ],
+  "context": "Boson (thông tin tác giả metadata chưa định danh), công bố trên Papers with Code dưới dạng phần giới thiệu mô hình."
+ },
+ "fulltext_source": "abstract/mô tả (không lấy được full-text)",
+ "fulltext": false,
+ "analyzed_week": "2026-W46"
+}

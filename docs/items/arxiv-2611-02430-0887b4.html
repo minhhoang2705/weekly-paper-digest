@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InteractionBench: Measuring Timing, Task Accuracy, Whisper and Volume, and Grounding in Real-Time Voice Systems · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W46</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">InteractionBench: Measuring Timing, Task Accuracy, Whisper and Volume, and Grounding in Real-Time Voice Systems</h1>
+    <div class="meta">
+      <span>published Nov 2, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">Richard Yucheng He, Chen Xu, Yihang Liu, Tairan Chen, Baodong Cao</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2611.02430" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>Most benchmarks for real-time voice systems focus on one aspect, such as turn-taking, instruction following, paralinguistic control, or conversational memory, each with its own data and set of systems. We present InteractionBench, a benchmark and evaluation harness that measures four dimensions on the same systems from the same recorded user audio: conversational timing, spoken-task accuracy, whisper and volume, and groundedness in conversations of more than twenty turns. The benchmark contains 221 items per system in thirteen scenarios. Before any system runs, we fix the expected floor-control actions for spoken tasks by rule and take the expected answers from scripted dialogues. We score whispering from the audio signal. We evaluate GPT-Live, GPT-Realtime, Gemini Live, Moshi, PersonaPlex, Freeze-Omni, and a turn-based cascade in 1,519 graded runs. Among the six full-duplex systems, timing and spoken-task accuracy are rank-correlated (<span class="math inline">ρ= 0.83</span>), while the cascade has the highest spoken-task score (38/50) and the second-lowest timing score. No system corrects a user's grammar within the required window. Only Gemini Live whispers on most requests (8/10). Hosted systems pass 67-88% of groundedness probes, compared with 14-35% for open full-duplex models. Timing is measured where the client hears each system, so the timing of hosted systems includes network delay: for GPT-Live, whose server reports its own clock, removing a delay of about 1.5 s lowers its timing score from 86% to 56%. We also document where the protocol differs across systems, including the text instructions.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 9, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>InteractionBench là bộ benchmark và harness đánh giá toàn diện dành cho các hệ thống giọng nói tương tác thời gian thực (real-time voice systems), đo lường đồng thời 4 khía cạnh trên cùng một luồng âm thanh người dùng: conversational timing, spoken-task accuracy, whisper and volume, và groundedness trong hội thoại dài (&gt;20 lượt). Đánh giá trên 7 hệ thống (gồm cả open-source, hosted API và cascade) cho thấy hosted systems vượt trội về độ chính xác tác vụ và groundedness, đồng thời hé lộ độ trễ mạng đóng vai trò che giấu hiện tượng ngắt lời người dùng của mô hình hosted.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Phần lớn benchmark hiện có cho hệ thống giọng nói song công (full-duplex) chỉ tập trung vào một khía cạnh duy nhất (hoặc cơ chế tương tác turn-taking/timing, hoặc instruction-following, hoặc kiểm tra bộ nhớ/grounding tĩnh) với dữ liệu và phương thức riêng biệt, khiến không thể so sánh tương quan giữa các năng lực trên cùng một hệ thống. Ngoài ra, việc benchmark các hosted API mới nhất (như GPT-Realtime, GPT-Live) gặp nhiều thách thức kỹ thuật: giao diện đòi hỏi client tự báo ngắt lời, hoặc luồng audio streaming không kèm timestamp và lược bỏ frame im lặng khiến timeline bị lệch.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>InteractionBench thiết kế harness hợp nhất truyền cùng một tập audio người dùng (221 items qua 13 kịch bản) tới các hệ thống (gồm driver cho hosted API, mô hình chạy cục bộ, và offline cascade) và ghi âm song song trên cùng một timeline hai track (<code>A_user.wav</code>, <code>B_model.wav</code>):</p>
+<ul>
+<li><strong>Kích thích âm thanh (Stimuli)</strong>: Người dùng được tổng hợp qua MiMo TTS (<code>mimo-v2.5-tts</code>, 24 kHz); volume items điều chỉnh thang đo RMS/peak.</li>
+<li><strong>Đo lường thời gian &amp; VAD</strong>: Cắt đoạn nói bằng WebRTC VAD (aggressiveness 2, frame 30 ms), nhận dạng căn chỉnh thời gian từ vựng bằng Parakeet TDT 0.6B v3, chốt biên từ vựng vào mốc VAD.</li>
+<li><strong>Tái lập timeline (GPT-Live)</strong>: Tái tạo timeline từ log thời gian nhận chunk audio kết hợp khớp từ giữa transcript deltas và ASR; hiệu chỉnh độ trễ máy chủ (server session clock) bằng cách đo bù trễ mạng (median 1.47 s).</li>
+<li><strong>Chấm điểm theo luật &amp; mô hình thẩm định (Judge)</strong>: Cơ chế timing và whisper được tính bằng thuật toán/luật âm học (whisper: HNR &lt; 6 dB và tỉ lệ frame hữu thanh voiced fraction &lt; 0.4; volume adaptation: RMS &lt; 0.7 mức trung vị). Các quyết định ngữ nghĩa (groundedness 52 probes qua 11 dạng lỗi, bám sát task, phân loại backchannel/interruption) được đánh giá bằng Gemini 2.5 Flash judge (lặp 3 lần/hội thoại).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá 7 hệ thống:</p>
+<ol>
+<li>Hosted APIs: <code>gpt-live-1</code> (suy luận sâu ủy quyền cho <code>gpt-5.5</code>), <code>gpt-realtime-2.1</code> (server VAD 500 ms silence), <code>gemini-3.1-flash-live-preview</code> (auto activity detection 500 ms silence, high sensitivity).</li>
+<li>Local full-duplex models: Moshi (<code>moshika-pytorch-bf16</code>), PersonaPlex (<code>personaplex-7b-v1</code>), Freeze-Omni (<code>Freeze-Omni</code> + <code>Qwen2-7B-Instruct</code>).</li>
+<li>Tham chiếu kiến trúc (Offline cascade): WebRTC VAD endpointing (0.5 s) -&gt; Parakeet ASR -&gt; <code>gpt-4o-mini</code> -&gt; MiMo TTS (độ trễ mô phỏng 1.2 s).</li>
+</ol>
+<ul>
+<li>Tổng cộng 1,519 lượt chạy được chấm điểm trên 13 kịch bản thuộc 4 khía cạnh: Timing (backchannel, pause, turn-taking, user backchannel, interruption); Spoken task (logic, countdown, grammar, keyword-wait, stay-quiet); Whisper &amp; volume (whisper, volume); Groundedness (10 hội thoại 22–24 lượt, 52 probes).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Tương quan giữa timing và spoken-task accuracy ở 6 mô hình full-duplex đạt hệ số Spearman <span class="math inline">\rho = 0.83</span>; khi thêm Cascade hệ số giảm xuống 0.36 vì Cascade đạt spoken-task cao nhất (38/50, 76%) nhưng timing tổng hợp xếp áp chót (49%).</li>
+<li>Spoken-task accuracy: Cascade đạt 76% (38/50), Gemini Live 72% (36/50), GPT-Realtime 70% (35/50), GPT-Live 68% (34/50); trong khi các mô hình full-duplex mở đạt rất thấp: PersonaPlex 18% (9/50), Freeze-Omni 8% (4/50), Moshi 6% (3/50).</li>
+<li>Không có hệ thống nào vượt qua kịch bản sửa lỗi ngữ pháp (grammar correction, 0/10) trong cửa sổ 50–300 ms khi người dùng đang nói.</li>
+<li>Về khả năng thì thầm (whisper): Chỉ duy nhất Gemini Live thì thầm ổn định theo yêu cầu (đạt 8/10 theo chuẩn âm học HNR &lt; 6 dB, voiced &lt; 0.4), GPT-Live và GPT-Realtime chỉ đạt 2/10, các hệ thống khác đạt 0/10.</li>
+<li>Về tương thích âm lượng: Phần lớn hiểu yêu cầu whispered/shouted (GPT-Live 9/10, Cascade 8/10), nhưng chỉ có 2/35 lượt yêu cầu thì thầm trên toàn bộ hệ thống thực sự hạ nhỏ giọng nói của chính mình (&lt;0.7 RMS speech level).</li>
+<li>Groundedness trong hội thoại dài: Hosted systems đạt tỷ lệ vượt qua probe từ 67% đến 88% (Gemini Live 88%, GPT-Live 85%, GPT-Realtime 67%, Cascade 75%), vượt trội so với open full-duplex models (Freeze-Omni 35%, PersonaPlex 30%, Moshi 14%). Điểm Coherence (0–100): Gemini Live 86, GPT-Live 82, GPT-Realtime 76, Cascade 74, Freeze-Omni 39, PersonaPlex 28, Moshi 16.</li>
+<li>Ảnh hưởng của độ trễ mạng tới timing: Ở phía client, GPT-Live đạt điểm timing tổng hợp 86% (121/140, đợi qua 23/30 pauses); nhưng khi tính theo đồng hồ server (bỏ độ trễ mạng ~1.5 s), mô hình nói chen vào 28/30 pauses và timing tổng hợp giảm mạnh còn 56% (78/140).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Tất cả giọng người dùng đều là giọng tổng hợp (synthesized English), không có tiếng ồn, dội âm (reverberation) hay hiệu ứng kênh truyền. Giao thức đo giữa các hệ thống chưa hoàn toàn đồng nhất: prompt chỉ dẫn (instruction) khác nhau; thời điểm inject ngắt lời/backchannel khác nhau giữa các driver do cách buffer audio; việc cắt ngắn khoảng lặng ở 5 hệ thống hội thoại dài gây khó so sánh nguyên bản. Chưa đo lường sở thích người nghe (human preference), an toàn (safety) hoặc sử dụng công cụ (tool use).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Khi thiết kế và đánh giá voice agent song công (full-duplex), việc đo lường độ trễ và thời điểm cướp lời (turn-taking/timing) bắt buộc phải phân tách ranh giới client-side và server-side; mạng có độ trễ lớn có thể vô tình 'che đậy' việc mô hình phản hồi quá vội và cướp lời người dùng. Hơn nữa, các mô hình full-duplex mã nguồn mở hiện nay vẫn còn khoảng cách rất xa so với mô hình hosted về khả năng duy trì ngữ cảnh hội thoại dài và tuân thủ tác vụ âm thanh.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">71.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#9 in 2026-W46</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đây là benchmark đầu tiên kết hợp live multi-turn, mechanics (timing), content accuracy, acoustic voice control và long-conversation grounding trên cùng một tập dữ liệu và hệ thống.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật harness phức tạp, giải quyết xuất sắc việc đồng bộ timeline streaming không có timestamp của GPT-Live và phân tích sâu sắc tác động của độ trễ mạng lên floor-control.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — 1,519 lượt chạy được ghi âm và chấm điểm với khoảng tin cậy Wilson, kèm phân tích độ nhạy ngưỡng (threshold sensitivity) và kiểm tra đối chiếu bằng tay.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Cung cấp khung đánh giá và mã nguồn hoàn chỉnh cho cộng đồng nghiên cứu voice agent full-duplex, làm sáng tỏ trade-off thực tế giữa cascade và native duplex.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Bản preprint arXiv từ phòng nghiên cứu tư nhân (AveraLabs); quy trình minh bạch, đối soát dữ liệu và phân tích sai số chi tiết nhưng chưa qua bình duyệt học thuật chính thức.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đây là benchmark đầu tiên kết hợp live multi-turn, mechanics (timing), content accuracy, acoustic voice control và long-conversation grounding trên cùng một tập dữ liệu và hệ thống.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Bản preprint arXiv từ phòng nghiên cứu tư nhân (AveraLabs); quy trình minh bạch, đối soát dữ liệu và phân tích sai số chi tiết nhưng chưa qua bình duyệt học thuật chính thức.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật harness phức tạp, giải quyết xuất sắc việc đồng bộ timeline streaming không có timestamp của GPT-Live và phân tích sâu sắc tác động của độ trễ mạng lên floor-control.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Cung cấp khung đánh giá và mã nguồn hoàn chỉnh cho cộng đồng nghiên cứu voice agent full-duplex, làm sáng tỏ trade-off thực tế giữa cascade và native duplex.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>1,519 lượt chạy được ghi âm và chấm điểm với khoảng tin cậy Wilson, kèm phân tích độ nhạy ngưỡng (threshold sensitivity) và kiểm tra đối chiếu bằng tay.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Đánh giá 4 chiều trên cùng luồng audio · Kỹ thuật tái lập timeline GPT-Live chặt chẽ · Phát hiện hiệu ứng trễ mạng che cướp lời · Chấm âm học khách quan cho whisper/volume · Công khai toàn bộ harness, mã nguồn và dữ liệu</p>
+          <p><span class="label">Weaknesses</span> · Toàn bộ dữ liệu dùng giọng đọc tổng hợp · Độ lệch giao thức và prompt giữa hệ thống · Mẫu kịch bản tương đối nhỏ (10-30 items)</p>
+          <p><span class="label">Context</span> · Nghiên cứu từ Richard Yucheng He và nhóm tác giả tại AveraLabs, phát hành trên arXiv (tháng 11/2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

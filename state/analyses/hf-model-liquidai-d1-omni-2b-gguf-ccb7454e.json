@@ -1,0 +1,45 @@
+{
+ "id": "hf-model:LiquidAI/d1-Omni-2B-GGUF",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 4,
+  "technical": 3,
+  "impact": 4,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Mô hình ứng dụng mô thức decision model phi tự hồi quy (single forward pass) trên kiến trúc đa phương thức LFM3-Omni, dù khái niệm d1 đã được giới thiệu trước đó.",
+  "credibility": "Phát hành chính thức bởi LiquidAI với sự tích hợp trực tiếp vào codebase chuẩn của llama.cpp.",
+  "technical": "Mô tả rõ ràng cách ánh xạ câu hỏi đa phương thức vào endpoint System 1 và cấu hình batch, nhưng thiếu thông tin chi tiết về kiến trúc mạng và hàm mất mát trong tài liệu.",
+  "impact": "Đạt hơn 44.000 lượt tải và trending hạng 8 trên Hugging Face, mở ra khả năng chạy tác vụ phân loại/quyết định âm thanh-hình ảnh cục bộ trên CPU/GPU phổ thông.",
+  "evidence": "Tài liệu chỉ bao gồm hướng dẫn sử dụng và ví dụ API curl, hoàn toàn không có bảng số liệu benchmark hay đánh giá thực nghiệm nào."
+ },
+ "summary": {
+  "tldr": "LiquidAI/d1-Omni-2B-GGUF là phiên bản định dạng GGUF của mô hình đa phương thức d1-Omni-2B (phát triển trên nền LFM3-Omni-2B) phục vụ suy luận cục bộ trên CPU và GPU qua llama.cpp. Đây là một decision model có khả năng đưa ra câu trả lời đã hiệu chuẩn (calibrated) chỉ trong một lượt forward pass duy nhất mà không cần sinh token tự hồi quy.",
+  "problem": "Việc phân loại, ra quyết định và trích xuất thông tin trên dữ liệu đa phương thức (văn bản, hình ảnh, âm thanh, video) bằng các mô hình sinh (generative LLMs) thường tốn nhiều tài nguyên tính toán và độ trễ cao do quá trình sinh token tự hồi quy, đồng thời khó triển khai trực tiếp trên thiết bị biên (edge devices).",
+  "method": "Mô hình được xây dựng dựa trên kiến trúc nền tảng LFM3-Omni-2B của Liquid AI, định dạng lại thành GGUF (chẳng hạn phiên bản lượng tử hóa `Q8_0`). Điểm cốt lõi là cơ chế 'System 1' ra quyết định: xử lý ngữ cảnh đầu vào (state) cùng đa phương tiện và trả về trực tiếp kết quả xác suất/phân loại đã hiệu chuẩn (calibrated answers) trong một single forward pass thay vì autoregressive token generation. Mô hình tiếp nhận các định dạng câu hỏi gồm `noul` (yes/no/unclear), `choice` (chọn phương án), và `score` (chấm điểm theo tiêu chí) thông qua endpoint `/v1/systemone` của `llama-server`. Câu hỏi hướng dẫn có thể được cung cấp dưới dạng văn bản hoặc âm thanh nói trực tiếp (`input_audio`).",
+  "setup": "Yêu cầu `llama.cpp` phiên bản từ b11960 (v0.8.0) trở lên, cần `ffmpeg` trong `PATH` nếu xử lý video. Chạy qua `llama-server -hf LiquidAI/d1-Omni-2B-GGUF:Q8_0 -b 8192 -ub 8192` (batch size `-b` và `-ub` phải đủ chứa toàn bộ state và media, ví dụ 8192 token cho phép tối đa 4096 token/ảnh). Danh sách 16 ngôn ngữ được khai báo: en, ar, zh, fr, de, it, ja, ko, pt, es, vi, th, id, hi, ru, pl.",
+  "results": [
+   "Không được nêu trong tài liệu (model card không công bố số liệu benchmark định lượng cụ thể về độ chính xác, WER hay độ trễ)."
+  ],
+  "limitations": "Chưa hỗ trợ các tính năng như multiple choice (`\"multiple\": true`), extraction (trích xuất), estimates (ước tính), và bounding boxes trên llama.cpp. Toàn bộ câu hỏi và media phải vừa trong một batch kích thước cố định (`-b` và `-ub`). Tài liệu không cung cấp chi tiết về kiến trúc nội tại, tập dữ liệu huấn luyện và các chỉ số đánh giá thực nghiệm.",
+  "takeaways": "Cung cấp một giải pháp ra quyết định và phân loại đa phương thức (audio/vision/text) cực kỳ nhẹ (2B) và nhanh chóng nhờ suy luận single forward pass không sinh token, tương thích trực tiếp với hệ sinh thái suy luận cục bộ `llama.cpp`.",
+  "strengths": [
+   "Xử lý trực tiếp trong một forward pass",
+   "Hỗ trợ đa phương thức văn bản âm thanh hình ảnh",
+   "Tương thích suy luận cục bộ qua llama.cpp",
+   "Hỗ trợ cả câu hỏi bằng giọng nói"
+  ],
+  "weaknesses": [
+   "Không có số liệu benchmark định lượng",
+   "Chưa hỗ trợ trích xuất và multiple-choice",
+   "Thiếu thông tin chi tiết về tập dữ liệu"
+  ],
+  "context": "LiquidAI phát hành dưới dạng mô hình mã nguồn mở trên Hugging Face (license LFM 1.0) cho cộng đồng llama.cpp."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

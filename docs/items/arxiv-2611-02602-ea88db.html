@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How Much Prosody Does Your ASR Encoder Already Know · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W46</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">How Much Prosody Does Your ASR Encoder Already Know</h1>
+    <div class="meta">
+      <span>published Nov 2, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill pill-accent">Speech Understanding</span>        <span class="authors">Rini Sharon, Kadri Hacioglu, Andreas Stolcke</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://arxiv.org/abs/2611.02602" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>End-of-turn (EoT) detection decides in real-time whether a speaker has finished. Traditional detectors rely on hand-built prosodic features (pitch, speaking rate, pauses), while modern detectors run on a neural ASR encoder that has processed the same audio. Because the encoder reads the signal those features are computed from, it may already hold much of the information they were meant to supply. We test this three ways, reading a streaming Zipformer encoder at four depths from raw input to the final layer. First, we measure how much prosody helps over the encoder alone. Second, we test whether prosody can be recovered from the encoder. Third, we ask whether any single feature still helps given the encoder. The three tests agree; prosody adds a large gain on raw audio, but that gain collapses once the signal passes through even the first encoder layer. The same pattern holds for two open-source encoders, wav2vec2 and Whisper, both of which are offline.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 9, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Nghiên cứu phân tích xem việc trích xuất các đặc trưng ngữ điệu thủ công (hand-built prosody) có còn mang lại lợi ích cho bài toán phát hiện kết thúc lượt nói (End-of-Turn - EoT) khi đã có bộ mã hóa ASR hay không. Kết quả trên bộ mã hóa Zipformer (cũng như wav2vec2 và Whisper) cho thấy giá trị của ngữ điệu thủ công sụt giảm nghiêm trọng ngay từ tầng đầu tiên của encoder, và phần thông tin dư thừa còn lại chủ yếu phản ánh danh tính người nói (speaker shortcut) thay vì căn chỉnh thời gian thực sự.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các hệ thống hội thoại tự động cần phát hiện EoT chính xác và độ trễ thấp để tránh ngắt lời người dùng hoặc phản hồi chậm chạp. Theo truyền thống, các bộ phát hiện dựa vào các đặc trưng ngữ điệu thủ công (F0, năng lượng, tốc độ nói, khoảng lặng) kết hợp cùng biểu diễn của neural encoder; tuy nhiên, việc duy trì một luồng trích xuất prosody riêng biệt gây tốn chi phí tính toán, độ trễ và phải tinh chỉnh theo từng người nói, trong khi chưa rõ liệu neural ASR encoder đã tự mã hóa sẵn các thông tin này từ tín hiệu âm thanh hay chưa.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Tác giả thực hiện ba phân tích bổ trợ nhau trên bộ mã hóa streaming Zipformer (gồm 6 stack, khảo sát tại 4 độ sâu: log-mel 80-dim, zip-early 192-dim, zip-mid 512-dim, zip-final 768-dim):</p>
+<ul>
+<li>Đánh giá giá trị gia tăng (incremental value): Đo <span class="math inline">\Delta\text{bits} = \text{CE}(y \mid R) - \text{CE}(y \mid R, P)</span> và <span class="math inline">\Delta\text{AUC} = \text{AUC}(y \mid R, P) - \text{AUC}(y \mid R)</span> khi bổ sung tập 41 đặc trưng ngữ điệu <span class="math inline">P</span> vào biểu diễn encoder <span class="math inline">R</span> sử dụng bộ phân loại Logistic Regression (<span class="math inline">L_2</span> tuned) và một mạng neural nhỏ (MLP 1 lớp ẩn 64 units với Platt scaling).</li>
+<li>Cơ chế kiểm soát time-shift (time-shift control): Dịch chuyển vòng tròn (circularly shift) chuỗi đặc trưng prosody theo thời gian với độ lệch ngẫu nhiên trong từng phát ngôn nhằm giữ nguyên phân phối biên và tự tương quan nhưng phá hủy căn chỉnh với biên lượt nói, qua đó bóc tách thông tin thời gian thực sự khỏi hiệu ứng nhận diện đặc điểm người nói (speaker-identity shortcut).</li>
+<li>Thử nghiệm tái tạo (reconstruction probing): Đo hệ số xác định <span class="math inline">R^2</span> khi dự đoán từng đặc trưng prosody từ cửa sổ nhân quả ngắn 5 khung (khoảng 200 ms) của encoder bằng Ridge regression và MLP.</li>
+<li>Đánh giá từng đặc trưng đơn lẻ (individual cue analysis): Kiểm tra 41 đặc trưng prosody riêng biệt để xác định xem có cue nào (đặc biệt là F0 slope, pitch reset) cung cấp thông tin thời gian mà encoder bỏ lỡ.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><ul>
+<li>Dữ liệu: 2.221 đoạn hội thoại qua điện thoại (CTS 8 kHz) từ 1.354 người nói, phân bố đều qua 16 domain ứng dụng, chia speaker-disjoint (50% train/tuning, 25% selection, 25% test). Tái kiểm chứng trên corpus công khai CASPER (tiếng Anh 2 người).</li>
+<li>Nhãn &amp; khung hình: Gán nhãn <span class="math inline">t^*</span> tại 100 Hz, downsample về 25 Hz (40 ms/khung). Đánh giá trên vùng collar quanh <span class="math inline">t^*</span> với <span class="math inline">W=10</span> khung (<span class="math inline">\pm 400</span> ms), loại bỏ khoảng lặng kéo dài đuôi và guard band.</li>
+<li>Baseline/Mô hình: Bộ mã hóa Zipformer (streaming, 6 stack), wav2vec 2.0 (wav2vec2-base), Whisper (whisper-small).</li>
+<li>Metric: <span class="math inline">\Delta\text{bits}</span> (bits/frame), <span class="math inline">\Delta\text{AUC}</span>, False-Alarm rate (FA) tại 90% recall trên collar, và <span class="math inline">R^2</span> tái tạo.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Ngữ điệu bổ sung giá trị lớn trên đầu vào thô nhưng sụp đổ ngay stack đầu: Với Logistic detector ở <span class="math inline">W=10</span>, <span class="math inline">\Delta\text{bits}</span> đạt +0.053 trên fbank nhưng giảm xuống +0.021 ở zip-early, +0.015 ở zip-mid và +0.018 ở zip-final; sau khi trừ time-shift control (<span class="math inline">\Delta\text{bits}</span> corr.), mức tăng chỉ còn +0.004 ở zip-final.</li>
+<li>Mức tăng <span class="math inline">\Delta\text{AUC}</span> thực tế ở tầng cuối gần như bằng 0: Trên fbank, <span class="math inline">\Delta\text{AUC} = +0.092</span> (<span class="math inline">\Delta\text{AUC}</span> corr. = +0.091); nhưng ở zip-final, tổng <span class="math inline">\Delta\text{AUC}</span> chỉ là +0.006 và <span class="math inline">\Delta\text{AUC}</span> corr. (thời gian thực) chỉ đạt +0.0015.</li>
+<li>Prosody đơn lẻ đạt AUC 0.79 (vượt xa voice activity/silence đơn lẻ chỉ đạt AUC 0.63 với 99.6% false alarm trên mid-turn pauses), chứng minh prosody chứa tín hiệu EoT thật nhưng encoder đã hấp thụ gần hết.</li>
+<li>Tại điểm hoạt động 90% recall trên collar: Prosody giảm tỷ lệ cảnh báo nhầm <span class="math inline">\Delta\text{FA} = +0.113</span> (từ 0.711 xuống 0.598, corrected +0.121) trên fbank, nhưng ở zip-final chỉ giảm raw 0.026 (0.356 xuống 0.330) và corrected chỉ còn +0.011.</li>
+<li>Tái tạo prosody giải thích tính dư thừa: Khả năng dựng lại prosody (median <span class="math inline">R^2</span>) tăng từ 0.33 (fbank) lên 0.53 (zip-early) và 0.48 (zip-mid), sau đó giảm xuống 0.20 (zip-final), cho thấy encoder biểu diễn prosody mạnh nhất ở các tầng giữa và lược bỏ chỉ giữ lại thông tin phục vụ tác vụ ở tầng cuối.</li>
+<li>Không có đặc trưng đơn lẻ nào vượt ngưỡng hữu ích 0.0015 bits: Đặc trưng tốt nhất còn lại chỉ bổ sung khoảng 0.001 bits (kém 50 lần so với 0.053 bits trên fbank); các đặc trưng mạnh nhất ban đầu (speech flag, normalized silence duration) thực chất là speaker shortcut bị loại bỏ bởi time-shift control.</li>
+<li>Tổng quát hóa trên mô hình và dữ liệu khác: Trên Whisper-small, <span class="math inline">\Delta\text{AUC}</span> corr. giảm từ +0.040 (layer 0) xuống +0.0035; trên wav2vec2-base, <span class="math inline">\Delta\text{AUC}</span> corr. luôn <span class="math inline">\le 0.003</span> ở mọi tầng. Trên tập CASPER, <span class="math inline">\Delta\text{AUC}</span> corr. đạt +0.059 trên log-mel thô nhưng giảm về <span class="math inline">\le 0.002</span> ở các tầng sâu của wav2vec2 và Whisper.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Nghiên cứu chỉ đánh giá trên tiếng Anh băng thông điện thoại (8 kHz upsampled lên 16 kHz cho mô hình mã nguồn mở) và chủ yếu là một kiến trúc ASR chính (Zipformer); tập 41 đặc trưng prosody dù rộng nhưng chưa vét cạn; metric đo trên khung lân cận biên (collar) thay vì hệ thống endpointer trực tuyến hoàn chỉnh có tính đến độ trễ và cảnh báo nhầm xuyên suốt toàn bộ luồng hội thoại; chưa đánh giá xem tính dư thừa này có xảy ra với các tác vụ phụ thuộc ngữ điệu khác như nhận diện cảm xúc hay không.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Đối với các kỹ sư xây dựng hệ thống voice agent / hội thoại trực tuyến dựa trên neural ASR encoder đã huấn luyện sẵn, việc bổ sung một module trích xuất prosody thủ công riêng biệt mang lại lợi ích không đáng kể ở các tầng encoder sâu, trong khi làm tăng độ trễ và độ phức tạp hệ thống; phần lớn cải thiện quan sát được từ prosody trước đây thực chất là shortcut nhận diện người nói thay vì căn chỉnh thời gian kết thúc câu.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">80.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#3 (tied) in 2026-W46</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 214.08,212.43 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="214.08" cy="212.43" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Bài báo đặt lại câu hỏi nền tảng về giá trị của hand-crafted prosody trong EoT detection và đưa ra phương pháp time-shift control sáng tạo nhằm bóc tách triệt để speaker shortcut khỏi turn-timing.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Phương pháp luận rất kỹ lưỡng, kết hợp cả metric dựa trên Information Theory (bits/frame), ROC-AUC, bootstrap theo người nói, 2 loại detector độc lập và probing tái tạo đa tầng.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 5/5 — Các kết luận được hỗ trợ đồng nhất qua 3 hướng phân tích, nhiều kiểm chứng ngắt (ablation/control), phân tích từng đặc trưng đơn lẻ và kiểm chứng lặp lại trên cả mô hình mã nguồn mở lẫn corpus công khai CASPER.</title>Evidence <tspan class="radar-value">5</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Cung cấp bằng chứng thực nghiệm quan trọng giúp các kỹ sư loại bỏ các thành phần trích xuất prosody cồng kềnh trong pipeline voice agent hiện đại mà không lo giảm hiệu năng EoT.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Nghiên cứu đến từ nhóm tác giả giàu kinh nghiệm trong lĩnh vực speech (đặc biệt là Andreas Stolcke) tại Uniphore, phương pháp phân tích bài bản, minh bạch về số liệu và các kiểm chứng.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Bài báo đặt lại câu hỏi nền tảng về giá trị của hand-crafted prosody trong EoT detection và đưa ra phương pháp time-shift control sáng tạo nhằm bóc tách triệt để speaker shortcut khỏi turn-timing.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Nghiên cứu đến từ nhóm tác giả giàu kinh nghiệm trong lĩnh vực speech (đặc biệt là Andreas Stolcke) tại Uniphore, phương pháp phân tích bài bản, minh bạch về số liệu và các kiểm chứng.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Phương pháp luận rất kỹ lưỡng, kết hợp cả metric dựa trên Information Theory (bits/frame), ROC-AUC, bootstrap theo người nói, 2 loại detector độc lập và probing tái tạo đa tầng.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Cung cấp bằng chứng thực nghiệm quan trọng giúp các kỹ sư loại bỏ các thành phần trích xuất prosody cồng kềnh trong pipeline voice agent hiện đại mà không lo giảm hiệu năng EoT.</dd></div>
+          <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Các kết luận được hỗ trợ đồng nhất qua 3 hướng phân tích, nhiều kiểm chứng ngắt (ablation/control), phân tích từng đặc trưng đơn lẻ và kiểm chứng lặp lại trên cả mô hình mã nguồn mở lẫn corpus công khai CASPER.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Thiết kế đối chứng time-shift control chặt chẽ · Kết hợp thông tin luận giải và prob tái tạo · Kiểm chứng chéo trên cả SSL và Whisper · Tái lập kết quả trên corpus công khai CASPER</p>
+          <p><span class="label">Weaknesses</span> · Chưa đo đạc độ trễ endpointer streaming đầy đủ · Chỉ thử nghiệm trên tiếng Anh đàm thoại · Dữ liệu điện thoại 8 kHz phải upsample</p>
+          <p><span class="label">Context</span> · Bài báo của nhóm tác giả Rini Sharon, Kadri Hacioglu, Andreas Stolcke thuộc Uniphore, đăng tải trên arXiv (arXiv:2611.02602v1 [eess.AS], tháng 11/2026).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

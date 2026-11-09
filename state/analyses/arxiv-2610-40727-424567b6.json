@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2610.40727",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng dùng giọng nói đầu cuộc gọi thay thế enrollment clip kết hợp pipeline fine-tuning 4 giai đoạn khắc phục lỗi thực tế rất thực dụng, nhưng kiến trúc cốt lõi vẫn là BSRNN từ REAL-TSE.",
+  "credibility": "Tác giả là nhà nghiên cứu độc lập xuất bản preprint trên arXiv, tuy nhiên báo cáo rất minh bạch, chi tiết, kèm bootstrap intervals và công khai đầy đủ source code, model weights.",
+  "technical": "Quy trình thiết kế dữ liệu 4 giai đoạn (S1-S4) giải quyết triệt để các lỗi rò rỉ giọng nền, sụt volume cuộc gọi dài và distance shortcut, cùng thiết kế runtime ONNX tách graph tối ưu cho CPU.",
+  "impact": "Cung cấp một giải pháp voice isolation streaming mã nguồn mở chạy CPU đạt chất lượng ngang Krisp thương mại, giải quyết nút thắt lớn cho cộng đồng phát triển voice agent.",
+  "evidence": "Thực nghiệm so sánh chi tiết với 7 hệ thống thương mại và 5 mô hình mã nguồn mở trên cả tập benchmark công khai của Krisp và tập test mù độc lập AMI với kiểm định thống kê rõ ràng."
+ },
+ "summary": {
+  "tldr": "VoxLock là mô hình Target-Speaker Extraction (TSE) causal 27M tham số mã nguồn mở, được thiết kế cho voice agents để tách giọng người gọi mà không cần bước ghi âm mẫu (enrollment) trước. Bằng cách tự động trích xuất 3 giây giọng nói ngay từ đầu cuộc gọi và fine-tune qua 4 giai đoạn trên 1 GPU NVIDIA L4, VoxLock đạt hiệu năng nhận dạng tương đương các bộ lọc thương mại hàng đầu của Krisp và vượt trội hơn các mô hình mở khác.",
+  "problem": "Voice agents thường thu nhận cả tạp âm lời nói xung quanh micro (đồng nghiệp, TV, người ngồi cùng xe), khiến ASR phiên âm sai và agent phản hồi nhầm. Các giải pháp lọc giọng thương mại (Krisp, ai-coustics, Sanas) đều là mã nguồn đóng và tính phí bản quyền đắt đỏ. Ngược lại, các nghiên cứu TSE truyền thống yêu cầu file mẫu enrollment có sẵn (điều voice agent không có) và thường chỉ đo chỉ số tín hiệu (SDR) trên dữ liệu mô phỏng thay vì đo chất lượng downstream ASR trên audio thực tế.",
+  "method": "VoxLock khởi đầu từ kiến trúc causal `tfmap_context` BSRNN (27M tham số, audio 16 kHz, STFT window 512, hop 128, trễ thuật toán 24 ms) từ WeSep/REAL-TSE:\\n- **Trích xuất mẫu từ cuộc gọi (Enrollment-free)**: Lấy đúng 3 giây giọng nói của caller. Với file ghi âm: chọn 3 giây lớn nhất trong 15 giây đầu. Với streaming thời gian thực (`live()`): cho audio đi qua nguyên vẹn (pass-through) cho đến khi tích lũy đủ 3 giây tiếng nói (các frame 10 ms có mức âm lượng cao hơn ít nhất 10 dB so với frame yên tĩnh nhất trong 2 giây gần nhất) rồi mới bắt đầu cách ly. Giả định caller là người nói sớm nhất và to nhất (headset hoặc cầm điện thoại).\\n- **Cơ chế điều kiện**: Mẫu âm thanh đi vào mô hình qua 2 đường: attention phổ giữa các frame của cuộc gọi với phổ của mẫu (tạo thêm input channel), và band features của separator attend qua frame-level ECAPA-TDNN features của mẫu rồi nhân vào từng dải tần.\\n- **Training 4 giai đoạn (tối thiểu hóa negative SI-SDR bằng AdamW trên 1 GPU L4)**:\\n  + **S1 (Simulated calls - 4.000 steps)**: LibriSpeech kết hợp 1-2 giọng nền mô phỏng phòng và kênh điện thoại.\\n  + **S2 (Real crosstalk - 4.000 steps)**: Bổ sung batch crosstalk thực tế từ tai nghe AMI (40 cuộc họp) để khử rò rỉ giọng nền.\\n  + **S3 (Long calls - 800 steps)**: Huấn luyện với mẫu dài 30 giây để khắc phục lỗi caller nói liên tục bị sụt âm lượng (fade 20 dB sau 40 giây).\\n  + **S4 (Distance & room - 400 steps)**: Ngẫu nhiên hóa khoảng cách near/mid/far của caller và giọng nền cùng âm nền phòng AMI để tránh mô hình học tắt (shortcut) chỉ giữ người ở gần.",
+  "setup": "Đánh giá downstream ASR bằng mô hình Parakeet TDT 0.6B (v2 trên Krisp, v3 trên AMI). Đo 3 chỉ số: WER trên từ của caller; Missed (tỷ lệ từ của caller bị mất $(S+D)/N$); và Leak (số từ nhận dạng nhầm của giọng nền trên mỗi phút background-only speech). So sánh với 7 hệ thống thương mại (Krisp VI 2.5 Default/Balanced/HD/Lite, ai-coustics VF 2.2 L/S, Sanas SE 1.0) và 5 hệ thống mã nguồn mở (REAL-TSE causal, Hush, DeepFilterNet3, TIGER, SAM Audio small). Đánh giá trên: Benchmark Krisp (265 bản ghi thực tế), AMI dev (134 cửa sổ), và Blind AMI (400 cửa sổ từ 11 cuộc họp test đóng băng trước khi chạy).",
+  "results": [
+   "Trên Krisp benchmark (265 file): VoxLock đạt 4.95% WER, Missed 4.22%, Leak 0.11 từ/phút (chỉ lọt 9 từ rác trong 85.3 phút speech nền), tương đương không khác biệt có ý nghĩa thống kê so với Krisp VI 2.5 Default (5.30% WER, Leak 1.52) và Balanced (5.32% WER, Leak 2.02), vượt trội hơn audio gốc không xử lý (23.21% WER, Leak 66.48 từ/phút).",
+   "Chế độ streaming causally VoxLock live() đạt 5.15% WER và Leak 0.12 từ/phút trên Krisp benchmark, vẫn thấp hơn Krisp Default (5.30%).",
+   "Vượt trội có ý nghĩa thống kê so với các hệ thống thương mại và nguồn mở khác trên Krisp benchmark: ai-coustics VF 2.2 L (6.84% WER), Sanas SE 1.0 (9.38% WER), REAL-TSE causal gốc (9.81% WER), Hush (12.09% WER), DeepFilterNet3 (13.30% WER), TIGER (14.72% WER).",
+   "Trên tập Blind AMI (400 cửa sổ, 16 người): VoxLock giảm WER từ 42.95% (unprocessed) xuống 10.63% (chế độ live() đạt 11.97%), giảm leak từ 98.19 xuống 1.17 từ/phút, vượt trội rõ rệt so với REAL-TSE gốc (14.75% WER, leak 12.18).",
+   "Độ trễ và tài nguyên: Mô hình lượng hóa INT8 chạy suy luận live trên 1 luồng CPU Intel Xeon 2.2 GHz chỉ chiếm 77% CPU (với chunk 40 ms) và 61% (với chunk 80 ms); độ trễ thuật toán cố định là 24 ms. Trên GPU NVIDIA L4, bản float32 chạy nhanh gấp 40 lần thời gian thực."
+  ],
+  "limitations": "Mô hình hiện chỉ hỗ trợ tiếng Anh ở tần số lấy mẫu 16 kHz và kịch bản 1 caller chính. Giả định bắt buộc là caller phải là người nói sớm nhất và to nhất ở đầu cuộc gọi (nếu người nói nền áp đảo ở những giây đầu tiên, VoxLock sẽ trích xuất nhầm giọng). Khi gọi điện thoại sạch không có tiếng ồn nền, mô hình gây suy hao nhẹ (WER tăng từ 3.82% lên 5.36%). Ở chế độ `live()`, việc chạy hồi tố (warm-up) trạng thái recurrent qua tối đa 30 giây đầu gây nghẽn tính toán (stall) mất 2-5 giây trên 1 luồng CPU tại thời điểm chuyển đổi.",
+  "takeaways": "Cung cấp một giải pháp voice isolation/TSE mã nguồn mở hoàn chỉnh, chạy CPU hiệu quả ở chế độ streaming thời gian thực, có thể thay thế trực tiếp các giải pháp SDK thương mại đắt đỏ trong các pipeline Voice Agent/ASR thực tế.",
+  "strengths": [
+   "Hiệu năng ngang ngửa giải pháp thương mại hàng đầu",
+   "Chạy streaming thời gian thực trên 1 luồng CPU",
+   "Không cần bước enrollment thu âm giọng mẫu trước",
+   "Đánh giá downstream ASR thực tế với khoảng tin cậy",
+   "Mã nguồn, weights ONNX và công cụ mở hoàn toàn"
+  ],
+  "weaknesses": [
+   "Giả định caller luôn nói sớm và to nhất đầu cuộc gọi",
+   "Bị khựng 2-5s CPU khi chuyển sang phase cách ly",
+   "Tăng nhẹ WER khi âm thanh đầu vào hoàn toàn sạch",
+   "Chỉ huấn luyện trên tiếng Anh 16 kHz"
+  ],
+  "context": "Nghiên cứu độc lập của Arbaz Siddiqui công bố trên arXiv (tháng 10/2026), đi kèm mã nguồn mở trên GitHub và model checkpoints trên Hugging Face."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

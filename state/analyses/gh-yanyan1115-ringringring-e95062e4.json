@@ -1,0 +1,47 @@
+{
+ "id": "gh:yanyan1115/ringringring",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Kết hợp khéo léo SIP client mã nguồn mở (Linphone/pjsua2), STUN và MCP để AI agent gọi điện thoại miễn phí, tuy nhiên các công nghệ thành phần đều đã có sẵn.",
+  "credibility": "Dự án cá nhân độc lập trên GitHub, không có bài báo khoa học hay tổ chức nghiên cứu đứng sau bảo chứng.",
+  "technical": "Giải quyết tốt các chi tiết kỹ thuật hệ thống SIP/VoIP thực tế (xuyên NAT với STUN, cấu hình SRTP, TLS transport, xử lý ngắt lời và khóa đường truyền).",
+  "impact": "Mức độ quan tâm ban đầu ở mức khiêm tốn (50 stars, 6 forks), chủ yếu phục vụ nhu cầu cá nhân của cộng đồng người dùng Claude Code.",
+  "evidence": "Tài liệu tập trung vào hướng dẫn cấu hình và sửa lỗi, hoàn toàn thiếu các bài benchmark định lượng về độ trễ, WER hay chất lượng đàm thoại."
+ },
+ "summary": {
+  "tldr": "ringringring là một công cụ mã nguồn mở dạng Model Context Protocol (MCP) cho phép AI agent (như Claude Code hoặc OpenCode) chủ động thực hiện cuộc gọi thoại hai chiều tới điện thoại di động người dùng mà không tốn phí bản quyền hay số điện thoại viễn thông. Dự án tận dụng giao thức SIP thông qua ứng dụng Linphone miễn phí kết hợp với Groq Whisper (STT) và Edge-TTS để xử lý âm thanh thời gian thực.",
+  "problem": "Việc tích hợp khả năng AI chủ động gọi điện thoại cho người dùng (voice call notification/dialogue) thường yêu cầu đăng ký nhà mạng (Twilio, SIP trunk), thuê đầu số điện thoại tốn phí theo phút, hoặc phải có tài khoản Apple Developer ($99/năm) và viết ứng dụng iOS CallKit tùy chỉnh phức tạp.",
+  "method": "Hệ thống hoạt động như một máy chủ stdio MCP trên máy chủ Linux x86_64 chạy cùng AI agent:\n- **Giao thức thoại SIP/VoIP**: Tích hợp thư viện `pjsua2` (pjproject 2.17) qua bản dựng Python 3.11. Client AI chỉ phát lệnh gọi ra (không đăng ký thường trực `acfg.regConfig.registrarUri = \"\"`) tới SIP account của Linphone trên điện thoại qua TLS proxy (`sip:sip.linphone.org;transport=tls`) và bắt buộc mã hóa SRTP (`acfg.mediaConfig.srtpUse = PJMEDIA_SRTP_MANDATORY`).\n- **Xuyên NAT (NAT Traversal)**: Sử dụng STUN server `stun.linphone.org:3478` để điều hướng RTP audio qua UDP mà không cần mở port inbound thủ công (kiểm thử chặn UDP 4000-4100 vào máy chủ nhưng vẫn đàm thoại được).\n- **Xử lý hội thoại & Barge-in**: Cung cấp các công cụ MCP `call_start`, `converse`, `call_end` và skill `phone-call`. Hỗ trợ ngắt lời (interruption): khi AI đang nói mà người dùng cất giọng, quá trình phát âm thanh lập tức dừng lại và trả về phần văn bản đã/chưa phát cho AI.\n- **STT & TTS**: Mặc định dùng Groq API (`whisper-large-v3-turbo` qua chuẩn OpenAI `/audio/transcriptions`) và Microsoft Edge TTS (`zh-CN-YunxiNeural`), hỗ trợ cắm script TTS tùy biến qua `VOICE_TTS_CMD`.\n- **Khóa đơn tuyến (Single-line lock)**: Khóa tài nguyên cuộc gọi để nếu nhiều tác vụ AI cùng gọi trên một máy chủ sẽ trả về trạng thái bận máy (busy).",
+  "setup": "Yêu cầu: Máy chủ Linux x86_64 chạy Python 3.11; ứng dụng Linphone trên điện thoại (đã kiểm thử iOS, có thể nhận cuộc gọi khi khóa màn hình hoặc chạy ngầm); 2 tài khoản SIP Linphone miễn phí; Groq API key (STT). Cài đặt thông qua Claude Code plugin (`/plugin marketplace add yanyan1115/ringringring`) hoặc dòng lệnh `install.sh` với file wheel `pjsua2` biên dịch sẵn.",
+  "results": [
+   "Thời gian tải và cài đặt tự động môi trường thực thi qua plugin lần đầu thực tế mất khoảng 15 giây (实测约 15 秒).",
+   "Không cung cấp số liệu định lượng chuẩn hóa về WER, MOS hoặc audio latency đo lường chi tiết."
+  ],
+  "limitations": "Thiếu các số liệu đo kiểm độ trễ end-to-end (STT + LLM + TTS + RTP) và độ chính xác nhận dạng giọng nói; phụ thuộc hoàn toàn vào hạ tầng SIP miễn phí của linphone.org; gói binary `pjsua2` chỉ dựng sẵn cho Linux x86_64 Python 3.11 (macOS/Docker cần biên dịch thủ công); dễ bị lỗi gián đoạn do VPN/proxy trên điện thoại không chuyển tiếp UDP.",
+  "takeaways": "Cung cấp giải pháp kỹ thuật hữu ích và tiết kiệm để triển khai voice agent gọi điện thoại thông qua kiến trúc MCP kết hợp chuẩn SIP/STUN hiện có.",
+  "strengths": [
+   "Chi phí 0 đồng hoàn chỉnh",
+   "Hỗ trợ tính năng ngắt lời (barge-in)",
+   "Tích hợp sẵn dạng Claude Code MCP plugin",
+   "Nhận cuộc gọi ngay cả khi khóa màn hình"
+  ],
+  "weaknesses": [
+   "Chưa có số liệu benchmark độ trễ định lượng",
+   "Phụ thuộc hạ tầng SIP Linphone bên thứ ba",
+   "Chỉ biên dịch sẵn cho Linux x86_64 cp311",
+   "Chưa hỗ trợ đa kênh đồng thời (single-line lock)"
+  ],
+  "context": "Dự án nguồn mở của tác giả yanyan1115 (phát triển dựa trên dự án Ringback) phát hành trên GitHub dưới giấy phép AGPL-3.0-or-later."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

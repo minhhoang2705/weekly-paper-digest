@@ -1,0 +1,49 @@
+{
+ "id": "gh:mars-1438/indextts2-longform-workbench",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Không tạo ra mô hình mới mà kết hợp khéo léo TTS có sẵn, HRIR spatial audio, tách âm BS-Roformer và timeline DAW trên web.",
+  "credibility": "Dự án mã nguồn mở cá nhân trên GitHub, không qua bình duyệt học thuật nhưng có mã nguồn công khai, changelog chi tiết và hướng dẫn rõ ràng.",
+  "technical": "Giải pháp kỹ thuật vững chắc trong việc căn chỉnh thời gian theo phụ đề, tích hợp spatial audio HRIR, keyframe automation và xuất file đa định dạng DAW.",
+  "impact": "Mức độ tiếp cận hạn chế trong cộng đồng nói tiếng Trung sử dụng Windows và IndexTTS2 (72 GitHub stars, 2 forks).",
+  "evidence": "Cung cấp số liệu đo đạc thực tế về độ trôi dạt SFX (71s lên 81s, 26 đoạn khớp 100%) và tốc độ ghi chỉ mục (1005 đoạn trong 4.9s)."
+ },
+ "summary": {
+  "tldr": "Mars-1438/indextts2-longform-workbench là bản mở rộng dạng patch cho gói tích hợp IndexTTS2.0 V3, cung cấp môi trường làm việc toàn diện cho sản xuất âm thanh dài tập như kịch truyền thanh, sách nói và ASMR. Dự án tích hợp quản lý kịch bản, điều phối tạo giọng AI hàng loạt, dòng thời gian đa rãnh (multi-track timeline), gắn nhãn hiệu ứng âm thanh (SFX), âm thanh không gian (spatial audio qua HRIR) và xuất dự án sang các DAW chuyên nghiệp.",
+  "problem": "Quy trình sản xuất âm thanh hoàn chỉnh bằng TTS thường bị phân mảnh qua nhiều phần mềm khác nhau: biên tập kịch bản, sinh giọng AI từng câu, cắt ghép SFX, căn chỉnh thời gian thủ công và mixdown. Thao tác thủ công lặp đi lặp lại khiến việc sửa đổi kịch bản dài tập hoặc đổi giọng nhân vật dễ làm lệch vị trí hiệu ứng âm thanh và tiêu tốn nhiều thời gian.",
+  "method": "Hệ thống hoạt động như một lớp điều phối API (FastAPI) nằm trên gói tích hợp IndexTTS2.0 V3:\n- **Xử lý kịch bản thông minh:** Tự động tách câu và nhận diện người nói (nhận diện cú pháp thoại, danh từ trong ngoặc, scene/character metadata), liên kết nhân vật xuyên kịch bản qua thư viện nhân vật (tên duy nhất + bí danh + nhãn thuộc tính + liên kết giọng).\n- **Căn chỉnh SFX theo phụ đề (SRT):** Khi đổi giọng đọc làm thay đổi độ dài câu (đo đạc thực tế từ 0.45x đến 2.94x), hệ thống tự động căn chỉnh vị trí SFX theo tỷ lệ tương đối trong từng câu dựa trên số thứ tự phụ đề (subtitle index matching).\n- **Timeline đa rãnh và âm thanh không gian:** Hỗ trợ keyframe automation (âm lượng, pan, khoảng cách). Xử lý âm thanh không gian 3D dựa trên HRIR (dữ liệu KEMAR và KU100), tích hợp mô phỏng phòng (reverb qua convolution) và 13 kịch bản chuyển động âm thanh cài sẵn (xoay quanh đầu, lướt qua tai, thì thầm sau lưng).\n- **Module âm thanh nâng cao:** Tích hợp mô hình tách nguồn âm thanh BS-Roformer/Demucs để tách vocal/nhạc nền, cắt lát tự động theo ngưỡng âm lượng.\n- **Xuất file:** Hỗ trợ mixdown đa định dạng (WAV, MP3, FLAC, OGG), xuất project REAPER, Premiere/DaVinci EDL, stems Audacity kèm timeline.csv và markers.csv.",
+  "setup": "Yêu cầu hệ điều hành Windows (môi trường portable bundle IndexTTS2.0 V3 có sẵn Python 3.11). Backend phụ thuộc vào FastAPI, NumPy, SoundFile (tùy chọn: SciPy, h5py, PyTorch + Demucs, FFmpeg). Giao diện tiếng Trung giản thể. Cài đặt thông qua file patch zip (~119MB) chạy file `安装.bat` để chèn router vào `server.py` và đường dẫn vào `web/index.html`.",
+  "results": [
+   "Thực nghiệm kiểm chứng độ lệch vị trí SFX khi đổi giọng: đoạn gốc dài 71 giây, sau khi đổi giọng dài 81 giây (hệ số co giãn câu đơn từ 0.45x đến 2.94x); cắt 2 SFX kiểm thử ở các mốc 30% và 70% mỗi câu, kết quả 26 đoạn SFX đều nằm chuẩn xác trong câu tương ứng mà không bị lệch vị trí tương đối.",
+   "Tốc độ ghi chỉ mục hàng loạt (batch index read/write): xử lý 120 phân đoạn mất 1.9 giây, 1005 phân đoạn mất 4.9 giây (so với phiên bản cũ mất 2 phút cho 100 phân đoạn).",
+   "Độ hoàn thiện mã nguồn tại v0.20: sửa 22 lỗi, bổ sung 16 tính năng, thay đổi 17 files (+1468/-125 dòng), thêm 89 assertions và vượt qua 53 bộ kiểm thử hồi quy (regression tests)."
+  ],
+  "limitations": "Dự án chỉ là extension patch, không chứa mô hình TTS độc lập và phụ thuộc hoàn toàn vào gói IndexTTS2.0 V3; kịch bản cài đặt tự động viết cho Windows (.bat), Linux/macOS phải thiết lập thủ công; tính toán âm thanh không gian và reverb dựa trên CPU (NumPy/SciPy) nên tốn vài phút khi render dự án dài 1 giờ.",
+  "takeaways": "Là tài liệu tham khảo thực tế rất tốt về việc thiết kế giao diện DAW/timeline trên nền web kết hợp TTS workflow. Kỹ thuật neo giữ hiệu ứng âm thanh theo số thứ tự phụ đề (subtitle index matching) thay vì mốc thời gian tuyệt đối là giải pháp hữu ích cho các kỹ sư phát triển công cụ dubbing/voice replacement.",
+  "strengths": [
+   "Quy trình end-to-end hoàn chỉnh cho kịch bản dài tập",
+   "Neo giữ SFX theo tỷ lệ phụ đề cực kỳ chuẩn xác",
+   "Tích hợp âm thanh không gian 3D qua HRIR",
+   "Khả năng xuất sang REAPER, Premiere, DaVinci EDL",
+   "Tối ưu hóa I/O chỉ mục hàng loạt rất nhanh"
+  ],
+  "weaknesses": [
+   "Phụ thuộc chặt vào môi trường Windows và gói IndexTTS2 V3",
+   "Không bao gồm mô hình hay giải pháp TTS độc lập",
+   "Render spatial audio hoàn toàn bằng NumPy/SciPy",
+   "Dự án cá nhân hỗ trợ bởi AI (DeepSeek)"
+  ],
+  "context": "Dự án mã nguồn mở cá nhân của tác giả Mars-1438 (phát triển với sự trợ giúp của AI DeepSeek), đóng vai trò extension patch cho gói IndexTTS2.0 Studio của tác giả 十一君Jun trên Bilibili."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

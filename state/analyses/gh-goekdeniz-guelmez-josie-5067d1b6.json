@@ -1,0 +1,46 @@
+{
+ "id": "gh:goekdeniz-guelmez/josie",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 1
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tích hợp chuỗi pipeline speech-to-speech hoàn chỉnh trên MLX Swift với Apple tools là một thiết kế hệ thống tốt, dù các mô hình thành phần đều là công nghệ mở đã có.",
+  "credibility": "Dự án cá nhân, mã nguồn chính chưa được công bố, thời điểm phát hành dự kiến xa (tháng 12/2026) và tài liệu chỉ chứa các bản mockup giao diện.",
+  "technical": "Mô tả kiến trúc chi tiết từng thành phần từ VAD (Silero), Smart Turn v3, WeSpeaker port sang MLX, đến ASR/TTS và RAG với EmbeddingGemma.",
+  "impact": "Dự án mới ở giai đoạn thông báo sơ khởi với 58 stars, 4 forks và chưa có sản phẩm thực tế để cộng đồng kỹ sư kiểm chứng hay ứng dụng.",
+  "evidence": "Không có số liệu benchmark định lượng, không có code chạy được trong repo và toàn bộ media minh họa đều là mockup giả lập."
+ },
+ "summary": {
+  "tldr": "JOSIE là dự án trợ lý giọng nói và văn bản cục bộ cho macOS chạy trên Apple Silicon, tích hợp đầy đủ pipeline âm thanh on-device từ VAD, nhận diện giọng nói, xác thực người nói đến tổng hợp giọng nói. Hệ thống hỗ trợ tương tác với các ứng dụng Apple (Reminders, Calendar, Maps, Messages), tuy nhiên mã nguồn chính hiện đóng và chưa có bản phát hành tải về.",
+  "problem": "Xây dựng một trợ lý đàm thoại giọng nói thời gian thực hoạt động hoàn toàn cục bộ trên máy tính cá nhân để bảo vệ quyền riêng tư âm thanh, hỗ trợ ngắt lời tự nhiên (barge-in), phân biệt người nói và tương tác sâu với hệ thống công cụ mà không phụ thuộc vào hạ tầng đám mây.",
+  "method": "Ứng dụng native cho Mac xây dựng bằng SwiftUI và MLX Swift, chạy hoàn toàn trên Apple Silicon:\n- **Lắng nghe & Phân lượt:** Kết hợp Silero VAD để phát hiện giọng nói và Smart Turn v3 để xác định điểm kết thúc lượt trò chuyện, hỗ trợ ngắt lời (barge-in).\n- **Nhận dạng giọng nói (ASR):** Mặc định sử dụng Qwen3-ASR, cho phép chuyển sang NVIDIA Parakeet TDT 0.6B v3 hoặc bộ nhận diện on-device tích hợp của Apple.\n- **Nhận diện danh tính người nói (Voice ID):** Sử dụng WeSpeaker được port sang MLX, đăng ký giọng nói chủ nhân qua 3 cụm từ ngắn.\n- **Tổng hợp tiếng nói (TTS):** Mặc định dùng Qwen3-TTS hỗ trợ voice cloning và voice design; cho phép chọn Kokoro 82M thay thế.\n- **Mô hình ngôn ngữ (LLM):** Chạy cục bộ qua Ollama (mặc định `qwen3.5:0.8b`), có tùy chọn kết nối API OpenAI-compatible hoặc Apple Intelligence trên macOS 26.\n- **Truy xuất & Thư viện (RAG):** Dùng EmbeddingGemma (tùy chọn 8-bit), trực quan hóa dữ liệu qua bản đồ vector 2D (PCA) hoặc 3D (UMAP).\n- **Tích hợp ứng dụng:** Kết nối trực tiếp vào Reminders, Calendar, Maps và soạn thảo tin nhắn Messages thông qua hệ thống cấp quyền của macOS.",
+  "setup": "Yêu cầu phần cứng Apple Silicon (M1 trở lên), hệ điều hành macOS 14 Sonoma trở lên, không cần tài khoản. Dung lượng yêu cầu khoảng 5 GB cho các mô hình giọng nói và 1 GB cho LLM mặc định; tùy chọn thêm voice design (3.1 GB) và word timestamps (1.3 GB). Ứng dụng trên iPhone chỉ đóng vai trò client kết nối GPT-Live hoặc kết nối ngược về máy Mac qua mạng nội bộ/Tailscale.",
+  "results": [
+   "Không được nêu trong tài liệu (tài liệu không cung cấp các kết quả đo lường định lượng như WER, MOS, RTF hay latency chi tiết)."
+  ],
+  "limitations": "Chưa có bản tải xuống nào khả dụng (dự kiến bản DMG đầu tiên ra mắt vào tháng 12/2026); mã nguồn ứng dụng là private (repo hiện chỉ chứa website và tài liệu); tất cả hình ảnh/video demo đều là mockup render chứ không phải bản ghi từ build đang chạy; không hỗ trợ Mac chạy chip Intel.",
+  "takeaways": "Dự án đưa ra một thiết kế tham chiếu chi tiết về cách kết hợp các mô hình open-weight tiên tiến (Qwen3-ASR/TTS, Kokoro, Parakeet, WeSpeaker) trên nền framework MLX Swift để xây dựng trợ lý giọng nói on-device tích hợp sâu vào hệ điều hành Apple.",
+  "strengths": [
+   "Pipeline on-device bảo vệ quyền riêng tư",
+   "Kết hợp đầy đủ VAD, Turn-taking, ASR, TTS",
+   "Tích hợp công cụ hệ thống Apple native",
+   "Hỗ trợ Voice ID và Voice Cloning"
+  ],
+  "weaknesses": [
+   "Chưa có bản phát hành thực tế",
+   "Mã nguồn ứng dụng đóng",
+   "Tài liệu minh họa toàn bộ là mockup",
+   "Thiếu số liệu đo lường định lượng"
+  ],
+  "context": "Phát triển bởi Gökdeniz Gülmez; repository GitHub phục vụ tài liệu giới thiệu và website cho ứng dụng dự kiến phát hành trong tương lai."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

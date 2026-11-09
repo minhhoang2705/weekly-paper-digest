@@ -1,0 +1,47 @@
+{
+ "id": "gh:haiderfarooq3/paper-reel",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Ý tưởng kết hợp Claude Code skill với Kokoro TTS, whisper.cpp alignment và canvas rendering khá thông minh nhưng chủ yếu tích hợp các công cụ sẵn có.",
+  "credibility": "Dự án cá nhân mã nguồn mở trên GitHub có 127 stars, mã nguồn và video minh họa đầy đủ nhưng không qua bình duyệt học thuật.",
+  "technical": "Tích hợp hệ thống tốt giữa audio timing, browser canvas rendering qua Playwright và ffmpeg audio ducking.",
+  "impact": "Dự án mới với 127 stars và 21 forks, hướng tới nhóm người dùng cụ thể dùng macOS và Claude Code.",
+  "evidence": "Có mã nguồn kiểm chứng, demo video thực tế và thông số render cụ thể (1080x1920@30fps, 30 giây trên Mac M-series, -14 LUFS), nhưng thiếu benchmark học thuật."
+ },
+ "summary": {
+  "tldr": "paper-reel là một Claude Code skill cho phép tự động tạo video ngắn dạng giải thích (explainer reels) tỉ lệ 9:16 theo phong cách cắt giấy (cut-paper style). Toàn bộ quy trình chạy hoàn toàn cục bộ trên macOS bằng cách kết hợp Kokoro TTS, whisper.cpp để lấy mốc thời gian từng từ, HTML canvas vẽ hoạt ảnh qua Playwright và ffmpeg đóng gói MP4.",
+  "problem": "Việc tạo các video ngắn giải thích có hoạt họa thường đòi hỏi phần mềm dựng video phức tạp, chi phí API đám mây, hoặc chỉnh sửa thủ công để đồng bộ hình ảnh khớp với giọng đọc.",
+  "method": "Hệ thống sử dụng nguyên lý 'voice is the clock' (giọng nói là đồng hồ chủ đạo):\n- **Kịch bản & Lời thoại**: Claude Code soạn kịch bản gồm 6–7 dòng tương ứng với 6–7 phân cảnh (mỗi dòng đọc là một cảnh cắt dứt khoát).\n- **TTS & Căn chỉnh thời gian**: Kokoro TTS (thông qua `kokoro-onnx`) tạo giọng lồng tiếng cục bộ. Sau đó, whisper.cpp phân tích âm thanh để xác định mốc thời gian chính xác của từng từ ($t_0$).\n- **Render hoạt ảnh**: Hoạt ảnh được định nghĩa và vẽ bằng code trên HTML canvas (kế thừa từ thư viện `animate` của cth9191), kích hoạt các đạo cụ (con dấu dập, bộ đếm số, đổi biểu cảm mascot, dán chữ theo từng từ) khớp với thời gian phát âm của từ tương ứng (`VW(scene, word).t0`).\n- **Xuất video**: Playwright tự động hóa trình duyệt Chromium để chụp từng khung hình canvas, sau đó ffmpeg kết hợp hình ảnh, giọng đọc và nhạc nền (lo-fi ducked bed).",
+  "setup": "Hệ điều hành macOS, Node.js 18 trở lên, Python (chạy `kokoro-onnx`), ffmpeg, whisper-cpp, mô hình Kokoro và mô hình Whisper. Quy trình thực hiện qua CLI `reel` (các lệnh `new`, `voice`, `still`, `check`, `export`) hoặc qua câu lệnh điều khiển trực tiếp từ Claude Code.",
+  "results": [
+   "Xuất video chuẩn độ phân giải 1080x1920 (9:16) ở tốc độ 30 fps.",
+   "Thời gian render hoàn tất một video mất khoảng 30 giây trên máy Mac dòng M (Apple Silicon).",
+   "Âm thanh nền (lo-fi bed) được ducking tự động ở mức khoảng -14 LUFS."
+  ],
+  "limitations": "Chỉ hỗ trợ hệ điều hành macOS; yêu cầu thiết lập nhiều phụ thuộc hệ thống (ffmpeg, whisper-cpp, Python, Node); tài liệu không cung cấp các số liệu benchmark định lượng về độ chính xác thời gian (alignment error) hay đánh giá chất lượng giọng đọc.",
+  "takeaways": "Sử dụng ASR cục bộ (whisper.cpp) để trích xuất word-level timestamps làm timeline đồng bộ hoạt ảnh canvas theo TTS là một giải pháp kỹ thuật hiệu quả, tiết kiệm chi phí và có tính tự động hóa cao cho video generation.",
+  "strengths": [
+   "Chạy hoàn toàn local không tốn phí API",
+   "Đồng bộ hoạt ảnh chính xác theo từng từ",
+   "Render nhanh (~30s trên Apple Silicon)",
+   "Tích hợp mượt mà với Claude Code"
+  ],
+  "weaknesses": [
+   "Bị giới hạn trên nền tảng macOS",
+   "Phụ thuộc nhiều công cụ cài đặt rời",
+   "Thiếu đánh giá định lượng chuẩn hóa"
+  ],
+  "context": "Dự án nguồn mở của lập trình viên Haider Farooq (haiderfarooq3), phát hành theo giấy phép MIT trên GitHub."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

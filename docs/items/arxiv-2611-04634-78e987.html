@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VeriSpoof: Beyond Real or Fake with One Audio LLM · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W46</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">VeriSpoof: Beyond Real or Fake with One Audio LLM</h1>
+    <div class="meta">
+      <span title="Listed by arXiv, HF Daily Papers, Papers with Code inside the crawl window">found Nov 5, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Nov 3, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span><span class="pill">Papers with Code</span><span class="pill pill-accent">Speech LLM</span>        <span class="authors">Yang Xiao, Ting Dang</span>
+    </div>
+  </div>
+  <div class="header-actions">
+      <a class="button" href="https://github.com/swagshaw/verispoof" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Code</a>
+    <a class="button" href="https://arxiv.org/abs/2611.04634" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>A speech deepfake detector estimates whether a recording is synthetic, but a forensic analyst also asks which system produced it, whether recordings share a source, and what evidence supports each conclusion. We present VeriSpoof, an audio language model that unifies five tasks with shared weights: deepfake detection, generator attribution (generator, acoustic model and vocoder), recording-condition analysis, synthesized-span localisation, and source verification. Each decision is supported by grounded rationales whose statements can be independently verified. Answers are scored by sentence likelihood, allowing detection and source verification to be thresholded without separate heads. Rationale statements can be checked against waveform measurements, span labels, or generator metadata. Counterfactual examples train decisions to follow the stated evidence. Across the 14 Speech-DF-Arena test sets, VeriSpoof-Plus achieves 2.14% pooled EER, ranking third of 28 systems and first among open-weight systems. VeriSpoof-Base, trained only on official training splits of eight corpora, achieves 4.43% EER, less than half that of the next open-weight detector. With the same weights, VeriSpoof-Plus verifies whether recordings from generators unseen in training share a source at 6.2% EER. Controlled studies show that the audio representation governs detection, the LLM governs recording comparison, and source supervision is necessary for neural-codec fakes. Statement-checkable rationales catch partial fakes missed by one-step answers (99.6% vs. 78.4% on PartialEdit) and determine decisions under edits unseen in training (99.5%). Training updates only 29.7M of 2.85B parameters, fitting a single 24 GB GPU with gradient checkpointing. We release both models, inference code, a demo, and VeriSpoof-Bench, the evaluation suite covering these questions.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 9, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>VeriSpoof là một audio language model (ALM) mã nguồn mở thống nhất 5 tác vụ giám định âm thanh (forensic speech tasks): phát hiện deepfake, quy kết nguồn (generator/acoustic model/vocoder), phân tích điều kiện thu âm, định vị đoạn giả mạo và xác minh nguồn chung giữa hai bản ghi. Mô hình trả lời thông qua tính điểm likelihood của câu trả lời kèm theo lập luận có căn cứ (grounded rationales) và đạt pooled EER 2.14% trên Speech-DF-Arena (đứng đầu trong các mô hình open-weight).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các bộ phát hiện deepfake giọng nói hiện tại thường chỉ đưa ra một điểm số nhị phân cho một tác vụ duy nhất, không thể trả lời nguồn sinh ra từ đâu, hai bản ghi có chung nguồn hay không hoặc cung cấp bằng chứng minh bạch. Nếu dùng audio LLM tạo giải thích dạng free-text, các suy luận dễ bị ảo giác (hallucination) hoặc không phản ánh đúng căn cứ quyết định (unfaithful). Ngoài ra, các phương pháp trước chưa làm rõ thành phần nào trong ALM (encoder, tokenizer hay LLM) quyết định độ chính xác của việc phát hiện hay so sánh nguồn.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>VeriSpoof xây dựng trên kiến trúc kết hợp encoder Qwen3-ASR (25 layers) và LLM MiniCPM5-2B (tổng 2.85B tham số, chỉ huấn luyện 29.7M tham số qua DoRA/LoRA):</p>
+<ul>
+<li><strong>Audio Tokenizer &amp; Biểu diễn:</strong> Trích xuất kết hợp có trọng số từ 25 tầng của encoder Qwen3-ASR, chia thành 16 utterance tokens (nắm bắt đặc trưng toàn cục cho attribution/verification) và 52 frame tokens (mỗi token 0.16s, chèn text time marker mỗi 0.8s để mô hình chỉ ra mốc thời gian bằng giây).</li>
+<li><strong>Cơ chế tính điểm không cần classification head:</strong> Mọi câu hỏi đều được định dạng dưới dạng câu hỏi-đáp. Điểm số cho câu hỏi nhị phân được tính qua hiệu số log-likelihood: <span class="math inline">s_q(u) = \log p_\theta(a^+ | u, q) - \log p_\theta(a^- | u, q)</span>.</li>
+<li><strong>Grounded &amp; Faithful Rationales:</strong> Tạo giải thích theo các trường cố định gồm <code>OBSERVATIONS</code> (SNR, speech level, bandwidth, clipping), <code>CHANNEL_STATUS</code>, <code>LOCALIZATION</code> (mốc thời gian bị sửa đổi) và <code>SOURCE_PROFILE</code>. Mỗi phát biểu đều có thể kiểm chứng độc lập bằng đo đạc tín hiệu trực tiếp hoặc nhãn metadata. Huấn luyện phản thực tế (counterfactual training chiếm 20% mẫu) đảo ngược nhãn định vị để buộc quyết định cuối cùng phải tuân thủ đúng bằng chứng được nêu.</li>
+<li><strong>Quy trình huấn luyện 3 giai đoạn:</strong> (1) Perception alignment (PA): chỉ huấn luyện tokenizer và DoRA encoder với LLM bị đóng băng, dùng thêm OC-softmax loss; (2) Forensic question tuning (QT): áp dụng LoRA lên LLM, huấn luyện đa tác vụ hỏi đáp; (3) Grounded rationale tuning (RT): huấn luyện sinh lập luận, counterfactual training và replay các tác vụ QT.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá trên Speech-DF-Arena (14 tập kiểm thử, 2.34M lượt thử), SpoofRadar v1.0 (16 tập kiểm thử) và bộ benchmark tự xây dựng VeriSpoof-Bench (54 tập con, 177,852 mẫu phân theo 6 nhóm tác vụ: detection, source verification, recording condition, attribution, verification reasoning, grounded reasoning). Dữ liệu huấn luyện gồm VeriSpoof-Base (0.38M câu từ 8 tập dữ liệu chính thức) và VeriSpoof-Plus (4.4M câu từ 20 tập dữ liệu, cân bằng trên 211 nguồn spoof và 18 nguồn bona fide). Baselines gồm các mô hình thương mại (Modulate, Teffic, Hiya) và open-weight (DF-Arena, XLS-R + SLS, AASIST) cùng 6 zero-shot general audio LLMs.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên 14 tập của Speech-DF-Arena, VeriSpoof-Plus đạt pooled EER 2.14% và mean EER 1.79% (xếp thứ 3/28 hệ thống, số 1 trong các mô hình open-weight; vượt xa mô hình open-weight tốt thứ hai là DF-Arena-1B ở mức 9.52% pooled EER); VeriSpoof-Base chỉ huấn luyện trên split chính thức đạt pooled EER 4.43%.</li>
+<li>Trên SpoofRadar v1.0 (16 tập), VeriSpoof-Base đạt pooled EER 4.23% và VeriSpoof-Plus đạt 4.04% (vượt trội so với mốc 9.96% của hệ thống open-weight tốt nhất trước đó).</li>
+<li>Ở tác vụ xác minh cùng nguồn (source verification) trên các bộ sinh MLAAD chưa từng thấy trong huấn luyện: VeriSpoof-Plus đạt 6.17% EER với model mới của kiến trúc đã biết và 15.00% EER với kiến trúc hoàn toàn mới (so với 26.5% và 24.8% của frozen probe trên DF-Arena-1B).</li>
+<li>Phân tích ablation chỉ ra biểu diễn âm thanh quyết định việc phát hiện deepfake (EER ASVspoof 5 giảm từ 9.56% xuống 3.10%), trong khi LLM quyết định năng lực so sánh hai bản ghi (đổi LLM làm dao động EER source verification tới 5.5%).</li>
+<li>Trên dữ liệu giả mạo một phần (PartialEdit), quyết định sau khi sinh chuỗi lập luận (reasoning) nâng độ chính xác từ 78.4% (trả lời trực tiếp 1 bước) lên 99.6%.</li>
+<li>Nhờ counterfactual training, 99.5% các quyết định tuân thủ theo mốc thời gian giả định bị can thiệp nghịch đảo (so với 73.8% khi không có counterfactual training).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Mô hình gặp hiện tượng lệch hiệu chuẩn (calibration shift) trên tập dữ liệu tiếng nước ngoài chưa thấy (XMAD-Bench), khiến pooled EER của Plus (4.04%) cao hơn nhiều so với mean EER (1.65%) do ngưỡng chung phân loại nhầm giọng thật tiếng Nga/Tây Ban Nha/Ả Rập. Khả năng dự đoán mốc thời gian bằng text bị nghẽn (IoU chỉ đạt 0.25–0.31 trên PartialSpoof do có quá nhiều phân đoạn ngắn). Năng lực source verification giảm mạnh trên âm thanh bị suy hao/nhiễu/nén codec (EER lên tới 23–30%).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Kỹ sư có thể tận dụng một ALM duy nhất cho toàn bộ chu trình giám định âm thanh mà không cần xây dựng các mạng Siamese hay classification head riêng biệt. Việc huấn luyện ép sinh chuỗi lập luận có cấu trúc (grounded rationales) và counterfactual training giúp tăng độ tin cậy và giải thích được trong pháp lý, đồng thời cải thiện mạnh khả năng bắt các ca partial spoof khó.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">91.3<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#1 (tied) in 2026-W46</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,46.0 247.5,109.57 214.08,212.43 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="46.0" r="3.5"/><circle class="radar-dot" cx="247.5" cy="109.57" r="3.5"/><circle class="radar-dot" cx="214.08" cy="212.43" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 5/5 — Đề xuất một mô hình audio LLM duy nhất giải quyết toàn diện 5 tác vụ forensic bằng answer scoring, kết hợp grounded checkable rationales và counterfactual training để đảm bảo tính trung thực của lập luận.</title>Novelty <tspan class="radar-value">5</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 5/5 — Thiết kế kỹ thuật xuất sắc với 3 giai đoạn huấn luyện, kiến trúc 2 độ phân giải thời gian, chỉ huấn luyện 1% tham số phù hợp GPU 24GB, cùng các bài phân tích sâu sắc về vai trò của encoder vs LLM.</title>Technical <tspan class="radar-value">5</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 5/5 — Thực nghiệm đồ sộ trên 2.34 triệu lượt thử của Speech-DF-Arena, SpoofRadar và bộ benchmark mới 177k mẫu, với các phân tích thống kê paired bootstrap và đối đầu chặt chẽ.</title>Evidence <tspan class="radar-value">5</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Tạo ra bước nhảy vọt cho các mô hình open-weight trong lĩnh vực speech anti-spoofing, thu hẹp khoảng cách với các hệ thống thương mại kín và mở ra chuẩn mực mới về khả năng giải thích trong pháp lý số.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Báo cáo kỹ thuật chi tiết từ nhóm nghiên cứu tại The University of Melbourne, công bố đầy đủ benchmark chuẩn công khai, mã nguồn, trọng số và demo mở.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">5/5</span></dt><dd>Đề xuất một mô hình audio LLM duy nhất giải quyết toàn diện 5 tác vụ forensic bằng answer scoring, kết hợp grounded checkable rationales và counterfactual training để đảm bảo tính trung thực của lập luận.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Báo cáo kỹ thuật chi tiết từ nhóm nghiên cứu tại The University of Melbourne, công bố đầy đủ benchmark chuẩn công khai, mã nguồn, trọng số và demo mở.</dd></div>
+          <div><dt>Technical <span class="muted">5/5</span></dt><dd>Thiết kế kỹ thuật xuất sắc với 3 giai đoạn huấn luyện, kiến trúc 2 độ phân giải thời gian, chỉ huấn luyện 1% tham số phù hợp GPU 24GB, cùng các bài phân tích sâu sắc về vai trò của encoder vs LLM.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Tạo ra bước nhảy vọt cho các mô hình open-weight trong lĩnh vực speech anti-spoofing, thu hẹp khoảng cách với các hệ thống thương mại kín và mở ra chuẩn mực mới về khả năng giải thích trong pháp lý số.</dd></div>
+          <div><dt>Evidence <span class="muted">5/5</span></dt><dd>Thực nghiệm đồ sộ trên 2.34 triệu lượt thử của Speech-DF-Arena, SpoofRadar và bộ benchmark mới 177k mẫu, với các phân tích thống kê paired bootstrap và đối đầu chặt chẽ.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Thống nhất 5 tác vụ forensic trong một mô hình · Đạt SOTA open-weight trên Speech-DF-Arena và SpoofRadar · Lập luận có thể kiểm chứng độc lập từng phát biểu · Cực kỳ tiết kiệm tài nguyên (huấn luyện 29.7M tham số) · Nghiên cứu ablation và kiểm soát biến độc lập rất chặt chẽ</p>
+          <p><span class="label">Weaknesses</span> · Lệch ngưỡng phân loại trên ngôn ngữ ngoại lai chưa thấy · IoU text-span thấp đối với các đoạn chỉnh sửa quá ngắn · Hiệu năng xác minh nguồn giảm rõ rệt khi có nhiễu/nén</p>
+          <p><span class="label">Context</span> · Nghiên cứu thực hiện bởi Yang Xiao và Ting Dang từ Đại học Melbourne (The University of Melbourne), công bố dưới dạng Technical Report vào tháng 11/2026 trên arXiv, đi kèm mã nguồn, trọng số mô hình và bộ benchmark VeriSpoof-Bench.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

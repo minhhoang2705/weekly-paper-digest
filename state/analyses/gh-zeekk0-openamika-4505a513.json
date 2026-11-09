@@ -1,0 +1,47 @@
+{
+ "id": "gh:zeekk0/openamika",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án là sự tích hợp kỹ thuật xuất sắc giữa các module mã nguồn mở có sẵn (SenseVoice, GPT-SoVITS, Live2D, Ollama) thành một voice companion hoàn chỉnh thay vì đề xuất kiến trúc mô hình mới.",
+  "credibility": "Kho mã nguồn mở cá nhân kết hợp cùng dự án MekaHime, có mã nguồn rõ ràng, script cài đặt đầy đủ và bản demo web trực tuyến, nhưng không phải bài báo học thuật qua bình duyệt.",
+  "technical": "Thiết kế kỹ thuật tích hợp đồng bộ nhiều dịch vụ phức tạp từ ASR, TTS, Vision, Vector Memory, Web UI Live2D đến điều phối công cụ qua MCP.",
+  "impact": "Thu hút sự chú ý tốt trong cộng đồng AI companion/VTuber (543 stars, 74 forks trên GitHub) và cung cấp pipeline thực tiễn cho voice agent đa phương thức.",
+  "evidence": "Cung cấp chi tiết hướng dẫn cấu hình, kiểm thử tài nguyên VRAM cụ thể và mã nguồn thực thi đầy đủ, tuy nhiên không có benchmark định lượng chuẩn về độ trễ, WER hay MOS."
+ },
+ "summary": {
+  "tldr": "OpenAmika là một trợ lý AI đồng hành mã nguồn mở (AI companion) tích hợp mô hình Live2D tương tác thời gian thực bằng giọng nói và văn bản. Hệ thống hỗ trợ xử lý ASR, TTS, bộ nhớ và thị giác cục bộ trên PC người dùng, đồng thời kết nối LLM qua OpenRouter hoặc chạy hoàn toàn offline bằng Ollama.",
+  "problem": "Xây dựng một trợ lý AI cá nhân dạng nhân vật ảo (Live2D anime companion) hoàn chỉnh chạy trực tiếp trên PC của người dùng, tích hợp đầy đủ các giác quan (nghe, nói, nhìn, nhớ) với độ trễ thấp và khả năng tự chủ quyền riêng tư (chạy hoàn toàn local hoặc semi-local).",
+  "method": "OpenAmika kết hợp nhiều mô hình mã nguồn mở thành một hệ thống voice agent đa phương thức:\n- **Thính giác (ASR / ears)**: Sử dụng mô hình `SenseVoice` để nhận dạng giọng nói cục bộ.\n- **Giọng nói (TTS / voice)**: Sử dụng mô hình `GPT-SoVITS` (với trọng số giọng nói MekaHime_Amika) phục vụ trên cổng nội bộ (port 8002).\n- **Thị giác (Eyes)**: Sử dụng `Qwen3-VL` xử lý đầu vào từ camera.\n- **Bộ nhớ dài hạn (Long-term memory)**: Trích xuất embedding bằng mô hình `bge-m3` để truy hồi và lưu trữ thông tin về người dùng.\n- **Tư duy (LLM Brain)**: Chạy qua hai chế độ: *Semi-Local* qua API OpenRouter (khuyến nghị chi phí khoảng $1.50–$5/tháng) hoặc *Fully Local* qua Ollama (yêu cầu LLM kích thước $\\ge 27\\text{B}$, tốt nhất là $\\ge 70\\text{B}$, prompt viết bằng tiếng Trung).\n- **Hiển thị & Giao diện**: Dựng hình nhân vật Live2D bằng `pixi-live2d-display` và Live2D Cubism SDK trên web UI (port 53000).\n- **Mở rộng tác vụ (Agent / Helpers & IoT)**: Hỗ trợ giao thức MCP (Model Context Protocol) để điều phối các tác vụ tìm kiếm/duyệt web cho Hermes Agent hoặc nanoMuse (thể hiện qua nhân vật paper doll trên stage) và điều khiển thiết bị thông minh qua Zigbee.",
+  "setup": "Hệ điều hành Windows 10/11 (Linux chưa kiểm thử), Python 3.11, Git, dung lượng ổ cứng trống khoảng 45 GB (quá trình cài đặt tải về 15–20 GB). Yêu cầu phần cứng: NVIDIA GPU kiến trúc RTX 20-series trở lên với tối thiểu 8 GB VRAM (cần 16 GB nếu bật module camera eyes). Nếu chạy LLM cục bộ qua Ollama: các thành phần ears, memory, voice tốn ~6 GB VRAM (tốn ~10 GB nếu bật vision), cộng thêm ~19 GB cho model 27B (`gemma3:27b`), ~24 GB cho 32B (`qwen3:32b`), và ~50 GB cho 70B (`qwen2.5:72b`). Hỗ trợ ngôn ngữ: Prompts viết bằng tiếng Trung, hỗ trợ giao tiếp tiếng Trung, tiếng Nhật, tiếng Anh.",
+  "results": [
+   "Chi phí API OpenRouter ước tính: khoảng $1.50/tháng (với 30 lượt thoại/ngày) và khoảng $5/tháng (với 100 lượt thoại/ngày).",
+   "Độ trễ suy luận cục bộ: Khi chạy local LLM với Ollama, phản hồi có thể mất từ 5 đến 50 giây nếu ngắt lời (interrupt) hoặc trong quá trình lưu bộ nhớ/suy ngẫm (reflect).",
+   "Yêu cầu VRAM phụ trợ: Ears, memory và voice chiếm ~6 GB VRAM (~10 GB nếu bật thêm module eyes/vision)."
+  ],
+  "limitations": "Chưa được kiểm thử chính thức trên Linux (chỉ hỗ trợ Windows). Chạy hoàn toàn cục bộ đòi hỏi GPU cấu hình rất cao (tối thiểu 32 GB VRAM cho model 27B, hoặc 72–96 GB VRAM cho model 70B). Khi chạy local model dưới 27B, nhân vật gặp hiện tượng mất persona, quên ngữ cảnh và sai định dạng phản hồi. Prompt gốc được viết bằng tiếng Trung nên các mô hình không hỗ trợ tốt tiếng Trung (ví dụ `llama3.3:70b`) không hoạt động chuẩn.",
+  "takeaways": "OpenAmika là một kiến trúc tham khảo mẫu mực về việc ghép nối trọn vẹn pipeline Voice Agent đa phương thức (SenseVoice + GPT-SoVITS + Qwen3-VL + bge-m3 + Live2D + MCP) phục vụ người dùng cuối trên thiết bị cá nhân.",
+  "strengths": [
+   "Pipeline đa phương thức đầy đủ: ASR, TTS, Vision, Memory",
+   "Tích hợp Live2D trực quan trên nền web",
+   "Hỗ trợ cả Semi-Local (OpenRouter) và Fully Local (Ollama)",
+   "Khả năng mở rộng agent qua giao thức MCP"
+  ],
+  "weaknesses": [
+   "Yêu cầu phần cứng VRAM rất lớn cho local LLM",
+   "Model và tài nguyên Live2D có giấy phép hạn chế",
+   "Chỉ hỗ trợ Windows, chưa hỗ trợ chính thức Linux"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi zeekk0 và MekaHime Inc., phát hành trên GitHub và nền tảng web mekahime.com."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

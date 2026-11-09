@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2610.40738",
+ "topic": "Speech LLM",
+ "promise": 5,
+ "scores": {
+  "novelty": 3,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình ứng dụng kiến trúc ghép nối encoder-projector quen thuộc (Whisper + SwiGLU MLP + Gemma) nhưng có nét mới trong chiến lược online FKL distillation đa nguồn kết hợp sinh hội thoại tổng hợp có kiểm định độ chân thực.",
+  "credibility": "Báo cáo kỹ thuật chi tiết đến từ nhóm nghiên cứu ServiceNow với đầy đủ thông số cấu trúc, cấu hình phần cứng huấn luyện và giao thức kiểm chuẩn.",
+  "technical": "Thiết kế hệ thống phân tán bài bản, kết hợp pipeline song song 16 teacher GPUs và 48 student GPUs qua one-batch lookahead cùng fused full-vocabulary FKL kernels.",
+  "impact": "Thiết lập chuẩn mực mới cho mô hình giọng nói 2-stage mã nguồn mở về khả năng agentic/tool-use, tuy nhiên mức độ lan tỏa cộng đồng hiện ở mức vừa phải (36 upvotes trên HF).",
+  "evidence": "Cung cấp kết quả thực nghiệm chi tiết và toàn diện trên hàng loạt benchmark tiêu chuẩn (EVA, \\tau-Voice, BFCL, BBA, LibriSpeech, text/vision retention) so sánh với nhiều đối thủ nguồn mở và độc quyền."
+ },
+ "summary": {
+  "tldr": "Apriel Voice 27B Preview là mô hình ngôn ngữ - giọng nói mã nguồn mở dựa trên kiến trúc MoE Gemma 4 26B-A4B, hợp nhất khả năng hiểu giọng nói, suy luận đa bước và gọi công cụ (tool use) trong cùng một backbone duy nhất. Mô hình giữ nguyên các phương thức đầu vào văn bản và hình ảnh, đồng thời tách rời bộ tổng hợp tiếng nói (TTS) để triển khai linh hoạt.",
+  "problem": "Các trợ lý giọng nói truyền thống thường phụ thuộc vào mô hình nối tầng 3 giai đoạn (ASR $\\rightarrow$ LLM $\\rightarrow$ TTS) gây trễ cao và mất thông tin âm học, hoặc tách rời tác vụ hội thoại với backend suy luận/công cụ. Hơn nữa, việc huấn luyện mô hình ngôn ngữ thích ứng với đầu vào giọng nói thường làm suy giảm khả năng suy luận gốc trên văn bản/hình ảnh và gặp khó khăn trong việc thực thi các tác vụ hội thoại phức tạp đa lượt.",
+  "method": "Kiến trúc gồm: Speech Encoder Whisper large-v3-turbo (~635M tham số, đóng băng), Projector học được (~47.7M tham số, gồm gom 8 khung âm học $U = \\text{stack}_8(E(a))$ qua lớp tuyến tính bias-free $10240 \\rightarrow 4096$, SwiGLU giảm xuống $2048$, và lớp tuyến tính chiếu vào không gian $2816$ của decoder), cùng backbone MoE Gemma 4 26B-A4B (~26B tham số tổng, ~4B tham số kích hoạt). Quy trình huấn luyện gồm 2 giai đoạn:\n- **Giai đoạn 1 (Speech Interface):** Huấn luyện projector với encoder và backbone đóng băng trên 18.17M mẫu (1,164 cấu hình dữ liệu) cho các tác vụ nhận dạng, dịch thuật và continuation (2 epoch, 32.2k giờ âm thanh/epoch).\n- **Giai đoạn 2 (Broad SFT & Retention):** Cập nhật đồng thời projector, language backbone và expert router (3 epoch, 61.5k giờ âm thanh/epoch cùng dữ liệu văn bản; tổng 52.6B token exposure). Sử dụng hàm mất mát phụ thuộc nguồn $\\mathcal{L}_i = \\alpha_d \\mathcal{L}_{\\text{CE},i} + \\beta_d \\mathcal{L}_{\\text{FKL},i}$ kết hợp mục tiêu nhãn chuẩn với phân phối tri thức online từ teacher đóng băng.\n- **Hạ tầng Online Distillation:** Phân bổ 8 node (16 GPU H100 cho teacher inference cục bộ, 48 GPU H100 chạy FSDP cho student). Áp dụng cơ chế one-batch lookahead để tính toán song song teacher batch $k+1$ với student batch $k$, kết hợp fused kernel cho Cross-Entropy và Forward KL (tiling từ vựng đầy đủ) giúp giảm bộ nhớ FP32.",
+  "setup": "Đánh giá trên AU-Harness, EVA-Bench, $\\tau$-Voice, Big Bench Audio, Speech-BFCL, EnterpriseOps-Gym và các bộ kiểm thử chuẩn (LibriSpeech, CoVoST 2, MMLU-Pro, GPQA Diamond). Mô hình sử dụng Cartesia Sonic 3.5 cho nhánh TTS trong các benchmark EVA và $\\tau$-Voice. So sánh với các hệ thống S2S đóng quyền (Gemini 3.8 Family, GPT-realtime-2.1), hệ thống cascade (Parakeet/Flux + Gemma4/GPT-5.6) và mô hình OSS 2-stage (UltraVox-v0.6, Gemma4-12B-IT, Audex-30B-A3B).",
+  "results": [
+   "Đạt điểm 98.90 trên Big Bench Audio và 81.13 trên Speech-BFCL (thinking mode), điểm trung bình suy luận giọng nói đạt 85.84 điểm (cao nhất trong các mô hình OSS 2-stage).",
+   "Trên \\tau-Voice: Đạt 65.51% task success với độ trễ phản hồi trung bình 1.91 giây, vượt trội hơn hẳn các OSS 2-stage baselines (UltraVox-v0.6 đạt 26.80% / 3.95s; Gemma4-12B-IT đạt 24.20% / 3.61s; Audex-30B-A3B đạt 17.15% / 2.83s).",
+   "Trên EVA-Bench: Đạt 51.27% EVA-A (service accuracy) và 74.13% EVA-X (conversational experience), vượt xa baseline Parakeet + Gemma4-26B (39.97% và 3.93%) và cạnh tranh trực tiếp với Gemini 3.8 Live Extended Thinking (54.82% và 73.5%).",
+   "Nhận dạng và dịch thuật âm thanh: Đạt WER trung bình 12.61% (LibriSpeech test-clean 2.23%, test-other 5.15%) và BLEU dịch thuật trung bình 42.87 (DE/FR/ES $\\rightarrow$ EN), bám sát GPT-realtime-2.1 (43.72 BLEU).",
+   "Bảo toàn năng lực Text & Vision: MMLU-Pro đạt 84.42 (so với Gemma gốc 85.27), GPQA Diamond đạt 80.40 (so với 77.80), MATH-500 đạt 92.88 (so với 92.76); MMMU-Pro đạt 69.88 (so với 70.23)."
+  ],
+  "limitations": "Mô hình tập trung chính vào tiếng Anh, năng lực đa ngôn ngữ hạn chế và chỉ chủ yếu được đo bằng dịch giọng nói. Dữ liệu tổng hợp và distillation có nguy cơ lan truyền lỗi từ teacher. Chưa có thực nghiệm bóc tách (ablation) độc lập cho từng thành phần dữ liệu/hàm mất mát, và chưa kiểm chứng chuyển giao công thức trên các họ backbone khác.",
+  "takeaways": "Chứng minh rằng kiến trúc 2-stage kết hợp online FKL distillation và broad SFT trên dữ liệu hội thoại tổng hợp cho phép một mô hình ngôn ngữ mã nguồn mở vừa làm chủ tương tác giọng nói, gọi công cụ phức tạp với độ trễ thấp (~1.9s), vừa giữ trọn năng lực suy luận văn bản và hình ảnh ban đầu.",
+  "strengths": [
+   "Hợp nhất hiểu giọng nói, suy luận và gọi công cụ",
+   "Đạt điểm EVA-X và \\tau-Voice dẫn đầu nhóm OSS",
+   "Hạ tầng online distillation 1-batch lookahead tối ưu",
+   "Bảo toàn gần như nguyên vẹn năng lực text/vision"
+  ],
+  "weaknesses": [
+   "Năng lực hiểu giọng nói đa ngôn ngữ chưa toàn diện",
+   "Thiếu kiểm chứng bóc tách (ablation) từng thành phần",
+   "Độ tin cậy phụ thuộc vào phân phối teacher ban đầu"
+  ],
+  "context": "Nghiên cứu từ ServiceNow (nhóm tác giả chính gồm Aman Tiwari, Akshay Kalkunte, Akintunde Oladipo, v.v.), phát hành dưới dạng báo cáo kỹ thuật (arXiv:2610.40738v1, tháng 10/2026) kèm bản thử nghiệm tương tác Apriel Live."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

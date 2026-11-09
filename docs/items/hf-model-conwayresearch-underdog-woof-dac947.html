@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ConwayResearch/Underdog-Woof · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W46</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">ConwayResearch/Underdog-Woof</h1>
+    <div class="meta">
+      <span title="Listed by HF Models inside the crawl window">found Nov 9, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Nov 5, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Model</span>
+<span class="pill">HF Models</span><span class="pill pill-accent">TTS</span>        <span class="authors">ConwayResearch</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://huggingface.co/ConwayResearch/Underdog-Woof" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">model card excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>Underdog Woof. - 1,022x smaller than Fish Audio Drama 3 (41.5 GB), with 25% fewer word errors - 1.42% word error rate on Gradium TTS Hard Cases (English, Mira) - 13.8x faster than real time on one CPU thread (Juno), with no GPU, server or API key - 40.6 MB for the whole model, both voices included, and 402 MB of memory at peak while it runs (Juno) Underdog Woof is a small English text-to-speech model with two voices: Juno and Mira. It reads phone numbers, dates, prices and codes the way people say them, and it runs on a laptop CPU with nothing but numpy, from a single 40.6 MB file. Try it in your browser at underdog.ai/woof. Listen. Each voice reads &quot;Please call me back at 415-555-0199 before 5:30 p.m. on Friday.&quot; (seed 1). | Voice | | | Juno (default) | | | Mira | | More clips are in the samples folder, listed below. One voice or two. Woof comes in two sizes. This repo is the two-voice model. The one-voice model is the one that runs in your browser at underdog.ai/woof. | | One voice | Two voices (this repo) | | Download | 31.7 MB | 40.6 MB | | Peak memory, one CPU thread | 852 MB | 402 MB (Juno) | | Word error rate, Gradium TTS Hard Cases (English) | 2.06% | 1.42% (Mira) | | Speed on one Apple M5 Max CPU thread | 18x real time | 13.8x real time (Juno) | The one-voice speed is plain PyTorch with its int8 weights at the default 16 steps; the two-voice speed is this repo's numpy runtime. Fish Audio Drama 3, for scale, is a 41.5 GB download and gets 1.89% wrong. How Woof compares. Word error rate on Gradium TTS Hard Cases (English, 500 sentences), every model run and scored by us the same way, each in its best-scoring voice. Lower is better. | Model | Runs | Download | Word error rate | Woof's errors are lower by | | Underdog Woof, two voices (Mira) | your CPU | 40.6 MB | 1.42% | | | Fish Audio Drama 3 | cloud API | 41.5 GB open weights | 1.89% | 25% | | Underdog Woof, one voice | your CPU or browser | 31.7 MB | 2.06% | | | Phonon 31m | on device | 55.1 MB | 2.16% | 34</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 9, 2026 · model card</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Underdog Woof là mô hình Text-to-Speech tiếng Anh siêu gọn nhẹ với dung lượng chỉ 40.6 MB (38.24M tham số), tích hợp hai giọng đọc Juno và Mira chạy trực tiếp trên CPU chỉ bằng thư viện NumPy. Mô hình đạt tốc độ suy luận tới 13.8x thời gian thực trên một luồng CPU Apple M5 Max và ghi nhận Word Error Rate (WER) 1.42% trên tập benchmark Gradium TTS Hard Cases, vượt qua nhiều mô hình cloud và on-device kích thước lớn hơn đáng kể.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình TTS hiện đại thường đòi hỏi tài nguyên tính toán lớn (GPU, RAM cao, kích thước file từ vài trăm megabyte đến hàng chục gigabyte), phụ thuộc vào cloud API hoặc gặp nhiều lỗi phát âm/đọc sai đối với các định dạng văn bản phức tạp như số điện thoại, ngày tháng, giá tiền và mã ký tự đặc biệt.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Hệ thống có tổng cộng 38.24M tham số (mô hình phát âm speech model 22.95M và audio decoder 15.3M được tùy biến từ Mimi codec của Kyutai), xuất âm thanh mono tần số 24 kHz. Toàn bộ trọng số của cả hai giọng đọc được gói gọn trong một file 40.6 MB và chạy suy luận thuần túy bằng NumPy. Kiến trúc tích hợp một bộ chuẩn hóa văn bản (text normalizer) dựa trên luật viết bằng standard library để xử lý số, thời gian, tiền tệ và từ điển phiên âm tên khó. Văn bản dài được chia câu (cắt tiếp tại dấu phẩy, chấm phẩy, gạch nối nếu câu vượt quá 120 ký tự). Quy trình tạo âm có cơ chế tự kiểm định: nếu đoạn âm thanh quá dài so với văn bản hoặc xuất hiện khoảng lặng từ 1 giây trở lên ở giữa, hệ thống sẽ tự động thử lại (re-draw) tối đa 3 lần và chọn lượt tốt nhất. Dữ liệu huấn luyện bao gồm LibriTTS-R và Emilia-YODAS.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Môi trường yêu cầu tối thiểu Python với thư viện <code>numpy</code>. Mô hình hỗ trợ tiếng Anh (en) với 2 giọng (Juno và Mira). Đo lường benchmark thực hiện trên tập Gradium TTS Hard Cases (500 câu tiếng Anh), sinh phụ đề kiểm chứng bằng <code>qwen3.8-omni-flash</code> và đếm lỗi từ bằng <code>gemma-4-31b-it</code>. Tốc độ đo trên 1 luồng CPU của Apple M5 Max qua trung vị 3 vòng chạy trên 200 câu thông dụng.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên Gradium TTS Hard Cases (English), giọng Mira đạt WER 1.42% (62/4,379 lỗi từ) và Juno đạt 1.53% (67/4,371 lỗi từ), thấp hơn 25% lỗi so với Fish Audio Drama 3 (41.5 GB, WER 1.89%).</li>
+<li>Bản Woof 1 giọng (31.7 MB, PyTorch int8, 16 bước) đạt WER 2.06%, vượt qua Phonon 31m (55.1 MB, WER 2.16%), Deepgram Flux TTS (WER 2.39%), Deepgram Aura-2 (WER 2.43%), Microsoft MAI-Voice-2.1 Flash (WER 2.51%), và Qwen Audio 3.0 TTS Plus (WER 2.74%).</li>
+<li>Vượt trội so với các mô hình on-device phổ biến khác: Kokoro 82M (327 MB, WER 5.17%), Pocket TTS (219 MB, WER 8.07%), Supertonic 3 (398 MB, WER 8.81%), Kitten Nano 0.8 (27.6 MB, WER 9.81%), và Qwen3-TTS 1.7B (4.54 GB, WER 11.99%).</li>
+<li>Mô hình Liquid AI LFM3-Audio-2B (1.21 GB, GGUF 4-bit) đạt WER 20.1% (747/3,718 lỗi từ) khi kiểm nghiệm qua Whisper large-v3.</li>
+<li>Tốc độ suy luận đạt 13.8x thời gian thực với Juno (tiêu thụ đỉnh 402 MB RAM) và 7.2x thời gian thực với Mira (tiêu thụ đỉnh 601 MB RAM) trên 1 luồng CPU Apple M5 Max; bản 1 giọng đạt 18x thời gian thực.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Mô hình hiện chỉ hỗ trợ tiếng Anh và giới hạn ở 2 giọng đọc cố định (Juno, Mira). Chi tiết kiến trúc bên trong phần speech model 22.95M và thuật toán huấn luyện cụ thể không được công bố chi tiết trong tài liệu; đánh giá chỉ tập trung vào WER trên Gradium TTS Hard Cases mà không cung cấp điểm đánh giá chất lượng tự nhiên như MOS hay UTMOS.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Woof chứng minh rằng mô hình TTS kích thước cực nhỏ (&lt;41 MB) kết hợp runtime tối giản chỉ dùng NumPy và bộ chuẩn hóa dựa trên luật có thể vượt qua các mô hình lớn về độ chính xác phát âm các trường hợp khó trên CPU người dùng cuối.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">60.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,82.8 230.0,115.26 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="82.8" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 3/5 — Mô hình kết hợp audio decoder rút gọn từ Mimi codec và kiến trúc TTS nhẹ suy luận thuần NumPy, không đưa ra đột phá lý thuyết mới nhưng tối ưu hóa kỹ thuật on-device rất tốt.</title>Novelty <tspan class="radar-value">3</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế hệ thống suy luận thuần NumPy cực kỳ gọn gàng với cơ chế kiểm soát chất lượng tự sinh lại câu lỗi và bộ chuẩn hóa văn bản không phụ thuộc bên ngoài.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Bảng kết quả thực nghiệm chi tiết so sánh với 20 mô hình cloud và edge khác nhau trên benchmark chuẩn Gradium TTS Hard Cases kèm số liệu bộ nhớ và tốc độ cụ thể.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Có tiềm năng ứng dụng cao cho thiết bị biên và CPU laptop, dù bị hạn chế bởi giấy phép phi thương mại (Underdog Non-Commercial License 1.0).</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Phát hành mã nguồn và trọng số chạy trực tiếp bởi ConwayResearch trên Hugging Face, nhưng không phải bài báo bình duyệt học thuật.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">3/5</span></dt><dd>Mô hình kết hợp audio decoder rút gọn từ Mimi codec và kiến trúc TTS nhẹ suy luận thuần NumPy, không đưa ra đột phá lý thuyết mới nhưng tối ưu hóa kỹ thuật on-device rất tốt.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Phát hành mã nguồn và trọng số chạy trực tiếp bởi ConwayResearch trên Hugging Face, nhưng không phải bài báo bình duyệt học thuật.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế hệ thống suy luận thuần NumPy cực kỳ gọn gàng với cơ chế kiểm soát chất lượng tự sinh lại câu lỗi và bộ chuẩn hóa văn bản không phụ thuộc bên ngoài.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Có tiềm năng ứng dụng cao cho thiết bị biên và CPU laptop, dù bị hạn chế bởi giấy phép phi thương mại (Underdog Non-Commercial License 1.0).</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Bảng kết quả thực nghiệm chi tiết so sánh với 20 mô hình cloud và edge khác nhau trên benchmark chuẩn Gradium TTS Hard Cases kèm số liệu bộ nhớ và tốc độ cụ thể.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kích thước siêu nhỏ chỉ 40.6 MB · Runtime thuần NumPy không cần GPU · Tốc độ cao 13.8x thời gian thực CPU · WER ấn tượng trên các ca phức tạp · Tích hợp tự sửa lỗi khoảng lặng</p>
+          <p><span class="label">Weaknesses</span> · Chỉ hỗ trợ tiếng Anh hai giọng · Giấy phép giới hạn phi thương mại · Thiếu đánh giá chất lượng MOS/tự nhiên</p>
+          <p><span class="label">Context</span> · ConwayResearch phát hành trên Hugging Face (tháng 11 năm 2026 theo mốc thời gian đối chuẩn nêu trong văn bản) kèm demo trình duyệt tại underdog.ai/woof.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

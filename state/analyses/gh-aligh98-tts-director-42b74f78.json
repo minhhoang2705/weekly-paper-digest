@@ -1,0 +1,47 @@
+{
+ "id": "gh:aligh98/tts-director",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án đề xuất cách tiếp cận thực tế về tag budgeting và rule-based linter tích hợp agent skill cho TTS, dù bản chất kỹ thuật là các script quy tắc và prompt engineering.",
+  "credibility": "Kho mã nguồn mở cá nhân với giấy phép MIT, tài liệu chi tiết và có unit test đầy đủ, không phải bài báo bình duyệt học thuật.",
+  "technical": "Thiết kế hệ thống khép kín tốt: xử lý beat-map, zero-dependency linter, hash approval gating và A/B testing pipeline kèm context injection.",
+  "impact": "Mức độ quan tâm ở mức khiêm tốn (81 GitHub stars, 2 forks) và đối tượng sử dụng khá ngách (nhà sáng tạo nội dung tiếng Ba Tư dùng ElevenLabs).",
+  "evidence": "Cung cấp các số đo thực nghiệm cụ thể (đo độ dài âm thanh 6.32s vs 6.40s trên eleven_v4) và bộ test offline, dù không có bảng đánh giá MOS diện rộng."
+ },
+ "summary": {
+  "tldr": "tts-director là một skill dành cho AI agent (tương thích Claude Code) và bộ công cụ CLI giúp tiền xử lý, biên tập và \"đạo diễn\" kịch bản trước khi gửi đến các mô hình TTS như ElevenLabs v3/v4. Dự án tập trung vào tiếng Ba Tư (Persian) và tiếng Anh, giúp kịch bản phát âm tự nhiên bằng cách vẽ beat map, viết lại văn phong hội thoại, kiểm soát ngân sách thẻ cảm xúc và linter phát hiện lỗi cú pháp/phát âm.",
+  "problem": "Phần lớn kịch bản đưa vào TTS bị hỏng do hai nguyên nhân: được viết cho mắt đọc chứ không phải cho tai nghe (câu quá dài, trang trọng như đọc tin tức) hoặc bị lạm dụng audio tag quá mức (đặt `[excited]` ở đầu mọi câu khiến giọng đọc bị cường điệu hóa, gây phản cảm cho người nghe video ngắn).",
+  "method": "Quy trình bao gồm 6 bước và các công cụ thực thi bằng Python không phụ thuộc thư viện ngoài:\n- **Beat mapping & Ear-rewriting:** Định vị vai trò từng dòng (hook, intro, list items, golden point, joke, call-to-action) kèm nhãn năng lượng (ví dụ ` # HOOK 5`). Viết lại câu văn ngắn hơn, đưa từ khóa trọng tâm về cuối câu và bổ sung thán từ hội thoại tự nhiên của tiếng Ba Tư mà không thay đổi sự thật.\n- **Audio tag budgeting:** Giới hạn mật độ thẻ nghiêm ngặt (~1 tag cho mỗi 3-4 câu, 0-2 tiếng cười mỗi reel và đổi tone như thì thầm/thở dài/ngắt giọng mỗi 8-12 giây).\n- **Linter miễn phí (`tag_lint.py`):** Quét phát hiện thiếu nhãn năng lượng, đường cong nhịp điệu yếu, lạm dụng tag/tiếng cười quá sát nhau, các từ văn viết trang trọng, từ có cách viết khác phát âm, hoặc lỗi riêng của từng model (như dùng SSML trên v4 hoặc dùng tag trên các model đọc to tag).\n- **Approval gating & Lexicon:** Hỗ trợ lệnh `--approve` tạo dấu xác thực bằng hàm băm (hash stamp) và `--check-approved` chặn pipeline tạo giọng nếu văn bản bị sửa. Hỗ trợ tệp `--lexicon words.tsv` để chuẩn hóa phiên âm tên riêng/từ mượn.\n- **A/B Testing (`ab.py`):** Thử nghiệm các câu nhạy cảm với cùng fixed seed, truyền ngữ cảnh câu trước/sau (`--prev`, `--next`), ước tính chi phí trước (`--dry-run`) và tự động transcribe ngược lại (`--en-check`) để phát hiện xem tag có bị đọc to thành chữ hay không.",
+  "setup": "Yêu cầu Python 3.9+ (zero dependencies; ffmpeg là tùy chọn cho việc hiệu chỉnh tốc độ). Tích hợp sẵn dưới dạng skill cho Claude Code (`~/.claude/skills/tts-director`) hoặc các agent đọc `SKILL.md`. Bộ test chạy qua `python -m unittest discover tests`.",
+  "results": [
+   "Thực nghiệm cho thấy ElevenLabs eleven_v4 bỏ qua cài đặt tốc độ và style: tạo cùng một câu với tốc độ 0.8 và 1.2 cho độ dài thực tế gần như tương đương nhau (6.32 giây so với 6.40 giây).",
+   "Xác nhận các model multilingual_v2, flash và turbo đọc to các audio tag thành tiếng thay vì diễn xuất âm thanh.",
+   "Xác nhận ElevenLabs v3 và v4 không hỗ trợ thẻ <break> (phải dùng dấu '...' để tạo khoảng lặng), và từ tượng thanh cười 'haha' viết bằng chữ bị đọc từng chữ cái một thay vì cười tự nhiên."
+  ],
+  "limitations": "Không có mô hình AI/TTS riêng mà chỉ là bộ công cụ script và prompt skill tiền xử lý kịch bản cho ElevenLabs; phụ thuộc vào việc nghe thủ công bằng tai người để đánh giá độ tự nhiên cảm xúc (transcription chỉ xác định được tag có kích hoạt hay không).",
+  "takeaways": "Cung cấp giải pháp kỹ thuật thực tế cho pipeline AI-agent tự động hóa nội dung video ngắn: kiểm soát chặt chẽ ngân sách audio tag, ép tuân thủ kịch bản nói qua linter không tốn credit, và dùng hash stamp để khóa phiên bản trước khi gọi API TTS trả phí.",
+  "strengths": [
+   "Zero-dependency Python 3.9+ cực kỳ nhẹ",
+   "Linter thông minh phát hiện lỗi ngữ âm và model",
+   "Cơ chế hash stamp phê duyệt chặt chẽ",
+   "Kiểm thử A/B cố định seed tiết kiệm chi phí"
+  ],
+  "weaknesses": [
+   "Phụ thuộc lớn vào API ElevenLabs độc quyền",
+   "Tập trung ngôn ngữ hẹp (chủ yếu tiếng Ba Tư)",
+   "Không có benchmark số hóa quy mô lớn"
+  ],
+  "context": "Mã nguồn mở được phát triển bởi lập trình viên aligh98 trên GitHub, phát hành dưới giấy phép MIT nhắm tới cộng đồng người dùng Claude Code và ElevenLabs."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

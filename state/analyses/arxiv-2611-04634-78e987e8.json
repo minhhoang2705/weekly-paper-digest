@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2611.04634",
+ "topic": "Speech LLM",
+ "promise": 5,
+ "scores": {
+  "novelty": 5,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đề xuất một mô hình audio LLM duy nhất giải quyết toàn diện 5 tác vụ forensic bằng answer scoring, kết hợp grounded checkable rationales và counterfactual training để đảm bảo tính trung thực của lập luận.",
+  "credibility": "Báo cáo kỹ thuật chi tiết từ nhóm nghiên cứu tại The University of Melbourne, công bố đầy đủ benchmark chuẩn công khai, mã nguồn, trọng số và demo mở.",
+  "technical": "Thiết kế kỹ thuật xuất sắc với 3 giai đoạn huấn luyện, kiến trúc 2 độ phân giải thời gian, chỉ huấn luyện 1% tham số phù hợp GPU 24GB, cùng các bài phân tích sâu sắc về vai trò của encoder vs LLM.",
+  "impact": "Tạo ra bước nhảy vọt cho các mô hình open-weight trong lĩnh vực speech anti-spoofing, thu hẹp khoảng cách với các hệ thống thương mại kín và mở ra chuẩn mực mới về khả năng giải thích trong pháp lý số.",
+  "evidence": "Thực nghiệm đồ sộ trên 2.34 triệu lượt thử của Speech-DF-Arena, SpoofRadar và bộ benchmark mới 177k mẫu, với các phân tích thống kê paired bootstrap và đối đầu chặt chẽ."
+ },
+ "summary": {
+  "tldr": "VeriSpoof là một audio language model (ALM) mã nguồn mở thống nhất 5 tác vụ giám định âm thanh (forensic speech tasks): phát hiện deepfake, quy kết nguồn (generator/acoustic model/vocoder), phân tích điều kiện thu âm, định vị đoạn giả mạo và xác minh nguồn chung giữa hai bản ghi. Mô hình trả lời thông qua tính điểm likelihood của câu trả lời kèm theo lập luận có căn cứ (grounded rationales) và đạt pooled EER 2.14% trên Speech-DF-Arena (đứng đầu trong các mô hình open-weight).",
+  "problem": "Các bộ phát hiện deepfake giọng nói hiện tại thường chỉ đưa ra một điểm số nhị phân cho một tác vụ duy nhất, không thể trả lời nguồn sinh ra từ đâu, hai bản ghi có chung nguồn hay không hoặc cung cấp bằng chứng minh bạch. Nếu dùng audio LLM tạo giải thích dạng free-text, các suy luận dễ bị ảo giác (hallucination) hoặc không phản ánh đúng căn cứ quyết định (unfaithful). Ngoài ra, các phương pháp trước chưa làm rõ thành phần nào trong ALM (encoder, tokenizer hay LLM) quyết định độ chính xác của việc phát hiện hay so sánh nguồn.",
+  "method": "VeriSpoof xây dựng trên kiến trúc kết hợp encoder Qwen3-ASR (25 layers) và LLM MiniCPM5-2B (tổng 2.85B tham số, chỉ huấn luyện 29.7M tham số qua DoRA/LoRA):\n- **Audio Tokenizer & Biểu diễn:** Trích xuất kết hợp có trọng số từ 25 tầng của encoder Qwen3-ASR, chia thành 16 utterance tokens (nắm bắt đặc trưng toàn cục cho attribution/verification) và 52 frame tokens (mỗi token 0.16s, chèn text time marker mỗi 0.8s để mô hình chỉ ra mốc thời gian bằng giây).\n- **Cơ chế tính điểm không cần classification head:** Mọi câu hỏi đều được định dạng dưới dạng câu hỏi-đáp. Điểm số cho câu hỏi nhị phân được tính qua hiệu số log-likelihood: $s_q(u) = \\log p_\\theta(a^+ | u, q) - \\log p_\\theta(a^- | u, q)$.\n- **Grounded & Faithful Rationales:** Tạo giải thích theo các trường cố định gồm `OBSERVATIONS` (SNR, speech level, bandwidth, clipping), `CHANNEL_STATUS`, `LOCALIZATION` (mốc thời gian bị sửa đổi) và `SOURCE_PROFILE`. Mỗi phát biểu đều có thể kiểm chứng độc lập bằng đo đạc tín hiệu trực tiếp hoặc nhãn metadata. Huấn luyện phản thực tế (counterfactual training chiếm 20% mẫu) đảo ngược nhãn định vị để buộc quyết định cuối cùng phải tuân thủ đúng bằng chứng được nêu.\n- **Quy trình huấn luyện 3 giai đoạn:** (1) Perception alignment (PA): chỉ huấn luyện tokenizer và DoRA encoder với LLM bị đóng băng, dùng thêm OC-softmax loss; (2) Forensic question tuning (QT): áp dụng LoRA lên LLM, huấn luyện đa tác vụ hỏi đáp; (3) Grounded rationale tuning (RT): huấn luyện sinh lập luận, counterfactual training và replay các tác vụ QT.",
+  "setup": "Đánh giá trên Speech-DF-Arena (14 tập kiểm thử, 2.34M lượt thử), SpoofRadar v1.0 (16 tập kiểm thử) và bộ benchmark tự xây dựng VeriSpoof-Bench (54 tập con, 177,852 mẫu phân theo 6 nhóm tác vụ: detection, source verification, recording condition, attribution, verification reasoning, grounded reasoning). Dữ liệu huấn luyện gồm VeriSpoof-Base (0.38M câu từ 8 tập dữ liệu chính thức) và VeriSpoof-Plus (4.4M câu từ 20 tập dữ liệu, cân bằng trên 211 nguồn spoof và 18 nguồn bona fide). Baselines gồm các mô hình thương mại (Modulate, Teffic, Hiya) và open-weight (DF-Arena, XLS-R + SLS, AASIST) cùng 6 zero-shot general audio LLMs.",
+  "results": [
+   "Trên 14 tập của Speech-DF-Arena, VeriSpoof-Plus đạt pooled EER 2.14% và mean EER 1.79% (xếp thứ 3/28 hệ thống, số 1 trong các mô hình open-weight; vượt xa mô hình open-weight tốt thứ hai là DF-Arena-1B ở mức 9.52% pooled EER); VeriSpoof-Base chỉ huấn luyện trên split chính thức đạt pooled EER 4.43%.",
+   "Trên SpoofRadar v1.0 (16 tập), VeriSpoof-Base đạt pooled EER 4.23% và VeriSpoof-Plus đạt 4.04% (vượt trội so với mốc 9.96% của hệ thống open-weight tốt nhất trước đó).",
+   "Ở tác vụ xác minh cùng nguồn (source verification) trên các bộ sinh MLAAD chưa từng thấy trong huấn luyện: VeriSpoof-Plus đạt 6.17% EER với model mới của kiến trúc đã biết và 15.00% EER với kiến trúc hoàn toàn mới (so với 26.5% và 24.8% của frozen probe trên DF-Arena-1B).",
+   "Phân tích ablation chỉ ra biểu diễn âm thanh quyết định việc phát hiện deepfake (EER ASVspoof 5 giảm từ 9.56% xuống 3.10%), trong khi LLM quyết định năng lực so sánh hai bản ghi (đổi LLM làm dao động EER source verification tới 5.5%).",
+   "Trên dữ liệu giả mạo một phần (PartialEdit), quyết định sau khi sinh chuỗi lập luận (reasoning) nâng độ chính xác từ 78.4% (trả lời trực tiếp 1 bước) lên 99.6%.",
+   "Nhờ counterfactual training, 99.5% các quyết định tuân thủ theo mốc thời gian giả định bị can thiệp nghịch đảo (so với 73.8% khi không có counterfactual training)."
+  ],
+  "limitations": "Mô hình gặp hiện tượng lệch hiệu chuẩn (calibration shift) trên tập dữ liệu tiếng nước ngoài chưa thấy (XMAD-Bench), khiến pooled EER của Plus (4.04%) cao hơn nhiều so với mean EER (1.65%) do ngưỡng chung phân loại nhầm giọng thật tiếng Nga/Tây Ban Nha/Ả Rập. Khả năng dự đoán mốc thời gian bằng text bị nghẽn (IoU chỉ đạt 0.25–0.31 trên PartialSpoof do có quá nhiều phân đoạn ngắn). Năng lực source verification giảm mạnh trên âm thanh bị suy hao/nhiễu/nén codec (EER lên tới 23–30%).",
+  "takeaways": "Kỹ sư có thể tận dụng một ALM duy nhất cho toàn bộ chu trình giám định âm thanh mà không cần xây dựng các mạng Siamese hay classification head riêng biệt. Việc huấn luyện ép sinh chuỗi lập luận có cấu trúc (grounded rationales) và counterfactual training giúp tăng độ tin cậy và giải thích được trong pháp lý, đồng thời cải thiện mạnh khả năng bắt các ca partial spoof khó.",
+  "strengths": [
+   "Thống nhất 5 tác vụ forensic trong một mô hình",
+   "Đạt SOTA open-weight trên Speech-DF-Arena và SpoofRadar",
+   "Lập luận có thể kiểm chứng độc lập từng phát biểu",
+   "Cực kỳ tiết kiệm tài nguyên (huấn luyện 29.7M tham số)",
+   "Nghiên cứu ablation và kiểm soát biến độc lập rất chặt chẽ"
+  ],
+  "weaknesses": [
+   "Lệch ngưỡng phân loại trên ngôn ngữ ngoại lai chưa thấy",
+   "IoU text-span thấp đối với các đoạn chỉnh sửa quá ngắn",
+   "Hiệu năng xác minh nguồn giảm rõ rệt khi có nhiễu/nén"
+  ],
+  "context": "Nghiên cứu thực hiện bởi Yang Xiao và Ting Dang từ Đại học Melbourne (The University of Melbourne), công bố dưới dạng Technical Report vào tháng 11/2026 trên arXiv, đi kèm mã nguồn, trọng số mô hình và bộ benchmark VeriSpoof-Bench."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}

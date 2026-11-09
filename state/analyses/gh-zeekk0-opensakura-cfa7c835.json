@@ -1,0 +1,50 @@
+{
+ "id": "gh:zeekk0/opensakura",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án kết hợp các mô hình mã nguồn mở có sẵn (SenseVoice, GPT-SoVITS, Three.js VRM, LLMs) thành một hệ thống voice companion có kiểm soát trạng thái cảm xúc, không phát minh kiến trúc mô hình mới.",
+  "credibility": "Dự án công khai trên GitHub cá nhân/nhóm độc lập (zeekk0/MekaHime) với tài liệu hướng dẫn cụ thể và mã nguồn thực thi được, không phải từ tổ chức nghiên cứu hay bài báo bình duyệt.",
+  "technical": "Thiết kế kỹ thuật tích hợp tốt giữa quản lý trạng thái cảm xúc, phân quyền vai trò LLM (director/actor), pipeline socket cho TTS cảm xúc và retargeting chuyển động VRM.",
+  "impact": "Mức độ quan tâm hiện tại còn ở mức vừa phải (96 GitHub stars, 17 forks) và mang tính ứng dụng sở thích/VTuber hơn là nghiên cứu quy mô lớn.",
+  "evidence": "Cung cấp đầy đủ số liệu đo đạc thực tế về độ trễ các bước (STT, LLM, TTS), dung lượng VRAM và chi phí API trên GPU RTX 5070."
+ },
+ "summary": {
+  "tldr": "OpenSakura là kho mã nguồn mở nguyên mẫu voice/embodied AI companion của MekaHime, tích hợp voice agent đa phương thức chạy cục bộ hoặc lai trên máy trạm. Hệ thống kết hợp STT (SenseVoiceSmall tùy biến), pipeline nhận thức và trạng thái cảm xúc (dùng OpenRouter hoặc Ollama), TTS theo cảm xúc (bản build tùy biến GPT-SoVITS) và avatar 3D tương tác (Three.js/VRM).",
+  "problem": "Xây dựng một trợ lý AI đồng hành (companion) có hiện diện cơ thể (embodied), hỗ trợ tương tác giọng nói thời gian thực với đầy đủ trạng thái cảm xúc, biểu cảm khuôn mặt, chuyển động hình thể 3D và duy trì bộ nhớ dài hạn của người dùng, đồng thời linh hoạt triển khai cục bộ để bảo mật và giảm chi phí.",
+  "method": "Kiến trúc hệ thống bao gồm 4 khối chính giao tiếp qua WebSocket và HTTP:\n- **Ears (STT)**: Dịch vụ cục bộ dựa trên SenseVoiceSmall đã được MekaHime tùy biến, lắng nghe qua cơ chế VAD hoặc Push-to-Talk.\n- **Brain (FastAPI backend)**: Quản lý 4 vai trò LLM (Actor, Director, Action, Mod) kết nối OpenRouter hoặc Ollama. Duy trì trạng thái cảm xúc với 26 chiều trong đoạn $[0, \\text{cap}]$, tính toán độ lệch cảm xúc tỷ lệ theo quan hệ và mức độ thiện cảm (favorability), áp dụng suy giảm theo thời gian (cảm xúc tiêu cực giảm nhanh gấp 3 lần). Director LLM định kỳ mỗi $N$ lượt cập nhật bộ nhớ dài hạn (JSON theo từng user) và định hướng chiến lược cho Actor LLM.\n- **Voice (TTS)**: Engine GPT-SoVITS tùy biến từ MekaHime chạy cục bộ qua Socket.IO. Ánh xạ cảm xúc chủ đạo và cường độ thành các tag TTS (như `【happy2】`, `【shy1】`) thông qua đường cong S-curve và quadrant lag, tạo ra audio dạng WAV hoặc Opus.\n- **Body/Stage**: Giao diện WebGL (Three.js) retarget chuyển động GLB/FBX (thư viện 26 animation clips) lên mô hình VRM, đồng bộ hóa biểu cảm mặt và viseme khẩu hình (`aa`, `oh`, `blink`).",
+  "setup": "Yêu cầu hệ thống:\n- **OS & GPU**: Windows 10/11 (Linux và macOS thử nghiệm/chưa kiểm thử đầy đủ), GPU NVIDIA RTX (dòng RTX 50 cần bánh xe CUDA 12.8).\n- **Python**: Python 3.11+ cho backend và 3.11/3.12 cho voice server.\n- **Các chế độ chạy**:\n  1. Fully local: Ollama (`qwen3:8b` yêu cầu khoảng 16 GB VRAM; card 8–12 GB khuyến nghị dùng `qwen3:4b`), STT và TTS chạy trên GPU cục bộ.\n  2. Semi-local: LLM qua OpenRouter (mặc định `google/gemini-2.5-flash`), STT + TTS chạy trên GPU cục bộ (yêu cầu tối thiểu 6 GB VRAM, 16 GB RAM).\n  3. Text-only: Hoàn toàn trực tuyến qua OpenRouter trên CPU/WebGL.",
+  "results": [
+   "Độ trễ chế độ Semi-local (đo trên NVIDIA RTX 5070 12 GB, phản hồi 6–10 s âm thanh): STT mất ~0.06 s, phản hồi văn bản LLM mất ~1 s, voice hoàn thành ~1.9 s (~2 s sau khi ngừng nói).",
+   "Hiệu năng TTS Engine: Bộ xử lý voice tổng hợp 7 s âm thanh trong khoảng ~0.75 s và tiêu tốn ~2.3 GB VRAM.",
+   "Độ trễ chế độ Fully local (RTX 5070 12 GB, đo trung vị 18 turns với qwen3:8b): Phản hồi văn bản mất ~7.6 s, voice hoàn thành sẵn sàng sau ~12 s do tràn/chia sẻ VRAM; khi chuyển sang qwen3:4b, phản hồi văn bản giảm xuống ~1.6 s và voice sẵn sàng trong ~5 s.",
+   "Chi phí API OpenRouter (ghi nhận ngày 2026-10-24): ~$0.003 mỗi lượt hội thoại (~$0.08/giờ chat văn bản, ~$0.31–0.36/giờ voice liên tục)."
+  ],
+  "limitations": "Môi trường Linux và macOS chưa được kiểm thử toàn diện (chủ yếu tối ưu Windows). Chế độ Discord bot chưa hoàn thiện (đang pending). Voice model chỉ cho phép mục đích cá nhân/phi thương mại và nội dung hướng tới người lớn (18+). Chạy hoàn toàn cục bộ với model 8B đòi hỏi VRAM cao (16 GB+) để tránh nghẽn độ trễ.",
+  "takeaways": "Một kiến trúc tham khảo hoàn chỉnh, thực tế cho các kỹ sư phát triển voice companion/VTuber AI: minh họa cách kết hợp SenseVoice, GPT-SoVITS điều khiển theo tag cảm xúc, điều phối hành vi avatar VRM và phân tách các vai trò LLM (Actor/Director) để duy trì bối cảnh.",
+  "strengths": [
+   "Pipeline voice agent đầy đủ từ STT, LLM, TTS đến 3D avatar",
+   "Độ trễ tương tác giọng nói rất thấp (~2 s end-to-end semi-local)",
+   "Hỗ trợ điều khiển cảm xúc 26 chiều và tag TTS chi tiết",
+   "Linh hoạt chuyển đổi giữa OpenRouter và Ollama hoàn toàn cục bộ",
+   "Kèm bộ công cụ cài đặt tự động trên Windows"
+  ],
+  "weaknesses": [
+   "Chế độ bot Discord chưa được hoàn thiện",
+   "Chưa kiểm thử chính thức trên Linux và macOS",
+   "Yêu cầu VRAM lớn (16 GB) cho chế độ full-local 8B",
+   "Giấy phép voice model bị giới hạn sử dụng phi thương mại"
+  ],
+  "context": "Mã nguồn mở bởi zeekk0 / MekaHime Inc., đại diện cho nguyên mẫu đồng hành thế hệ cũ (legacy prototype) từng chạy trên Discord của dự án MekaHime."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W46"
+}
