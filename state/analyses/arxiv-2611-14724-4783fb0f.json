@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2611.14724",
+ "topic": "Speech Understanding",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Tài liệu đề xuất sự kết hợp thông minh giữa audio-language model, công cụ trích xuất mốc thời gian và cơ chế bounded correction trên kết quả trung gian, nhưng dựa trên các thành phần mô hình và ý tưởng agentic đã có từ trước.",
+  "credibility": "Bài báo từ các tác giả thuộc WPI và UT Dallas đăng tải trên arXiv, có mã nguồn/demo đính kèm nhưng chưa qua bình duyệt tại hội nghị chuyên ngành.",
+  "technical": "Thiết kế hệ thống agentic rất chặt chẽ với ngân sách gọi công cụ rõ ràng, quy trình sửa lỗi âm thanh trung gian cụ thể cho từng trường hợp và kỹ thuật ghép nối waveform cẩn thận.",
+  "impact": "Mô hình agentic thể hiện hướng đi tiềm năng cho audio editing phức tạp, tuy nhiên độ trễ xử lý cao (trung bình hơn 100 giây/tác vụ) và chi phí LLM hạn chế khả năng triển khai thực tế quy mô lớn.",
+  "evidence": "Thử nghiệm đầy đủ trên toàn bộ 420 mẫu của benchmark MMAE, so sánh với nhiều baseline mạnh (gồm cả cấu hình matched backbone), có phân tích ablation 2x2 và user study định lượng rõ ràng."
+ },
+ "summary": {
+  "tldr": "Harmony là một framework agentic kết nối khả năng thấu hiểu âm thanh với chỉnh sửa âm thanh bằng ngôn ngữ tự nhiên thông qua sự phối hợp giữa LLM planner, audio-language model và các công cụ phân tích ngoại vi. Hệ thống áp dụng lập kế hoạch cộng tác (collaborative planning) và thực thi có bằng chứng (evidence-guided execution) để định vị chính xác thời điểm can thiệp và sửa lỗi trung gian, nâng tỷ lệ exact match rate từ 13.57% lên 22.62% trên benchmark MMAE.",
+  "problem": "Chỉnh sửa âm thanh bằng văn bản tự nhiên yêu cầu vừa thực hiện chính xác thay đổi mong muốn, vừa phải bảo toàn nguyên vẹn ngữ cảnh âm thanh xung quanh. Các yêu cầu phức tạp (như chọn lần xuất hiện thứ $n$ của một âm thanh, quan hệ thứ tự thời gian, hoặc chỉnh sửa nguồn âm bị chồng lấn) rất khó thực hiện vì các mô hình sinh/khuếch tán dễ làm sai lệch cấu trúc xung quanh khi tái tạo tín hiệu, trong khi các agent trước đây (như WavCraft) thiếu khả năng định vị mốc thời gian chi tiết và không xử lý được các lỗi phát sinh ở dữ liệu âm thanh trung gian sau khi phân tách hoặc sinh.",
+  "method": "Harmony tổ chức quy trình chỉnh sửa qua hai cơ chế chính kết hợp với pipeline ghép nối thời gian:\n- **Edit-driven collaborative planning**: Bộ điều phối trung tâm sử dụng LLM planner (`gpt-5-mini-2025-08-07`), audio observer (`Qwen3-Omni-30B-A3B-Instruct`), cùng các công cụ đo đạc ngoại vi (phân tích năng lượng waveform, phân tách nguồn thử nghiệm, và ASR bằng `Whisper large-v3-turbo` để lấy mốc thời gian cấp từ). Planner đặt câu hỏi cho Qwen và gọi công cụ đo đạc để xác định mục tiêu, cửa sổ thực thi thời gian $W$, tham số và điều kiện bảo toàn, tạo ra kế hoạch chỉnh sửa $\\pi$.\n- **Evidence-guided execution**: Quan sát kết quả âm thanh trung gian $z_j$ từ bước tách nguồn (`SAM Audio large`) hoặc sinh mới (`Stable Audio 3`). Nếu quan sát $e_j^{(0)}$ cho thấy có sự sai lệch so với kế hoạch, hệ thống kích hoạt thao tác hiệu chỉnh có giới hạn (bounded corrections) $\\tilde{z}_j = T_j(x, z_j; \\pi, e_j^{(0)})$ trước khi mix. Các hiệu chỉnh định sẵn gồm: sửa truy vấn phân tách (separation-query correction), trích xuất trực tiếp nguồn cần giữ (retained-source extraction), xóa nhiễu nền sót lại (residual clearing), lọc tạp âm/giọng cũ khỏi asset sinh mới (generated-asset cleanup), và chỉnh sửa âm sắc (timbre correction) qua `Basic Pitch`/`pYIN` và SoundFont.\n- **Temporal composition and mixing**: Ráp tín hiệu trong các cửa sổ $W$ với chuyển tiếp mượt ở biên; phần âm thanh ngoài $W$ được sao chép nguyên bản từ đầu vào $x$. Với thao tác thêm (addition), bản gốc giữ nguyên mức âm lượng (unit gain) và chỉ nén cục bộ (local peak control) trên lớp âm thanh bổ sung nếu thiếu headroom.",
+  "setup": "Đánh giá trên toàn bộ 420 mẫu từ benchmark MMAE trải rộng qua 4 tác vụ: 115 addition, 149 removal, 79 replacement, và 77 volume adjustment (gồm 176 bản ghi $\\le 10$ s và 244 bản ghi $> 10$ s). Các baseline so sánh gồm SmartDJ, MMEDIT, WavCraft (bản gốc), WavCraft (matched backbone dùng cùng model với Harmony), và AEC Agent. Đánh giá tự động qua rubric-based evaluator của MMAE dùng Qwen3-Omni chấm 3 lần xáo trộn đáp án. Các chỉ số: Instruction Following Rate (IFR), Consistency Rate (CR), và Exact Match Rate (EMR - tỷ lệ mẫu vượt qua toàn bộ rubric cả IFR và CR). Khảo sát người dùng gồm 16 người chấm 16 mẫu chọn lọc.",
+  "results": [
+   "Trên toàn bộ 420 mẫu (pooled), Harmony đạt IFR 62.18%, CR 87.71% và EMR 22.62%, vượt qua baseline mạnh nhất là WavCraft gốc (IFR 58.31%, CR 78.11%, EMR 13.57%) và WavCraft matched backbone (IFR 52.17%, CR 84.43%, EMR 12.38%).",
+   "Theo task-macro (trung bình đều 4 tác vụ), Harmony đạt IFR 61.16%, CR 87.21%, EMR 21.50% so với 12.76% EMR của WavCraft gốc và 5.68% của SmartDJ.",
+   "Theo độ dài âm thanh: với bản ghi $\\le 10$ s, Harmony đạt EMR 23.86% (so với 17.05% của WavCraft gốc); với bản ghi $> 10$ s, Harmony đạt EMR 21.72% (so với 11.07% của WavCraft gốc).",
+   "Về EMR theo từng tác vụ riêng biệt: Addition đạt 31.30% (WavCraft gốc: 21.74%); Removal đạt 22.82% (AEC Agent: 18.79%, WavCraft gốc: 12.75%); Replacement đạt 22.78% (WavCraft gốc/matched: 12.66%); Volume adjustment đạt 9.09% (SmartDJ và WavCraft gốc: 3.90%).",
+   "Trong user study (16 người đánh giá), Harmony đạt 69.53% tỷ lệ ưa thích về chất lượng chỉnh sửa tổng thể (Overall editing, $n=128$) so với 9.38% của WavCraft gốc và 8.59% của AEC Agent; đạt 56.67% về bảo toàn bối cảnh (Preservation, $n=120$) so với 9.17% của WavCraft và 16.67% của AEC Agent.",
+   "Chi phí tính toán trung bình cho lần chạy đầu tiên trên toàn bộ 420 mẫu là 105.30 s và 4.25 lượt gọi LLM cho mỗi tệp đầu vào; trong đó Replacement tốn kém nhất với 173.08 s và 7.04 lượt gọi LLM."
+  ],
+  "limitations": "Cần nhiều lượt gọi LLM khiến thời gian xử lý và chi phí điện toán tăng cao (trung bình ~105 giây/file). Âm thanh sau chỉnh sửa đôi khi chuyển tiếp đột ngột, chưa hòa trộn tự nhiên vào bản gốc. Hệ thống hiện chỉ hỗ trợ các câu lệnh chỉnh sửa đơn bước (single-step requests), chưa xử lý được chuỗi chỉnh sửa phức tạp nhiều bước liên tiếp. Bộ điều khiển vẫn hoạt động dựa trên các luật cố định thay vì chính sách học tăng cường (RL) thích ứng.",
+  "takeaways": "Việc kết hợp mô hình quan sát âm thanh (audio-language model) với các công cụ đo lường mốc thời gian cụ thể (ASR timestamps, energy analysis) là chìa khóa để giải quyết triệt để vấn đề căn chỉnh thời gian trong chỉnh sửa âm thanh. Đồng thời, áp dụng cơ chế kiểm tra và sửa lỗi có giới hạn trên dữ liệu trung gian (conditional correction) giúp tăng tỷ lệ hoàn thành chính xác toàn bộ yêu cầu (EMR) mà không phá vỡ ngữ cảnh cần bảo toàn.",
+  "strengths": [
+   "Kết hợp hiệu quả giữa planning và conditional correction",
+   "Dẫn đầu EMR trên toàn bộ 4 tác vụ",
+   "Bảo toàn ngữ cảnh tốt nhờ mix theo window",
+   "Nghiên cứu user study cho kết quả vượt trội"
+  ],
+  "weaknesses": [
+   "Độ trễ và chi phí gọi LLM cao",
+   "Chuyển tiếp âm thanh đôi khi bị đột ngột",
+   "Chỉ hỗ trợ yêu cầu chỉnh sửa đơn bước",
+   "Bộ điều khiển dựa trên luật cố định"
+  ],
+  "context": "Zhongyi Tong (Worcester Polytechnic Institute) và Yapeng Tian (The University of Texas at Dallas); công bố trên arXiv (arXiv:2611.14724v1, 10 Nov 2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

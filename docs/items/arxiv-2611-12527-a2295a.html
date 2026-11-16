@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WaveGen: Truly End-to-End Waveform Generation via Internal Spectral Trajectory Learning · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W47</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">WaveGen: Truly End-to-End Waveform Generation via Internal Spectral Trajectory Learning</h1>
+    <div class="meta">
+      <span title="Listed by arXiv, HF Daily Papers, Papers with Code inside the crawl window">found Nov 11, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Nov 9, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">HF Daily Papers</span><span class="pill">Papers with Code</span><span class="pill pill-accent">TTS</span>        <span class="authors">Sang-Hoon Lee, Ha-Yeong Choi</span>
+    </div>
+  </div>
+  <div class="header-actions">
+      <a class="button" href="https://github.com/sh-lee-prml/WaveGen" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Code</a>
+    <a class="button" href="https://arxiv.org/abs/2611.12527" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>This work proposes WaveGen, a fully end-to-end diffusion-based text-to-waveform framework based on Spectral Forcing, which jointly learns an internal spectral trajectory and the target waveform trajectory within a single model, enabling direct end-to-end text-to-waveform generation. Unlike recent TTS pipelines, WaveGen does not rely on separately trained or externally decoded intermediate representations, such as neural audio codecs, Mel-spectrogram vocoders, or VAE-based latent models. In addition, WaveGen performs internal text-speech alignment within a single model, eliminating the need for external alignment modules such as duration predictors. To preserve a truly end-to-end formulation, our framework further avoids dependence on self-supervised representations, such as BERT-based text embeddings and Wav2Vec 2.0-based semantic representations, as well as semantic distillation methods for training optimization. To achieve this, we carefully design Spectral Forcing, a model architecture with disentangled diffusion heads, and a training objective based on a multi-scale spectral <span class="math inline">v</span>-loss. We further validate the scalability of end-to-end TTS models by scaling the model size from 0.1B to 0.6B parameters. Using a single architecture, open-source data, and one-stage training, without external modules such as duration predictor or REPA, WaveGen demonstrates fully end-to-end waveform generation achieving state-of-the-art performance on the Emilia training dataset. In particular, WaveGen achieves a WER of 1.47 and a SIM of 0.75 on the Seed-en benchmark. Source code and checkpoints are available at https://github.com/sh-lee-prml/WaveGen</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 16, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>WaveGen là hệ thống TTS zero-shot end-to-end (E2E) khuếch tán một giai đoạn, sinh trực tiếp raw waveform từ text mà không cần neural codec, vocoder, mô hình latent VAE, duration predictor hay BERT embeddings. Bằng việc áp dụng cơ chế Spectral Forcing, kiến trúc DiT tách đầu (disentangled heads) và hàm mất mát multi-scale spectral <span class="math inline">v</span>-loss, mô hình đạt WER 1.47 và SIM 0.75 trên benchmark Seed-en.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các hệ thống TTS zero-shot hiện nay chủ yếu dựa vào pipeline nhiều giai đoạn (codec LLM, Mel diffusion + vocoder, hoặc VAE latent diffusion), làm tăng độ phức tạp, phụ thuộc kiến trúc và giới hạn chất lượng cuối do lỗi lan truyền. Các mô hình E2E trước đây gặp khó khăn trong căn chỉnh text-speech trên waveform miền thời gian độ phân giải cao và thường phụ thuộc vào huấn luyện GAN đối kháng không ổn định hoặc biểu diễn tự giám sát (như BERT).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>WaveGen xây dựng luồng Conditional Flow Matching (CFM) sinh waveform trực tiếp với các cải tiến cốt lõi:</p>
+<ul>
+<li><strong>Spectral Forcing</strong>: Dùng quỹ đạo phổ nội bộ độ phân giải thấp (Mel 64 hoặc 80 bins) làm mục tiêu sinh phụ trợ song song với waveform, tạo inductive bias giúp căn chỉnh text-speech bên trong mô hình duy nhất mà không dùng duration predictor hay vocoder ngoài.</li>
+<li><strong>Disentangled DiT Heads</strong>: Dùng chung các khối DiT backbone (ví dụ: 14 shared blocks) để căn chỉnh text-speech, sau đó tách thành 2 head DiT nông riêng biệt cho waveform và phổ để tinh chỉnh biểu diễn.</li>
+<li><strong>Decoupled Prediction &amp; Loss Spaces</strong>: Mô hình thực hiện <span class="math inline">x</span>-prediction (dự đoán clean waveform/spectral target <span class="math inline">x^d_{\text{pred}}</span>) nhưng tính hàm mất mát trong không gian vận tốc <span class="math inline">v</span>-loss (tránh artifact kim loại của direct <span class="math inline">x</span>-loss và hiện tượng mất cân bằng năng lượng của <span class="math inline">v</span>-prediction).</li>
+<li><strong>Multi-Scale Spectral <span class="math inline">v</span>-Loss</strong>: Mở rộng Flow2GAN thành giám sát năng lượng phổ đa độ phân giải <span class="math inline">K</span> trên độ lệch vận tốc miền sóng <span class="math inline">\Delta^{\text{wave}}_v = x^{\text{wave}}_{\text{pred}} - x^{\text{wave}}_1</span>, chuẩn hóa năng lượng ground-truth: <span class="math inline">\mathcal{L}_{\text{ms-v-spec}} = \sum_{k \in K} \frac{\|M^{\text{wave}}_k \odot \Phi_k(\Delta^{\text{wave}}_v) \odot (\Phi_k(x^{\text{wave}}_1) + \epsilon)^{-\frac{1}{2}}\|_1}{\|M^{\text{wave}}_k\|_1}</span>. Tổng loss: <span class="math inline">\mathcal{L}_{\text{total}} = \mathcal{L}^{\text{wave}}_v + \lambda_{\text{spec}}\mathcal{L}^{\text{spec}}_v + \lambda_{\text{ms}}\mathcal{L}_{\text{ms-v-spec}}</span> (với <span class="math inline">\lambda_{\text{spec}}=\lambda_{\text{ms}}=0.1</span>).</li>
+<li><strong>Prompt Anchor &amp; Bottleneck</strong>: Neo vùng prompt <span class="math inline">x_t</span> bằng phép nội suy tuyến tính giữa <span class="math inline">x_0</span> và <span class="math inline">x_1</span> trong quá trình lấy mẫu Euler để xóa train-inference mismatch; dùng thông tin bottleneck pre-net với dropout 0.2.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Huấn luyện trên LibriTTS (0.5k giờ, 319,627 mẫu) và Emilia / Emilia-YODAS (100k-120k giờ, EN và ZH, âm thanh MP3 24 kHz). Trọng số mô hình được scale từ 0.1B (WaveGen-S: 113M), 0.4B (WaveGen-B: 407M) đến 0.6B (WaveGen: 680M). Huấn luyện bằng AdamW (<span class="math inline">lr=1\times 10^{-4}</span> hoặc <span class="math inline">7.5\times 10^{-5}</span>), batch động tổng 480s (hoặc 384s) cho 1.1M-1.3M bước trên 4 hoặc 8 GPU. Đánh giá Zero-shot trên tập benchmark Seed-en và Seed-zh với các metric: WER (Whisper-large-v3), SIM (WavLM-Large), DNSMOS, UTMOS, nMOS và sMOS (MTurk với 20 người bản xứ).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên Seed-en, WaveGen (0.6B, 100k giờ Emilia) đạt WER 1.47 và SIM 0.75, vượt qua Ground Truth (WER 2.14, SIM 0.73), F5-TTS (WER 2.00, SIM 0.67), CosyVoice2 (WER 3.09, SIM 0.65), CosyVoice3-RL (WER 1.68, SIM 0.69) và Qwen3-TTS 1.7B (WER 1.50, SIM 0.71).</li>
+<li>Trên Seed-zh, WaveGen (680M, dropout 0.2, prompt anchoring) đạt CER 1.75, SIM 0.80 và UTMOS 2.87, so với F5-TTS đạt CER 1.56, SIM 0.76 và UTMOS 2.95.</li>
+<li>Ablation về Spectral Forcing trên LibriTTS: Bỏ Spectral Forcing khiến mô hình mất căn chỉnh (WER 123.67, SIM 0.19); sử dụng Mel 64 bins mang lại kết quả cân bằng tốt nhất (WER 4.96, SIM 0.47, DNSMOS 3.72) trong khi linear spectrogram bị lỗi phân kỳ (NaN).</li>
+<li>So sánh kiến trúc E2E vs Two-stage cùng họ DiT: WaveGen E2E 210M (NFE 32) đạt WER 4.68, SIM 0.50, DNSMOS 3.71, tốt hơn Two-Stage 226M (NFE 16+16) có WER 5.17, SIM 0.47, DNSMOS 3.59.</li>
+<li>Đánh giá chủ quan trên MTurk (Seed-en): WaveGen-B đạt nMOS 4.000±0.126 và sMOS 3.988±0.037, cạnh tranh với GT (nMOS 4.117, sMOS 3.932) và Qwen3-TTS-1.7B (nMOS 3.954, sMOS 4.008).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Tài nguyên hạn chế nên các mô hình quy mô lớn mới chỉ được huấn luyện 4 epochs (1.1M steps đối với S/B) hoặc 11 epochs (WaveGen 0.6B). Dữ liệu huấn luyện quy mô lớn (Emilia) bị nén MP3 nên hạn chế khả năng phục hồi chi tiết tần số cao trên 8 kHz so với dữ liệu WAV thuần. Tốc độ suy luận phụ thuộc vào 32-50 bước NFE của bộ giải ODE Euler và hiện tại chỉ hỗ trợ tần số lấy mẫu 24 kHz.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Chứng minh rằng mô hình diffusion CFM có thể học sinh trực tiếp raw waveform từ text chỉ trong một giai đoạn duy nhất mà không cần phụ thuộc vào neural codec, vocoder bên ngoài hay pre-trained SSL text embeddings (như BERT), mở ra hướng đi tinh gọn đáng kể cho kiến trúc pipeline TTS.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">71.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#4 (tied) in 2026-W47</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Đề xuất cơ chế Spectral Forcing kết hợp $x$-prediction/$v$-loss và multi-scale spectral loss để giải quyết bài toán sinh trực tiếp raw waveform trong mô hình CFM thuần túy mà không dùng bất kỳ biểu diễn trung gian bên ngoài nào.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật vững chắc với phân tích sâu về không gian dự đoán ($x$-pred vs $v$-pred), hàm mất mát $v$-loss đa độ phân giải, chia nhánh DiT head và kỹ thuật neo prompt (prompt anchor).</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Cung cấp đầy đủ kết quả thực nghiệm trên benchmark chuẩn Seed-TTS (Seed-en/Seed-zh), đánh giá khách quan và chủ quan (MTurk MOS), cùng nhiều ablation study chi tiết cho từng thành phần.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Mở ra khả năng loại bỏ hoàn toàn các cấu phần codec/vocoder phức tạp trong pipeline TTS hiện đại, kích thích sự quan tâm mạnh mẽ từ cộng đồng (thể hiện qua các lượt upvote và stars ban đầu).</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Bản thảo preprint trên arXiv định dạng NeurIPS 2026 từ nhóm nghiên cứu Đại học Ajou và KT Corp., đi kèm liên kết mã nguồn và kiểm chứng thực nghiệm rõ ràng.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Đề xuất cơ chế Spectral Forcing kết hợp <span class="math inline">x</span>-prediction/<span class="math inline">v</span>-loss và multi-scale spectral loss để giải quyết bài toán sinh trực tiếp raw waveform trong mô hình CFM thuần túy mà không dùng bất kỳ biểu diễn trung gian bên ngoài nào.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Bản thảo preprint trên arXiv định dạng NeurIPS 2026 từ nhóm nghiên cứu Đại học Ajou và KT Corp., đi kèm liên kết mã nguồn và kiểm chứng thực nghiệm rõ ràng.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật vững chắc với phân tích sâu về không gian dự đoán (<span class="math inline">x</span>-pred vs <span class="math inline">v</span>-pred), hàm mất mát <span class="math inline">v</span>-loss đa độ phân giải, chia nhánh DiT head và kỹ thuật neo prompt (prompt anchor).</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Mở ra khả năng loại bỏ hoàn toàn các cấu phần codec/vocoder phức tạp trong pipeline TTS hiện đại, kích thích sự quan tâm mạnh mẽ từ cộng đồng (thể hiện qua các lượt upvote và stars ban đầu).</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Cung cấp đầy đủ kết quả thực nghiệm trên benchmark chuẩn Seed-TTS (Seed-en/Seed-zh), đánh giá khách quan và chủ quan (MTurk MOS), cùng nhiều ablation study chi tiết cho từng thành phần.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kiến trúc thuần túy E2E một giai đoạn · Spectral Forcing giải quyết triệt để mất căn chỉnh · Hiệu năng WER và SIM vượt trội · Khả năng mở rộng tham số từ 0.1B đến 0.6B</p>
+          <p><span class="label">Weaknesses</span> · Chất lượng dải cao bị giới hạn bởi MP3 · Cần số bước NFE tương đối cao (32-50) · Số epoch huấn luyện quy mô lớn còn thấp</p>
+          <p><span class="label">Context</span> · Nhóm tác giả Sang-Hoon Lee (Ajou University) và Ha-Yeong Choi (KT Corp.), bài báo hướng tới kỷ yếu hội nghị NeurIPS 2026 kèm mã nguồn và checkpoint công khai trên GitHub.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

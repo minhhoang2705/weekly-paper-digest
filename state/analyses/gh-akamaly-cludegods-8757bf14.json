@@ -1,0 +1,52 @@
+{
+ "id": "gh:akamaly/cludegods",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Kết hợp sáng tạo các công nghệ mã nguồn mở sẵn có (VoiceMode, Whisper, Kokoro, Silero VAD) vào kiến trúc Claude Code mod và Native CallPill thay vì tạo ra mô hình giọng nói mới.",
+  "credibility": "Dự án cá nhân mã nguồn mở trên GitHub đạt 53 stars, mã nguồn và quy trình cài đặt/gỡ lỗi rõ ràng nhưng không qua bình duyệt học thuật.",
+  "technical": "Thiết kế kỹ thuật hệ thống rất chi tiết và chặt chẽ, từ xử lý ngắt lời barge-in, echo gate trên loa ngoài, bản vá Bluetooth audio 48 kHz, đến các hook bảo mật (guard, permit, narrate).",
+  "impact": "Dự án ở mức độ cộng đồng ngách với 53 stars và 6 forks, bị giới hạn chỉ dành riêng cho người dùng Claude Code trên macOS Apple Silicon.",
+  "evidence": "Tài liệu chỉ cung cấp video demo, tài liệu hướng dẫn và mã nguồn hoàn chỉnh mà không có số liệu thực nghiệm đo lường latency hay chất lượng nhận dạng/tổng hợp tiếng nói."
+ },
+ "summary": {
+  "tldr": "CludeGods là một bộ công cụ mã nguồn mở chạy local trên macOS (Apple Silicon) tích hợp giao diện giọng nói thời gian thực và quản lý đa tác tử chạy nền (always-on workers) cho Claude Code. Hệ thống kết hợp Whisper, Silero VAD và Kokoro TTS thông qua VoiceMode nhằm mang lại trải nghiệm đàm thoại rảnh tay (hands-free), hỗ trợ can thiệp ngắt lời (barge-in) và cơ chế phê duyệt an toàn qua thao tác click chuột vật lý.",
+  "problem": "Tương tác với các AI coding agent như Claude Code thường đòi hỏi người dùng phải liên tục gõ phím, quan sát màn hình dòng lệnh và chấp thuận thủ công các quyền truy cập công cụ. Ngoài ra, việc thiếu giao diện giọng nói cục bộ có độ trễ thấp và thiếu cơ chế an toàn phân quyền riêng biệt cho các tác tử chạy ngầm khiến việc tự động hóa tác vụ phát triển phần mềm gặp nhiều rủi ro và bất tiện.",
+  "method": "Kiến trúc hệ thống hoàn toàn chạy local trên máy Mac, lưu trữ trạng thái dưới dạng các tệp tin trong `~/.voicemode/call/`:\n- **Voice Stack**: Sử dụng VoiceMode quản lý Silero VAD (`silero_vad.onnx`) để phát hiện giọng nói, Whisper (`large-v3-turbo`) để chuyển lời thoại thành văn bản (STT), và Kokoro chạy qua mlx-audio (fallback sang Kokoro-FastAPI) làm bộ tổng hợp tiếng nói (TTS).\n- **Barge-in & Echo Gate (`listen.py`)**: Chạy dưới công cụ `Monitor` của Claude Code; lọc tiếng vọng (echo gate) phát từ loa ngoài laptop (loại bỏ từ ngữ trùng lặp) và xử lý ngắt lời (barge-in) bằng cách kiểm tra partial transcript ngay khi câu đang phát để ngắt TTS lập tức nếu người dùng nói đè lên.\n- **CallPill**: Ứng dụng native AppKit (Swift) hiển thị card đàm thoại nổi, trạng thái tác tử (sprite animation tốn ~1.5% CPU), nút mic/stop và giao diện duyệt cấp quyền (`PermissionRequest`).\n- **Hệ thống Hooks**: `narrate` phát âm thanh thông báo mỗi khi gọi công cụ (giới hạn tối đa 1 lần mỗi 6 giây); `permit` định tuyến hộp thoại xin quyền sang CallPill (chỉ chấp nhận click chuột vật lý, chống bypass bằng giọng nói, bỏ qua click trong 0.6 giây đầu, timeout 50 giây); `guard` kiểm soát quyền gọi tool của từng tác tử (`read`, `drafts`, `full`).\n- **Workers & Spaces Pane**: Quản lý các worker chạy định kỳ (schedule/charter), cơ chế Outbox yêu cầu duyệt hành động gửi ra ngoài (email, post) và wiki nội bộ (Spaces/Pages Markdown).",
+  "setup": "Yêu cầu macOS trên Apple Silicon, ứng dụng Claude desktop cùng Claude Code, Python 3.9+, Git và Homebrew/uv. Các thành phần speech model (Whisper large-v3-turbo, Silero VAD, Kokoro mlx-audio) được tải về cục bộ. Hỗ trợ tai nghe Bluetooth/AirPods thông qua bản vá upsampling 48 kHz (`voicemode-mouth-bluetooth.patch`). Tích hợp Slack qua Socket Mode bridge.",
+  "results": [
+   "Không có bảng điểm định lượng chuẩn (WER, MOS, RTF) được công bố trong tài liệu.",
+   "CallPill tiêu thụ tài nguyên khoảng 1.5% CPU khi render sprite animation trên CALayer.",
+   "narrate hook giới hạn tần suất phát âm thanh thông báo tối đa 1 lần mỗi 6 giây.",
+   "permit hook thiết lập thời gian chờ tối đa 50 giây trước khi fallback về dialog mặc định của app, và bỏ qua click chuột trong 0.6 giây đầu tiên sau khi xuất hiện.",
+   "Monitor tool tự hết hạn sau mỗi 30 phút; listener lưu con trỏ và khôi phục tối đa 30 dòng hội thoại bị lỡ khi kích hoạt lại.",
+   "Hệ thống tự động đánh dấu tác tử ở trạng thái 'stale' nếu không có hoạt động trong 15 phút."
+  ],
+  "limitations": "Chỉ hoạt động trên macOS vi xử lý Apple Silicon; phụ thuộc vào việc Claude desktop app phải luôn mở; lần phát âm đầu tiên sau khi khởi động lại voice service có thể mất đến 30 giây để nạp model; trên loa laptop tính năng barge-in yêu cầu tối thiểu hai từ nội dung không trùng với câu Claude đang nói; Slack bridge mới chỉ thử nghiệm trên fake client (chưa kiểm thử thực tế trên workspace trực tiếp); không hỗ trợ Microsoft Teams.",
+  "takeaways": "Cung cấp một bản mẫu kiến trúc hoàn chỉnh cho speech engineer kết hợp voice agent cục bộ với LLM desktop tooling: áp dụng mô hình triệt tiêu echo không cần DSP phức tạp, cơ chế ngắt câu (barge-in) dựa trên partial transcript, và nguyên tắc an toàn 'chỉ click chuột vật lý để cấp quyền' (ngăn chặn prompt injection qua âm thanh phòng).",
+  "strengths": [
+   "Hạ tầng giọng nói chạy 100% cục bộ",
+   "Thiết kế an toàn ngăn cấp quyền bằng giọng nói",
+   "Xử lý barge-in và echo gate thực tế",
+   "Giao diện CallPill native AppKit nhẹ (~1.5% CPU)",
+   "Quản lý tác tử chạy ngầm với Outbox duyệt tác vụ"
+  ],
+  "weaknesses": [
+   "Bị khóa cứng trên macOS Apple Silicon",
+   "Chưa có đánh giá định lượng latency và WER",
+   "Khởi động lạnh TTS có thể mất tới 30 giây",
+   "Phụ thuộc VoiceMode đang trong giai đoạn thử nghiệm"
+  ],
+  "context": "Dự án mã nguồn mở độc lập (giấy phép MIT) phát triển bởi tác giả AKamaly trên GitHub, không liên kết chính thức với Anthropic."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

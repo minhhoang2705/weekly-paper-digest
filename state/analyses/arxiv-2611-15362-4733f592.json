@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2611.15362",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo đề xuất cách tiếp cận mới mẻ khi kết hợp task-first conditioning trong causal attention, scalar readout thay thế vocabulary projection và nghiên cứu tỉ mỉ decoder-prefix pruning cho bài toán semantic endpointing.",
+  "credibility": "Đây là bản preprint trên arXiv từ các tác giả thuộc Đại học Thiên Tân và doanh nghiệp công nghệ, phương pháp mô tả rõ ràng, sử dụng benchmark chuẩn EOT-bench nhưng chưa qua bình duyệt đồng cấp.",
+  "technical": "Phân tích kỹ thuật rất chặt chẽ: thiết kế luồng causal attention, kiểm soát đối chứng no-attention (L00), refitting head với matched budget trên nhiều hạt giống ngẫu nhiên (seed) và thống kê FLOPs chi tiết.",
+  "impact": "Mang lại giá trị thực tiễn rất cao cho hệ thống voice agent streaming, chứng minh việc tối ưu hóa kiến trúc ALM thành scalar detector giúp giảm mạnh chi phí tính toán khi chạy turn-taking liên tục.",
+  "evidence": "Thực nghiệm chi tiết trên benchmark 14 ngôn ngữ với nhiều baselines mạnh (LiveKit, DuplexJev, FD-VAD), đo lường đa chỉ số (AUC, AP, cutoff rates, latency) kèm bảng ablation depth đầy đủ."
+ },
+ "summary": {
+  "tldr": "JEV-VAD là mô hình phát hiện kết thúc lượt nói (semantic endpointing) theo hướng ASR-free dựa trên backbone Qwen3-ASR-0.6B, loại bỏ hoàn toàn việc sinh transcript và projection từ vựng. Bằng cách kết hợp task-first conditioning, scalar endpoint head (1.025 tham số) và kỹ thuật decoder-prefix pruning (cắt giảm số layer decoder), mô hình vừa tiết kiệm tài nguyên vừa đạt hiệu năng phân định điểm dừng vượt trội trên benchmark đa ngôn ngữ EOT-bench.",
+  "problem": "Voice agent cần xác định chính xác thời điểm người dùng hoàn thành lượt nói (turn) để tránh ngắt lời khi người dùng chỉ tạm ngưng (hesitation) hoặc chờ đợi quá lâu gây im lặng thừa thãi. Các mô hình audio-language model (ALM) hiện tại tuy hiểu ngữ cảnh tốt nhưng lại quá cồng kềnh vì phải sinh văn bản autoregressive hoặc chiếu qua toàn bộ vocabulary chỉ để đưa ra một quyết định nhị phân, dẫn đến độ trễ và chi phí tính toán cao.",
+  "method": "JEV-VAD áp dụng 3 cải tiến kiến trúc và quy trình thích nghi:\n- **Scalar Readout & ASR-free pathway**: Khởi tạo từ Qwen3-ASR-0.6B (frozen encoder và GELU projector $896 \\to 896 \\to 1024$). Audio window 2,56 s (16 kHz) được biến đổi thành 33 audio token. Thay vì chiếu qua vocabulary, một scalar head chuyên biệt ($z = w^\\top h_\\star + b, p_{\\text{stop}} = \\sigma(z)$) với chỉ 1.025 tham số đọc hidden state tại vị trí assistant-prefix sau RMSNorm ($h_\\star \\in \\mathbb{R}^{1024}$). Toàn bộ base model được freeze, chỉ LoRA trên decoder (rank/scaling/dropout 16/32/0.05 trên q/k/v/o) và head là trainable (tổng 4.588.545 tham số).\n- **Task-first conditioning**: Đặt câu hỏi $q$ và tiêu chí đánh giá $c$ trước các audio token ($q + c + \\text{audio}$). Nhờ causal attention mask, các token âm thanh có thể attend ngược về câu lệnh mục tiêu ngay từ đầu.\n- **Decoder-Prefix Pruning & Matched Head Refitting**: Cắt bỏ vật lý các block decoder phía sau, chỉ giữ lại $d$ block đầu tiên ($d \\in \\{0, 1, 2, 3, 4, 5, 6, 7, 14, 21, 28\\}$). Giữ nguyên weights backbone và LoRA đã train, gắn một scalar head mới và refit với ngân sách huấn luyện cố định (4.919 updates) cho mỗi độ sâu.\n- **Quy trình thích ứng hai giai đoạn (Two-Stage Adaptation)**: Giai đoạn 1 là Supervised Fine-Tuning (SFT) với binary cross-entropy. Giai đoạn 2 là Bernoulli RLCD (Reinforcement Learning for Calibrated Decisions) lấy mẫu $M=32$ action từ policy thăm dò $\\mu(a) = (1 - \\epsilon)\\pi(a) + \\epsilon/2$ với $\\epsilon=0.05$, cập nhật policy thông qua importance weighting và leave-one-out baseline.",
+  "setup": "Huấn luyện trên tập tiếng Anh từ Smart Turn v3.1 (58.594 clip train, 6.460 clip val). Giai đoạn SFT chạy 4.919 update AdamW (lr $2 \\times 10^{-4}$); RLCD chạy 1.000 update (lr $2 \\times 10^{-5}$). Đánh giá trên benchmark 14 ngôn ngữ EOT-bench (với nhãn EOT dương tính và HOLD âm tính từ 0,2–5,0 s, đánh giá tại mốc 200 ms sau khi bắt đầu dừng). Streaming window inference trượt 2,56 s cập nhật mỗi 320 ms. Baseline so sánh gồm FD-VAD, DuplexJev (Para và LiveTurn), LiveKit TD v1 / v1-mini, ultraVAD, SmartTurn v3.2, SoulX-Duplug, TurnSense v1.1, Silence-only VAD và Deepgram Flux.",
+  "results": [
+   "Trên tiếng Trung (Chinese), JEV-VAD full-model đạt cut@300ms là 19.57%, thấp nhất trong tất cả các hệ thống được so sánh (DuplexJev-Para đạt 39.14%, FD-VAD đạt 28.62%, LiveKit TD v1 đạt 20.56%). Ở ngân sách 5% cut, JEV-VAD chỉ cần chờ 772 ms (so với DuplexJev-Para 968 ms, FD-VAD 919 ms).",
+   "Trên trung bình 14 ngôn ngữ (EOT-bench), JEV-VAD đạt mean cut@300ms là 19.09% và lat@5%cut là 775.9 ms, vượt trội so với DuplexJev-Para (32.75% / 841.2 ms) và FD-VAD (27.63% / 890.1 ms), dù chỉ huấn luyện bằng nhãn giám sát tiếng Anh.",
+   "Ở tiếng Anh, JEV-VAD đạt cut@300ms là 16.31% (tốt hơn DuplexJev-Para 25.53% và FD-VAD 24.82%), nhưng xếp sau LiveKit TD v1 (9.93%) và Deepgram Flux (12.91%).",
+   "Ablation thứ tự input cho thấy task-first ($q+c+\\text{audio}$) vượt trội hơn hẳn audio-first trên toàn bộ số liệu: giảm cut@300ms tiếng Trung từ 21.55% xuống 19.57% và tiếng Anh từ 17.30% xuống 16.31%; AP tăng từ 75.5%/87.8% lên 76.7%/89.1%.",
+   "Khi cắt tỉa decoder xuống 7 block (L07), số tham số giảm 42.41% (từ 787.01M xuống 453.22M) và FLOPs tính toán ma trận decoder giảm 75% (từ 66.191 GFLOPs xuống 16.548 GFLOPs). Scalar head chỉ tốn 2.048 FLOPs so với $7.78 \\times 10^8$ FLOPs của projection vocabulary trong DuplexJev."
+  ],
+  "limitations": "Chưa đo đạc độ trễ thực tế end-to-end (wall-clock latency) trên phần cứng triển khai. Thiếu ablation phân tách riêng lẻ giữa SFT và RLCD để chứng minh định lượng đóng góp của RLCD. Việc refit head trên từng prefix decoder đòi hỏi huấn luyện lại đầu đọc chứ không thể chuyển giao trực tiếp (zero-shot transfer) head từ full model sang tầng nông.",
+  "takeaways": "Các kỹ sư xây dựng voice agent không cần phải giữ toàn bộ ALM cồng kềnh với vocabulary projection để làm VAD/EOT; việc cắt tỉa xuống 7 decoder block cùng một scalar head tuyến tính giúp giảm 75% tính toán decoder mà vẫn giữ được chất lượng phân định ngữ nghĩa rất tốt.",
+  "strengths": [
+   "Thiết kế scalar head cực kỳ gọn nhẹ (1.025 tham số)",
+   "Cắt giảm 75% FLOPs decoder thông qua prefix pruning",
+   "Khả năng zero-shot cross-lingual vượt trội trên 14 ngôn ngữ",
+   "Task-first conditioning cải thiện rõ rệt so với audio-first"
+  ],
+  "weaknesses": [
+   "Chưa cung cấp benchmark wall-clock runtime thực tế",
+   "Thiếu ablation bóc tách riêng hiệu quả của RLCD",
+   "Vẫn thua proprietary models (LiveKit TD v1) ở tiếng Anh"
+  ],
+  "context": "Nhóm nghiên cứu từ Đại học Thiên Tân (Tianjin University), Đại học Sư phạm Thiên Tân (Tianjin Normal University) và Shanghai Shenqijiyuan Intelligent Terminal Co., Ltd.; công bố dưới dạng preprint trên arXiv (tháng 11/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2611.12527",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất cơ chế Spectral Forcing kết hợp $x$-prediction/$v$-loss và multi-scale spectral loss để giải quyết bài toán sinh trực tiếp raw waveform trong mô hình CFM thuần túy mà không dùng bất kỳ biểu diễn trung gian bên ngoài nào.",
+  "credibility": "Bản thảo preprint trên arXiv định dạng NeurIPS 2026 từ nhóm nghiên cứu Đại học Ajou và KT Corp., đi kèm liên kết mã nguồn và kiểm chứng thực nghiệm rõ ràng.",
+  "technical": "Thiết kế kỹ thuật vững chắc với phân tích sâu về không gian dự đoán ($x$-pred vs $v$-pred), hàm mất mát $v$-loss đa độ phân giải, chia nhánh DiT head và kỹ thuật neo prompt (prompt anchor).",
+  "impact": "Mở ra khả năng loại bỏ hoàn toàn các cấu phần codec/vocoder phức tạp trong pipeline TTS hiện đại, kích thích sự quan tâm mạnh mẽ từ cộng đồng (thể hiện qua các lượt upvote và stars ban đầu).",
+  "evidence": "Cung cấp đầy đủ kết quả thực nghiệm trên benchmark chuẩn Seed-TTS (Seed-en/Seed-zh), đánh giá khách quan và chủ quan (MTurk MOS), cùng nhiều ablation study chi tiết cho từng thành phần."
+ },
+ "summary": {
+  "tldr": "WaveGen là hệ thống TTS zero-shot end-to-end (E2E) khuếch tán một giai đoạn, sinh trực tiếp raw waveform từ text mà không cần neural codec, vocoder, mô hình latent VAE, duration predictor hay BERT embeddings. Bằng việc áp dụng cơ chế Spectral Forcing, kiến trúc DiT tách đầu (disentangled heads) và hàm mất mát multi-scale spectral $v$-loss, mô hình đạt WER 1.47 và SIM 0.75 trên benchmark Seed-en.",
+  "problem": "Các hệ thống TTS zero-shot hiện nay chủ yếu dựa vào pipeline nhiều giai đoạn (codec LLM, Mel diffusion + vocoder, hoặc VAE latent diffusion), làm tăng độ phức tạp, phụ thuộc kiến trúc và giới hạn chất lượng cuối do lỗi lan truyền. Các mô hình E2E trước đây gặp khó khăn trong căn chỉnh text-speech trên waveform miền thời gian độ phân giải cao và thường phụ thuộc vào huấn luyện GAN đối kháng không ổn định hoặc biểu diễn tự giám sát (như BERT).",
+  "method": "WaveGen xây dựng luồng Conditional Flow Matching (CFM) sinh waveform trực tiếp với các cải tiến cốt lõi:\n- **Spectral Forcing**: Dùng quỹ đạo phổ nội bộ độ phân giải thấp (Mel 64 hoặc 80 bins) làm mục tiêu sinh phụ trợ song song với waveform, tạo inductive bias giúp căn chỉnh text-speech bên trong mô hình duy nhất mà không dùng duration predictor hay vocoder ngoài.\n- **Disentangled DiT Heads**: Dùng chung các khối DiT backbone (ví dụ: 14 shared blocks) để căn chỉnh text-speech, sau đó tách thành 2 head DiT nông riêng biệt cho waveform và phổ để tinh chỉnh biểu diễn.\n- **Decoupled Prediction & Loss Spaces**: Mô hình thực hiện $x$-prediction (dự đoán clean waveform/spectral target $x^d_{\\text{pred}}$) nhưng tính hàm mất mát trong không gian vận tốc $v$-loss (tránh artifact kim loại của direct $x$-loss và hiện tượng mất cân bằng năng lượng của $v$-prediction).\n- **Multi-Scale Spectral $v$-Loss**: Mở rộng Flow2GAN thành giám sát năng lượng phổ đa độ phân giải $K$ trên độ lệch vận tốc miền sóng $\\Delta^{\\text{wave}}_v = x^{\\text{wave}}_{\\text{pred}} - x^{\\text{wave}}_1$, chuẩn hóa năng lượng ground-truth: $\\mathcal{L}_{\\text{ms-v-spec}} = \\sum_{k \\in K} \\frac{\\|M^{\\text{wave}}_k \\odot \\Phi_k(\\Delta^{\\text{wave}}_v) \\odot (\\Phi_k(x^{\\text{wave}}_1) + \\epsilon)^{-\\frac{1}{2}}\\|_1}{\\|M^{\\text{wave}}_k\\|_1}$. Tổng loss: $\\mathcal{L}_{\\text{total}} = \\mathcal{L}^{\\text{wave}}_v + \\lambda_{\\text{spec}}\\mathcal{L}^{\\text{spec}}_v + \\lambda_{\\text{ms}}\\mathcal{L}_{\\text{ms-v-spec}}$ (với $\\lambda_{\\text{spec}}=\\lambda_{\\text{ms}}=0.1$).\n- **Prompt Anchor & Bottleneck**: Neo vùng prompt $x_t$ bằng phép nội suy tuyến tính giữa $x_0$ và $x_1$ trong quá trình lấy mẫu Euler để xóa train-inference mismatch; dùng thông tin bottleneck pre-net với dropout 0.2.",
+  "setup": "Huấn luyện trên LibriTTS (0.5k giờ, 319,627 mẫu) và Emilia / Emilia-YODAS (100k-120k giờ, EN và ZH, âm thanh MP3 24 kHz). Trọng số mô hình được scale từ 0.1B (WaveGen-S: 113M), 0.4B (WaveGen-B: 407M) đến 0.6B (WaveGen: 680M). Huấn luyện bằng AdamW ($lr=1\\times 10^{-4}$ hoặc $7.5\\times 10^{-5}$), batch động tổng 480s (hoặc 384s) cho 1.1M-1.3M bước trên 4 hoặc 8 GPU. Đánh giá Zero-shot trên tập benchmark Seed-en và Seed-zh với các metric: WER (Whisper-large-v3), SIM (WavLM-Large), DNSMOS, UTMOS, nMOS và sMOS (MTurk với 20 người bản xứ).",
+  "results": [
+   "Trên Seed-en, WaveGen (0.6B, 100k giờ Emilia) đạt WER 1.47 và SIM 0.75, vượt qua Ground Truth (WER 2.14, SIM 0.73), F5-TTS (WER 2.00, SIM 0.67), CosyVoice2 (WER 3.09, SIM 0.65), CosyVoice3-RL (WER 1.68, SIM 0.69) và Qwen3-TTS 1.7B (WER 1.50, SIM 0.71).",
+   "Trên Seed-zh, WaveGen (680M, dropout 0.2, prompt anchoring) đạt CER 1.75, SIM 0.80 và UTMOS 2.87, so với F5-TTS đạt CER 1.56, SIM 0.76 và UTMOS 2.95.",
+   "Ablation về Spectral Forcing trên LibriTTS: Bỏ Spectral Forcing khiến mô hình mất căn chỉnh (WER 123.67, SIM 0.19); sử dụng Mel 64 bins mang lại kết quả cân bằng tốt nhất (WER 4.96, SIM 0.47, DNSMOS 3.72) trong khi linear spectrogram bị lỗi phân kỳ (NaN).",
+   "So sánh kiến trúc E2E vs Two-stage cùng họ DiT: WaveGen E2E 210M (NFE 32) đạt WER 4.68, SIM 0.50, DNSMOS 3.71, tốt hơn Two-Stage 226M (NFE 16+16) có WER 5.17, SIM 0.47, DNSMOS 3.59.",
+   "Đánh giá chủ quan trên MTurk (Seed-en): WaveGen-B đạt nMOS 4.000±0.126 và sMOS 3.988±0.037, cạnh tranh với GT (nMOS 4.117, sMOS 3.932) và Qwen3-TTS-1.7B (nMOS 3.954, sMOS 4.008)."
+  ],
+  "limitations": "Tài nguyên hạn chế nên các mô hình quy mô lớn mới chỉ được huấn luyện 4 epochs (1.1M steps đối với S/B) hoặc 11 epochs (WaveGen 0.6B). Dữ liệu huấn luyện quy mô lớn (Emilia) bị nén MP3 nên hạn chế khả năng phục hồi chi tiết tần số cao trên 8 kHz so với dữ liệu WAV thuần. Tốc độ suy luận phụ thuộc vào 32-50 bước NFE của bộ giải ODE Euler và hiện tại chỉ hỗ trợ tần số lấy mẫu 24 kHz.",
+  "takeaways": "Chứng minh rằng mô hình diffusion CFM có thể học sinh trực tiếp raw waveform từ text chỉ trong một giai đoạn duy nhất mà không cần phụ thuộc vào neural codec, vocoder bên ngoài hay pre-trained SSL text embeddings (như BERT), mở ra hướng đi tinh gọn đáng kể cho kiến trúc pipeline TTS.",
+  "strengths": [
+   "Kiến trúc thuần túy E2E một giai đoạn",
+   "Spectral Forcing giải quyết triệt để mất căn chỉnh",
+   "Hiệu năng WER và SIM vượt trội",
+   "Khả năng mở rộng tham số từ 0.1B đến 0.6B"
+  ],
+  "weaknesses": [
+   "Chất lượng dải cao bị giới hạn bởi MP3",
+   "Cần số bước NFE tương đối cao (32-50)",
+   "Số epoch huấn luyện quy mô lớn còn thấp"
+  ],
+  "context": "Nhóm tác giả Sang-Hoon Lee (Ajou University) và Ha-Yeong Choi (KT Corp.), bài báo hướng tới kỷ yếu hội nghị NeurIPS 2026 kèm mã nguồn và checkpoint công khai trên GitHub."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

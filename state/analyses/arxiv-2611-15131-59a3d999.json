@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2611.15131",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 5,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Đề xuất khái niệm Reciprocal World Model mở rộng world model truyền thống sang tương tác full-duplex hai chiều cả video và audio thông qua cơ chế autoregressive intent kết hợp diffusion realization.",
+  "credibility": "Báo cáo kỹ thuật chi tiết từ nhóm nghiên cứu Ant Group/inclusionAI, phát hành kèm mã nguồn GitHub và bộ sưu tập mô hình trên Hugging Face.",
+  "technical": "Thiết kế kỹ thuật xuất sắc với cơ chế căn chỉnh timeline ASR/VAE, dual rollout DMD khử trôi phân phối, camera-rotation penalty và hệ thống điều phối suy luận song song 8 GPU hoàn chỉnh.",
+  "impact": "Mở ra hướng đi mới kết hợp giữa mô hình thế giới và conversational voice/video agent toàn diện, có mã nguồn mở thu hút sự quan tâm của cộng đồng.",
+  "evidence": "Báo cáo cung cấp số liệu trôi luma chi tiết và đánh giá con người có tiêu chí rõ ràng (30 ca, 180 checks), nhưng thiếu so sánh benchmark định lượng trực tiếp với các mô hình baseline streaming khác."
+ },
+ "summary": {
+  "tldr": "Duo v1 là mô hình thế giới tương hỗ (Reciprocal World Model - RWM) hỗ trợ tương tác full-duplex thời gian thực, cho phép hệ thống liên tục tiếp nhận video/audio từ người dùng và phản hồi đồng thời cả hình ảnh lẫn âm thanh. Hệ thống phân tách thành hai thành phần chính trên cùng một dòng thời gian chunk (khoảng 0.71 giây): Intent Module (suy luận quyết định tương tác) và Realization Module (khuếch tán phát sinh nghe nhìn nhân quả 4 bước qua chưng cất).",
+  "problem": "Các mô hình thế giới (world models) hiện nay chủ yếu tập trung mô phỏng thực tại vật lý qua điều khiển thụ động bên ngoài (bàn phím, chuột, text prompts), thiếu khả năng nhận thức trạng thái toàn diện của người dùng và tự chủ ra quyết định phản hồi trong thời gian thực. Điều này tạo ra những môi trường sinh động nhưng thiếu tương tác sống động ('có thế giới để khám phá nhưng không có ai để trò chuyện').",
+  "method": "Hệ thống RWM của Duo v1 xử lý tương tác theo các chunk cố định gồm 17 frame video (khoảng 0.708 s ở 24 fps):\n- **Multimodal Intent Module**: Tinh chỉnh từ mô hình nền tảng ngôn ngữ đa phương thức (Qwen3-VL), nhận ngữ cảnh causal gồm video người dùng qua ViT, văn bản ASR kèm forced alignment (chỉ nạp token sau khi mốc thời gian kết thúc), và lịch sử phản hồi để dự đoán nhãn hành động `<speak>` kèm văn bản hoặc `<wait>` cùng hidden states $h_k$ (lấy từ layer 50).\n- **Joint Causal Audiovisual Realization**: Mô hình khuếch tán DiT causal (khởi tạo từ MiniMax-H3) sinh đồng thời latent âm thanh stereo (40 vector/giây/kênh, 32 chiều) và latent video (17 frame nén thành 5 latent frames $5 \\times \\frac{H}{16} \\times \\frac{W}{16} \\times 24$, gộp $2 \\times 2$ thành 96 chiều). Sử dụng flow matching và 3D-RoPE căn chỉnh theo mốc thời gian phát thực tế.\n- **Chiến lược huấn luyện 3 giai đoạn**: (1) Intent Training với action-aware rebalancing (cân bằng lại tần suất nhãn do đa số chunk là chờ đợi) và tạo nhiễu lịch sử; (2) Realization Causal Training với causal attention mask; (3) Distribution Matching Distillation (DMD) kết hợp dual rollout (Intent tự sinh lượt phản hồi cuối cùng và Realization sinh trên lịch sử do chính nó tạo) và hàm phạt trôi góc quay bằng VGGT để chưng cất thành mô hình sinh 4 bước.\n- **Hạ tầng streaming**: Phục vụ trên 1 server 8 GPU (GPU 0-3 chạy Intent TP4, GPU 0-7 chạy DiT TP/SP, GPU 4-7 chạy VAE tiling) với bộ quản lý KV cache trượt/reset định kỳ.",
+  "setup": "Huấn luyện kết hợp dữ liệu tổng hợp kịch bản hai chiều (split-screen audio-video qua LLM + MiniMax-H3 giữ cố định block 0 làm chuẩn tránh tích lũy trôi luma) và hơn 3186 giờ dữ liệu thu âm/ghi hình (1000h synchronous dual-stream, 1000h asynchronous dual-stream, 1000h single-stream, 100h livestream, 83.3h duplex audio, 3.14h open datasets). Đánh giá con người trên 30 ca tương tác full-duplex thời gian thực theo 6 tiêu chí nhị phân nghiêm ngặt (tổng 180 lượt kiểm tra). Độ phân giải video: $768 \\times 576$.",
+  "results": [
+   "Tỷ lệ đạt tổng thể trên đánh giá con người đạt 93.3% (168/180 lượt kiểm tra đạt chuẩn)",
+   "Độ trung thực tạo sinh đạt điểm tuyệt đối 100% (30/30) trên 3 tiêu chí: Language adherence (100%), Speech intelligibility (100%), và Visual identity stability (100%)",
+   "Độ nhất quán cảm xúc giữa giọng nói và nét mặt/ngôn ngữ cơ thể đạt 96.7% (29/30 ca)",
+   "Đồng bộ khẩu hình - âm thanh (Audio-visual synchronization / lip sync) đạt 90.0% (27/30 ca)",
+   "Khả năng phản hồi nội dung thực chất (Content responsiveness) đạt 73.3% (22/30 ca)",
+   "Độ trễ xử lý streaming: Intent inference t_intent = 90–160 ms, latent generation t_gen = 200–450 ms, decode 4-frame group t_decode ≈ 30 ms (nhanh hơn thời lượng phát 41.7 ms), overhead ≈ 40 ms; tổng t_intent + t_gen + t_overhead ≈ 330–650 ms (cộng thêm trễ đóng khung lấy mẫu lên tới ~708 ms)"
+  ],
+  "limitations": "Content responsiveness còn thấp (73.3%), gặp khó khăn ở các tình huống đùa cợt/nói bóng gió hoặc khi cần suy luận ngữ cảnh ngầm kết hợp giữa hình ảnh và lời nói; độ trễ sampling chunk 17 frame (708 ms) khiến độ trễ phản hồi ban đầu bị kéo dài; yêu cầu tài nguyên cao (máy chủ 8 GPU cho một phiên tương tác).",
+  "takeaways": "Cung cấp một bản thiết kế hệ thống hoàn chỉnh cho agent video-audio tương tác full-duplex: chuyển hóa bài toán tương tác thành chuỗi chunk có mốc thời gian thống nhất, dùng LLM sinh hidden state điều khiển DiT sinh đồng thời tiếng/hình qua DMD 4 bước, và dùng dual rollout để chống trôi phân phối khi tự sinh.",
+  "strengths": [
+   "Kiến trúc RWM kết hợp nhận thức và tạo sinh",
+   "Thiết kế timeline thống nhất và causal chunking chặt chẽ",
+   "Dual rollout DMD giải quyết triệt để lỗi train-test gap",
+   "Hệ thống streaming 8-GPU tối ưu hóa overlap và KV cache"
+  ],
+  "weaknesses": [
+   "Tài nguyên suy luận đắt đỏ (8 GPU/phiên tương tác)",
+   "Độ trễ chunking ban đầu khá lớn (~708 ms)",
+   "Khả năng hiểu ngữ cảnh ngầm đa phương thức còn hạn chế (73.3%)"
+  ],
+  "context": "Hengyuan Cao, Biao Gong, Zhenzhong Lan và nhóm tác giả từ Ant Group / inclusionAI; công bố dưới dạng Technical Report đi kèm mã nguồn và mô hình nguồn mở."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

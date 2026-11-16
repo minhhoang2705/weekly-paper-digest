@@ -1,0 +1,45 @@
+{
+ "id": "gh:sunososobro-hub/tinglongwu",
+ "topic": "Speech Understanding",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 2,
+  "impact": 2,
+  "evidence": 1
+ },
+ "reasons": {
+  "novelty": "Dự án chủ yếu đóng gói pipeline speech translation và TTS ngoại tuyến thành ứng dụng desktop hoàn chỉnh chứ không giới thiệu kiến trúc học sâu mới.",
+  "credibility": "Đây là một dự án kho lưu trữ mã nguồn mở cá nhân trên GitHub, không phải bài báo khoa học bình duyệt hay sản phẩm từ phòng lab lớn.",
+  "technical": "Tài liệu tập trung vào cài đặt và tính năng người dùng, chưa cung cấp chi tiết kỹ thuật về mô hình hoặc pipeline xử lý real-time.",
+  "impact": "Kho lưu trữ đạt mức tương tác ban đầu khiêm tốn với 156 stars và 24 forks trên GitHub.",
+  "evidence": "Tài liệu không đưa ra bất kỳ kết quả thử nghiệm định lượng, kiểm chuẩn latency hay độ chính xác dịch thuật nào."
+ },
+ "summary": {
+  "tldr": "tinglongwu (聽龍) là một ứng dụng mã nguồn mở cung cấp khả năng biên dịch tiếng nói thời gian thực (real-time speech translation) và tạo phụ đề hoàn toàn ngoại tuyến (offline) trên thiết bị cá nhân. Dự án tập trung vào tính riêng tư khi không gửi bản ghi âm hay dữ liệu cá nhân lên điện toán đám mây và hỗ trợ các chế độ nghe phụ đề, phát âm thanh dịch và giao tiếp hai chiều.",
+  "problem": "Nhu cầu dịch thuật tiếng nói và tạo phụ đề thời gian thực trong các cuộc họp hoặc xem video thường đòi hỏi gửi dữ liệu âm thanh lên dịch vụ đám mây, gây lo ngại về quyền riêng tư dữ liệu và phụ thuộc vào kết nối mạng liên tục.",
+  "method": "Hệ thống hoạt động theo mô hình offline-first: sau khi tải bộ mô hình tiếng nói và dịch thuật ở bước cài đặt (setup), toàn bộ quá trình xử lý âm thanh, dịch thuật và xuất phụ đề diễn ra cục bộ không cần mạng. Ứng dụng hỗ trợ ba chế độ: **Listen** (hiển thị phụ đề dịch), **Speak** (xuất giọng nói dịch qua TTS) và **Two-way** (giao tiếp hai chiều). Kiến trúc mô hình chi tiết không được mô tả sâu trong README ngoài việc gắn nhãn chủ đề Whisper, và cho phép cài đặt các gói tùy chọn (gói ngôn ngữ bổ sung, GPU pack, speak mode). Người dùng có thể thiết lập biến môi trường `TLWU_OFFLINE=1` để ngắt hoàn toàn mọi kết nối mạng kể cả kiểm tra cập nhật.",
+  "setup": "Hỗ trợ Windows 10/11 (bộ cài đặt .exe), macOS và Linux x86_64 qua shell script. Về phần cứng, hệ thống chạy được trên CPU thông thường và tối ưu tốc độ nhanh hơn với GPU NVIDIA. Hỗ trợ các ngôn ngữ: tiếng Trung (zh), tiếng Anh (en), tiếng Nhật (ja), tiếng Hàn (ko), tiếng Nga (ru) và thử nghiệm với tiếng Hindi (hi). Các benchmark định lượng, baseline và cấu hình compute chi tiết không được nêu trong tài liệu.",
+  "results": [
+   "Không có số liệu định lượng (như WER, BLEU, latency cụ thể tính bằng ms hay MOS) được cung cấp trong tài liệu README."
+  ],
+  "limitations": "Bộ cài đặt trên Windows chưa được ký số (unsigned) dẫn đến cảnh báo SmartScreen; phiên bản macOS chưa được kiểm chứng đầy đủ (unverified); tài liệu README thiếu thông tin chi tiết về kiến trúc mô hình, latency xử lý thời gian thực và đánh giá chất lượng dịch.",
+  "takeaways": "Là một giải pháp ứng dụng desktop tiện lợi cho kỹ sư và người dùng cần giải pháp phụ đề/dịch giọng nói cục bộ bảo mật, có thể tham khảo cách đóng gói quy trình speech-to-text và dịch thuật ngoại tuyến trên máy tính cá nhân.",
+  "strengths": [
+   "Hoạt động hoàn toàn ngoại tuyến bảo vệ riêng tư",
+   "Hỗ trợ cả ba chế độ Listen, Speak, Two-way",
+   "Hỗ trợ đa nền tảng Windows, Linux, macOS",
+   "Chạy được trên CPU thường và GPU NVIDIA"
+  ],
+  "weaknesses": [
+   "Thiếu số liệu benchmark đánh giá hiệu năng kỹ thuật",
+   "Bộ cài đặt Windows chưa được ký số",
+   "Chi tiết kiến trúc mô hình chưa được nêu"
+  ],
+  "context": "Dự án mã nguồn mở phát triển bởi sunososobro-hub (cùng các cộng tác viên, hỗ trợ bởi Claude và CodeRabbit), phát hành dưới giấy phép MIT trên GitHub."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

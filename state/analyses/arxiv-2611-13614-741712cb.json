@@ -1,0 +1,52 @@
+{
+ "id": "arxiv:2611.13614",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 5,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đây là tập dữ liệu mở đầu tiên kết hợp đồng thời ba cấu trúc (ngắn, monologue dài, dialogue nhiều người) kèm nhãn điều khiển ngôn ngữ tự nhiên và định vị sự kiện phi ngôn ngữ ở quy mô hơn 200.000 giờ.",
+  "credibility": "Đến từ nhóm nghiên cứu uy tín về xử lý tiếng nói (lab của GS. Zhizheng Wu và Mark Hasegawa-Johnson), có tài liệu kỹ thuật chi tiết, quy trình kiểm chứng thành phần rõ ràng và trang demo công khai.",
+  "technical": "Quy trình EMILIA2-PIPE được thiết kế chặt chẽ với nhiều công đoạn kiểm soát chất lượng âm học, lọc tiếng nói nhân tạo, trích xuất thuộc tính đa tầng và curriculum learning 4 giai đoạn cho cả hai hệ hình AR và NAR.",
+  "impact": "Cung cấp nền tảng dữ liệu và benchmark mở cực kỳ cần thiết giải quyết điểm nghẽn chuyển dịch từ TTS câu đơn sang TTS hội thoại và âm thanh dạng dài (audiobook, podcast).",
+  "evidence": "Thực nghiệm toàn diện trên nhiều benchmark công khai và benchmark mới, so sánh chi tiết với các baseline mạnh nhất (MOSS-TTSD, VibeVoice), kèm kiểm thử cắt nhỏ (chunking ablation) và đánh giá lắng nghe từ con người."
+ },
+ "summary": {
+  "tldr": "Bài báo giới thiệu **EMILIA2**, tập dữ liệu quy mô lớn 229.388 giờ trên 41 ngôn ngữ dành cho tổng hợp tiếng nói dạng dài (long-form) và có khả năng kiểm soát biểu cảm. Nghiên cứu cũng phát hành quy trình xử lý **EMILIA2-PIPE**, bộ benchmark **EMILIA2-testset** (23 giờ, tối đa 4 người nói, dài tới 30 phút) cùng hai mô hình thử nghiệm 0,6B tham số đạt hiệu năng cạnh tranh với các mô hình 8B.",
+  "problem": "Các hệ thống zero-shot TTS hiện nay chủ yếu được huấn luyện và đánh giá trên các câu thoại ngắn (dưới 30 giây). Khi ghép nối (concatenation) thành đoạn dài, chúng thường bị trôi chất giọng (timbre drift), ngắt nghỉ phi tự nhiên và mất tính liên tục trường độ/ngữ điệu. Đồng thời, việc kiểm soát biểu cảm chi tiết (phong cách, tiếng đệm phi ngôn ngữ - nonverbal vocalizations) trong các đoạn hội thoại nhiều người nói kéo dài hàng phút vẫn thiếu dữ liệu mở và benchmark chuẩn hóa có audio mẫu cho từng người nói.",
+  "method": "Tác giả xây dựng dữ liệu và kiến trúc qua các thành phần cốt lõi:\n- **EMILIA2-PIPE**: Tách giọng hát/nói (vocal stem) bằng Mel-Band RoFormer ở 44,1 kHz; phân đoạn và nhận diện người nói (diarization) bằng DiariZen kết hợp FireRedVAD; lọc chất lượng bằng DNSMOS OVR và bộ phân loại synthetic speech; nhận diện ngôn ngữ (FireRedLID) và phiên âm (Qwen3-ASR-1.7B cho 30 ngôn ngữ, IndicConformer-600M cho 22 ngôn ngữ Indic).\n- **3 góc nhìn dữ liệu (views)**: Short utterances (0,5–30s), Single-speaker long-form (>30s không giới hạn trên, gộp cùng người nói qua các khoảng lặng ≤6s), và Multi-speaker dialogue (>30s, 2–6 người nói, giữ nguyên thứ tự và thời gian đối thoại tự nhiên).\n- **Gán nhãn biểu cảm**: Trích xuất thuộc tính cảm xúc, tốc độ (CPS), độ lớn (LUFS), cao độ (PENN), giới tính/tuổi (wav2vec2/WavLM cascade); dùng Qwen3-Omni-30B-A3B-Captioner tạo chỉ dẫn ngôn ngữ tự nhiên theo 4 định dạng (APS, DSD, RP, Free-form) cho 4,77M mẫu (25.053h). Dùng Multilingual-NVASR gán nhãn xen kẽ các thẻ nonverbal (NV: [Laughter], [Sigh], [Cough]) cho 933K mẫu (14.626h tiếng Trung/Anh).\n- **Kiến trúc mô hình**: Thử nghiệm hai biến thể cùng khởi tạo từ Qwen3-0.6B với curriculum learning 4 giai đoạn (short -> long -> dialogue -> SFT biểu cảm):\n  1. *Emilia2-AR*: Sinh tự hồi quy speech token (từ tokenizer CosyVoice 3) và nhãn speaker-ID, sau đó dùng conditional DiT flow-matching decoder và Pupu-Vocoder để tái tạo sóng âm.\n  2. *Emilia2-NAR*: Sử dụng kiến trúc MGM với Fish Audio S2 Pro tokenizer, huấn luyện đoán acoustic-token bị che (masked token prediction) với 3 chiến lược mask (full 30%, coarse-to-fine 50%, per-cell 20%) và giải mã song song lặp qua 256 bước.",
+  "setup": "Đánh giá trên nhiều benchmark:\n- **Long-form & Dialogue**: EMILIA2-testset (118 ca, 23h, 1–4 người nói, dài 0,9–30 phút, trung bình 11,85 phút, có reference audio cho từng người); TTSD-Eval (hội thoại 2 người); Long-TTS-Eval (đoạn dài đơn thoại).\n- **Biểu cảm & NV**: InstructTTSEval (Gemini-2.5-Pro chấm điểm bám sát chỉ dẫn), NV-Bench (đánh giá tỷ lệ lỗi thẻ NV: PCER/PWER).\n- **Đa ngôn ngữ & Short-form**: MiniMax-Multilingual-24 (24 ngôn ngữ), Seed-TTS-Eval.\n- **Baselines so sánh**: Higgs Audio v2 (3B), VibeVoice-1.5B, MOSS-TTSD (8B), VoxInstruct, FlexiVoice-Base, Qwen3-TTS-12Hz-VD, CosyVoice 3.",
+  "results": [
+   "Trên TTSD-Eval, Emilia2-NAR (0.6B) đạt Chinese CER 5,27% và English WER 9,93%, vượt qua MOSS-TTSD 8B (6,08% và 11,09%) và VibeVoice-1.5B (9,21% và 10,18%).",
+   "Trên TTSD-Eval, độ chính xác gán người nói (ACC) của Emilia2-NAR đạt 95,30% (zh) và 94,89% (en), tiệm cận MOSS-TTSD 8B (95,36% và 95,00%).",
+   "Trên Long-TTS-Eval, Emilia2-AR đạt độ tương đồng giọng nói (SIM) cao nhất trong các hệ thống ở cả hai ngôn ngữ: 0,75 (zh) và 0,67 (en).",
+   "Trên InstructTTSEval, Emilia2-AR đạt điểm trung bình 76,2 (zh) và 78,3 (en), ngang ngửa với mô hình chuyên biệt Qwen3-TTS-12Hz-VD (77,1 và 77,9).",
+   "Trên NV-Bench, Emilia2-NAR dẫn đầu toàn diện: PCER/CER tiếng Trung đạt 28,15%/2,36% (single-label) và 38,07%/3,87% (multi-label); PWER/WER tiếng Anh đạt 40,12%/6,21% và 41,77%/4,85%.",
+   "Trên MiniMax-Multilingual-24, Emilia2-AR và Emilia2-NAR giảm macro-average WER xuống 7,67% và 10,34%, vượt xa các baseline (Higgs Audio v2: 49,51%, VibeVoice-1.5B: 85,41%, MOSS-TTSD: 40,25%).",
+   "Đánh giá ghép đoạn (chunking vs whole-sequence) trên EMILIA2-testset cho thấy chunking giảm CER tiếng Trung của Emilia2-NAR từ 8,62% xuống 1,73% nhưng làm sụt giảm N-MOS (từ 4,05 xuống 3,30 ở Emilia2-AR), chứng minh việc cắt khúc độc lập phá vỡ tính liên tục ngữ điệu đường dài."
+  ],
+  "limitations": "Emilia2-NAR bị suy giảm chất lượng và tăng lỗi từ khi thời lượng audio kéo dài tới 20–30 phút do ngân sách giải mã cố định 256 bước. Nhãn tiếng đệm phi ngôn ngữ (NV) mới chỉ áp dụng cho tiếng Trung và tiếng Anh. Dữ liệu âm thanh thô gốc trên Internet không được phân phối trực tiếp mà cung cấp qua danh sách URL kèm mã nguồn và nhãn dẫn xuất.",
+  "takeaways": "Huấn luyện end-to-end trên chuỗi dài nguyên vẹn kết hợp curriculum learning nhiều giai đoạn vượt trội rõ rệt so với phương pháp chia chunk rồi ghép nối về mặt ngữ điệu và tính tự nhiên. Kích thước mô hình nhỏ (0,6B) hoàn toàn có thể cạnh tranh với mô hình 8B nếu được cung cấp nền tảng dữ liệu hội thoại và đoạn dài chất lượng cao.",
+  "strengths": [
+   "Quy mô dữ liệu khổng lồ (229K giờ, 41 ngôn ngữ)",
+   "Bao phủ cả monologue dài và dialogue nhiều người",
+   "Gán nhãn biểu cảm và nonverbal vocalization chi tiết",
+   "Benchmark EMILIA2-testset mở, chuẩn hóa tới 30 phút",
+   "Mô hình 0.6B cạnh tranh sòng phẳng baseline 8B"
+  ],
+  "weaknesses": [
+   "NAR suy giảm chất lượng ở độ dài cực đại",
+   "Gán nhãn NV chỉ giới hạn ở zh và en",
+   "Phát hành dạng URL manifest phụ thuộc nguồn gốc web"
+  ],
+  "context": "Nhóm tác giả đến từ The Chinese University of Hong Kong, Shenzhen (CUHK-SZ) và University of Illinois at Urbana-Champaign (UIUC); công bố dưới dạng preprint arXiv (tháng 11/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

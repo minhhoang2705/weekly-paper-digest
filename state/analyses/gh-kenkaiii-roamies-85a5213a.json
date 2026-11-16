@@ -1,0 +1,47 @@
+{
+ "id": "gh:kenkaiii/roamies",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Kết hợp sáng tạo giữa desktop pet, on-device ASR (Parakeet), visual grounding VLM và điều khiển desktop nhưng không tạo ra kiến trúc mô hình mới.",
+  "credibility": "Dự án mã nguồn mở cá nhân minh bạch trên GitHub, có 285 stars và mã nguồn đầy đủ, tuy nhiên không phải nghiên cứu có bình duyệt (peer-reviewed).",
+  "technical": "Triển khai hệ thống phức tạp kết hợp Tauri/Rust, engine ASR ONNX (`parakeet-rs`), Node.js sidecar agent, và tích hợp sâu với OS API (UI Automation, keyrings).",
+  "impact": "Một ví dụ thực tiễn tốt về desktop voice-driven VLM agent, tạo cảm hứng cho cộng đồng làm Voice Agent tương tác GUI cục bộ.",
+  "evidence": "Cung cấp hướng dẫn cài đặt, cấu hình local inference, kích thước mô hình cụ thể, nhưng thiếu đánh giá định lượng về WER hoặc độ trễ ASR/TTS."
+ },
+ "summary": {
+  "tldr": "Roamies là ứng dụng desktop AI assistant/pet đa nền tảng (macOS, Windows, Linux) tương tác trực tiếp cạnh con trỏ chuột bằng giọng nói và thị giác máy tính. Dự án tích hợp ASR cục bộ (Parakeet TDT 0.6B) trên Windows/Linux, tổng hợp giọng nói qua Fish Audio hoặc Gemini API, và điều khiển giao diện người dùng (GUI grounding) thông qua các mô hình Vision-Language.",
+  "problem": "Người dùng cần một trợ lý ảo ngay trên màn hình có thể nhắc nhở công việc, thấu hiểu ngữ cảnh hiển thị trực tiếp (GUI), phản hồi tức thì qua giọng nói và hỗ trợ thao tác tự động/hướng dẫn từng bước thay vì chỉ mở giao diện chat thông thường.",
+  "method": "Roamies kết hợp frontend desktop bằng Tauri/Rust và backend logic chạy trong Node.js sidecar dựa trên `gg-framework` (`@kenkaiiii/gg-agent`, `@kenkaiiii/gg-ai`). Về voice pipeline: ASR chạy local trên Windows và Linux thông qua engine Rust `parakeet-rs` tải mô hình ONNX `nvidia/parakeet-tdt-0.6b-v3` (~670 MB), trong khi macOS sử dụng native speech recognition (hoặc Siri/Dictation trên macOS cũ hơn). TTS dựa trên cloud qua Fish Audio API hoặc Gemini Voice (Google AI Studio). Về thị giác và thao tác giao diện: hệ thống chụp màn hình và sử dụng Vision-Language Models (VLM cục bộ như Qwen3-VL họ 8B/30B-A3B/32B qua Ollama/LM Studio/llama.cpp/vLLM, hoặc cloud LLM như Claude/GPT) để thực hiện GUI grounding (tọa độ 0-1000 chuẩn hóa) kết hợp Windows UI Automation hoặc OS accessibility API để vẽ chỉ dẫn, click và gõ phím.",
+  "setup": "Yêu cầu cài đặt: macOS 13.5+, Windows 10+, hoặc Linux với glibc 2.38+ (Ubuntu 24.04, Fedora 39...). Để build từ mã nguồn cần Rust, Node.js 22+, Tauri prerequisites, Xcode CLI tools (trên macOS) và Git Bash trên Windows. Hỗ trợ kết nối LLM cloud (Claude, OpenAI, Gemini, Grok) hoặc local inference servers (Ollama, LM Studio, llama.cpp, vLLM yêu cầu context length $\\ge$ 32k tokens). Mô hình ASR Parakeet TDT 0.6B v3 ONNX (~670 MB) tự động tải khi setup trên Windows và Linux.",
+  "results": [
+   "Điểm ScreenSpot-Pro (bên thứ ba đánh giá GUI grounding) được trích dẫn trong tài liệu: Qwen3-VL 30B-A3B đạt ~60 (bộ nhớ ~20 GB ở 4-bit).",
+   "Qwen3-VL 32B đạt ~58 trên ScreenSpot-Pro (bộ nhớ ~20 GB ở 4-bit).",
+   "Qwen3-VL 8B đạt ~55 trên ScreenSpot-Pro (bộ nhớ ~6 GB ở 4-bit)."
+  ],
+  "limitations": "Bản Linux ở trạng thái beta, thiếu tính năng đọc/thao tác cửa sổ ứng dụng khác, khoanh vùng khi nói (circling) và chưa hỗ trợ Wayland cho chế độ kích thước Cursor. Yêu cầu VLM tối thiểu 32k context length (riêng system prompt/tools tốn ~13k). Các mô hình nhỏ $\\le$ 4B thường ground sai vị trí; TTS hoàn toàn phụ thuộc vào API cloud trả phí (Fish Audio hoặc Google AI Studio).",
+  "takeaways": "Cung cấp một mẫu kiến trúc tham khảo hoàn chỉnh để xây dựng Voice Agent đa phương thức tương tác desktop: kết hợp nhận dạng giọng nói on-device (Parakeet-rs/ONNX) để giảm độ trễ đầu vào với VLM grounding cho phép điều khiển GUI cục bộ hoặc qua cloud.",
+  "strengths": [
+   "Tích hợp ASR cục bộ Parakeet TDT không cần cloud",
+   "Hỗ trợ cả Local VLM (Qwen3-VL) và Cloud LLM",
+   "Tương tác GUI trực quan ngay tại vị trí con trỏ",
+   "Hỗ trợ đa nền tảng macOS, Windows và Linux"
+  ],
+  "weaknesses": [
+   "TTS phụ thuộc hoàn toàn vào dịch vụ cloud bên ngoài",
+   "Tính năng Linux bị hạn chế do rào cản Wayland",
+   "Không có benchmark định lượng chính thức về ASR latency"
+  ],
+  "context": "Dự án nguồn mở (AGPL-3.0) do lập trình viên KenKaiii phát triển và phát hành trên GitHub."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

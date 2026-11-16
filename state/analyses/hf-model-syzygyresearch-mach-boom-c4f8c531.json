@@ -1,0 +1,51 @@
+{
+ "id": "hf-model:SyzygyResearch/Mach-Boom",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Kỹ thuật lượng tử hóa 3.5-bit per weight kết hợp tối ưu kernel AMX/AVX-512 chuyên sâu cho CPU mang lại tỷ lệ nén và hiệu năng thực thi TTS vượt trội so với các định dạng phổ biến như GGUF.",
+  "credibility": "Phát hành trực tiếp dưới dạng open-weights model trên Hugging Face bởi SyzygyResearch kèm mã nguồn chạy thực tế, không qua bình duyệt học thuật.",
+  "technical": "Tối ưu hóa hệ thống ở mức thấp rất kỹ lưỡng với C kernels tùy biến cho AMX bf16 tiles, AVX-512 VBMI và streaming pipeline có độ trễ cực thấp.",
+  "impact": "Hữu ích cho mảng edge AI và CPU voice agent, đạt 23 likes trên Hugging Face nhưng mức độ triển khai rộng rãi vẫn đang ở giai đoạn đầu.",
+  "evidence": "Cung cấp bảng số liệu đối chuẩn chi tiết về WER so với 11 mô hình khác, cùng benchmark rõ ràng về bộ nhớ, độ trễ và thông lượng trên nhiều kiến trúc CPU."
+ },
+ "summary": {
+  "tldr": "Mach-Boom là phiên bản lượng tử hóa 3.5-bit per weight của mô hình TTS Gradium Phonon 31M English với dung lượng chỉ 18.2 MB (file tải về 19.5 MB). Mô hình tối ưu hóa cho CPU x86-64, đạt tốc độ tạo tiếng nói nhanh hơn thời gian thực từ 8 đến 10 lần trên một nhân CPU kèm độ trễ phát âm thanh trực tuyến (streaming) đầu tiên chỉ 61-78 ms.",
+  "problem": "Triển khai mô hình TTS chất lượng cao trên các hệ thống CPU hoặc thiết bị biên gặp rào cản lớn về dung lượng bộ nhớ (RAM/dung lượng lưu trữ), độ trễ phản hồi (time-to-first-audio) và khả năng xử lý các ca văn bản phức tạp (số, ngày tháng, mã viết tắt, đơn vị tiền tệ) với tốc độ vượt thời gian thực mà không phụ thuộc GPU đắt đỏ.",
+  "method": "Mach-Boom nén kiến trúc mô hình nền `gradium/phonon-31m-en` xuống 3.5 bits per weight. Runtime đi kèm sử dụng các kernel C/C++ tự biên dịch (qua gcc hoặc clang trong lần chạy đầu khoảng 5 giây) hỗ trợ AVX-512 VBMI, AVX-512, AVX2 và C thuần. Trên các dòng CPU Intel Xeon có AMX (Emerald Rapids, Granite Rapids), audio decoder được tối ưu chạy dưới dạng tile định dạng bf16 (có thể tắt bằng `PHM_AMX=0`). Mô hình hỗ trợ streaming âm thanh 24 kHz (float32) với tính tất định (cùng seed và `--chunk` cho kết quả giống nhau bất kể số luồng).",
+  "setup": "Đánh giá trên tập dữ liệu 250 câu tiếng Anh kiểm thử của Gradium TTS Hard Cases (chứa số, ngày, giờ, tiền tệ, mã code, từ viết tắt). Bản chép âm tự động dùng faster-whisper large-v3-turbo (int8, greedy, CPU), chuẩn hóa bằng English normalizer của Whisper. Môi trường đo tốc độ và bộ nhớ: VM 4-core Intel Xeon (Emerald Rapids có AMX) và 4-core Granite Rapids Xeon, so sánh với mô hình Underdog Woof (int8) cùng các hệ thống TTS khác (Kokoro 82M, Qwen3-TTS, Pocket TTS, v.v.). Yêu cầu hệ thống: Linux x86-64, Python 3.8+, numpy, `tokenizers`, gcc/clang.",
+  "results": [
+   "Đạt Word Error Rate (WER) 5.18% (khi bật text rules) và 14.01% (khi tắt rules) trên tập Gradium TTS Hard Cases, vượt qua Phonon 31m fp32 gốc (8.61% / 11.99%), Phonon 31m q4k GGUF (10.61% / 13.91%), Underdog Woof Juno (6.50% / 41.27%) và Fish Audio Drama 3 (7.62% / 7.62%).",
+   "Tốc độ trên 1 nhân CPU Intel Xeon Emerald Rapids đạt 8.3-8.4x real time (so với Underdog Woof int8 là 4.1-4.2x); trên 4 nhân đạt 11.3-11.7x (so với Woof là 8.6-8.9x).",
+   "Trên CPU Granite Rapids Xeon, tốc độ đạt 9.6-10.1x real time trên 1 nhân và 19.5-19.8x trên 4 nhân (so với Woof là 3.8-4.3x và 9.3-9.6x).",
+   "Chế độ chỉ dùng AVX2 trên 1 nhân đạt tốc độ 4.2-4.3x real time (Woof đạt 3.9-4.3x).",
+   "Bộ nhớ RAM đỉnh (Peak memory) chỉ tốn 93 MB trên 1 nhân (so với 255 MB của Underdog Woof).",
+   "Độ trễ âm thanh streaming đầu tiên (First audio latency) đạt 61-78 ms trên 1 nhân (so với Underdog Woof chỉ phát sau khi xử lý xong toàn bộ đoạn âm thanh)."
+  ],
+  "limitations": "Chỉ hỗ trợ nền tảng Linux trên tập chỉ lệnh x86-64 và yêu cầu trình biên dịch C (gcc/clang); chỉ hỗ trợ tiếng Anh (en); tài liệu không cung cấp đánh giá chất lượng tự nhiên (MOS) qua thẩm định thính giác của người dùng.",
+  "takeaways": "Là giải pháp tối ưu cho các hệ thống đàm thoại tương tác (conversational AI/voice agents) cần triển khai hoàn toàn trên CPU on-premise hoặc cloud chi phí thấp nhờ độ trễ streaming dưới 100 ms, dung lượng tệp dưới 20 MB và RAM tiêu thụ dưới 100 MB.",
+  "strengths": [
+   "Dung lượng cực nhỏ (18.2 MB)",
+   "Độ trễ streaming đầu tiên rất thấp (61-78 ms)",
+   "Tốc độ CPU rất cao (8-10x real time)",
+   "Tiêu thụ RAM thấp (93 MB đỉnh)",
+   "Độ chính xác từ ngữ vượt trội (5.18% WER)"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ Linux x86-64",
+   "Chỉ hỗ trợ tiếng Anh",
+   "Chưa có điểm đánh giá MOS con người"
+  ],
+  "context": "SyzygyResearch phát hành dạng open-source model trên Hugging Face (giấy phép Apache-2.0), kế thừa từ mô hình nền `gradium/phonon-31m-en`."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

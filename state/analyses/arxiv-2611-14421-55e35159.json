@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2611.14421",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất phương pháp prefix training với target dịch chuyển thời gian kết hợp padding frames và selective teacher distillation giúp streaming ASR dự đoán trước từ mà không cần thay đổi kiến trúc.",
+  "credibility": "Bài báo preprint của một tác giả độc lập chưa qua bình duyệt chính thức, tuy nhiên phương pháp mô tả minh bạch và có mã nguồn/trọng số công khai.",
+  "technical": "Kỹ thuật huấn luyện chặt chẽ từ công thức tính thời điểm từ đến hạn, xử lý distillation chỉ ở nhãn đúng, padding silence frames đến kỹ thuật QAT 4-bit.",
+  "impact": "Có tiềm năng ứng dụng cao cho voice agent và hệ thống đàm thoại tương tác trực tiếp nhờ kích thước nhỏ gọn và khả năng kích hoạt sớm logic hạ tầng.",
+  "evidence": "Thực nghiệm chi tiết trên 6 tập kiểm thử có đo word timing, đối chiếu đầy đủ trên 8 tập Open ASR Leaderboard, phân tích nhiễu và kiểm tra calibration ECE."
+ },
+ "summary": {
+  "tldr": "Earlybird là mô hình nhận dạng giọng nói streaming 29M tham số (16.8 MB ở định dạng 4-bit) có khả năng dự đoán từ đúng trước khi người nói kết thúc. Phương pháp huấn luyện trên audio cắt ngẫu nhiên cho phép mô hình đạt độ trễ median -90 ms trên LibriSpeech test-clean, cung cấp độ tin cậy calibrated để voice agent có thể xử lý sớm tác vụ.",
+  "problem": "Các mô hình streaming ASR thông thường chỉ phát ra từ sau khi người nói đã hoàn thành khoảng 90–400 ms. Sự chậm trễ này làm lãng phí thời gian quý giá mà voice agent có thể tận dụng để bắt đầu tìm kiếm thông tin hoặc lập kế hoạch phản hồi trong lúc người dùng vẫn đang nói.",
+  "method": "Earlybird cải tiến từ Moonshine streaming Tiny (34M tham số ban đầu, kiến trúc encoder-decoder nhận chunk 80 ms, không dùng tương lai âm thanh):\n- **Thu gọn từ vựng**: Giảm vocabulary xuống 19,007 tokens (các token xuất hiện nhiều và toàn bộ ký tự đơn), đưa mô hình về 29M tham số mà WER chỉ lệch dưới 0.4 điểm.\n- **Huấn luyện trên audio cắt ngắn**: Cắt audio tại các bước ngẫu nhiên $t$ (bội số 80 ms). Một từ $w_i$ được đặt hạn xuất hiện tại $\\tau_i = \\max(s_i + \\min(0.5(e_i - s_i), h), e_i - \\ell)$ với lead $\\ell = 300\\text{ ms}$ và audio tối thiểu đã nghe $h = 50\\text{ ms}$. Target huấn luyện gồm các từ có $\\tau_i \\le t$, theo sau bởi token kết thúc văn bản `<end-of-text>`, rồi đến 2 từ tiếp theo đóng vai trò dự đoán (guess). Dấu câu cuối được giữ lại cho đến khi từ tiếp theo đến hạn.\n- **Teacher distillation có chọn lọc**: Dùng Moonshine Tiny làm teacher nhưng chỉ áp dụng distillation loss ở các vị trí token mà lựa chọn xác suất cao nhất của teacher trùng khớp với nhãn ground truth nhằm tránh làm loãng phân phối xác suất.\n- **Padding frames**: Bổ sung 3 frame tính từ khoảng lặng (silence) phía sau đoạn audio đã nghe để mô hình hoàn thành từ như thể người nói vừa dừng lại.\n- **Quantization & Confidence**: Áp dụng Quantization-Aware Training (QAT) 4-bit cho weights (front-end 8-bit, file nén 16.8 MB). Độ tin cậy của mỗi từ là tích xác suất các token sinh ra từ decoder mà không cần temperature scaling.",
+  "setup": "Huấn luyện qua 4 giai đoạn trên 1 GPU (batch 48) với dữ liệu LibriSpeech (960 h, nhãn thời gian từ Montreal Forced Aligner), People's Speech clean (~300 h, nhãn thời gian từ wav2vec 2.0 CTC aligner) và Kokoro synthetic speech (~25 h). Đánh giá trên 6 tập kiểm thử đo per-word timings (LibriSpeech clean/other, TED-LIUM 3, People's Speech, Earnings-22, Synthetic WikiText) cùng 8 tập của Open ASR Leaderboard. So sánh trực tiếp với Moonshine Tiny runtime, Whistle (55M), Whisper base.en (74M), Whisper tiny.en, Whisper small.en, streaming Nemotron 0.6B và Parakeet TDT 0.6B v2.",
+  "results": [
+   "Trên LibriSpeech test-clean, Earlybird đạt median word latency là -90 ms (dự đoán đúng trước khi người nói kết thúc từ), trong khi Moonshine Tiny runtime là +270 ms, Whistle là +400 ms và Whisper base là +90 ms.",
+   "Tỷ lệ từ được dự đoán chính xác trước khi kết thúc trên LibriSpeech clean đạt 68.8% đối với Earlybird, vượt trội so với Moonshine Tiny (3.4%), Whistle (9.1%) và Whisper base (25.4%).",
+   "Trên 8 tập Open ASR Leaderboard, bản Earlybird 4-bit đạt WER trung bình 12.6% (bản full-precision 11.4%), đánh bại Moonshine Tiny runtime (14.4%) và bám sát Whistle (12.2%).",
+   "Về độ tin cậy (calibration), Expected Calibration Error (ECE) của các từ đang được nói dao động trong khoảng 3.7 đến 5.5 điểm; các từ có confidence >= 0.9 có tỷ lệ chính xác từ 91% đến 96%.",
+   "Tốc độ suy luận đạt trung bình 39 ms cho mỗi bước 80 ms audio trên 1 luồng CPU Intel Xeon Platinum 8488C (p95 64 ms), nhanh gấp đôi thời gian thực."
+  ],
+  "limitations": "Mô hình tạo ra số lần sửa từ (revisions) cao hơn các mô hình chờ kết thúc từ (1.29 revisions/từ trên LibriSpeech clean và từ 2-6 trên giọng nói tự nhiên/ồn); độ chính xác giảm sút mạnh khi có tiếng người nói xen nền (WER 32.0% ở 10 dB chatter so với 8.9% của Whisper base); khả năng đoán đúng từ tiếp theo ở mức tự tin >= 0.5 chỉ đạt 12–16%; hiện chỉ hỗ trợ tiếng Anh và độ cân chuẩn (calibration) giảm trên tập lệnh ngoài miền (SLURP ECE 8.8).",
+  "takeaways": "Kỹ sư hệ thống voice agent có thể tích hợp Earlybird chạy trực tiếp trên CPU on-device để kích hoạt tìm kiếm hoặc sinh phản hồi sớm hàng trăm mili-giây trước khi người dùng kết thúc câu, dựa vào raw confidence score mà không cần hiệu chỉnh phức tạp.",
+  "strengths": [
+   "Dự đoán trước kết thúc từ (-90 ms)",
+   "Kích thước siêu nhẹ 16.8 MB (4-bit)",
+   "Chạy nhanh gấp đôi real-time trên CPU",
+   "Độ tin cậy calibrated tự nhiên (ECE 3.7-5.5)"
+  ],
+  "weaknesses": [
+   "Tỷ lệ sửa từ (revisions) cao khi nhiễu",
+   "Kém bền bỉ với tiếng nói xen nền",
+   "Chỉ hỗ trợ ngôn ngữ tiếng Anh"
+  ],
+  "context": "Sahil Mahendrakar; bài báo dạng preprint trên arXiv (tháng 11/2026), mã nguồn và trọng số phát hành theo giấy phép MIT trên Hugging Face."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

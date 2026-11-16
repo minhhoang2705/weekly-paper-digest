@@ -1,0 +1,48 @@
+{
+ "id": "gh:xiaoxiao150/vram-switcher",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Ý tưởng quản lý tiến trình dựa trên file lock/flag và dừng/chạy tiến trình để tránh tràn VRAM là giải pháp kỹ thuật thực dụng hơn là một cải tiến thuật toán mới.",
+  "credibility": "Dự án cá nhân nguồn mở có mã nguồn công khai, tài liệu cấu hình chi tiết, unit tests với FakeSystem và CI qua GitHub Actions.",
+  "technical": "Xử lý kỹ thuật tỉ mỉ ở tầng hệ thống: bọc lệnh an toàn, kiểm tra lắng nghe cổng, đồng bộ queue cạn, khử stale flag và khóa đa tiến trình coordinator.lock.",
+  "impact": "Phục vụ thị trường ngách là người dùng chạy AI companion (AstrBot/DSH) cục bộ trên card 12 GB với lượng tương tác hiện tại khiêm tốn (70 stars).",
+  "evidence": "Cung cấp số liệu đo lường cụ thể về độ trễ s2mel và token rate trước và sau khi cô lập VRAM, đồng thời đi kèm bộ test case tự động kiểm tra tương thích."
+ },
+ "summary": {
+  "tldr": "vram-switcher là công cụ điều phối GPU theo biên độ sự kiện (event boundaries), giúp luân phiên tài nguyên VRAM trên card 12 GB cho các hệ thống AI companion cục bộ (LLM, TTS IndexTTS, và ComfyUI). Công cụ giải quyết triệt để hiện tượng tràn VRAM dẫn đến Windows paging làm chậm hệ thống hàng trăm lần mà không cần proxy hay can thiệp vào mã nguồn model.",
+  "problem": "Trên GPU 12 GB, việc duy trì đồng thời LLM (~4.9 GB cho llama-server Qwen3.6-35B-A3B MoE), IndexTTS webui (~2.3–5.3 GB), ComfyUI (~6–7 GB) cùng giao diện Windows (~2 GB) gây tràn bộ nhớ. Windows không crash mà tự động swap VRAM sang RAM hệ thống khiến hiệu năng suy giảm nghiêm trọng (bước khuếch tán s2mel của TTS bị chậm từ 0.12 s/bước lên 30 s/bước, prefill LLM tụt từ ~1300 tok/s xuống 0.2 tok/s, sinh ảnh mất 543 giây). Các bộ điều phối GPU chung không nhận biết được ranh giới thực sự kết thúc của quá trình tổng hợp TTS.",
+  "method": "Công cụ sử dụng máy trạng thái điều khiển quá trình dừng/khởi động tiến trình theo cấu hình JSON profile (`profile.local.json`):\n- **Giao thức Flag cho TTS**: Dùng `tts_busy.flag` và `tts_ready.flag`. Khi có yêu cầu thoại, TTS plugin ghi busy flag; vram-switcher dừng LLM (và các `aux_services`), đảm bảo IndexTTS webui online rồi mới ghi ready flag để TTS tiến hành gọi `/gen_single`.\n- **Đồng bộ hàng đợi sinh ảnh**: Với ComfyUI, hệ thống dừng LLM/TTS, đợi cổng 8188 listen thực sự và chỉ tắt dịch vụ sau khi thăm dò `/queue` cạn hoàn toàn.\n- **Kiểm soát tiến trình an toàn**: Lọc theo tên tiến trình (`process_names`) kết hợp chuỗi tham số dòng lệnh (`cmdline_contains`/`cmdline_any`) và kiểm tra port; không dùng kill bừa bãi và loại trừ PID hiện tại/PID cha.\n- **Khóa đa tiến trình & Đa nền tảng**: Dùng tệp khóa `coordinator.lock` để đồng bộ giữa AstrBot (Python plugin) và DeepSeek Harness (Cordis plugin kèm daemon Python), kèm hỗ trợ giao tiếp qua MCP stdio server.",
+  "setup": "Hệ thống hỗ trợ Windows (ưu tiên NVIDIA CUDA; AMD Vulkan/DirectML/ROCm ở mức thử nghiệm). Cung cấp script tự động cấu hình `python configure.py --root D:/AI` để quét port và tiến trình. Hoạt động tích hợp với AstrBot, DeepSeek Harness (DSH manifest v0.15), hoặc dùng độc lập qua thư viện Python `VramService`.",
+  "results": [
+   "Khôi phục tốc độ khuếch tán s2mel của IndexTTS: từ 30 s/bước (khi bị Windows paging do tràn VRAM) trở lại 0.12 s/bước (25 bước trước đó tốn 731 giây).",
+   "Khôi phục tốc độ prefill LLM: từ 0.2 tok/s (khi bị tráo bộ nhớ) trở lại ~1300 tok/s.",
+   "Xử lý thời gian sinh ảnh ComfyUI: giải quyết tình trạng treo ảnh mất 543 giây khi bị tranh chấp VRAM.",
+   "Thông số hoạt động kiểm chứng: IndexTTS cold start khoảng 60 giây (timeout chờ ready đặt 150 giây); cờ tts_busy duy trì chu kỳ refresh 1.5 giây trong kịch bản gọi thoại và tự dọn dẹp cờ treo sau 900 giây (flag_stale_seconds)."
+  ],
+  "limitations": "Ưu tiên chính cho Windows và card NVIDIA; hỗ trợ Linux/AMD còn hạn chế và IndexTTS trên AMD Windows rất dễ lỗi/treo do thiếu PyTorch ROCm hoàn chỉnh. Không đọc trực tiếp metric từ nvidia-smi mà suy đoán trạng thái qua tiến trình, cổng mạng và flag file. Yêu cầu TTS plugin ngoài phải tuân thủ đúng giao thức busy/ready flag.",
+  "takeaways": "Giải pháp thực dụng và hiệu quả cao cho kỹ sư triển khai pipeline đa mô hình (LLM + TTS + GenImage) trên thiết bị biên hoặc desktop GPU dung lượng thấp (12 GB) mà không cần cụm GPU rời.",
+  "strengths": [
+   "Giải quyết triệt để nghẽn Windows VRAM paging",
+   "Giao thức flag đồng bộ TTS chính xác",
+   "Cơ chế an toàn tránh kill nhầm tiến trình",
+   "Hỗ trợ AstrBot, DSH và MCP stdio"
+  ],
+  "weaknesses": [
+   "Phụ thuộc giao thức file cờ thủ công",
+   "Chưa tối ưu cho Linux và AMD GPU",
+   "Độ trễ chờ bật/tắt tiến trình tương đối lớn"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi tác giả xiaoxiao150 trên GitHub (bản v2.0.5), xuất phát từ hệ thống AI companion cục bộ thực tế chạy từ tháng 08/2026."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

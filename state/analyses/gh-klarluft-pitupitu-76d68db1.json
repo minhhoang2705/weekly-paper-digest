@@ -1,0 +1,45 @@
+{
+ "id": "gh:klarluft/pitupitu",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Ý tưởng kết nối voice agent di động để tương tác với terminal coding agent thông qua Herdr TUI là hướng ứng dụng mới mẻ dù kiến trúc kỹ thuật dựa trên WebSocket và TUI RPC tiêu chuẩn.",
+  "credibility": "Mã nguồn mở công khai, có ứng dụng native trên App Store/Google Play và tài liệu hướng dẫn chi tiết, dù là dự án khởi nghiệp độc lập chưa qua bình duyệt học thuật.",
+  "technical": "Thiết kế hệ thống Rust gọn gàng, xử lý tốt việc tích hợp đa nền tảng (launchd/systemd), phân tích log nhiều agent và cơ chế lọc dữ liệu nhạy cảm.",
+  "impact": "Dự án mới với mức độ tiếp nhận khiêm tốn (224 GitHub stars, 0 forks), tập trung vào phân khúc người dùng muốn điều khiển coding agent từ xa bằng giọng nói.",
+  "evidence": "Tài liệu chỉ cung cấp hướng dẫn cài đặt và mô tả kiến trúc/giao thức kết nối, hoàn toàn thiếu số liệu benchmark thực nghiệm về độ trễ hoặc độ chính xác."
+ },
+ "summary": {
+  "tldr": "pitupitu là một agent mã nguồn mở viết bằng Rust, đóng vai trò cầu nối liên kết máy tính cục bộ với dịch vụ đám mây pitupitu qua WebSocket một chiều. Hệ thống cho phép lập trình viên điều khiển, theo dõi và giải quyết tắc nghẽn cho các coding agent (như Claude Code, Codex, OpenCode) bằng giọng nói từ điện thoại (iOS, Android) hoặc trình duyệt mà không cần mở port hay chia sẻ API key.",
+  "problem": "Các coding agent như Claude Code hoặc OpenAI Codex chạy trực tiếp trong terminal cục bộ và yêu cầu tương tác bằng bàn phím tại chỗ. Lập trình viên khó có thể theo dõi tiến độ, kiểm tra trạng thái hoặc phản hồi các câu hỏi chặn (blocking questions) của agent khi đang di chuyển (lái xe, đi bộ) hoặc không ngồi trực tiếp tại bàn làm việc.",
+  "method": "Kiến trúc hệ thống bao gồm một box agent cục bộ viết bằng Rust kết nối ra ngoài (dial out) tới máy chủ cloud qua `wss://api.pitupitu.chat/v1/box`. Box agent tương tác với các coding agent thông qua bộ quản lý không gian làm việc terminal `Herdr TUI` (lệnh `herdr`). Khi người dùng ra lệnh bằng giọng nói qua app di động/web, cloud gửi các lệnh RPC cố định xuống box agent (liệt kê, mở/đóng tab, gửi phím/prompt, đọc màn hình, đợi agent). Box agent thu thập ngữ cảnh bằng cách quét log cục bộ trong 7 ngày gần nhất (tối đa 300 phiên) từ nhiều định dạng log agent khác nhau (JSONL của Claude Code/Codex/pi/Qwen, SQLite read-only của OpenCode/Kilo Code). Dữ liệu gửi lên cloud được thu gọn (user prompt tối đa 1000 ký tự, phản hồi tối đa 600 ký tự, session tối đa 32 KB) và tự động ẩn (redact) các chuỗi nhạy cảm như token `sk-...`, `ghp-...` hoặc mật khẩu.",
+  "setup": "Yêu cầu cài đặt trên macOS (Intel, Apple Silicon) hoặc Linux (x86_64, arm64, static musl) thông qua script cài đặt, Homebrew (`klarluft/tap/pitupitu`), hoặc `cargo install`. Yêu cầu cài đặt sẵn `Herdr TUI` và các CLI coding agent (Claude Code, Codex, Kiro CLI, OpenCode, pi, Qwen Code, Cline, Kilo Code). Quản lý tiến trình nền qua systemd (`systemd --user`) trên Linux hoặc launchd trên macOS. Đăng nhập và ghép nối thiết bị qua mã xác thực/QR code.",
+  "results": [
+   "Không có số liệu đo lường định lượng (như WER, MOS, độ trễ xử lý giọng nói, tài nguyên RAM/CPU tiêu thụ) được công bố trong tài liệu."
+  ],
+  "limitations": "Xử lý giọng nói (STT, TTS, agent orchestration) phụ thuộc hoàn toàn vào dịch vụ đám mây đóng `pitupitu.chat`. Bắt buộc phải duy trì tiến trình terminal `herdr` chạy ngầm để kết nối với các coding agent. Box agent chỉ hỗ trợ tập lệnh RPC định sẵn, không hỗ trợ shell tự do. Chưa có đánh giá benchmark về độ trễ điều khiển thời gian thực qua mạng di động.",
+  "takeaways": "Cung cấp một mẫu kiến trúc tham khảo tốt (outbound WebSocket kết hợp terminal multiplexer cục bộ) để tích hợp giao diện voice-first trên di động với các CLI tool nội bộ mà không cần VPN, dynamic DNS hay mở cổng mạng.",
+  "strengths": [
+   "Kiến trúc outbound WebSocket an toàn",
+   "Hỗ trợ đa dạng coding agent",
+   "Bảo vệ dữ liệu và tự động redact key",
+   "Viết bằng Rust nhẹ và độc lập"
+  ],
+  "weaknesses": [
+   "Phụ thuộc dịch vụ cloud của pitupitu",
+   "Cần duy trì herdr terminal liên tục",
+   "Không có benchmark định lượng độ trễ"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi nhóm klarluft, phát hành trên GitHub dưới giấy phép Apache-2.0, đóng vai trò client cục bộ cho nền tảng thương mại pitupitu.chat."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

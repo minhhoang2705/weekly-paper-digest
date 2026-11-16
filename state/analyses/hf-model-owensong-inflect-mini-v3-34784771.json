@@ -1,0 +1,48 @@
+{
+ "id": "hf-model:owensong/Inflect-Mini-v3",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Kết hợp hiệu quả kiến trúc gọn nhẹ 34M tham số với hệ thống event tags phi ngôn ngữ và voice profile tuner, dù các kỹ thuật TTS cơ bản không quá mới.",
+  "credibility": "Dự án nguồn mở của tác giả cá nhân (Owen Song), cung cấp đầy đủ mã nguồn kiểm tra hash, suy luận cục bộ và quy trình benchmark chi tiết.",
+  "technical": "Kỹ thuật tối ưu hóa runtime tốt (162x RTFx trên GPU), kiến trúc đa thành phần phân tách rõ ràng (core 24 kHz, enhancer 48 kHz, event module).",
+  "impact": "Thu hút mức độ tương tác tốt trong cộng đồng TTS nguồn mở (38 likes, trending HF), hữu ích cho triển khai edge/local TTS.",
+  "evidence": "Cung cấp chi tiết số liệu WER, UTMOSv2, UTMOS22Strong kèm so sánh baseline lịch sử và benchmark tốc độ phần cứng cụ thể."
+ },
+ "summary": {
+  "tldr": "Inflect Mini v3 là mô hình text-to-speech tiếng Anh siêu nhẹ với 34.31M tham số cốt lõi, phát hành theo giấy phép Apache 2.0 kèm mã nguồn suy luận cục bộ (CPU/CUDA). Mô hình hỗ trợ 6 giọng đọc mặc định ở 24 kHz gốc, bộ nâng cấp âm thanh 48 kHz tùy chọn (2.85M tham số), chèn 8 loại âm thanh phi ngôn ngữ (event tags) và khả năng thích ứng giọng qua Voice Tuner.",
+  "problem": "Nhiều mô hình TTS mã nguồn mở chất lượng cao đòi hỏi dung lượng tham số lớn, phụ thuộc vào API trực tuyến hoặc tốn kém tài nguyên tính toán, gây khó khăn cho việc triển khai cục bộ và trên thiết bị cá nhân. Ngoài ra, việc tích hợp các âm thanh phi từ vựng (như tiếng thở, ho, ngáp) và thích ứng giọng nói nhanh thường đòi hỏi kiến trúc cồng kềnh.",
+  "method": "Mô hình gồm các thành phần chính:\\n- **Synthesis core**: Lõi tổng hợp giọng nói 34.31M tham số (file FP32 138.4 MB) tạo ra waveform ở tần số lấy mẫu 24 kHz PCM16.\\n- **Output enhancer**: Mô-đun tăng cường tần số cao tùy chọn với 2.85M tham số, nâng đầu ra lên 48 kHz mà không thay đổi backbone chính.\\n- **Event tags component**: Hỗ trợ 8 sự kiện âm thanh phi từ vựng (`[laugh]`, `[sigh]`, `[gasp]`, `[cough]`, `[yawn]`, `[inhale]`, `[exhale]`, `[clear_throat]`), kết hợp speech được sinh ra với các màn thể hiện phi ngôn ngữ học được riêng theo từng giọng và đã hiệu chỉnh âm lượng (chạy ở 24 kHz trên CPU).\\n- **Voice Tuner**: Cho phép thích ứng dựa trên đoạn audio tham chiếu 5-15 giây để tạo hồ sơ giọng tái sử dụng (hỗ trợ Linux CPU, sử dụng encoder ngoài).\\n- **Language adaptation toolkit**: Cung cấp pipeline fine-tuning bằng external phone alignments và raw-text inference.",
+  "setup": "Môi trường yêu cầu Python 3.12, chạy trên CPU hoặc CUDA với mã nguồn suy luận độc lập (`run.py`, `verify_release.py`). Benchmark ASR sử dụng mô hình Qwen3-ASR-1.7B và chuẩn hóa theo Open TTS trên tập gồm 500 câu CV3 English, 1,088 câu Seed-TTS English và 100 câu MiniMax English (tổng cộng 10,128 clips trên 6 giọng). Thử nghiệm tốc độ đo RTF/RTFx sau warm-up trên RTX 5090 (`cuda-source`) và Ryzen 9 3900X (canonical CPU, 2 threads Torch).",
+  "results": [
+   "Average WER đạt 0.739% trên 10,128 clips (1,688 văn bản x 6 giọng; per-voice: Cassidy 0.735%, Hope 0.740%, Sophia 0.728%, James 0.741%, Jasper 0.729%, Mark 0.762%); pooled WER đạt 0.875% trên 127,308 từ.",
+   "Chỉ số chất lượng dự đoán (UTMOS): UTMOSv2 đạt 3.917 và UTMOS22Strong đạt 4.479 trên bộ 180 clips (30 clips/giọng).",
+   "So sánh UTMOSv2 lịch sử (96 văn bản, 192 clips): bản phát triển Inflect Mini đạt 3.978 so với Kokoro (3.883), phonon-31m (3.782), Inflect Micro (3.725), Piper (3.630) và Kitten (2.099).",
+   "Tốc độ sinh âm thanh: RTX 5090 với runtime CUDA tối ưu đạt 162.1x RTFx (RTF = 0.00617); CPU Ryzen 9 3900X đạt 1.81x RTFx (RTF = 0.5519)."
+  ],
+  "limitations": "Mô hình chính thức chỉ hỗ trợ tiếng Anh. Dữ liệu huấn luyện gốc và công thức huấn luyện đầy đủ không được công bố. Event tags không điều khiển được cảm xúc của các từ xung quanh. Voice Tuner không cam kết sao chép chính xác giọng hay chuyển đổi accent. Kết quả WER là self-run trên tập dữ liệu đã sử dụng trong quá trình phát triển, không phải bảng xếp hạng độc lập.",
+  "takeaways": "Inflect Mini v3 là lựa chọn xuất sắc cho các ứng dụng TTS chạy cục bộ cần footprint nhỏ (~34M tham số), tốc độ cực nhanh trên GPU hiện đại và khả năng chèn âm thanh phi từ vựng linh hoạt.",
+  "strengths": [
+   "Kích thước siêu nhỏ gọn (34.31M tham số)",
+   "Tốc độ sinh cực nhanh (162.1x RTFx trên RTX 5090)",
+   "Tích hợp sẵn event tags và Voice Tuner",
+   "Mã nguồn mở Apache 2.0 đầy đủ suy luận"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ tiếng Anh mặc định",
+   "Không điều khiển được cảm xúc tổng thể",
+   "Không công bố dữ liệu và pipeline tiền huấn luyện"
+  ],
+  "context": "Được phát triển và phát hành bởi tác giả độc lập Owen Song trên Hugging Face và GitHub theo giấy phép Apache 2.0."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

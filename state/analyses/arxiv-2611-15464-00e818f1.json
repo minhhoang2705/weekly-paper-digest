@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2611.15464",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tái sử dụng trực tiếp backbone TTS autoregressive làm text-aware reference encoder bằng learned queries kèm phân tích activation patching là cách tiếp cận mới mẻ và sáng tạo.",
+  "credibility": "Bản preprint từ công ty khởi nghiệp VoxNexus, chưa qua bình duyệt ngang hàng nhưng cung cấp chi tiết thực nghiệm rõ ràng và audio demo công khai.",
+  "technical": "Thiết kế kiến trúc Global-Local chia sẻ trọng số mạch lạc, mục tiêu huấn luyện thống nhất và thí nghiệm bóc tách cơ chế (interventions/activation patching) rất bài bản.",
+  "impact": "Cung cấp giải pháp tối ưu tài nguyên thiết thực cho edge/compact TTS, tuy nhiên chưa mở mã nguồn hay trọng số chính thức tại thời điểm công bố.",
+  "evidence": "Thực nghiệm đối đầu công bằng trên 3 benchmark chuẩn (Seed-TTS, CV3-eval, MiniMax), đi kèm đầy đủ ablation studies, khoảng tin cậy thống kê và kiểm tra delivery."
+ },
+ "summary": {
+  "tldr": "Bài báo đề xuất RSE-TTS, một mô hình text-to-speech (TTS) tự hồi quy kích thước nhỏ gọn (118M tham số generator) tái sử dụng chính backbone Global Transformer để nén đồng thời reference text và reference audio thành 8 vector liên tục. Thiết kế chia sẻ trọng số này giúp giảm 48% số tham số so với việc dùng encoder độc lập, đồng thời đạt WER thấp hơn và tương đương về speaker similarity so với nhiều hệ thống lớn hơn đáng kể.",
+  "problem": "Zero-shot voice cloning trên các mô hình TTS nhỏ gọn gặp khó khăn trong việc cân bằng giữa giữ đặc trưng giọng nói (identity/delivery) và độ chính xác nội dung. Acoustic continuation (prompting) giữ giọng tốt nhưng phụ thuộc lớn vào độ dài ngữ cảnh và dễ sao chép tạp âm/ngắt nghỉ của prompt. Ngược lại, reference encoder nén audio thành vector cố định thường bị mất thông tin biểu cảm và danh tính người nói.",
+  "method": "RSE-TTS xây dựng dựa trên kiến trúc Global–Local Transformer của MOSS-TTS-Nano (Global có 12 layers, hidden size $d=768$; Local 1 layer dự đoán 16 codebooks ở 12.5 fps; codec 48 kHz):\n- **Reconstructive Speaker Encoder (RSE)**: Tái sử dụng Global Transformer ($F_\\theta$) của generator trong một lượt encode riêng biệt. Chuỗi đầu vào $S_r$ gồm embedding của reference text $x_r$, reference speech frames $E(c_1^r), \\dots, E(c_R^r)$, token EOS, và 8 learned query embeddings $Q = [q_1, \\dots, q_8] \\in \\mathbb{R}^{d \\times 8}$ với causal mask.\n- **Bottleneck & Điều kiện hóa**: Đầu ra tại 8 vị trí query $h_{q,j}^r$ đi qua LayerNorm và Linear Bridge $B_\\phi$ để tạo ra $z_j = B_\\phi(\\text{LN}(h_{q,j}^r))$. Sau đó cộng với vector chiếu chuẩn hóa từ CAM++ speaker embedding 192 chiều ($s_r$): $\\bar{z}_j = z_j + W_s \\frac{s_r}{\\|s_r\\|_2}$.\n- **Target Generation**: Nhận tiền tố $\\bar{Z} = [\\bar{z}_1, \\dots, \\bar{z}_8]$, theo sau là target text $x_t$ và BOS, tiếp tục chạy qua cùng backbone $F_\\theta$.\n- **Mục tiêu huấn luyện**: Huấn luyện teacher-forcing với cross-entropy tự hồi quy trên target speech (bao gồm cả dự đoán EOS). Gradient truyền từ target qua $\\bar{Z}$ ngược về query readout và shared backbone.\n- **Cơ chế hoạt động**: Phân tích can thiệp activation patching cho thấy thông tin từ reference transcript tác động lên các biểu diễn acoustic trung gian (layer 3 phục hồi SIM +0.048 khi đảo ngược text) và chuyển dịch sang 8 query representations ở các layer sâu hơn (layer 9 phục hồi SIM +0.045).",
+  "setup": "- **Dữ liệu huấn luyện**: Tập con 20k giờ tiếng Anh (khoảng 8.6M cặp câu cùng speaker) cho controlled ablation (1 epoch, learning rate từ $10^{-6}$ lên $2 \\times 10^{-5}$ rồi cosine decay về $10^{-6}$ tại step 27,753); sau đó huấn luyện toàn phần trên corpus tiếng Anh nội bộ quy mô lớn.\n- **Benchmarks**: Đánh giá trên tập tiếng Anh của Seed-TTS (1,088 câu), CV3-eval (500 câu), MiniMax (100 câu), cùng với 30 identities từ EARS cho các nghiên cứu đặc tính reference.\n- **Metrics**: Intelligibility đo bằng WER qua Whisper large-v3 (faster-whisper); Speaker similarity (SIM) đo bằng cosine similarity của WavLM speaker embeddings.\n- **Baselines**: MOSS-TTS-Nano (bản official reference clone và continuation), CosyVoice 3 (0.5B-2512), MOSS-TTS-Local-Transformer (3B), Qwen3-TTS-12Hz-1.7B-Base.",
+  "results": [
+   "Trong controlled ablation 20k giờ, Shared text + audio (RSE, 118.2M params) đạt SIM 0.552 (Seed-TTS), 0.499 (CV3-eval), 0.615 (MiniMax), vượt trội so với Shared audio không kèm text (0.498, 0.435, 0.553) và tiết kiệm 48% tham số so với Independent text + audio (228.5M params, SIM lần lượt là 0.564, 0.507, 0.651).",
+   "Trên ba benchmark chính thức (Table 7), RSE-TTS đạt WER/SIM lần lượt là 1.49% / 0.598 (Seed-TTS), 3.37% / 0.540 (CV3-eval), 0.72% / 0.680 (MiniMax), vượt trội hoàn toàn so với Official MOSS-TTS-Nano reference clone (3.96% / 0.480, 8.10% / 0.431, 1.58% / 0.659).",
+   "Khi kết hợp RSE với acoustic continuation (RSE-TTS + continuation), mô hình đạt WER 1.66% / SIM 0.670 trên Seed-TTS, 3.07% / 0.627 trên CV3-eval, 0.74% / 0.758 trên MiniMax; đạt WER thấp hơn CosyVoice 3 (1.68%, 3.49%, 2.74%) và MOSS-TTS-Local-Transformer (2.21%, 3.93%, 0.97%) trên cả ba benchmark dù kích thước generation chain nhỏ hơn 6.6× và 30.5×.",
+   "Tăng thời lượng reference từ 3s lên 24s trên EARS giúp SIM tăng từ 0.378 lên 0.569 dù target generation chỉ nhận đúng 8 vector cố định.",
+   "8 vector nén chuyển giao tốt thông tin delivery: reference đọc nhanh tạo output ngắn hơn 7.0%, đọc chậm dài hơn 13.4%, và high-pitch tăng cao độ trung bình thêm 6.01 semitones."
+  ],
+  "limitations": "SIM của mô hình conditioning cố định vẫn kém hơn phương pháp acoustic continuation thuần túy; RSE bắt buộc phải có reference transcript chính xác (dễ bị ảnh hưởng nếu ASR frontend sai trong kịch bản audio-only); toàn bộ đánh giá và huấn luyện mới chỉ thực hiện trên tiếng Anh.",
+  "takeaways": "Không cần thiết kế thêm một module encoder cồng kềnh cho zero-shot voice cloning: một backbone AR TTS có thể tự làm encoder hiệu quả cho chính nó thông qua cơ chế text-aware cross-attention với 8 query vectors, giúp giảm một nửa tham số mà vẫn truyền tải được cả voice identity lẫn delivery style.",
+  "strengths": [
+   "Tiết kiệm 48% tham số encoder-generator",
+   "Phân tích cơ chế sâu qua activation patching",
+   "WER vượt trội so với các mô hình tỷ tham số",
+   "8 vector truyền tải tốt cả pitch và tốc độ"
+  ],
+  "weaknesses": [
+   "Bắt buộc cần transcript của reference audio",
+   "Chỉ mới thử nghiệm trên tiếng Anh",
+   "SIM vẫn thấp hơn acoustic continuation"
+  ],
+  "context": "Nhóm tác giả tại VoxNexus; công bố dưới dạng preprint trên arXiv (arXiv:2611.15464v1 [cs.SD])."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2611.16525",
+ "topic": "TTS",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Kết hợp khéo léo giữa Latent MoE, GDN/GQA hybrid và codec 15 Hz ZAC-1 tích hợp ngữ nghĩa w2v-BERT kèm pipeline RL kép (DPO + GRPO) cho mô hình TTS on-device.",
+  "credibility": "Báo cáo kỹ thuật chi tiết từ Zyphra, phát triển tiếp nối thành công của dòng ZONOS với mã nguồn, trọng số và bộ benchmark ZTTS2-Eval phát hành công khai.",
+  "technical": "Phân tích kiến trúc sâu sắc từ cân bằng MoE (Quantile Balancing), cấu trúc GDN/GQA 4.5:1, thiết kế iSTFT hai nhánh decoders, đến thích ứng LoRA accent và activation steering.",
+  "impact": "Cung cấp giải pháp TTS on-device đa ngôn ngữ tốc độ cao chạy được trên smartphone/laptop thông qua ggml và WebGPU với chất lượng tiệm cận các mô hình đám mây lớn.",
+  "evidence": "Dữ liệu thực nghiệm phong phú trên 55 ngôn ngữ của benchmark ZTTS2-Eval, so sánh chi tiết với nhiều mô hình SOTA mã nguồn mở lẫn đóng và có ablation cụ thể từng thành phần."
+ },
+ "summary": {
+  "tldr": "ZONOS3-Mini là mô hình TTS voice-cloning zero-shot siêu nhỏ gọn (886M tham số tổng, 100M active) có thể chạy real-time trên laptop hoặc điện thoại thông minh. Mô hình kết hợp backbone lai Recurrent GDN / GQA với audio codec mới ZAC-1 (15 Hz, 1.80 kbit/s), đạt macro WER 6.71% và speaker similarity 81.2 trên bộ benchmark mới ZTTS2-Eval gồm 55 ngôn ngữ.",
+  "problem": "Các mô hình TTS chạy trên thiết bị (on-device) hiện tại thường phải đánh đổi chất lượng nhân bản giọng nói (cloning quality), khả năng kiểm soát (controllability) và hiệu năng đa ngôn ngữ để đổi lấy khả năng xử lý thời gian thực trên phần cứng yếu. Nhóm tác giả muốn thiết lập một điểm tối ưu mới trên Pareto frontier kết hợp giữa tốc độ/kích thước và chất lượng giọng nói.",
+  "method": "Hệ thống bao gồm:\n- **Bộ mã hóa âm thanh ZAC-1 (1.99B params)**: Hoạt động ở tần số frame 15 Hz (rút ngắn chuỗi 5.7× so với ZONOS2) với bitrate 1.80 kbit/s. Thiết kế dual-encoding gồm 1 code ngữ nghĩa (distill từ layer-16 w2v-BERT 2.0 đóng băng) + 9 code thặng dư RVQ từ codebook 4,096 mục. Decoder sử dụng 8 khối ConvNeXt và causal iSTFT head (Vocos-style) tạo âm thanh 44.1 kHz. Cung cấp hai phiên bản decoder: full decoder và pruned 'keep-2' (144M params, bỏ các khối transformer nhiều FLOPs).\n- **Backbone (886M params, 100M active)**: 11 layer, gồm 9 layer Gated DeltaNet (GDN) kết hợp 2 layer causal global attention (Grouped Query Attention - GQA tại layer 4 và 8; 16 query heads, 4 KV heads, QK-normalization, RoPE, learned output gate). Mô hình dùng Latent MoE (chiều ẩn 1,024 nén xuống 256 trong experts), router tuyến tính và Quantile Balancing (QB), kèm attention residuals.\n- **Tokenizer văn bản**: 8,192-entry SuperBPE huấn luyện trên dữ liệu đàm thoại nói.\n- **Speaker Conditioning**: Hỗ trợ 2 nhánh: audio reference thô (1–60 s) và speaker embedding 192 chiều trích xuất từ mô hình MECT-B2 độc lập (SphereFace2 loss).\n- **Huấn luyện**: Pre-training 375k bước (4.5T tokens) với Muon cho trọng số 2D và AdamW; Fine-tuning 60k bước (thêm embedding và 10 bucket tốc độ nói) + 20k bước (chia nhỏ thành 30 bucket tốc độ); Post-training 2 giai đoạn: DPO (108 bước, $\\beta=0.1$ nhằm chống early stopping và runaway generation) và GRPO (587 bước, trực tiếp tối ưu tổ hợp WER, SIM và duration cost).",
+  "setup": "Dữ liệu huấn luyện gồm 6.1M giờ tự nhiên được lọc bằng đồng thuận diarization giữa HDBSCAN và spectral clustering. Đánh giá trên ZTTS2-Eval: 35 ngôn ngữ tập clean (FLEURS-R) và 20 ngôn ngữ tập in-the-wild (VoxBlink2), tổng cộng 74,041 câu. ASR đánh giá dùng Qwen3-ASR (Whisper-large-v3 cho tiếng Anh), độ tương đồng người nói đo bằng ReDimNet cosine similarity (thang 0-100), chất lượng tự nhiên đo bằng MSR-UTMOS. So sánh với các mô hình: ZONOS2, Qwen3-TTS, Fish S1/S2/Drama 3, VoxCPM2, OmniVoice, VibeVoice 7B, Cartesia Sonic, ElevenLabs v4, Gemini 3.8 Flash...",
+  "results": [
+   "Trên toàn bộ 55 tập ZTTS2-Eval (macro): ZONOS3-Mini + PT (embedding) đạt WER 6.71% và Sim 81.2; bản raw audio đạt WER 6.70% và Sim 69.8; vượt trội ZONOS2 8B ở Sim (81.2 so với 68.8) và gần tương đương WER (6.71% vs 6.22%) dù số tham số ít hơn khoảng 9 lần.",
+   "Tập in-the-wild (20 ngôn ngữ): ZONOS3-Mini + PT (embedding) đạt WER 4.81% và Sim 77.3; thấp hơn WER của ZONOS2 (4.68%) không đáng kể và vượt xa độ tương đồng người nói của ZONOS2 (57.8).",
+   "So sánh với hệ thống closed-source trên ZTTS2-Eval Mini (4 ngôn ngữ clean): ZONOS3-Mini + PT (embedding) đạt WER 2.55% và Sim 83.1 (đạt Sim cao thứ hai sau Cartesia Sonic 3.6 ở 85.0); trên tập in-the-wild đạt WER 5.00% và Sim 77.5 (Sim cao nhất trong các hệ thống so sánh, Cartesia đạt 76.4).",
+   "Hiệu năng Codec ZAC-1: Tốc độ giải mã decode-only trên 1 card H100 đạt 1,180× real-time ở batch 256 (bản full decoder) và 3,950× real-time (bản keep-2 decoder), nhanh hơn nhiều so với MOSS (989×) và S1-DAC (474×).",
+   "Độ trễ và suy luận: Trên H100 chạy runtime tối ưu hoá Mini-SGLang, time to first audio từ 0.25 đến 0.36 s; thông lượng đạt 67 giây audio/giây ở 128 requests đồng thời. Trên M3 MacBook Air và Pixel 9 chạy WebGPU runtime, time to first audio lần lượt dưới 450 ms và 800 ms."
+  ],
+  "limitations": "Nhánh nhận conditioning bằng raw audio có độ tương đồng người nói (Sim) trên tập in-the-wild thấp hơn đáng kể so với nhánh embedding (58.1 so với 77.3). Độ nén lượng tử hóa dưới 4-bit (chẳng hạn 2-bit QAT hoặc ternary experts BitDistill) làm sụt giảm rõ rệt độ rõ âm (intelligibility/WER). Thử nghiệm kỹ thuật Exclusive Self-Attention (XSA) khiến WER trên tập in-the-wild tăng thêm 10 điểm do ảnh hưởng của delay pattern.",
+  "takeaways": "Kết hợp kiến trúc hybrid recurrent GDN + GQA với Latent MoE và quantizer 15 Hz có ngữ nghĩa (ZAC-1) là công thức hiệu quả để đưa TTS voice-cloning chất lượng cao xuống edge/on-device mà không cần hy sinh độ trễ hay chất lượng đa ngôn ngữ.",
+  "strengths": [
+   "Kích thước cực nhỏ (886M tổng, 100M active)",
+   "Tốc độ frame 15 Hz giảm chuỗi 5.7×",
+   "Chạy mượt trên WebGPU, M3 MacBook, Pixel 9",
+   "Hỗ trợ đa ngôn ngữ rộng rãi (55 tập)",
+   "Mở mã nguồn trọng số, inference và training"
+  ],
+  "weaknesses": [
+   "Nhánh raw audio kém tương đồng trên dữ liệu nhiễu",
+   "Lượng tử hóa dưới 4-bit làm giảm rõ rệt WER",
+   "Decoder ZAC-1 khá lớn (1.99B tham số)"
+  ],
+  "context": "Nhóm tác giả Gabriel Clark, Sofian Mejjoute, George Close, Beren Millidge thuộc Zyphra (San Francisco, CA), công bố dưới dạng Technical Report mở mã nguồn trên GitHub và Hugging Face."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

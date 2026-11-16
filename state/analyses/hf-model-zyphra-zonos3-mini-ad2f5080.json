@@ -1,0 +1,48 @@
+{
+ "id": "hf-model:Zyphra/ZONOS3-Mini",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Kết hợp sáng tạo kiến trúc lai Gated DeltaNet và Latent MoE (top-2 trên 64 chuyên gia) cùng dual-codec 15 Hz có causal iSTFT head chạy được trực tiếp trên WebGPU.",
+  "credibility": "Mô hình do nhóm nghiên cứu Zyphra phát hành công khai với mã nguồn, trọng số Apache 2.0 và trích dẫn arXiv preprint nhưng chưa qua bình duyệt hội nghị.",
+  "technical": "Thiết kế kiến trúc sâu và nhất quán từ tokenizer SuperBPE, hybrid GDN/attention MoE, dual-codec chưng cất Wav2Vec2-BERT đến đa dạng runtime (GGML, MLX, WebGPU, SGLang).",
+  "impact": "Gần 40.000 lượt tải và 395 lượt like trên Hugging Face, hỗ trợ 43 ngôn ngữ với khả năng chạy trực tiếp trên thiết bị đầu cuối và trình duyệt web.",
+  "evidence": "Đưa ra số liệu cụ thể về throughput (457s/s) và TTFA (80 ms) trên H100, nhưng số liệu chi tiết về WER và speaker similarity cụ thể bị chuyển sang bài blog ngoài."
+ },
+ "summary": {
+  "tldr": "ZONOS3-Mini là mô hình Text-to-Speech (TTS) mã nguồn mở của Zyphra với tổng cộng 800M tham số nhưng chỉ có khoảng 100M active parameters cho mỗi token nhờ kiến trúc MoE thưa. Mô hình hỗ trợ 43 ngôn ngữ, cho phép voice cloning độ trễ cực thấp và có khả năng chạy thời gian thực trên điện thoại, máy tính cá nhân hoặc trực tiếp trên trình duyệt qua WebGPU.",
+  "problem": "Các mô hình TTS chất lượng cao kèm tính năng voice cloning đa ngôn ngữ thường có kích thước lớn, đòi hỏi tài nguyên tính toán cao và độ trễ sinh âm thanh lớn, gây khó khăn cho việc triển khai trên thiết bị cục bộ (edge/on-device) hoặc trong các ứng dụng thời gian thực như trợ lý ảo và game.",
+  "method": "Mô hình gồm 11 layer (chiều ẩn 1.024) với cấu trúc lai `gdn3_global1`: 9 lớp Gated DeltaNet (GDN) kết hợp 2 lớp global attention (16 heads $\\times$ 32 dims, 4 KV heads) và residual attention toàn phần, hỗ trợ ngữ cảnh 32.768 vị trí. Sử dụng cơ chế latent MoE với 64 chuyên gia (top-2 routing từ layer 1), giữ khoảng 100M tham số kích hoạt per token. Văn bản được mã hóa bằng SuperBPE (8.192 token) kèm chuẩn hóa NeMo (cho 9 ngôn ngữ). Mô hình sinh tự hồi quy chuỗi token âm thanh ở tần số 15 Hz với dual-codec ZAC 1 gồm 10 codebooks (1 codebook ngữ nghĩa chưng cất từ Wav2Vec2-BERT và 9 codebooks âm học, mỗi codebook 4.096 mục). Điều kiện hóa bằng đoạn audio tham chiếu (tối đa 60 giây, áp dụng speaker CFG) hoặc 1 embedding MECT-B2 192 chiều, cùng 3 nhóm điều khiển âm học (độ to LUFS 10 bucket, băng thông $f_{\\max}$ 10 bucket, tốc độ nói theo byte/giây 30 bucket). Đầu ra được giải mã về âm thanh 44.1 kHz qua đầu causal multi-resolution iSTFT (`full_mr` hoặc bản tỉa gọn `keep2_plain`).",
+  "setup": "Hỗ trợ 43 ngôn ngữ thuộc nhiều khu vực (Tây/Bắc/Đông Âu, Trung Đông, Đông Á, Đông Nam Á, Nam Á). Mô hình định dạng bf16, các đầu giải mã chạy fp32. Đánh giá chất lượng và tốc độ thực hiện trên 1 GPU NVIDIA H100 80GB qua benchmark ZTTS2-Eval v2 (gồm 35 tập FLEURS-R và 20 tập VoxBlink2, tổng 55 tập con đa ngôn ngữ). Các runtime triển khai gồm WebGPU, C++/ggml, MLX, CUDA và server SGLang-Omni qua chuẩn API `/v1/audio/speech`.",
+  "results": [
+   "Độ trễ đến đoạn âm thanh đầu tiên (median time to first audio): đạt 80 ms với 8 request đồng thời trên 1 GPU NVIDIA H100 80GB (sử dụng speaker-embedding prompt).",
+   "Thông lượng tối đa (peak throughput): đạt 457 giây âm thanh trên mỗi giây tính toán thực tế tại mức concurrency tối ưu trên 1 GPU NVIDIA H100 80GB.",
+   "Hỗ trợ độ dài ngữ cảnh sinh âm thanh liên tục lên đến 10 phút cho mỗi lượt tạo với codec 15 Hz (hop size 2.940 mẫu ở 44.1 kHz)."
+  ],
+  "limitations": "Tài liệu mô tả mô hình không cung cấp bảng chi tiết điểm số WER, MOS hoặc Speaker Similarity tuyệt đối (chỉ trích dẫn chỉ số tổng hợp $1/2 z(\\text{similarity}) - 1/2 z(\\text{WER})$ và điều hướng về bài blog ngoài). Bộ chuẩn hóa văn bản NeMo chỉ hỗ trợ 9 ngôn ngữ; 34 ngôn ngữ còn lại phải truyền văn bản dạng thô nguyên bản.",
+  "takeaways": "Sự kết hợp giữa cơ chế trộn tuần tự Gated DeltaNet với Sparse MoE và codec tần số thấp (15 Hz) đi kèm causal iSTFT là giải pháp tối ưu giúp đưa mô hình TTS 44.1 kHz đa ngôn ngữ chất lượng cao về ngưỡng 100M active params, đủ nhẹ để chạy mượt mà ngay trên trình duyệt bằng WebGPU mà vẫn đạt TTFA 80 ms trên server.",
+  "strengths": [
+   "100M active params siêu nhẹ",
+   "Throughput 457s audio/s trên H100",
+   "TTFA 80 ms với 8 concurrency",
+   "Chạy trực tiếp WebGPU trên trình duyệt",
+   "Codec 15 Hz causal iSTFT 44.1 kHz"
+  ],
+  "weaknesses": [
+   "Chuẩn hóa NeMo chỉ cho 9/43 ngôn ngữ",
+   "Thiếu bảng số liệu WER/SIM tuyệt đối",
+   "Phụ thuộc blog ngoài để xem ablation"
+  ],
+  "context": "Zyphra (Gabriel Clark, Sofian Mejjoute, George Close, Beren Millidge); phát hành mô hình mở theo giấy phép Apache 2.0 kèm báo cáo kỹ thuật trên arXiv (2611.16525)."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

@@ -1,0 +1,52 @@
+{
+ "id": "gh:adventists-ai/sophon-realtime",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Cách tiếp cận kết hợp brain 32B tạo sound tag trực tiếp cùng bộ quyết định DuplexJev 92 ms và ba hướng render âm thanh đa dạng (Tag, Flash, E2E) mang tính sáng tạo cao trong các hệ thống full-duplex mở.",
+  "credibility": "Mã nguồn mở và trọng số đầy đủ trên Hugging Face/GitHub đi kèm demo, nhưng hiện chưa có bài báo khoa học xuất bản tại hội nghị bình duyệt.",
+  "technical": "Thiết kế kỹ thuật đồng bộ giữa pipeline dự thảo sớm (early drafting), vLLM-Omni serving, hỗ trợ barge-in, voice cloning và tối ưu suy luận TensorRT/MLX rất bài bản.",
+  "impact": "Cung cấp công cụ giọng nói full-duplex mở chất lượng cao tương thích giao thức OpenAI Realtime, thu hút sự chú ý vừa phải với 381 sao GitHub.",
+  "evidence": "Báo cáo số liệu thực nghiệm đầy đủ trên VoiceBench, Big Bench Audio, NVV-SuperBench, FDB v3 và đo đạc độ trễ chi tiết trên phần cứng chuẩn (H100, Apple Silicon)."
+ },
+ "summary": {
+  "tldr": "Sophon-Realtime v1 là bộ mô hình full-duplex voice mã nguồn mở (Apache-2.0) sử dụng chung một mô hình trung tâm (brain) 32B kết hợp với tai nghe DuplexJev. Hệ thống có khả năng nhận diện ngữ điệu/cảm xúc paralinguistic của người nói, xử lý ngắt lời (barge-in), và tự động chèn/thể hiện các âm thanh phi ngôn ngữ (cười, thở dài, hắng giọng) với độ trễ phản hồi từ 0.25 s trên một GPU 80 GB.",
+  "problem": "Các trợ lý giọng nói full-duplex mã nguồn mở hiện nay thường gặp khó khăn trong việc nhận diện ngữ điệu và tín hiệu paralinguistic từ người nói, phản ứng chậm (độ trễ cao), thiếu tự nhiên khi phản hồi (đọc thẻ biểu cảm thành chữ thay vì diễn xuất âm thanh) và đòi hỏi hạ tầng đa GPU phức tạp.",
+  "method": "Sophon-Realtime gồm 3 thành phần chính dựa trên nền tảng brain 32B:\n- **Thính giác và Quyết định lượt thoại (DuplexJev):** Lắng nghe liên tục; tại mỗi khoảng lặng, mô hình đưa ra quyết định dạng token duy nhất (người dùng đã nói xong, còn đang nói, back-channeling, hay đang suy nghĩ) trong 92 ms.\n- **Dự thảo sớm (Early drafting):** Tạo bản nháp câu trả lời ngay từ điểm dừng đầu tiên của người dùng và phát âm thanh ngay khi xác nhận đến lượt nói; nếu người dùng nói tiếp, bản nháp bị hủy bỏ.\n- **3 biến thể (builds) chuyển văn bản thành giọng nói:**\n  1. *Tag:* Brain sinh văn bản kèm sound tags (ví dụ `[laughter]`, `[sigh]`, `<strong>...</strong>`), mô hình speech biểu cảm thực hiện trực tiếp các thẻ này thay vì đọc to ra tiếng.\n  2. *Flash:* Cùng văn bản gắn thẻ, dùng mô hình speech nhẹ hơn (một forward pass cho mỗi frame 80 ms), tối ưu cho tốc độ và thông lượng.\n  3. *E2E:* Bỏ mô hình speech-token trung gian; một talker tinh gọn (~350M tham số) đọc phản hồi kèm thẻ đang sinh để tạo chuỗi voice vector liên tục (~6.5 fps), đưa qua 2-step decoder và vocoder ra âm thanh 24 kHz.\n- **Các tính năng phụ trợ:** Zero-shot voice cloning từ mẫu 3–10 giây (Tag/Flash) hoặc 5–12 giây (E2E); hỗ trợ barge-in (dừng nói và đồng bộ lại lịch sử trò chuyện đúng phần người nghe đã nghe); hỗ trợ Live mode tương thích OpenAI GPT-Live để điều phối tác vụ phụ trợ.",
+  "setup": "Phục vụ triển khai trên 1 GPU 80 GB (NVIDIA H100) qua vLLM-Omni hoặc engine tùy chỉnh; hỗ trợ quantization 4-bit trên Mac Apple Silicon (MLX, khuyến nghị 36 GB+ RAM) và GPU 32 GB. Hỗ trợ giao thức OpenAI Realtime (`ws://HOST:PORT/v1/realtime`) và `/v1/chat/completions`. Ngôn ngữ: Tiếng Trung và Tiếng Anh (hỗ trợ đầy đủ); Ý, Đức, Tây Ban Nha, Pháp, Bồ Đào Nha (hội thoại cơ bản); Nhật Bản, Nga (trên bản Flash); tiếng Hàn đang phát triển.",
+  "results": [
+   "VoiceBench: đạt 82.8 điểm (dẫn đầu các open full-duplex models, ngang ngửa GPT-4o-mini-Audio).",
+   "Big Bench Audio: đạt 81.8% (đứng thứ 1 trong nhóm open full-duplex models).",
+   "Paralinguistic understanding (kết hợp LISTEN, StressTest, MSPB): đạt 48.6 điểm (hạng 1 tổng thể, vượt qua Gemini 3.8 Flash đạt 46.9 và Qwen3-Omni đạt 44.6).",
+   "NVV-SuperBench (chỉ số âm thanh phi ngôn ngữ zh / en): Bản Tag đạt 0.86 / 0.80; Bản E2E đạt 0.85 / 0.75; Bản Flash đạt 0.77 / 0.63.",
+   "Full-Duplex-Bench v3 tool calling: Pass@1 đạt 48% (vượt Grok đạt 43%) với tỷ lệ phản hồi 100%.",
+   "Độ trễ âm thanh đầu tiên (First audio latency): E2E đạt ~0.25 s (1 người dùng, H100); Flash đạt 0.31 s; Tag đạt ~0.6 s (đạt ~0.75 s với TensorRT và ~2.4 s không có TensorRT cho 16 người dùng).",
+   "Khả năng phục vụ đồng thời: Flash hỗ trợ đến 40 người dùng/GPU 80 GB; Tag và E2E hỗ trợ 16 người dùng/GPU 80 GB (E2E với 16 người dùng: median 0.44 s, P90 0.56 s trên H100)."
+  ],
+  "limitations": "Tài liệu chưa công bố chi tiết kiến trúc pretraining/dữ liệu huấn luyện nền tảng của brain 32B; bản E2E hiện chỉ hỗ trợ sẵn 1 giọng tiếng Trung và tiếng Anh (muốn đa ngôn ngữ/voice cloning phải dùng Tag/Flash); hiệu năng giảm 2× trên GPU RTX PRO 6000 (chỉ chịu tải 4–8 users/GPU đối với E2E).",
+  "takeaways": "Cung cấp giải pháp full-duplex agent hoàn chỉnh chạy được trên một GPU đơn lẻ (hoặc Mac cục bộ) với độ trễ thấp và khả năng tích hợp linh hoạt theo chuẩn OpenAI Realtime API.",
+  "strengths": [
+   "Độ trễ thấp, bắt đầu phát âm từ 0.25 s",
+   "Thể hiện âm thanh phi ngôn ngữ tự nhiên",
+   "Chạy hoàn chỉnh trên một GPU 80 GB",
+   "Tương thích chuẩn OpenAI Realtime và GPT-Live",
+   "Hỗ trợ zero-shot voice cloning nhanh"
+  ],
+  "weaknesses": [
+   "Thiếu thông tin chi tiết dữ liệu huấn luyện",
+   "Phụ thuộc lớn vào TensorRT để duy trì tốc độ",
+   "E2E bị giới hạn ngôn ngữ so với Tag/Flash"
+  ],
+  "context": "Dự án mã nguồn mở phát triển bởi Adventists AI (adventists-ai), phát hành mã nguồn và trọng số dưới giấy phép Apache-2.0 trên GitHub, Hugging Face và ModelScope."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

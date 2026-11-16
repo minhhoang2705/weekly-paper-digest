@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2611.12118",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo tiên phong đề xuất benchmark và user simulator có khả năng điều khiển can thiệp chính xác theo trạng thái thực thi công cụ và tiến độ phát âm thanh để đánh giá task coordination trong voice agent full-duplex.",
+  "credibility": "Nghiên cứu đến từ nhóm tác giả thuộc Platform and Content Group của Tencent, phát hành dưới dạng bản thảo arXiv chưa qua bình duyệt ngang hàng.",
+  "technical": "Thiết kế kỹ thuật công phu với tick-based simulation clock, cơ chế ngắt lời dựa trên ASR lũy tiến theo nội dung và pipeline đánh giá tự động đa mô hình (Claude Opus 5, GPT 6 Astra, Qwen3-ForcedAligner).",
+  "impact": "Đặt ra bài toán cốt lõi cho các sản phẩm trợ lý giọng nói thế hệ mới, tuy nhiên mã nguồn/dữ liệu chưa được công bố công khai kèm bài viết.",
+  "evidence": "Thực nghiệm chi tiết trên 700 phiên hội thoại với 5 commercial agent hàng đầu, cung cấp số liệu phân rã rõ ràng theo từng loại can thiệp và kiểm chứng độ tin cậy của simulator đạt 99.86%."
+ },
+ "summary": {
+  "tldr": "Joi-Bench-Task là benchmark đánh giá khả năng điều phối tác vụ (task coordination) trong các voice agent full-duplex khi người dùng thay đổi yêu cầu hoặc ngắt lời lúc đang thực thi công cụ và đọc kết quả. Nghiên cứu sử dụng một user simulator có thể kiểm soát chính xác thời điểm can thiệp (timing) và chỉ ra các voice agent thương mại hàng đầu hiện nay vẫn gặp lỗi nghiêm trọng trong việc duy trì trạng thái thực thi và hội thoại.",
+  "problem": "Các benchmark voice agent hiện tại thường chỉ đánh giá riêng rẽ hoặc kết hợp chung động thái hội thoại (conversational dynamics) và tỷ lệ hoàn thành tác vụ (task completion), chưa cô lập được khả năng điều phối giữa thực thi tác vụ nền và giao tiếp trực tiếp. Khi công cụ đang chạy bất đồng bộ, agent cần xử lý thay đổi yêu cầu (đổi mức ưu tiên, hủy tác vụ, thêm tác vụ, hỏi trạng thái); khi đang đọc kết quả bằng giọng nói, agent cần theo dõi chính xác nội dung người dùng đã nghe để tiếp tục sau ngắt lời (pause hoặc câu hỏi nối tiếp) mà không bỏ sót thông tin.",
+  "method": "Tác giả xây dựng framework gồm user simulator tương tác, agent voice API và môi trường công cụ bất đồng bộ (80 công cụ mô phỏng):\n- **Tick-based Simulation Clock**: Kế thừa từ $\\tau$-Voice, chia thời gian hội thoại thành các tick 200 ms cố định và tạm dừng thời gian mô phỏng khi LLM/TTS sinh dữ liệu không theo thời gian thực, cho phép mô phỏng hội thoại song công hoàn toàn độc lập với độ trễ tính toán.\n- **Kiến trúc User Simulator**: Gồm Observation Module (theo dõi lịch sử hội thoại, sự kiện gọi tool, tiến độ phát audio), Intervention Controller (xác định hành vi can thiệp và thời điểm), LLM (GLM-5.3 với temperature 1.0) và TTS (Qwen3-TTS-12Hz-1.7B-Base).\n- **Kiểm soát thời điểm can thiệp (Intervention Timing)**: Can thiệp theo 3 cơ chế: (1) cửa sổ thực thi tool với offset cấu hình sẵn; (2) cửa sổ đọc kết quả phát hiện qua ASR lũy tiến (Qwen3-ASR-1.7B) từ âm thanh đã phát; (3) ngắt lời dựa trên nội dung khi ASR khớp từ khóa gợi ý (sử dụng GPT-5.6-Terra để xác nhận).\n- **Đánh giá tự động**: Ghi âm phía client được phiên âm bằng Qwen3-ASR-1.7B và gán nhãn thời gian từ cấp từ bằng Qwen3-ForcedAligner-0.6B (dự phòng Whisper-large-v3). Claude Opus 5 đánh giá ngữ nghĩa và đối chiếu thông tin phát ra với kết quả tool; GPT 6 Astra rà soát và hiệu chỉnh kết quả.",
+  "setup": "Benchmark gồm 60 kịch bản thuộc 6 lĩnh vực đời sống (in-car assistance, cooking, retail, travel, telecommunications, household management) tạo thành 140 test cases (20 kịch bản multi-tool sinh 80 ca gồm baseline, priority change, task withdraw, task addition; 20 kịch bản single-tool sinh 20 ca hỏi trạng thái; 20 kịch bản đọc kết quả sinh 40 ca pause-resume và inquiry-resume). Đánh giá 5 agent thương mại (140 ca/agent = 700 hội thoại, tối đa 480 giây/hội thoại): GPT Live 1.0, GPT Realtime 1.5, GPT Realtime 2, Grok Voice 3.0, Gemini 3.8 Live. Các công cụ multi-tool có thời gian chạy định trước là 60s, 15s, 5s, 5s, 5s (task thêm mới tốn 15s; single-tool tốn 60s).",
+  "results": [
+   "Khả năng hoàn thành kết quả khi đổi yêu cầu rất thấp: Dưới các điều kiện thay đổi yêu cầu, tỷ lệ hoàn thành kết quả (result completion rate) cao nhất chỉ đạt 55.0% (Realtime 1.5), trong khi Realtime 2 đạt 40.0%, GPT Live 1.0 và Grok Voice 3.0 đạt 30.0%, Gemini 3.8 Live chỉ đạt 15.0%.",
+   "Thực hiện đổi yêu cầu không đồng nghĩa với hoàn thành toàn bộ nghĩa vụ: Gemini 3.8 Live đạt request change success rate 70.0% nhưng result completion rate chỉ 15.0%; trung bình các agent có tỷ lệ hoàn thành giảm từ 80% (baseline) xuống 68% (priority change), 74% (task withdraw) và 59% (task addition).",
+   "Mất mát thông tin sau ngắt lời: Sau ngắt lời, 4 trên 5 agent có tỷ lệ bỏ sót thông tin (information omission rate) từ 23.0% trở lên (Grok Voice 3.0: 23.0%, Realtime 1.5: 34.5%, Gemini 3.8 Live: 54.5%, Realtime 2: 79.0%); chỉ GPT Live 1.0 đạt omission rate thấp 3.5% và resumption rate 90.0%.",
+   "Khó khăn khôi phục sau câu hỏi nối tiếp so với tạm dừng: Resumption rate trung bình của 5 agent giảm từ 74% ở kịch bản pause-resume xuống 49% ở kịch bản inquiry-resume (Realtime 2 đạt 5.0% ở pause và 0.0% ở inquiry; Realtime 1.5 giảm từ 80.0% xuống 30.0%).",
+   "Độ trễ và suy giảm khi xử lý multi-tool: Pass@1 giảm trên toàn bộ agent khi chuyển từ single-tool sang multi-tool (GPT Live 1.0: 100% -> 88.75%; Realtime 1.5: 100% -> 63.75%; Gemini 3.8 Live: 96.67% -> 81.25%), đồng thời tool start latency và announcement latency đều tăng mạnh (Grok Voice 3.0 announcement latency tăng từ 6.07s lên 51.16s do giao thức đợi kết thúc toàn bộ tool).",
+   "Độ kiểm soát của user simulator: Simulator đạt behavior delivery rate và intervention-window hit rate 99.86% (699/700 lượt) và clarification-response rate 100% (92/92 câu hỏi làm rõ)."
+  ],
+  "limitations": "Benchmark chỉ mới thử nghiệm trên tiếng Anh; môi trường âm thanh hoàn toàn sạch, chưa có tạp âm môi trường thực tế (tiếng xe, tiếng ồn gia đình); môi trường công cụ sử dụng mock functions với thời gian thực thi giả lập cố định thay vì các API/database thực tế.",
+  "takeaways": "Xây dựng voice agent full-duplex cần tách biệt rõ ràng giữa luồng thực thi công cụ nền và luồng quản lý ngữ cảnh giao tiếp (communication state). Việc truyền âm thanh xuống client chưa chắc người dùng đã nghe hết; agent cần theo dõi vị trí barge-in thực tế của client để tránh bỏ sót thông tin khi tiếp tục phát sau ngắt lời, đồng thời phải duy trì hàng đợi nghĩa vụ báo cáo chưa hoàn thành khi xử lý các yêu cầu phát sinh.",
+  "strengths": [
+   "Cô lập bài toán điều phối tác vụ và hội thoại",
+   "User simulator tương tác kiểm soát timing chính xác",
+   "Quy trình tự động hóa đánh giá đa tầng chặt chẽ",
+   "Đánh giá toàn diện 5 voice agent hàng đầu"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ tiếng Anh trong điều kiện âm học sạch",
+   "Công cụ kiểm thử là mock functions giả lập",
+   "Chi phí đánh giá phụ thuộc nhiều mô hình API lớn"
+  ],
+  "context": "Tencent (Platform and Content Group), công bố trên arXiv (arXiv:2611.12118v1 [cs.AI], tháng 11/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

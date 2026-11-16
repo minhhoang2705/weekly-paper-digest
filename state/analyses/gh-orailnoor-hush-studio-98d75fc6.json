@@ -1,0 +1,47 @@
+{
+ "id": "gh:orailnoor/hush-studio",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Ứng dụng kết hợp khéo léo các công nghệ sẵn có (VoxCPM, ggml, Vosk) vào quy trình hoàn chỉnh trên Android thay vì phát minh kiến trúc mô hình mới.",
+  "credibility": "Kho mã nguồn mở cá nhân minh bạch, cung cấp hướng dẫn build chi tiết, kiểm thử instrumented test và ghi nhận rõ ràng nguồn gốc bản quyền các bộ dữ liệu/mô hình.",
+  "technical": "Kỹ thuật di động chuyên sâu: biên dịch runtime kép theo tập lệnh CPU ARM, quản lý bộ nhớ JNI tránh nạp lại mô hình, và tích hợp Vosk để auto-transcribe mẫu âm thanh.",
+  "impact": "Dự án có mức độ tương tác ở mức khiêm tốn (51 stars) và tập trung vào một phân khúc hẹp là ứng dụng Android cục bộ cho nhà sáng tạo nội dung độc lập.",
+  "evidence": "Báo cáo số liệu thực nghiệm cụ thể về thời gian suy luận trên phần cứng thực tế (Snapdragon 695) và bộ nhớ tiêu thụ đỉnh, dù thiếu các thang đo chất lượng âm thanh định lượng như MOS/WER."
+ },
+ "summary": {
+  "tldr": "Hush Studio là ứng dụng Android mã nguồn mở cho phép tổng hợp giọng nói (TTS) và voice cloning hoàn toàn offline trên điện thoại bằng mô hình VoxCPM 0.5B qua runtime ggml. Ứng dụng hướng tới tác vụ đọc lời thoại dài (narration) như podcast, sách nói và lồng tiếng video với tính năng quản lý kịch bản theo từng đoạn (chunk studio).",
+  "problem": "Phần lớn các giải pháp TTS và voice cloning chất lượng cao hiện nay phụ thuộc vào API điện toán đám mây, gây lo ngại về quyền riêng tư đối với kịch bản và dữ liệu mẫu giọng nói. Đồng thời, việc chạy các mô hình TTS hiện đại trực tiếp trên CPU di động gặp rào cản lớn về tài nguyên bộ nhớ và tốc độ xử lý.",
+  "method": "Hush Studio tích hợp mô hình `VoxCPM 0.5B` được lượng tử hóa (`voxcpm-0.5b-q4_k.gguf`, ~500 MB) chạy hoàn toàn trên CPU thông qua runtime C++ `VoxCPM.cpp` dựa trên thư viện `ggml`:\n- **Inference Engine kép**: Tự động phát hiện tập lệnh CPU tại runtime để tải `libvoxstudio_cpu_fast.so` (hỗ trợ ARMv8.2 dot-product và FP16) hoặc `libvoxstudio_cpu.so` (ARMv8 baseline).\n- **Voice Cloning Offline**: Sử dụng 5-10 giây audio mẫu; ứng dụng chọn đoạn sạch và tự động trích xuất transcript offline bằng Vosk (small English model). Giọng sao chép được lưu làm acoustic reference tái sử dụng mà không cần huấn luyện lại (zero-shot/prompting).\n- **Chunk Studio & Session Caching**: Chia văn bản theo đoạn văn để render, nghe thử và sinh lại độc lập từng chunk; phiên làm việc của mô hình được giữ trên RAM (persistent session) trong 90 giây để tránh overhead load lại khi tạo các chunk kế tiếp.\n- **Kiểm soát chất lượng**: Cho phép tùy chỉnh số bước diffusion gồm Fast Preview (4 steps), Balanced (6 steps) và Best Quality (10 steps).",
+  "setup": "- Yêu cầu phần cứng/hệ điều hành: Android 9+ (API 28+), CPU 64-bit ARM (arm64-v8a); tối thiểu 4 GB RAM (khuyến nghị 6 GB, đỉnh bộ nhớ ~1.7 GB); bộ nhớ trống ~650 MB.\n- Ngôn ngữ & Dữ liệu hỗ trợ: Tiếng Anh; đi kèm 6 giọng đọc tích hợp từ LJ Speech (Aria), Jenny TTS Dataset (Jenny), Hi-Fi TTS (Maya, Ethan, Cole) và CSTR VCTK (Priya).\n- Công cụ build: JDK 17+, Android SDK 36, NDK 28.2.13676358, CMake 3.22.1; giao tiếp JNI giữa Kotlin và native engine.",
+  "results": [
+   "Bộ nhớ sử dụng: Mức tiêu thụ RAM đạt đỉnh khoảng 1.7 GB trong quá trình sinh âm thanh với mô hình voxcpm-0.5b-q4_k (500 MB).",
+   "Tốc độ sinh âm thanh trên điện thoại tầm trung: Trên Motorola Moto G71 (chip Snapdragon 695, 6 GB RAM), đoạn kịch bản 3 đoạn văn tạo ra ~21 giây âm thanh mất khoảng 85 giây xử lý bằng giọng có sẵn (tỷ lệ RTF xấp xỉ 4x thời gian thực).",
+   "Tối ưu độ trễ phiên: Model session được lưu cache trong 90 giây sau mỗi tác vụ, giúp loại bỏ hoàn toàn thời gian nạp lại mô hình khi tinh chỉnh hoặc tái tạo chunk tiếp theo."
+  ],
+  "limitations": "Chỉ hỗ trợ tiếng Anh; tốc độ xử lý chậm hơn thời gian thực (non-realtime) trên các thiết bị tầm trung; chất lượng âm thanh xuất giới hạn ở 16 kHz mono; cần viết số và từ viết tắt dưới dạng chữ đầy đủ để đọc đúng; kết quả giữa các lần chạy (takes) có sự biến thiên nên có thể cần generate lại.",
+  "takeaways": "Một ví dụ thực tiễn xuất sắc về việc đưa mô hình TTS dạng diffusion/autoregressive (VoxCPM) lên môi trường on-device Android bằng ggml. Kỹ sư hệ thống có thể tham khảo kiến trúc phân nhánh dual-engine native (ARMv8 vs ARMv8.2 FP16/DotProd), cơ chế persistent native session trong JNI và quy trình pipeline kết hợp ASR offline (Vosk) cho zero-shot voice cloning.",
+  "strengths": [
+   "Hoàn toàn offline, bảo mật tuyệt đối dữ liệu",
+   "Tích hợp kiến trúc CPU kép tối ưu hóa",
+   "Quy trình voice cloning trọn gói kèm ASR offline",
+   "Thiết kế chunk studio tiện dụng cho lời thoại dài"
+  ],
+  "weaknesses": [
+   "Tốc độ chậm hơn thời gian thực (~4x RTF)",
+   "Chỉ hỗ trợ một ngôn ngữ (tiếng Anh)",
+   "Định dạng âm thanh đầu ra hạn chế (16kHz mono)"
+  ],
+  "context": "Dự án nguồn mở của tác giả orailnoor trên GitHub, phát triển ứng dụng di động bằng Kotlin/C++ dựa trên runtime VoxCPM.cpp và ggml."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

@@ -1,0 +1,46 @@
+{
+ "id": "gh:runboubou/boubou",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Dự án là công cụ tích hợp kỹ thuật hệ thống (orchestration/runtime) kết hợp các mô hình có sẵn (llama.cpp, Whisper, Qwen3-TTS, Liquid) hơn là đề xuất kiến trúc mô hình mới.",
+  "credibility": "Kho mã nguồn mở trên GitHub có tài liệu hướng dẫn rõ ràng và giấy phép MIT, tuy nhiên tác giả/tổ chức là một thực thể độc lập mới và dự án chưa qua bình duyệt học thuật.",
+  "technical": "Thiết kế kỹ thuật hoàn chỉnh viết bằng Rust, xử lý luồng âm thanh thời gian thực (echo cancellation, speech detection), quản lý tương thích phần cứng và cung cấp API OpenAI-compatible.",
+  "impact": "Ý tưởng hữu ích cho cộng đồng local AI và edge robotics, dù hiện tại mức độ tiếp cận còn ở giai đoạn đầu với 94 GitHub stars.",
+  "evidence": "Mã nguồn và hướng dẫn chạy được cung cấp đầy đủ, nhưng hoàn toàn thiếu các bài đo kiểm tra, số liệu benchmark độ trễ hoặc đánh giá chất lượng giọng nói."
+ },
+ "summary": {
+  "tldr": "Boubou là một runtime và CLI mã nguồn mở viết bằng Rust, cho phép chạy voice agent AI hoàn toàn cục bộ trên máy cá nhân mà không cần tài khoản hay API đám mây. Dự án hỗ trợ cả mô hình âm thanh tích hợp (Liquid models qua llama.cpp) lẫn kiến trúc pipeline mô-đun (ASR + LLM + TTS như Qwen3-TTS), kèm khả năng voice cloning và máy chủ tương thích OpenAI Realtime API.",
+  "problem": "Các trợ lý giọng nói AI (voice agents) tiên tiến hiện nay chủ yếu phụ thuộc vào API điện toán đám mây đắt đỏ, gây rủi ro về quyền riêng tư âm thanh/dữ liệu và yêu cầu kết nối mạng liên tục, trong khi việc tự thiết lập pipeline cục bộ (ASR, LLM, TTS, echo cancellation, voice cloning, serving) thường phức tạp đối với người dùng cuối và lập trình viên.",
+  "method": "Boubou được xây dựng trên tầng nền tảng Rust kết nối micro và loa với server mô hình cục bộ, tích hợp sẵn khử tiếng vọng (echo cancellation) và phát hiện giọng nói (speech detection). Dự án cung cấp 2 chế độ xử lý: (1) Mô hình đơn nguyên (One audio model) với Liquid models (ví dụ `LFM3-Omni-2B`) xử lý trực tiếp nghe, tư duy và nói thông qua `llama.cpp`; (2) Pipeline mô-đun gồm speech recognition -> Qwen -> TTS (ví dụ `qwen3-tts:0.6b-customvoice`). Ngoài ra, công cụ hỗ trợ lệnh `clone` (sử dụng Whisper để phiên âm đoạn âm thanh mẫu và Qwen3-TTS Base weights để trích xuất/sao chép giọng) và lệnh `serve` cung cấp giao diện web qua QR code/LAN HTTPS (chứng chỉ từ `lan.runboubou.com` hoặc `--self-signed`), đồng thời mở các endpoint tương thích OpenAI Realtime và speech API (`GET /v1/audio/voices`).",
+  "setup": "Yêu cầu hệ thống: Apple Silicon Mac chạy macOS 13.3+ với Node.js 18+, hoặc Linux (x86-64, arm64 với glibc 2.38+, OpenSSL 3, `libgomp`, C compiler, `pkg-config`, ALSA headers). Biên dịch từ nguồn bằng Rust 1.91+ (`cargo build --locked --release`). Thao tác triển khai qua launcher npm `npx boubou@beta`, hỗ trợ cờ `--offline`, cấu hình thư mục lưu trữ qua biến môi trường `BOUBOU_HOME` (mặc định `~/Library/Caches/boubou` trên macOS hoặc `~/.cache/boubou` trên Linux).",
+  "results": [
+   "Không có số liệu định lượng (như WER, MOS, latency/RTF, FPS) được nêu trong tài liệu."
+  ],
+  "limitations": "Tài liệu không công bố bất kỳ số liệu đo đạc hiệu năng nào (độ trễ phản hồi, mức tiêu thụ tài nguyên RAM/VRAM, hay chất lượng giọng nói). Hỗ trợ GPU NVIDIA trên Linux chỉ được đề cập hướng dẫn qua web mà không có chi tiết cụ thể trong README. Chế độ `serve` chỉ cho phép một client tương tác đàm thoại tại một thời điểm.",
+  "takeaways": "Boubou là một giải pháp đóng gói all-in-one tiện lợi cho các kỹ sư muốn nhanh chóng dựng voice agent chạy offline/on-device (đặc biệt tối ưu cho Apple Silicon Mac) và cung cấp API chuẩn OpenAI Realtime để tích hợp vào ứng dụng hoặc robot mà không phải cấu hình thủ công chuỗi ASR-LLM-TTS.",
+  "strengths": [
+   "Triển khai nhanh bằng một dòng lệnh npx",
+   "Hỗ trợ cả end-to-end lẫn modular pipeline",
+   "Tích hợp echo cancellation và speech detection",
+   "Tương thích OpenAI Realtime và Speech API",
+   "Hoạt động hoàn toàn offline và bảo mật"
+  ],
+  "weaknesses": [
+   "Không có benchmark định lượng độ trễ",
+   "Phục vụ đồng thời chỉ một client duy nhất",
+   "Phụ thuộc dịch vụ ngoài để lấy LAN HTTPS"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi nhóm runboubou trên GitHub theo giấy phép MIT (đạt 94 stars, 13 forks tại thời điểm ghi nhận)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

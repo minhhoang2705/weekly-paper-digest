@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>xiaoxiao150/vram-switcher · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W47</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">xiaoxiao150/vram-switcher</h1>
+    <div class="meta">
+      <span title="Listed by GitHub inside the crawl window">found Nov 16, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 26, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span><span class="pill pill-accent">TTS</span>        <span class="authors">xiaoxiao150</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://github.com/xiaoxiao150/vram-switcher" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">README excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>GPU coordination for local AI companions on AstrBot / DeepSeek Harness: persona LLM, IndexTTS voice and ComfyUI selfies take turns on one 12 GB card. No proxy.
+
+README: VRAM Switcher. English · Releases · IndexTTS 集成 · GPU 兼容性 · 和 llama-swap / berth 的区别 为本地 AI 情感陪伴（AstrBot / DeepSeek Harness）原生接入的 GPU 调度器 —— 让人设对话、IndexTTS 语音和自拍/改图在同一张 12 GB 卡上轮流用卡。 它不是通用 GPU 租约系统：不换客户端、不加代理、不读 nvidia-smi，只在宿主的事件边界上停/起你明确列出的进程。 在 12 GB 卡上，它把本地 LLM、IndexTTS 和 ComfyUI 从「互相换页」变成「轮流独占」——实测 s2mel 从 30 s/步回到 0.12 s/步，预填从 0.2 tok/s 回到 ~1300 tok/s。 它只负责这些「停/起」的顺序。不是模型、不是路由、也不是要你重写的启动器：所有机器相关的参数都在一个 JSON profile 里。 为什么需要它. 12 GB 卡上通常是这样： | 服务 | 常驻显存 | | llama-server（Qwen3.6-35B-A3B MoE，256K 上下文） | ~4.9 GB | | IndexTTS webui | ~2.3–5.3 GB | | ComfyUI + SD/Flux | ~6–7 GB | | 桌面 + 宿主程序 | ~2 GB | 前三个里任意两个加桌面就会溢出。Windows 不会当场报错，而是开始把显存换页到内存——这不会崩，只会慢 100 倍。在写下它的那台机器上实测：s2mel 扩散从 0.12 s/步 变成 30 s/步，一张图跑了 543 秒，预填从 ~1300 tok/s 掉到 0.2 tok/s。进程一直是活的。 这套东西最初就是给一个本地 AI 陪伴机器人写的：她要有人设连续性（本地 LLM）、要能发语音（IndexTTS）、要能自拍和改图（ComfyUI），而且这些经常发生在同一个回合里。通用 GPU 调度器不知道一段语音什么时候真正合成完；对陪伴场景，那个边界恰恰是最重要的。 解法不是换更大的卡，而是确保关键时刻只有一个在占显存。 它做什么. - 任务前停掉不需要的、拉起需要的，结束后再放回去。 - 真的等就绪：ComfyUI 必须 8188 在 listen，而不是进程刚起（早 1 秒连接曾让每次自拍都失败）；一批图会先等 /queue 跑空再停服务。 - 只动你列出的东西：进程名 + 命令行过滤 + 可选端口白名单，没有“杀掉所有 python.exe”这条路。 - 跨进程串行：AstrBot 插件和 DSH 插件共用 coordinator.lock，语音事件和生图任务不会同时切服务。 - 一套核心，两个宿主：AstrBot（Python 插件）与 DeepSeek Harness（原生 Cordis 插件 + 小 Python daemon）。另带 MCP stdio 服务，可给 Claude Desktop / Codex 用。 - 可复现的实测记录：docs/demo.md 有语音和生图两条交接时序，以及换页前后的数字。 适合谁. 显存协调已经不缺项目：llama-swap 6.1k★，berth 2026-10-11 才公开、已 200★，vhotseat、OneGPU4All 也在做类似的事。这个项目不假装是通用调度器，它只解决一个具体问题： &gt; 你在 AstrBot 或 DSH 上跑一个本地 AI 陪伴：人设对话（本地 LLM）+ IndexTTS 语音 + 自拍/改图（ComfyUI），全在同一张 12 GB 卡上。 一次回合里可能同时发生： | 你的情况 | 更合适的选择 | | 只是 llama.cpp / vLLM 换模型，所有客户端都能改 base URL | llama-swap | | 要通用 GPU 租约、优先级、游戏/VM/多卡仲裁 | berth（alpha，Windows 实验性） | | Linux 上 LLM ↔ ComfyUI 轮流 | vhotseat | | 在 AstrBot / DSH 上跑本地 AI 陪伴，不想改端口、不加代理，语音合成结束才切 | 本项目 | 相对通用调度器，它多做这些： - AstrBot 的 5 个事件钩子：LLM 请求、回复装饰前后、工具调用前、工具返回后 - DSH 原生 Cordis 工具：vram_status / vram_acquire / vram_release - IndexTTS 的 tts_busy.flag / tts_ready.flag 协议（合成边界，不是 HTTP 边界） - 真实进程停启：TTS 没有 unload API 也能</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 16, 2026 · README</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>vram-switcher là công cụ điều phối GPU theo biên độ sự kiện (event boundaries), giúp luân phiên tài nguyên VRAM trên card 12 GB cho các hệ thống AI companion cục bộ (LLM, TTS IndexTTS, và ComfyUI). Công cụ giải quyết triệt để hiện tượng tràn VRAM dẫn đến Windows paging làm chậm hệ thống hàng trăm lần mà không cần proxy hay can thiệp vào mã nguồn model.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Trên GPU 12 GB, việc duy trì đồng thời LLM (~4.9 GB cho llama-server Qwen3.6-35B-A3B MoE), IndexTTS webui (~2.3–5.3 GB), ComfyUI (~6–7 GB) cùng giao diện Windows (~2 GB) gây tràn bộ nhớ. Windows không crash mà tự động swap VRAM sang RAM hệ thống khiến hiệu năng suy giảm nghiêm trọng (bước khuếch tán s2mel của TTS bị chậm từ 0.12 s/bước lên 30 s/bước, prefill LLM tụt từ ~1300 tok/s xuống 0.2 tok/s, sinh ảnh mất 543 giây). Các bộ điều phối GPU chung không nhận biết được ranh giới thực sự kết thúc của quá trình tổng hợp TTS.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Công cụ sử dụng máy trạng thái điều khiển quá trình dừng/khởi động tiến trình theo cấu hình JSON profile (<code>profile.local.json</code>):</p>
+<ul>
+<li><strong>Giao thức Flag cho TTS</strong>: Dùng <code>tts_busy.flag</code> và <code>tts_ready.flag</code>. Khi có yêu cầu thoại, TTS plugin ghi busy flag; vram-switcher dừng LLM (và các <code>aux_services</code>), đảm bảo IndexTTS webui online rồi mới ghi ready flag để TTS tiến hành gọi <code>/gen_single</code>.</li>
+<li><strong>Đồng bộ hàng đợi sinh ảnh</strong>: Với ComfyUI, hệ thống dừng LLM/TTS, đợi cổng 8188 listen thực sự và chỉ tắt dịch vụ sau khi thăm dò <code>/queue</code> cạn hoàn toàn.</li>
+<li><strong>Kiểm soát tiến trình an toàn</strong>: Lọc theo tên tiến trình (<code>process_names</code>) kết hợp chuỗi tham số dòng lệnh (<code>cmdline_contains</code>/<code>cmdline_any</code>) và kiểm tra port; không dùng kill bừa bãi và loại trừ PID hiện tại/PID cha.</li>
+<li><strong>Khóa đa tiến trình &amp; Đa nền tảng</strong>: Dùng tệp khóa <code>coordinator.lock</code> để đồng bộ giữa AstrBot (Python plugin) và DeepSeek Harness (Cordis plugin kèm daemon Python), kèm hỗ trợ giao tiếp qua MCP stdio server.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Hệ thống hỗ trợ Windows (ưu tiên NVIDIA CUDA; AMD Vulkan/DirectML/ROCm ở mức thử nghiệm). Cung cấp script tự động cấu hình <code>python configure.py --root D:/AI</code> để quét port và tiến trình. Hoạt động tích hợp với AstrBot, DeepSeek Harness (DSH manifest v0.15), hoặc dùng độc lập qua thư viện Python <code>VramService</code>.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Khôi phục tốc độ khuếch tán s2mel của IndexTTS: từ 30 s/bước (khi bị Windows paging do tràn VRAM) trở lại 0.12 s/bước (25 bước trước đó tốn 731 giây).</li>
+<li>Khôi phục tốc độ prefill LLM: từ 0.2 tok/s (khi bị tráo bộ nhớ) trở lại ~1300 tok/s.</li>
+<li>Xử lý thời gian sinh ảnh ComfyUI: giải quyết tình trạng treo ảnh mất 543 giây khi bị tranh chấp VRAM.</li>
+<li>Thông số hoạt động kiểm chứng: IndexTTS cold start khoảng 60 giây (timeout chờ ready đặt 150 giây); cờ tts_busy duy trì chu kỳ refresh 1.5 giây trong kịch bản gọi thoại và tự dọn dẹp cờ treo sau 900 giây (flag_stale_seconds).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Ưu tiên chính cho Windows và card NVIDIA; hỗ trợ Linux/AMD còn hạn chế và IndexTTS trên AMD Windows rất dễ lỗi/treo do thiếu PyTorch ROCm hoàn chỉnh. Không đọc trực tiếp metric từ nvidia-smi mà suy đoán trạng thái qua tiến trình, cổng mạng và flag file. Yêu cầu TTS plugin ngoài phải tuân thủ đúng giao thức busy/ready flag.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Giải pháp thực dụng và hiệu quả cao cho kỹ sư triển khai pipeline đa mô hình (LLM + TTS + GenImage) trên thiết bị biên hoặc desktop GPU dung lượng thấp (12 GB) mà không cần cụm GPU rời.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">38.7<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,101.2 212.5,120.94 192.45,182.66 138.37,167.77 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="101.2" r="3.5"/><circle class="radar-dot" cx="212.5" cy="120.94" r="3.5"/><circle class="radar-dot" cx="192.45" cy="182.66" r="3.5"/><circle class="radar-dot" cx="138.37" cy="167.77" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 2/5 — Ý tưởng quản lý tiến trình dựa trên file lock/flag và dừng/chạy tiến trình để tránh tràn VRAM là giải pháp kỹ thuật thực dụng hơn là một cải tiến thuật toán mới.</title>Novelty <tspan class="radar-value">2</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 3/5 — Xử lý kỹ thuật tỉ mỉ ở tầng hệ thống: bọc lệnh an toàn, kiểm tra lắng nghe cổng, đồng bộ queue cạn, khử stale flag và khóa đa tiến trình coordinator.lock.</title>Technical <tspan class="radar-value">3</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 3/5 — Cung cấp số liệu đo lường cụ thể về độ trễ s2mel và token rate trước và sau khi cô lập VRAM, đồng thời đi kèm bộ test case tự động kiểm tra tương thích.</title>Evidence <tspan class="radar-value">3</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 2/5 — Phục vụ thị trường ngách là người dùng chạy AI companion (AstrBot/DSH) cục bộ trên card 12 GB với lượng tương tác hiện tại khiêm tốn (70 stars).</title>Impact <tspan class="radar-value">2</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Dự án cá nhân nguồn mở có mã nguồn công khai, tài liệu cấu hình chi tiết, unit tests với FakeSystem và CI qua GitHub Actions.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">2/5</span></dt><dd>Ý tưởng quản lý tiến trình dựa trên file lock/flag và dừng/chạy tiến trình để tránh tràn VRAM là giải pháp kỹ thuật thực dụng hơn là một cải tiến thuật toán mới.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Dự án cá nhân nguồn mở có mã nguồn công khai, tài liệu cấu hình chi tiết, unit tests với FakeSystem và CI qua GitHub Actions.</dd></div>
+          <div><dt>Technical <span class="muted">3/5</span></dt><dd>Xử lý kỹ thuật tỉ mỉ ở tầng hệ thống: bọc lệnh an toàn, kiểm tra lắng nghe cổng, đồng bộ queue cạn, khử stale flag và khóa đa tiến trình coordinator.lock.</dd></div>
+          <div><dt>Impact <span class="muted">2/5</span></dt><dd>Phục vụ thị trường ngách là người dùng chạy AI companion (AstrBot/DSH) cục bộ trên card 12 GB với lượng tương tác hiện tại khiêm tốn (70 stars).</dd></div>
+          <div><dt>Evidence <span class="muted">3/5</span></dt><dd>Cung cấp số liệu đo lường cụ thể về độ trễ s2mel và token rate trước và sau khi cô lập VRAM, đồng thời đi kèm bộ test case tự động kiểm tra tương thích.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Giải quyết triệt để nghẽn Windows VRAM paging · Giao thức flag đồng bộ TTS chính xác · Cơ chế an toàn tránh kill nhầm tiến trình · Hỗ trợ AstrBot, DSH và MCP stdio</p>
+          <p><span class="label">Weaknesses</span> · Phụ thuộc giao thức file cờ thủ công · Chưa tối ưu cho Linux và AMD GPU · Độ trễ chờ bật/tắt tiến trình tương đối lớn</p>
+          <p><span class="label">Context</span> · Dự án nguồn mở phát triển bởi tác giả xiaoxiao150 trên GitHub (bản v2.0.5), xuất phát từ hệ thống AI companion cục bộ thực tế chạy từ tháng 08/2026.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

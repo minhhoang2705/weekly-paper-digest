@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SyzygyResearch/Mach-Boom · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W47</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">SyzygyResearch/Mach-Boom</h1>
+    <div class="meta">
+      <span title="Listed by HF Models inside the crawl window">found Nov 16, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Nov 10, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Model</span>
+<span class="pill">HF Models</span><span class="pill pill-accent">TTS</span>        <span class="authors">SyzygyResearch</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://huggingface.co/SyzygyResearch/Mach-Boom" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">model card excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>Mach Boom. Mach Boom is Gradium's Phonon 31m English text-to-speech model at 3.5 bits per weight: an 18.2 MB file that speaks 8 to 10x faster than real time on one CPU core. Benchmarks. Word error rate on the 250 held-out English sentences of Gradium TTS Hard Cases, which are full of numbers, dates, times, money, units, codes and abbreviations. Each model ran through its own runtime as shipped, with its own text handling and default voice, and was transcribed and scored the same way. | Model | Download | Word error rate | Rules off | | Mach Boom | 19.5 MB | 5.18% | 14.01% | | Underdog Woof, Juno | 40.6 MB | 6.50% | 41.27% | | Underdog Woof, Mira | 40.6 MB | 7.12% | | | Fish Audio Drama 3 | 41.5 GB | 7.62% | 7.62% | | Phonon 31m, as released (fp32) | 103.4 MB | 8.61% | 11.99% | | Phonon 31m, 4-bit (q4k GGUF) | 55.6 MB | 10.61% | 13.91% | | Kokoro 82M | 327.7 MB | 14.07% | | | Qwen3-TTS 1.7B CustomVoice | 4.52 GB | 16.77% | 16.77% | | Pocket TTS | 225.5 MB | 18.13% | 18.13% | | Kitten Nano 0.8 | 27.6 MB | 18.56% | 19.94% | | Supertonic 3 | 398.7 MB | 22.92% | 22.92% | | LFM3-Audio-2B | 4.17 GB | 35.59% | 35.59% | Transcribed with faster-whisper large-v3-turbo (int8, greedy, CPU). The reference and the transcript both go through Whisper's English normalizer, digit runs are joined and a few unit spellings are unified. Speed and memory. | | Mach Boom | Underdog Woof (int8) | | Speed, 1 core | 8.3-8.4x real time | 4.1-4.2x | | Speed, 4 cores | 11.3-11.7x | 8.6-8.9x | | Speed, 1 core, AVX2 only | 4.2-4.3x | 3.9-4.3x | | Peak memory, 1 core | 93 MB | 255 MB | | First audio, streaming, 1 core | 61-78 ms | after the whole clip | A 4-core Intel Xeon VM (Emerald Rapids, with AMX), nothing else running, the same 9 sentences, each runtime as shipped, two alternating rounds; the ranges are the two rounds. The AVX2 row holds both runtimes' BLAS to AVX2 and runs Mach Boom's AVX2 build. First audio is the median of 5 runs for a short and a long sentence with --first 2, with the voice</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 16, 2026 · model card</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Mach-Boom là phiên bản lượng tử hóa 3.5-bit per weight của mô hình TTS Gradium Phonon 31M English với dung lượng chỉ 18.2 MB (file tải về 19.5 MB). Mô hình tối ưu hóa cho CPU x86-64, đạt tốc độ tạo tiếng nói nhanh hơn thời gian thực từ 8 đến 10 lần trên một nhân CPU kèm độ trễ phát âm thanh trực tuyến (streaming) đầu tiên chỉ 61-78 ms.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Triển khai mô hình TTS chất lượng cao trên các hệ thống CPU hoặc thiết bị biên gặp rào cản lớn về dung lượng bộ nhớ (RAM/dung lượng lưu trữ), độ trễ phản hồi (time-to-first-audio) và khả năng xử lý các ca văn bản phức tạp (số, ngày tháng, mã viết tắt, đơn vị tiền tệ) với tốc độ vượt thời gian thực mà không phụ thuộc GPU đắt đỏ.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Mach-Boom nén kiến trúc mô hình nền <code>gradium/phonon-31m-en</code> xuống 3.5 bits per weight. Runtime đi kèm sử dụng các kernel C/C++ tự biên dịch (qua gcc hoặc clang trong lần chạy đầu khoảng 5 giây) hỗ trợ AVX-512 VBMI, AVX-512, AVX2 và C thuần. Trên các dòng CPU Intel Xeon có AMX (Emerald Rapids, Granite Rapids), audio decoder được tối ưu chạy dưới dạng tile định dạng bf16 (có thể tắt bằng <code>PHM_AMX=0</code>). Mô hình hỗ trợ streaming âm thanh 24 kHz (float32) với tính tất định (cùng seed và <code>--chunk</code> cho kết quả giống nhau bất kể số luồng).</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Đánh giá trên tập dữ liệu 250 câu tiếng Anh kiểm thử của Gradium TTS Hard Cases (chứa số, ngày, giờ, tiền tệ, mã code, từ viết tắt). Bản chép âm tự động dùng faster-whisper large-v3-turbo (int8, greedy, CPU), chuẩn hóa bằng English normalizer của Whisper. Môi trường đo tốc độ và bộ nhớ: VM 4-core Intel Xeon (Emerald Rapids có AMX) và 4-core Granite Rapids Xeon, so sánh với mô hình Underdog Woof (int8) cùng các hệ thống TTS khác (Kokoro 82M, Qwen3-TTS, Pocket TTS, v.v.). Yêu cầu hệ thống: Linux x86-64, Python 3.8+, numpy, <code>tokenizers</code>, gcc/clang.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Đạt Word Error Rate (WER) 5.18% (khi bật text rules) và 14.01% (khi tắt rules) trên tập Gradium TTS Hard Cases, vượt qua Phonon 31m fp32 gốc (8.61% / 11.99%), Phonon 31m q4k GGUF (10.61% / 13.91%), Underdog Woof Juno (6.50% / 41.27%) và Fish Audio Drama 3 (7.62% / 7.62%).</li>
+<li>Tốc độ trên 1 nhân CPU Intel Xeon Emerald Rapids đạt 8.3-8.4x real time (so với Underdog Woof int8 là 4.1-4.2x); trên 4 nhân đạt 11.3-11.7x (so với Woof là 8.6-8.9x).</li>
+<li>Trên CPU Granite Rapids Xeon, tốc độ đạt 9.6-10.1x real time trên 1 nhân và 19.5-19.8x trên 4 nhân (so với Woof là 3.8-4.3x và 9.3-9.6x).</li>
+<li>Chế độ chỉ dùng AVX2 trên 1 nhân đạt tốc độ 4.2-4.3x real time (Woof đạt 3.9-4.3x).</li>
+<li>Bộ nhớ RAM đỉnh (Peak memory) chỉ tốn 93 MB trên 1 nhân (so với 255 MB của Underdog Woof).</li>
+<li>Độ trễ âm thanh streaming đầu tiên (First audio latency) đạt 61-78 ms trên 1 nhân (so với Underdog Woof chỉ phát sau khi xử lý xong toàn bộ đoạn âm thanh).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Chỉ hỗ trợ nền tảng Linux trên tập chỉ lệnh x86-64 và yêu cầu trình biên dịch C (gcc/clang); chỉ hỗ trợ tiếng Anh (en); tài liệu không cung cấp đánh giá chất lượng tự nhiên (MOS) qua thẩm định thính giác của người dùng.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Là giải pháp tối ưu cho các hệ thống đàm thoại tương tác (conversational AI/voice agents) cần triển khai hoàn toàn trên CPU on-premise hoặc cloud chi phí thấp nhờ độ trễ streaming dưới 100 ms, dung lượng tệp dưới 20 MB và RAM tiêu thụ dưới 100 MB.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">66.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Kỹ thuật lượng tử hóa 3.5-bit per weight kết hợp tối ưu kernel AMX/AVX-512 chuyên sâu cho CPU mang lại tỷ lệ nén và hiệu năng thực thi TTS vượt trội so với các định dạng phổ biến như GGUF.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Tối ưu hóa hệ thống ở mức thấp rất kỹ lưỡng với C kernels tùy biến cho AMX bf16 tiles, AVX-512 VBMI và streaming pipeline có độ trễ cực thấp.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Cung cấp bảng số liệu đối chuẩn chi tiết về WER so với 11 mô hình khác, cùng benchmark rõ ràng về bộ nhớ, độ trễ và thông lượng trên nhiều kiến trúc CPU.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Hữu ích cho mảng edge AI và CPU voice agent, đạt 23 likes trên Hugging Face nhưng mức độ triển khai rộng rãi vẫn đang ở giai đoạn đầu.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Phát hành trực tiếp dưới dạng open-weights model trên Hugging Face bởi SyzygyResearch kèm mã nguồn chạy thực tế, không qua bình duyệt học thuật.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Kỹ thuật lượng tử hóa 3.5-bit per weight kết hợp tối ưu kernel AMX/AVX-512 chuyên sâu cho CPU mang lại tỷ lệ nén và hiệu năng thực thi TTS vượt trội so với các định dạng phổ biến như GGUF.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Phát hành trực tiếp dưới dạng open-weights model trên Hugging Face bởi SyzygyResearch kèm mã nguồn chạy thực tế, không qua bình duyệt học thuật.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Tối ưu hóa hệ thống ở mức thấp rất kỹ lưỡng với C kernels tùy biến cho AMX bf16 tiles, AVX-512 VBMI và streaming pipeline có độ trễ cực thấp.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Hữu ích cho mảng edge AI và CPU voice agent, đạt 23 likes trên Hugging Face nhưng mức độ triển khai rộng rãi vẫn đang ở giai đoạn đầu.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Cung cấp bảng số liệu đối chuẩn chi tiết về WER so với 11 mô hình khác, cùng benchmark rõ ràng về bộ nhớ, độ trễ và thông lượng trên nhiều kiến trúc CPU.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Dung lượng cực nhỏ (18.2 MB) · Độ trễ streaming đầu tiên rất thấp (61-78 ms) · Tốc độ CPU rất cao (8-10x real time) · Tiêu thụ RAM thấp (93 MB đỉnh) · Độ chính xác từ ngữ vượt trội (5.18% WER)</p>
+          <p><span class="label">Weaknesses</span> · Chỉ hỗ trợ Linux x86-64 · Chỉ hỗ trợ tiếng Anh · Chưa có điểm đánh giá MOS con người</p>
+          <p><span class="label">Context</span> · SyzygyResearch phát hành dạng open-source model trên Hugging Face (giấy phép Apache-2.0), kế thừa từ mô hình nền `gradium/phonon-31m-en`.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

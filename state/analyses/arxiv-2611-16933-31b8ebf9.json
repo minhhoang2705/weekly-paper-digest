@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2611.16933",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất kiến trúc 2 giai đoạn định danh toàn cục không cần ghép cửa sổ, thiết kế riêng cho mục tiêu tách dữ liệu hội thoại full-duplex với ràng buộc tổng hoàn hảo và bổ sung kỹ thuật xử lý triệt để độ nhạy pha của raw-audio fingerprint.",
+  "credibility": "Bài báo dạng preprint từ tổ chức nghiên cứu tư nhân (Manifestro), chưa qua bình duyệt chính thức tại hội nghị/tạp chí nhưng minh bạch về phương pháp, nhật ký thử nghiệm và mã nguồn.",
+  "technical": "Kỹ thuật chuyên sâu và chặt chẽ: xử lý triệt để vấn đề crosstalk nhãn VAD bằng word-gated labels, huấn luyện all-pass augmentation cho raw audio, xây dựng curriculum chi tiết cho separator và kiểm thử các giả thuyết âm học.",
+  "impact": "Giải quyết điểm nghẽn khan hiếm dữ liệu tách kênh cho các mô hình đàm thoại full-duplex lớn với tốc độ 230 giờ/GPU-giờ, cho phép mở rộng quy mô dữ liệu podcast/cuộc gọi lên hàng trăm nghìn giờ với chi phí tính toán thấp.",
+  "evidence": "Thực nghiệm chi tiết trên nhiều tập dữ liệu (Open Yap, CallHome), đối đầu trực tiếp với baseline mã nguồn mở, cung cấp phân tích trần lý thuyết (ideal ratio mask) và nhật ký kết quả âm tính (negative results) đầy đủ."
+ },
+ "summary": {
+  "tldr": "KEZEK là mô hình tách kênh thoại 2 người từ bản ghi âm mono thành 2 track riêng biệt giữ nguyên độ dài và timing để phục vụ huấn luyện mô hình đàm thoại song công toàn phần (full-duplex). Mô hình xử lý toàn bộ bản ghi mà không cắt bỏ đoạn âm thanh nào, chạy nhanh gấp 4–5 lần (đạt ~230 giờ audio/GPU-giờ) và giữ lại các phản hồi ngắn (short replies/backchannels) tốt hơn cascade pyannote → DialogueSidon.",
+  "problem": "Các mô hình đàm thoại full-duplex (như Moshi, dGSLM) cần dữ liệu hội thoại ghi riêng kênh mỗi người để học cơ chế ngắt lời, nhường lời và phát đáp (backchannel). Tuy nhiên, hầu hết âm thanh hội thoại thực tế (podcast, phỏng vấn, cuộc gọi) chỉ có một kênh mono. Các pipeline phân đoạn người nói (diarization) kết hợp tách/khôi phục giọng truyền thống thường mắc ba lỗi nghiêm trọng: đổi kênh (channel swap), làm mất phản hồi ngắn (short replies/backchannels), và rò rỉ âm thanh (leakage) giữa các kênh.",
+  "method": "KEZEK gồm 2 giai đoạn độc lập với tổng cộng 41M tham số:\\n- **Speaker fingerprint (10.1M)**: Trích xuất speaker embedding trực tiếp từ raw audio 16 kHz gồm convolutional front-end (strides 5-4-4-4), 6 lớp Conformer (256-d), attentive statistics pooling và đầu ra 192-d. Để khắc phục hiện tượng raw-audio nhạy cảm với pha âm thanh (phase sensitivity), mạng được huấn luyện với hàm mất mát AAM-softmax kèm triplet loss và kỹ thuật tăng cường chuỗi ngẫu nhiên all-pass filter (1–4 second-order sections) trên 60% mẫu.\\n- **Giai đoạn 1 - PairNet (11.8M)**: Nhận diện hai giọng nói trên toàn bộ bản ghi cùng lúc để tránh ghép nối cửa sổ (window linking). Bộ giải mã Transformer so sánh từng khung với 2 voice profile và độ tương đồng cosine, dự đoán hoạt động giọng nói $a_A(t), a_B(t)$. Mẫu huấn luyện được gán nhãn hoạt động theo từ (word-gated activity labels) nhằm loại bỏ crosstalk micro và nhấn trọng số $\\times 4$ cho phản hồi dưới 1 giây.\\n- **Giai đoạn 2 - KezekTSE-L (19.6M)**: Bộ phân tách Conv-TasNet ($N=512, L=32, \\text{stride } 16$) nhận tín hiệu hỗn hợp, gợi ý hoạt động ($a_A, a_B$) tại bottleneck và profile của cả hai người qua FiLM. Mô hình dự đoán hai mặt nạ và áp dụng phép chiếu ràng buộc bảo toàn hỗn hợp chính xác: $y_i \\leftarrow y_i + \\frac{1}{2}(x - y_A - y_B)$, đảm bảo $y_A + y_B = x$. Quá trình huấn luyện áp dụng curriculum: pre-train trên chồng lấn nhân tạo Libri-Light rồi chuyển sang Open Yap hỗn hợp và mở rộng tham số từ bản Medium.",
+  "setup": "Đánh giá trên tập Open Yap test (121 hội thoại, lấy 300 giây đầu, ở dạng clean và as-recorded) và tập CallHome English thoại qua điện thoại chưa từng thấy (128 cuộc gọi, 10.7 giờ). Baseline ngoại vi là pipeline mã nguồn mở từ DuplexChat: pyannote → DialogueSidon (chạy 30 sampling steps). Phần cứng đo đạc: 1 GPU NVIDIA RTX PRO 6000. Các chỉ số: tỷ lệ giữ phản hồi ngắn (short replies kept <1 s), độ rò rỉ âm (leakage theo dB), tỷ lệ hội thoại không đổi kênh (no-swap rate), độ bao phủ thời lượng (coverage) và tốc độ (giờ audio/GPU-giờ).",
+  "results": [
+   "Trên Open Yap test (as recorded): KEZEK đạt short replies kept 0.830 so với 0.687 của baseline pyannote → DialogueSidon.",
+   "Trên Open Yap test (as recorded): Leakage đạt -13.9 dB so với -10.1 dB của baseline.",
+   "Trên Open Yap test (as recorded): Tỷ lệ không hoán đổi kênh (no-swap rate) đạt 0.934 so với 0.793 của baseline.",
+   "Độ bao phủ (coverage): KEZEK giữ nguyên 1.000 toàn bộ file, trong khi baseline chỉ đạt 0.735 trên Open Yap test và 0.816 trên CallHome.",
+   "Trên CallHome English (unseen telephone): KEZEK giữ được 0.796 phản hồi ngắn đè lên lời nói đối phương (over speech) và 0.907 trong khoảng lặng (in pause), vượt trội so với baseline (0.711 over speech và 0.798 in pause); leakage đạt -11.8 dB so với -9.7 dB; no-swap đạt 0.859 so với 0.797.",
+   "Tốc độ xử lý: KEZEK xử lý 231–232 giờ audio/GPU-giờ, nhanh gấp 4–5 lần baseline (46–51 giờ audio/GPU-giờ). Xử lý 100k giờ chỉ mất khoảng 430 GPU-giờ.",
+   "Overlap SI-SDRi trên Open Yap test: Đạt +10.61 dB ở chế độ clean và +8.18 dB ở chế độ as recorded."
+  ],
+  "limitations": "Chỉ xử lý offline cho các bản ghi chính xác đúng 2 người nói, không làm sạch hoặc phục hồi âm thanh (chỉ phân chia $y_A + y_B = x$). Mô hình gặp khó khăn lớn với các phản hồi nhỏ hơn lời nói của đối phương trên 10 dB (Kezek chỉ giữ được 0.171 so với trần lý thuyết ideal ratio mask là 0.743). Đánh giá định lượng chủ yếu trên tiếng Anh; thử nghiệm trên 5 podcast tiếng Kazakh cho kết quả sơ bộ nhưng mẫu quá nhỏ (14 replies).",
+  "takeaways": "Để chuẩn bị dữ liệu hội thoại full-duplex quy mô lớn, việc ép ràng buộc bảo toàn hỗn hợp và xác định định danh người nói trên toàn bộ file (không link cửa sổ) giúp giảm thiểu triệt để lỗi swap và mất dữ liệu. Nhãn VAD cần được lọc dựa trên mốc từ (word-gated) thay vì dựa trên mức năng lượng nhằm tránh nhiễu xuyên âm (crosstalk).",
+  "strengths": [
+   "Bảo toàn hỗn hợp hoàn toàn (yA + yB = x)",
+   "Tốc độ cao (~230 giờ audio/GPU-giờ)",
+   "Giữ phản hồi ngắn và hạn chế swap tốt",
+   "Mã nguồn mở và trọng số giấy phép thoáng"
+  ],
+  "weaknesses": [
+   "Kém hiệu quả với phản hồi nói chìm >10 dB",
+   "Chỉ hỗ trợ cố định chính xác 2 người",
+   "Đánh giá định lượng mới giới hạn ở tiếng Anh"
+  ],
+  "context": "Nghiên cứu do Bagzhan Karl và Alizhan Karl thuộc Manifestro thực hiện, công bố dưới dạng preprint arXiv tháng 11/2026 kèm mã nguồn (MIT) và trọng số (Apache-2.0)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

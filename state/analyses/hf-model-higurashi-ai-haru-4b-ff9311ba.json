@@ -1,0 +1,46 @@
+{
+ "id": "hf-model:higurashi-ai/Haru-4B",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Thiết kế full-duplex cộng gộp user latent, model text và audio latent vào cùng một vị trí LM kết hợp sinh âm thanh continuous bằng MeanFlow 1 bước là kiến trúc rất mới mẻ và khác biệt so với trường phái discrete audio token.",
+  "credibility": "Tài liệu là một model card phát hành mã nguồn mở từ higurashi-ai kèm mã nguồn GitHub, chưa qua bình duyệt học thuật (peer-reviewed).",
+  "technical": "Mô tả chi tiết cấu trúc kiến trúc (Qwen3.5-4B, VibeVoice codec causal 24 kHz, 4-layer MLP head MeanFlow) và cơ chế xử lý khung thời gian 133 ms.",
+  "impact": "Mô hình full-duplex mã nguồn mở Apache 2.0 kèm hỗ trợ MLX và vLLM-Omni nhận được sự chú ý lớn từ cộng đồng voice agent (hơn 300 upvotes HF).",
+  "evidence": "Tài liệu cung cấp code sử dụng và cấu hình trọng số nhưng hoàn toàn không có bảng số liệu benchmark định lượng hay đánh giá thực nghiệm (WER, MOS, latency thực tế)."
+ },
+ "summary": {
+  "tldr": "Haru-4B là foundation model đối thoại bằng giọng nói liên tục dạng full-duplex (vừa nghe vừa nói đồng thời) độ trễ thấp và hỗ trợ đa ngôn ngữ. Mô hình sử dụng backbone Qwen3.5-4B kết hợp biểu diễn âm thanh liên tục (continuous latent) được tạo ra qua 1 bước lấy mẫu MeanFlow mà không cần discrete audio token.",
+  "problem": "Các hệ thống hội thoại bằng giọng nói truyền thống thường hoạt động dạng bán song công (half-duplex) tuần tự theo lượt (turn-taking) hoặc phụ thuộc vào discrete audio tokens với audio transformer riêng biệt, dẫn đến độ trễ lớn và không thể đồng thời nghe - nói tự nhiên như cuộc gọi của con người.",
+  "method": "Mô hình vận hành native full-duplex ở tần số $7.5\\text{ Hz}$ (chu kỳ $133\\text{ ms}$ mỗi frame):\\n- **Cơ chế biểu diễn và ghép kênh**: Mỗi bước $133\\text{ ms}$, latent giọng nói của người dùng, token văn bản trước đó của mô hình và latent giọng nói trước đó của mô hình được cộng gộp trực tiếp vào cùng một vị trí trong language model, cho phép nghe và nói song song mà không phải chờ đợi.\\n- **Language Model**: Backbone là Qwen3.5-4B gồm 32 layers, hidden size $2560$.\\n- **Audio Codec**: VibeVoice acoustic tokenizer nhân quả (causal), tần số lấy mẫu $24\\text{ kHz}$, tương ứng $3200$ mẫu âm thanh cho mỗi latent $64$ chiều.\\n- **Audio Head**: Mạng MLP 4 lớp kết hợp cơ chế lấy mẫu MeanFlow với đúng 1 bước (guidance scale từ $1$ đến $2$, mặc định $1.5$) để dự đoán latent âm thanh tiếp theo từ hidden state của LM, loại bỏ hoàn toàn discrete token và audio transformer riêng biệt.\\n- **Điều khiển**: Nhận diện tính cách qua character card dạng văn bản và định hình giọng nói qua đoạn reference clip ngắn ($3$ giây đến $3$ phút).",
+  "setup": "Mô hình hỗ trợ 9 ngôn ngữ: English, Spanish, Portuguese, German, French, Chinese, Japanese, Russian, Korean. Yêu cầu phần cứng khoảng $12\\text{ GB}$ VRAM trên NVIDIA GPU. Cung cấp mã nguồn triển khai PyTorch (kèm web demo), MLX (native macOS app), và plugin phục vụ trên vLLM-Omni. Âm thanh đầu vào/ra xử lý $3200$ samples ở tần số $24\\text{ kHz}$ cho mỗi frame.",
+  "results": [
+   "Không được nêu trong tài liệu (model card không công bố số liệu benchmark định lượng cụ thể về WER, MOS, độ trễ đo đạc thực tế hoặc so sánh trực tiếp với các baseline khác)."
+  ],
+  "limitations": "Là base model tiền huấn luyện dành cho nghiên cứu, không phải là nguồn thông tin chính xác đáng tin cậy và không tuân thủ chỉ dẫn như một trợ lý ảo. Tiềm ẩn rủi ro mạo danh giọng nói từ reference clip nếu bị lạm dụng.",
+  "takeaways": "Haru-4B cung cấp một hướng tiếp cận tinh gọn cho voice agent full-duplex: thay vì sinh discrete tokens phức tạp, việc kết hợp trực tiếp continuous latents vào LM và sinh âm thanh qua 1-step MeanFlow MLP giúp giảm tải tính toán, vận hành mượt mà ở 7.5 Hz với 12 GB VRAM.",
+  "strengths": [
+   "Full-duplex tự nhiên ở 7.5 Hz",
+   "Sinh latent âm thanh 1 bước MeanFlow",
+   "Không cần discrete audio tokens",
+   "Hỗ trợ đa ngôn ngữ (9 ngôn ngữ)",
+   "Mã nguồn mở Apache 2.0"
+  ],
+  "weaknesses": [
+   "Thiếu số liệu đánh giá định lượng",
+   "Không tuân thủ chỉ dẫn như assistant",
+   "Chưa đảm bảo độ chính xác thực tế"
+  ],
+  "context": "higurashi-ai phát hành dưới dạng model weights mã nguồn mở (Apache-2.0) trên Hugging Face kèm repository mã nguồn GitHub."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

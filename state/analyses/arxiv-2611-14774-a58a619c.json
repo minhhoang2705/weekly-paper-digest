@@ -1,0 +1,49 @@
+{
+ "id": "arxiv:2611.14774",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất phương pháp chuyển đổi full-duplex cấp độ từ trên LLM đông cứng sử dụng FSM phân xử trên frame 80ms và curriculum 4 giai đoạn, tách biệt hoàn toàn hai nửa qua token rời rạc.",
+  "credibility": "Bài báo là bản preprint trên arXiv từ nhóm nghiên cứu tại AveraLabs, chưa qua bình duyệt tại hội nghị/tạp chí chính thức dù có báo cáo thực nghiệm rất chi tiết.",
+  "technical": "Kỹ thuật thiết kế hệ thống chặt chẽ với FSM khử lỗi sinh token, khởi tạo ma trận kênh identity $[I \\mid I]$, cơ chế bù text lookahead cho talker và xử lý triệt để bài toán room-tone floor.",
+  "impact": "Mở ra hướng tiếp cận chi phí thấp khả thi cho cộng đồng kỹ sư voice agent nhằm đạt năng lực full-duplex mà không cần tài nguyên pretraining khổng lồ.",
+  "evidence": "Đánh giá chi tiết trên hai benchmark tiêu chuẩn Full-Duplex-Bench và InteractionBench, báo cáo đầy đủ chỉ số thống kê qua nhiều seed, phân tích ablation nhiễu nền và độ trễ text lead."
+ },
+ "summary": {
+  "tldr": "Nghiên cứu giới thiệu phương pháp thích ứng một mô hình multimodal LLM đang bị đóng băng (Qwen3-Omni-30B-A3B) thành hệ thống hội thoại nói hai chiều (full-duplex) cấp độ từ (word-level) chỉ với 97.4M tham số có thể huấn luyện và khoảng 30 GPU-giờ trên một chip NVIDIA B200. Hệ thống tách biệt thinker và talker thông qua giao diện token rời rạc ở xung nhịp frame 80 ms (12.5 Hz) và sử dụng finite-state machine (FSM) để đảm bảo việc phân xử lượt lời (turn-taking) luôn hợp lệ.",
+  "problem": "Các hệ thống hội thoại full-duplex hiện nay thường đòi hỏi huấn luyện trên hàng trăm nghìn đến hàng triệu giờ âm thanh (như Moshi cần 7M giờ pretraining, SyncLLM cần 212.000 giờ), vừa tốn kém tài nguyên tính toán vừa làm xáo trộn tri thức của LLM nền và có nguy cơ gây catastrophic forgetting. Ngoài ra, việc phân xử lượt lời (turn-taking) thường mang tính ngầm định (implicit) qua stream âm thanh hoặc quyết định ở mức độ thô thay vì quyết định từng từ trên từng frame.",
+  "method": "Hệ thống áp dụng kiến trúc Thinker-Talker cascade chạy trên clock cố định 12.5 Hz (80 ms/frame):\n- **Thinker**: Giữ đông cứng hoàn toàn Qwen3-Omni-30B-A3B (weights, embedding table, LM head). Chỉ huấn luyện 97.4M tham số gồm rank-16 LoRA trên các lớp attention (13.4M), audio adapter $F_\\phi$ xử lý Mimi codec tokens (75.5M), lớp channel-fusion $W_{\\text{proj}}$ (8.4M), và 17 token embeddings mới (PAD, EPAD, 13 token `pause0`-`pause12`, SS - Silence-Start/yield, SE - Silence-End/take floor).\n- **Khởi tạo và FSM**: $W_{\\text{proj}}$ khởi tạo dạng $[I \\mid I]$ và PAD khởi tạo bằng 0 để giữ nguyên biểu diễn gốc. FSM áp dụng mặt nạ xác suất trước khi lấy mẫu tại từng frame để đảm bảo chuyển trạng thái hợp lệ giữa SILENCE, CONTENT và PAUSE (trạng thái PAUSE không lấy mẫu mà xả hàng đợi gồm $m-1$ token PAD và 1 EPAD).\n- **Curriculum 4 giai đoạn cho Thinker (~30.5 GPU-h)**: Stage 1 học đọc Mimi codec (ASR read-out và distillation từ native encoder); Stage 2 học căn chỉnh ngắt nghỉ (pause timing); Stage 3 chuyển sang dual-channel với tự chưng cất và retrain đa lượt dưới room-tone floor ($-75$ đến $-45$ dBFS); Stage 4 học ngắt lời (barge-in với xác suất chèn ngắt lời 0.35) và chêm lời (backchannel).\n- **Talker**: Nhận chuỗi token rời rạc từ thinker (đi trước âm thanh 3 frame / 240 ms) và tổng hợp trực tiếp ra 8 Mimi codebooks bằng mô hình temporal transformer (8 layers) và depth transformer (6 layers) phỏng theo Moshi/PersonaPlex, được huấn luyện độc lập trên 36.996 mẫu giọng tổng hợp kèm text align (2.65 GPU-h trên B200).",
+  "setup": "Hệ thống được đánh giá end-to-end không dùng bộ phát hiện giọng nói ngoài (VAD), giải mã với 3 seeds trên Full-Duplex-Bench (v1.0 và v1.5) và 1 seed trên InteractionBench. So sánh với các mô hình open-source tự host (PersonaPlex, dGSLM, Moshi, Freeze-Omni) và tham chiếu thêm các API thương mại (Gemini Live 2.0, GPT-Realtime / GPT-4o Realtime).",
+  "results": [
+   "Trên Full-Duplex-Bench v1.0, đạt khả năng xử lý ngắt nghỉ (pause handling) vượt trội so với các mô hình mã nguồn mở với Turn-Over Rate (TOR) chỉ 0.170 trên synthetic (so với 0.584 của PersonaPlex, 0.642 của Freeze-Omni) và 0.267 trên Candor (so với 0.481 của Freeze-Omni, 0.662 của PersonaPlex).",
+   "Trên Full-Duplex-Bench v1.0, đạt tần suất backchannel cao nhất trong nhóm mã nguồn mở (0.073 lần/giây, TOR = 0.145) và đạt smooth turn-taking TOR lên đến 0.997 (độ trễ 0.44s). Tuy nhiên điểm relevance sau ngắt lời đạt 2.681/5, thấp hơn PersonaPlex (4.210) và Freeze-Omni (3.615).",
+   "Trên Full-Duplex-Bench v1.5, đạt phản ứng ngắt lời nhanh nhất: stop latency là 0.75s và response latency là 0.64s (nhanh hơn Freeze-Omni 1.42s/1.35s và Moshi 1.16s/1.47s), ít bị kích hoạt sai nhất khi có side conversation (phản hồi chỉ 0.08) hoặc background speech (0.06).",
+   "Trên InteractionBench, dẫn đầu khối mã nguồn mở về Groundedness với 53% (27/51) so với Freeze-Omni (35%), PersonaPlex (30%) và Moshi (14%); điểm Coherence đạt 47/100 (Freeze-Omni 39, PersonaPlex 28) và Spoken Task đạt 26% (13/50 so với PersonaPlex 18%).",
+   "Phân tích ablation tiếng ồn phòng cho thấy nếu đóng băng adapter và fusion layer, điểm QA tụt từ 4.05 xuống 2.72 (thậm chí 1.10 trong probe mở rộng); việc cho phép huấn luyện cả hai module giúp khôi phục điểm số lên 3.72 trên âm thanh có nhiễu nền."
+  ],
+  "limitations": "Tuyên bố hiệu quả dữ liệu chỉ áp dụng cho việc thích ứng (adaptation) từ mô hình đã hiểu âm thanh (Qwen3-Omni) và talker từ checkpoint có sẵn, không phải học từ đầu. Kênh user audio vào talker bị đặt bằng 0 trong thử nghiệm nên chưa điều chỉnh được giọng theo ngữ điệu người dùng hay thì thầm/âm lượng (chỉ đạt 5% trên Whisper & volume của InteractionBench). Dữ liệu backchannel chỉ có 701 đoạn hội thoại lặp lại 8 lần nên chưa chứng minh tính tổng quát hóa rộng.",
+  "takeaways": "Không cần thiết phải pretrain lại LLM trên hàng trăm nghìn giờ audio để có full-duplex. Việc giữ đông cứng LLM đa phương thức, kiểm soát hành vi turn-taking bằng FSM trên từng frame 80ms, kết hợp curriculum chưng cất tự thân (self-distillation) là công thức hiệu quả cao về chi phí và tài nguyên cho các kỹ sư voice AI.",
+  "strengths": [
+   "Chi phí thích ứng cực thấp (~30 GPU-h B200)",
+   "Kiểm soát lượt lời chặt chẽ bằng FSM",
+   "Thinker và Talker tách rời hoàn toàn",
+   "Hiệu quả xử lý pause và groundedness cao"
+  ],
+  "weaknesses": [
+   "Chưa điều khiển âm lượng và thì thầm",
+   "Độ liên quan sau ngắt lời chưa cao",
+   "Dữ liệu backchannel còn hạn chế (701 đoạn)"
+  ],
+  "context": "Tác giả thuộc AveraLabs; công bố dưới dạng preprint trên arXiv (tháng 11/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

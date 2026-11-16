@@ -1,0 +1,53 @@
+{
+ "id": "arxiv:2611.13689",
+ "topic": "Speech LLM",
+ "promise": 5,
+ "scores": {
+  "novelty": 3,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Bài báo không đề xuất kiến trúc mới mà áp dụng triết lý data-centric với curriculum training 3 giai đoạn và các pipeline tổng hợp dữ liệu chuyên biệt trên backbone có sẵn.",
+  "credibility": "Công trình xuất phát từ nhóm nghiên cứu AI âm thanh của tập đoàn công nghệ lớn (Sony Group Corporation) với phương pháp thực nghiệm bài bản và chi tiết.",
+  "technical": "Quy trình thiết kế dữ liệu đa nhiệm rất công phu, kết hợp cơ chế kiểm soát trọng số task/dataset chặt chẽ và các bộ lọc chất lượng tự động đa tầng.",
+  "impact": "Đưa ra bằng chứng thực nghiệm rõ ràng cho thấy data engineering có thể vượt qua scaling kiến trúc, đồng thời cung cấp mô hình thương mại hữu ích cho triển khai sản phẩm.",
+  "evidence": "Đánh giá chi tiết trên hơn 15 benchmark công khai lẫn nội bộ với nhiều baseline mạnh (Qwen3-Omni, SeamlessM4T v2, Phi-4-MM), tuy nhiên chưa có ablation tách rời giữa trọng số và dữ liệu ở Stage 3."
+ },
+ "summary": {
+  "tldr": "Walrus là foundation model đa nhiệm về âm thanh và tiếng nói quy mô 8B tham số do Sony phát triển, giữ nguyên kiến trúc decoder-only của Gemma 4 E4B và tập trung toàn bộ vào chiến lược data-centric. Thông qua curriculum training 3 giai đoạn cân bằng trọng số giữa các tác vụ và tập dữ liệu, Walrus đạt hiệu năng vượt trội so với các SpeechLLM cùng cỡ (4-10B) và thậm chí vượt cả mô hình 30B (Qwen3-Omni) trên ASR, code-switching, multi-talker ASR, speech translation và audio understanding.",
+  "problem": "Các SpeechLLM hiện nay thường tập trung mở rộng quy mô tham số hoặc sửa đổi kiến trúc, trong khi các thách thức lớn nhất của bài toán tiếng nói lại nằm ở dữ liệu: code-switching, overlapping speech (tiếng nói chồng lấn), audio giải trí và câu hỏi suy luận âm thanh rất hiếm trong các tập dữ liệu công khai. Đồng thời, việc trộn lẫn các tác vụ có token budget chênh lệch lớn (ví dụ generation tạo ra chuỗi token rất dài so với ASR) dễ khiến mô hình bị quên các kỹ năng nhận dạng cốt lõi.",
+  "method": "Walrus sử dụng kiến trúc không đổi dựa trên Gemma 4 E4B (~4B tham số hiệu dụng, ~8B gồm embeddings) kết hợp bộ mã hóa USM (được unfreeze để thích ứng domain). Đối với tác vụ sinh âm thanh (TTS, S2ST), mô hình dự đoán autoregressive các speech token rời rạc ở tần số 25 Hz (325 bps, codebook 8.192 mục trích xuất từ layer 20 của W2v-BERT 2.0), sau đó dùng VQ-decoder và Vocos-based vocoder phi tự hồi quy (được condition thêm từ layer 8 của W2v-BERT 2.0 trên source speech để giữ speaker identity và prosody) để tạo waveform. Đóng góp cốt lõi là curriculum 3 giai đoạn: Stage 1 (Foundation - xây dựng nền tảng đa ngữ rộng cho ASR, MT, AST, S2ST, TTS, SER, audio QA/captioning; trọng số ASR cao nhất là 5.0, TTS chỉ 0.25); Stage 2 (Expansion - bổ sung multi-talker ASR, diarization, timestamps, synthetic code-switching, synthetic closed captioning và áp dụng dataset weighting); Stage 3 (Specialization - bổ sung dữ liệu giải trí, ngôn ngữ hiếm, hỗn hợp hội thoại tổng hợp 2-4 người, AudioReason-10M và rebalance task weights). Hệ thống áp dụng quy trình tạo dữ liệu tổng hợp nghiêm ngặt với các bộ lọc chất lượng (CER check bằng Qwen3.5-9B, NISQA, lọc độ thông hiểu bằng Whisper Large-v3 Turbo, ensemble LLM judges và COMET-Kiwi).",
+  "setup": "Huấn luyện trên hơn 600M mẫu bao gồm hơn 20 biến thể tác vụ và 100 ngôn ngữ, sử dụng 128 GPU NVIDIA H100 trong khoảng 30 ngày (~92.000 GPU hours). Optimizer AdamW, SDPA attention, effective batch size 2.048, context length tối đa 1.024 token, độ dài audio tối đa 30 giây. Đánh giá hai biến thể: Walrus-CR (Commercial-Ready - Stage 2 chỉ dùng dữ liệu thương mại) và Walrus-R (Research - Stage 3 dùng toàn bộ dữ liệu). So sánh với Gemma 4 E4B, Phi-4-Multimodal, Audio-Flamingo-3, Qwen2.5-Omni, Qwen3-Omni-30B, Whisper Large-v3, SeamlessM4T v2 và VibeVoice-ASR trên các bộ benchmark: LibriSpeech, MLS, FLEURS, VoxPopuli, CS-FLEURS, LibriMix, CEJC Japanese Daily Talk, CoVoST-2, CVSS-C, MMAU-Pro, MMSU, IEMOCAP, Clotho-v2, AudioCaps.",
+  "results": [
+   "Trên VoxPopuli ASR, Walrus-R đạt 7.84 WER (Walrus-CR đạt 8.38 WER), vượt trội so với Gemma 4 (11.78 WER) và Qwen3-Omni-30B (10.28 WER).",
+   "Trên FLEURS ASR, Walrus-R đạt 5.33 WER (94.7% word accuracy), vượt qua Qwen3-Omni-30B (6.21 WER / 93.8%) và Whisper Large-v3 (7.99 WER / 92.0%).",
+   "Trên CS-FLEURS Read (Code-Switching), Walrus-R đạt 7.23 CER (Walrus-CR đạt 26.69 CER), vượt xa Gemma 4 (32.30 CER) và Qwen3-Omni-30B (38.66 CER); trên tập XTTS đạt 15.01 CER so với 44.10 CER của Gemma 4.",
+   "Trên LibriMix clean 2-mix (Multi-talker ASR), Walrus-R đạt 19.32 cpWER, giảm gần một nửa so với Qwen3-Omni-30B (37.04 cpWER) và vượt xa mô hình chuyên biệt VibeVoice-ASR (59.34 cpWER); trên Japanese Daily Talk đạt 56.29 cpCER so với 71.99 cpCER của VibeVoice-ASR.",
+   "Trên CVSS-C X→En S2ST, Walrus-R đạt 43.63 ASR-BLEU, vượt mô hình 30B Qwen3-Omni (41.27 ASR-BLEU) và Qwen2.5-Omni (36.02 ASR-BLEU).",
+   "Trên FLEURS S2ST X→En, Walrus-R đạt speaker similarity (SSim) 0.77, emotion similarity (ESim) 0.81 và AutoPCP 2.57, vượt cả SeamlessM4T v2 (0.66 / 0.76 / 2.05) và Qwen3-Omni (0.61 / 0.75 / 2.19).",
+   "Trên MMAU-Pro (Audio Understanding), Walrus-R đạt 71.92% accuracy, vượt xa Qwen2.5-Omni (52.20%) và các mô hình closed-source như Gemini-Flash-3.7 (70.40%) và GPT-4o-Audio (52.50%); trên MMSU đạt 64.14% so với 61.40% của Audio-Flamingo-3."
+  ],
+  "limitations": "Mô hình còn tụt lại trên IEMOCAP SER (49.55% accuracy so với 63.80% của Audio-Flamingo-3) và Clotho-v2 captioning (0.39 CIDEr so với 0.50) do tỷ lệ dữ liệu SER/captioning trong tập huấn luyện nhỏ và kiểm thử out-of-domain. Giới hạn độ dài audio đầu vào ở mức 30 giây (chưa tối ưu cho hội thoại dài dạng long-form như VibeVoice-ASR). Kết quả trên Japanese Daily Talk vẫn còn tỷ lệ lỗi cao (56.29 cpCER) do dữ liệu multi-talker chủ yếu là tổng hợp mô phỏng.",
+  "takeaways": "Data engineering và curriculum scheduling quan trọng hơn việc thay đổi kiến trúc mô hình trong SpeechLLM đa nhiệm: việc gán trọng số task-aware (ưu tiên bảo vệ core ASR) kết hợp dataset-aware weighting giúp giải quyết triệt để hiện tượng catastrophic forgetting khi bổ sung các tác vụ tạo sinh token dài. Đồng thời, kỹ thuật tổng hợp dữ liệu có kiểm soát chất lượng nghiêm ngặt (Whisper check, NISQA, COMET-Kiwi) cho phép mở rộng xuất sắc sang các bài toán hiếm dữ liệu như code-switching và multi-talker.",
+  "strengths": [
+   "Chiến lược data-centric curriculum 3 giai đoạn rõ ràng",
+   "Hiệu năng S2ST bảo toàn speaker và prosody vượt trội",
+   "Code-switching và multi-talker ASR dẫn đầu phân khúc",
+   "Cung cấp bản Commercial-Ready minh bạch bản quyền dữ liệu",
+   "Vượt mô hình 4x lớn hơn trên nhiều benchmark"
+  ],
+  "weaknesses": [
+   "Hiệu năng nhận diện cảm xúc (SER) còn thấp",
+   "Độ dài xử lý âm thanh giới hạn 30 giây",
+   "Dữ liệu multi-talker chủ yếu dựa trên mô phỏng",
+   "Chưa tách biệt ablation giữa trọng số và dữ liệu mới"
+  ],
+  "context": "Nhóm nghiên cứu tại Speech & Language AI Lab, Sony Group Corporation (Tokyo, Nhật Bản); tài liệu công bố dưới dạng Technical Report trên arXiv (mã số 2611.13689)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

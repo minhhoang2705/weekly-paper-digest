@@ -1,0 +1,48 @@
+{
+ "id": "hf-model:Oomni/mithi-v1-flash",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 3,
+  "technical": 2,
+  "impact": 3,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Tài liệu thể hiện việc đóng gói và tinh chỉnh tích hợp từ các công cụ sẵn có (Kokoro-82M, indic-bert, Maya2-native) chứ không giới thiệu kiến trúc TTS mới.",
+  "credibility": "Phát hành trực tiếp trọng số và code chạy được trên Hugging Face kèm mẫu âm thanh, nhưng thiếu bài báo khoa học hoặc thông tin chi tiết về tổ chức phát triển.",
+  "technical": "Mô tả kỹ thuật chủ yếu là hướng dẫn cài đặt và tổng hợp thành phần nguồn mở, không trình bày chi tiết công thức huấn luyện hay phương pháp alignment.",
+  "impact": "Mô hình rất hữu ích cho cộng đồng cần TTS đa ngữ Ấn Độ gọn nhẹ chạy CPU với giấy phép Apache-2.0, nhận được sự quan tâm ban đầu trên Hugging Face (78 likes, 955 downloads).",
+  "evidence": "Tài liệu tự thừa nhận không có đánh giá tự động lẫn trắc nghiệm MOS, chỉ cung cấp các đoạn audio mẫu và đo tốc độ CPU đơn giản."
+ },
+ "summary": {
+  "tldr": "Mithi v1 Flash là mô hình text-to-speech (TTS) nhỏ gọn với 99.1M tham số (dung lượng 197 MB) hỗ trợ 11 ngôn ngữ Ấn Độ với hai giọng đọc (Satvik - nam và Charvi - nữ). Mô hình xuất âm thanh mono 24 kHz, được phát hành dưới giấy phép mã nguồn mở thương mại Apache-2.0 và có thể chạy trực tiếp trên CPU phổ thông.",
+  "problem": "Nhu cầu về các mô hình chuyển đổi văn bản thành giọng nói (TTS) gọn nhẹ, chi phí tính toán thấp, chạy được trên CPU/thiết bị biên và có giấy phép mở cho các ngôn ngữ Ấn Độ (Indic languages vốn thường thiếu tài nguyên TTS chất lượng cao).",
+  "method": "Mô hình được xây dựng dựa trên sự tích hợp của nhiều thành phần mã nguồn mở sẵn có: kiến trúc TTS Kokoro-82M (hexgrad), mô hình Maya2-native (Maya Research), bộ mã hóa ngôn ngữ indic-bert (AI4Bharat), bộ chuẩn hóa văn bản Maya text normaliser, cùng misaki và espeak-ng. Hệ thống tự động chia nhỏ văn bản dài theo từng câu và chuẩn hóa các ký tự số, ngày tháng, tiền tệ thành từ ngữ trước khi đưa qua mô hình sinh âm thanh 24 kHz ở định dạng bf16 safetensors.",
+  "setup": "Yêu cầu môi trường Python 3.10+, gói `espeakng-loader`, và mô hình spaCy `en_core_web_sm`. Hỗ trợ 11 ngôn ngữ: Hindi (`hi`), English (`en`), Bengali (`bn`), Gujarati (`gu`), Kannada (`kn`), Malayalam (`ml`), Marathi (`mr`), Odia (`or`), Punjabi (`pa`), Tamil (`ta`), Telugu (`te`). Đo kiểm tốc độ suy luận CPU thực hiện trên vi xử lý AMD EPYC 9554 với câu tiêu chuẩn trung bình 15 từ (~7 giây âm thanh).",
+  "results": [
+   "Thời gian suy luận trên CPU máy chủ AMD EPYC 9554 cho câu trung bình 15 từ (~7 s âm thanh): ~8 s khi dùng 1 CPU thread.",
+   "Thời gian suy luận trên CPU máy chủ AMD EPYC 9554 cho câu trung bình 15 từ (~7 s âm thanh): ~3 s khi dùng 4 CPU threads (đạt tốc độ nhanh hơn thời gian thực)."
+  ],
+  "limitations": "Chưa có đánh giá định lượng chính thức (không có điểm số benchmark tự động hay bài test thính giác người nghe MOS); biểu cảm và ngữ điệu phẳng hơn giọng người thật; các ngôn ngữ Kannada, Malayalam, Marathi, Odia có thể bị đọc nhanh hơn bình thường; từ hiếm hoặc từ mượn dễ bị phát âm sai; xử lý văn bản dài đọc rời rạc từng câu thiếu ngữ cảnh liên câu; chất lượng đọc số/tiền tệ/URL phụ thuộc hoàn toàn vào bộ text normaliser.",
+  "takeaways": "Một lựa chọn TTS cực kỳ gọn nhẹ (99M params, <200MB) và thân thiện với môi trường triển khai thực tế (chạy CPU, license Apache-2.0) cho các ứng dụng đa ngữ tại thị trường Ấn Độ, phù hợp cho edge device hoặc server chi phí thấp dù cần cân nhắc về độ tự nhiên ngữ điệu.",
+  "strengths": [
+   "Kích thước siêu nhỏ 99.1M tham số",
+   "Giấy phép mở Apache-2.0 thương mại",
+   "Hỗ trợ 11 ngôn ngữ Ấn Độ",
+   "Chạy nhanh trên CPU không cần GPU",
+   "Xuất âm thanh chất lượng 24 kHz"
+  ],
+  "weaknesses": [
+   "Thiếu hoàn toàn benchmark MOS hay số liệu đánh giá",
+   "Ngữ điệu và cảm xúc còn phẳng",
+   "Một số ngôn ngữ bị phát âm quá nhanh",
+   "Đọc từng câu độc lập không ngữ cảnh"
+  ],
+  "context": "Phát hành bởi tổ chức Oomni dưới dạng trọng số và mã nguồn mở trên Hugging Face (Apache-2.0)."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

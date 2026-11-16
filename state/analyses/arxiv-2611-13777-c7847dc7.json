@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2611.13777",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 2,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Ý tưởng tích hợp dual-stream audio và text vào cùng một bộ phân loại quyết định hành động tương tác 5 lớp là sự kết hợp hợp lý giữa các kỹ thuật hiện có (MiniMind-O, SenseVoice, RLCD từ Laya/Qwen-Audio-Jev).",
+  "credibility": "Bài báo là nghiên cứu độc lập từ một tác giả thuộc viện nghiên cứu doanh nghiệp, công bố dạng preprint trên arXiv, chưa qua bình duyệt tại hội nghị chuyên ngành.",
+  "technical": "Phương pháp toán học và công thức tối ưu RLCD được trình bày rất chi tiết, định nghĩa chặt chẽ về bài toán tương tác song công và quy trình tuần tự hóa đầu vào.",
+  "impact": "Mã nguồn, trọng số mô hình và tập dữ liệu phái sinh không được công khai do vấn đề giấy phép đa nguồn, hạn chế khả năng tái lập và tác động trực tiếp lên cộng đồng.",
+  "evidence": "Kết quả thực nghiệm trên tập kiểm thử hơn 34k mẫu rất chi tiết về số liệu, nhưng các so sánh với mô hình bên ngoài bị khập khiễng do khác biệt về tinh chỉnh tác vụ và thông tin đầu vào (dual-stream vs single-stream)."
+ },
+ "summary": {
+  "tldr": "Omni-JEV đề xuất khung ra quyết định tương tác full-duplex thống nhất cho cả văn bản và âm thanh hai luồng (dual-stream speech) tại các điểm kết thúc phân đoạn (collected-segment endpoints). Mô hình ánh xạ ngữ cảnh hội thoại sang phân phối xác suất trên 5 hành động tương tác (`listen`, `start`, `continue`, `stop`, `recover`) và so sánh hai chiến lược tối ưu RLCD (Gaussian-logit và Categorical Choice).",
+  "problem": "Trong hội thoại song công (full-duplex spoken dialogue), phát ngôn của người dùng không đơn thuần xác định hành động tiếp theo mà phụ thuộc chặt chẽ vào trạng thái phản hồi của trợ lý ảo (assistant state) và lịch sử tương tác. Các nghiên cứu trước đây (như VAP, FastTurn) thường tập trung phát hiện sự kiện đổi lượt (turn-taking) hoặc phát hiện ngắt lời (interruption), nhưng thiếu một chính sách hành động rõ ràng dựa trên trạng thái (state-conditioned action policy) có thể xử lý đồng thời cả văn bản và âm thanh hai luồng.",
+  "method": "Omni-JEV kế thừa acoustic frontend và Thinker (597.625.856 tham số có thể huấn luyện, hidden width $d=1024$) từ checkpoint speech-to-speech (STS) dựa trên MiniMind-O, kết hợp SenseVoice encoder (đóng băng) và Thinker dựa trên Qwen3. Mô hình mã hóa độc lập âm thanh người dùng ($U$) và âm thanh tham chiếu của trợ lý ($A$) qua cùng frontend dùng chung trọng số thành hai role span riêng biệt ($V_U, V_A$), sau đó tuần tự hóa cùng ngữ cảnh văn bản (instruction, context, role labels, candidate descriptions) vào một causal Transformer duy nhất mà không cần khối channel-fusion riêng. Đầu LM ban đầu tạo ra phân bố xác suất trên 5 hành động thông qua candidate logits được hoán vị ngẫu nhiên. Sau 1 epoch SFT bằng cross-entropy, mô hình được huấn luyện bằng Reinforcement Learning for Probability-Sensitive Decisions (RLCD), so sánh giữa: (1) Gaussian RLCD (nhiễu centered logit vector, reward log-plus-spherical, $M=16, \\sigma=0.1, \\beta=0.75$) và (2) Categorical Choice RLCD (lấy mẫu vị trí candidate rời rạc, mục tiêu negative Brier error, $M=32, \\eta=0.05$).",
+  "setup": "Bộ dữ liệu song ngữ (Anh/Trung) gồm 313.486 mẫu huấn luyện và 34.860 mẫu kiểm thử (24.287 audio, 10.573 text) tổng hợp từ 9 nguồn (BANKING77, MASSIVE, Legacy turn text, Mini Speech Commands, MInDS-14, ESC-10, Wakeup, FD v2/v3, SmoothConv) với nhãn yếu (weak supervision) phái sinh từ luật và giáo viên DeepSeek. Chia tập source-linked partition (seed 20261023). Đánh giá offline với context limit 40.960 tokens. Các baseline ngoại vi (zero-shot, user-only audio): Qwen3-Omni, MiniCPM-o 4.5, MOSS-Audio-4B, Step-Audio-2-mini, FireRedAudio, AudioJev, và Qwen3.1-Realtime (tập con 2.000 mẫu). Metrics: Accuracy, Macro-F1, Brier score ($10^4 B$), và Negative Log-Likelihood (NLL).",
+  "results": [
+   "Trên tập test âm thanh (24.287 mẫu), Gaussian Omni-JEV đạt Accuracy 84,08%, Macro-F1 76,00%, Brier 2806,99 và NLL 0,5863; Categorical RLCD đạt Accuracy 84,04%, Macro-F1 75,23%, Brier 2499,43 và NLL 0,4376.",
+   "Trên tập test văn bản (10.573 mẫu), Gaussian Omni-JEV đạt Accuracy 96,55%, Macro-F1 80,56%, Brier 655,79 và NLL 0,1834; Categorical RLCD đạt Accuracy 96,51%, Macro-F1 81,41%, Brier 616,87 và NLL 0,1331.",
+   "Tổng hợp pooled (34.860 mẫu), Gaussian đạt 87,86% ACC và 80,93% Macro-F1; Categorical đạt 87,83% ACC và 80,32% Macro-F1.",
+   "So với các mô hình baseline lớn hơn ở chế độ zero-shot trên audio (full test): MiniCPM-o 4.5 đạt 47,40% ACC (23,28% F1), MOSS-Audio-4B đạt 51,50% ACC (23,61% F1), Qwen3-Omni đạt 26,43% ACC (13,17% F1), FireRedAudio đạt 37,44% ACC (30,99% F1), AudioJev đạt 15,76% ACC (12,59% F1), Step-Audio-2-mini đạt 16,54% ACC (12.941 câu trả lời lỗi cú pháp định dạng).",
+   "Trên tập con budget-limited 2.000 mẫu, Qwen3.1-Realtime API đạt 37,06% audio ACC (35,18% F1) và 92,32% text ACC (71,97% F1)."
+  ],
+  "limitations": "Các so sánh với mô hình ngoài là task-level chứ không phải kiến trúc tương đương do baseline chạy zero-shot và chỉ nhận audio một luồng. Nhãn dữ liệu là weak supervision kết hợp từ nhiều quy tắc phái sinh, kịch bản gán nhân tạo và suy luận từ LLM; phân bố hành động bị mất cân bằng nghiêm trọng (audio chỉ có 17 mẫu `recover` trong test, text không có mẫu `recover` nào). Mô hình chưa được đo độ trễ closed-loop thực tế, khả năng triệt tiếng vọng âm học (AEC) và hiệu năng đối thoại tương tác đa lượt. Trọng số và dữ liệu không được phát hành công khai do ràng buộc bản quyền các nguồn thành phần.",
+  "takeaways": "Việc tách biệt rõ ràng luồng người dùng và luồng phản hồi của trợ lý trong cùng một chuỗi Transformer cho phép LLM học trực tiếp chính sách hành động tương tác. Categorical Choice RLCD mang lại chất lượng phân bố xác suất tốt hơn (Brier score và NLL thấp hơn đáng kể), trong khi Gaussian RLCD cho Macro-F1 nhỉnh hơn trên miền âm thanh.",
+  "strengths": [
+   "Không gian 5 hành động tương tác rõ ràng",
+   "Xử lý thống nhất dual-stream audio và text",
+   "So sánh chi tiết Gaussian vs Categorical RLCD",
+   "Đánh giá toàn diện cả accuracy lẫn calibration"
+  ],
+  "weaknesses": [
+   "Dữ liệu mất cân bằng nặng nhãn recover",
+   "Nhãn weak-supervision chưa kiểm định độc lập",
+   "Chưa đo độ trễ closed-loop thực tế",
+   "Không phát hành mã nguồn và trọng số"
+  ],
+  "context": "Tác giả Shengzhou Kong thuộc Zhejiang Merit Interactive Research Institute Co., Ltd.; công bố dưới dạng preprint trên arXiv (tháng 11/2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

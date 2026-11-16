@@ -1,0 +1,49 @@
+{
+ "id": "gh:tarpetos/mimvox",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 2,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Ứng dụng là sự tích hợp kỹ thuật khéo léo giữa các công nghệ có sẵn (OmniVoice, RVC/Applio, Seed-VC, Whisper) thành một pipeline hoàn chỉnh trên desktop thay vì tạo ra kiến trúc mô hình mới.",
+  "credibility": "Đây là kho lưu trữ cá nhân đang trong giai đoạn phát triển sớm (được tác giả cảnh báo là hobby project), chưa qua bình duyệt hay có bảo chứng từ tổ chức lớn.",
+  "technical": "Thiết kế hệ thống rất chi tiết và bài bản: kiến trúc tách biệt Rust UI và Python engine qua IPC JSON lines, quản lý bộ nhớ VRAM tự dọn dẹp khi idle, hỗ trợ đa nền tảng và tích hợp kiểm tra chất lượng thu âm.",
+  "impact": "Mức độ phổ biến hiện tại còn khiêm tốn (71 stars, 5 forks) và giấy phép phi thương mại hạn chế đáng kể khả năng triển khai vào sản phẩm thương mại.",
+  "evidence": "Cung cấp số liệu cụ thể về độ tương đồng ECAPA, thời gian sinh trên RTX 4070, mức tiêu thụ tài nguyên và đính kèm các mẫu âm thanh minh họa, tuy thiếu bảng benchmark so sánh học thuật mở rộng."
+ },
+ "summary": {
+  "tldr": "Mimvox là một ứng dụng desktop mã nguồn mở chạy hoàn toàn offline (on-device), cho phép người dùng tự huấn luyện mô hình clone giọng nói cá nhân và tổng hợp giọng nói đa ngôn ngữ (~60 ngôn ngữ). Hệ thống kết hợp zero-shot TTS (OmniVoice) với voice conversion (RVC huấn luyện qua Applio) để tinh chỉnh âm sắc (timbre) đạt độ tương đồng cao với người nói thật.",
+  "problem": "Nhiều giải pháp nhân bản giọng nói hiện nay phụ thuộc vào điện toán đám mây gây rủi ro về quyền riêng tư đối với dữ liệu sinh trắc giọng nói, hoặc đòi hỏi quy trình huấn luyện và cấu hình phức tạp vượt quá khả năng của người dùng phổ thông. Bên cạnh đó, việc chuyển đổi giọng nói đa ngôn ngữ (cross-lingual TTS) thường giữ ngữ điệu bản địa hoặc khó duy trì đúng âm sắc tự nhiên mà không tốn nhiều chi phí phần cứng.",
+  "method": "Kiến trúc hệ thống bao gồm ứng dụng desktop viết bằng Rust (giao diện Rune, âm thanh qua `cpal` và `hound`) giao tiếp bất đồng bộ qua JSON lines (stdin/stdout) với một Python engine chạy nền:\n- **Zero-shot TTS:** Sử dụng mô hình OmniVoice (từ k2-fsa) nhận văn bản và reference clip ngắn (15–30 giây) để tạo ra giọng nói 24 kHz cho khoảng 60 ngôn ngữ. OmniVoice thay thế cho IndexTTS-2.5 trước đây nhờ tốc độ nhanh hơn ~4 lần và tiêu tốn chưa đến một nửa bộ nhớ.\n- **Timbre Refinement:** Sử dụng RVC (Retrieval-based Voice Conversion, huấn luyện qua framework Applio) được finetune trên bản ghi âm dài hơn (3 đến 20 phút). RVC chuyển đổi âm thanh đầu ra từ OmniVoice sang 40 kHz (sau đó resample lên 44.1 kHz) để tăng cường độ tương đồng timbre.\n- **Tính năng mở rộng:** Tích hợp Seed-VC cho zero-shot voice conversion sang giọng bản xứ Anh-Mỹ (Native American accent qua CMU ARCTIC); HolosTTS cho trọng âm tiếng Ukraina; pipeline Redub video (kết hợp tách nhạc/hiệu ứng nền, ASR Whisper và dịch thuật NLLB-200 1.3B); và chế độ đọc sách (EPUB, PDF, DOCX, ...).",
+  "setup": "Hỗ trợ Windows x64 (CUDA), Linux x64 (CUDA và ROCm thử nghiệm trên RX 9070 XT), macOS Apple Silicon (MPS). Yêu cầu tối thiểu VRAM khuyến nghị từ 8 GB trở lên (OmniVoice chiếm ~4–5 GB VRAM). Dung lượng ổ đĩa yêu cầu khoảng 13 GB (chỉ TTS) hoặc 30–33 GB (đầy đủ tính năng gồm Whisper, NLLB-200, Applio, Seed-VC). Hỗ trợ tiếng Anh, tiếng Ukraina và ~60 ngôn ngữ khác.",
+  "results": [
+   "Độ tương đồng người nói (ECAPA score): RVC nâng điểm đoạn văn bản tiếng Anh từ ~0.81 (zero-shot) lên ~0.94, tương đương với điểm số giữa các bản ghi âm thực của cùng người nói (0.93).",
+   "Tốc độ sinh âm thanh: Mất khoảng 1.6–1.8 giây cho mỗi clip mẫu trên GPU NVIDIA RTX 4070.",
+   "Độ trễ phản hồi (latency): Câu đầu tiên phát âm sau khoảng 1–3 giây khi engine đã nạp (warm), trong khi cold start mất khoảng 10 giây (RVC cold load mất khoảng 16 giây so với 1.7 giây warm).",
+   "Tối ưu tài nguyên: Khi ở trạng thái chờ (idle), sau 10 phút mô hình tự giải phóng khỏi bộ nhớ, chỉ chiếm khoảng 0.3 GB RAM và 0 GB VRAM."
+  ],
+  "limitations": "Dự án cá nhân đang trong giai đoạn phát triển ban đầu (early version), có thể gặp lỗi. Chưa hỗ trợ GPU AMD trên Windows (phải fallback về CPU), không hỗ trợ Intel Mac (do yêu cầu PyTorch >= 2.8) và Windows/Linux ARM64. Giấy phép mã nguồn PolyForm Noncommercial 1.0.0 cùng trọng số mô hình CC BY-NC 4.0 giới hạn hoàn toàn trong mục đích phi thương mại.",
+  "takeaways": "Mimvox là một tham khảo kỹ thuật hữu ích về việc kết hợp Rust làm desktop wrapper với Python subprocess để phục vụ các pipeline AI phức tạp (OmniVoice + RVC + Whisper + NLLB-200), kiểm soát tài nguyên VRAM hiệu quả và giải quyết bài toán voice cloning offline hoàn chỉnh.",
+  "strengths": [
+   "Hoạt động 100% offline bảo mật dữ liệu",
+   "Kết hợp thông minh OmniVoice và RVC",
+   "Giao diện Rust nhẹ, tối ưu tài nguyên idle",
+   "Tính năng hoàn chỉnh từ recording đến redubbing",
+   "Hỗ trợ đa nền tảng (CUDA, ROCm, MPS)"
+  ],
+  "weaknesses": [
+   "Yêu cầu dung lượng cài đặt lớn (30-33 GB)",
+   "Giới hạn sử dụng phi thương mại",
+   "Dự án cá nhân đang thử nghiệm"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi lập trình viên độc lập tarpetos trên GitHub dưới giấy phép PolyForm Noncommercial 1.0.0."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W47"
+}

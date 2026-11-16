@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZONOS3-Mini Technical Report · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W47</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">ZONOS3-Mini Technical Report</h1>
+    <div class="meta">
+      <span>published Nov 12, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Paper</span>
+<span class="pill">arXiv</span><span class="pill">Papers with Code</span><span class="pill pill-accent">TTS</span>        <span class="authors">Gabriel Clark, Sofian Mejjoute, George Close, Beren Millidge</span>
+    </div>
+  </div>
+  <div class="header-actions">
+      <a class="button" href="https://github.com/zyphra/zonos3-mini" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Code</a>
+    <a class="button" href="https://arxiv.org/abs/2611.16525" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">abstract</span>
+      </div>
+      <div class="card-body prose">
+<p>ZONOS3-Mini is an ultra-compact, ultra-fast, zero-shot voice-cloning TTS model. The model can run in real time on a laptop or smartphone. For its latency and size, it achieves state-of-the-art accuracy and cloning fidelity. To achieve this we propose a latent MoE backbone with only 886M parameters (100M active per token) and a new audio codec, Zyphra Audio Codec 1 (ZAC-1), which represents 44.1 kHz audio at a 15 Hz frame rate. On the new ZTTS2-Eval benchmark, ZONOS3-Mini reaches a 6.71% macro-average WER over 55 language sets (35 clean and 20 in the wild), which is competitive with larger and slower state-of-the-art models. We release the model weights, inference, and training code.</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 16, 2026 · PDF</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>ZONOS3-Mini là mô hình TTS voice-cloning zero-shot siêu nhỏ gọn (886M tham số tổng, 100M active) có thể chạy real-time trên laptop hoặc điện thoại thông minh. Mô hình kết hợp backbone lai Recurrent GDN / GQA với audio codec mới ZAC-1 (15 Hz, 1.80 kbit/s), đạt macro WER 6.71% và speaker similarity 81.2 trên bộ benchmark mới ZTTS2-Eval gồm 55 ngôn ngữ.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình TTS chạy trên thiết bị (on-device) hiện tại thường phải đánh đổi chất lượng nhân bản giọng nói (cloning quality), khả năng kiểm soát (controllability) và hiệu năng đa ngôn ngữ để đổi lấy khả năng xử lý thời gian thực trên phần cứng yếu. Nhóm tác giả muốn thiết lập một điểm tối ưu mới trên Pareto frontier kết hợp giữa tốc độ/kích thước và chất lượng giọng nói.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Hệ thống bao gồm:</p>
+<ul>
+<li><strong>Bộ mã hóa âm thanh ZAC-1 (1.99B params)</strong>: Hoạt động ở tần số frame 15 Hz (rút ngắn chuỗi 5.7× so với ZONOS2) với bitrate 1.80 kbit/s. Thiết kế dual-encoding gồm 1 code ngữ nghĩa (distill từ layer-16 w2v-BERT 2.0 đóng băng) + 9 code thặng dư RVQ từ codebook 4,096 mục. Decoder sử dụng 8 khối ConvNeXt và causal iSTFT head (Vocos-style) tạo âm thanh 44.1 kHz. Cung cấp hai phiên bản decoder: full decoder và pruned 'keep-2' (144M params, bỏ các khối transformer nhiều FLOPs).</li>
+<li><strong>Backbone (886M params, 100M active)</strong>: 11 layer, gồm 9 layer Gated DeltaNet (GDN) kết hợp 2 layer causal global attention (Grouped Query Attention - GQA tại layer 4 và 8; 16 query heads, 4 KV heads, QK-normalization, RoPE, learned output gate). Mô hình dùng Latent MoE (chiều ẩn 1,024 nén xuống 256 trong experts), router tuyến tính và Quantile Balancing (QB), kèm attention residuals.</li>
+<li><strong>Tokenizer văn bản</strong>: 8,192-entry SuperBPE huấn luyện trên dữ liệu đàm thoại nói.</li>
+<li><strong>Speaker Conditioning</strong>: Hỗ trợ 2 nhánh: audio reference thô (1–60 s) và speaker embedding 192 chiều trích xuất từ mô hình MECT-B2 độc lập (SphereFace2 loss).</li>
+<li><strong>Huấn luyện</strong>: Pre-training 375k bước (4.5T tokens) với Muon cho trọng số 2D và AdamW; Fine-tuning 60k bước (thêm embedding và 10 bucket tốc độ nói) + 20k bước (chia nhỏ thành 30 bucket tốc độ); Post-training 2 giai đoạn: DPO (108 bước, <span class="math inline">\beta=0.1</span> nhằm chống early stopping và runaway generation) và GRPO (587 bước, trực tiếp tối ưu tổ hợp WER, SIM và duration cost).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Dữ liệu huấn luyện gồm 6.1M giờ tự nhiên được lọc bằng đồng thuận diarization giữa HDBSCAN và spectral clustering. Đánh giá trên ZTTS2-Eval: 35 ngôn ngữ tập clean (FLEURS-R) và 20 ngôn ngữ tập in-the-wild (VoxBlink2), tổng cộng 74,041 câu. ASR đánh giá dùng Qwen3-ASR (Whisper-large-v3 cho tiếng Anh), độ tương đồng người nói đo bằng ReDimNet cosine similarity (thang 0-100), chất lượng tự nhiên đo bằng MSR-UTMOS. So sánh với các mô hình: ZONOS2, Qwen3-TTS, Fish S1/S2/Drama 3, VoxCPM2, OmniVoice, VibeVoice 7B, Cartesia Sonic, ElevenLabs v4, Gemini 3.8 Flash...</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Trên toàn bộ 55 tập ZTTS2-Eval (macro): ZONOS3-Mini + PT (embedding) đạt WER 6.71% và Sim 81.2; bản raw audio đạt WER 6.70% và Sim 69.8; vượt trội ZONOS2 8B ở Sim (81.2 so với 68.8) và gần tương đương WER (6.71% vs 6.22%) dù số tham số ít hơn khoảng 9 lần.</li>
+<li>Tập in-the-wild (20 ngôn ngữ): ZONOS3-Mini + PT (embedding) đạt WER 4.81% và Sim 77.3; thấp hơn WER của ZONOS2 (4.68%) không đáng kể và vượt xa độ tương đồng người nói của ZONOS2 (57.8).</li>
+<li>So sánh với hệ thống closed-source trên ZTTS2-Eval Mini (4 ngôn ngữ clean): ZONOS3-Mini + PT (embedding) đạt WER 2.55% và Sim 83.1 (đạt Sim cao thứ hai sau Cartesia Sonic 3.6 ở 85.0); trên tập in-the-wild đạt WER 5.00% và Sim 77.5 (Sim cao nhất trong các hệ thống so sánh, Cartesia đạt 76.4).</li>
+<li>Hiệu năng Codec ZAC-1: Tốc độ giải mã decode-only trên 1 card H100 đạt 1,180× real-time ở batch 256 (bản full decoder) và 3,950× real-time (bản keep-2 decoder), nhanh hơn nhiều so với MOSS (989×) và S1-DAC (474×).</li>
+<li>Độ trễ và suy luận: Trên H100 chạy runtime tối ưu hoá Mini-SGLang, time to first audio từ 0.25 đến 0.36 s; thông lượng đạt 67 giây audio/giây ở 128 requests đồng thời. Trên M3 MacBook Air và Pixel 9 chạy WebGPU runtime, time to first audio lần lượt dưới 450 ms và 800 ms.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Nhánh nhận conditioning bằng raw audio có độ tương đồng người nói (Sim) trên tập in-the-wild thấp hơn đáng kể so với nhánh embedding (58.1 so với 77.3). Độ nén lượng tử hóa dưới 4-bit (chẳng hạn 2-bit QAT hoặc ternary experts BitDistill) làm sụt giảm rõ rệt độ rõ âm (intelligibility/WER). Thử nghiệm kỹ thuật Exclusive Self-Attention (XSA) khiến WER trên tập in-the-wild tăng thêm 10 điểm do ảnh hưởng của delay pattern.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Kết hợp kiến trúc hybrid recurrent GDN + GQA với Latent MoE và quantizer 15 Hz có ngữ nghĩa (ZAC-1) là công thức hiệu quả để đưa TTS voice-cloning chất lượng cao xuống edge/on-device mà không cần hy sinh độ trễ hay chất lượng đa ngôn ngữ.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">75.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#3 in 2026-W47</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="90.0" cy="115.26" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Kết hợp khéo léo giữa Latent MoE, GDN/GQA hybrid và codec 15 Hz ZAC-1 tích hợp ngữ nghĩa w2v-BERT kèm pipeline RL kép (DPO + GRPO) cho mô hình TTS on-device.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Phân tích kiến trúc sâu sắc từ cân bằng MoE (Quantile Balancing), cấu trúc GDN/GQA 4.5:1, thiết kế iSTFT hai nhánh decoders, đến thích ứng LoRA accent và activation steering.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Dữ liệu thực nghiệm phong phú trên 55 ngôn ngữ của benchmark ZTTS2-Eval, so sánh chi tiết với nhiều mô hình SOTA mã nguồn mở lẫn đóng và có ablation cụ thể từng thành phần.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Cung cấp giải pháp TTS on-device đa ngôn ngữ tốc độ cao chạy được trên smartphone/laptop thông qua ggml và WebGPU với chất lượng tiệm cận các mô hình đám mây lớn.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 4/5 — Báo cáo kỹ thuật chi tiết từ Zyphra, phát triển tiếp nối thành công của dòng ZONOS với mã nguồn, trọng số và bộ benchmark ZTTS2-Eval phát hành công khai.</title>Credibility <tspan class="radar-value">4</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Kết hợp khéo léo giữa Latent MoE, GDN/GQA hybrid và codec 15 Hz ZAC-1 tích hợp ngữ nghĩa w2v-BERT kèm pipeline RL kép (DPO + GRPO) cho mô hình TTS on-device.</dd></div>
+          <div><dt>Credibility <span class="muted">4/5</span></dt><dd>Báo cáo kỹ thuật chi tiết từ Zyphra, phát triển tiếp nối thành công của dòng ZONOS với mã nguồn, trọng số và bộ benchmark ZTTS2-Eval phát hành công khai.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Phân tích kiến trúc sâu sắc từ cân bằng MoE (Quantile Balancing), cấu trúc GDN/GQA 4.5:1, thiết kế iSTFT hai nhánh decoders, đến thích ứng LoRA accent và activation steering.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Cung cấp giải pháp TTS on-device đa ngôn ngữ tốc độ cao chạy được trên smartphone/laptop thông qua ggml và WebGPU với chất lượng tiệm cận các mô hình đám mây lớn.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Dữ liệu thực nghiệm phong phú trên 55 ngôn ngữ của benchmark ZTTS2-Eval, so sánh chi tiết với nhiều mô hình SOTA mã nguồn mở lẫn đóng và có ablation cụ thể từng thành phần.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kích thước cực nhỏ (886M tổng, 100M active) · Tốc độ frame 15 Hz giảm chuỗi 5.7× · Chạy mượt trên WebGPU, M3 MacBook, Pixel 9 · Hỗ trợ đa ngôn ngữ rộng rãi (55 tập) · Mở mã nguồn trọng số, inference và training</p>
+          <p><span class="label">Weaknesses</span> · Nhánh raw audio kém tương đồng trên dữ liệu nhiễu · Lượng tử hóa dưới 4-bit làm giảm rõ rệt WER · Decoder ZAC-1 khá lớn (1.99B tham số)</p>
+          <p><span class="label">Context</span> · Nhóm tác giả Gabriel Clark, Sofian Mejjoute, George Close, Beren Millidge thuộc Zyphra (San Francisco, CA), công bố dưới dạng Technical Report mở mã nguồn trên GitHub và Hugging Face.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

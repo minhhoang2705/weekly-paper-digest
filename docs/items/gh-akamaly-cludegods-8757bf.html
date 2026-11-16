@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AKamaly/CludeGods · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W47</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">AKamaly/CludeGods</h1>
+    <div class="meta">
+      <span title="Listed by GitHub inside the crawl window">found Nov 16, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Nov 1, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">AKamaly</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://github.com/AKamaly/CludeGods" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">README excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>Always-on AI Gods that work inside Claude Code, and you can talk to them. Proactive workers, computer use (browser, terminal &amp; files), real-time voice like Jarvis, workers on a call in their own voice, Slack, and Spaces for your projects.
+
+README: CludeGods. Always-on Claude Code Gods that you can talk to.. Always-on AI Gods that work inside Claude Code. Always-on proactive workers · Computer use: browser, terminal &amp; files · Real-time voice, like Jarvis (RIP Iron Man) · Put any worker on a call, in its own voice · Bring workers into Slack · Spaces and Pages for projects Built on Claude Code and VoiceMode. · Get started · How to use it · Overview · Architecture · Features · Safety · Changelog · Contributing --- Watch the full launch film (67 s) · Latest release _The app scene, a call with a barge-in, a permission approved with a click, and a scheduled worker checking in with drafts. A 14-second cut of the silent launch film; the film is an animated mockup of the real parts, not a screen capture._ Overview. CludeGods is a small set of parts that sit on top of Claude Code and VoiceMode. You type /gods, a small call card with the colleague god appears in the corner, and you talk to your Claude Code session the way you would to someone sitting next to you. Over on the right, a Workers pane shows your standing worker chats, each with a task box. A toolkit, not a hosted product. Everything runs on your Mac. The only state is plain files under ~/.voicemode/call/. Speech to text and text to speech run locally; the transcript of what you say goes to Claude, the same as anything you type into the session. Press play, then click the speaker icon: GitHub starts every video muted, and this one talks. https://github.com/user-attachments/assets/f384d329-f26c-4d89-b912-9ed2e24fbf38 _CludeGods in 54 seconds: a voice call with Claude, every step said out loud, a click to approve, a task for an always-on worker, and a worker on the call._ The parts: - gods skill: a live voice call with your Claude Code session. An always-on mic streams your words in, Claude answers out loud without blocking its own work, and you can cut in at any time. - CallPill: a floating macOS call card. The god on the call (the colleague, or the worker you</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 16, 2026 · README</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>CludeGods là một bộ công cụ mã nguồn mở chạy local trên macOS (Apple Silicon) tích hợp giao diện giọng nói thời gian thực và quản lý đa tác tử chạy nền (always-on workers) cho Claude Code. Hệ thống kết hợp Whisper, Silero VAD và Kokoro TTS thông qua VoiceMode nhằm mang lại trải nghiệm đàm thoại rảnh tay (hands-free), hỗ trợ can thiệp ngắt lời (barge-in) và cơ chế phê duyệt an toàn qua thao tác click chuột vật lý.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Tương tác với các AI coding agent như Claude Code thường đòi hỏi người dùng phải liên tục gõ phím, quan sát màn hình dòng lệnh và chấp thuận thủ công các quyền truy cập công cụ. Ngoài ra, việc thiếu giao diện giọng nói cục bộ có độ trễ thấp và thiếu cơ chế an toàn phân quyền riêng biệt cho các tác tử chạy ngầm khiến việc tự động hóa tác vụ phát triển phần mềm gặp nhiều rủi ro và bất tiện.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Kiến trúc hệ thống hoàn toàn chạy local trên máy Mac, lưu trữ trạng thái dưới dạng các tệp tin trong <code>~/.voicemode/call/</code>:</p>
+<ul>
+<li><strong>Voice Stack</strong>: Sử dụng VoiceMode quản lý Silero VAD (<code>silero_vad.onnx</code>) để phát hiện giọng nói, Whisper (<code>large-v3-turbo</code>) để chuyển lời thoại thành văn bản (STT), và Kokoro chạy qua mlx-audio (fallback sang Kokoro-FastAPI) làm bộ tổng hợp tiếng nói (TTS).</li>
+<li><strong>Barge-in &amp; Echo Gate (<code>listen.py</code>)</strong>: Chạy dưới công cụ <code>Monitor</code> của Claude Code; lọc tiếng vọng (echo gate) phát từ loa ngoài laptop (loại bỏ từ ngữ trùng lặp) và xử lý ngắt lời (barge-in) bằng cách kiểm tra partial transcript ngay khi câu đang phát để ngắt TTS lập tức nếu người dùng nói đè lên.</li>
+<li><strong>CallPill</strong>: Ứng dụng native AppKit (Swift) hiển thị card đàm thoại nổi, trạng thái tác tử (sprite animation tốn ~1.5% CPU), nút mic/stop và giao diện duyệt cấp quyền (<code>PermissionRequest</code>).</li>
+<li><strong>Hệ thống Hooks</strong>: <code>narrate</code> phát âm thanh thông báo mỗi khi gọi công cụ (giới hạn tối đa 1 lần mỗi 6 giây); <code>permit</code> định tuyến hộp thoại xin quyền sang CallPill (chỉ chấp nhận click chuột vật lý, chống bypass bằng giọng nói, bỏ qua click trong 0.6 giây đầu, timeout 50 giây); <code>guard</code> kiểm soát quyền gọi tool của từng tác tử (<code>read</code>, <code>drafts</code>, <code>full</code>).</li>
+<li><strong>Workers &amp; Spaces Pane</strong>: Quản lý các worker chạy định kỳ (schedule/charter), cơ chế Outbox yêu cầu duyệt hành động gửi ra ngoài (email, post) và wiki nội bộ (Spaces/Pages Markdown).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Yêu cầu macOS trên Apple Silicon, ứng dụng Claude desktop cùng Claude Code, Python 3.9+, Git và Homebrew/uv. Các thành phần speech model (Whisper large-v3-turbo, Silero VAD, Kokoro mlx-audio) được tải về cục bộ. Hỗ trợ tai nghe Bluetooth/AirPods thông qua bản vá upsampling 48 kHz (<code>voicemode-mouth-bluetooth.patch</code>). Tích hợp Slack qua Socket Mode bridge.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Không có bảng điểm định lượng chuẩn (WER, MOS, RTF) được công bố trong tài liệu.</li>
+<li>CallPill tiêu thụ tài nguyên khoảng 1.5% CPU khi render sprite animation trên CALayer.</li>
+<li>narrate hook giới hạn tần suất phát âm thanh thông báo tối đa 1 lần mỗi 6 giây.</li>
+<li>permit hook thiết lập thời gian chờ tối đa 50 giây trước khi fallback về dialog mặc định của app, và bỏ qua click chuột trong 0.6 giây đầu tiên sau khi xuất hiện.</li>
+<li>Monitor tool tự hết hạn sau mỗi 30 phút; listener lưu con trỏ và khôi phục tối đa 30 dòng hội thoại bị lỡ khi kích hoạt lại.</li>
+<li>Hệ thống tự động đánh dấu tác tử ở trạng thái 'stale' nếu không có hoạt động trong 15 phút.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Chỉ hoạt động trên macOS vi xử lý Apple Silicon; phụ thuộc vào việc Claude desktop app phải luôn mở; lần phát âm đầu tiên sau khi khởi động lại voice service có thể mất đến 30 giây để nạp model; trên loa laptop tính năng barge-in yêu cầu tối thiểu hai từ nội dung không trùng với câu Claude đang nói; Slack bridge mới chỉ thử nghiệm trên fake client (chưa kiểm thử thực tế trên workspace trực tiếp); không hỗ trợ Microsoft Teams.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Cung cấp một bản mẫu kiến trúc hoàn chỉnh cho speech engineer kết hợp voice agent cục bộ với LLM desktop tooling: áp dụng mô hình triệt tiêu echo không cần DSP phức tạp, cơ chế ngắt câu (barge-in) dựa trên partial transcript, và nguyên tắc an toàn 'chỉ click chuột vật lý để cấp quyền' (ngăn chặn prompt injection qua âm thanh phòng).</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">45.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,82.8 230.0,115.26 181.63,167.77 138.37,167.77 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="82.8" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="181.63" cy="167.77" r="3.5"/><circle class="radar-dot" cx="138.37" cy="167.77" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 3/5 — Kết hợp sáng tạo các công nghệ mã nguồn mở sẵn có (VoiceMode, Whisper, Kokoro, Silero VAD) vào kiến trúc Claude Code mod và Native CallPill thay vì tạo ra mô hình giọng nói mới.</title>Novelty <tspan class="radar-value">3</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật hệ thống rất chi tiết và chặt chẽ, từ xử lý ngắt lời barge-in, echo gate trên loa ngoài, bản vá Bluetooth audio 48 kHz, đến các hook bảo mật (guard, permit, narrate).</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 2/5 — Tài liệu chỉ cung cấp video demo, tài liệu hướng dẫn và mã nguồn hoàn chỉnh mà không có số liệu thực nghiệm đo lường latency hay chất lượng nhận dạng/tổng hợp tiếng nói.</title>Evidence <tspan class="radar-value">2</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 2/5 — Dự án ở mức độ cộng đồng ngách với 53 stars và 6 forks, bị giới hạn chỉ dành riêng cho người dùng Claude Code trên macOS Apple Silicon.</title>Impact <tspan class="radar-value">2</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Dự án cá nhân mã nguồn mở trên GitHub đạt 53 stars, mã nguồn và quy trình cài đặt/gỡ lỗi rõ ràng nhưng không qua bình duyệt học thuật.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">3/5</span></dt><dd>Kết hợp sáng tạo các công nghệ mã nguồn mở sẵn có (VoiceMode, Whisper, Kokoro, Silero VAD) vào kiến trúc Claude Code mod và Native CallPill thay vì tạo ra mô hình giọng nói mới.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Dự án cá nhân mã nguồn mở trên GitHub đạt 53 stars, mã nguồn và quy trình cài đặt/gỡ lỗi rõ ràng nhưng không qua bình duyệt học thuật.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật hệ thống rất chi tiết và chặt chẽ, từ xử lý ngắt lời barge-in, echo gate trên loa ngoài, bản vá Bluetooth audio 48 kHz, đến các hook bảo mật (guard, permit, narrate).</dd></div>
+          <div><dt>Impact <span class="muted">2/5</span></dt><dd>Dự án ở mức độ cộng đồng ngách với 53 stars và 6 forks, bị giới hạn chỉ dành riêng cho người dùng Claude Code trên macOS Apple Silicon.</dd></div>
+          <div><dt>Evidence <span class="muted">2/5</span></dt><dd>Tài liệu chỉ cung cấp video demo, tài liệu hướng dẫn và mã nguồn hoàn chỉnh mà không có số liệu thực nghiệm đo lường latency hay chất lượng nhận dạng/tổng hợp tiếng nói.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Hạ tầng giọng nói chạy 100% cục bộ · Thiết kế an toàn ngăn cấp quyền bằng giọng nói · Xử lý barge-in và echo gate thực tế · Giao diện CallPill native AppKit nhẹ (~1.5% CPU) · Quản lý tác tử chạy ngầm với Outbox duyệt tác vụ</p>
+          <p><span class="label">Weaknesses</span> · Bị khóa cứng trên macOS Apple Silicon · Chưa có đánh giá định lượng latency và WER · Khởi động lạnh TTS có thể mất tới 30 giây · Phụ thuộc VoiceMode đang trong giai đoạn thử nghiệm</p>
+          <p><span class="label">Context</span> · Dự án mã nguồn mở độc lập (giấy phép MIT) phát triển bởi tác giả AKamaly trên GitHub, không liên kết chính thức với Anthropic.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>
