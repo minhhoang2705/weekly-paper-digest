@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2607.21179",
+ "topic": "Speech LLM",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đề xuất góc nhìn mới mẻ coi việc nén token là quá trình tái phân bổ đa phương thức: sử dụng CCA dạng đóng giải quyết modality gap không cần học và biến vật thể thị giác thành text proxy neo vị trí TMRoPE.",
+  "credibility": "Nhóm tác giả uy tín từ KAIST và Visual Geometry Group (VGG) Oxford với nhiều công trình chất lượng về audio-visual, mã nguồn được công khai minh bạch.",
+  "technical": "Xây dựng phương pháp chặt chẽ kết hợp đại số tuyến tính (regularized CCA), phân tích saliency dư thừa, phục hồi cục bộ 4 láng giềng và kiểm chứng thống kê có khoảng tin cậy/p-value.",
+  "impact": "Giải quyết điểm nghẽn độ trễ/bộ nhớ thực tế của Omni-LLM khi triển khai, tuy nhiên bài báo mới xuất hiện nên các chỉ số cộng đồng (HF 4 upvotes, GitHub 1 star) còn ở giai đoạn đầu.",
+  "evidence": "Thực nghiệm chi tiết trên nhiều backbone (Qwen2.5-Omni 3B/7B, Qwen3-Omni 30B, SALMONN2), 5 benchmark audio-visual, streaming, video dài, cùng các ablation study phân tích kỹ lưỡng."
+ },
+ "summary": {
+  "tldr": "ReMo là một khung nén token không cần huấn luyện (training-free) dành cho Omni-LLM, giúp giảm hơn 54% số lượng token đầu vào mà vẫn duy trì hoặc vượt nhẹ độ chính xác so với mô hình gốc (đạt 101.2% - 101.4% hiệu năng trung bình). Phương pháp này kết hợp phép chiếu CCA dạng đóng (closed-form) để loại bỏ token thị giác đã được giải thích bởi âm thanh, đồng thời thay thế các token vật thể bị cắt tỉa bằng các proxy văn bản nhỏ gọn được định vị không-thời gian qua TMRoPE.",
+  "problem": "Các mô hình Omni-modal LLM xử lý đồng thời âm thanh, video và văn bản nhưng chi phí phân bổ cực kỳ mất cân bằng: token thị giác chiếm hơn 90-95% chuỗi đầu vào dẫn đến độ phức tạp tính toán cơ chế attention bậc hai làm bùng nổ latency và bộ nhớ GPU. Các phương pháp nén không huấn luyện trước đây hoặc giả định sai lầm về sự thẳng hàng giữa embedding âm thanh và hình ảnh trong không gian gốc (gặp phải hiện tượng modality gap), hoặc cần các mô hình mã hóa ngoài rất nặng (như CLIP/AudioCLIP), hoặc cắt tỉa trực tiếp làm mất đi các ngữ nghĩa mức vật thể quan trọng.",
+  "method": "ReMo coi việc nén token là quá trình tái phân bổ thông tin giữa các phương thức (cross-modal redistribution) ở mức đầu vào trước decoder qua 4 bước chính:\n1. **Chiếu không gian chung dạng đóng (Cross-modal projection)**: Trích xuất 5.000 cặp embedding audio-visual ngoại tuyến từ VGGSound, làm trắng (whitening) qua nghịch đảo căn bậc hai ma trận hiệp phương sai có chuẩn hóa $W_a = (\\frac{1}{n}\\Delta \\mathbf{A}^\\top \\Delta \\mathbf{A} + \\epsilon I)^{-1/2}$ và tính SVD của cross-covariance (regularized CCA) để lấy $K=512$ hướng canonical $P_a, P_v$. Khi suy luận, ánh xạ audio trung bình $\\bar{a}_t$ và visual token $v_{t,j}$ thành $z^a_t$ và $z^v_{t,j}$.\n2. **Độ nổi bật dư thừa (Residual saliency)**: Tính điểm nổi bật thị giác nội bộ $s^{\\mathrm{vis}}_{t,j} = 1 - \\cos(v_{t,j}, \\bar{v}_t)$ và độ nổi bật âm thanh $s^{\\mathrm{aud}}_{t,j} = 1 - \\cos(z^v_{t,j}, z^a_t)$. Kết hợp có trọng số $s_{t,j} = (1-\\beta_t)s^{\\mathrm{vis}}_{t,j} + \\beta_ts^{\\mathrm{aud}}_{t,j}$ với $\\beta_t = \\frac{\\bar{s}^{\\mathrm{vis}}_t}{\\bar{s}^{\\mathrm{vis}}_t + \\bar{s}^{\\mathrm{aud}}_t}$. Giữ lại $\\lceil \\rho_{av}N \\rceil$ token có điểm cao nhất (mặc định $\\rho_{av}=0.4$), loại bỏ các token vừa phổ biến về thị giác vừa dự đoán được từ âm thanh.\n3. **Chuyển ngữ nghĩa sang Text Proxies (Semantic offloading)**: Sử dụng bộ phát hiện nhẹ YOLOv8n-seg để nhận diện lớp vật thể $c_i$ và mặt nạ $m_i$. Biến tên lớp thành embedding văn bản $p_i = E_{\\text{text}}(c_i)$ và gán tọa độ vị trí TMRoPE $\\operatorname{pos}(p_i) = (t, h_i, w_i)$ theo trọng tâm mặt nạ. Tỷ lệ token video bị cắt tỉa so với token văn bản bù vào đạt xấp xỉ 176:1 (trung bình chỉ thêm 65 token chữ cho ~11.425 token video bị loại bỏ).\n4. **Khôi phục chi tiết cục bộ & Gộp thời gian (Local detail & Temporal merging)**: Khôi phục lại $\\lceil \\rho_l N \\rceil$ token ($\\rho_l=0.05$) có độ lệch lớn nhất so với 4 láng giềng không gian lân cận $d^l_{t,j} = \\frac{1}{|\\mathcal{N}(j)|} \\sum_{k \\in \\mathcal{N}(j)} \\|v_{t,j} - v_{t,k}\\|_2$. Đồng thời quét cửa sổ trượt 2 chunk, gộp các token cùng vị trí tương đồng ($1 - \\cos < \\tau$, $\\tau=0.05$) và có độ nổi bật dưới trung vị bằng phép kết hợp trọng số nổi bật.",
+  "setup": "Đánh giá trên Qwen2.5-Omni (3B và 7B), Qwen3-Omni-30B-A3B (Instruct và Thinking), SALMONN2+ (7B) và SALMONN2-Pro (8B). Phần cứng: một GPU NVIDIA RTX A6000 (48GB) cho video ngắn và MME; 4 GPU RTX A6000 cho streaming/long-video; một GPU NVIDIA RTX PRO 6000 Blackwell (96GB) cho Qwen3-Omni-30B. Bộ dữ liệu đánh giá: WorldSense, DailyOmni, Video-MME, OmniVideoBench, video-SALMONN2 test set, StreamingBench, FutureOmni, OmniMMI. Các mô hình cơ sở so sánh: Full Token, Random, FastV, OmniZip, DASH, OmniScope, OmniSelect.",
+  "results": [
+   "Trên Qwen2.5-Omni 3B: ReMo nén 54% token, đạt trung bình chuẩn hóa 101.2% so với Full Token, vượt qua mô hình không nén (WorldSense: 47.8 vs 47.7, DailyOmni: 58.3 vs 57.7, Video-MME: 77.5 vs 75.8, OmniVideoBench: 44.6 vs 44.0, lỗi video-SAL2: 52.9 vs 53.5), vượt baseline mạnh nhất DASH (99.4%).",
+   "Trên Qwen2.5-Omni 7B: ReMo nén 54% token, đạt 101.4% trung bình so với Full Token (WorldSense: 48.2 vs 47.4, DailyOmni: 57.4 vs 57.0, Video-MME: 77.9 vs 78.8, OmniVideoBench: 49.4 vs 47.6, lỗi video-SAL2: 48.4 vs 49.3).",
+   "Hiệu quả tài nguyên trên Video-MME (3B/7B): ReMo giảm bộ nhớ GPU từ 19.0/27.7 GiB xuống 13.6/21.9 GiB và giảm latency từ 6.9/9.8s xuống 4.7/6.0s (tương đương OmniZip: 4.6/5.9s, nhanh hơn nhiều so với OmniScope 5.9/7.2s).",
+   "Mở rộng trên Qwen3-Omni-30B-A3B: Nén 57% token, đạt 100.7% trên bản Instruct (WorldSense: 53.3, DailyOmni: 67.7, Video-MME: 84.4, OmniVid: 51.2) và 100.2% trên bản Thinking so với Full Token.",
+   "Căn chỉnh không gian chung (Audio-to-Video Retrieval trên VGGSound): Phép chiếu closed-form tăng R@1 từ 2.7% lên 31.3% (3B) và từ 5.0% lên 35.6% (7B), hạ MedR từ 62/52 xuống 4/3.",
+   "Nén cực hạn (DailyOmni ở mức nén 90%): ReMo vẫn giữ độ chính xác 51.3% (3B) và 52.2% (7B), vượt trội rõ rệt so với OmniZip và OmniSelect (thậm chí rơi xuống dưới Random)."
+  ],
+  "limitations": "Hiệu năng phụ thuộc vào chất lượng của bộ phát hiện vật thể YOLOv8n-seg: nếu detector phát hiện sai, gán nhãn nhầm (ví dụ nhận nhầm nền thành sách/TV) hoặc bỏ sót đối tượng (ví dụ chỉ nhận diện 1/3 chiếc xe tuyết), text proxy sẽ truyền lỗi sai vào suy luận của LLM. Ngoài ra, ngân sách nén được thiết lập cố định qua các siêu tham số thủ công chứ chưa tự thích ứng (adaptive) hoàn toàn theo từng tác vụ hoặc từng mẫu đầu vào.",
+  "takeaways": "Thay vì chỉ đơn thuần loại bỏ token thị giác hoặc xử lý độc lập từng luồng, kỹ sư phát triển Omni-LLM có thể offload ngữ nghĩa hình ảnh sang text token định vị không gian (spatially grounded text proxies) với chi phí token cực thấp (tỷ lệ tiết kiệm ~176:1). Phép chiếu regularized CCA dạng đóng không cần gradient là giải pháp nhẹ nhàng, hiệu quả cao để san lấp modality gap giữa audio và visual features ở mức tiền xử lý đầu vào.",
+  "strengths": [
+   "Hoàn toàn training-free và tính toán closed-form nhanh",
+   "Nén 54-57% token nhưng vẫn giữ nguyên độ chính xác",
+   "Thay thế token ảnh bằng text proxy tiết kiệm 176:1",
+   "Thực nghiệm phong phú trên nhiều quy mô (3B-30B)"
+  ],
+  "weaknesses": [
+   "Phụ thuộc lỗi gán nhãn từ detector YOLO",
+   "Ngân sách nén chưa tự thích ứng theo ngữ cảnh",
+   "Đòi hỏi kiến trúc hỗ trợ mã hóa tọa độ không-thời gian"
+  ],
+  "context": "Suho Yoo, Youngjoon Jang, Hyebin Cho, Joon Son Chung (KAIST và VGG, University of Oxford); công bố trên arXiv vào tháng 11/2026 kèm mã nguồn mở GitHub."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

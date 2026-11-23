@@ -1,0 +1,51 @@
+{
+ "id": "arxiv:2611.20254",
+ "topic": "TTS",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng dùng biến đổi sóng con Haar 2 trục cố định, phi tham số để phân rã mel-spectrogram cho mô hình tự hồi quy mà không đẩy residual ngược lại lịch sử là một hướng tiếp cận mới mẻ và khác biệt so với các codec VAE/RVQ truyền thống.",
+  "credibility": "Công trình đến từ nhóm nghiên cứu phối hợp giữa các viện và đại học uy tín (SJTU, Fudan, Xiamen, Zhejiang, Kyoto), có tài liệu mã nguồn mở và liên kết GitHub/HuggingFace rõ ràng.",
+  "technical": "Phân tích toán học chặt chẽ về tự tương quan, thiết kế luồng sinh phân tầng kết hợp flow matching, cùng kỹ thuật Frozen-head GRPO và guidance distillation rất kỹ lưỡng và thuyết phục.",
+  "impact": "Mở ra một phương pháp tiếp cận tokenizer-free thực tế cho autoregressive TTS, chứng minh mel-spectrogram hoàn toàn có thể dùng làm mục tiêu trực tiếp mà không cần phụ thuộc vào neural audio codec.",
+  "evidence": "Cung cấp bảng số liệu thực nghiệm đầy đủ trên LibriSpeech và Seed-TTS-eval, so sánh với hàng loạt mô hình SOTA, kèm kiểm thử nghe chủ quan (MOS) và ablation study định lượng chi tiết."
+ },
+ "summary": {
+  "tldr": "VoxMel là một framework text-to-speech (TTS) autoregressive hoàn toàn không cần tokenizer (tokenizer-free), mô hình hóa trực tiếp mel-spectrogram thông qua phép biến đổi sóng con Haar 2 trục (two-axis Haar wavelet transform) cố định và khả nghịch hoàn toàn. Bằng cách tách mel thành Coarse-Mel đưa vào mô hình tự hồi quy và các thành phần residual được dự đoán phi tự hồi quy độc lập không đưa ngược vào lịch sử, VoxMel giải quyết triệt để vấn đề tích lũy lỗi và phụ thuộc quá mức vào âm thanh quá khứ thay vì văn bản.",
+  "problem": "Các mô hình autoregressive TTS liên tục thường phải dựa vào các biểu diễn nén học được (như discrete codec tokens hoặc continuous VAE latents) đòi hỏi neural encoder phức tạp, dễ làm giới hạn độ chân thực (fidelity cap). Ngược lại, mel-spectrogram là mục tiêu tiêu chuẩn không cần huấn luyện encoder nhưng gặp hai thách thức lớn khi autoregress trực tiếp: (1) độ dư thừa thời gian cao (autocorrelation bậc 1 lên tới 0.944) khiến mô hình bị teacher forcing chỉ dựa vào lịch sử âm thanh mà bỏ qua văn bản; (2) việc đưa toàn bộ khung mel đầy đủ chi tiết trở lại lịch sử autoregressive làm tích lũy sai số lấy mẫu.",
+  "method": "VoxMel áp dụng biến đổi Haar wavelet 2 trục (tần số và thời gian) khả nghịch chính xác lên log-mel spectrogram $X \\in \\mathbb{R}^{T \\times M}$:\n1. **Phân rã wavelet**: Phân rã trục tần số $X$ thành Frequency-Averaged Mel ($A \\in \\mathbb{R}^{T \\times M/2}$) và phần dư tần số ($D^{(f)} \\in \\mathbb{R}^{T \\times M/2}$). Tiếp tục phân rã $A$ theo trục thời gian thành Coarse-Mel ($C \\in \\mathbb{R}^{T/2 \\times M/2}$) và phần dư thời gian ($D^{(t)} \\in \\mathbb{R}^{T/2 \\times M/2}$).\n2. **Sinh tự hồi quy Coarse-Mel**: Decoder-only Transformer backbone (khởi tạo từ Qwen2.5-0.5B) kết hợp flow-matching head autoregressively sinh chuỗi $C$ với $T/2$ bước. Residuals ($D^{(t)}$ và $D^{(f)}$) hoàn toàn **không** được đưa vào ngữ cảnh lịch sử autoregressive.\n3. **Dự đoán residual phi tự hồi quy**: Khối NAR Transformer sinh $D^{(t)}$ có điều kiện từ $C$. Kết hợp $C$ và $D^{(t)}$ để tái tạo $A$, sau đó một mạng MLP xử lý độc lập từng frame sinh $D^{(f)}$ có điều kiện từ $A$. Biến đổi ngược Haar wavelet tái tạo toàn bộ mel-spectrogram để đưa qua Vocos vocoder cố định.\n4. **Tối ưu hóa & Chưng cất**: Áp dụng GRPO đóng băng flow-matching head (chỉ cập nhật backbone) giúp ổn định RL. Chưng cất guided flow head thành student 2 hoặc 4 bước nhận trực tiếp hệ số guidance $(\\omega_{text}, \\omega_{spk})$ làm input, loại bỏ nhu cầu chạy 3 forward passes khi dùng Classifier-Free Guidance (CFG).",
+  "setup": "Huấn luyện trên 100K giờ âm thanh từ tập dữ liệu Emilia (độ dài 0.3s - 30s). Âm thanh 24 kHz được trích xuất 100-channel log-mel spectrogram (hop 256, window 1024, 93.75 fps). Bộ tạo âm (vocoder) là Vocos 24 kHz đông băng. Cấu hình 3 kích thước: 0.15B (153.4M params), 0.3B (312.2M params), 0.6B (690.1M params; backbone 494M). Huấn luyện bằng AdamW, lr $2 \\times 10^{-4}$, cosine decay, warmup 10,000 steps, bfloat16 trong 900K steps. Đánh giá zero-shot trên LibriSpeech test-clean, Seed-TTS-eval test-en (1,088 câu) và test-zh (2,020 câu). ASR: faster-whisper large-v3 (EN) và FunASR Paraformer-zh (ZH); SIM dùng cosine similarity qua WavLM-large.",
+  "results": [
+   "Trên Seed-TTS-eval test-en: VoxMel-0.6B giám sát (32 NFE) đạt WER 1.51% và SIM 0.738; sau GRPO (frozen-head) cải thiện lên WER 1.15% và SIM 0.753 (vượt DiTAR 1.69%/0.735 và CosyVoice 3 2.02%/0.718).",
+   "Trên Seed-TTS-eval test-zh: VoxMel-0.6B giám sát đạt CER 1.29% và SIM 0.755; sau GRPO đạt CER 1.17% và SIM 0.776.",
+   "Trên LibriSpeech test-clean: VoxMel-0.6B đạt WER 1.98% / SIM 0.721; sau GRPO đạt WER 1.95% / SIM 0.736 (SIM cao nhất bảng so sánh).",
+   "Chưng cất Flow-Head 4-step: Giảm NFE từ 96 xuống 4 evaluations/coarse frame (tăng tốc 24x) với WER 1.49% / SIM 0.693 (test-en) và CER 1.20% / SIM 0.747 (test-zh).",
+   "Ablation phân rã trên mô hình 0.15B (Seed-TTS test-en): Full-band mel không phân rã cho WER cực tệ 30.35% (text reliance 1.10%), trong khi tách hoàn toàn cả 2 residual (t+f) giảm WER xuống 1.90% (text reliance tăng lên 4.53%).",
+   "Đánh giá chủ quan (MOS 5 thang điểm): VoxMel đạt Naturalness/Similarity là 3.89±0.10 / 3.97±0.10 ở tiếng Trung và 3.96±0.09 / 4.11±0.09 ở tiếng Anh."
+  ],
+  "limitations": "Chỉ mới thử nghiệm phép phân rã Haar cấp độ 1 (single split) trên mỗi trục, chưa đánh giá độ sâu phân rã khác hay các họ wavelet khác. Chỉ đánh giá trên tiếng Anh và tiếng Trung với các đoạn ngắn đơn người nói, chưa mở rộng sang ngôn ngữ thanh điệu phức tạp khác, tổng hợp văn bản dài, hội thoại đa người nói, biểu cảm nâng cao, hát hay chuyển đổi mã (code-switching). Chưa đánh giá ngoài miền tiếng nói (nhạc, âm thanh môi trường).",
+  "takeaways": "Không nhất thiết phải huấn luyện acoustic codec phức tạp (như RVQ hay VAE) để làm continuous autoregressive TTS; chỉ cần biến đổi Haar wavelet 2 trục cố định và loại bỏ residual khỏi ngữ cảnh autoregressive là đủ để loại bỏ trễ thời gian, triệt tiêu tích lũy sai số và ép mô hình chú ý vào văn bản. Kỹ thuật đóng băng flow head khi chạy GRPO và chưng cất tích hợp CFG vào head là những giải pháp kỹ thuật rất thực tế để triển khai TTS thời gian thực.",
+  "strengths": [
+   "Không cần learned acoustic tokenizer phức tạp",
+   "Biến đổi Haar khả nghịch toán học tuyệt đối",
+   "Loại bỏ tích lũy lỗi nhờ tách residuals",
+   "Frozen-head GRPO cải thiện rõ rệt mọi chỉ số",
+   "Chưng cất 4-step giảm NFE 24 lần"
+  ],
+  "weaknesses": [
+   "Chỉ thử nghiệm biến đổi Haar wavelet cấp 1",
+   "Chưa đánh giá trên hội thoại dài và biểu cảm",
+   "Suy giảm SIM đáng kể khi chưng cất ít bước"
+  ],
+  "context": "Nhóm tác giả thuộc Shanghai Innovation Institute, Xiamen University, Shanghai Jiao Tong University, Fudan University, Zhejiang University và Kyoto University; công bố trên arXiv (arXiv:2611.20254v1, Nov 2026)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

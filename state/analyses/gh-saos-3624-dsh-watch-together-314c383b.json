@@ -1,0 +1,50 @@
+{
+ "id": "gh:saos-3624/dsh-watch-together",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Thiết kế cơ chế 'cùng xem' (watch together) theo thời gian thực kết hợp storyboard lookahead buffer, ramp-up time slicing và speech-bus chống nghẽn âm thanh là cách tiếp cận mới lạ cho multimodal voice agent.",
+  "credibility": "Dự án mã nguồn mở cá nhân/nhóm trên GitHub với giấy phép Apache 2.0, tài liệu chi tiết, có test suite CI nhưng chưa phải là công trình được peer-review tại hội nghị khoa học.",
+  "technical": "Xử lý kỹ thuật chuyên sâu về quản lý tiến trình, IPC qua JSONL, ngoại suy clock, tối ưu hóa Tkinter canvas, pipeline đồ họa CPU/GPU và xử lý xung đột âm thanh nối tiếp.",
+  "impact": "Dự án chuyên biệt cho hệ sinh thái DeepSeek Harness (DSH) với mức độ quan tâm ở mức trung bình trên GitHub (55 stars, 11 forks).",
+  "evidence": "Tài liệu ghi nhận các số đo latency (0.0s), định lượng token, mức tải CPU/bộ nhớ và tối ưu canvas items trên phần cứng thực tế kèm mã nguồn kiểm chứng."
+ },
+ "summary": {
+  "tldr": "dsh-watch-together là một plugin dành cho DeepSeek Harness (DSH) cho phép AI agent đồng hành xem video cùng người dùng theo thời gian thực (real-time sync) thông qua tiện ích mở rộng trình duyệt. Hệ thống phân đoạn video và cung cấp cho mô hình cả hình ảnh phân cảnh (storyboard grid) lẫn phụ đề kèm mốc thời gian chính xác (millisecond-level timestamp), đồng thời quản trị hàng đợi phát âm thanh (TTS/voice) đồng bộ với tiến độ phát.",
+  "problem": "Các AI agent hiện tại khi xử lý video thường phụ thuộc vào văn bản phiên âm (transcripts) toàn bộ hoặc chụp ảnh màn hình rời rạc, làm mất tính đồng bộ thời gian thực theo trải nghiệm của người dùng. Hơn nữa, việc bắt agent xem toàn bộ video gây độ trễ lớn, chi phí token cao và khó tạo cảm giác tương tác tự nhiên (cùng xem, chèn lời thoại đúng khoảnh khắc).",
+  "method": "Hệ thống chỉ đăng ký một công cụ duy nhất `watch_together` trên DSH và kết nối lỏng với bộ engine nhận diện `dsh-video-storyboard` qua kiến trúc gồm các thành phần chính:\n- **Đồng bộ vị trí phát (Playback Tracking)**: Đọc giá trị `currentTime` thực tế của thẻ `<video>` từ trình duyệt qua hai kênh: Chrome/Edge extension (POST về `127.0.0.1:9377` mỗi giây, ưu tiên) hoặc Chromium DevTools Protocol (CDP port 9333, đọc mỗi 15 giây kết hợp ngoại suy clock).\n- **Cơ chế Dual-buffer & Ramp-up**: Áp dụng khởi động biến tốc `ramp: [60, 120, 180, 240]` giây (giúp agent mở lời sau 45 giây thay vì đợi hết đoạn chuẩn 300 giây). Bộ đệm kép dựng trước batch kế tiếp (2–10 giây tính toán) ngay khi người dùng đang xem batch hiện tại, bàn giao trước mốc kết thúc đoạn một khoảng thời gian `lead` (mặc định 15 giây).\n- **Quản lý thoại và chống nghẽn (Speech Bus & Reply Guard)**: Lõi không tích hợp sẵn TTS mà xuất các sự kiện trạng thái vòng đời âm thanh (`scheduled`, `due`, `spoken`, `skipped`) để adapter bên ngoài xử lý. Bộ tuần tự hóa thoại ước tính thời lượng bận bằng $\\text{ký tự} / 5$ giây; nếu trễ quá grace period (3 giây) hoặc hàng đợi vượt 3.5 giây sẽ chủ động drop/skip nhằm tránh trượt mốc thời gian. Khi người dùng ngắt lời (interject), hệ thống khóa 12 giây (`reply-guard.js`) để thu hồi các câu kịch bản sắp tới, ngăn AI nói đè hoặc dồn ứ âm thanh.\n- **Giao diện Floating Chat Window**: Cửa sổ nổi Tkinter (`examples/floating-chat/window.py`) hỗ trợ 4 chế độ hiển thị nền (auto, live, frost, solid) với pipeline xử lý ảnh (CPU gaussian/dispersion hoặc moderngl GPU).",
+  "setup": "Yêu cầu môi trường gồm `node`, `ffmpeg` trên PATH, `dsh-video-storyboard` phiên bản `^0.5.0`, tiện ích mở rộng trình duyệt (Edge/Chrome). Các tiện ích bổ sung: `yt-dlp` kèm cookies để lấy phụ đề; cấu hình ASR qua `~/.dsh/asr.json` cho video không phụ đề; TTS/Voice adapter qua `~/.dsh/voice.json` (hỗ trợ edge-tts và ffplay). Cửa sổ nổi Python yêu cầu Python có `tkinter`, `pillow`, `numpy`, `mss` (chế độ GPU yêu cầu `moderngl`, OpenGL 3.3).",
+  "results": [
+   "Độ trễ bàn giao nội dung (perception latency): Đạt 0.0 giây (trúng prefetch cache) qua 4 lần đo thực tế nhờ cơ chế dual-buffering.",
+   "Tối ưu hiệu năng render cửa sổ nổi (floating chat): Tải CPU đo trên cửa sổ 760×560 khi phát video đạt ~1.7 cores ở chế độ `live` và giảm xuống ~0.01 core ở chế độ `frost` (0.03 giây CPU trên chu kỳ 3 giây).",
+   "Tối ưu chi phí bộ nhớ/phần cứng UI: Chế độ CPU tiêu thụ ~43% single core và 93 MB RAM, so với GPU tiêu thụ 32% core và 195 MB VRAM/RAM.",
+   "Tối ưu hóa canvas item khi cuộn lịch sử: Giảm từ 964 xuống 104 canvas items (trên 20 tin nhắn), rút ngắn thời gian cuộn một nấc từ 136ms xuống 63ms.",
+   "Tiêu hao token cho mỗi phân đoạn: Phương pháp phân tích đầy đủ (ảnh + phụ đề) tốn 1,200–1,900 tokens (hoặc 1,000–1,300 tokens/5 ô storyboard); chế độ `scan` (chỉ phụ đề/mốc giây) tốn ~300 tokens; chế độ `auto` tốn 0 token mô hình. Tổng video 90 phút tốn khoảng 45,000–60,000 tokens."
+  ],
+  "limitations": "Plugin không nhúng sẵn TTS và không tự phát âm thanh nếu thiếu voice adapter; chế độ GPU và live capture tiêu tốn tài nguyên đồ họa/CPU; bảo mật phụ thuộc vào prompt (mô hình có thể đọc nhầm text trong ảnh thành prompt injection dù đã có cảnh báo untrusted input); không hỗ trợ tóm tắt toàn bộ video mà chỉ chạy theo luồng từng đoạn.",
+  "takeaways": "Cung cấp mẫu thiết kế hệ thống chuẩn cho voice-enabled companion agent: tách rời video pipeline, clock tracking, và speech generation qua event-driven bus; áp dụng lookahead prefetch để triệt tiêu độ trễ tương tác nhận thức.",
+  "strengths": [
+   "Độ trễ nhận thức 0.0s nhờ dual-buffer",
+   "Đồng bộ chính xác qua browser extension",
+   "Cơ chế Speech Bus và Reply Guard thông minh",
+   "Tối ưu hóa token linh hoạt (scan vs full)"
+  ],
+  "weaknesses": [
+   "Không tích hợp sẵn TTS hoàn chỉnh",
+   "Cửa sổ nổi Python phụ thuộc nhiều thư viện",
+   "Chi phí token tích lũy cao với video dài",
+   "Rủi ro prompt injection từ text trong video"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi SAOS-3624 trên GitHub, thiết kế dưới dạng plugin công cụ cho hệ sinh thái DeepSeek Harness (DSH)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

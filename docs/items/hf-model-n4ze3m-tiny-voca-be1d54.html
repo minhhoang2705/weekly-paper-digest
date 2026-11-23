@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>n4ze3m/tiny-voca · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W48</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">n4ze3m/tiny-voca</h1>
+    <div class="meta">
+      <span title="Listed by HF Models, GitHub inside the crawl window">found Nov 23, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Nov 14, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Model</span>
+<span class="pill">HF Models</span><span class="pill">GitHub</span><span class="pill pill-accent">TTS</span>        <span class="authors">n4ze3m</span>
+    </div>
+  </div>
+  <div class="header-actions">
+      <a class="button" href="https://github.com/n4ze3m/tiny-voca" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Code</a>
+    <a class="button" href="https://huggingface.co/n4ze3m/tiny-voca" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">model card excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>A 4.5M-parameter two-voice English text-to-speech model, trained from scratch
+
+README: tiny-voca. tiny-voca is a small English text-to-speech model. It has two voices, 4.5M parameters, and runs on a CPU or in the browser. Demo · Weights · Dataset Features. - Small: 4,537,291 parameters, 18 MB, waveform generator included. - Fast: about 70x real time on four CPU threads. - Two voices: F2 (female) and M2 (male), American English, 24 kHz. - Runs anywhere: PyTorch, ONNX Runtime, and ONNX Runtime Web. - Open: code, weights, training recipe and dataset. Trained from scratch. Install. Usage. | Option | Default | Meaning | | --text-file | | Read the text from a file instead of --text | | --voice | F2 | F2 or M2 | | --speed | 1.0 | Speaking rate | | --pitch-shift | 0 | Raise or lower the pitch | | --pitch-range | 1.0 | More or less pitch movement | Long text is fine. It is read one sentence at a time and the audio is joined. A text that ends without a mark gets a full stop, so the last word does not break off. A sentence with nothing to read, such as one in another script, is skipped. The output never peaks above 0.99, so it does not clip as a 16-bit WAV. In Python, tiny_voca.infer.speak_text does the same. ONNX. A ready file is in the weights repository as onnx/model.onnx. The model card shows how to call it. Web demo. The demo runs the model in the browser. It plays each sentence as soon as it is made, and keeps the whole clip in the player. Its source is in web/. Plain JavaScript. An experiment in js/: the model and the phonemizer in plain scripts, with no libraries. It reads one 8 MB file and runs in the browser, in Node and in Bun. See js/README.md. Training. The released weights took 7.7 hours on one RTX 4090. More about the model and the data is in docs/model.md. Tests. Limits. - English only. Two fixed voices. No voice cloning. - The F2 voice sounds younger than intended. A more mature voice is planned. - Foreign names and odd spellings are often read wrong. - No streaming yet. Community. Built by other people on top of tiny-voca. Languages and voices:</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 23, 2026 · model card</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>tiny-voca là một mô hình TTS tiếng Anh siêu nhẹ gồm 4,5M tham số (4.537.291 tham số) với hai giọng F2 (nữ) và M2 (nam), đạt tốc độ suy luận nhanh gấp 70 lần thời gian thực trên 4 luồng CPU. Mô hình thay thế neural vocoder truyền thống bằng bộ tổng hợp source-filter chỉ 25,8k tham số, được huấn luyện hoàn toàn từ đầu trên khoảng 17,6 giờ dữ liệu tổng hợp (synthetic audio) với tổng chi phí GPU dưới 10 USD.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình TTS hiện đại thường có kích thước lớn (hàng chục đến hàng trăm triệu tham số), đòi hỏi tài nguyên tính toán cao và phụ thuộc vào neural vocoder nặng nề, gây khó khăn cho việc triển khai trên thiết bị biên, điện thoại di động hoặc trực tiếp trên trình duyệt web (Wasm/CPU).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Mô hình nhận văn bản đã được chuyển thành phoneme và nhãn stress qua thư viện <code>dizione</code>. Kiến trúc không dùng pre-trained weights, gồm: (1) Text encoder transformer 4 khối (1.588.864 params), (2) Bộ dự đoán thời lượng (duration) và ngắt nghỉ (123.906 params), (3) Frame transformer A dự đoán pitch, voicing và energy (795.971 params), (4) Frame transformer B (1.985.984 params), và (5) Đầu tạo sóng dạng source-filter synthesizer (25.862 params). Tất cả các khối transformer dùng 192 kênh, 4 attention heads và rotary position embeddings (RoPE). Thay vì neural vocoder, phần source-filter tạo chuỗi xung giới hạn băng thông (band-limited pulse train) dựa trên pitch dự đoán kết hợp tín hiệu nhiễu (noise signal), sau đó đưa qua bộ lọc biến thiên theo thời gian dựa trên cepstrum được dự đoán theo từng khung (256 mẫu, 10,7 ms). Quá trình huấn luyện kéo dài 104.737 bước trên 1 GPU RTX 4090 (7,7 giờ) sử dụng hàm mất mát multi-resolution spectral losses và adversarial loss (multi-period và multi-resolution discriminators sau bước 8.000). Toàn bộ 17,6 giờ dữ liệu huấn luyện (16.018 clips) được tổng hợp bằng Qwen3-TTS VoiceDesign và Qwen3-TTS 1.7B Base, gắn nhãn thời lượng bằng <code>facebook/wav2vec2-lv-60-espeak-cv-ft</code>.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Mô hình xuất âm thanh đơn kênh (mono) 24 kHz. Hỗ trợ runtime PyTorch (<code>tiny-voca.pt</code>, 18,2 MB) và ONNX float32 opset 17 (<code>model.onnx</code>, 21,4 MB), tương thích với <code>onnxruntime-web</code> (WebAssembly). Nhận tối đa 512 token và xuất audio tối đa 32 giây cho mỗi lệnh gọi (các đoạn dài hơn được ngắt câu để ghép). Có các tùy chọn tinh chỉnh tốc độ (<code>--speed</code>), cao độ (<code>--pitch-shift</code>) và biên độ cao độ (<code>--pitch-range</code>).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Tốc độ suy luận CPU: chạy nhanh xấp xỉ 70x real-time trên 4 luồng CPU.</li>
+<li>Kích thước hoàn chỉnh: 4.537.291 tham số (khoảng 4,5M), chỉ tốn 18,2 MB (weights PyTorch) và 21,4 MB (ONNX).</li>
+<li>Độ khớp ONNX Runtime WebAssembly với PyTorch: biên độ âm thanh lệch tối đa trong phạm vi 0,6% peak amplitude (ngoại trừ nhiễu ngẫu nhiên).</li>
+<li>Đánh giá kiểm tra (Sanity check WER qua Whisper small.en): Validation đạt 0,6% (ngang ngửa bản ghi gốc 0,6%), Test đạt 0,9% (ngang ngửa bản ghi gốc 0,9%), và 16 câu hoàn toàn mới ngoài tập dữ liệu đạt WER 0,0%.</li>
+<li>Open TTS Leaderboard (English, không voice cloning, snapshot 20/11/2026, 45 mô hình): Voice F2 xếp hạng 5 về average WER (0,74%, UTMOS22: 4,43), Voice M2 xếp hạng 7 (WER 0,76%, UTMOS22: 4,35), vượt qua nhiều mô hình lớn hơn như phonon-40m-en (51M, WER 0,76%) và pocket-tts (100M, WER 0,77%).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Chỉ hỗ trợ tiếng Anh với đúng 2 giọng cố định (F2, M2), không có khả năng voice cloning (sao chép giọng). Giọng F2 nghe trẻ hơn dự tính. Ngữ điệu mang tính tiền định (deterministic), không thể lấy mẫu prosody ngẫu nhiên. Không hỗ trợ streaming. Dữ liệu huấn luyện hoàn toàn là synthetic speech nên độ tự nhiên bị chặn trần bởi mô hình sinh gốc (Qwen3-TTS). Phát âm tên nước ngoài, từ viết tắt và chữ đồng âm phụ thuộc chặt vào công cụ phonemizer bên ngoài.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Chứng minh rằng kiến trúc source-filter truyền thống (kết hợp DDSP) khi kết hợp với bộ dự đoán cepstrum hiện đại có thể thay thế neural vocoder nặng nề, giảm kích thước mô hình xuống chỉ còn 4,5M tham số và cho phép chạy TTS chất lượng cao cực nhanh trực tiếp trên CPU và trình duyệt bằng WebAssembly.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">71.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+<div class="rank-note">#6 in 2026-W48</div>      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="64.4" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="116.74" cy="197.54" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 4/5 — Kết hợp khéo léo kiến trúc FastSpeech 2 với bộ tổng hợp source-filter vi phân (DDSP/homomorphic vocoder) chỉ 25,8k params để loại bỏ hoàn toàn neural vocoder cồng kềnh trong một mô hình 4,5M tham số.</title>Novelty <tspan class="radar-value">4</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Thiết kế kỹ thuật hoàn chỉnh và chỉn chu: chia tách thành các transformer encoder/frame-level với RoPE, tích hợp source-filter qua cepstrum và hỗ trợ xuất ONNX/Wasm hoạt động mượt mà.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Cung cấp chi tiết số lượng tham số, phân tích kiến trúc, chi phí huấn luyện, kiểm thử WER với Whisper và có vị trí xếp hạng chính thức trên Open TTS Leaderboard (snapshot 20/11/2026).</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 4/5 — Có sức hút cộng đồng ấn tượng (421 HF likes, hơn 10k downloads, 855 GitHub stars), mở ra tiềm năng ứng dụng trực tiếp TTS trên điện thoại cấu hình yếu và trình duyệt web mà không cần GPU.</title>Impact <tspan class="radar-value">4</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Dự án cá nhân độc lập của tác giả Muhammed Nazeem (có ORCID), mã nguồn và trọng số mở hoàn toàn minh bạch kèm mã băm SHA256, nhưng chưa qua bình duyệt học thuật chính thức.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">4/5</span></dt><dd>Kết hợp khéo léo kiến trúc FastSpeech 2 với bộ tổng hợp source-filter vi phân (DDSP/homomorphic vocoder) chỉ 25,8k params để loại bỏ hoàn toàn neural vocoder cồng kềnh trong một mô hình 4,5M tham số.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Dự án cá nhân độc lập của tác giả Muhammed Nazeem (có ORCID), mã nguồn và trọng số mở hoàn toàn minh bạch kèm mã băm SHA256, nhưng chưa qua bình duyệt học thuật chính thức.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Thiết kế kỹ thuật hoàn chỉnh và chỉn chu: chia tách thành các transformer encoder/frame-level với RoPE, tích hợp source-filter qua cepstrum và hỗ trợ xuất ONNX/Wasm hoạt động mượt mà.</dd></div>
+          <div><dt>Impact <span class="muted">4/5</span></dt><dd>Có sức hút cộng đồng ấn tượng (421 HF likes, hơn 10k downloads, 855 GitHub stars), mở ra tiềm năng ứng dụng trực tiếp TTS trên điện thoại cấu hình yếu và trình duyệt web mà không cần GPU.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Cung cấp chi tiết số lượng tham số, phân tích kiến trúc, chi phí huấn luyện, kiểm thử WER với Whisper và có vị trí xếp hạng chính thức trên Open TTS Leaderboard (snapshot 20/11/2026).</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kích thước siêu nhỏ gọn (4,5M params) · Suy luận 70x real-time trên 4 luồng CPU · Source-filter synthesizer cực nhẹ (chỉ 25,8k params) · Chi phí huấn luyện cực rẻ (dưới 10 USD) · Xếp hạng cao trên Open TTS Leaderboard</p>
+          <p><span class="label">Weaknesses</span> · Chỉ hỗ trợ tiếng Anh với 2 giọng · Không hỗ trợ voice cloning hay streaming · Ngữ điệu cố định không thể sampling · Phụ thuộc công cụ phonemizer bên ngoài</p>
+          <p><span class="label">Context</span> · Tác giả Muhammed Nazeem (n4ze3m); dự án nguồn mở phát hành trọng số và mã nguồn theo giấy phép Apache-2.0 trên Hugging Face và GitHub.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

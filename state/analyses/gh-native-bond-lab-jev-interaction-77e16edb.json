@@ -1,0 +1,52 @@
+{
+ "id": "gh:native-bond-lab/jev-interaction",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng phân rã toàn bộ bài toán turn-taking full-duplex thành các câu hỏi phán đoán ngôn ngữ tự nhiên dạng trắc nghiệm chạy trong vài chục mili-giây (System 1) kết hợp LLM (System 2) là một hướng tiếp cận độc đáo, khác biệt hoàn toàn với mô hình end-to-end hay silence timer.",
+  "credibility": "Dự án đến từ Native Bond Lab (phòng nghiên cứu ứng dụng cho sản phẩm voice tiêu dùng), mã nguồn mở minh bạch trên GitHub kèm CI test, tuy nhiên chưa được xuất bản qua hội nghị học thuật bình duyệt chính thức.",
+  "technical": "Thiết kế hệ thống rất chặt chẽ với cơ chế sổ cái Ledger đồng bộ thời gian thực, kiến trúc 4 thời điểm rõ ràng, xử lý kết hợp hai phương thức âm thanh (SmartTurn) và văn bản (Jev), cùng cơ chế replay log thực nghiệm chi tiết.",
+  "impact": "Cung cấp một thiết kế tham khảo thực tế và hấp dẫn cho các kỹ sư xây dựng voice agent tùy biến, tuy nhiên mức độ phổ biến hiện ở mức khởi đầu (100 stars, bản alpha).",
+  "evidence": "Báo cáo thực nghiệm chi tiết trên 4 benchmark chuẩn (Full-Duplex-Bench v1.0 & v1.5, eot-bench, TurnBench) với đầy đủ số liệu so sánh đối đầu trước và sau khi bật các knob kỹ thuật, kèm phân tích log gỡ lỗi cụ thể."
+ },
+ "summary": {
+  "tldr": "Jev-Interaction là framework tương tác giọng nói full-duplex dạng cascade, tách bạch việc điều phối lượt nói (turn-taking) thành các câu hỏi quyết định bằng ngôn ngữ tự nhiên được đánh giá bởi mô hình phán đoán nhanh Jev (System 1) và sinh nội dung bằng LLM bất kỳ (System 2). Kiến trúc này cho phép tùy biến persona, hành vi ngắt lời, chèn âm đệm (backchannel) và xử lý khoảng lặng một cách minh bạch mà không bị bó buộc vào các mô hình black-box end-to-end.",
+  "problem": "Các hệ thống voice agent hiện nay gặp tình thế lưỡng nan: hệ thống cascade truyền thống phụ thuộc vào bộ phát hiện ngắt lượt (turn detector) nhỏ hoặc bộ đếm thời gian (timer) cứng nhắc, trong khi các mô hình full-duplex end-to-end (Moshi, GPT-4o Realtime, Gemini Live) là hộp đen không thể can thiệp, không giải thích được lý do ngắt lời, không tùy biến được phong cách giao tiếp (persona) và bị giới hạn phiên làm việc từ nhà cung cấp.",
+  "method": "Hệ thống xây dựng cơ chế tương tác full-duplex dựa trên 3 nguyên lý:\n1. **Hai bên, bốn thời điểm (four moments)**: Dựa trên tín hiệu âm thanh (từ VAD, recognizer, sound model, voiceprint), cuộc gọi được chia thành 4 trạng thái: người dùng giữ lượt, cả hai im lặng, cả hai cùng nói, hoặc agent đang nói.\n2. **Một dòng thời gian duy nhất (`Ledger`)**: Ghi nhận toàn bộ từ ngữ, tín hiệu, câu trả lời từ Jev và hành động thực thi trên cùng một trục thời gian chuẩn xác (`Now`).\n3. **Mỗi thời điểm một hành động duy nhất**: Jev trả lời các câu hỏi trắc nghiệm khách quan về trạng thái hội thoại trong hàng chục mili-giây (ví dụ: người dùng đã nói xong chưa, đây là tranh luận hay kể chuyện, âm thanh có hướng về agent không). Chính sách xác suất (ThresholdPolicy, ArgmaxPolicy) chuyển xác suất này thành hành vi tức thì (nhường lời, nói chèn, đệm âm 'mm-hm', tiếp tục nói, gác máy). Các ngưỡng và nhịp độ (paces: normal, patient, narrate, eager) được định nghĩa qua file YAML của persona mà không cần huấn luyện lại mô hình.",
+  "setup": "Đánh giá zero-shot trên nhiều benchmark công khai mà không huấn luyện trên tập dữ liệu benchmark:\n- **Full-Duplex-Bench v1.0 & v1.5**: Đánh giá xử lý ngắt lời, khoảng lặng nhân tạo/thực tế, phản hồi âm đệm backchannel và lọc tiếng ồn nền (sử dụng grok-4.3 hoặc gpt-4o-mini làm responder, ElevenLabs Scribe STT/TTS).\n- **LiveKit eot-bench v1.0**: 400 lượt người dùng tiếng Anh (11.191 điểm đo) và 344 lượt tiếng Trung (9.441 điểm đo), kết hợp Jev (text) với SmartTurn v3.2 (audio acoustic model, luật `sound_rule = \"and\"`).\n- **TurnBench**: 6 cuộc hội thoại dev giữa hai người nói tự do.\n- Mã nguồn mở chạy qua Python 3.10+, hỗ trợ kết nối qua WebSocket, REST API với bất kỳ LLM OpenAI-compatible, VAD (TenVAD, EnergyVAD), STT (ElevenLabs Scribe, Alibaba Paraformer) và TTS (ElevenLabs, CosyVoice).",
+  "results": [
+   "Trên Full-Duplex-Bench v1.0, tỷ lệ ngắt nhầm ở khoảng lặng thực tế (real-conversation pauses taken as turns) giảm xuống 0.06 (cấu hình all knobs), vượt qua Gemini Live (0.10) và GPT-Realtime (0.12).",
+   "Độ phù hợp của câu trả lời sau ngắt lời (relevance 0-5) đạt 4.61/5 (all knobs), vượt mức tham chiếu tốt nhất là Gemini (4.12).",
+   "Trên Full-Duplex-Bench v1.5, độ trễ dừng khi người dùng nói đệm backchannel đạt 3.32 s (tiếp tục nói xuyên qua âm 'mm-hm' thay vì bị ngắt), trong khi toàn bộ các mô hình end-to-end thương mại đều dừng trong vòng dưới 0.7 s.",
+   "Tỷ lệ tiếp tục nói khi có giọng nói nền (background speech resume) đạt 0.56 nhờ quy tắc âm lượng 10 dB và lựa chọn 'not said to me' của Jev, xếp sau Nova Sonic (0.98).",
+   "Trên LiveKit eot-bench tiếng Trung, cấu hình kết hợp Jev + SmartTurn v3.2 đạt thời gian chờ 783 ms ở ngưỡng 5% false cutoffs (tốt hơn LiveKit v1 799 ms và VoxTurn 806 ms) và 1050 ms ở ngưỡng 2% false cutoffs.",
+   "Trên TurnBench (6 hội thoại dev), đạt INT recall 0.92 (hạng 4/16) từ văn bản thuần, vượt GPT Live (0.00) và Gemini Live (0.00)."
+  ],
+  "limitations": "Độ trễ phản hồi sau khi bị ngắt lời còn cao (1.68 - 1.79 s) do phụ thuộc vào thời gian LLM sinh từ đầu tiên và trễ nhận dạng âm thanh (so với 0.3 - 1.5 s của mô hình end-to-end). Ở bài toán căn thời điểm thuần âm thanh ngắn hạn (mức 300 ms trên eot-bench), mô hình text + SmartTurn vẫn chịu tỷ lệ ngắt nhầm 29.6 - 32.2%, xếp sau các mô hình âm thanh chuyên biệt như VoxTurn (8.5%) và LiveKit v1 (9.9%). Phụ thuộc vào dịch vụ Jev API hoặc mô hình quyết định tương thích.",
+  "takeaways": "Cung cấp một giải pháp thay thế khả thi cho các mô hình full-duplex end-to-end khép kín: kỹ sư có thể kiểm soát và gỡ lỗi từng quyết định ngắt lượt bằng ngôn ngữ tự nhiên, tinh chỉnh phong cách tương tác qua file cấu hình YAML đơn giản, và tự do ghép nối bất kỳ nhà cung cấp STT/LLM/TTS nào.",
+  "strengths": [
+   "Kiểm soát lượt nói hoàn toàn minh bạch bằng câu hỏi tự nhiên",
+   "Khả năng nói xuyên qua backchannel vượt trội mô hình end-to-end",
+   "Tùy biến persona và nhịp điệu tương tác qua cấu hình YAML",
+   "Kiến trúc module linh hoạt, cắm ghép bất kỳ STT/LLM/TTS",
+   "Zero-shot nhưng cạnh tranh tốt trên các benchmark chuẩn"
+  ],
+  "weaknesses": [
+   "Độ trễ sau ngắt lời còn chậm (1.68 - 1.79 s)",
+   "Định thời âm thanh ngắn hạn (300 ms) kém mô hình audio chuyên biệt",
+   "Phụ thuộc API bên ngoài (Jev / Bailian decision model)",
+   "Mã nguồn hiện ở giai đoạn alpha 0.3.0"
+  ],
+  "context": "Dự án nguồn mở (Apache-2.0) của Native Bond Lab phát triển từ hệ thống tương tác thực tế của sản phẩm thương mại, được vinh danh Build of the Week tại TypeSafe."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

@@ -1,0 +1,45 @@
+{
+ "id": "hf-model:KittenML/kitten-tts-2-mini",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 3,
+  "impact": 3,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Mô hình đóng gói giải pháp TTS 82M tham số hỗ trợ 16 ngôn ngữ và int4/int8 ONNX gọn nhẹ, nhưng không giới thiệu kiến trúc hoàn toàn mới.",
+  "credibility": "Mô hình được phát hành công khai bởi tổ chức KittenML trên Hugging Face với mã nguồn và file weights tải được trực tiếp.",
+  "technical": "Quy trình lượng tử hóa int4/int8 và xuất ONNX tối ưu tốt cho CPU, tích hợp kèm G2P và voice packs dạng npz.",
+  "impact": "Thu hút sự quan tâm tốt từ cộng đồng với gần 10.000 lượt tải và 75 likes trên Hugging Face nhờ tính tiện dụng cho thiết bị biên.",
+  "evidence": "Trang thông tin mô hình chỉ cung cấp code mẫu và thông số kích thước file, không có benchmark chất lượng hay tốc độ cụ thể."
+ },
+ "summary": {
+  "tldr": "Kitten TTS 2 Mini là mô hình Text-to-Speech (TTS) nhỏ gọn 82M tham số từ KittenML, hỗ trợ 16 ngôn ngữ và 118 giọng đọc ở tần số lấy mẫu 24 kHz. Mô hình được tối ưu hóa cho môi trường CPU bằng các bản lượng tử hóa ONNX int8 (82.7 MB) và int4 (47.5 MB), có thể chạy độc lập không cần PyTorch.",
+  "problem": "Triển khai các hệ thống TTS đa ngôn ngữ chất lượng cao thường đòi hỏi tài nguyên tính toán lớn hoặc phụ thuộc vào GPU và các framework nặng như PyTorch, gây khó khăn cho việc nhúng trên thiết bị biên (edge) hoặc CPU.",
+  "method": "Mô hình có quy mô 82M tham số, xuất ra âm thanh 24 kHz với giấy phép mã nguồn mở Apache-2.0 (bao gồm model weights, voice packs và các file G2P đi kèm). Về mặt kỹ thuật:\n- **Kiến trúc**: Không được nêu chi tiết trong tài liệu ngoài kích thước tham số (82M).\n- **Hỗ trợ định dạng và backend**: Cung cấp trọng số PyTorch float32 cùng các phiên bản ONNX lượng tử hóa int8 (82.7 MB) và int4 (47.5 MB, yêu cầu `onnxruntime>=1.20`).\n- **Đặc tính giọng đọc**: 118 giọng đọc, lưu trữ dưới dạng voice pack trong các file `voices_<lang>.npz`. Các giọng tiếng Anh có khả năng nói đa ngôn ngữ chéo (cross-lingual) sang tiếng Đức, Tây Ban Nha, Ý, Bồ Đào Nha và Nga bằng cách chỉ định tham số `language`.",
+  "setup": "Sử dụng thư viện Python `kittenml` (`pip install kittenml`). Hỗ trợ backend `onnx` (mặc định, chạy trên CPU không cần PyTorch) và `torch` (hỗ trợ `device=\"cuda\"`). Hỗ trợ 16 ngôn ngữ: en, de, es, it, pt, ru, hi, da, fi, fr, ja, ko, nl, sv, sw, tr. Dữ liệu huấn luyện, baseline so sánh và tài nguyên compute không được nêu trong tài liệu.",
+  "results": [
+   "Không có số liệu benchmark định lượng (như MOS, RTF, CER/WER hoặc độ trễ) được cung cấp trong tài liệu.",
+   "Kích thước tệp trọng số ONNX int8 đạt 82.7 MB và ONNX int4 đạt 47.5 MB cho 82M tham số."
+  ],
+  "limitations": "Tài liệu không công bố thông tin chi tiết về kiến trúc mô hình, dữ liệu huấn luyện, tốc độ suy luận (RTF) cũng như các đánh giá chất lượng âm thanh khách quan hoặc chủ quan (MOS).",
+  "takeaways": "Lựa chọn thực tế rất tốt cho kỹ sư cần một mô hình TTS đa ngôn ngữ siêu nhẹ, chạy hoàn toàn trên CPU bằng ONNX Runtime với dung lượng nhỏ (dưới 50 MB ở bản int4) và cấp phép mở (Apache-2.0).",
+  "strengths": [
+   "Kích thước cực nhẹ (47.5 MB int4)",
+   "Chạy mượt trên CPU qua ONNX",
+   "Hỗ trợ 16 ngôn ngữ và 118 giọng",
+   "Giấy phép mã nguồn mở Apache-2.0"
+  ],
+  "weaknesses": [
+   "Thiếu số liệu đánh giá chất lượng (MOS)",
+   "Chi tiết kiến trúc không được công bố"
+  ],
+  "context": "KittenML phát hành dưới dạng open-source model trên Hugging Face Hub (Apache-2.0)."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

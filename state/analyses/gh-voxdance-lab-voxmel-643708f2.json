@@ -1,0 +1,49 @@
+{
+ "id": "gh:voxdance-lab/voxmel",
+ "topic": "TTS",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng loại bỏ neural acoustic tokenizer trong continuous autoregressive TTS bằng phép biến đổi Haar wavelet 2 trục cố định kết hợp residual flow-matching rất sáng tạo và khác biệt.",
+  "credibility": "Dự án đến từ nhóm nghiên cứu liên kết nhiều trường đại học hàng đầu (SJTU, FDU, XMU, ZJU, Kyoto) với báo cáo kỹ thuật rõ ràng và mã nguồn mở đầy đủ.",
+  "technical": "Kiến trúc phân tầng kết hợp decoder-only autoregression, flow-matching heads cho residuals và tối ưu hóa hậu huấn luyện bằng frozen-head GRPO có chiều sâu kỹ thuật cao.",
+  "impact": "Mức độ quan tâm ban đầu tốt (242 stars, hỗ trợ port sang Apple MLX), mở ra hướng đi thay thế neural audio codec nhưng hiện giới hạn ở tác vụ cloning song ngữ EN/ZH.",
+  "evidence": "Bảng đánh giá Seed-TTS-eval toàn diện so sánh với 17 hệ thống mạnh, có số liệu cụ thể cho cả mô hình cơ sở và phiên bản áp dụng GRPO."
+ },
+ "summary": {
+  "tldr": "VoxMel là mô hình text-to-speech (TTS) tự hồi quy liên tục (continuous autoregressive) không dùng tokenizer âm học, trực tiếp mô hình hóa mel-spectrogram thông qua phép biến đổi Haar wavelet 2 trục khả nghịch chính xác. Kết hợp backbone decoder-only với flow-matching head cho Coarse-Mel và hai tầng non-autoregressive để phục hồi chi tiết, mô hình 0.6B đạt kết quả vượt trội trên benchmark Seed-TTS-eval sau khi tối ưu bằng GRPO.",
+  "problem": "Các hệ thống TTS tự hồi quy liên tục hiện nay phụ thuộc vào biểu diễn âm học học được (learned acoustic representations hoặc neural compression) để giảm chiều dữ liệu âm thanh, nhưng quá trình này tạo thêm một bước học biểu diễn phức tạp và gây ra nghẽn cổ chai tái tạo (reconstruction bottlenecks).",
+  "method": "VoxMel loại bỏ learned acoustic tokenizer và trực tiếp dự đoán mel-spectrogram (100 log-mel channels, FFT 1024, hop 256 ở 24 kHz) theo quy trình phân rã phân cấp:\n- **Phân rã Haar 2 trục khả nghịch:** Phổ mel đầy đủ (93.75 Hz) được tách trên trục tần số thành Frequency-Averaged Mel và frequency residual; sau đó Frequency-Averaged Mel tiếp tục tách trên trục thời gian thành Coarse-Mel (46.875 Hz) và temporal residual.\n- **Coarse-Mel Autoregression:** Backbone Transformer decoder-only kết hợp với flow-matching head nhận điều kiện từ text (dùng tokenizer Qwen2.5), âm thanh tham chiếu và các đơn vị thô trước đó để sinh Coarse-Mel theo cơ chế tự hồi quy.\n- **Khôi phục chi tiết dạng non-autoregressive:** Tầng thứ nhất dự đoán temporal residual từ Coarse-Mel, sau đó dùng inverse temporal Haar để tái tạo Frequency-Averaged Mel. Tầng thứ hai dự đoán frequency residual từ Frequency-Averaged Mel tái tạo và áp dụng inverse frequency Haar để thu lại mel-spectrogram đầy đủ. Cả hai phần residual đều không quay ngược lại lịch sử tự hồi quy.\n- **Tổng hợp sóng âm:** Mel-spectrogram hoàn chỉnh được chuyển thành waveform 24 kHz qua Vocos vocoder đóng băng.\n- **Post-training:** Sử dụng frozen-head GRPO (Reinforcement Learning) để cải thiện độ chính xác và độ tương đồng giọng nói.",
+  "setup": "Huấn luyện trên 100K giờ từ bộ dữ liệu Emilia. Hỗ trợ zero-shot voice cloning tiếng Anh và tiếng Trung ở tần số lấy mẫu 24 kHz. Yêu cầu môi trường Python 3.10–3.12, PyTorch/torchaudio 2.4.1 (CUDA 12.1, MPS hoặc CPU, hỗ trợ thêm MLX cho Apple Silicon). Đánh giá trên benchmark Seed-TTS-eval (test-en và test-zh) với các chỉ số Word Error Rate (WER %), Character Error Rate (CER %) và speaker embedding cosine similarity (SIM). Baseline so sánh gồm 17 mô hình: CosyVoice (1, 2, 3), Spark-TTS, MaskGCT, FireRedTTS 2, Qwen3-TTS, IndexTTS 2, VibeVoice, MOSS-TTS, DiTAR, VoxCPM, OmniVoice-Emilia, E2-TTS, F5-TTS, ZipVoice.",
+  "results": [
+   "Trên Seed-TTS-eval test-en: VoxMel-0.6B có giám sát đạt 1.51% WER và 0.738 SIM (vượt qua tất cả 17 baseline trước đó như CosyVoice 3 đạt 2.02% WER / 0.718 SIM, Qwen3-TTS đạt 1.66% WER / 0.714 SIM, F5-TTS đạt 1.85% WER / 0.664 SIM).",
+   "VoxMel-0.6B + GRPO trên test-en tiếp tục cải thiện lên 1.15% WER và 0.753 SIM, đạt kết quả tốt nhất trong bảng đánh giá.",
+   "Trên Seed-TTS-eval test-zh: VoxMel-0.6B đạt 1.29% CER và 0.755 SIM; khi thêm GRPO đạt 1.17% CER và 0.776 SIM (tiệm cận CosyVoice 3 với 1.19% CER / 0.780 SIM và OmniVoice-Emilia với 0.89% CER / 0.765 SIM)."
+  ],
+  "limitations": "Chế độ voice cloning audio continuation yêu cầu cung cấp chính xác transcript của đoạn âm thanh mẫu (prompt text). Phép biến đổi Haar có tính khả nghịch chính xác (exact invertibility), nhưng tài liệu nhấn mạnh điều này không bảo đảm âm thanh sinh ra hay vocoder Vocos tái tạo hoàn toàn không mất mát (lossless). VoxMel-0.3B chưa được huấn luyện củng cố bằng GRPO. Tài liệu không cung cấp điểm đánh giá chất lượng tự nhiên bằng con người (MOS) và chỉ đánh giá trên 2 ngôn ngữ (EN, ZH).",
+  "takeaways": "Chứng minh rằng việc nén latent âm học phức tạp qua neural codec không bắt buộc cho continuous autoregressive TTS; chỉ cần cấu trúc hóa mel-spectrogram bằng phép biến đổi Haar wavelet cố định kết hợp phân tầng AR thô và non-AR chi tiết là đủ đạt SOTA với kích thước mô hình gọn nhẹ (0.6B).",
+  "strengths": [
+   "Không cần learned acoustic tokenizer",
+   "Phân rã Haar 2 trục khả nghịch chính xác",
+   "Hiệu năng SOTA tiếng Anh trên Seed-TTS-eval",
+   "Áp dụng hiệu quả RL (frozen-head GRPO)",
+   "Mã nguồn mở và có port MLX chạy local"
+  ],
+  "weaknesses": [
+   "Bắt buộc có transcript chính xác của prompt",
+   "Bản 0.3B chưa có GRPO post-training",
+   "Thiếu đánh giá thính giác chủ quan (MOS)",
+   "Chỉ hỗ trợ tiếng Anh và tiếng Trung"
+  ],
+  "context": "VoxDance Lab phối hợp cùng Shanghai Innovation Institute, Xiamen University, Shanghai Jiao Tong University, Fudan University, Zhejiang University và Kyoto University; công bố mã nguồn, trọng số và technical report (arXiv:2611.20254)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>syydaniel/kaikou · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W48</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">syydaniel/kaikou</h1>
+    <div class="meta">
+      <span title="Listed by GitHub inside the crawl window">found Nov 23, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Nov 11, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span><span class="pill pill-accent">TTS</span>        <span class="authors">syydaniel</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://github.com/syydaniel/kaikou" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">README excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>开口 kaikou：让克隆的声音，一开口就说人话。A skill for AI coding assistants: natural-sounding voice-overs from open-source voice cloning, from recording to final mix.
+
+README: 开口 Kaikou. 让克隆的声音，一开口就说人话。 开源的声音克隆模型已经很强了，可同一个人、同一个模型，做出来的效果可以相差非常远。AI 味不光藏在字里，还藏在声音里：录音的环境、参考的讲法、挑哪一遍、稿子怎么写、后期怎么收，每一步都会留下痕迹。 开口是一个给 AI 助手（Claude Code、Codex 等）用的 skill，把这一整条流程交给它： 1. 录音与预处理：先空录 5 秒量底噪，环境不行先换环境；清理参考，回声重时去混响。 2. 分场景录参考：讲解、聊天、讲故事、中英夹杂、有劲的开场，做什么内容用什么讲法。 3. 克隆：本地运行三个没有情绪开关、允许商用的开源模型（Qwen3-TTS、VoxCPM1.5、LongCat-AudioDiT），一句一句生成，每句 4 遍。 4. 挑句：另一个 AI 回听，先看念对，再看像不像，最后看和前后句协不协调。 5. 改文案：配出来听，哪句一听就是 AI 就改哪句；句子说完整、多用双字词、长短穿插、语气词和口头禅挑着放、成语俗语点到为止。 6. 后期：变速不变调、停顿按意思重排、逐句响度拉平、轻处理。 7. 音效设计（可选）：空谷回响、老式录音机、水下说话。 和只改稿子的去 AI 味工具不同，开口管的是从录音到成片的整条链。 安装. 把这个仓库的地址发给你的 AI 助手，跟它说&quot;帮我安装这个 skill&quot;。或者手动： 然后跟 AI 说：&quot;用开口，帮我用自己的声音配这段旁白。&quot; 需要什么. - 苹果芯片的 Mac（三个克隆模型通过 mlx-audio 本地运行；其他平台见 tools/doctor.py 给的替代办法）。 - 大约 20 分钟的录音时间（手机语音备忘录就够）。 - 不需要联网调用任何付费接口。 目录. 和《卡字》的关系. 开口是《卡字》（让讲解动画卡在旁白的字上，https://github.com/syydaniel/kazi）的姊妹 skill。卡字管&quot;画面跟着声音走&quot;，开口管&quot;声音本身像个人&quot;。两个可以一起用：先用开口配出旁白，再交给卡字做画面。 许可. MIT。三个克隆模型各自的许可：Qwen3-TTS 和 VoxCPM 是 Apache-2.0，LongCat-AudioDiT 是 MIT，都允许商用；用之前请再看一眼它们的最新许可。克隆别人的声音之前，请先取得本人同意。</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 23, 2026 · README</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>Kaikou (开口) là một agent skill dành cho các AI assistant (như Claude Code, Codex) giúp tự động hóa toàn bộ quy trình voice cloning nhằm loại bỏ &quot;AI-smell&quot; (&quot;giọng sặc mùi AI&quot;). Công cụ quản lý pipeline hoàn chỉnh từ kiểm tra phòng thu âm, phân loại reference theo ngữ cảnh, sinh 4 takes/câu qua 3 mô hình TTS cục bộ trên Apple Silicon, đến tự động thẩm định và xử lý hậu kỳ.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Các mô hình voice cloning mã nguồn mở hiện nay đã rất mạnh, nhưng cùng một giọng và cùng một mô hình vẫn cho ra kết quả chênh lệch lớn và mang nặng cảm giác nhân tạo. Khuyết điểm này không chỉ nằm ở câu chữ mà còn ở tạp âm môi trường thu âm, ngữ điệu mẫu tham chiếu, việc chọn take chưa tốt, văn phong viết kịch bản thiếu tự nhiên và khâu hậu kỳ âm thanh chưa chuẩn.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Quy trình bao gồm 7 bước được điều phối thông qua AI assistant:</p>
+<ul>
+<li><strong>Thu âm &amp; tiền xử lý</strong>: Ghi âm tĩnh 5 giây để đo độ ồn nền (noise floor), lọc sạch âm thanh tham chiếu (reference) và khử vang (dereverberation) nếu môi trường có tiếng vọng.</li>
+<li><strong>Ghi âm reference theo ngữ cảnh</strong>: Phân chia giọng mẫu theo từng mục đích (giải thích, trò chuyện, kể chuyện, pha trộn tiếng Anh - Trung, mở màn tràn đầy năng lượng).</li>
+<li><strong>Cloning cục bộ</strong>: Chạy offline 3 mô hình mã nguồn mở không có emotion switch và cho phép thương mại gồm <code>Qwen3-TTS</code>, <code>VoxCPM1.5</code> và <code>LongCat-AudioDiT</code> (thông qua <code>mlx-audio</code>), sinh theo từng câu với 4 lần (takes) mỗi câu.</li>
+<li><strong>Thẩm định &amp; chọn câu (Take selection)</strong>: Một AI thẩm định lại audio theo thứ tự ưu tiên: phát âm đúng -&gt; độ tương đồng giọng nói -&gt; độ tự nhiên, liền mạch với ngữ cảnh trước sau.</li>
+<li><strong>Tối ưu văn bản kịch bản</strong>: Tinh chỉnh lại câu văn nếu phát hiện âm điệu AI (viết câu trọn vẹn, tăng từ ghép 2 âm tiết, phối hợp câu dài-ngắn, phân bổ từ ngữ khí/câu cửa miệng hợp lý, tiết chế thành ngữ).</li>
+<li><strong>Hậu kỳ (Post-processing)</strong>: Tinh chỉnh tốc độ giữ nguyên cao độ (pitch-preserving time stretch), phân bổ lại các khoảng lặng (pauses) theo ngữ nghĩa, chuẩn hóa âm lượng (loudness normalization) từng câu.</li>
+<li><strong>Sound design tùy chọn</strong>: Tạo các hiệu ứng âm thanh đặc thù (tiếng vọng thung lũng, máy ghi âm cũ, nói dưới nước).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><ul>
+<li><strong>Cách cài đặt</strong>: Tích hợp dưới dạng skill cho Claude Code/Codex (sao chép vào <code>~/.claude/skills/kaikou</code>, chạy <code>pip install -r tools/requirements.txt</code> và kiểm tra qua <code>python tools/doctor.py</code>).</li>
+<li><strong>Yêu cầu phần cứng</strong>: Máy Mac Apple Silicon (mô hình chạy qua framework <code>mlx-audio</code>; các nền tảng khác cần xem phương án thay thế trong <code>doctor.py</code>).</li>
+<li><strong>Dữ liệu đầu vào</strong>: Khoảng 20 phút thu âm (chỉ cần dùng ứng dụng Voice Memos trên điện thoại).</li>
+<li><strong>Mạng/Chi phí</strong>: Hoạt động hoàn toàn offline, không yêu cầu gọi API đám mây trả phí.</li>
+<li><strong>Giấy phép</strong>: Toàn bộ repo dùng MIT; mô hình Qwen3-TTS và VoxCPM dùng Apache-2.0, LongCat-AudioDiT dùng MIT.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Không có benchmark số học định lượng (như MOS, WER, SECS, RTF) được công bố trong tài liệu.</li>
+<li>Thiết lập quy trình đo底噪 cố định bằng cách thu 5 giây khoảng lặng trước khi ghi âm reference.</li>
+<li>Mỗi câu văn bản được sinh cục bộ 4 takes độc lập trước khi qua khâu AI thẩm định chọn lọc.</li>
+<li>Toàn bộ pipeline chỉ yêu cầu khoảng 20 phút dữ liệu thu âm thô từ điện thoại.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Tài liệu không đưa ra bất kỳ kết quả đánh giá thực nghiệm định lượng nào (như điểm MOS chất lượng âm thanh, độ tương đồng hay độ trễ inference). Hỗ trợ phần cứng chính bị giới hạn ở Mac Apple Silicon thông qua mlx-audio. Quy trình đánh giá take và sửa kịch bản phụ thuộc vào khả năng của AI assistant/LLM bên ngoài.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Để đạt được giọng đọc AI tự nhiên phục vụ sản phẩm, kỹ sư không chỉ dựa vào mô hình TTS mà cần thiết kế pipeline kỹ thuật âm thanh hoàn chỉnh: kiểm soát noise floor đầu vào, sinh đa take (multi-take sampling), tự động re-rank/filter audio bằng AI, và áp dụng DSP hậu kỳ (loudness normalization, pause alignment).</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">31.2<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,82.8 212.5,120.94 170.82,152.89 138.37,167.77 125.0,126.63"/><circle class="radar-dot" cx="160.0" cy="82.8" r="3.5"/><circle class="radar-dot" cx="212.5" cy="120.94" r="3.5"/><circle class="radar-dot" cx="170.82" cy="152.89" r="3.5"/><circle class="radar-dot" cx="138.37" cy="167.77" r="3.5"/><circle class="radar-dot" cx="125.0" cy="126.63" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 3/5 — Ý tưởng đóng gói quy trình thu âm, inference multi-take và hậu kỳ audio thành một AI assistant skill là một cách tiếp cận ứng dụng thực tế tốt, dù không tạo ra kiến trúc mô hình mới.</title>Novelty <tspan class="radar-value">3</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 3/5 — Xây dựng được pipeline kỹ thuật âm thanh khá chặt chẽ kết hợp từ đo ồn, multi-model inference qua mlx-audio, kịch bản hóa prompt đến xử lý DSP hậu kỳ.</title>Technical <tspan class="radar-value">3</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 1/5 — Tài liệu không cung cấp bất kỳ dữ liệu benchmark so sánh, điểm số định lượng (MOS/WER) hay kiểm chứng thống kê nào.</title>Evidence <tspan class="radar-value">1</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 2/5 — Độ phổ biến còn ở mức khiêm tốn (62 stars, 8 forks) và chủ yếu phục vụ nhóm người dùng Claude Code sở hữu máy Mac Apple Silicon.</title>Impact <tspan class="radar-value">2</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 2/5 — Đây là một kho lưu trữ cá nhân nguồn mở trên GitHub với 62 stars, chưa qua bình duyệt học thuật và chưa có bảo chứng từ các tổ chức nghiên cứu lớn.</title>Credibility <tspan class="radar-value">2</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">3/5</span></dt><dd>Ý tưởng đóng gói quy trình thu âm, inference multi-take và hậu kỳ audio thành một AI assistant skill là một cách tiếp cận ứng dụng thực tế tốt, dù không tạo ra kiến trúc mô hình mới.</dd></div>
+          <div><dt>Credibility <span class="muted">2/5</span></dt><dd>Đây là một kho lưu trữ cá nhân nguồn mở trên GitHub với 62 stars, chưa qua bình duyệt học thuật và chưa có bảo chứng từ các tổ chức nghiên cứu lớn.</dd></div>
+          <div><dt>Technical <span class="muted">3/5</span></dt><dd>Xây dựng được pipeline kỹ thuật âm thanh khá chặt chẽ kết hợp từ đo ồn, multi-model inference qua mlx-audio, kịch bản hóa prompt đến xử lý DSP hậu kỳ.</dd></div>
+          <div><dt>Impact <span class="muted">2/5</span></dt><dd>Độ phổ biến còn ở mức khiêm tốn (62 stars, 8 forks) và chủ yếu phục vụ nhóm người dùng Claude Code sở hữu máy Mac Apple Silicon.</dd></div>
+          <div><dt>Evidence <span class="muted">1/5</span></dt><dd>Tài liệu không cung cấp bất kỳ dữ liệu benchmark so sánh, điểm số định lượng (MOS/WER) hay kiểm chứng thống kê nào.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Tự động hóa toàn diện quy trình voice cloning · Chạy hoàn toàn offline trên Mac Apple Silicon · Tích hợp linh hoạt với AI assistant (Claude Code) · Kết hợp giữa prompt/script engineering và xử lý DSP</p>
+          <p><span class="label">Weaknesses</span> · Hoàn toàn thiếu số liệu benchmark thực nghiệm · Phụ thuộc chủ yếu vào nền tảng Apple Silicon · Thiếu cơ chế đánh giá khách quan độc lập</p>
+          <p><span class="label">Context</span> · Dự án nguồn mở phát triển bởi tác giả syydaniel trên GitHub, được thiết kế dưới dạng skill bổ trợ cho Claude Code/Codex và là mảnh ghép song hành với công cụ tạo hoạt họa 'Kazi' (卡字).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

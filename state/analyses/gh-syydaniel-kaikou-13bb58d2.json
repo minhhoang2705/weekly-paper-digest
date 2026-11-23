@@ -1,0 +1,48 @@
+{
+ "id": "gh:syydaniel/kaikou",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 1
+ },
+ "reasons": {
+  "novelty": "Ý tưởng đóng gói quy trình thu âm, inference multi-take và hậu kỳ audio thành một AI assistant skill là một cách tiếp cận ứng dụng thực tế tốt, dù không tạo ra kiến trúc mô hình mới.",
+  "credibility": "Đây là một kho lưu trữ cá nhân nguồn mở trên GitHub với 62 stars, chưa qua bình duyệt học thuật và chưa có bảo chứng từ các tổ chức nghiên cứu lớn.",
+  "technical": "Xây dựng được pipeline kỹ thuật âm thanh khá chặt chẽ kết hợp từ đo ồn, multi-model inference qua mlx-audio, kịch bản hóa prompt đến xử lý DSP hậu kỳ.",
+  "impact": "Độ phổ biến còn ở mức khiêm tốn (62 stars, 8 forks) và chủ yếu phục vụ nhóm người dùng Claude Code sở hữu máy Mac Apple Silicon.",
+  "evidence": "Tài liệu không cung cấp bất kỳ dữ liệu benchmark so sánh, điểm số định lượng (MOS/WER) hay kiểm chứng thống kê nào."
+ },
+ "summary": {
+  "tldr": "Kaikou (开口) là một agent skill dành cho các AI assistant (như Claude Code, Codex) giúp tự động hóa toàn bộ quy trình voice cloning nhằm loại bỏ \"AI-smell\" (\"giọng sặc mùi AI\"). Công cụ quản lý pipeline hoàn chỉnh từ kiểm tra phòng thu âm, phân loại reference theo ngữ cảnh, sinh 4 takes/câu qua 3 mô hình TTS cục bộ trên Apple Silicon, đến tự động thẩm định và xử lý hậu kỳ.",
+  "problem": "Các mô hình voice cloning mã nguồn mở hiện nay đã rất mạnh, nhưng cùng một giọng và cùng một mô hình vẫn cho ra kết quả chênh lệch lớn và mang nặng cảm giác nhân tạo. Khuyết điểm này không chỉ nằm ở câu chữ mà còn ở tạp âm môi trường thu âm, ngữ điệu mẫu tham chiếu, việc chọn take chưa tốt, văn phong viết kịch bản thiếu tự nhiên và khâu hậu kỳ âm thanh chưa chuẩn.",
+  "method": "Quy trình bao gồm 7 bước được điều phối thông qua AI assistant:\n- **Thu âm & tiền xử lý**: Ghi âm tĩnh 5 giây để đo độ ồn nền (noise floor), lọc sạch âm thanh tham chiếu (reference) và khử vang (dereverberation) nếu môi trường có tiếng vọng.\n- **Ghi âm reference theo ngữ cảnh**: Phân chia giọng mẫu theo từng mục đích (giải thích, trò chuyện, kể chuyện, pha trộn tiếng Anh - Trung, mở màn tràn đầy năng lượng).\n- **Cloning cục bộ**: Chạy offline 3 mô hình mã nguồn mở không có emotion switch và cho phép thương mại gồm `Qwen3-TTS`, `VoxCPM1.5` và `LongCat-AudioDiT` (thông qua `mlx-audio`), sinh theo từng câu với 4 lần (takes) mỗi câu.\n- **Thẩm định & chọn câu (Take selection)**: Một AI thẩm định lại audio theo thứ tự ưu tiên: phát âm đúng -> độ tương đồng giọng nói -> độ tự nhiên, liền mạch với ngữ cảnh trước sau.\n- **Tối ưu văn bản kịch bản**: Tinh chỉnh lại câu văn nếu phát hiện âm điệu AI (viết câu trọn vẹn, tăng từ ghép 2 âm tiết, phối hợp câu dài-ngắn, phân bổ từ ngữ khí/câu cửa miệng hợp lý, tiết chế thành ngữ).\n- **Hậu kỳ (Post-processing)**: Tinh chỉnh tốc độ giữ nguyên cao độ (pitch-preserving time stretch), phân bổ lại các khoảng lặng (pauses) theo ngữ nghĩa, chuẩn hóa âm lượng (loudness normalization) từng câu.\n- **Sound design tùy chọn**: Tạo các hiệu ứng âm thanh đặc thù (tiếng vọng thung lũng, máy ghi âm cũ, nói dưới nước).",
+  "setup": "- **Cách cài đặt**: Tích hợp dưới dạng skill cho Claude Code/Codex (sao chép vào `~/.claude/skills/kaikou`, chạy `pip install -r tools/requirements.txt` và kiểm tra qua `python tools/doctor.py`).\n- **Yêu cầu phần cứng**: Máy Mac Apple Silicon (mô hình chạy qua framework `mlx-audio`; các nền tảng khác cần xem phương án thay thế trong `doctor.py`).\n- **Dữ liệu đầu vào**: Khoảng 20 phút thu âm (chỉ cần dùng ứng dụng Voice Memos trên điện thoại).\n- **Mạng/Chi phí**: Hoạt động hoàn toàn offline, không yêu cầu gọi API đám mây trả phí.\n- **Giấy phép**: Toàn bộ repo dùng MIT; mô hình Qwen3-TTS và VoxCPM dùng Apache-2.0, LongCat-AudioDiT dùng MIT.",
+  "results": [
+   "Không có benchmark số học định lượng (như MOS, WER, SECS, RTF) được công bố trong tài liệu.",
+   "Thiết lập quy trình đo底噪 cố định bằng cách thu 5 giây khoảng lặng trước khi ghi âm reference.",
+   "Mỗi câu văn bản được sinh cục bộ 4 takes độc lập trước khi qua khâu AI thẩm định chọn lọc.",
+   "Toàn bộ pipeline chỉ yêu cầu khoảng 20 phút dữ liệu thu âm thô từ điện thoại."
+  ],
+  "limitations": "Tài liệu không đưa ra bất kỳ kết quả đánh giá thực nghiệm định lượng nào (như điểm MOS chất lượng âm thanh, độ tương đồng hay độ trễ inference). Hỗ trợ phần cứng chính bị giới hạn ở Mac Apple Silicon thông qua mlx-audio. Quy trình đánh giá take và sửa kịch bản phụ thuộc vào khả năng của AI assistant/LLM bên ngoài.",
+  "takeaways": "Để đạt được giọng đọc AI tự nhiên phục vụ sản phẩm, kỹ sư không chỉ dựa vào mô hình TTS mà cần thiết kế pipeline kỹ thuật âm thanh hoàn chỉnh: kiểm soát noise floor đầu vào, sinh đa take (multi-take sampling), tự động re-rank/filter audio bằng AI, và áp dụng DSP hậu kỳ (loudness normalization, pause alignment).",
+  "strengths": [
+   "Tự động hóa toàn diện quy trình voice cloning",
+   "Chạy hoàn toàn offline trên Mac Apple Silicon",
+   "Tích hợp linh hoạt với AI assistant (Claude Code)",
+   "Kết hợp giữa prompt/script engineering và xử lý DSP"
+  ],
+  "weaknesses": [
+   "Hoàn toàn thiếu số liệu benchmark thực nghiệm",
+   "Phụ thuộc chủ yếu vào nền tảng Apple Silicon",
+   "Thiếu cơ chế đánh giá khách quan độc lập"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi tác giả syydaniel trên GitHub, được thiết kế dưới dạng skill bổ trợ cho Claude Code/Codex và là mảnh ghép song hành với công cụ tạo hoạt họa 'Kazi' (卡字)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

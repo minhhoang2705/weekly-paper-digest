@@ -1,0 +1,49 @@
+{
+ "id": "gh:suraj64x/voicebird",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Dự án đóng gói và tích hợp các engine TTS mã nguồn mở có sẵn cùng giao diện người dùng chứ không giới thiệu kiến trúc mô hình mới.",
+  "credibility": "Dự án mã nguồn mở độc lập từ tác giả cá nhân trên GitHub, chưa qua bình duyệt học thuật hay có báo cáo kỹ thuật chính thức.",
+  "technical": "Kỹ thuật đóng gói ứng dụng hoàn chỉnh từ giao diện web, backend, quản lý nhiều engine mô hình TTS và tự động thiết lập môi trường.",
+  "impact": "Dự án mới với mức độ tương tác khiêm tốn (76 GitHub stars, 0 forks), chủ yếu phục vụ người sáng tạo nội dung cá nhân.",
+  "evidence": "Chỉ cung cấp số liệu thô về tốc độ sinh âm thanh trên phần cứng tham chiếu, không có benchmark chuẩn hoá hay kiểm thử MOS/WER."
+ },
+ "summary": {
+  "tldr": "VoiceBird là một ứng dụng mã nguồn mở trên máy tính cho phép sao chép giọng nói (voice cloning) từ một đoạn âm thanh ngắn và tạo giọng đọc cho YouTube hoàn toàn cục bộ (100% offline). Dự án tích hợp sẵn nhiều engine TTS mã nguồn mở khác nhau cùng giao diện studio quản lý script, tạo nhiều bản thử nghiệm (takes) và xử lý hậu kỳ âm thanh.",
+  "problem": "Người sáng tạo nội dung cần tạo voice-over chất lượng cao, giữ được cảm xúc và âm sắc riêng mà không muốn phụ thuộc vào các dịch vụ đám mây tốn phí theo phút hoặc gây lo ngại về quyền riêng tư dữ liệu âm thanh.",
+  "method": "VoiceBird đóng gói quy trình tổng hợp giọng nói thành ứng dụng chạy cục bộ: giao diện web (React) phục vụ tại `http://localhost:7878`, backend quản lý các engine mô hình AI thông qua Python/FastAPI và FFmpeg. Hệ thống hỗ trợ sao chép giọng bằng cách cung cấp mẫu giọng sạch từ 10 giây đến 5 phút; kịch bản được phân đoạn theo dòng (dòng trống tạo khoảng dừng); cho phép ghi âm nhiều 'mood samples' (calm, excited, soft) để điều khiển cảm xúc giọng đọc. Phần hậu kỳ hỗ trợ đổi tone tức thì (Soft, Warm, Bright, Broadcast, Deep) mà không cần sinh lại âm thanh từ mô hình.",
+  "setup": "Hệ điều hành Windows 10 hoặc 11 (bộ cài đặt tự động qua `VoiceBird-Setup.exe` không cần quyền admin; mã nguồn yêu cầu Node 20+, `uv`, Inno Setup). Yêu cầu phần cứng khuyến nghị là GPU NVIDIA với 4 GB VRAM (hỗ trợ CPU). Ngôn ngữ hỗ trợ cụ thể không được nêu chi tiết ngoài trừ việc hỗ trợ kịch bản và phụ đề.",
+  "results": [
+   "Tốc độ trên GPU 4 GB với engine Qwen3-TTS 0.6B: ~2 s cho mỗi giây âm thanh",
+   "Tốc độ trên GPU 4 GB với engine Chatterbox Nano: dưới 1 s",
+   "Tốc độ trên GPU 4 GB với engine Chatterbox 0.5B: ~4 s",
+   "Tốc độ trên GPU 4 GB với engine VoxCPM 0.5B: ~4 s",
+   "Tốc độ trên CPU với engine Sopro: ~1 s"
+  ],
+  "limitations": "Không công bố các chỉ số đánh giá khách quan về chất lượng tổng hợp (như MOS, WER, speaker similarity). Tài liệu không nêu danh sách ngôn ngữ hỗ trợ chính thức và hiện chỉ cung cấp bộ cài đặt hoàn chỉnh cho Windows.",
+  "takeaways": "VoiceBird là một ví dụ điển hình về việc đóng gói các mô hình TTS mã nguồn mở dạng vừa và nhỏ (0.5B - 0.6B) thành một công cụ studio hoàn chỉnh, chạy cục bộ trên máy tính cá nhân cấu hình tầm trung (GPU 4 GB hoặc CPU).",
+  "strengths": [
+   "Hoạt động 100% cục bộ và bảo mật",
+   "Hỗ trợ đa dạng engine TTS mã nguồn mở",
+   "Tính năng studio tiện lợi với takes và tone",
+   "Yêu cầu phần cứng vừa phải (4 GB GPU)"
+  ],
+  "weaknesses": [
+   "Thiếu đánh giá định lượng MOS và WER",
+   "Chỉ hỗ trợ bộ cài đặt trên Windows",
+   "Chưa rõ thông tin hỗ trợ đa ngôn ngữ"
+  ],
+  "context": "Dự án cá nhân do tác giả Suraj64x phát hành dưới dạng kho lưu trữ mã nguồn mở trên GitHub."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

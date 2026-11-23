@@ -1,0 +1,51 @@
+{
+ "id": "gh:caprichooms/capricore",
+ "topic": "Voice Agent",
+ "promise": 2,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Dự án chủ yếu ghép nối các công nghệ có sẵn (llama.cpp, Chatterbox, Qwen3-TTS, Electron/Node) vào một ứng dụng desktop companion kiểu trợ lý ảo cá nhân.",
+  "credibility": "Đây là kho mã nguồn mở từ nhà phát triển độc lập (CapriChooms) trên GitHub, chưa qua bình duyệt học thuật và bộ cài đặt hiện chưa có chữ ký số (unsigned).",
+  "technical": "Hệ thống kỹ thuật được xây dựng chi tiết cho môi trường Windows x64, có cơ chế quản lý ngưỡng tải tài nguyên CPU/GPU và xử lý phục hồi lỗi renderer WebGL.",
+  "impact": "Dự án nhận được mức độ quan tâm ở mức vừa phải (368 stars, 41 forks trên GitHub) và chỉ giới hạn trên hệ điều hành Windows x64.",
+  "evidence": "Tài liệu chỉ công bố các bảng ước tính dung lượng RAM/VRAM cho phần cứng mà hoàn toàn không có số liệu đo lường thực nghiệm về WER, MOS hay latency."
+ },
+ "summary": {
+  "tldr": "CapriCore là ứng dụng trợ lý ảo desktop (AI desktop companion) mã nguồn mở dành cho Windows (10 22H2/11 x64), tích hợp mô hình ngôn ngữ lớn (LLM) và giọng nói (speech) chạy cục bộ hoặc qua API. Dự án hỗ trợ tương tác giọng nói hai chiều (STT trên CPU và TTS qua Chatterbox trên GPU hoặc Qwen3-TTS trên CPU) cùng avatar hoạt họa tương tác trực tiếp trên màn hình desktop.",
+  "problem": "Triển khai trợ lý giọng nói và LLM cá nhân hóa trực tiếp trên máy trạm Windows thường phức tạp, đòi hỏi cấu hình môi trường nặng (Python/Node, CUDA), thiếu khả năng quản lý tài nguyên linh hoạt giữa CPU/GPU, và thiếu giao diện tương tác trực quan (avatar) có tính năng ghi nhớ dài hạn kết hợp điều khiển hệ thống an toàn.",
+  "method": "Kiến trúc hệ thống bao gồm: **Runtime & Suy luận LLM**: Tích hợp runtime `llama.cpp` Windows x64 Vulkan quản lý qua `llama-server.exe` cho các mô hình GGUF (mặc định hỗ trợ Qwen3.5 từ 0.8B đến 9B, Gemma 4 E2B, Ministral 3 3B), hoặc định tuyến qua OpenAI-compatible API (OpenRouter, DeepSeek, Gemini, Lemonade server). Hỗ trợ kiểm soát tải CPU/GPU động (mặc định 85%). **Speech Pipeline**: Speech recognition chạy trên CPU (English tiêu tốn 1–3 GiB RAM; Multilingual tiêu tốn 2–5 GiB RAM). Text-to-Speech (TTS) hỗ trợ 3 tùy chọn: Chatterbox Turbo GPU (NVIDIA CUDA hoặc AMD ROCm trên Win 11, English dùng 2–4 GiB RAM / 2.5–4 GiB VRAM; Multilingual dùng 3–6 GiB RAM / 3–6 GiB VRAM), mô hình Qwen3-TTS 0.6B Base trên CPU (dùng 4–8 GiB RAM, 0 GiB VRAM), hoặc external Voice API. **Hệ thống Desktop & Tác tử**: Tích hợp CPU request classifier (0.1–0.5 GiB RAM), hệ thống bộ nhớ cục bộ (searchable memory & knowledge base), avatar WebGL phản hồi biểu cảm/khẩu hình theo âm thanh/BPM, cùng các công cụ tự động hóa ứng dụng/file có cơ chế cấp quyền và dừng khẩn cấp (Escape).",
+  "setup": "Hỗ trợ Windows 10 22H2 hoặc Windows 11 x64. Tối thiểu 8 GiB RAM hệ thống; dung lượng ổ đĩa trống tối thiểu khoảng 8 GiB (với 3 GiB download cho bản cài API text-only cơ bản). Yêu cầu Node.js 24.22.1+, npm, Vulkan runtime cho llama.cpp nếu dựng từ source, hoặc chạy qua wizard cài đặt CapriSetup. Pipeline âm thanh mặc định ở trạng thái tắt (unloaded) khi khởi động; chỉ tải model vào RAM/VRAM khi kích hoạt microphone hoặc loa.",
+  "results": [
+   "Không có số liệu benchmark định lượng (WER, MOS, RTF hoặc latency) được công bố trong tài liệu.",
+   "Ước tính tiêu thụ bộ nhớ TTS - English Chatterbox voice: 2–4 GiB RAM, 2.5–4 GiB VRAM.",
+   "Ước tính tiêu thụ bộ nhớ TTS - Multilingual Chatterbox voice (BETA): 3–6 GiB RAM, 3–6 GiB VRAM.",
+   "Ước tính tiêu thụ bộ nhớ TTS - Hugging Face Qwen3-TTS CPU voice (BETA): 4–8 GiB RAM, 0 GiB VRAM (tốc độ có thể chậm hơn real-time).",
+   "Ước tính tiêu thụ STT trên CPU: English tốn 1–3 GiB RAM; Multilingual tốn 2–5 GiB RAM.",
+   "Ước tính tải LLM text (32K context): Qwen3.5 0.8B (1.3–2.2 GiB VRAM, 8 GiB RAM target); Qwen3.5 2B (2.8–4 GiB VRAM, 8 GiB RAM GPU / 16 GiB CPU); Qwen3.5 4B (4–6 GiB VRAM, 12 GiB RAM GPU / 24 GiB CPU); Qwen3.5 9B (7–10 GiB VRAM, 16 GiB RAM GPU / 32 GiB CPU); Ministral 3 3B (3.5–6 GiB VRAM, 12 GiB RAM); Gemma 4 E2B (8–12 GiB VRAM, 16 GiB RAM)."
+  ],
+  "limitations": "Tài liệu không cung cấp đánh giá độ trễ hội thoại end-to-end, WER cho nhận dạng giọng nói hay MOS cho chất lượng âm thanh; bộ cài chưa có chữ ký số (unsigned installer); Qwen3-TTS chạy CPU có thể chậm hơn real-time; lịch sử trò chuyện và bộ nhớ thông thường lưu trữ cục bộ không mã hóa toàn phần; camera support chưa được hiện thực.",
+  "takeaways": "Cung cấp một giải pháp mẫu hoàn chỉnh (turn-key application) để đóng gói STT/TTS và LLM cục bộ lên máy tính để bàn của người dùng cuối, minh họa cách cấu hình phân bổ tài nguyên bộ nhớ tách biệt giữa mô hình hội thoại và pipeline xử lý giọng nói.",
+  "strengths": [
+   "Pipeline giọng nói linh hoạt (CPU/GPU/API)",
+   "Quản lý tài nguyên RAM/VRAM chi tiết",
+   "Không yêu cầu cài đặt môi trường phức tạp",
+   "Giao diện desktop tương tác trực quan cao"
+  ],
+  "weaknesses": [
+   "Thiếu đánh giá định lượng độ trễ và WER/MOS",
+   "Bộ cài chưa có chữ ký số xác thực",
+   "TTS trên CPU có thể chậm hơn thời gian thực",
+   "Dữ liệu hội thoại lưu trữ chưa mã hóa toàn phần"
+  ],
+  "context": "CapriChooms, dự án desktop companion nguồn mở phát hành trên GitHub (CapriChooms/CapriCore, phiên bản v1.2.2)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

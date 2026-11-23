@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>cyber-xiaoya/cyber-xiaoya-live · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W48</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">cyber-xiaoya/cyber-xiaoya-live</h1>
+    <div class="meta">
+      <span title="Listed by GitHub inside the crawl window">found Nov 23, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 24, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">cyber-xiaoya</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://github.com/cyber-xiaoya/cyber-xiaoya-live" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">README excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>赛博小雅直播版 · 组件版数字人（Vidu s2）· 免费开源 AGPL-3.0 · 作者：天工开帧（抖音/B站/YouTube 同名）
+
+README: 赛博小雅直播版 · 组件版数字人（Vidu s2）. &gt; 🍎 Mac / Apple Silicon 用户请先看这里 —— 本仓库的 main 分支是 Windows 版（TTS 走 WSL2 + OmniVoice）。 &gt; macOS 适配（MLX 本机语音 / say 离线 / edge-tts 在线 / siliconflow 可克隆 + Mac 一键启动）在 mac 分支， &gt; 尚未合并进 main（试合并无冲突，缺 Windows 侧回归），原因与清单见 issue #6。 &gt; ✍️ 这一段代码由社区贡献者 @innocent123 提交（PR #4，M4 Pro / 24G 实测），感谢！ &gt; &gt; &gt; 本项目永久免费开源。 唯一官方来源：https://github.com/cyber-xiaoya/cyber-xiaoya-live &gt; 任何付费售卖、代下载、代部署均未经授权，欢迎举报（举报：提 Issue 或在本项目官方群里 @我）。 &gt; 👤 作者：天工开帧 · 抖音 · 哔哩哔哩 · YouTube · 博客 &gt; 📦 配套仓库：赛博小雅 · 弹幕采集器 —— 抖音 / B站 / YouTube / 视频号， &gt; 装好并把 tts.output 设成 dh 就能把观众弹幕灌进本仓库的桥。 &gt; ⚠️ 先说清楚：这不是&quot;下载双击就能播&quot;的成品。 &gt; 仓库里给的是整套软件（舞台页 + 本地桥 + 弹幕/歌单/录播全链路）， &gt; 但不包含作者的人物形象、克隆音色、人设、动作库、歌库和任何 API Key —— 那些需要你自己准备。 &gt; 这份 README 会把&quot;从零跑起来&quot;需要做的每一步写清楚，照着做大约 1 小时。 --- 效果. 这是手机端抖音直播的实拍截图：观众弹幕进来 → 舞台页把指令翻译成动作 → 数字人执行（画面里是&quot;拿出墨镜戴上&quot;）， 底部是她正在说的话（由 LLM 生成 + 本机 TTS 合成）。 &gt; 6 秒实拍。能看到：弹幕 → 动作指令 → 数字人真的执行了。 &gt; 🎬 带声音的原片（720×1560，v1.0.0 附件） · 无声版 demo.mp4 这是主播这端看到的「舞台页」：左边是数字人画面 + 实时字幕，右边是快捷指令 / 点播 / 参考图面板， 底部一行是打字、直发动作、点播、中断、设置。（界面示例，字幕为演示数据） --- 0. 你需要准备什么. | 项目 | 是否必须 | 说明 | | Windows 10/11 + NVIDIA 显卡（≥8GB 显存） | 必须 | 渲染在云端，但 TTS 在本机跑 | | Vidu 账号 + API Key | 必须 | 数字人渲染与推流，按秒计费（1 积分/秒） | | LLM API Key（DeepSeek 或任意 OpenAI 兼容） | 必须 | 她的&quot;脑子&quot; | | TTS 服务（OmniVoice / 见 §2.4） | 必须，否则没声音 | 本机跑，WSL2 + CUDA | | ffmpeg | 必须 | 音频解码统一走它 | | 弹幕采集器（抖音/B站/YouTube） | 可选 | 不装就只能手动打字互动 | | 点播歌库 | 可选 | 不放歌就没有点播 | | 摄像头/推流软件（OBS 等） | 可选 | 想把画面推给平台才需要 | --- 1. 它到底是怎么跑起来的. - Vidu 只负责&quot;变成画面&quot;：给文字/音频，它渲染口型、表情、动作并推流 - 其余全在本机：LLM 思考、TTS 发声、弹幕处理、点播、录播下载 - 舞台页是本地网页（http://127.0.0.1:8795/stage），你在浏览器里操作，不需要公网 为什么这么设计：不用买云端 ASR/LLM/TTS 套餐，成本只剩 Vidu 的渲染费；音色、人设、歌单全在你自己手里。 --- 2. 准备工作（照着做）. 2.1 Vidu 账号、形象、动作库. 1. 注册 ，充值（按 1 积分/秒计费，余额 🍎 Mac 用户不要照这一节做：你不需要 WSL2 + OmniVoice。请切到 mac 分支， &gt; 用 README-MAC.md 里的方案（say / edge-tts / mlx / siliconflow 四选一，tts.provider 热切换）。 项目只认 OmniVoice（tts.engine = &quot;omnivoice&quot;），因为要支持&quot;克隆音色 + 直播中热切音色&quot;。 方案 A：OmniVoice + WSL2（推荐，作者本机就是这样跑的）. 要求：WSL2 + Ubuntu-22.04 + NVIDIA 驱动 + 至少 8GB 可用显存（作者实测稳定占用 ~11GB）。 &gt; 💡 ⚠️ 先说明一个最容易卡住的地方：demo_flashinfer</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 23, 2026 · README</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>cyber-xiaoya-live là một hệ thống mã nguồn mở điều khiển livestream bằng người ảo (digital human) tương tác theo thời gian thực kết nối với nền tảng Vidu s2. Dự án tích hợp pipeline hoàn chỉnh gồm nhận đạn mạc (bình luận trực tiếp), xử lý LLM, tổng hợp giọng nói (TTS OmniVoice trên máy cục bộ) và đẩy lệnh điều khiển khẩu hình, hành động lên Vidu qua WebRTC.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Chi phí thuê trọn gói dịch vụ AI livestream trên đám mây (gồm ASR, LLM, TTS, avatar rendering) thường rất tốn kém và bị phụ thuộc nhà cung cấp, thiếu sự kiểm soát về tính cách, âm sắc và kho động tác tương tác với khán giả trên các nền tảng phát sóng (Douyin, Bilibili, YouTube).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Kiến trúc dạng lai (hybrid edge-cloud): Cloud (Vidu) chỉ đảm nhận render avatar (khẩu hình, biểu cảm, hành động) và đẩy luồng RTC; toàn bộ logic điều khiển nằm tại máy cục bộ (FastAPI bridge cổng :8795).</p>
+<ol>
+<li><strong>Giao diện &amp; Cầu nối</strong>: Trang quản trị web cục bộ kết nối bridge qua WebRTC để xem trước và điều khiển.</li>
+<li><strong>Pipeline thoại &amp; đạn mạc</strong>: Bình luận (danmaku) từ bên ngoài gửi tới endpoint <code>/api/danmaku</code>. LLM (DeepSeek / OpenAI compatible) xử lý theo luồng (streaming) -&gt; tách câu -&gt; gửi tới TTS cục bộ.</li>
+<li><strong>TTS</strong>: Mặc định dùng OmniVoice chạy trên WSL2 + FlashInfer/CUDA Graph (port :9877) tạo luồng PCM, hỗ trợ voice cloning và đổi giọng nóng (voice switching). Nhánh <code>mac</code> hỗ trợ thêm say, edge-tts, SiliconFlow CosyVoice2, MLX.</li>
+<li><strong>Quản lý hành vi</strong>: Hạt nhân ưu tiên hành động: Hành động của khách VIP (tặng quà &gt;99 kc) &gt; thao tác thủ công &gt; kịch bản sắp đặt sẵn (choreography) &gt; đạn mạc tự động. Tích hợp bộ lọc từ khóa nhạy cảm.</li>
+</ol>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><ul>
+<li><strong>Yêu cầu phần cứng</strong>: Windows 10/11 với GPU NVIDIA (≥8GB VRAM, thực tế OmniVoice chiếm ~11GB) chạy WSL2 (Ubuntu 22.04) hoặc Apple Silicon Mac (nhánh <code>mac</code>).</li>
+<li><strong>Dịch vụ cần có</strong>: Tài khoản Vidu (tính phí 1 điểm/giây, yêu cầu số dư ≥45 điểm để khởi tạo), LLM API Key (DeepSeek-flash hoặc tương thích OpenAI).</li>
+<li><strong>Công cụ phần mềm</strong>: Python 3.12, <code>uv</code>, ffmpeg.</li>
+<li><strong>Sử dụng</strong>: Chạy bridge FastAPI bằng <code>python -m src.main</code> hoặc script khởi động, truy cập trang điều khiển tại <code>http://127.0.0.1:8795/stage</code>.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Chi phí Vidu: 1 điểm/giây (bắt buộc số dư ≥45 điểm mới mở được phiên live).</li>
+<li>Dung lượng tải mô hình TTS OmniVoice lần đầu: ~10GB.</li>
+<li>Yêu cầu âm thanh tham chiếu (clone voice): 3–10 giây, câu đơn, định dạng WAV 16kHz mono, không tạp âm.</li>
+<li>Mức tiêu thụ VRAM thực tế đo đạc của tác giả: ổn định ở mức ~11GB trên WSL2 (yêu cầu tối thiểu ≥8GB VRAM).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Không công bố benchmark định lượng về độ trễ tổng thể (end-to-end latency), RTF hay WER/MOS. Bản phân phối cố tình không chứa avatar model, file âm thanh clone, prompt nhân vật cá nhân hóa, key API và kho bài hát do lý do bản quyền/bảo mật. Phụ thuộc chi phí và hạ tầng render của Vidu Cloud.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Cung cấp một bản thiết kế hệ thống mẫu (blueprint) rất thực dụng cho kỹ sư muốn xây dựng Voice/Avatar Agent phục vụ livestream: kết hợp LLM và TTS on-premise để giảm chi phí API, đồng thời dùng API video cloud theo giây để render chuyển động avatar chất lượng cao.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">50.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,82.8 230.0,115.26 181.63,167.77 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="82.8" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="181.63" cy="167.77" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 3/5 — Dự án tích hợp các công nghệ sẵn có (Vidu, OmniVoice, DeepSeek, FastAPI) thành một pipeline hoàn chỉnh phục vụ livestream chứ không phát minh kiến trúc mô hình mới.</title>Novelty <tspan class="radar-value">3</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Xử lý kỹ thuật tốt các bài toán thực tế: tích hợp FlashInfer/CUDA Graph cho OmniVoice, xử lý luồng WebRTC/PCM, phân giải mạng WSL2 và hệ thống ưu tiên hành động.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 2/5 — Tài liệu chủ yếu là hướng dẫn cài đặt và cấu hình; thiếu hoàn toàn các benchmark kỹ thuật định lượng (độ trễ, RTF, MOS).</title>Evidence <tspan class="radar-value">2</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Có độ quan tâm tốt trong cộng đồng livestream AI (hơn 1.000 stars, gần 400 forks), mang tính ứng dụng thương mại cao tại thị trường Trung Quốc.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Dự án nguồn mở cá nhân đạt trên 1000 stars và có video kiểm chứng thực tế trên Douyin, nhưng không phải bài báo khoa học hay sản phẩm từ phòng lab lớn.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">3/5</span></dt><dd>Dự án tích hợp các công nghệ sẵn có (Vidu, OmniVoice, DeepSeek, FastAPI) thành một pipeline hoàn chỉnh phục vụ livestream chứ không phát minh kiến trúc mô hình mới.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Dự án nguồn mở cá nhân đạt trên 1000 stars và có video kiểm chứng thực tế trên Douyin, nhưng không phải bài báo khoa học hay sản phẩm từ phòng lab lớn.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Xử lý kỹ thuật tốt các bài toán thực tế: tích hợp FlashInfer/CUDA Graph cho OmniVoice, xử lý luồng WebRTC/PCM, phân giải mạng WSL2 và hệ thống ưu tiên hành động.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Có độ quan tâm tốt trong cộng đồng livestream AI (hơn 1.000 stars, gần 400 forks), mang tính ứng dụng thương mại cao tại thị trường Trung Quốc.</dd></div>
+          <div><dt>Evidence <span class="muted">2/5</span></dt><dd>Tài liệu chủ yếu là hướng dẫn cài đặt và cấu hình; thiếu hoàn toàn các benchmark kỹ thuật định lượng (độ trễ, RTF, MOS).</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Kiến trúc kết hợp local-cloud tối ưu chi phí · Pipeline hoàn chỉnh từ đạn mạc đến render · Hỗ trợ voice cloning thời gian thực · Giao diện quản lý trực quan và chi tiết</p>
+          <p><span class="label">Weaknesses</span> · Thiếu số liệu đo lường độ trễ chuẩn · Cấu hình cài đặt WSL2 còn phức tạp · Phụ thuộc vào nền tảng đóng Vidu API</p>
+          <p><span class="label">Context</span> · Dự án nguồn mở của tác giả Tian Gong Kai Zhen (天工开帧) cùng cộng đồng phát triển, phát hành mã nguồn theo giấy phép GNU AGPL-3.0 trên GitHub.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

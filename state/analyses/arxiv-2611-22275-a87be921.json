@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2611.22275",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 5,
+  "credibility": 4,
+  "technical": 5,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Ý tưởng kết hợp speech-based synchronization thay cho mạng viễn thông cùng cơ chế shared skill schedule và residual RL cho multi-humanoid loco-manipulation dài hạn là hướng tiếp cận hoàn toàn mới lạ và thực tế.",
+  "credibility": "Bài báo từ nhóm nghiên cứu uy tín (USC, VinMotion), có liên kết mã nguồn công khai, video minh chứng rõ ràng và quy trình thí nghiệm sim2real minh bạch.",
+  "technical": "Thiết kế hệ thống phân cấp xuất sắc: giải quyết được bài toán bùng nổ tham số bằng shared actor, phân rã thời gian qua discrete hub poses, xử lý acoustic delay bằng coarse-grid scheduling.",
+  "impact": "Mở ra tiềm năng ứng dụng thực tế rất lớn cho việc phối hợp robot humanoid trong nhà kho, công trường mà không phụ thuộc vào độ ổn định của mạng viễn thông.",
+  "evidence": "Cung cấp đầy đủ kết quả thực nghiệm với 12 tác vụ benchmark HH-BENCH, kiểm tra chi tiết trên cả mô phỏng (hàng nghìn episode, 3 seed) và thế giới thực (100 lượt thử nghiệm thực tế với nhiều nền tảng robot và con người)."
+ },
+ "summary": {
+  "tldr": "HEAVE-HO là một framework phi tập trung (decentralized) dành cho sự cộng tác thao tác-di chuyển (loco-manipulation) dài hạn giữa nhiều robot hình người mà hoàn toàn không cần truyền thông mạng (zero-network communication). Hệ thống kết hợp bộ lập kế hoạch thị giác-ngôn ngữ (VLM planner), cơ chế đồng bộ leader–follower bằng tiếng nói (speech-based sync) trên một lưới lịch trình thô (shared skill schedule), và bộ điều khiển low-level học phần dư (residual RL) trên nền foundation model điều khiển vận động.",
+  "problem": "Thực hiện các tác vụ dài hạn mang tính tải trọng nặng hoặc kích thước lớn đòi hỏi sự phối hợp nhiều robot humanoid. Tuy nhiên, thách thức đặt ra gồm: (1) tương tác vật lý liên kết chặt chẽ (tightly coupled) qua vật thể dùng chung khiến chuyển động của robot này trực tiếp làm mất cân bằng của robot khác; (2) cần lập kế hoạch dài hạn dựa trên quan sát thị giác; và (3) đòi hỏi đồng bộ hóa chính xác thời điểm thực thi kỹ năng mà không thể phụ thuộc vào mạng truyền thông tập trung (centralized) vốn dễ tắc nghẽn, kém mở rộng và tăng độ trễ.",
+  "method": "HEAVE-HO phân tách bài toán thành hai tầng giao tiếp qua tập kỹ năng nhóm rời rạc $K$ (như lift, put down, bước các hướng, quay tại chỗ) được định nghĩa qua hai tư thế hub tĩnh: $S_0$ (đứng tay không) và $S_1$ (đứng giữ vật thể):\n- **High-level Planner & Speech Synchronization:** Một robot đóng vai trò leader sử dụng mô hình thị giác-ngôn ngữ Qwen3-VL-2B (tinh chỉnh qua LoRA, ~140M tham số huấn luyện) để nhận diện hình ảnh từ camera gắn trên đầu và suy luận ra kỹ năng nhóm tiếp theo thuộc $K \\cup \\{HOLD, DONE\\}$. Sau đó, leader phát âm thanh lệnh (speech token) qua loa. Các follower thu nhận âm thanh bằng microphone cục bộ. Để loại bỏ độ trôi thời gian do truyền âm thanh và nhận dạng, tất cả robot đồng bộ bắt đầu kỹ năng trên một lưới chu kỳ điều khiển thô (coarse grid schedule), trong đó leader tự bù trừ trễ âm thanh dự kiến (acoustic delay offset).\n- **Low-level Multi-Agent Post-Training:** Đóng băng bộ điều khiển nền tảng SONIC (humanoid foundation tracking model) $\\pi_{\\text{base}}$ và huấn luyện một chính sách phần dư (residual policy) $\\pi_\\theta$ dùng chung tham số cho tất cả robot: $a_i = \\pi_{\\text{base}}(o_i) + \\pi_\\theta(o_i, \\pi_{\\text{base}}(o_i))$. Chính sách được huấn luyện bằng MAPPO trong môi trường Isaac Lab (4.096 môi trường 2-robot song song) với centralized critic $V_\\phi(s) \\in \\mathbb{R}^N$ và shared actor phân tán. Mỗi robot chỉ nhận quan sát proprioception cục bộ, cửa sổ ngắn của reference motion tương lai, và thông số vật thể $c = (L, W, H, m)$.",
+  "setup": "Đánh giá trên bộ benchmark tự xây dựng **HH-BENCH** gồm 12 tác vụ (lift and carry, shoulder carry, pull, push, handover, precise placement) cho nhóm 2–10 humanoid (cả đồng nhất lẫn dị thể). Nền tảng phần cứng: Unitree G1, EngineAI PM01 và con người. Huấn luyện RL trong mô phỏng Isaac Lab (50 Hz control loop, physics 5 ms, control 20 ms). Bộ lập kế hoạch VLM huấn luyện với 24 episode thực tế hoặc 1.000 episode mô phỏng cho mỗi tác vụ. Các baseline gồm: Zero-shot GPT-6 (Astra), CHORUS (decentralized VLA fine-tuned trên $\\pi_{0.5}$), Pure SONIC, Multi-HDMI, và các bản ablation (bỏ SONIC, dùng independent actors).",
+  "results": [
+   "Bộ điều khiển low-level của HEAVE-HO đạt tỷ lệ thành công trung bình 94.41% trong mô phỏng trên 12 tác vụ HH-BENCH, vượt xa Pure SONIC (0.22%), Multi-HDMI (28.56%), biến thể w/o SONIC (16.78%) và độc lập actor (22.05%).",
+   "Sai số vị trí cơ thể (Body error) và vật thể (Object error) của HEAVE-HO thấp vượt trội: 18.62 cm (body) và 19.59 cm (object), so với 58.24 cm / 83.20 cm của Pure SONIC và 68.57 cm / 66.92 cm của Multi-HDMI.",
+   "Ở cấp độ hệ thống hoàn chỉnh (Tab. 1), bộ planner HEAVE-HO đạt tỷ lệ thành công trung bình 86% qua 5 tác vụ dài hạn (6/10 cửa hẹp thực tế, 7/10 hành lang L thực tế, 10/10 box handover sim, 10/10 khiêng bàn 4 robot sim, 10/10 sofa sim), tiếp cận mức trần người vận hành (Human Operator đạt 98%), vượt trội so với Zero-shot GPT-6 Astra (42%) và CHORUS (12%).",
+   "Độ trễ suy luận của bộ lập kế hoạch HEAVE-HO là 52.5 ms/quyết định (tiêu thụ 5.3 GiB VRAM trên 1 card RTX 4090 GPU), nhanh gấp ~120 lần so với API GPT-6 Astra (6.46 s) và nhanh hơn CHORUS (78 ms).",
+   "Thử nghiệm thế giới thực: Đạt thành công 92/100 lượt thử nghiệm tổng thể; triển khai thành công mô hình học từ 2 robot G1 lên nhóm 4 G1, nhóm hỗn hợp G1 + PM01 + người (đạt 37/40 lần thử khi khiêng bàn) mà không cần huấn luyện lại."
+  ],
+  "limitations": "Cơ chế đồng bộ âm thanh yêu cầu môi trường tương đối yên tĩnh và khả năng thu âm tin cậy; tiếng ồn môi trường lớn có thể làm hỏng nhận diện lệnh. Việc huấn luyện planner VLM cho tác vụ mới vẫn cần thu thập dữ liệu teleoperation thủ công tốn thời gian. Tác vụ mang vác qua cầu thang ngoài đời thực vẫn có tỷ lệ lỗi đáng kể (chỉ đạt 7/10) do sai số bước chân trên bậc thang hẹp.",
+  "takeaways": "Đối với các kỹ sư voice agent và robotics, bài báo chứng minh âm thanh (speech) hoàn toàn có thể được dùng làm một bus truyền thông thời gian thực không dây, không phụ thuộc vào hạ tầng mạng WiFi/mạng gói, bằng cách lượng tử hóa thời điểm kích hoạt hành vi qua một khung lịch trình thô (slotted grid). Việc kết hợp shared-parameter RL với mô hình ngôn ngữ thị giác giúp mở rộng quy mô hệ thống nhiều agent linh hoạt mà không làm bùng nổ không gian hành động.",
+  "strengths": [
+   "Không cần truyền thông mạng giữa các robot",
+   "Đồng bộ chính xác nhờ speech trên lưới slot",
+   "Khả năng mở rộng từ 2 lên 10 robot",
+   "Độ trễ VLM planner cực thấp (52.5 ms)",
+   "Đánh giá thực nghiệm thực tế và sim toàn diện"
+  ],
+  "weaknesses": [
+   "Dễ bị ảnh hưởng bởi tạp âm môi trường",
+   "Đòi hỏi thu thập teleoperation thủ công khi học",
+   "Độ chính xác đặt chân cầu thang còn hạn chế"
+  ],
+  "context": "Nhóm tác giả đến từ University of Southern California (USC) và VinMotion, công bố trên arXiv (arXiv:2611.22275)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

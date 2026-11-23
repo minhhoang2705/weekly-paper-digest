@@ -1,0 +1,47 @@
+{
+ "id": "gh:threerocks/article2media",
+ "topic": "TTS",
+ "promise": 2,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Dự án kết hợp độc đáo giữa Claude Code skills, engine đồ họa zero-dependency và pipeline TTS/ASR cục bộ kèm cơ chế tự động nghiệm thu (QA) nội dung đa phương tiện.",
+  "credibility": "Dự án mã nguồn mở độc lập trên GitHub với hơn 500 stars, mã nguồn rõ ràng nhưng không thuộc viện nghiên cứu hay xuất bản qua hội nghị học thuật.",
+  "technical": "Thiết kế kỹ thuật vững chắc với CDP trực tiếp, forced alignment theo ký tự bằng Whisper, QA âm thanh (-14 LUFS, kiểm tra ngắt/trôi giọng) và đối chiếu khối văn bản nghiêm ngặt.",
+  "impact": "Đạt 535 stars và 83 forks, hữu ích cao trong cộng đồng làm nội dung tự động hóa trên mạng xã hội Trung Quốc nhưng có phạm vi thị trường ngách.",
+  "evidence": "Cung cấp thời gian thực thi cụ thể của Whisper và kết quả blind test giữa Haiku và Opus, nhưng thiếu các benchmark âm học tiêu chuẩn (như MOS hay WER hệ thống)."
+ },
+ "summary": {
+  "tldr": "article2media là bộ plugin và skill mã nguồn mở dành cho Claude Code và Codex, hỗ trợ chuyển đổi bài viết hoặc video thành nội dung đa phương tiện hoàn chỉnh sẵn sàng xuất bản (ảnh dài, card Tiểu Hồng Thư, bài WeChat, video dọc kèm thuyết minh). Hệ thống tích hợp pipeline âm thanh gồm nhận dạng giọng nói bằng Whisper và tổng hợp giọng đọc địa phương (TTS) qua VoxCPM2 ở tần số lấy mẫu 48 kHz.",
+  "problem": "Việc chuyển đổi thủ công một bài viết dài hoặc video thành các định dạng nội dung trực quan cho từng mạng xã hội (Tiểu Hồng Thư, WeChat, Douyin, Bilibili) tốn nhiều thời gian chụp màn hình, dàn trang, tạo biểu đồ, ghi âm thuyết minh và cắt ghép phụ đề, dễ xảy ra sai lệch thông tin và lỗi định dạng.",
+  "method": "Kiến trúc gồm 10 skill độc lập chia sẻ engine chung (`skills/article2media/engine/`), kết nối qua các tệp trung gian (`article.md`, `content.json`, `rewrite.md`, `video.json`):\n- **Trích xuất & Chuyển lời**: Lấy văn bản từ web/X/WeChat hoặc bóc tách âm thanh video qua `yt-dlp` và ASR bằng `mlx-whisper` (`whisper-large-v3-turbo`).\n- **Hiểu & Cấu trúc**: LLM (Claude/Codex) chuyển đổi nội dung thành `content.json` tách rời phong cách giao diện; hỗ trợ 15 loại biểu đồ tham số hóa.\n- **Dàn trang & Đồ họa**: Render qua HTML/CSS và chụp ảnh không đầu trực tiếp qua Chrome DevTools Protocol (CDP) với độ phân giải x2, không dùng thư viện npm phụ thuộc.\n- **Tổng hợp giọng đọc (TTS) & Video dọc**: Sử dụng backend VoxCPM2 chạy trên Apple Silicon (48 kHz), dự phòng qua `edge-tts` hoặc macOS speech. Kiểm tra chất lượng phát âm từng câu (tỉ lệ lỗi từ, ngắt âm, clipping, trôi giọng) và điều chỉnh tốc độ đọc (~4.5 chữ/giây). Đồng bộ phụ đề và animation hiển thị số/danh sách theo mốc thời gian từng chữ trích xuất từ Whisper.\n- **Tự động kiểm định (QA)**: Chạy kịch bản tự động kiểm tra tràn layout, đối chiếu từng khối văn bản (verbatim block ledger SHA-256), rà soát số liệu sai lệch, kiểm tra âm lượng (-14 LUFS) và rớt khung hình phụ đề.",
+  "setup": "Yêu cầu môi trường tối thiểu: Node.js 22+ và trình duyệt Chrome/Chromium (zero npm dependencies). Các tính năng mở rộng: Apple Silicon với `mlx-audio` và `VoxCPM2` cho TTS 48 kHz; `mlx-whisper` cho ASR và forced alignment; `ffmpeg` cho dựng video; `yt-dlp` cho tải subtitle/video. Hỗ trợ 12 theme chính, 6 giọng đọc đi kèm. Cài đặt qua Claude Code plugin (`claude plugin install article2media@article2media`) hoặc `npx skills add threerocks/article2media`.",
+  "results": [
+   "Hệ thống speech-to-text bằng mlx-whisper (whisper-large-v3-turbo) trên Apple Silicon đạt tốc độ chuyển đổi video Bilibili 6 phút trong 16 giây và video 14 phút trong 29 giây.",
+   "Pipeline TTS VoxCPM2 tạo âm thanh đầu ra ở 48 kHz, kiểm soát tốc độ đọc ổn định trong khoảng 4.2–5 chữ/giây (chuẩn ~4.5 chữ/giây) và chuẩn hóa âm lượng đạt chuẩn -14 LUFS.",
+   "Thử nghiệm hồi quy mô hình (model regression) trên 3 bài viết cho thấy Claude Haiku đạt 100%+ điểm khách quan quy tắc so với Opus (nhờ bộ check tự động), và đạt trung bình khoảng 88% (85%–91%) chất lượng cảm nhận người đọc so với Opus trong đánh giá mù (blind review)."
+  ],
+  "limitations": "TTS chất lượng cao 48 kHz phụ thuộc vào phần cứng Apple Silicon (chạy mlx-audio); các hệ thống khác phải lùi về edge-tts hoặc giọng hệ thống. Pipeline chưa hỗ trợ tự động tạo nhạc nền AI (người dùng phải cung cấp tệp BGM cục bộ).",
+  "takeaways": "Dự án là một minh chứng kỹ thuật xuất sắc về việc kết hợp LLM agents với pipeline xử lý media truyền thống (Chrome CDP, Whisper, TTS, ffmpeg) mà không phụ thuộc gói npm cồng kềnh, cung cấp cơ chế forced alignment và kiểm tra QA tự động nghiêm ngặt trong sản xuất video tự động.",
+  "strengths": [
+   "Zero npm dependencies, chạy hoàn toàn cục bộ",
+   "Quy trình QA tự động bằng ledger SHA-256",
+   "TTS 48 kHz đồng bộ chính xác từng chữ",
+   "Hỗ trợ 10 skill đa nhiệm linh hoạt"
+  ],
+  "weaknesses": [
+   "TTS chất lượng cao phụ thuộc Apple Silicon",
+   "Yêu cầu môi trường cài đặt nhiều công cụ rời",
+   "Chưa có benchmark định lượng chuẩn về WER/MOS"
+  ],
+  "context": "Dự án mã nguồn mở do tác giả cá nhân/nhóm 'threerocks' phát hành trên GitHub dưới dạng Claude Code / Codex skill & plugin."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

@@ -1,0 +1,49 @@
+{
+ "id": "url:https://huggingface.co/blog/rumble-2-flash",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 4,
+  "technical": 3,
+  "impact": 4,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Ứng dụng on-policy distillation kết hợp kỹ thuật GOLD để giải quyết bài toán lệch tokenizer giữa teacher và student, tuy nhiên vẫn dựa trên kiến trúc có sẵn Qwen3-ASR.",
+  "credibility": "Bài viết chính thức trên Hugging Face Blog, mô hình và processor đã được phát hành công khai trên Hugging Face Hub dưới giấy phép Apache 2.0.",
+  "technical": "Mô tả mạch lạc cơ chế on-policy distillation và cơ chế so sánh phân phối xác suất cross-tokenizer bằng GOLD, nhưng thiếu công thức toán học chi tiết và công thức hàm loss.",
+  "impact": "Cung cấp một mô hình ASR 0.5B siêu nhanh (7.000 RTFx) tích hợp trực tiếp vLLM/Transformers, có khả năng thay thế các mô hình lớn hơn nhiều trong các ứng dụng thực tế.",
+  "evidence": "Có số liệu so sánh rõ ràng trên Open ASR Leaderboard và benchmark AppTek với các baseline mạnh (Whisper large-v3, omniASR-LLM 7B, Nemotron 3.5 30B), nhưng thiếu phân tích chi tiết từng ngôn ngữ và bảng ablation."
+ },
+ "summary": {
+  "tldr": "Rumble-2-Flash là mô hình speech recognition mã nguồn mở (Apache 2.0) quy mô 0.5B tham số hỗ trợ hơn 40 ngôn ngữ, được phát triển dựa trên kiến trúc Qwen3-ASR. Mô hình cạnh tranh ngang ngửa với các mô hình lớn hơn gấp 3-60 lần nhờ kỹ thuật on-policy distillation với phương pháp căn chỉnh tokenizer GOLD, đồng thời đạt tốc độ xử lý hơn 7.000 RTFx trên batch lớn.",
+  "problem": "Các mô hình ASR quy mô nhỏ thường bị suy giảm độ chính xác đáng kể so với các mô hình nền tảng lớn (7B - 30B), đặc biệt trong các kịch bản thực tế khó khăn như âm thanh điện thoại nén, ồn và đa dạng giọng điệu (accents), trong khi các hệ thống lớn lại tốn kém chi phí tính toán và khó triển khai thời gian thực.",
+  "method": "Rumble-2-Flash sử dụng kiến trúc Qwen3-ASR để tận dụng khả năng hỗ trợ native ngay từ đầu trên 🤗 Transformers và vLLM mà không cần `trust_remote_code` hay runtime riêng. Mô hình được chưng cất (distilled) từ mô hình sản xuất lớn hơn là Rumble-2 bằng phương pháp on-policy distillation: student tự sinh bản phiên âm từ âm thanh và teacher chấm điểm từng vị trí token bằng xác suất dự đoán tiếp theo để student tự sửa lỗi trực tiếp. Do hai mô hình dùng tokenizer khác nhau (student dùng vocabulary của Qwen3-ASR), tác giả dùng phương pháp GOLD để hợp nhất các token bị chia tách khác nhau, so sánh trực tiếp các token trùng nhau và so sánh các token còn lại dựa trên sorted probabilities.",
+  "setup": "Mô hình được phát hành trên Hugging Face Hub tại `Reson8/Rumble-2-Flash` và qua API. Hỗ trợ hơn 40 ngôn ngữ với khả năng tự động nhận diện ngôn ngữ và kiểm soát đầu ra (số dạng chữ hay chữ số, filler words, verbatim repeats, ép ngôn ngữ). Đánh giá trên Open ASR Leaderboard (multilingual track gồm tiếng Trung, Đức, Pháp, Ý, Tây Ban Nha, Bồ Đào Nha, Hindi, Hà Lan, Anh; English track) và benchmark trung tâm cuộc gọi AppTek (302 giờ cuộc gọi đường dây trợ giúp, 14 giọng tiếng Anh, chấm bằng script của AppTek).",
+  "results": [
+   "Đạt trung bình 6.96% error rate trên Open ASR Leaderboard multilingual track (9 ngôn ngữ), vượt qua Meta omniASR-LLM 7B (lớn hơn 15x) và Whisper large-v3.",
+   "Đạt trung bình 6.6% WER trên Open ASR Leaderboard English track.",
+   "Đạt 7.86% WER trên 302 giờ benchmark cuộc gọi AppTek (14 English accents), bám sát NVIDIA Nemotron 3.5 Transcribe 30B (7.78%) và vượt Qwen3-ASR 0.6B (8.7%), chỉ đứng sau Qwen3-ASR 1.7B (7.4%).",
+   "Đạt thông lượng xử lý hơn 7.000 RTFx trên full batch của Open ASR Leaderboard (phiên âm 1 giờ âm thanh trong khoảng 0.5 giây)."
+  ],
+  "limitations": "Tài liệu không công bố chi tiết về kích thước tham số và dữ liệu huấn luyện của teacher model (Rumble-2), không có kết quả chi tiết từng ngôn ngữ riêng lẻ ngoài nhóm trung bình, và chưa cung cấp đánh giá cuộc gọi điện thoại cho các ngôn ngữ ngoài tiếng Anh.",
+  "takeaways": "Rumble-2-Flash là giải pháp ASR gọn nhẹ (0.5B) lý tưởng cho hạ tầng production cần throughput cực cao (7.000 RTFx) và chi phí thấp, tích hợp sẵn vào vLLM/Transformers và có độ bền tốt với audio điện thoại thực tế.",
+  "strengths": [
+   "Tốc độ cực nhanh trên 7.000 RTFx",
+   "Native vLLM và Transformers không custom code",
+   "Hiệu năng vượt trội mô hình gấp 15-60x",
+   "Chống chịu tốt trên audio thoại thực tế",
+   "Mã nguồn mở giấy phép Apache 2.0"
+  ],
+  "weaknesses": [
+   "Thiếu chi tiết cấu hình teacher model",
+   "Chưa có ablation study định lượng cụ thể",
+   "Benchmark thoại thực tế chỉ đánh giá tiếng Anh"
+  ],
+  "context": "Reson8 phát hành trên Hugging Face Blog và Hugging Face Hub dưới dạng bài viết giới thiệu mô hình mã nguồn mở."
+ },
+ "fulltext_source": "bài viết gốc",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

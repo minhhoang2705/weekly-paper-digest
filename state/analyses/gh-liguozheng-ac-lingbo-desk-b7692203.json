@@ -1,0 +1,49 @@
+{
+ "id": "gh:liguozheng-ac/lingbo-desk",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 2,
+  "evidence": 3
+ },
+ "reasons": {
+  "novelty": "Thiết kế tương tác Human-in-the-loop (tạm dừng cập nhật yêu cầu, xác thực hành vi trước khi sửa tệp) được triển khai bài bản, dù các công nghệ thành phần (Electron, Live2D, tool calling, DeepSeek/Ollama) là quen thuộc.",
+  "credibility": "Dự án nguồn mở cá nhân minh bạch, có tài liệu chi tiết, phân tách rõ ràng phạm vi xác thực và trung thực nêu các lỗi còn tồn đọng.",
+  "technical": "Kiến trúc hệ thống rất vững chắc với việc cô lập tiến trình worker, quản lý vòng đời tác vụ, cơ chế rollback/backup an toàn tệp và quản lý phiên bản yêu cầu.",
+  "impact": "Mức độ tiếp nhận ở giai đoạn ban đầu (217 GitHub stars, 5 forks) và chỉ hỗ trợ nền tảng Windows x64.",
+  "evidence": "Có đầy đủ số liệu kiểm thử tự động (142 test backend, 69 test hội thoại, 11 checkpoint liên kết mô hình), tuy nhiên chưa có benchmark định lượng chuẩn về độ trễ ASR/TTS hay tỷ lệ thành công của agent trên tập dữ liệu chuẩn."
+ },
+ "summary": {
+  "tldr": "Lingbo Desk (聆泊) là một nguyên mẫu voice agent trên hệ điều hành Windows kết hợp giao tiếp giọng nói liên tục, nhân vật Live2D và tiến trình thực thi tác vụ nền độc lập. Dự án nhắm vào công việc xử lý tài liệu cá nhân với khả năng tạm dừng điều chỉnh yêu cầu (human-in-the-loop) và kiểm chứng bàn giao bằng bằng chứng thực thi (hash SHA256, biên nhận).",
+  "problem": "Các desktop agent thường gặp rủi ro thao tác sai khi tự ý chỉnh sửa tệp tin, mô hình LLM báo 'hoàn thành' nhưng tệp không tồn tại hoặc sai yêu cầu, người dùng không thể can thiệp/điều chỉnh khi tác vụ dài đang chạy, hoặc toàn bộ giao tiếp bị khóa trong lúc agent đang gọi công cụ.",
+  "method": "Kiến trúc tách rời giao tiếp và thực thi: (1) Giao diện Electron/Vue đảm nhiệm nhân vật Live2D (chớp mắt, nhép miệng theo cường độ âm thanh), thu âm/phát âm thanh và bàn làm việc (workbench); (2) Gateway Node.js phụ trách quản lý phiên, định tuyến mô hình (DeepSeek cloud API hoặc Ollama cục bộ), adapter thoại (ASR/TTS tiếng Trung, Nhật, Anh qua cắt lát âm thanh thay vì mô hình end-to-end), và chính sách bảo mật; (3) Tiến trình làm việc Agent riêng biệt (worker process) chạy vòng lặp tool calling tương tác qua IPC/HTTP nội bộ; (4) Quản lý tác vụ cho phép tạm dừng (pause), lưu phiên bản yêu cầu mới và kiểm tra trạng thái trước khi khôi phục; (5) Hệ thống kiểm soát tệp kiểm tra quyền thư mục, SHA256 tệp gốc, tạo bản sao lưu, xem trước thao tác trước khi người dùng xác nhận, và nghiệm thu qua `work_finish` cùng kiểm tra hash sản phẩm bàn giao.",
+  "setup": "Môi trường yêu cầu: Windows x64, Node.js 24, pnpm 11, Python 3.12. Cần cấu hình biến môi trường `.env` với API key DeepSeek hoặc endpoint Ollama, dịch vụ ASR/TTS riêng biệt, và nạp thư viện `live2dcubismcore.min.js` (không đi kèm repo). Cổng mặc định của backend và workspace là `http://127.0.0.1:3850`.",
+  "results": [
+   "Vượt qua 142 bài kiểm tra tự động hóa backend và 3 bài test giám sát chẩn đoán.",
+   "Vượt qua 11 điểm kiểm tra (checkpoints) liên kết văn bản với mô hình thực tế (hội thoại đa lượt, điều khiển tác vụ, bàn giao tệp, hủy và khôi phục trạng thái sau khi khởi động lại).",
+   "Đạt 69 bài test mô phỏng runtime hội thoại và 7 bài test mô phỏng logic ngắt lời (barge-in).",
+   "Bản ghi mẫu thực tế dài khoảng 153 giây thực hiện đối chiếu báo giá Trung - Nhật, tạm dừng đổi yêu cầu và xuất báo cáo Word kèm tệp Markdown."
+  ],
+  "limitations": "Xử lý thoại là dạng cắt lát âm thanh rồi đưa qua ASR thay vì mô hình audio-to-audio end-to-end. Chưa có sandbox cấp hệ điều hành (script Skills chạy với quyền người dùng hiện tại). Bộ nhớ dài hạn chưa hỗ trợ tự động đúc kết hay vector retrieval. Các lỗi như lag focus khung chat, cửa sổ trắng và thoát ứng dụng chưa xác định rõ nguyên nhân; từng có trường hợp mô hình thông báo hoàn thành lệch với trạng thái thực tế của backend.",
+  "takeaways": "Cung cấp một kiến trúc mẫu chuẩn chỉnh cho desktop voice agent có tính an toàn cao: tách riêng tiến trình hội thoại và worker chạy tool, dùng state machine có phiên bản yêu cầu, và bắt buộc đối soát SHA256 trước khi sửa tệp thay vì tin tưởng mù quáng vào output của LLM.",
+  "strengths": [
+   "Tách biệt hội thoại và worker thực thi",
+   "Cơ chế tạm dừng sửa yêu cầu linh hoạt",
+   "Xác minh SHA256 và bằng chứng bàn giao",
+   "Hỗ trợ cả DeepSeek và Ollama cục bộ"
+  ],
+  "weaknesses": [
+   "Chưa có sandbox bảo mật cho Skills",
+   "Không phải mô hình thoại end-to-end",
+   "Bộ nhớ dài hạn thiếu vector search",
+   "Còn lỗi giật lag giao diện desktop"
+  ],
+  "context": "Dự án nguồn mở phát triển bởi tác giả liguozheng-ac trên GitHub dưới giấy phép MIT (cho phần mã gốc), phiên bản hiện tại trên repo là v0.3.7."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

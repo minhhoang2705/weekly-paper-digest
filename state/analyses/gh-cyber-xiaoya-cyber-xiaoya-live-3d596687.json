@@ -1,0 +1,48 @@
+{
+ "id": "gh:cyber-xiaoya/cyber-xiaoya-live",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Dự án tích hợp các công nghệ sẵn có (Vidu, OmniVoice, DeepSeek, FastAPI) thành một pipeline hoàn chỉnh phục vụ livestream chứ không phát minh kiến trúc mô hình mới.",
+  "credibility": "Dự án nguồn mở cá nhân đạt trên 1000 stars và có video kiểm chứng thực tế trên Douyin, nhưng không phải bài báo khoa học hay sản phẩm từ phòng lab lớn.",
+  "technical": "Xử lý kỹ thuật tốt các bài toán thực tế: tích hợp FlashInfer/CUDA Graph cho OmniVoice, xử lý luồng WebRTC/PCM, phân giải mạng WSL2 và hệ thống ưu tiên hành động.",
+  "impact": "Có độ quan tâm tốt trong cộng đồng livestream AI (hơn 1.000 stars, gần 400 forks), mang tính ứng dụng thương mại cao tại thị trường Trung Quốc.",
+  "evidence": "Tài liệu chủ yếu là hướng dẫn cài đặt và cấu hình; thiếu hoàn toàn các benchmark kỹ thuật định lượng (độ trễ, RTF, MOS)."
+ },
+ "summary": {
+  "tldr": "cyber-xiaoya-live là một hệ thống mã nguồn mở điều khiển livestream bằng người ảo (digital human) tương tác theo thời gian thực kết nối với nền tảng Vidu s2. Dự án tích hợp pipeline hoàn chỉnh gồm nhận đạn mạc (bình luận trực tiếp), xử lý LLM, tổng hợp giọng nói (TTS OmniVoice trên máy cục bộ) và đẩy lệnh điều khiển khẩu hình, hành động lên Vidu qua WebRTC.",
+  "problem": "Chi phí thuê trọn gói dịch vụ AI livestream trên đám mây (gồm ASR, LLM, TTS, avatar rendering) thường rất tốn kém và bị phụ thuộc nhà cung cấp, thiếu sự kiểm soát về tính cách, âm sắc và kho động tác tương tác với khán giả trên các nền tảng phát sóng (Douyin, Bilibili, YouTube).",
+  "method": "Kiến trúc dạng lai (hybrid edge-cloud): Cloud (Vidu) chỉ đảm nhận render avatar (khẩu hình, biểu cảm, hành động) và đẩy luồng RTC; toàn bộ logic điều khiển nằm tại máy cục bộ (FastAPI bridge cổng :8795).\n1. **Giao diện & Cầu nối**: Trang quản trị web cục bộ kết nối bridge qua WebRTC để xem trước và điều khiển.\n2. **Pipeline thoại & đạn mạc**: Bình luận (danmaku) từ bên ngoài gửi tới endpoint `/api/danmaku`. LLM (DeepSeek / OpenAI compatible) xử lý theo luồng (streaming) -> tách câu -> gửi tới TTS cục bộ.\n3. **TTS**: Mặc định dùng OmniVoice chạy trên WSL2 + FlashInfer/CUDA Graph (port :9877) tạo luồng PCM, hỗ trợ voice cloning và đổi giọng nóng (voice switching). Nhánh `mac` hỗ trợ thêm say, edge-tts, SiliconFlow CosyVoice2, MLX.\n4. **Quản lý hành vi**: Hạt nhân ưu tiên hành động: Hành động của khách VIP (tặng quà >99 kc) > thao tác thủ công > kịch bản sắp đặt sẵn (choreography) > đạn mạc tự động. Tích hợp bộ lọc từ khóa nhạy cảm.",
+  "setup": "- **Yêu cầu phần cứng**: Windows 10/11 với GPU NVIDIA (≥8GB VRAM, thực tế OmniVoice chiếm ~11GB) chạy WSL2 (Ubuntu 22.04) hoặc Apple Silicon Mac (nhánh `mac`).\n- **Dịch vụ cần có**: Tài khoản Vidu (tính phí 1 điểm/giây, yêu cầu số dư ≥45 điểm để khởi tạo), LLM API Key (DeepSeek-flash hoặc tương thích OpenAI).\n- **Công cụ phần mềm**: Python 3.12, `uv`, ffmpeg.\n- **Sử dụng**: Chạy bridge FastAPI bằng `python -m src.main` hoặc script khởi động, truy cập trang điều khiển tại `http://127.0.0.1:8795/stage`.",
+  "results": [
+   "Chi phí Vidu: 1 điểm/giây (bắt buộc số dư ≥45 điểm mới mở được phiên live).",
+   "Dung lượng tải mô hình TTS OmniVoice lần đầu: ~10GB.",
+   "Yêu cầu âm thanh tham chiếu (clone voice): 3–10 giây, câu đơn, định dạng WAV 16kHz mono, không tạp âm.",
+   "Mức tiêu thụ VRAM thực tế đo đạc của tác giả: ổn định ở mức ~11GB trên WSL2 (yêu cầu tối thiểu ≥8GB VRAM)."
+  ],
+  "limitations": "Không công bố benchmark định lượng về độ trễ tổng thể (end-to-end latency), RTF hay WER/MOS. Bản phân phối cố tình không chứa avatar model, file âm thanh clone, prompt nhân vật cá nhân hóa, key API và kho bài hát do lý do bản quyền/bảo mật. Phụ thuộc chi phí và hạ tầng render của Vidu Cloud.",
+  "takeaways": "Cung cấp một bản thiết kế hệ thống mẫu (blueprint) rất thực dụng cho kỹ sư muốn xây dựng Voice/Avatar Agent phục vụ livestream: kết hợp LLM và TTS on-premise để giảm chi phí API, đồng thời dùng API video cloud theo giây để render chuyển động avatar chất lượng cao.",
+  "strengths": [
+   "Kiến trúc kết hợp local-cloud tối ưu chi phí",
+   "Pipeline hoàn chỉnh từ đạn mạc đến render",
+   "Hỗ trợ voice cloning thời gian thực",
+   "Giao diện quản lý trực quan và chi tiết"
+  ],
+  "weaknesses": [
+   "Thiếu số liệu đo lường độ trễ chuẩn",
+   "Cấu hình cài đặt WSL2 còn phức tạp",
+   "Phụ thuộc vào nền tảng đóng Vidu API"
+  ],
+  "context": "Dự án nguồn mở của tác giả Tian Gong Kai Zhen (天工开帧) cùng cộng đồng phát triển, phát hành mã nguồn theo giấy phép GNU AGPL-3.0 trên GitHub."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

@@ -1,0 +1,49 @@
+{
+ "id": "hf-model:sakasegawa/Haru-4B-GGUF",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình là bản lượng tử hóa GGUF của Haru-4B, nhưng việc đóng gói trọn vẹn toàn bộ pipeline full-duplex (LLM + codec + MeanFlow) vào một layout GGUF cho speech.cpp là kỹ thuật mới mẻ.",
+  "credibility": "Phát hành từ nhà phát triển cộng đồng uy tín trên HF (41k+ lượt tải, 61 likes), đối chiếu trực tiếp mã nguồn mở của higurashi-ai và speech.cpp.",
+  "technical": "Chiến lược mixed-precision cẩn trọng (giữ codec/MeanFlow ở F16, norm/kernels ở F32, chỉ lượng tử hóa LLM) kèm phân tích lỗi số học qua SNR dB rất chuẩn mực.",
+  "impact": "Có lượng tải lớn (41k downloads) giúp mang voice agent song công tiếp cận rộng rãi người dùng máy tính cá nhân qua runtime C++ gọn nhẹ.",
+  "evidence": "Cung cấp đầy đủ số liệu thực nghiệm: so sánh độ lệch số học dB từng mức quant, latency p50/p99, RTFx, và peak memory trên cả Apple M5 lẫn RTX 2080."
+ },
+ "summary": {
+  "tldr": "sakasegawa/Haru-4B-GGUF là bộ trọng số lượng tử hóa của mô hình voice agent song công (full-duplex) Haru-4B, được đóng gói chuyên biệt cho runtime speech.cpp (từ v0.11.0). Mô hình tích hợp Qwen3.5 LLM, MeanFlow head và codec VibeVoice vào một file duy nhất, cho phép hội thoại giọng nói hai chiều với độ trễ mỗi khung hình là 133 ms trên phần cứng consumer.",
+  "problem": "Mô hình gốc Haru-4B đòi hỏi tài nguyên tính toán lớn và môi trường MLX/GPU chính thức, gây khó khăn cho việc triển khai suy luận cục bộ thời gian thực (real-time duplex) trên đa dạng phần cứng CPU/GPU thông qua định dạng chuẩn hóa.",
+  "method": "Tác giả chuyển đổi Haru-4B từ safetensors gốc sang định dạng GGUF tùy biến theo cấu trúc riêng của speech.cpp. Mô hình hợp nhất toàn bộ Qwen3.5 LLM, MeanFlow head, và codec VibeVoice. Để đảm bảo độ ổn định và chất lượng âm thanh: MeanFlow head, audio projections và codec được giữ nguyên ở định dạng F16; các layer norm, bias, codec scales, depthwise kernels, silent token rows, cùng các phép chiếu convolution, decay và write strength của Gated DeltaNet được cố định ở F32. Chỉ phần language model và embedding được lượng tử hóa theo các mức F16, Q8_0, Q6_K, Q5_K và Q4_K. Mô hình xử lý đồng thời cả nghe và nói theo khung 133 ms.",
+  "setup": "Được xây dựng từ `higurashi-ai/Haru-4B` và mã nguồn chuyển đổi của `speech.cpp`. Hỗ trợ 9 ngôn ngữ (de, en, es, fr, ja, ko, pt, ru, zh) cùng tính năng zero-shot voice cloning từ đoạn mẫu tối thiểu 3 giây (lưu tối đa 3 phút). Kiểm thử tốc độ trên Apple M5 (Metal/CPU) và NVIDIA GeForce RTX 2080 (Vulkan) với đoạn âm thanh đầu vào 19.1 giây kèm voice prompt 16 giây, lưu context key-value 60 phút.",
+  "results": [
+   "Độ lệch số học (SNR) so với float32 gốc tại frame đầu tiên trên Apple M5 (Metal): F16 đạt 66.5 dB (hidden state), 74.8 dB (speak decision logits), 57.4 dB (audio latent); Q8_0 đạt tương ứng 40.1 dB, 40.7 dB, 28.0 dB (nằm giữa bản 8-bit và bfloat16 của MLX gốc); trong khi Q4_K sụt giảm nghiêm trọng xuống 7.4 dB, -3.6 dB và 2.7 dB.",
+   "Độ trễ suy luận trên Apple M5 (Metal, screen locked): F16 đạt p50 89 ms / p99 92 ms (RTFx 1.50); Q8_0 đạt p50 60 ms / p99 64 ms (RTFx 2.20); Q4_K đạt p50 46 ms / p99 47 ms (RTFx 2.91), đều dưới ngưỡng khung 133 ms.",
+   "Độ trễ trên NVIDIA RTX 2080 (Vulkan): Q8_0 (600s context) đạt p50 34 ms / p99 35 ms (RTFx 3.94); Q4_K đạt p50 26 ms / p99 28 ms (RTFx 5.07).",
+   "Apple M5 CPU với Q8_0 đạt p50 118 ms / p99 122 ms (RTFx 1.12), vẫn kịp xử lý thời gian thực.",
+   "Mức tiêu thụ bộ nhớ RAM/VRAM đỉnh trên Apple M5 với 60 phút context: F16 tốn 10.84 GB, Q8_0 tốn 6.90 GB, Q6_K tốn 5.89 GB, Q5_K tốn 5.33 GB và Q4_K tốn 4.80 GB."
+  ],
+  "limitations": "Là base model cho nghiên cứu nên không đáng tin cậy về mặt thông tin thực tế, không tuân thủ chỉ dẫn như assistant thông thường và dễ bị gãy hội thoại (breaks easily). Lượng tử hóa Q4_K bị suy giảm chất lượng nặng, sinh ra các chuỗi dấu câu và ký tự rác. File GGUF có cấu trúc tùy biến riêng nên không tương thích với llama.cpp, LM Studio hoặc Ollama.",
+  "takeaways": "Để triển khai Haru-4B cục bộ trên CPU hoặc GPU hạn chế bộ nhớ, định dạng Q8_0 qua speech.cpp là lựa chọn tối ưu về cân bằng giữa tốc độ (<133 ms/step) và độ chính xác âm học/văn bản. Tránh sử dụng các mức lượng tử hóa dưới Q6_K (đặc biệt là Q4_K) cho tác vụ full-duplex này.",
+  "strengths": [
+   "Hỗ trợ full-duplex thời gian thực (<133 ms/frame)",
+   "Tích hợp LLM, codec và head vào một file",
+   "Benchmark độ lệch dB và latency chi tiết",
+   "Chạy tốt trên Apple Silicon và card Vulkan"
+  ],
+  "weaknesses": [
+   "Không tương thích llama.cpp và Ollama tiêu chuẩn",
+   "Chất lượng suy giảm mạnh ở Q5_K và Q4_K",
+   "Bản base model chưa tinh chỉnh instruction-following"
+  ],
+  "context": "Phát hành bởi tác giả sakasegawa trên Hugging Face Hub dưới dạng quantization port cho engine speech.cpp, dựa trên mô hình gốc của higurashi-ai."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

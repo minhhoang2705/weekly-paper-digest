@@ -1,0 +1,45 @@
+{
+ "id": "gh:5235aa-web/pebble_companionchat",
+ "topic": "Voice Agent",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 3,
+  "impact": 2,
+  "evidence": 1
+ },
+ "reasons": {
+  "novelty": "Dự án chủ yếu ghép nối các công nghệ sẵn có (FastAPI, Vue 3, llama.cpp, audio.cpp, BM25, Silero VAD) vào một ứng dụng AI companion hoàn chỉnh thay vì đề xuất mô hình hay thuật toán mới.",
+  "credibility": "Dự án là kho lưu trữ cá nhân/nhóm nhỏ độc lập trên GitHub, không có bài báo khoa học bình duyệt hoặc tài liệu xác thực từ tổ chức nghiên cứu lớn.",
+  "technical": "Hệ thống có kỹ thuật ghép nối pipeline tương đối chỉn chu giữa AudioWorklet, WebSocket, VAD barge-in, engine BM25 không cần embedding và cơ chế quản lý vòng đời local inference.",
+  "impact": "Dự án có mức độ quan tâm ở mức khởi điểm trên GitHub (92 stars, 0 forks) trong ngách ứng dụng roleplay/companion cá nhân.",
+  "evidence": "Tài liệu không đưa ra bất kỳ số liệu thực nghiệm, benchmark độ trễ, kiểm thử ASR/TTS hay bảng ablation nào để chứng minh hiệu năng."
+ },
+ "summary": {
+  "tldr": "Pebble Companion Chat (P.C.C) là một nền tảng mã nguồn mở dành cho AI companion đa phương thức (văn bản, giọng nói và hình ảnh), hỗ trợ cả suy luận cục bộ lẫn dịch vụ đám mây. Hệ thống cung cấp khả năng đàm thoại streaming qua chuỗi ASR → LLM → TTS kết hợp Silero VAD barge-in, phòng chat nhóm đa nhân vật và cơ chế trích xuất bộ nhớ dài hạn không cần mô hình embedding.",
+  "problem": "Việc triển khai các ứng dụng AI companion cá nhân hóa thường bị phụ thuộc vào các dịch vụ đám mây đóng, thiếu quyền riêng tư, cồng kềnh khi quản lý bộ nhớ dài hạn (đòi hỏi vector database và mô hình embedding riêng), đồng thời thiếu khả năng tương tác giọng nói linh hoạt với độ trễ thấp và khả năng ngắt lời (barge-in).",
+  "method": "Kiến trúc hệ thống bao gồm backend FastAPI + SQLite + WebSockets và frontend Vue 3 (hỗ trợ đóng gói desktop qua Tauri 2 hoặc PyInstaller). Về voice agent, hệ thống áp dụng luồng cascaded voice: trình duyệt thu nhận PCM qua AudioWorklet và truyền qua WebSocket; backend nhận diện ASR định kỳ mỗi 2 giây, chuyển văn bản hoàn chỉnh sang LLM (/chat/completions chuẩn OpenAI), sau đó truyền luồng văn bản đầu ra tới TTS để phát âm thanh streaming ngược lại browser; Silero VAD được tích hợp để xử lý ngắt lời (barge-in) giữa câu. Hệ thống hỗ trợ local inference qua `llama.cpp` (`llama-server`) và `audio.cpp` (ASR: Qwen3-ASR, Confucius4-R2T2; TTS: OmniVoice, DotTTS, Fish Audio, Ming 3.0) cùng các API đám mây (MiniMax, ElevenLabs). Về bộ nhớ dài hạn, Pebble sử dụng công cụ truy xuất không cần embedding (embedding-free memory retrieval) dựa trên BM25 có trọng số CJK n-gram, khớp cụm từ, mức độ quan trọng và giảm trừ tần suất sử dụng (use-count damping). Ngoài ra, hệ thống hỗ trợ định dạng thẻ nhân vật SillyTavern (PNG/JSON), gói CHARX (CCv3), chế độ kịch bản (Script Mode với block `<<<STATE>>>`) và Narration mode.",
+  "setup": "Yêu cầu môi trường gồm Python 3.10+, Node.js 18+ cùng npm; tùy chọn Rust toolchain cho Tauri 2 build và `llama-server` cho local inference. Dữ liệu và cấu hình lưu trữ cục bộ tại `~/.pebblecompanion` (hoặc qua biến môi trường `PEBBLE_DATA_ROOT` và `PEBBLE_MODELS_ROOT`). Giao diện hỗ trợ song ngữ (tiếng Anh và tiếng Trung) cùng 7 bảng màu.",
+  "results": [
+   "Tài liệu không cung cấp các kết quả đo lường định lượng cụ thể (như WER, RTF, MOS, độ trễ end-to-end hay mức tiêu thụ tài nguyên phần cứng)."
+  ],
+  "limitations": "Chuỗi hội thoại giọng nói hoạt động dạng tuần hoàn xen kẽ (ASR → LLM → TTS theo chu kỳ 2 giây) chứ không phải mô hình full-duplex đầu-cuối thống nhất. Các tệp mở rộng như world book/character_book và display script của RisuAI chưa được hỗ trợ nhập. Tài liệu thiếu hoàn toàn các benchmark kỹ thuật định lượng về độ trễ âm thanh và độ chính xác của cơ chế trích xuất bộ nhớ BM25.",
+  "takeaways": "Dự án là một tham khảo kiến trúc thực tế hữu ích cho các kỹ sư speech/AI muốn xây dựng hệ thống companion desktop/web tự lưu trữ (self-hosted), kết hợp linh hoạt giữa các backend C++ gọn nhẹ (`llama.cpp`, `audio.cpp`) và cơ chế AudioWorklet WebSockets với Silero VAD.",
+  "strengths": [
+   "Hỗ trợ cascaded voice streaming có Silero VAD barge-in",
+   "Truy xuất bộ nhớ BM25 nhẹ, không cần embedding model",
+   "Tương thích sâu hệ sinh thái thẻ nhân vật SillyTavern/CHARX",
+   "Linh hoạt chuyển đổi local (llama.cpp, audio.cpp) và cloud"
+  ],
+  "weaknesses": [
+   "Thiếu số liệu benchmark định lượng (độ trễ, WER, MOS)",
+   "Không phải kiến trúc full-duplex native speech-to-speech",
+   "Chưa nhập được world book và kịch bản hiển thị RisuAI"
+  ],
+  "context": "Mã nguồn mở được phát triển bởi tác giả/tổ chức 5235aa-web trên GitHub, phát hành dưới dạng kho lưu trữ mã nguồn cho ứng dụng web và desktop (Tauri 2)."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

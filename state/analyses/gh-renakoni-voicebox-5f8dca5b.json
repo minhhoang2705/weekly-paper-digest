@@ -1,0 +1,48 @@
+{
+ "id": "gh:renakoni/voicebox",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Dự án kết hợp khéo léo các mô hình TTS mã nguồn mở có sẵn lên nền tảng Android thông qua WebGPU và Qualcomm QNN NPU thay vì đề xuất kiến trúc mô hình mới.",
+  "credibility": "Repository cá nhân mã nguồn mở (220 stars, 43 forks), cung cấp đầy đủ mã nguồn, script build và số liệu benchmark chi tiết có thể tái lập trên phần cứng tương ứng.",
+  "technical": "Kỹ thuật hệ thống xuất sắc khi tối ưu hóa inference không đồng nhất trên Android, build patch ONNX Runtime cho WebGPU, nạp trực tiếp checkpoint PyTorch và tích hợp QNN NPU.",
+  "impact": "Dự án tạo tiền đề tốt cho ứng dụng edge TTS/voice cloning cục bộ trên Android, dù hiện tại mức độ phổ biến còn ở mức cộng đồng vừa phải (220 stars).",
+  "evidence": "Cung cấp bảng benchmark chi tiết với giá trị trung bình ± độ lệch chuẩn qua 10 lần chạy, so sánh trực tiếp RTF với desktop GPU (RTX 3070 Ti) và đo kiểm ASR agreement bằng SenseVoice."
+ },
+ "summary": {
+  "tldr": "Voicebox là một ứng dụng Android mã nguồn mở cho phép chạy suy luận TTS và voice cloning hoàn toàn offline ngay trên thiết bị di động mà không cần GPU máy tính hay điện toán đám mây. Dự án hỗ trợ kiến trúc đa mô hình (GPT-SoVITS, Ming-TTS 0.5B), tận dụng tăng tốc phần cứng thông qua WebGPU và Qualcomm QNN NPU trên chip Snapdragon.",
+  "problem": "Các mô hình TTS và zero-shot voice cloning hiện đại (như GPT-SoVITS, Ming-TTS) thường đòi hỏi tài nguyên tính toán lớn từ GPU desktop hoặc cloud server, gây lo ngại về độ trễ, chi phí hạ tầng và quyền riêng tư dữ liệu người dùng khi triển khai trên thiết bị di động.",
+  "method": "Voicebox xây dựng một workstation xử lý giọng nói cục bộ trên Android với kiến trúc backend mô-đun hóa: các gói runtime và tài nguyên của từng mô hình được tách biệt để tải/gỡ độc lập mà không làm phình kích thước APK. Hệ thống sử dụng ONNX Runtime tùy biến kết hợp WebGPU cho GPU di động và Qualcomm QNN để chạy tăng tốc không đồng nhất (heterogeneous acceleration) trên NPU của Snapdragon. Ứng dụng hỗ trợ clone giọng từ đoạn audio mẫu ~5 giây kèm transcript, cho phép nhập trực tiếp trọng số `.ckpt` và `.pth` của GPT-SoVITS, cung cấp local HTTP API (`127.0.0.1`), và tích hợp tính năng gửi tin nhắn thoại QQ gốc qua Wireless Debugging.",
+  "setup": "Đánh giá hiệu năng thực nghiệm trên Xiaomi 14 (Snapdragon 8 Gen 3, 16 GB RAM), so sánh giữa cấu hình GPU (CPU + WebGPU) và GPU + NPU (Qualcomm QNN). Dữ liệu kiểm thử gồm câu ngắn tiếng Trung (~3.5–4 s) và đoạn văn dài (~19–22 s), chạy lặp lại 10 lần ở nhiệt độ phòng khi cache đã ấm. Baseline đối chứng là bản cài đặt CUDA chính thức của GPT-SoVITS trên laptop dùng RTX 3070 Ti (8 GB VRAM, 16 GB RAM). Đánh giá độ chính xác thông qua SenseVoice ASR agreement và sai số dạng sóng (Relative RMS error so với PyTorch FP32). Yêu cầu hệ thống: Android 11+ (ARM64).",
+  "results": [
+   "Với GPT-SoVITS V2 Pro Plus: GPU đạt RTF 0.614 (ngắn) và 0.556 (dài); GPU + NPU đạt RTF 0.627 (ngắn) và 0.511 (dài), so với baseline RTX 3070 Ti Laptop đạt RTF 0.341 (ngắn) và 0.265 (dài). ASR agreement đạt 99.72% (GPU + NPU) với sai số RMS 0.2323% (ngắn) và 0.2351% (dài).",
+   "Với GPT-SoVITS V5 Turbo: GPU + NPU giúp giảm RTF từ 2.038 xuống 1.313 (ngắn) và từ 1.816 xuống 0.954 (dài, đạt mức nhanh hơn thời gian thực), so với RTX 3070 Ti Laptop là 0.416 (ngắn) và 0.278 (dài). ASR agreement đạt 99.62% với sai số RMS 0.6537% (dài).",
+   "Với Ming-TTS 0.5B: NPU tăng tốc tổng hợp âm thanh giúp giảm RTF đoạn dài 45.5% (từ 1.055 xuống 0.574), cắt giảm độ trễ end-to-end từ 25.70 s xuống 16.42 s; ASR agreement đạt 100.00% (ngắn) và 99.89% (dài).",
+   "Khởi động lạnh và cache của Ming-TTS 0.5B: Biên dịch graph NPU lần đầu mất 17.53 s và lưu cache context QNN ~205 MB; các lần chạy tiếp theo tái sử dụng cache và giảm thời gian còn 11.39 s."
+  ],
+  "limitations": "Ứng dụng được tinh chỉnh đặc thù cho vi xử lý Qualcomm Snapdragon; các dòng chip khác như MediaTek Dimensity chưa được tối ưu. Một số tính năng như gửi tin nhắn QQ yêu cầu bật Wireless Debugging qua Developer options. Thời gian biên dịch đồ thị NPU lần đầu còn chậm (17.53 s cho Ming-TTS).",
+  "takeaways": "Voicebox chứng minh tính khả thi của việc đưa các mô hình TTS/voice cloning 0.5B tham số chạy realtime offline trên smartphone cao cấp bằng cách kết hợp WebGPU và QNN NPU, cung cấp tham khảo kỹ thuật giá trị cho edge-AI và mobile deployment.",
+  "strengths": [
+   "RTF dưới 1.0 cho cả GPT-SoVITS và Ming-TTS",
+   "Tận dụng hiệu quả hybrid GPU và Qualcomm QNN NPU",
+   "Hỗ trợ nhập trực tiếp checkpoint `.ckpt`/`.pth`",
+   "Kiến trúc mô-đun hóa quản lý mô hình linh hoạt"
+  ],
+  "weaknesses": [
+   "Tối ưu hẹp cho chip Qualcomm Snapdragon",
+   "Cần thiết bị cấu hình cao (Snapdragon 8 Gen 3)",
+   "Thiếu kiểm thử định lượng trên nhiều dòng máy khác"
+  ],
+  "context": "Dự án mã nguồn mở do tác giả cá nhân Renakoni phát triển và công bố trên GitHub theo giấy phép GNU AGPL-3.0."
+ },
+ "fulltext_source": "README",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

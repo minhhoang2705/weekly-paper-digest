@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sakasegawa/Haru-4B-GGUF · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W48</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">sakasegawa/Haru-4B-GGUF</h1>
+    <div class="meta">
+      <span title="Listed by HF Models inside the crawl window">found Nov 23, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Nov 14, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Model</span>
+<span class="pill">HF Models</span><span class="pill pill-accent">Voice Agent</span>        <span class="authors">sakasegawa</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://huggingface.co/sakasegawa/Haru-4B-GGUF" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">model card excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>Haru-4B GGUF for speech.cpp. These files run only in speech.cpp 0.11.0 or later. Their layout is speech.cpp's own, so llama.cpp, LM Studio, Ollama and other GGUF readers cannot run them. Each holds Haru-4B, its Qwen3.5 language model, its MeanFlow head and its VibeVoice codec in one file, with the wording of its character card in nine languages. Haru-4B holds a spoken conversation, listening and speaking at the same time: every 133 ms it hears a frame of audio and gives a frame of its own with the text it began to say in it. It is a pretrained base model, released for research: it holds a natural conversation, but it is not a reliable source of facts, does not follow instructions as an assistant does, and breaks easily. It can speak in the voice of a recording; only use voices you have the right to use. Use. Install speech.cpp, then: The name haru-4b fetches the F16 file the first time it is used, and haru-4b:q8_0 and the like another type; a path to a downloaded file works as well. A program holds a conversation through the C API's speech_dialogue_start(), speech.cpp's worker or the WebSocket /v1/dialogue of speech serve. speech.cpp's documentation has the model's page, the command line and the server. Files. | File | What it holds | Size | SHA-256 | | Haru-4B-F16.gguf | the model in F16, what haru-4b fetches | 10.56 GB (10,561,406,688 bytes) | ea6caae8deccbf58f9b87dd11f893b13dfb96510357393994be94ce4258cc489 | | Haru-4B-F16.gguf.json | what speech info --json prints of the file | | | | Haru-4B-Q8_0.gguf | the language model and its embedding in Q8_0, the rest as in F16 | 6.62 GB (6,623,102,720 bytes) | c372a527e63ca4251429a48863535b8bca03ebd6f414bbf31f28a9d175349934 | | Haru-4B-Q8_0.gguf.json | what speech info --json prints of the file | | | | Haru-4B-Q6_K.gguf | the language model and its embedding in Q6_K, the rest as in F16 | 5.61 GB (5,605,707,520 bytes) | 8db05e86acca046bc183d4e30fbda22ac775ba4767ae5a10bcd0d48f8d7db793 | | Haru-4B-Q6_K.gguf.json | what speech</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 23, 2026 · model card</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>sakasegawa/Haru-4B-GGUF là bộ trọng số lượng tử hóa của mô hình voice agent song công (full-duplex) Haru-4B, được đóng gói chuyên biệt cho runtime speech.cpp (từ v0.11.0). Mô hình tích hợp Qwen3.5 LLM, MeanFlow head và codec VibeVoice vào một file duy nhất, cho phép hội thoại giọng nói hai chiều với độ trễ mỗi khung hình là 133 ms trên phần cứng consumer.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Mô hình gốc Haru-4B đòi hỏi tài nguyên tính toán lớn và môi trường MLX/GPU chính thức, gây khó khăn cho việc triển khai suy luận cục bộ thời gian thực (real-time duplex) trên đa dạng phần cứng CPU/GPU thông qua định dạng chuẩn hóa.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>Tác giả chuyển đổi Haru-4B từ safetensors gốc sang định dạng GGUF tùy biến theo cấu trúc riêng của speech.cpp. Mô hình hợp nhất toàn bộ Qwen3.5 LLM, MeanFlow head, và codec VibeVoice. Để đảm bảo độ ổn định và chất lượng âm thanh: MeanFlow head, audio projections và codec được giữ nguyên ở định dạng F16; các layer norm, bias, codec scales, depthwise kernels, silent token rows, cùng các phép chiếu convolution, decay và write strength của Gated DeltaNet được cố định ở F32. Chỉ phần language model và embedding được lượng tử hóa theo các mức F16, Q8_0, Q6_K, Q5_K và Q4_K. Mô hình xử lý đồng thời cả nghe và nói theo khung 133 ms.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Được xây dựng từ <code>higurashi-ai/Haru-4B</code> và mã nguồn chuyển đổi của <code>speech.cpp</code>. Hỗ trợ 9 ngôn ngữ (de, en, es, fr, ja, ko, pt, ru, zh) cùng tính năng zero-shot voice cloning từ đoạn mẫu tối thiểu 3 giây (lưu tối đa 3 phút). Kiểm thử tốc độ trên Apple M5 (Metal/CPU) và NVIDIA GeForce RTX 2080 (Vulkan) với đoạn âm thanh đầu vào 19.1 giây kèm voice prompt 16 giây, lưu context key-value 60 phút.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Độ lệch số học (SNR) so với float32 gốc tại frame đầu tiên trên Apple M5 (Metal): F16 đạt 66.5 dB (hidden state), 74.8 dB (speak decision logits), 57.4 dB (audio latent); Q8_0 đạt tương ứng 40.1 dB, 40.7 dB, 28.0 dB (nằm giữa bản 8-bit và bfloat16 của MLX gốc); trong khi Q4_K sụt giảm nghiêm trọng xuống 7.4 dB, -3.6 dB và 2.7 dB.</li>
+<li>Độ trễ suy luận trên Apple M5 (Metal, screen locked): F16 đạt p50 89 ms / p99 92 ms (RTFx 1.50); Q8_0 đạt p50 60 ms / p99 64 ms (RTFx 2.20); Q4_K đạt p50 46 ms / p99 47 ms (RTFx 2.91), đều dưới ngưỡng khung 133 ms.</li>
+<li>Độ trễ trên NVIDIA RTX 2080 (Vulkan): Q8_0 (600s context) đạt p50 34 ms / p99 35 ms (RTFx 3.94); Q4_K đạt p50 26 ms / p99 28 ms (RTFx 5.07).</li>
+<li>Apple M5 CPU với Q8_0 đạt p50 118 ms / p99 122 ms (RTFx 1.12), vẫn kịp xử lý thời gian thực.</li>
+<li>Mức tiêu thụ bộ nhớ RAM/VRAM đỉnh trên Apple M5 với 60 phút context: F16 tốn 10.84 GB, Q8_0 tốn 6.90 GB, Q6_K tốn 5.89 GB, Q5_K tốn 5.33 GB và Q4_K tốn 4.80 GB.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Là base model cho nghiên cứu nên không đáng tin cậy về mặt thông tin thực tế, không tuân thủ chỉ dẫn như assistant thông thường và dễ bị gãy hội thoại (breaks easily). Lượng tử hóa Q4_K bị suy giảm chất lượng nặng, sinh ra các chuỗi dấu câu và ký tự rác. File GGUF có cấu trúc tùy biến riêng nên không tương thích với llama.cpp, LM Studio hoặc Ollama.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Để triển khai Haru-4B cục bộ trên CPU hoặc GPU hạn chế bộ nhớ, định dạng Q8_0 qua speech.cpp là lựa chọn tối ưu về cân bằng giữa tốc độ (&lt;133 ms/step) và độ chính xác âm học/văn bản. Tránh sử dụng các mức lượng tử hóa dưới Q6_K (đặc biệt là Q4_K) cho tác vụ full-duplex này.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">60.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,82.8 230.0,115.26 203.26,197.54 127.55,182.66 107.5,120.94"/><circle class="radar-dot" cx="160.0" cy="82.8" r="3.5"/><circle class="radar-dot" cx="230.0" cy="115.26" r="3.5"/><circle class="radar-dot" cx="203.26" cy="197.54" r="3.5"/><circle class="radar-dot" cx="127.55" cy="182.66" r="3.5"/><circle class="radar-dot" cx="107.5" cy="120.94" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 3/5 — Mô hình là bản lượng tử hóa GGUF của Haru-4B, nhưng việc đóng gói trọn vẹn toàn bộ pipeline full-duplex (LLM + codec + MeanFlow) vào một layout GGUF cho speech.cpp là kỹ thuật mới mẻ.</title>Novelty <tspan class="radar-value">3</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 4/5 — Chiến lược mixed-precision cẩn trọng (giữ codec/MeanFlow ở F16, norm/kernels ở F32, chỉ lượng tử hóa LLM) kèm phân tích lỗi số học qua SNR dB rất chuẩn mực.</title>Technical <tspan class="radar-value">4</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 4/5 — Cung cấp đầy đủ số liệu thực nghiệm: so sánh độ lệch số học dB từng mức quant, latency p50/p99, RTFx, và peak memory trên cả Apple M5 lẫn RTX 2080.</title>Evidence <tspan class="radar-value">4</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 3/5 — Có lượng tải lớn (41k downloads) giúp mang voice agent song công tiếp cận rộng rãi người dùng máy tính cá nhân qua runtime C++ gọn nhẹ.</title>Impact <tspan class="radar-value">3</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 3/5 — Phát hành từ nhà phát triển cộng đồng uy tín trên HF (41k+ lượt tải, 61 likes), đối chiếu trực tiếp mã nguồn mở của higurashi-ai và speech.cpp.</title>Credibility <tspan class="radar-value">3</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">3/5</span></dt><dd>Mô hình là bản lượng tử hóa GGUF của Haru-4B, nhưng việc đóng gói trọn vẹn toàn bộ pipeline full-duplex (LLM + codec + MeanFlow) vào một layout GGUF cho speech.cpp là kỹ thuật mới mẻ.</dd></div>
+          <div><dt>Credibility <span class="muted">3/5</span></dt><dd>Phát hành từ nhà phát triển cộng đồng uy tín trên HF (41k+ lượt tải, 61 likes), đối chiếu trực tiếp mã nguồn mở của higurashi-ai và speech.cpp.</dd></div>
+          <div><dt>Technical <span class="muted">4/5</span></dt><dd>Chiến lược mixed-precision cẩn trọng (giữ codec/MeanFlow ở F16, norm/kernels ở F32, chỉ lượng tử hóa LLM) kèm phân tích lỗi số học qua SNR dB rất chuẩn mực.</dd></div>
+          <div><dt>Impact <span class="muted">3/5</span></dt><dd>Có lượng tải lớn (41k downloads) giúp mang voice agent song công tiếp cận rộng rãi người dùng máy tính cá nhân qua runtime C++ gọn nhẹ.</dd></div>
+          <div><dt>Evidence <span class="muted">4/5</span></dt><dd>Cung cấp đầy đủ số liệu thực nghiệm: so sánh độ lệch số học dB từng mức quant, latency p50/p99, RTFx, và peak memory trên cả Apple M5 lẫn RTX 2080.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Hỗ trợ full-duplex thời gian thực (&lt;133 ms/frame) · Tích hợp LLM, codec và head vào một file · Benchmark độ lệch dB và latency chi tiết · Chạy tốt trên Apple Silicon và card Vulkan</p>
+          <p><span class="label">Weaknesses</span> · Không tương thích llama.cpp và Ollama tiêu chuẩn · Chất lượng suy giảm mạnh ở Q5_K và Q4_K · Bản base model chưa tinh chỉnh instruction-following</p>
+          <p><span class="label">Context</span> · Phát hành bởi tác giả sakasegawa trên Hugging Face Hub dưới dạng quantization port cho engine speech.cpp, dựa trên mô hình gốc của higurashi-ai.</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{
+ "id": "hf-model:n4ze3m/tiny-voca",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Kết hợp khéo léo kiến trúc FastSpeech 2 với bộ tổng hợp source-filter vi phân (DDSP/homomorphic vocoder) chỉ 25,8k params để loại bỏ hoàn toàn neural vocoder cồng kềnh trong một mô hình 4,5M tham số.",
+  "credibility": "Dự án cá nhân độc lập của tác giả Muhammed Nazeem (có ORCID), mã nguồn và trọng số mở hoàn toàn minh bạch kèm mã băm SHA256, nhưng chưa qua bình duyệt học thuật chính thức.",
+  "technical": "Thiết kế kỹ thuật hoàn chỉnh và chỉn chu: chia tách thành các transformer encoder/frame-level với RoPE, tích hợp source-filter qua cepstrum và hỗ trợ xuất ONNX/Wasm hoạt động mượt mà.",
+  "impact": "Có sức hút cộng đồng ấn tượng (421 HF likes, hơn 10k downloads, 855 GitHub stars), mở ra tiềm năng ứng dụng trực tiếp TTS trên điện thoại cấu hình yếu và trình duyệt web mà không cần GPU.",
+  "evidence": "Cung cấp chi tiết số lượng tham số, phân tích kiến trúc, chi phí huấn luyện, kiểm thử WER với Whisper và có vị trí xếp hạng chính thức trên Open TTS Leaderboard (snapshot 20/11/2026)."
+ },
+ "summary": {
+  "tldr": "tiny-voca là một mô hình TTS tiếng Anh siêu nhẹ gồm 4,5M tham số (4.537.291 tham số) với hai giọng F2 (nữ) và M2 (nam), đạt tốc độ suy luận nhanh gấp 70 lần thời gian thực trên 4 luồng CPU. Mô hình thay thế neural vocoder truyền thống bằng bộ tổng hợp source-filter chỉ 25,8k tham số, được huấn luyện hoàn toàn từ đầu trên khoảng 17,6 giờ dữ liệu tổng hợp (synthetic audio) với tổng chi phí GPU dưới 10 USD.",
+  "problem": "Các mô hình TTS hiện đại thường có kích thước lớn (hàng chục đến hàng trăm triệu tham số), đòi hỏi tài nguyên tính toán cao và phụ thuộc vào neural vocoder nặng nề, gây khó khăn cho việc triển khai trên thiết bị biên, điện thoại di động hoặc trực tiếp trên trình duyệt web (Wasm/CPU).",
+  "method": "Mô hình nhận văn bản đã được chuyển thành phoneme và nhãn stress qua thư viện `dizione`. Kiến trúc không dùng pre-trained weights, gồm: (1) Text encoder transformer 4 khối (1.588.864 params), (2) Bộ dự đoán thời lượng (duration) và ngắt nghỉ (123.906 params), (3) Frame transformer A dự đoán pitch, voicing và energy (795.971 params), (4) Frame transformer B (1.985.984 params), và (5) Đầu tạo sóng dạng source-filter synthesizer (25.862 params). Tất cả các khối transformer dùng 192 kênh, 4 attention heads và rotary position embeddings (RoPE). Thay vì neural vocoder, phần source-filter tạo chuỗi xung giới hạn băng thông (band-limited pulse train) dựa trên pitch dự đoán kết hợp tín hiệu nhiễu (noise signal), sau đó đưa qua bộ lọc biến thiên theo thời gian dựa trên cepstrum được dự đoán theo từng khung (256 mẫu, 10,7 ms). Quá trình huấn luyện kéo dài 104.737 bước trên 1 GPU RTX 4090 (7,7 giờ) sử dụng hàm mất mát multi-resolution spectral losses và adversarial loss (multi-period và multi-resolution discriminators sau bước 8.000). Toàn bộ 17,6 giờ dữ liệu huấn luyện (16.018 clips) được tổng hợp bằng Qwen3-TTS VoiceDesign và Qwen3-TTS 1.7B Base, gắn nhãn thời lượng bằng `facebook/wav2vec2-lv-60-espeak-cv-ft`.",
+  "setup": "Mô hình xuất âm thanh đơn kênh (mono) 24 kHz. Hỗ trợ runtime PyTorch (`tiny-voca.pt`, 18,2 MB) và ONNX float32 opset 17 (`model.onnx`, 21,4 MB), tương thích với `onnxruntime-web` (WebAssembly). Nhận tối đa 512 token và xuất audio tối đa 32 giây cho mỗi lệnh gọi (các đoạn dài hơn được ngắt câu để ghép). Có các tùy chọn tinh chỉnh tốc độ (`--speed`), cao độ (`--pitch-shift`) và biên độ cao độ (`--pitch-range`).",
+  "results": [
+   "Tốc độ suy luận CPU: chạy nhanh xấp xỉ 70x real-time trên 4 luồng CPU.",
+   "Kích thước hoàn chỉnh: 4.537.291 tham số (khoảng 4,5M), chỉ tốn 18,2 MB (weights PyTorch) và 21,4 MB (ONNX).",
+   "Độ khớp ONNX Runtime WebAssembly với PyTorch: biên độ âm thanh lệch tối đa trong phạm vi 0,6% peak amplitude (ngoại trừ nhiễu ngẫu nhiên).",
+   "Đánh giá kiểm tra (Sanity check WER qua Whisper small.en): Validation đạt 0,6% (ngang ngửa bản ghi gốc 0,6%), Test đạt 0,9% (ngang ngửa bản ghi gốc 0,9%), và 16 câu hoàn toàn mới ngoài tập dữ liệu đạt WER 0,0%.",
+   "Open TTS Leaderboard (English, không voice cloning, snapshot 20/11/2026, 45 mô hình): Voice F2 xếp hạng 5 về average WER (0,74%, UTMOS22: 4,43), Voice M2 xếp hạng 7 (WER 0,76%, UTMOS22: 4,35), vượt qua nhiều mô hình lớn hơn như phonon-40m-en (51M, WER 0,76%) và pocket-tts (100M, WER 0,77%)."
+  ],
+  "limitations": "Chỉ hỗ trợ tiếng Anh với đúng 2 giọng cố định (F2, M2), không có khả năng voice cloning (sao chép giọng). Giọng F2 nghe trẻ hơn dự tính. Ngữ điệu mang tính tiền định (deterministic), không thể lấy mẫu prosody ngẫu nhiên. Không hỗ trợ streaming. Dữ liệu huấn luyện hoàn toàn là synthetic speech nên độ tự nhiên bị chặn trần bởi mô hình sinh gốc (Qwen3-TTS). Phát âm tên nước ngoài, từ viết tắt và chữ đồng âm phụ thuộc chặt vào công cụ phonemizer bên ngoài.",
+  "takeaways": "Chứng minh rằng kiến trúc source-filter truyền thống (kết hợp DDSP) khi kết hợp với bộ dự đoán cepstrum hiện đại có thể thay thế neural vocoder nặng nề, giảm kích thước mô hình xuống chỉ còn 4,5M tham số và cho phép chạy TTS chất lượng cao cực nhanh trực tiếp trên CPU và trình duyệt bằng WebAssembly.",
+  "strengths": [
+   "Kích thước siêu nhỏ gọn (4,5M params)",
+   "Suy luận 70x real-time trên 4 luồng CPU",
+   "Source-filter synthesizer cực nhẹ (chỉ 25,8k params)",
+   "Chi phí huấn luyện cực rẻ (dưới 10 USD)",
+   "Xếp hạng cao trên Open TTS Leaderboard"
+  ],
+  "weaknesses": [
+   "Chỉ hỗ trợ tiếng Anh với 2 giọng",
+   "Không hỗ trợ voice cloning hay streaming",
+   "Ngữ điệu cố định không thể sampling",
+   "Phụ thuộc công cụ phonemizer bên ngoài"
+  ],
+  "context": "Tác giả Muhammed Nazeem (n4ze3m); dự án nguồn mở phát hành trọng số và mã nguồn theo giấy phép Apache-2.0 trên Hugging Face và GitHub."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

@@ -1,0 +1,51 @@
+{
+ "id": "hf-model:naklecha/caramel-1",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 4,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Mô hình tiên phong hiện thực hóa trọn vẹn kiến trúc đàm thoại speech-only end-to-end không văn bản, tự học turn-taking và backchannel ở dạng mã nguồn mở.",
+  "credibility": "Dự án phát hành mở từ cá nhân/startup (Cloudy), mã nguồn và trọng số đầy đủ trên GitHub/Hugging Face nhưng chưa qua bình duyệt học thuật chính thức.",
+  "technical": "Kỹ thuật tối ưu hóa hệ thống xuất sắc (Triton kernel cho chuỗi 8 token, CUDA graphs, pipeline lọc dữ liệu bằng closeness score) giúp huấn luyện chỉ mất ~4 GPU-hours.",
+  "impact": "Tạo tiền đề tham khảo mạnh mẽ cho hướng đi speech-to-speech textless, tuy nhiên mô hình hiện tại mang tính PoC nhiều hơn do ngữ nghĩa chưa hoàn thiện.",
+  "evidence": "Tài liệu cung cấp số liệu thực nghiệm chi tiết về các thông số đàm thoại, UTMOS, ECAPA, word clarity, throughput và so sánh trực tiếp với người thật."
+ },
+ "summary": {
+  "tldr": "caramel-1 là mô hình đàm thoại speech-to-speech 413M tham số, được huấn luyện hoàn toàn từ âm thanh (không sử dụng bất kỳ văn bản nào) dựa trên ý tưởng từ Dessa. Hệ thống cho phép hai bản sao tự trò chuyện full-duplex thời gian thực mà không cần voice activity detector (VAD) hay quy tắc phân chia lượt nói định sẵn.",
+  "problem": "Các hệ thống đàm thoại giọng nói truyền thống thường phụ thuộc vào văn bản (ASR -> LLM -> TTS), dẫn đến độ trễ cao và mất mát tín hiệu ngữ điệu, đồng thời cần module VAD riêng biệt cùng luật chuyển đổi lượt nói (turn-taking) thủ công. caramel-1 muốn chứng minh mô hình có thể tự học cách hội thoại tự nhiên, xen lời và tạo backchannel chỉ bằng cách học chuỗi token âm thanh.",
+  "method": "Mô hình gồm 413M tham số với 2 luồng đầu vào (giọng của bản thân và người đối diện). Âm thanh được nén qua neural audio codec thành 12.5 frame/giây với 8 token/frame (frame 80 ms). Kiến trúc gồm một Transformer lớn (width 1024) đọc toàn bộ ngữ cảnh hội thoại, sau đó một Transformer nhỏ (width 512) sinh 8 token cho frame tiếp theo theo kiểu tự hồi quy (token đầu mang ngữ nghĩa, 7 token sau mang đặc tính giọng nói và âm học phòng). Dữ liệu huấn luyện gồm 11,555 giờ âm thanh công khai (5,743 giờ hội thoại 2 người và 5,812 giờ độc thoại), được lọc bằng 'closeness score' dựa trên 13 chỉ số thống kê đối chiếu với Dessa. Huấn luyện qua 3 giai đoạn: học nói độc thoại, học hội thoại và tiếp tục huấn luyện tăng số pass. Để tối ưu tốc độ, tác giả viết Triton kernel riêng cho Transformer nhỏ (giảm thời gian từ 6.70 ms xuống 1.17 ms) và dùng CUDA graphs khi suy luận.",
+  "setup": "Tập dữ liệu: 11,555 giờ (6.2B token duy nhất; 33B token được duyệt qua). Phần cứng huấn luyện: tối đa 2x NVIDIA H100, tổng thời gian huấn luyện ~2 giờ 15 phút (~4 GPU-hours). Môi trường chạy suy luận: Python 3.12, PyTorch, hỗ trợ GPU NVIDIA (CUDA graphs), Apple GPU trên Mac (M3 Pro) và CPU. Đánh giá trên 100 cuộc hội thoại chưa từng thấy qua các chỉ số thời gian (turns/min, overlap, median gap, backchannels), điểm tự nhiên UTMOS, tương đồng người nói ECAPA và độ rõ từ (word clarity).",
+  "results": [
+   "Loss trên tập hội thoại chưa thấy giảm từ 1.954 (1,356 giờ, 2.5 passes) xuống 1.867 (5,743 giờ, 2.4 passes) và đạt 1.809 (5,743 giờ, 5.65 passes).",
+   "Word clarity (log-probability trung bình của ASR) cải thiện từ −0.47 (1,356 giờ) lên −0.29 (5,743 giờ, 5.65 passes), tiệm cận mức −0.18 của người thật.",
+   "Thống kê hội thoại so với người thật: số lượt nói đạt 8.3 turns/min (người thật: 10.2); thời gian cả hai cùng nói 8.8% (người thật: 9.0%); khoảng im lặng 11.6% (người thật: 10.6%); median gap giữa các lượt là −56 ms (người thật: 105 ms); backchannel 2.5 lần/phút (người thật: 3.5); tốc độ nói 191 words/min (người thật: 190); dead air 1.7% (người thật: 2.5%).",
+   "Chất lượng âm thanh: điểm tự nhiên UTMOS đạt 2.49/5 (người thật: 2.50/5); độ tương đồng giọng ECAPA đạt 0.54 (người thật: 0.57); bộ phát hiện giọng nói nhân tạo cho điểm 3.49 (người thật: −0.92).",
+   "Tốc độ xử lý: Thông lượng huấn luyện đạt 145.6k frames/s trên một H100 (34.5% peak FLOPs). Tốc độ sinh audio gấp 11 lần thời gian thực trên GPU và ~4 lần thời gian thực cho cả 2 bản sao cùng lúc trên Apple M3 Pro (~17 ms cho mỗi frame 80 ms)."
+  ],
+  "limitations": "Mô hình chưa có khả năng lập luận hay giữ ngữ nghĩa chặt chẽ ('phần lớn những gì caramel-1 nói vẫn chưa có nghĩa'); dễ bị phát hiện bởi classifier phân biệt giọng AI (điểm 3.49 vs −0.92); nhạy cảm với sampling temperature (nếu nhiệt độ cao sẽ chen ngang quá nhiều).",
+  "takeaways": "Chứng minh tính khả thi của mô hình đàm thoại speech-to-speech không cần text, không cần VAD hay turn-taking logic bên ngoài. Kỹ thuật tách track stereo và tối ưu kernel cho chuỗi token ngắn (8 token/frame) là giải pháp thực dụng đáng tham khảo để đạt full-duplex thời gian thực.",
+  "strengths": [
+   "Đàm thoại full-duplex thời gian thực không cần text",
+   "Không cần VAD hay luật phân lượt thủ công",
+   "Tối ưu hệ thống cực tốt với Triton kernels",
+   "Chi phí huấn luyện siêu rẻ (~4 GPU-hours)",
+   "Mã nguồn, quy trình huấn luyện và trọng số mở"
+  ],
+  "weaknesses": [
+   "Ngữ nghĩa lời nói chưa mạch lạc và hợp lý",
+   "Dễ bị phát hiện là giọng nhân tạo",
+   "Rất nhạy cảm với sampling temperature",
+   "Chưa hỗ trợ đa ngôn ngữ hay tác vụ cụ thể"
+  ],
+  "context": "Dự án nguồn mở của naklecha (nhà sáng lập nền tảng nghiên cứu Cloudy, cloudy.so), lấy cảm hứng từ Dessa (Block) và công bố vào tháng 11/2026 trên Hugging Face / GitHub."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

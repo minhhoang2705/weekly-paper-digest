@@ -1,0 +1,46 @@
+{
+ "id": "pwc:133536",
+ "topic": "Voice Agent",
+ "promise": 5,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 1,
+  "impact": 3,
+  "evidence": 1
+ },
+ "reasons": {
+  "novelty": "Mô hình speech-to-speech hướng tới tối ưu chi phí nhưng văn bản không cung cấp ý tưởng kiến trúc hay phương pháp luận mới.",
+  "credibility": "Tác giả và tổ chức chưa được xác định cụ thể trong tài liệu, thông tin hiện chỉ là bản tóm tắt chưa qua thẩm duyệt.",
+  "technical": "Hoàn toàn không có thông tin kỹ thuật về cấu trúc mạng, cơ chế xử lý âm thanh, hay dữ liệu huấn luyện.",
+  "impact": "Mức giá $0.01/phút cho mô hình speech-to-speech có thể tạo áp lực giảm giá cho thị trường voice AI nếu hiệu năng đúng như công bố.",
+  "evidence": "Chỉ đưa ra các tuyên bố vượt trội định tính mà không có bất kỳ con số hay biểu đồ thực nghiệm nào đi kèm."
+ },
+ "summary": {
+  "tldr": "MAI Realtime 1 là mô hình speech-to-speech đầu tiên của nhóm phát triển, nhắm tới các cuộc hội thoại tự nhiên trong ứng dụng doanh nghiệp với mức giá từ $0.01 mỗi phút audio. Mô hình được giới thiệu là vượt trội hơn GPT Realtime 2.1 về chất lượng, tốc độ và chi phí trên các bài kiểm tra công khai lẫn nội bộ.",
+  "problem": "Nhu cầu xây dựng mô hình hội thoại tự nhiên theo thời gian thực (speech-to-speech) đáp ứng tốt yêu cầu về chất lượng, độ trễ và chi phí triển khai quy mô lớn trong môi trường doanh nghiệp.",
+  "method": "Không được nêu trong tài liệu.",
+  "setup": "Được đánh giá dựa trên các benchmark công khai gồm Big Bench Audio (speech reasoning) và Tau-Voice (agentic task completion), cùng các đánh giá sản phẩm của Microsoft. Baseline so sánh là GPT Realtime 2.1. Chi phí vận hành bắt đầu từ $0.01 per audio minute. Cấu hình phần cứng và yêu cầu hệ thống không được nêu trong tài liệu.",
+  "results": [
+   "Chi phí khởi điểm được công bố là $0.01 per audio minute.",
+   "Tuyên bố vượt qua GPT Realtime 2.1 về chất lượng, tốc độ và chi phí trên các benchmark công khai và đánh giá sản phẩm Microsoft (không có số liệu cụ thể trong tài liệu).",
+   "Nằm trên Pareto frontier về hiệu năng - chi phí trên Big Bench Audio và Tau-Voice (không có điểm số chi tiết trong tài liệu)."
+  ],
+  "limitations": "Tài liệu chỉ có một đoạn tóm tắt ngắn; hoàn toàn thiếu báo cáo kỹ thuật, số liệu đo lường cụ thể (latency, accuracy, WER), thông tin kiến trúc, quy trình huấn luyện và đánh giá rủi ro an toàn.",
+  "takeaways": "MAI Realtime 1 định vị mức giá cạnh tranh rất thấp ($0.01/phút audio) cho mô hình speech-to-speech realtime, tuy nhiên các kỹ sư cần đợi tài liệu kỹ thuật chi tiết và kiểm chứng độc lập trước khi cân nhắc tích hợp.",
+  "strengths": [
+   "Chi phí cạnh tranh ($0.01/phút)",
+   "Tối ưu cho tác vụ agentic",
+   "Định vị trên Pareto frontier"
+  ],
+  "weaknesses": [
+   "Thiếu số liệu thực nghiệm cụ thể",
+   "Không công bố chi tiết kỹ thuật",
+   "Không có mã nguồn đi kèm"
+  ],
+  "context": "Tác giả/tổ chức không xác định (nhắc tới đánh giá sản phẩm Microsoft), đăng tải trên Papers with Code."
+ },
+ "fulltext_source": "abstract/mô tả (không lấy được full-text)",
+ "fulltext": false,
+ "analyzed_week": "2026-W48"
+}

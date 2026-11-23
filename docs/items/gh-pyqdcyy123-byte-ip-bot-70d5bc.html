@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pyqdcyy123-byte/IP-Bot · Research Monitor</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous" defer></script>
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <button class="icon-button" type="button" data-nav-toggle aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">
+      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>
+    </button>
+    <span class="brand-title">Research Monitor</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="../index.html">
+      <span class="brand-icon"><svg class="icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" /></svg></span>
+      <span>
+        <span class="brand-title">Research Monitor</span>
+        <span class="brand-subtitle">personal intelligence</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+          <a class="nav-item" href="../index.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg><span>Dashboard</span>
+          </a>
+          <a class="nav-item is-active" href="../feed.html" aria-current="page">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18h-5" /> <path d="M18 14h-8" /> <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2" /> <rect width="8" height="4" x="10" y="6" rx="1" /></svg><span>Research Feed</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7h6v6" /> <path d="m22 7-8.5 8.5-5-5L2 17" /></svg><span>Trends</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="16" y="16" width="6" height="6" rx="1" /> <rect x="2" y="16" width="6" height="6" rx="1" /> <rect x="9" y="2" width="6" height="6" rx="1" /> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" /> <path d="M12 12V8" /></svg><span>Research Graph</span><span class="soon">soon</span>
+          </span>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="18" r="3" /> <circle cx="6" cy="6" r="3" /> <path d="M13 6h3a2 2 0 0 1 2 2v7" /> <path d="M11 18H8a2 2 0 0 1-2-2V9" /></svg><span>Compare</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../digest.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /> <path d="M14 2v5a1 1 0 0 0 1 1h5" /> <path d="M10 9H8" /> <path d="M16 13H8" /> <path d="M16 17H8" /></svg><span>Digest</span>
+          </a>
+          <span class="nav-item is-disabled" aria-disabled="true" title="Not available yet">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8" /> <rect width="16" height="12" x="4" y="8" rx="2" /> <path d="M2 14h2" /> <path d="M20 14h2" /> <path d="M15 13v2" /> <path d="M9 13v2" /></svg><span>Research Agent</span><span class="soon">soon</span>
+          </span>
+          <a class="nav-item" href="../settings.html">
+            <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /> <circle cx="12" cy="12" r="3" /></svg><span>Settings</span>
+          </a>
+    </nav>
+
+    <footer class="status">
+      <div class="status-row"><span class="dot"></span>collector: weekly · cron 08:00</div>
+      <div class="status-row"><span class="dot"></span>LLM: gemini-3.8-flash</div>
+      <div class="status-row"><span class="dot"></span>last digest: 2026-W48</div>
+    </footer>
+  </aside>
+  <div class="scrim" data-nav-close></div>
+
+  <main class="main" id="main">
+<a class="back-link" href="../feed.html"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back to feed</a>
+
+<header class="page-header">
+  <div class="page-heading">
+    <h1 class="title">pyqdcyy123-byte/IP-Bot</h1>
+    <div class="meta">
+      <span title="Listed by GitHub inside the crawl window">found Nov 23, 2026</span><span aria-hidden="true">·</span>
+<span title="Original publication / creation date">published Oct 27, 2026</span><span aria-hidden="true">·</span>
+
+      <span class="pill">Repo</span>
+<span class="pill">GitHub</span><span class="pill pill-accent">TTS</span>        <span class="authors">pyqdcyy123-byte</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <a class="button" href="https://github.com/pyqdcyy123-byte/IP-Bot" target="_blank" rel="noopener"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6" /> <path d="M10 14 21 3" /> <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>Open source</a>
+  </div>
+</header>
+
+<div class="detail-grid">
+  <div class="stack">
+    <section class="card" aria-labelledby="summary-h">
+      <div class="card-header">
+        <h2 class="label" id="summary-h">Summary</h2><span class="sublabel">README excerpt</span>
+      </div>
+      <div class="card-body prose">
+<p>IP Bot 免费开源的数字人IP口播智能体视频创作工作台及后台。罗根旗博士直播间同款。可本地/云端部署。
+
+README: IP Bot · 数字人视频创作工作台. 📌 项目简介. IP Bot 是一个面向 AI 数字人口播视频的流程整合与自动化创作项目，将文案处理、语音合成、数字人驱动、视频后期和多平台发布接入同一个桌面工作台，并提供独立的用户与配置管理后台。 项目重点是 工程整合与流程自动化：连接已有模型和媒体工具，让各个创作环节可以协同运行。适合用于学习工作流编排、研究模型服务集成，以及验证 AI 视频系统原型。 🎬 一键串联数字人口播创作. 在运行资源、模型服务、素材和平台账号准备就绪后，可通过自动模式串联已启用的步骤，也可以逐步执行、检查结果并调整参数： 1. 提取参考文案：从可访问且有权使用的视频中识别口播内容。 2. 改写与重组文案：调整表达、语义和结构，形成新的创作稿。 3. 生成配音：选择系统音色或个人克隆音色，将文案合成为语音。 4. 生成数字人口播：将音频与所选形象交给配置好的数字人服务处理。 5. 添加字幕：按所选设置完成识别、时间轴与字幕样式处理。 6. 添加背景音乐：使用自己的音乐素材，配置配乐和混音。 7. 生成标题与标签：辅助整理视频标题、标签及关键词。 8. 制作视频封面：在工作台内按模板和参数生成封面。 9. 衔接多平台发布：接入抖音、视频号、快手和小红书的发布流程。 多平台发布已包含对应适配代码，实际执行需要有效登录状态，并受平台页面变化、账号权限和验证流程影响；遇到验证或待确认状态时，需要人工完成后续操作。当前开发预览未对所有平台完成端到端发布验证。 ✨ 功能特性. - 文案处理：参考视频内容提炼、语义改写与结构重组。 - 声音创作：音色管理、音色克隆接入、语音合成与试听，能力取决于所选服务。 - 数字人生成：形象管理，以及云端或兼容本地数字人服务的接入。 - 视频后期：字幕、背景音乐、标题、封面和音视频编排。 - 流程编排：在同一工作台串联创作步骤，支持自动模式与分步操作。 - 发布衔接：多平台账号与发布流程适配，保留必要的人工确认环节。 - 本机工作台：桌面界面、管理后台和部分媒体处理在本机运行；模型调用按所选方案使用云服务或兼容的本地服务。 自动化帮助减少重复操作，成片质量与传播效果仍取决于素材、模型、选题和人工审核。源码包不包含完整模型与媒体运行环境，详见下方的安装说明。 开发预览说明： 维护者已确认按 Apache-2.0 发布新增修改，并保留上游归属。当前仍有依赖安全告警与历史类型问题，见 发布状态。目前适用于受信任的本机自部署，尚无完整公开安装包。 English: IP Bot is an Electron/Vue desktop workspace for digital-human video creation, with script rewriting, speech synthesis, media composition and an Express/SQLite administration backend. Bring your own provider credentials and licensed runtime resources. See English README. 从文案、声音到形象与视频，在一个工作台里完成创作。截图来自当前版本的隔离演示账号；没有使用真实用户数据或服务商密钥。 先看界面 → 界面导览 准备安装 → 完整安装部署教程 了解包里有什么 → 下载内容与模型 首次启动与默认管理员. Windows x64 安装 Node.js 22（包含 npm）后，解压源码，依次双击 启动后台.bat 和 启动桌面端.bat。首次联网安装依赖并构建界面需要等待；后续直接加载已构建界面。后台默认地址：http://127.0.0.1:3002/admin 。 | 项目 | 默认值 | | 管理员账号 | 15912345678 | | 管理员密码 | 123456 | 仅在空数据库、绑定本机地址时自动创建，客户端与后台共用此账号。已有数据库不会重置账号或密码。首次登录请修改默认密码；不要将默认密码部署到公网。个人 API Key、模型与素材需要自行配置，不包含在公开源码中。 下载即用的范围： 当前发布的是源码与自动依赖安装/界面构建入口，不是完整离线运行包。界面和后台可按上述步骤启动；全部视频生成功能还需要运行资源、有效 API 或兼容模型、硬件及素材。详见 模型下载与接入 和 完整安装教程。 下载内容与模型. GitHub 提供源码，不包含整套数字人模型。下载后仅填写 API，不能直接使用全部视频功能。 | 你使用的内容 | 是否含本地数字人模型 | 还需要什么 | | GitHub 克隆 / Source code ZIP | 否 | Node.js、npm 依</p>      </div>
+    </section>
+
+    <section class="card" aria-labelledby="analysis-h">
+      <div class="card-header">
+        <h2 class="label" id="analysis-h">Auto Analysis</h2>
+          <span class="sublabel">analyzed Nov 23, 2026 · README</span>
+          <button class="button button-strong header-end" type="button" data-analysis-toggle aria-controls="analysis-body" aria-expanded="true" hidden>
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg><span data-toggle-label>Full analysis</span>
+          </button>
+      </div>
+        <div class="analysis" id="analysis-body">
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>Key idea</h3>
+              <div class="prose"><p>IP Bot là một ứng dụng máy tính (desktop workbench) mã nguồn mở kết hợp Electron, Vue 3 và backend Express/SQLite để tự động hóa toàn bộ quy trình tạo video người số (digital human). Hệ thống liên kết từ khâu bóc tách/viết lại kịch bản, tổng hợp giọng nói (TTS), dựng hình người số, biên tập hậu kỳ video (subtitles, BGM) đến hỗ trợ phát hành đa nền tảng.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /> <path d="M12 17h.01" /></svg>Problem</h3>
+              <div class="prose"><p>Quy trình tạo video phát thanh/thuyết trình bằng người số (digital human monologue) thường phân mảnh, đòi hỏi người dùng phải thao tác thủ công qua nhiều công cụ riêng biệt (công cụ viết kịch bản, phần mềm TTS, dịch vụ dựng hình người số, trình dựng video, công cụ tạo phụ đề và giao diện tải lên mạng xã hội).</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2" /> <path d="M6.453 15h11.094" /> <path d="M8.5 2h7" /></svg>Methodology</h3>
+              <div class="prose"><p>IP Bot xây dựng một pipeline tích hợp trên desktop:</p>
+<ul>
+<li><strong>Giao diện &amp; Desktop Layer</strong>: Sử dụng Vue 3, TypeScript, Pinia, Arco Design, Electron IPC, kết hợp <code>better-sqlite3</code>, <code>Sharp</code>, <code>Playwright</code>, <code>FFmpeg</code> và các script Python (bao gồm MODNet).</li>
+<li><strong>Backend quản trị</strong>: Express, SQLite, bcryptjs, JWT để quản lý tài khoản, thiết bị, quota và lưu cấu hình API dịch vụ.</li>
+<li><strong>Quy trình 9 bước</strong>: (1) Trích xuất kịch bản tham khảo từ video; (2) Viết lại/tái cấu trúc nội dung; (3) Tổng hợp giọng nói (hỗ trợ voice clone, tích hợp CosyVoice / mô hình đa phương thức); (4) Tạo video người số qua API đám mây hoặc dịch vụ local; (5) Tự động nhận diện và ghép phụ đề; (6) Ghép nhạc nền và mix âm thanh; (7) Sinh tiêu đề và thẻ tag; (8) Tạo ảnh bìa video; (9) Kết nối xuất bản tự động lên Douyin, WeChat Channels, Kuaishou, Xiaohongshu qua automation script.</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3" /> <path d="M3 5V19A9 3 0 0 0 21 19V5" /> <path d="M3 12A9 3 0 0 0 21 12" /></svg>Setup</h3>
+              <div class="prose"><p>Nền tảng đã kiểm chứng: Windows x64. Yêu cầu môi trường Node.js 22.x (npm 10+), FFmpeg, Python nhúng, Chromium (Playwright). Người dùng tự cấu hình API nhà cung cấp: Aliyun Bailian / OSS, Volcengine, RunningHub hoặc dịch vụ người số local. Không kèm sẵn trọng số mô hình hoặc file nhị phân trong kho mã nguồn.</p>
+</div>
+            </div>
+            <div class="analysis-section">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 14 4-4" /> <path d="M3.34 19a10 10 0 1 1 17.32 0" /></svg>Results</h3>
+              <div class="prose"><ul>
+<li>Tài liệu không cung cấp bất kỳ kết quả định lượng cụ thể nào (như WER, MOS, FPS, thời gian render hay tỷ lệ thành công của tác vụ).</li>
+</ul>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /> <path d="M12 9v4" /> <path d="M12 17h.01" /></svg>Limitations</h3>
+              <div class="prose"><p>Kho mã nguồn chỉ cung cấp giao diện và orchestration logic; hoàn toàn không đính kèm model weights, FFmpeg/DLL, Python runtime hay tài nguyên media do vấn đề bản quyền. Đang ở trạng thái Developer Preview, còn cảnh báo bảo mật về dependencies và lỗi TypeScript thừa hưởng từ upstream. Tính năng đăng tải mạng xã hội chưa được kiểm chứng end-to-end trên mọi nền tảng và dễ bị ảnh hưởng bởi cơ chế chống bot/thay đổi giao diện.</p>
+</div>
+            </div>
+            <div class="analysis-section is-secondary">
+              <h3 class="label label-icon"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /> <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /> <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /> <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></svg>Takeaways</h3>
+              <div class="prose"><p>Dự án hữu ích như một mẫu tham khảo kiến trúc kỹ thuật (system integration blueprint) cho việc đóng gói các pipeline AI đa phương thức (LLM + TTS + Talking Head + FFmpeg) thành ứng dụng desktop thương mại hoặc nội bộ.</p>
+</div>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <aside class="card ranking" aria-labelledby="ranking-h">
+    <div class="card-header">
+      <h2 class="label" id="ranking-h">Ranking</h2><span class="sublabel">weighted avg of 5 dimensions · full-text analysis</span>
+    </div>
+      <div class="score-block">
+        <div class="score">25.0<span class="score-max">/100</span></div>
+        <div class="label">Ranking score</div>
+      </div>
+      <div class="radar-wrap"><svg class="radar" viewBox="0 0 320 270" role="img" aria-label="Radar chart of the five ranking dimensions"><polygon class="radar-grid" points="160.0,119.6 177.5,132.31 170.82,152.89 149.18,152.89 142.5,132.31"/><polygon class="radar-grid" points="160.0,101.2 195.0,126.63 181.63,167.77 138.37,167.77 125.0,126.63"/><polygon class="radar-grid" points="160.0,82.8 212.5,120.94 192.45,182.66 127.55,182.66 107.5,120.94"/><polygon class="radar-grid" points="160.0,64.4 230.0,115.26 203.26,197.54 116.74,197.54 90.0,115.26"/><polygon class="radar-grid" points="160.0,46.0 247.5,109.57 214.08,212.43 105.92,212.43 72.5,109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="160.0" y2="46.0"/><line class="radar-grid" x1="160.0" y1="138" x2="247.5" y2="109.57"/><line class="radar-grid" x1="160.0" y1="138" x2="214.08" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="105.92" y2="212.43"/><line class="radar-grid" x1="160.0" y1="138" x2="72.5" y2="109.57"/><polygon class="radar-area" points="160.0,101.2 212.5,120.94 170.82,152.89 138.37,167.77 125.0,126.63"/><circle class="radar-dot" cx="160.0" cy="101.2" r="3.5"/><circle class="radar-dot" cx="212.5" cy="120.94" r="3.5"/><circle class="radar-dot" cx="170.82" cy="152.89" r="3.5"/><circle class="radar-dot" cx="138.37" cy="167.77" r="3.5"/><circle class="radar-dot" cx="125.0" cy="126.63" r="3.5"/><text class="radar-label" x="160.0" y="32.0" text-anchor="middle" dominant-baseline="middle"><title>Novelty 2/5 — Dự án thuần về tích hợp kỹ thuật hệ thống và tự động hóa quy trình (workflow orchestration), không giới thiệu kiến trúc mô hình học sâu hay thuật toán AI mới.</title>Novelty <tspan class="radar-value">2</tspan></text><text class="radar-label" x="262.71" y="105.24" text-anchor="start" dominant-baseline="middle"><title>Technical 3/5 — Thiết kế kỹ thuật hoàn chỉnh cho ứng dụng desktop đa thành phần kết hợp Electron, Node.js IPC, SQLite, Playwright và gọi các dịch vụ AI bên ngoài.</title>Technical <tspan class="radar-value">3</tspan></text><text class="radar-label" x="223.48" y="229.76" text-anchor="start" dominant-baseline="middle"><title>Evidence 1/5 — Tài liệu không đưa ra bất kỳ số liệu đo đạc thực nghiệm, thời gian xử lý hay đánh giá định lượng nào so với các giải pháp khác.</title>Evidence <tspan class="radar-value">1</tspan></text><text class="radar-label" x="96.52" y="229.76" text-anchor="end" dominant-baseline="middle"><title>Impact 2/5 — Mức độ đón nhận ở quy mô vừa phải (163 GitHub stars, 13 forks) và đòi hỏi người dùng tự chuẩn bị toàn bộ API/runtime phức tạp để sử dụng.</title>Impact <tspan class="radar-value">2</tspan></text><text class="radar-label" x="57.29" y="105.24" text-anchor="end" dominant-baseline="middle"><title>Credibility 2/5 — Kho mã nguồn cá nhân ở trạng thái xem trước (developer preview), chưa qua bình duyệt học thuật và còn tồn tại lỗi typecheck cũng như cảnh báo bảo mật phụ thuộc.</title>Credibility <tspan class="radar-value">2</tspan></text></svg></div>
+      <dl class="reasons">
+          <div><dt>Novelty <span class="muted">2/5</span></dt><dd>Dự án thuần về tích hợp kỹ thuật hệ thống và tự động hóa quy trình (workflow orchestration), không giới thiệu kiến trúc mô hình học sâu hay thuật toán AI mới.</dd></div>
+          <div><dt>Credibility <span class="muted">2/5</span></dt><dd>Kho mã nguồn cá nhân ở trạng thái xem trước (developer preview), chưa qua bình duyệt học thuật và còn tồn tại lỗi typecheck cũng như cảnh báo bảo mật phụ thuộc.</dd></div>
+          <div><dt>Technical <span class="muted">3/5</span></dt><dd>Thiết kế kỹ thuật hoàn chỉnh cho ứng dụng desktop đa thành phần kết hợp Electron, Node.js IPC, SQLite, Playwright và gọi các dịch vụ AI bên ngoài.</dd></div>
+          <div><dt>Impact <span class="muted">2/5</span></dt><dd>Mức độ đón nhận ở quy mô vừa phải (163 GitHub stars, 13 forks) và đòi hỏi người dùng tự chuẩn bị toàn bộ API/runtime phức tạp để sử dụng.</dd></div>
+          <div><dt>Evidence <span class="muted">1/5</span></dt><dd>Tài liệu không đưa ra bất kỳ số liệu đo đạc thực nghiệm, thời gian xử lý hay đánh giá định lượng nào so với các giải pháp khác.</dd></div>
+      </dl>
+        <div class="ranking-notes">
+          <p><span class="label">Strengths</span> · Quy trình tự động hóa khép kín · Hỗ trợ cả cloud API và local · Tích hợp sẵn backend quản trị quota · Kiến trúc Electron IPC tách bạch</p>
+          <p><span class="label">Weaknesses</span> · Không kèm mô hình hay runtime · Chưa có benchmark định lượng · Chỉ mới kiểm chứng Windows x64 · Tồn tại cảnh báo bảo mật dependencies</p>
+          <p><span class="label">Context</span> · Dự án nguồn mở của tác giả pyqdcyy123-byte trên GitHub (kế thừa mã nguồn từ AIGCPanel / ModStartLib theo giấy phép Apache-2.0).</p>
+        </div>
+  </aside>
+</div>
+  </main>
+</body>
+</html>

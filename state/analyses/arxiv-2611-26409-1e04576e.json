@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2611.26409",
+ "topic": "Speech LLM",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 5
+ },
+ "reasons": {
+  "novelty": "Đưa ra cơ chế suy luận lai (hybrid thinking) cho omni-modal audio-visual video cùng quy trình post-training tích hợp MrDPO chống lặp và Specialist RL.",
+  "credibility": "Đến từ đội ngũ WeChat Vision (Tencent) kết hợp với Đại học Thanh Hoa, đã triển khai thực tế trên sản phẩm WeChat và công khai mã nguồn/mô hình.",
+  "technical": "Quy trình tiền huấn luyện 3 giai đoạn chặt chẽ và post-training đa giáo viên phân cấp kết hợp RL được mô tả mạch lạc và bài bản.",
+  "impact": "Đặt chuẩn mực SOTA mới cho omni-modal video mã nguồn mở với bộ mô hình đa kích thước (2B - 35B-A3B) và nhận được sự quan tâm ban đầu trên HF/GitHub.",
+  "evidence": "Được kiểm chứng thực nghiệm cực kỳ quy mô trên hơn 120 benchmark đa phương thức, so sánh trực diện với nhiều mô hình thương mại và mã nguồn mở hàng đầu."
+ },
+ "summary": {
+  "tldr": "WeMM-Video là bộ mô hình nền tảng omni-modal song ngữ Trung-Anh (các kích thước 2B, 4B, 9B và 35B-A3B) tập trung vào nhận thức và suy luận video kết hợp âm thanh - hình ảnh. Mô hình hỗ trợ cơ chế suy luận lai (hybrid-thinking) với hai chế độ: instruct (phản hồi nhanh) và thinking (suy luận từng bước chain-of-thought) nhằm triệt tiêu hiện tượng ảo giác đa phương thức (cross-modal hallucination). Kết quả cho thấy bản flagship 35B-A3B đạt SOTA mã nguồn mở trên hơn 120 bài đánh giá, vượt qua nhiều mô hình độc quyền như Seed2.0-Mini và Qwen3.5-Omni-Flash.",
+  "problem": "Mô hình video mã nguồn mở hiện tại thường thiếu ổn định trong các tình huống thực tế: bỏ sót chi tiết âm thanh - hình ảnh quan trọng, không căn chỉnh chuẩn xác tín hiệu âm thanh với sự kiện thị giác tương ứng, và dễ gặp ảo giác đa phương thức (cross-modal hallucination) khi không có bằng chứng từ video. Thêm vào đó, việc suy luận chung (joint reasoning) giữa âm thanh và hình ảnh gặp rào cản do dữ liệu suy luận audio-visual có thể kiểm chứng trong tự nhiên rất khan hiếm.",
+  "method": "Kiến trúc mô hình dựa trên thiết kế của video-SALMONN 2:\n- **Backbone & Encoders**: Các bản 2B, 4B, 9B xây dựng trên Qwen3.5-2B/4B/9B, bản 35B-A3B dựa trên Qwen3.6-35B-A3B. Visual encoder và projection giữ nguyên từ backbone; Audio encoder được khởi tạo từ Qwen2.5-Omni (dựa trên Whisper với sampling rate 16 kHz, chunk 30 giây). Module nén đặc trưng sử dụng window-level Q-Former với cửa sổ 0.1 giây, ánh xạ mỗi cửa sổ thành 1 audio token (tạo ra 10 audio tokens/giây). Token visual và audio được xếp xen kẽ (interleaved) theo dòng thời gian cùng textual timestamp tường minh.\n- **Dữ liệu huấn luyện**: Tập ngữ liệu 1.2T token gồm 45.4% Audio-Visual, 28.4% Visual, 23.6% Audio, 2.6% Text (trong đó Captioning chiếm 37.7%, Knowledge & Reasoning QA 17.5%, Grounding 12.6%, ASR 8.1%, Music Understanding 6.6%, Dialogue & Instruction 5.4%).\n- **Progressive Pre-training (3 giai đoạn)**:\n  1. *Acoustic Modality Alignment*: Đóng băng backbone LLM và visual/audio encoders, chỉ tối ưu window-level Q-Former trên cặp audio-text (ASR, audio captioning).\n  2. *Omni-Modal Knowledge Injection*: Mở rộng context window, unfreeze toàn bộ tham số ngoại trừ visual encoder, huấn luyện trên hỗn hợp text, visual, audio, và audio-visual.\n  3. *Long-Context Capability Scaling*: Tiếp tục mở rộng cửa sổ ngữ cảnh cho video dài, audio dài và bối cảnh đa video.\n- **Post-training (3 giai đoạn)**:\n  1. *Multi-Teacher OPD (On-Policy Distillation)*: Dùng giáo viên ngoài mạnh hơn cho text/VL và giáo viên cùng họ cho audio/AV, kết hợp cross-modal distillation từ text sang audio.\n  2. *Anti-Repetition MrDPO*: Tối ưu hóa lặp lại bằng mẫu hard-negative lặp decoding được khai phá offline; chỉ cập nhật LoRA adapters giữa các vòng lặp rồi merge/re-init.\n  3. *Specialist RL*: Tối ưu đồng thời instruct và thinking modes bằng dynamic reward router (rule-based cho tác vụ xác định; rubric-based và teacher-consistency cho tác vụ mở), mở rộng sang bối cảnh dài.",
+  "setup": "Đánh giá trên hơn 120 benchmarks thuộc 4 phương thức (audio-visual video, silent video, audio, image/text) ở cả 4 kích thước (2B, 4B, 9B, 35B-A3B).\n- **Baselines**: Gemini-3.0-Flash (medium thinking), Seed2.0-Mini-0428 (medium thinking), Qwen3.5-Omni-Flash, Qwen3-Omni-30B-A3B-Instruct, MiniCPM-o-4.5-9B, Qwen3.5-9B, Qwen3.6-35B-A3B.\n- **Đánh giá âm thanh**: 18 bài test (MMAU, MMAU-Pro, MMAR, MMSU, DCase 2025, GigaSpeech, LibriSpeech, WenetSpeech, VoiceBench, IFEval-Audio, Speech-IFEval...). Đánh giá chế độ instruct.\n- **Môi trường & Tài nguyên**: Cung cấp mã nguồn và checkpoint trên GitHub / Hugging Face. Chi tiết phần cứng cụ thể (loại GPU, số giờ train GPU) không được nêu trong tài liệu.",
+  "results": [
+   "Omni-Modal Video Understanding: WeMM-Video-35B-A3B (Thinking) đạt 86.4% trên Video-MME (w/ audio) và 54.9% trên Video-MME-v2 (w/ audio), vượt trội so với Qwen3.5-Omni-Flash (79.3% và 36.6%) và Seed2.0-Mini-0428 (83.6% và 51.7%), tiệm cận Gemini-3.0-Flash (88.6% và 63.2%).",
+   "Omni-Modal Video - Bản nhỏ: WeMM-Video-9B (Thinking) đạt 85.1% trên Video-MME (w/ audio) và 51.6% trên Video-MME-v2 (w/ audio), vượt xa Qwen3-Omni-30B-A3B-Instruct (77.3% và 36.3%) và MiniCPM-o-4.5-9B (69.2% và 28.1%).",
+   "Audio-Visual Hallucination: WeMM-Video-35B-A3B (Thinking) đạt 80.0% trên AVHBench Judgement và 80.3% trên SVHalluc (vượt Qwen3.5-Omni-Flash đạt 77.5% và 63.6%). WeMM-Video-9B (Thinking) đạt tới 86.8% trên SVHalluc.",
+   "General Audio Understanding: WeMM-Video-35B-A3B (Instruct) đạt 78.0% MMAU, 70.6% MMAU-Pro, 73.6% MMAR, 76.0% MMSU và 67.2% DCase 2025 AQA (so với Qwen3.5-Omni-Flash: 80.4%, 64.8%, 74.0%, 72.2%, 67.2%).",
+   "Speech & Voice Interaction: Trên GigaSpeech WER, 35B-A3B đạt 8.6% (Qwen3.5-Omni-Flash: 9.2%); trên LibriSpeech WER test-clean/test-other đạt 1.6% / 3.4% (Qwen3.5-Omni-Flash: 1.3% / 2.4%); trên Speech-IFEval đạt 96.5% (Qwen3.5-Omni-Flash: 88.2%, Qwen3-Omni-30B: 77.6%).",
+   "Hiệu quả chế độ Thinking vs Instruct: So sánh trên 35B-A3B, chế độ Thinking cải thiện rõ rệt so với Instruct trên Video-MME-v2 w/ audio (54.9% vs 47.5%), AV-SpeakerBench (72.6% vs 66.5%) và SciVideoBench (69.4% vs 57.8%)."
+  ],
+  "limitations": "Tài liệu không công bố chi tiết về tài nguyên tính toán (loại GPU, tổng compute time hoặc FLOPs cần thiết). Chưa hỗ trợ streaming audio output / duplex speech generation trong báo cáo (đầu ra là text autoregressive).",
+  "takeaways": "Quy trình kết hợp progressive pre-training và 3 giai đoạn post-training (OPD đa giáo viên, MrDPO chống lặp vô tận, specialist RL theo luồng instruct/thinking) là công thức hiệu quả để huấn luyện mô hình video-audio-language mà không làm suy giảm năng lực cốt lõi của LLM văn bản/hình ảnh.",
+  "strengths": [
+   "Kiến trúc hybrid-thinking linh hoạt hiệu quả",
+   "Mô hình nhỏ 9B vượt baseline 30B",
+   "Hạn chế triệt để hiện tượng lặp decoding",
+   "Đánh giá toàn diện trên 120 benchmarks",
+   "Mở mã nguồn và pipeline đánh giá"
+  ],
+  "weaknesses": [
+   "Thiếu thông tin chi tiết về compute",
+   "Chỉ xuất autoregressive text, chưa hỗ trợ audio output"
+  ],
+  "context": "Nhóm nghiên cứu tại WeChat Vision (Tencent Inc.) phối hợp cùng Tsinghua University; phát hành báo cáo kỹ thuật công khai trên arXiv (tháng 11/2026) kèm code và bộ trọng số trên HF/GitHub."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

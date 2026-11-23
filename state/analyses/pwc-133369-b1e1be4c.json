@@ -1,0 +1,44 @@
+{
+ "id": "pwc:133369",
+ "topic": "Speech LLM",
+ "promise": 3,
+ "scores": {
+  "novelty": 2,
+  "credibility": 2,
+  "technical": 1,
+  "impact": 2,
+  "evidence": 1
+ },
+ "reasons": {
+  "novelty": "Tài liệu chỉ đề cập việc mở rộng thêm audio input và 5 tác vụ mới cho mô hình quyết định mà không mô tả ý tưởng kỹ thuật mới nào.",
+  "credibility": "Nguồn trích là mô tả tóm tắt ngắn từ Papers with Code về bản phát hành API thương mại, không có danh tính tác giả hay bài báo bình duyệt.",
+  "technical": "Không có bất kỳ chi tiết kỹ thuật nào về kiến trúc, hàm mất mát hay quy trình huấn luyện được trình bày.",
+  "impact": "Mô hình được thương mại hóa qua API với mức giá rẻ, nhưng tài liệu không cung cấp tín hiệu đón nhận cộng đồng hay ứng dụng thực tế.",
+  "evidence": "Chỉ đưa ra một tuyên bố xếp hạng nhất trên Artificial Analysis Decision Index v2.1 mà không có điểm số hay bảng so sánh cụ thể."
+ },
+ "summary": {
+  "tldr": "Tài liệu công bố việc phát hành d1.2 và d1.2-ultra, các phiên bản mới của decision models bổ sung hỗ trợ audio input cùng 5 tác vụ mới. Trong đó, d1.2-ultra được nêu là đứng đầu trong số các decision model trên bảng xếp hạng Artificial Analysis Decision Index v2.1.",
+  "problem": "Không được nêu trong tài liệu.",
+  "method": "Không được nêu trong tài liệu chi tiết về kiến trúc, training objective hay dữ liệu. Văn bản chỉ ghi nhận d1.2 và d1.2-ultra là các mô hình decision model đa phương thức (omnimodal decision models) hỗ trợ thêm đầu vào audio và 5 tác vụ mới.",
+  "setup": "Mô hình được cung cấp qua Liquid API với mức giá $0.02 cho d1.2 và $0.042 trên một triệu input tokens cho d1.2-ultra. Thiết lập thử nghiệm, compute và danh sách ngôn ngữ hỗ trợ không được nêu trong tài liệu.",
+  "results": [
+   "d1.2-ultra xếp hạng nhất trong số các decision models trên Artificial Analysis Decision Index v2.1 (điểm số cụ thể không được nêu trong tài liệu)."
+  ],
+  "limitations": "Tài liệu chỉ là thông báo ngắn gọn; hoàn toàn thiếu thông tin kỹ thuật về kiến trúc mạng, phương pháp xử lý audio, bộ dữ liệu huấn luyện, mã nguồn và số liệu đánh giá chi tiết.",
+  "takeaways": "d1.2 và d1.2-ultra cung cấp giải pháp omnimodal decision model với chi phí thấp ($0.02 - $0.042/1M input tokens) qua Liquid API và hỗ trợ audio, nhưng kỹ sư cần thêm tài liệu kỹ thuật chi tiết để đánh giá năng lực thực tế.",
+  "strengths": [
+   "Hỗ trợ audio input trực tiếp",
+   "Chi phí API rẻ ($0.02-$0.042/1M tokens)",
+   "Top 1 Artificial Analysis Index v2.1"
+  ],
+  "weaknesses": [
+   "Thiếu hoàn toàn chi tiết kỹ thuật",
+   "Không có số liệu định lượng chi tiết",
+   "Không công bố code và weights"
+  ],
+  "context": "Tác giả không xác định (phát hành qua Liquid API), thông tin trích xuất từ Papers with Code."
+ },
+ "fulltext_source": "abstract/mô tả (không lấy được full-text)",
+ "fulltext": false,
+ "analyzed_week": "2026-W48"
+}

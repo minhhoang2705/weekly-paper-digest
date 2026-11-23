@@ -1,0 +1,50 @@
+{
+ "id": "arxiv:2611.26540",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Đề xuất thành công việc chuyển đổi mô hình khuếch tán nói hai chiều sang causal ít bước bằng quy trình 2 giai đoạn (ODE + DMD2 Backward Simulation) kết hợp thiết kế mixed-timestep per chunk cho rolling KV cache.",
+  "credibility": "Nghiên cứu đến từ phòng thí nghiệm Kyutai danh tiếng, mã nguồn công khai trên GitHub, release đầy đủ checkpoint trọng số và bộ dữ liệu.",
+  "technical": "Thiết kế kỹ thuật vững chắc: xử lý triệt để train-test mismatch qua backward simulation, tối ưu hóa kích thước KV cache bằng FlexAttention và anchor sink, phân tích ablation sâu sắc.",
+  "impact": "Tạo ra bước đột phá quan trọng cho avatar tương tác thời gian thực tích hợp với mô hình đàm thoại voice agent chạy trên single GPU, có sẵn code và demo thực tế.",
+  "evidence": "Cung cấp đầy đủ số liệu định lượng (FVD, JEDi, CSIM, SyncNet, FPS đo đạc chi tiết), ablation study chi tiết cho từng thành phần và human evaluation qua hệ thống Bayesian Elo."
+ },
+ "summary": {
+  "tldr": "AURA là dòng mô hình speech-to-video (S2V) streaming dạng causal ít bước (4 bước diffusion per chunk), cho phép tạo avatar động trực tiếp từ âm thanh thời gian thực. Phiên bản AURA 1.3B đạt tốc độ streaming 480p ở 27.6 fps (vượt mức playback 25 Hz) trên một GPU H100 duy nhất, trong khi AURA 5B đạt 720p ở 19.5 fps với chất lượng ngang ngửa hoặc vượt mô hình giáo viên TalkVerse.",
+  "problem": "Các mô hình khuếch tán sinh video nói từ audio hiện đại (như TalkVerse, Wan-S2V) dựa vào cơ chế bidirectional attention và cần hàng chục bước denoising trên toàn bộ clip nhiều giây. Điều này gây độ trễ rất cao (mất nhiều phút cho mỗi chunk trên 1 GPU) và cần nhìn trước (audio look-ahead), không khả thi cho các ứng dụng tương tác thời gian thực như voice assistant hay avatar ảo.",
+  "method": "AURA chuyển đổi giáo viên bidirectional sang học sinh causal 4-step thông qua quy trình chưng cất 2 giai đoạn: (1) Stage 1 (ODE Teacher Forcing) huấn luyện mạng causal khớp với quỹ đạo ODE của giáo viên trên các mức nhiễu hỗn hợp per-chunk (per-chunk mixed timesteps); (2) Stage 2 (DMD kết hợp Backward Simulation) tối ưu hàm mục tiêu Distribution Matching Distillation trên các trạng thái rollout trung gian của chính học sinh, sử dụng một mạng critic học online để xấp xỉ gradient phân kỳ KL ngược mà không cần GAN loss. Về mặt kiến trúc và suy luận: mô hình bỏ cơ chế motion frames của TalkVerse, dùng chunked causal sliding window attention cùng rolling KV cache kích thước cố định (gồm 1 chunk đầu tiên làm anchor sink và $W=1$ chunk liền trước), lưu trữ KV ở mức nhiễu thấp nhất duy nhất giúp giảm mạnh bộ nhớ; đồng thời tái lập chỉ số RoPE (RoPE re-indexing) để tránh trôi vị trí (position drift) khi sinh video dài vô hạn.",
+  "setup": "Đánh giá thực hiện trên 2 tập test: Hallo3 test (frames và prompt từ Hallo3, ghép với giọng nói tiếng Anh thật nội bộ, clip dài 10s) và CelebV-HQ test (frame CelebV-HQ, âm thanh TTS từ 20-30s). So sánh với Hallo3 (14.5B), Wan-S2V (14B), TalkVerse (5B), Live Avatar (14B). Phần cứng đo lường thông lượng: single NVIDIA H100 GPU (bf16). Số bước denoising: 4 bước đối với AURA và Live Avatar; 40-50 bước đối với Wan-S2V, TalkVerse, Hallo3. Metrics gồm FID, FVD (tại các offset @0, @26, @30), JEDi, CSIM (ArcFace), Sync-C / Sync-D (SyncNet), Warping Error (WE bằng RAFT), và Face Sharpness.",
+  "results": [
+   "Trên Hallo3 test: AURA 5B đạt FVD 195.5, JEDi 0.313, CSIM 0.79 so với TalkVerse 5B (FVD 210.8, JEDi 0.398, CSIM 0.74) và Wan-S2V 14B (FVD 196.4, JEDi 0.257, CSIM 0.71).",
+   "Trên Hallo3 test: AURA 1.3B đạt FVD 177.1, JEDi 0.403, CSIM 0.84, Sync-C 4.07, Sync-D 9.93.",
+   "Trên CelebV-HQ test: AURA 5B đạt FVD 208.1, JEDi 0.320, CSIM 0.72 so với TalkVerse 5B (FVD 255.9, JEDi 0.582, CSIM 0.59) và Live Avatar 14B (FVD 267.5, JEDi 1.010, CSIM 0.67).",
+   "Độ trễ và thông lượng trên 1 GPU H100: AURA 1.3B đạt 27.6 fps Total (DiT 39.8 fps, VAE 89.9 fps) ở độ phân giải 480p, nhanh gấp 4.2x giáo viên 1.3B (6.5 fps) và nhanh hơn tốc độ playback 25 Hz (real-time).",
+   "Thông lượng AURA 5B: đạt 19.5 fps Total (DiT 19.7 fps, VAE 49.6 fps) ở 720p, nhanh gấp 13.9x so với giáo viên TalkVerse 5B (1.4 fps Total).",
+   "Độ ổn định streaming dài (60s trên Hallo3 test): AURA 1.3B giữ FVD ổn định từ 179.2 đến 186.3 và Sync-C từ 4.73 đến 4.81 qua 6 đoạn 10s liên tiếp; CSIM duy trì ở mức trung bình 0.798."
+  ],
+  "limitations": "Tài liệu chưa cung cấp số đo throughput cụ thể cho các baseline (Hallo3, Wan-S2V, Live Avatar, TalkVerse) trong bảng 1/2 trên CelebV-HQ; AURA 5B gặp hiện tượng suy giảm nhẹ chất lượng và trôi danh tính (CSIM giảm từ 0.764 xuống 0.689 sau 60s); độ sắc nét khuôn mặt (Sharpness) giảm khi cắt giảm bước khuếch tán (từ 50.4 ở 4 bước xuống 27.0 ở 1 bước); đánh giá định tính cho thấy AURA 1.3B có điểm Elo con người thấp hơn TalkVerse và AURA 5B về visual quality do độ phân giải thấp hơn (480p vs 720p).",
+  "takeaways": "Quy trình kết hợp ODE distillation (giai đoạn 1) và DMD2 backward simulation (giai đoạn 2) giải quyết thành công bài toán chưng cất video diffusion đa bước phi nhân quả sang mô hình nhân quả ít bước (4 bước). Thiết kế mixed-timestep per chunk cho phép rolling KV cache chỉ cần lưu trữ keys/values tại một mức nhiễu thấp duy nhất, giúp streaming video dài vô hạn với mức sử dụng bộ nhớ VRAM không đổi trên một GPU duy nhất.",
+  "strengths": [
+   "Streaming real-time 480p trên single H100",
+   "Bộ nhớ KV cache hằng số với mixed-timesteps",
+   "Bảo toàn danh tính vượt trội baselines (CSIM cao)",
+   "Mở mã nguồn trọng số, code và 100K trajectories"
+  ],
+  "weaknesses": [
+   "AURA 5B trôi nhẹ danh tính sau 60s",
+   "Chất lượng giảm rõ rệt nếu dưới 4 bước",
+   "AURA 1.3B hạn chế về độ phân giải (480p)"
+  ],
+  "context": "Kyutai (Paris, France), hợp tác cùng ISIR - Sorbonne Université và Google DeepMind; công bố kèm trọng số mở, dataset 100K video và demo trực tiếp kết hợp cùng trợ lý giọng nói Unmute tại kyutai.org/aura."
+ },
+ "fulltext_source": "arXiv HTML",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

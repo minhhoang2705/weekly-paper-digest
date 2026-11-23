@@ -1,0 +1,52 @@
+{
+ "id": "arxiv:2611.18330",
+ "topic": "Voice Agent",
+ "promise": 4,
+ "scores": {
+  "novelty": 3,
+  "credibility": 3,
+  "technical": 4,
+  "impact": 3,
+  "evidence": 4
+ },
+ "reasons": {
+  "novelty": "Ý tưởng System One / typed decisions trên speech từng có tiền lệ (ASOM, Jev), bài báo mở rộng sang multi-task readout và scoring trên frozen ASR encoder/decoder.",
+  "credibility": "Tác giả độc lập từ tổ chức thương mại charcot.ai, bài đăng trên arXiv chưa qua bình duyệt peer-review nhưng có phát hành mã nguồn và trọng số kiểm chứng.",
+  "technical": "Mô tả hệ thống chi tiết, phân tách rõ ràng luồng lexical và non-lexical, áp dụng các kỹ thuật hiệu chuẩn xác suất (Platt scaling, ECE) và phân chia dữ liệu chặt chẽ.",
+  "impact": "Thiết kế hữu ích cho kiến trúc voice agent cần đưa ra quyết định nhanh với độ trễ thấp, dù mức độ đón nhận ban đầu còn khiêm tốn (6 HF upvotes, 15 GitHub stars).",
+  "evidence": "Báo cáo số liệu thực nghiệm đầy đủ với khoảng tin cậy bootstrap 95%, so sánh với nhiều mô hình mạnh (Qwen3-Omni, Smart Turn v3.2, ECAPA, pyannote) và báo cáo rõ các điểm thất bại."
+ },
+ "summary": {
+  "tldr": "MARIMBA là một giao diện đưa ra quyết định có định kiểu (typed speech decisions: choice, yes/no, score) cho các đoạn audio ngắn 8 giây dựa trên mô hình Qwen3-ASR 0.6B đóng băng (frozen). Thay vì sinh văn bản tự do, mô hình phân tách việc chấm điểm từ vựng (lexical scoring) zero-shot qua decoder ASR và các quyết định phi từ vựng (non-lexical) qua đầu câu hỏi (question head) hoặc readout chuyên dụng.",
+  "problem": "Các ứng dụng thoại cần đưa ra đồng thời nhiều quyết định khác nhau trên cùng một cửa sổ âm thanh (nhận diện từ khóa, phát hiện kết thúc lượt nói - turn end, VAD, định danh ngôn ngữ). Các audio language models (Audio LLM) hiện tại thường đòi hỏi prompt và sinh văn bản tự do riêng cho từng tác vụ, không cung cấp xác suất được hiệu chuẩn (calibrated probabilities), trong khi việc chỉ truyền 1-best transcript qua mô hình văn bản sẽ làm mất đi độ bất định (uncertainty) của bộ nhận dạng âm thanh.",
+  "method": "Kiến trúc sử dụng bộ mã hóa frozen Qwen3-ASR 0.6B để xử lý cửa sổ audio 16 kHz dài 8 giây đúng một lần:\n- **Quyết định từ vựng (Lexical decisions):** Sử dụng trực tiếp frozen ASR decoder mà không cần huấn luyện theo từ khóa. Cửa sổ audio được giải mã một lần bằng greedy decoding kết hợp 4-beam search để lấy 5 giả thuyết ($H(x)$). Điểm số thô $r(x, t) = \\frac{1}{|H(x)|} \\sum_{h \\in H(x)} \\mathbb{I}[\\text{norm}(t) \\subseteq \\text{norm}(h)]$ là tỷ lệ các giả thuyết chứa chuỗi token chuẩn hóa chính xác, sau đó được ánh xạ sang xác suất bằng hồi quy logistic (Platt scaling).\n- **Quyết định phi từ vựng (Non-lexical decisions):** Sử dụng một question-and-option encoder kết hợp cross-attention scorer $s_c = g_\\phi(H, q, c)$ để tính phân phối softmax với nhiệt độ $T$ qua các lựa chọn, tối ưu bằng cross-entropy hoặc proper loss trong khi đóng băng audio encoder.\n- **Turn-end readout:** Một bộ phân loại hồi quy logistic ($C=0.01$) được gắn vào biểu diễn encoder tại layer-18, thực hiện pooling trên 2 giây hợp lệ cuối cùng của cửa sổ 8 giây và hiệu chuẩn bằng Platt scaling.\n- **Speaker readouts:** Gắn vào đặc trưng encoder layer-12 gồm: same speaker (so sánh 2 nửa 4 giây bằng logistic regression), speaker change (so sánh 2 giây cuối với 6 giây trước bằng MLP 1 lớp ẩn), và speaker count (dự đoán 0, 1, 2, 3+ người nói bằng logistic regression).\n- **Language identification:** Tính tổng log-probability có điều kiện của các token tên ngôn ngữ tích hợp sẵn trong Qwen3-ASR (hỗ trợ 30 ngôn ngữ) mà không cần thêm adapter.",
+  "setup": "Đầu vào là âm thanh mono 16 kHz cắt theo cửa sổ 8 giây. Dữ liệu đánh giá gồm các tập dữ liệu công khai (Common Voice, FLEURS, Speech Commands, AMI, VoxConverse, MUSAN, Smart Turn v3.2, ICSI - 1.728 cửa sổ từ 27 cuộc họp, CochlScene) và tập dữ liệu hội thoại y tế tiếng Bồ Đào Nha riêng tư (Brazilian Portuguese medical consultations). Baselines gồm Qwen3-Omni-30B-A3B-Instruct, Qwen2-Audio-7B-Instruct, Smart Turn v3.2, ECAPA-TDNN, và pyannote 3.1. Các chỉ số đánh giá gồm AUROC, ECE (Expected Calibration Error), Cov@95 (coverage at 95% accuracy), Accuracy, F1.",
+  "results": [
+   "Trên bài toán Turn-end detection với tập kiểm tra của Smart Turn (n = 500): layer-18 readout đạt AUROC 0.930 [95% CI: 0.906, 0.951] và ECE 0.034 -> 0.041 so với baseline Smart Turn v3.2 đạt AUROC 0.982 [95% CI: 0.973, 0.990] và ECE 0.030; trên tập ICSI (n = 1.728): layer-18 readout đạt AUROC 0.716 so với Smart Turn v3.2 đạt 0.712 (chênh lệch ghép cặp +0.004, 95% CI [-0.046, +0.054]).",
+   "So sánh trên 1.000 câu hỏi công khai: MARIMBA vượt qua Qwen3-Omni và Qwen2-Audio về AUROC nhận diện từ nhị phân trên FLEURS (0.901 so với 0.791 và 0.682) và turn-end (0.935 so với 0.786 và 0.476). Tuy nhiên, Qwen3-Omni tốt hơn trên Speech Commands (AUROC 0.991 vs 0.926; choice accuracy 1.000 vs 0.933) và định danh ngôn ngữ Common Voice (accuracy 1.000 vs 0.904).",
+   "Speaker tasks trên AMI và VoxConverse: Speaker change đạt AUROC 0.966 trên AMI và 0.980 trên VoxConverse, cao hơn ECAPA (0.924 và 0.962) và pyannote 3.1 (0.865 và 0.812). Speaker count đạt độ chính xác 0.778 trên AMI và 0.859 trên VoxConverse (so với pyannote 3.1 là 0.738 và 0.836).",
+   "Voice activity đạt AUROC 0.986–0.995 trên AMI và >=0.999 trên VoxConverse với prompt tiếng Bồ Đào Nha; đạt AUROC >=0.98 với các prompt ngôn ngữ chưa thấy (Arabic, Hindi, Korean, Russian).",
+   "Phát hiện thông tin cá nhân (PII) trên 200 đoạn hội thoại tiếng Bồ Đào Nha tổng hợp: kết hợp greedy transcript với pipeline PII ngoài đạt item-level precision 0.966, recall 0.850, F1 0.904 (F1 1.000 trên reference transcripts; chạy end-to-end trên production transcriber đạt F1 0.975).",
+   "Độ trễ p95 end-to-end trên 1 GPU NVIDIA L4 (bf16, batch size 1, cửa sổ 8s): 13 ms cho turn end, 16 ms cho VAD, 161 ms cho language ID, và 2.35 s cho term detection (do cần greedy + 4-beam decoding)."
+  ],
+  "limitations": "Chấm điểm từ vựng phụ thuộc hoàn toàn vào chất lượng ASR nên kế thừa lỗi bỏ sót/nhầm lẫn từ hiếm (như tên thuốc); Speaker count gặp lỗi đếm thiếu nghiêm trọng khi có từ 3 người nói trở lên (trên VoxConverse đoán là 2 cho 395/667 cửa sổ); VAD prompt chưa đánh giá trên tiếng Anh; mô hình hoàn toàn ngẫu nhiên (at chance) trên tác vụ chưa từng thấy là phân loại âm cảnh CochlScene (AUROC 0.48–0.54, accuracy 0.24–0.29); nhận diện PII phụ thuộc công cụ ngoài và mới chỉ thử trên dữ liệu tổng hợp tiếng Bồ Đào Nha; độ trễ xử lý từ vựng còn cao (2.35 s).",
+  "takeaways": "Việc trích xuất đặc trưng một lần từ frozen speech encoder (Qwen3-ASR) và gắn các readout tuyến tính/MLP nhẹ cho phép thực hiện các quyết định turn-end, VAD và speaker-change cực nhanh (<20 ms) với độ hiệu chuẩn xác suất tốt; tuy nhiên đối với nhận diện từ vựng vẫn cần bước giải mã autoregressive tốn thời gian và dễ sai sót với từ vựng chuyên ngành hiếm.",
+  "strengths": [
+   "Tái sử dụng một pass encoder duy nhất",
+   "Độ trễ VAD và turn-end cực thấp (13-16ms)",
+   "Đánh giá hiệu chuẩn kỹ lưỡng (ECE, selective coverage)",
+   "Vượt trội baselines về speaker change detection",
+   "Mở mã nguồn và trọng số mô hình"
+  ],
+  "weaknesses": [
+   "Độ trễ nhận diện từ vựng rất cao (2.35s)",
+   "Thất bại hoàn toàn trên unseen task (CochlScene)",
+   "Đếm thiếu khi có từ 3 người nói",
+   "Đánh giá y tế dùng dữ liệu riêng chưa consent"
+  ],
+  "context": "Solano Amadori từ Charcot.ai; công bố dạng preprint (arXiv:2611.18330v1, eess.AS, tháng 11/2026) kèm mã nguồn GitHub (Charcot-AI/marimba-api) và trọng số Hugging Face (charcot-ai/marimba)."
+ },
+ "fulltext_source": "PDF",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}

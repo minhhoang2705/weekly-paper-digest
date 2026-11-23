@@ -1,0 +1,47 @@
+{
+ "id": "hf-model:inworld/voice-isolator",
+ "topic": "TTS",
+ "promise": 3,
+ "scores": {
+  "novelty": 4,
+  "credibility": 4,
+  "technical": 4,
+  "impact": 4,
+  "evidence": 2
+ },
+ "reasons": {
+  "novelty": "Kết hợp kiến trúc band-split dual-path đan xen giữa RoPE exclusive attention và Mamba cùng cơ chế bounded complex mask + residual cho cả streaming 48 kHz là thiết kế rất mới mẻ.",
+  "credibility": "Phát hành chính thức bởi Inworld AI kèm mã nguồn, tài liệu hướng dẫn và trọng số mở hoàn toàn theo giấy phép Apache-2.0.",
+  "technical": "Mô tả chi tiết và sâu sắc về kiến trúc dual-path, cơ chế streaming look-ahead, 46 bands STFT và thiết kế luồng xử lý audio chuyên nghiệp.",
+  "impact": "Thu hút hơn 600 lượt thích trên Hugging Face và giải quyết trực tiếp nhu cầu voice isolation 48 kHz mã nguồn mở cho cả hệ thống offline lẫn thời gian thực.",
+  "evidence": "Văn bản tài liệu không cung cấp các chỉ số đo lường thực nghiệm cụ thể (SDR, PESQ hay điểm VIBE chi tiết) mà chỉ dẫn chiếu tới hình ảnh và tập test nội bộ."
+ },
+ "summary": {
+  "tldr": "Inworld Voice Isolator là bộ đôi mô hình mã nguồn mở (Apache-2.0) thực hiện tách giọng nói chất lượng cao ở tần số 48 kHz cho cả xử lý offline và streaming thời gian thực. Kiến trúc kết hợp mạng dual-path chia băng tần (band-split) đan xen giữa RoPE Transformer attention và Mamba, hỗ trợ trích xuất giọng nói tiền cảnh và âm thanh nền nguyên bản.",
+  "problem": "Khử ồn và tách giọng nói từ các bản ghi âm chất lượng cao hoặc luồng âm thanh trực tiếp (live calls/streams) thường làm méo danh tính người nói, mất các âm phi ngôn ngữ (thở, cười) hoặc có độ trễ cao không đáp ứng được yêu cầu thời gian thực 48 kHz full-band.",
+  "method": "Kiến trúc sử dụng STFT ($n\\_fft=2048$, $hop=480$ ở 48 kHz, frame 10 ms) và mạng band-split dual-path chia phổ thành 46 băng tần (hẹp ở dải thấp, rộng ở dải cao), mỗi token tương ứng một băng và một frame với chiều ẩn (width) 512. Mạng gồm 7 khối tinh chế đan xen: 4 khối chạy time attention (kèm rotary position RoPE và exclusive self-attention) tiếp nối bởi band attention, và 3 khối chạy Mamba dọc thời gian tiếp nối bởi Mamba qua các băng tần (state size 16). Đầu ra là per-band heads tạo ra một complex mask có chặn (bounded complex mask) và per-bin residual có chặn được cộng lại vào phổ đầu vào trước khi qua iSTFT. Có 2 checkpoint: bản offline `voice-isolator-v1` (64.0M tham số, nhìn toàn bộ chunk 8 s chồng lấn 2 s) và bản realtime `voice-isolator-v1-realtime` (58.2M tham số, causal blocks, hỗ trợ look-ahead 0, 20 hoặc 40 ms, độ trễ thuật toán 63 ms ở 20 ms look-ahead). Huấn luyện trên khoảng 10.000 giờ âm thanh đa dạng ngôn ngữ, tiếng thì thầm, hát, tạp âm môi trường và xung đáp ứng phòng.",
+  "setup": "Cài đặt qua thư viện Python `inworld-voice-isolation` hoặc CLI `voice-isolate`. Yêu cầu đầu vào mono 48 kHz, hỗ trợ xuất file float32 WAV kèm residual nền ($wav - voice$). Chạy trên PyTorch với GPU NVIDIA (Ampere, Hopper, Blackwell: A100, H100, B200, B300), Apple Metal (MPS trên PyTorch $\\ge 2.6$) và CPU.",
+  "results": [
+   "Không có số liệu benchmark định lượng dạng số cụ thể được liệt kê trong văn bản tài liệu (chỉ dẫn chiếu hình ảnh bảng xếp hạng Inworld VIBE benchmark và tập đánh giá nội bộ không phân phối)",
+   "Độ trễ thuật toán (algorithmic latency) của bản realtime đạt 63 ms khi sử dụng look-ahead 20 ms",
+   "Kích thước tham số mô hình: 64.0M tham số cho bản offline và 58.2M tham số cho bản realtime"
+  ],
+  "limitations": "Chưa hỗ trợ phục hồi dải tần bị mất (restoration/bandwidth extension, dự kiến ở v2); không hoạt động như một bộ chọn người nói (speaker selector - chỉ giữ người nói to hơn hoặc cả hai nếu âm lượng tương đương); chưa thử nghiệm trên các GPU cỡ nhỏ hơn phân khúc máy chủ/Blackwell; tập dữ liệu đánh giá VIBE là nội bộ không công khai.",
+  "takeaways": "Là giải pháp mã nguồn mở Apache-2.0 tối ưu cho pipeline tiền xử lý giọng nói 48 kHz (ASR, TTS curation, voice agent, live calling) với sự kết hợp hiệu quả giữa Transformer attention và Mamba giúp giảm độ trễ cho streaming.",
+  "strengths": [
+   "Mã nguồn mở Apache-2.0 hoàn chỉnh",
+   "Hỗ trợ full-band 48 kHz streaming độ trễ thấp",
+   "Kiến trúc lai Transformer và Mamba hiệu quả",
+   "Trích xuất bảo toàn âm thanh nền chuẩn xác"
+  ],
+  "weaknesses": [
+   "Thiếu số liệu đo lường định lượng công khai",
+   "Chưa hỗ trợ tái tạo dải tần bị mất",
+   "Chưa benchmark trên GPU phổ thông cỡ nhỏ"
+  ],
+  "context": "Phát hành bởi Inworld AI dưới dạng mã nguồn mở trên GitHub và checkpoint trên Hugging Face kèm thư viện `inworld-voice-isolation`."
+ },
+ "fulltext_source": "model card",
+ "fulltext": true,
+ "analyzed_week": "2026-W48"
+}
